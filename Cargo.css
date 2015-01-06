@@ -1,0 +1,20 @@
+span.cargoFieldName {
+	color: #777;
+}
+
+table.cargoTable {
+	border-collapse: collapse;
+}
+
+table.cargoTable tr:nth-child(odd) {
+	background: #fff;
+}
+
+table.cargoTable tr:nth-child(even) {
+	background: #eee;
+}
+
+table.cargoTable td {
+	padding: 5px;
+	border: #ccc 1px solid;
+}
