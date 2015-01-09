@@ -8,7 +8,7 @@
  */
 
 class CargoPageValues extends IncludableSpecialPage {
-	var $mTitle;
+	public $mTitle;
 
 	function __construct( $title = null ) {
 		parent::__construct( 'PageValues' );
@@ -16,13 +16,17 @@ class CargoPageValues extends IncludableSpecialPage {
 		$this->mTitle = $title;
 	}
 
-	function execute( $subpage = false ) {
+	function execute( $subpage = null ) {
+		if ( $subpage ) {
+			// Allow inclusion with e.g. {{Special:PageValues/Book}}
+			$this->mTitle = Title::newFromText( $subpage );
+		}
 		$out = $this->getOutput();
 
 		$this->setHeaders();
 
 		$pageName = $this->mTitle->getPrefixedText();
-		$out->setPageTitle( wfMessage( 'cargo-pagevaluesfor', $pageName )->text() );
+		$out->setPageTitle( $this->msg( 'cargo-pagevaluesfor', $pageName )->text() );
 
 		// Exit if this page does not exist.
 		// @TODO - display some message?
@@ -33,11 +37,13 @@ class CargoPageValues extends IncludableSpecialPage {
 		$text = '';
 
 		$dbr = wfGetDB( DB_MASTER );
-		$res = $dbr->select( 'cargo_pages', 'table_name', array( 'page_id' => $this->mTitle->getArticleID() ) );
+		$res = $dbr->select(
+			'cargo_pages', 'table_name', array( 'page_id' => $this->mTitle->getArticleID() ) );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$tableName = $row['table_name'];
 			$queryResults = $this->getRowsForPageInTable( $tableName );
-			$text .= Html::element( 'h2', null, wfMessage( 'cargo-pagevalues-tablevalues', $tableName )->text() ) . "\n";
+			$text .= Html::element( 'h2', null,
+					$this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text() ) . "\n";
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
 				foreach ( $rowValues as $field => $value ) {

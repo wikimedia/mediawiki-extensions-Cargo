@@ -8,12 +8,12 @@
 
 class CargoQueryDisplayer {
 
-	var $mSQLQuery;
-	var $mFormat;
-	var $mDisplayParams = array();
-	var $mParser = null;
-	var $mFieldDescriptions;
-	var $mFieldTables;
+	public $mSQLQuery;
+	public $mFormat;
+	public $mDisplayParams = array();
+	public $mParser = null;
+	public $mFieldDescriptions;
+	public $mFieldTables;
 
 	public static function newFromSQLQuery( $sqlQuery ) {
 		$cqd = new CargoQueryDisplayer();

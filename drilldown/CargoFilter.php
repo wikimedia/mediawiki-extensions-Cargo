@@ -9,14 +9,14 @@
  */
 
 class CargoFilter {
-	var $name;
-	var $tableName;
-	var $fieldType;
-	var $fieldDescription;
-	var $time_period = null;
-	var $allowed_values;
-	var $required_filters = array();
-	var $possible_applied_filters = array();
+	public $name;
+	public $tableName;
+	public $fieldType;
+	public $fieldDescription;
+	public $time_period = null;
+	public $allowed_values;
+	public $required_filters = array();
+	public $possible_applied_filters = array();
 
 	public function setName( $name ) {
 		$this->name = $name;
@@ -33,11 +33,16 @@ class CargoFilter {
 	public function addRequiredFilter( $filterName ) {
 		$this->required_filters[] = $filterName;
 	}
-	
+
 	public function getTableName() {
 		return $this->tableName;
 	}
 
+	/**
+	 *
+	 * @param array $appliedFilters
+	 * @return string
+	 */
 	function getTimePeriod( $appliedFilters ) {
 		// If it's not a date field, return null.
 		if ( $this->fieldDescription->mType != 'Date' ) {
@@ -52,7 +57,8 @@ class CargoFilter {
 		$cdb = CargoUtils::getDB();
 		$date_field = $this->name;
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
-		$res = $cdb->select( $tableNames, array( "MIN($date_field)", "MAX($date_field)" ), $conds, null, null, $joinConds );
+		$res = $cdb->select( $tableNames, array( "MIN($date_field)", "MAX($date_field)" ), $conds, null,
+			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
 		$minDate = $row[0];
 		if ( is_null( $minDate ) ) {
@@ -87,11 +93,16 @@ class CargoFilter {
 		return $this->time_period;
 	}
 
+	/**
+	 *
+	 * @param array $appliedFilters
+	 * @return array
+	 */
 	function getQueryParts( $appliedFilters ) {
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
-		foreach( $appliedFilters as $af ) {
+		foreach ( $appliedFilters as $af ) {
 			$conds[] = $af->checkSQL();
 			if ( $af->filter->fieldDescription->mIsList ) {
 				$fieldTableName = $this->tableName . '__' . $af->filter->name;
@@ -109,6 +120,9 @@ class CargoFilter {
 	 * Gets an array of the possible time period values (e.g., years,
 	 * months) for this filter, and, for each one,
 	 * the number of pages that match that time period.
+	 *
+	 * @param array $appliedFilters
+	 * @return array
 	 */
 	function getTimePeriodValues( $appliedFilters ) {
 		$possible_dates = array();
@@ -127,7 +141,8 @@ class CargoFilter {
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
 		$selectOptions = array( 'GROUP BY' => $fields, 'ORDER BY' => $fields );
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableNames, array( $fields, 'COUNT(*)' ), $conds, null, $selectOptions, $joinConds );
+		$res = $cdb->select( $tableNames, array( $fields, 'COUNT(*)' ), $conds, null, $selectOptions,
+			$joinConds );
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			if ( $this->getTimePeriod( $appliedFilters ) == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[2] . ', ' . $row[0];
@@ -161,6 +176,9 @@ class CargoFilter {
 	/**
 	 * Gets an array of all values that this field has, and, for each
 	 * one, the number of pages that match that value.
+	 *
+	 * @param array $appliedFilters
+	 * @return array
 	 */
 	function getAllValues( $appliedFilters ) {
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
@@ -177,7 +195,8 @@ class CargoFilter {
 		}
 
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableNames, array( $fieldName, 'COUNT(*)' ), $conds, null, array( 'GROUP BY' => $fieldName ), $joinConds );
+		$res = $cdb->select( $tableNames, array( $fieldName, 'COUNT(*)' ), $conds, null,
+			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$value_string = $row[0];
@@ -190,5 +209,4 @@ class CargoFilter {
 
 		return $possible_values;
 	}
-
 }

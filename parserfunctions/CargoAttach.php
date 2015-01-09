@@ -10,6 +10,9 @@ class CargoAttach {
 
 	/**
 	 * Handles the #cargo_attach parser function.
+	 *
+	 * @param Parser $parser
+	 * @return string Wikitext
 	 */
 	public static function run( &$parser ) {
 		if ( $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
@@ -22,7 +25,7 @@ class CargoAttach {
 		$tableName = null;
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}

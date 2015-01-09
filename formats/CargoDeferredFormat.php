@@ -15,6 +15,9 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 	/**
 	 * Turns one or more Cargo SQL query objects into a set of URL
 	 * query string parameters.
+	 *
+	 * @param array $sqlQueries
+	 * @return array
 	 */
 	function sqlQueriesToQueryParams( $sqlQueries ) {
 		$queryParams = array(

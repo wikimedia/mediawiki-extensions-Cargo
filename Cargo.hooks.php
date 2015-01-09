@@ -97,7 +97,8 @@ class CargoHooks {
 			foreach ( $fieldTableNames as $curFieldTable ) {
 				// Thankfully, the MW DB API already provides a
 				// nice method for deleting based on a join.
-				$cdb->deleteJoin( $curFieldTable, $curMainTable, '_rowID', '_ID', array( '_pageID' => $pageID ) );
+				$cdb->deleteJoin(
+					$curFieldTable, $curMainTable, '_rowID', '_ID', array( '_pageID' => $pageID ) );
 			}
 
 			// Now, delete from the "main" table.
@@ -208,7 +209,8 @@ class CargoHooks {
 		$res = $dbr->select( 'cargo_pages', 'table_name', array( 'page_id' => $oldid ) );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
-			$cdb->update( $curMainTable, array( '_pageName' => $newPageName ), array( '_pageID' => $oldid ) );
+			$cdb->update(
+				$curMainTable, array( '_pageName' => $newPageName ), array( '_pageID' => $oldid ) );
 		}
 
 		return true;
@@ -250,7 +252,8 @@ class CargoHooks {
 	 * @return boolean
 	 */
 	public static function addToAdminLinks( &$adminLinksTree ) {
-		$browseSearchSection = $adminLinksTree->getSection( wfMessage( 'adminlinks_browsesearch' )->text() );
+		$browseSearchSection = $adminLinksTree->getSection(
+			wfMessage( 'adminlinks_browsesearch' )->text() );
 		$cargoRow = new ALRow( 'cargo' );
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'CargoTables' ) );
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'Drilldown' ) );

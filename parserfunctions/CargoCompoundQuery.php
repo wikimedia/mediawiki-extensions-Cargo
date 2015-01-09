@@ -17,6 +17,9 @@ class CargoCompoundQuery {
 	 * This function is based conceptually on the #compound_query
 	 * parser function defined by the Semantic Compound Queries
 	 * extension.
+	 *
+	 * @param Parser $parser
+	 * @return string
 	 */
 	public static function run( &$parser ) {
 		$params = func_get_args();
@@ -30,7 +33,7 @@ class CargoCompoundQuery {
 		// else.
 		$queryParams = $otherParams = array();
 		foreach ( $params as $param ) {
-			 if ( strpos( $param, 'tables=' ) !== false ) {
+			if ( strpos( $param, 'tables=' ) !== false ) {
 				$queryParams[] = $param;
 			} else {
 				$otherParams[] = $param;
@@ -50,7 +53,7 @@ class CargoCompoundQuery {
 
 			$queryClauses = explode( ';', $param );
 			$displayParamsForThisQuery = array();
-			foreach( $queryClauses as $clause ) {
+			foreach ( $queryClauses as $clause ) {
 				$parts = explode( '=', $clause, 2 );
 				if ( count( $parts ) != 2 ) {
 					continue;
@@ -75,7 +78,8 @@ class CargoCompoundQuery {
 					$displayParamsForThisQuery[$key] = $value;
 				}
 			}
-			$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr );
+			$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+					$groupByStr, $orderByStr, $limitStr );
 			$querySpecificParams[] = $displayParamsForThisQuery;
 		}
 
@@ -83,7 +87,7 @@ class CargoCompoundQuery {
 		$displayParams = array();
 		foreach ( $otherParams as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}
@@ -98,7 +102,8 @@ class CargoCompoundQuery {
 		}
 
 		try {
-			$queryResults = self::getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams, $format, $displayParams, $parser );
+			$queryResults = self::getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams,
+					$format, $displayParams, $parser );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
@@ -109,15 +114,15 @@ class CargoCompoundQuery {
 	/**
 	 * @TODO - this should probably be streamlined and renamed.
 	 */
-	public static function getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams, $format = null, $displayParams = null, $parser = null ) {
+	public static function getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams,
+		$format = null, $displayParams = null, $parser = null ) {
 		$queryDisplayer = new CargoQueryDisplayer();
 		$queryDisplayer->mParser = $parser;
 		$queryDisplayer->mFormat = $format;
 		$formatter = $queryDisplayer->getFormatter( $parser->getOutput() );
 		if ( $formatter->isDeferred() ) {
 			$text = $formatter->queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams );
-			$text = $parser->insertStripItem( $text, $parser->mStripState );
-			return $text;
+			return $parser->insertStripItem( $text, $parser->mStripState );
 		}
 
 		$allQueryResults = array();
@@ -129,7 +134,8 @@ class CargoCompoundQuery {
 			$queryResults = $sqlQuery->run();
 			$allQueryResults = array_merge( $allQueryResults, $queryResults );
 			$queryDisplayer->mFieldDescriptions = $sqlQuery->mFieldDescriptions;
-			$formattedQueryResults = array_merge( $formattedQueryResults, $queryDisplayer->getFormattedQueryResults( $queryResults ) );
+			$formattedQueryResults = array_merge( $formattedQueryResults,
+				$queryDisplayer->getFormattedQueryResults( $queryResults ) );
 			//$formattedQueryResultsArray[] = $formattedQueryResults;
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				$allFieldDescriptions[$alias] = $description;
@@ -144,7 +150,8 @@ class CargoCompoundQuery {
 				if ( array_key_exists( $paramName, $displayParams ) ) {
 					// Just make sure it's an array.
 					if ( !is_array( $displayParams[$paramName] ) ) {
-						throw new MWException( "Error: \"$paramName\" cannot be used as both a query-specific parameter and an overall display parameter." );
+						throw new MWException( "Error: \"$paramName\" cannot be used as both a "
+						. "query-specific parameter and an overall display parameter." );
 					}
 				} else {
 					$displayParams[$paramName] = array();
@@ -163,15 +170,14 @@ class CargoCompoundQuery {
 		}
 
 		// Finally, do the display, based on the format.
-		$text = $formatter->display( $allQueryResults, $formattedQueryResults, $allFieldDescriptions, $displayParams );
+		$text = $formatter->display( $allQueryResults, $formattedQueryResults, $allFieldDescriptions,
+			$displayParams );
 
 		// Don't show a "view more" link.
 		// @TODO - is such a thing possible for a compound query,
 		// especially if there's a limit set for each query?
 
-		$text = $parser->insertStripItem( $text, $parser->mStripState );
-
-		return $text;
+		return $parser->insertStripItem( $text, $parser->mStripState );
 	}
 
 }

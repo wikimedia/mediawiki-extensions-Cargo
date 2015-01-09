@@ -25,6 +25,15 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		return $wikiText;
 	}
 
+	/**
+	 *
+	 * @param array $valuesTable
+	 * @param array $formattedValuesTable Unused
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams
+	 * @return string
+	 * @throws MWException
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'template', $displayParams ) ) {
 			throw new MWException( "Error: 'template' parameter must be set." );

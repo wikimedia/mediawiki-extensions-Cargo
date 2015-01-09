@@ -16,17 +16,16 @@ class CargoTables extends IncludableSpecialPage {
 		parent::__construct( 'CargoTables' );
 	}
 
-	function execute( $query ) {
+	function execute( $tableName ) {
 		$out = $this->getOutput();
 		$this->setHeaders();
 
-		$tableName = $query;
 		if ( $tableName == '' ) {
 			$out->addHTML( $this->displayListOfTables() );
 			return;
 		}
 
-		$pageTitle = wfMessage( 'cargo-cargotables-viewtable', $tableName )->parse();
+		$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 		$out->setPageTitle( $pageTitle );
 
 		$cdb = CargoUtils::getDB();
@@ -35,11 +34,12 @@ class CargoTables extends IncludableSpecialPage {
 		try {
 			$res = $cdb->select( $tableName, 'COUNT(*)' );
 		} catch ( Exception $e ) {
-			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ), wfMessage( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
+			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ),
+					$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$out->addWikiText( wfMessage( 'cargo-cargotables-totalrows', "'''" . $row[0] . "'''" ) . "\n" );
+		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows', "'''" . $row[0] . "'''" ) . "\n" );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
@@ -48,8 +48,8 @@ class CargoTables extends IncludableSpecialPage {
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
-		$aliasedFieldNames = array( wfMessage( 'nstab-main' )->parse() => '_pageName' );
-		foreach( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+		$aliasedFieldNames = array( $this->msg( 'nstab-main' )->parse() => '_pageName' );
+		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( array_key_exists( 'hidden', $fieldDescription ) ) {
 				continue;
@@ -62,7 +62,8 @@ class CargoTables extends IncludableSpecialPage {
 			if ( $fieldType == 'URL' ) {
 				// Thankfully, there's a message in core
 				// MediaWiki that seems to just be "URL".
-				$fieldName = "CONCAT('[', $fieldName, ' " . wfMessage( 'version-entrypoints-header-url' )->parse() . "]')";
+				$fieldName = "CONCAT('[', $fieldName, ' " .
+					$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
 			}
 
 			if ( $fieldDescription->mIsList ) {
@@ -97,7 +98,8 @@ class CargoTables extends IncludableSpecialPage {
 		$displayParams = array();
 
 		$tableFormat = new CargoTableFormat( $this->getOutput() );
-		$text = $tableFormat->display( $queryResults, $formattedQueryResults, $sqlQuery->mFieldDescriptions, $displayParams );
+		$text = $tableFormat->display( $queryResults, $formattedQueryResults,
+			$sqlQuery->mFieldDescriptions, $displayParams );
 
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
@@ -121,10 +123,11 @@ class CargoTables extends IncludableSpecialPage {
 
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
-		$text = Html::element( 'p', null, wfMessage( 'cargo-cargotables-tablelist' )->parse() ) . "\n";
+		$text = Html::element( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )->parse() ) . "\n";
 		$text .= "<ul>\n";
 		foreach ( $tableNames as $tableName ) {
-			$actionLinks = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ), wfMessage( 'view' )->text() );
+			$actionLinks = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ),
+					$this->msg( 'view' )->text() );
 
 			// Actions for this table - this display is modeled on
 			// Special:ListUsers.
@@ -132,25 +135,28 @@ class CargoTables extends IncludableSpecialPage {
 			$drilldownURL = $drilldownPage->getTitle()->getLocalURL() . '/' . $tableName;
 			$drilldownURL .= ( strpos( $drilldownURL, '?' ) ) ? '&' : '?';
 			$drilldownURL .= "_single";
-			$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $drilldownURL ), $drilldownPage->getDescription() );
+			$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $drilldownURL ),
+					$drilldownPage->getDescription() );
 
 			if ( $wgUser->isAllowed( 'deletecargodata' ) ) {
 				$deleteTablePage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
 				$deleteTableURL = $deleteTablePage->getTitle()->getLocalURL() . '/' . $tableName;
-				$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $deleteTableURL ), wfMessage( 'delete' )->text() );
+				$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $deleteTableURL ),
+						$this->msg( 'delete' )->text() );
 			}
 
 			// "Declared by" text
 			$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
 			if ( count( $templatesThatDeclareThisTable ) == 0 ) {
-				$declaringTemplatesText = wfMessage( 'cargo-cargotables-notdeclared' )->text();
+				$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
 			} else {
 				$templateLinks = array();
-				foreach( $templatesThatDeclareThisTable as $templateID ) {
+				foreach ( $templatesThatDeclareThisTable as $templateID ) {
 					$templateTitle = Title::newFromID( $templateID );
 					$templateLinks[] = Linker::link( $templateTitle );
 				}
-				$declaringTemplatesText = wfMessage( 'cargo-cargotables-declaredby', implode( $templateLinks ) )->text();
+				$declaringTemplatesText = $this->msg(
+						'cargo-cargotables-declaredby', implode( $templateLinks ) )->text();
 			}
 
 			// "Attached by" text
@@ -164,11 +170,12 @@ class CargoTables extends IncludableSpecialPage {
 				$attachingTemplatesText = '';
 			} else {
 				$templateLinks = array();
-				foreach( $templatesThatAttachToThisTable as $templateID ) {
+				foreach ( $templatesThatAttachToThisTable as $templateID ) {
 					$templateTitle = Title::newFromID( $templateID );
 					$templateLinks[] = Linker::link( $templateTitle );
 				}
-				$attachingTemplatesText = wfMessage( 'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();
+				$attachingTemplatesText = $this->msg(
+						'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();
 			}
 
 			$tableText = "$tableName ($actionLinks) ($declaringTemplatesText";
@@ -186,15 +193,13 @@ class CargoTables extends IncludableSpecialPage {
 	/**
 	 * Similar to CargoUtils::getPageProp().
 	 */
-	 public static function getAllPageProps( $pageProp ) {
+	public static function getAllPageProps( $pageProp ) {
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props',
-			array(
-				'pp_page',
-				'pp_value'
-			),
-			array(
-				'pp_propname' => $pageProp
+		$res = $dbr->select( 'page_props', array(
+			'pp_page',
+			'pp_value'
+			), array(
+			'pp_propname' => $pageProp
 			)
 		);
 
@@ -212,4 +217,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $pagesPerValue;
 	}
 
+	protected function getGroupName() {
+		return 'cargo';
+	}
 }

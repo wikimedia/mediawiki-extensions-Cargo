@@ -9,6 +9,13 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 		return array( 'width', 'start date', 'color' );
 	}
 
+	/**
+	 *
+	 * @param array $sqlQueries
+	 * @param array $displayParams
+	 * @param array $querySpecificParams
+	 * @return string
+	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$this->mOutput->addModules( 'ext.cargo.calendar' );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );

@@ -14,10 +14,18 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		return array();
 	}
 
+	/**
+	 *
+	 * @param array $valuesTable Unused
+	 * @param array $formattedValuesTable
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams Unused
+	 * @return string HTML
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.datatables' );
 
-		$text =<<<END
+		$text = <<<END
 	<table class="cargoDynamicTable display" cellspacing="0" width="100%">
 		<thead>
 			<tr>

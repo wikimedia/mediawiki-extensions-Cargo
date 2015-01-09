@@ -18,6 +18,10 @@ class CargoRecurringEvent {
 	/**
 	 * Handles the #recurring_event parser function - prints out a
 	 * string that is a delimited list of recurring events.
+	 *
+	 * @global int $wgCargoRecurringEventMaxInstances
+	 * @param Parser $parser Unused
+	 * @return string
 	 */
 	public static function run( &$parser ) {
 		global $wgCargoRecurringEventMaxInstances;
@@ -36,7 +40,7 @@ class CargoRecurringEvent {
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}
@@ -52,7 +56,8 @@ class CargoRecurringEvent {
 				$curHour = $startDate['hour'];
 				$curMinute = $startDate['minute'];
 				if ( $curHour !== false && $curMinute !== false ) {
-					$timeString = ' ' . str_pad( $curHour, 2, '0', STR_PAD_LEFT ) . ':' . str_pad( $curMinute, 2, '0', STR_PAD_LEFT );
+					$timeString = ' ' . str_pad( $curHour, 2, '0', STR_PAD_LEFT ) . ':'
+						. str_pad( $curMinute, 2, '0', STR_PAD_LEFT );
 				}
 			} elseif ( $key == 'end' ) {
 				$endDate = date_parse( $value );
@@ -66,7 +71,7 @@ class CargoRecurringEvent {
 				$includedDates = explode( ';', $value );
 			} elseif ( $key == 'exclude' ) {
 				$excludedDates = explode( ';', $value );
-				foreach( $excludedDates as $dateStr ) {
+				foreach ( $excludedDates as $dateStr ) {
 					$excludedDatesJD[] = self::getJD( date_parse( $dateStr ) );
 				}
 			} elseif ( $key == 'delimiter' ) {
@@ -128,7 +133,7 @@ class CargoRecurringEvent {
 					$displayMonth = $curMonth;
 				} else { // $unit === 'month'
 					$curMonth += $period;
-					$curYear += (int)( ( $curMonth - 1 ) / 12 );
+					$curYear += (int) ( ( $curMonth - 1 ) / 12 );
 					$curMonth %= 12;
 					$displayMonth = ( $curMonth == 0 ) ? 12 : $curMonth;
 				}
@@ -143,7 +148,7 @@ class CargoRecurringEvent {
 
 				$dateStr = "$curYear-$displayMonth-$curDay" . $timeString;
 				$curDate = date_parse( $dateStr );
-				$allDateStrings = array_merge( $allDateStrings, $includedDates);
+				$allDateStrings = array_merge( $allDateStrings, $includedDates );
 				$curDateJD = self::getJD( $curDate );
 			} elseif ( $unit == 'dayofweekinmonth' ) {
 				// e.g., "3rd Monday of every month"
@@ -151,7 +156,9 @@ class CargoRecurringEvent {
 				$prevYear = $curDate['year'];
 
 				$newMonth = ( $prevMonth + $period ) % 12;
-				if ( $newMonth == 0 ) $newMonth = 12;
+				if ( $newMonth == 0 ) {
+					$newMonth = 12;
+				}
 
 				$newYear = $prevYear + floor( ( $prevMonth + $period - 1 ) / 12 );
 				$curDateJD += ( 28 * $period ) - 7;
@@ -168,19 +175,20 @@ class CargoRecurringEvent {
 
 						do {
 							$nextWeekJD += 7;
-							$nextWeekDate = $this->getJulianDayTimeValue( $nextWeekJD );
-							$rightWeek = ( $nextWeekDate['month'] != $newMonth ) || ( $nextWeekDate['year'] != $newYear );
+							$nextWeekDate = self::getJulianDayTimeValue( $nextWeekJD );
+							$rightWeek = ( $nextWeekDate['month'] != $newMonth ) ||
+								( $nextWeekDate['year'] != $newYear );
 						} while ( !$rightWeek );
 
 						$curDateJD = $nextWeekJD + ( 7 * $weekNum );
-						$curDate = $this->getJulianDayTimeValue( $curDateJD );
+						$curDate = self::getJulianDayTimeValue( $curDateJD );
 					} else {
 						$curWeekNum = ceil( $curDate['day'] / 7 );
 						$rightWeek = ( $curWeekNum == $weekNum );
 
 						if ( $weekNum == 5 && ( $curDate['month'] % 12 == ( $newMonth + 1 ) % 12 ) ) {
 							$curDateJD -= 7;
-							$curDate = $this->getJulianDayTimeValue( $curDateJD );
+							$curDate = self::getJulianDayTimeValue( $curDateJD );
 							$rightMonth = $rightWeek = true;
 						}
 					}
@@ -192,8 +200,8 @@ class CargoRecurringEvent {
 			}
 
 			// Should we stop?
-			$reachedEndDate = ( $instanceNum > $wgCargoRecurringEventMaxInstances || ( !is_null( $endDate ) && ( $curDateJD > $endDateJD ) ) );
-
+			$reachedEndDate = ( $instanceNum > $wgCargoRecurringEventMaxInstances ||
+				(!is_null( $endDate ) && ( $curDateJD > $endDateJD ) ) );
 		} while ( !$reachedEndDate );
 
 		// Add in the 'include' dates as well.

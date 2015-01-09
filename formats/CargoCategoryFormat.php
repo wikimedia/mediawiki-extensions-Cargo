@@ -10,6 +10,15 @@ class CargoCategoryFormat extends CargoListFormat {
 		return array( 'columns' );
 	}
 
+	/**
+	 *
+	 * @global Language $wgContLang
+	 * @param array $valuesTable
+	 * @param array $formattedValuesTable
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams
+	 * @return string
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		global $wgContLang;
 
@@ -20,7 +29,6 @@ class CargoCategoryFormat extends CargoListFormat {
 		}
 
 		$result = '';
-		$showHeaders = true;
 		$num = count( $valuesTable );
 
 		$prev_first_char = "";
@@ -39,15 +47,18 @@ class CargoCategoryFormat extends CargoListFormat {
 
 			if ( $rowindex % $rows_per_column == 0 ) {
 				$result .= "\n			<div style=\"float: left; width: $column_width%;\">\n";
-				if ( $cur_first_char == $prev_first_char )
-					$result .= "				<h3>$cur_first_char " . wfMessage( 'listingcontinuesabbrev' )->text() . "</h3>\n				<ul>\n";
+				if ( $cur_first_char == $prev_first_char ) {
+					$result .= "				<h3>$cur_first_char " .
+						wfMessage( 'listingcontinuesabbrev' )->text() . "</h3>\n				<ul>\n";
+				}
 			}
 
 			// if we're at a new first letter, end
 			// the last list and start a new one
 			if ( $cur_first_char != $prev_first_char ) {
-				if ( $rowindex % $rows_per_column > 0 )
+				if ( $rowindex % $rows_per_column > 0 ) {
 					$result .= "				</ul>\n";
+				}
 				$result .= "				<h3>$cur_first_char</h3>\n				<ul>\n";
 			}
 			$prev_first_char = $cur_first_char;

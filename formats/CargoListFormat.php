@@ -15,6 +15,12 @@ class CargoListFormat extends CargoDisplayFormat {
 		return array( 'delimiter' );
 	}
 
+	/**
+	 *
+	 * @param array $row
+	 * @param array $fieldDescriptions
+	 * @return string
+	 */
 	function displayRow( $row, $fieldDescriptions ) {
 		$text = '';
 		$startParenthesisAdded = false;
@@ -31,7 +37,7 @@ class CargoListFormat extends CargoDisplayFormat {
 				$text = $fieldValue;
 				$firstField = false;
 			} else {
-				if ( ! $startParenthesisAdded ) {
+				if ( !$startParenthesisAdded ) {
 					$text .= ' (';
 					$startParenthesisAdded = true;
 				} else {
@@ -46,9 +52,18 @@ class CargoListFormat extends CargoDisplayFormat {
 		return $text;
 	}
 
+	/**
+	 *
+	 * @param array $valuesTable Unused
+	 * @param array $formattedValuesTable
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams
+	 * @return string
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$text = '';
-		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ? $displayParams['delimiter'] : wfMessage( 'comma-separator' )->text();
+		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ?
+			$displayParams['delimiter'] : wfMessage( 'comma-separator' )->text();
 		foreach ( $formattedValuesTable as $i => $row ) {
 			if ( $i > 0 ) {
 				$text .= $delimiter . ' ';

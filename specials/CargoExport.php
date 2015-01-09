@@ -8,7 +8,7 @@
  * @ingroup Cargo
  */
 
-class CargoExport extends SpecialPage {
+class CargoExport extends UnlistedSpecialPage {
 
 	/**
 	 * Constructor
@@ -31,7 +31,9 @@ class CargoExport extends SpecialPage {
 
 		$sqlQueries = array();
 		foreach ( $tableArray as $i => $table ) {
-			$sqlQueries[] = CargoSQLQuery::newFromValues( $table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i], $orderByArray[$i], $limitArray[$i] );
+			$sqlQueries[] = CargoSQLQuery::newFromValues(
+					$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
+					$orderByArray[$i], $limitArray[$i] );
 		}
 
 		$format = $req->getVal( 'format' );
@@ -109,8 +111,6 @@ class CargoExport extends SpecialPage {
 	}
 
 	function displayTimelineData( $sqlQueries ) {
-		$req = $this->getRequest();
-
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFields = array();
@@ -231,14 +231,4 @@ class CargoExport extends SpecialPage {
 		}
 		print json_encode( $allQueryResults, JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT );
 	}
-
-	/**
-	 * Don't list this in Special:SpecialPages.
-	 * For some reason, setting "$this->mListed = false" instead doesn't
-	 * seem to work.
-	 */
-	function isListed() {
-		return false;
-	}
-
 }

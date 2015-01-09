@@ -10,13 +10,13 @@
  */
 
 class CargoAppliedFilter {
-	var $filter;
-	var $values = array();
-	var $search_terms;
-	var $lower_date;
-	var $upper_date;
-	var $lower_date_string;
-	var $upper_date_string;
+	public $filter;
+	public $values = array();
+	public $search_terms;
+	public $lower_date;
+	public $upper_date;
+	public $lower_date_string;
+	public $upper_date_string;
 
 	static function create( $filter, $values, $search_terms = null, $lower_date = null,
 		$upper_date = null ) {
@@ -172,7 +172,8 @@ class CargoAppliedFilter {
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $tableName, "DISTINCT " . $value_field );
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			if ( $this->filter->fieldDescription->mType == 'Date' && $this->filter->getTimePeriod() == 'month' ) {
+			if ( $this->filter->fieldDescription->mType == 'Date' &&
+				$this->filter->getTimePeriod() == 'month' ) {
 				$value_string = CargoDrilldownUtils::monthToString( $row[1] ) . " " . $row[0];
 			} else {
 				$value_string = $row[0];

@@ -11,6 +11,10 @@ class CargoDeclare {
 
 	/**
 	 * Handles the #cargo_declare parser function.
+	 *
+	 * @todo Internationalize error messages
+	 * @param Parser $parser
+	 * @return string
 	 */
 	public static function run( &$parser ) {
 		if ( $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
@@ -24,7 +28,7 @@ class CargoDeclare {
 		$tableSchema = new CargoTableSchema();
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}
@@ -37,13 +41,17 @@ class CargoDeclare {
 				$fieldDescriptionStr = $value;
 				// Validate field name.
 				if ( strpos( $fieldName, ' ' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains spaces. Spaces are not allowed; consider using underscores(\"_\") instead." );
+					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains spaces. "
+							. "Spaces are not allowed; consider using underscores(\"_\") instead." );
 				} elseif ( strpos( $fieldName, '_' ) === 0 ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" begins with an underscore; this is not allowed." );
+					return CargoUtils::formatError( "Error: Field name \"$fieldName\" begins with an "
+							. "underscore; this is not allowed." );
 				} elseif ( strpos( $fieldName, '__' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains more than one underscore in a row; this is not allowed." );
+					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains more "
+							. "than one underscore in a row; this is not allowed." );
 				} elseif ( strpos( $fieldName, ',' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; this is not allowed." );
+					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; "
+							. "this is not allowed." );
 				}
 
 				$fieldDescription = CargoFieldDescription::newFromString( $fieldDescriptionStr );
@@ -58,13 +66,17 @@ class CargoDeclare {
 		if ( $tableName == '' ) {
 			return CargoUtils::formatError( "Error: Table name must be specified." );
 		} elseif ( strpos( $tableName, ' ' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains spaces. Spaces are not allowed; consider using underscores(\"_\") instead." );
+			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains spaces. "
+					. "Spaces are not allowed; consider using underscores(\"_\") instead." );
 		} elseif ( strpos( $tableName, '_' ) === 0 ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" begins with an underscore; this is not allowed." );
+			return CargoUtils::formatError( "Error: Table name \"$tableName\" begins with an "
+					. "underscore; this is not allowed." );
 		} elseif ( strpos( $tableName, '__' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains more than one underscore in a row; this is not allowed." );
+			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains more than one "
+					. "underscore in a row; this is not allowed." );
 		} elseif ( strpos( $tableName, ',' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains a comma; this is not allowed." );
+			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains a comma; "
+					. "this is not allowed." );
 		}
 
 		$parserOutput = $parser->getOutput();

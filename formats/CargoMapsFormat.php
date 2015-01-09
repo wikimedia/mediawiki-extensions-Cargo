@@ -7,7 +7,7 @@
 class CargoMapsFormat extends CargoDisplayFormat {
 
 	public static $mappingService = "OpenLayers";
-	static $mapNumber = 1;
+	public static $mapNumber = 1;
 
 	function allowedParameters() {
 		return array( 'height', 'width', 'icon', 'zoom' );
@@ -34,16 +34,26 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		return $imagePage->getDisplayedFile()->getURL();
 	}
 
+	/**
+	 *
+	 * @param array $valuesTable
+	 * @param array $formattedValuesTable
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams
+	 * @return string HTML
+	 * @throws MWException
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$coordinatesFields = array();
-		foreach( $fieldDescriptions as $field => $description ) {
+		foreach ( $fieldDescriptions as $field => $description ) {
 			if ( $description['type'] == 'Coordinates' ) {
 				$coordinatesFields[] = $field;
 			}
 		}
 
 		if ( count( $coordinatesFields ) == 0 ) {
-			throw new MWException( "Error: no fields of type \"Coordinate\" were specified in this query; cannot display in a map." );
+			throw new MWException( "Error: no fields of type \"Coordinate\" were specified in this "
+			. "query; cannot display in a map." );
 		}
 
 		// @TODO - should this check be higher up, i.e. for all
@@ -99,7 +109,8 @@ class CargoMapsFormat extends CargoDisplayFormat {
 						'lon' => $lonValue,
 						'otherValues' => $displayedValuesForRow
 					);
-					if ( array_key_exists( 'icon', $displayParams ) && array_key_exists( $i, $displayParams['icon'] ) ) {
+					if ( array_key_exists( 'icon', $displayParams ) &&
+						array_key_exists( $i, $displayParams['icon'] ) ) {
 						$iconURL = self::getImageURL( $displayParams['icon'][$i] );
 						if ( !is_null( $iconURL ) ) {
 							$valuesForMapPoint['icon'] = $iconURL;
@@ -139,7 +150,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		}
 		$mapDataDiv = Html::element( 'div', $mapDataAttrs, $jsonData );
 
-		$text =<<<END
+		$text = <<<END
 	<div style="height: $height; width: $width" class="mapCanvas" id="$divID">
 		$mapDataDiv
 	</div>

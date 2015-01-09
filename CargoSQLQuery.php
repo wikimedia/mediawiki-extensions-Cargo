@@ -9,21 +9,21 @@
 
 class CargoSQLQuery {
 
-	var $mTablesStr;
-	var $mTableNames;
-	var $mFieldsStr;
-	var $mOrigWhereStr;
-	var $mWhereStr;
-	var $mJoinOnStr;
-	var $mCargoJoinConds;
-	var $mJoinConds;
-	var $mAliasedFieldNames;
-	var $mTableSchemas;
-	var $mFieldDescriptions;
-	var $mFieldTables;
-	var $mGroupByStr;
-	var $mOrderByStr;
-	var $mQueryLimit;
+	public $mTablesStr;
+	public $mTableNames;
+	public $mFieldsStr;
+	public $mOrigWhereStr;
+	public $mWhereStr;
+	public $mJoinOnStr;
+	public $mCargoJoinConds;
+	public $mJoinConds;
+	public $mAliasedFieldNames;
+	public $mTableSchemas;
+	public $mFieldDescriptions;
+	public $mFieldTables;
+	public $mGroupByStr;
+	public $mOrderByStr;
+	public $mQueryLimit;
 
 	/**
 	 * This is newFromValues() instead of __construct() so that an
@@ -226,7 +226,8 @@ class CargoSQLQuery {
 		if ( $numUnmatchedTables > 0 ) {
 			foreach ( $this->mTableNames as $tableName ) {
 				if ( !in_array( $tableName, $matchedTables ) ) {
-					throw new MWException( "Error: Table \"$tableName\" is not included within the join conditions." );
+					throw new MWException( "Error: Table \"$tableName\" is not included within the "
+					. "join conditions." );
 				}
 			}
 		}
@@ -298,7 +299,8 @@ class CargoSQLQuery {
 				}
 				if ( in_array( $probableFunction, array( 'count', 'max', 'min', 'avg', 'sum', 'sqrt' ) ) ) {
 					$description->mType = 'Integer';
-				} elseif ( in_array( $probableFunction, array( 'concat', 'lower', 'lcase', 'upper', 'ucase' ) ) ) {
+				} elseif ( in_array(
+						$probableFunction, array( 'concat', 'lower', 'lcase', 'upper', 'ucase' ) ) ) {
 					// Do nothing.
 				} elseif ( in_array( $probableFunction,
 						array( 'date', 'date_format', 'date_add', 'date_sub', 'date_diff' ) ) ) {
@@ -396,7 +398,8 @@ class CargoSQLQuery {
 	 */
 	function fieldTableIsIncluded( $fieldTableName ) {
 		foreach ( $this->mCargoJoinConds as $cargoJoinCond ) {
-			if ( $cargoJoinCond['table1'] == $fieldTableName || $cargoJoinCond['table2'] == $fieldTableName ) {
+			if ( $cargoJoinCond['table1'] == $fieldTableName ||
+				$cargoJoinCond['table2'] == $fieldTableName ) {
 				return true;
 			}
 		}
@@ -458,7 +461,8 @@ class CargoSQLQuery {
 			if ( $foundLikeMatch1 || $foundLikeMatch2 || $foundMatch1 || $foundMatch2 ) {
 				// If no "HOLDS", throw an error.
 				if ( count( $matches ) == 1 ) {
-					throw new MWException( "Error: operator for the virtual field '$tableName.$fieldName' must be 'HOLDS' or 'HOLDS LIKE'." );
+					throw new MWException( "Error: operator for the virtual field '"
+					. "$tableName.$fieldName' must be 'HOLDS' or 'HOLDS LIKE'." );
 				}
 				$fieldTableName = $tableName . '__' . $fieldName;
 				$this->addFieldTableToTableNames( $fieldTableName, $tableName );
@@ -673,7 +677,8 @@ class CargoSQLQuery {
 			// coordinate fields.
 			$isCoordinateField = false;
 			foreach ( $coordinateFields as $coordinateField ) {
-				if ( $fieldName == $coordinateField['fieldName'] && $tableName == $coordinateField['tableName'] ) {
+				if ( $fieldName == $coordinateField['fieldName'] &&
+					$tableName == $coordinateField['tableName'] ) {
 					$isCoordinateField = true;
 					break;
 				}

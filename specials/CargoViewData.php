@@ -19,9 +19,12 @@ class CargoViewData extends SpecialPage {
 		$this->setHeaders();
 		$out = $this->getOutput();
 		$out->addModuleStyles( 'ext.cargo.main' );
-		list( $limit, $offset ) = wfCheckLimits();
 		$rep = new ViewDataPage();
 		return $rep->execute( $query );
+	}
+
+	protected function getGroupName() {
+		return 'cargo';
 	}
 }
 
@@ -39,7 +42,8 @@ class ViewDataPage extends QueryPage {
 
 		$limitStr = null;
 
-		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr );
+		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $orderByStr, $limitStr );
 
 		$formatStr = $req->getVal( 'format' );
 		$this->format = $formatStr;
@@ -48,26 +52,25 @@ class ViewDataPage extends QueryPage {
 		// navigation links.
 		$this->displayParams = array();
 		$queryStringValues = $this->getRequest()->getValues();
-		foreach( $queryStringValues as $key => $value ) {
-			if ( !in_array( $key, array( 'title', 'tables', 'fields', 'join_on', 'order_by', 'group_by', 'format', 'offset' ) ) ) {
+		foreach ( $queryStringValues as $key => $value ) {
+			if ( !in_array( $key,
+					array( 'title', 'tables', 'fields', 'join_on', 'order_by', 'group_by', 'format',
+					'offset' ) ) ) {
 				$this->displayParams[$key] = $value;
 			}
 		}
 	}
 
-	function getName() {
-		return "ViewData";
+	function isExpensive() {
+		return false;
 	}
 
-	function isExpensive() { return false; }
-
-	function isSyndicated() { return false; }
+	function isSyndicated() {
+		return false;
+	}
 
 	// @TODO - declare a getPageHeader() function, to show some
 	// information about the query?
-
-	function getPageFooter() {
-	}
 
 	function getRecacheDB() {
 		return CargoUtils::getDB();
@@ -79,7 +82,7 @@ class ViewDataPage extends QueryPage {
 			$selectOptions['GROUP BY'] = $this->sqlQuery->mGroupByStr;
 		}
 		// "order by" is handled elsewhere, in getOrderFields().
-
+		//
 		// Field aliases need to have quotes placed around them
 		// before actually running the query.
 		$realAliasedFieldNames = array();
@@ -102,7 +105,8 @@ class ViewDataPage extends QueryPage {
 	}
 
 	function linkParameters() {
-		$possibleParams = array( 'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'format' );
+		$possibleParams = array(
+			'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'format' );
 		$linkParams = array();
 		$req = $this->getRequest();
 		foreach ( $possibleParams as $possibleParam ) {
@@ -133,6 +137,15 @@ class ViewDataPage extends QueryPage {
 	}
 
 	/**
+	 * Format and output report results using the given information plus
+	 * OutputPage
+	 *
+	 * @param OutputPage $out OutputPage to print to
+	 * @param Skin $skin User skin to use
+	 * @param DatabaseBase $dbr Database (read) connection to use
+	 * @param int $res Result pointer
+	 * @param int $num Number of available result rows
+	 * @param int $offset Paging offset
 	 */
 	function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$valuesTable = array();
@@ -147,7 +160,6 @@ class ViewDataPage extends QueryPage {
 		$queryDisplayer->mDisplayParams = $this->displayParams;
 		$html = $queryDisplayer->displayQueryResults( $formatter, $valuesTable );
 		$out->addHTML( $html );
-		return;
 	}
 
 }

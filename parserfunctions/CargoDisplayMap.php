@@ -14,6 +14,9 @@ class CargoDisplayMap {
 	 *
 	 * This function is based conceptually on the #display_map
 	 * parser function defined by the Maps extension.
+	 *
+	 * @param Parser $parser
+	 * @return string
 	 */
 	public static function run( &$parser ) {
 		$params = func_get_args();
@@ -82,11 +85,10 @@ class CargoDisplayMap {
 			$displayParams['zoom'] = $zoomStr;
 		}
 
-		$text = $mappingFormat->display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams );
+		$text = $mappingFormat->display( $valuesTable, $formattedValuesTable, $fieldDescriptions,
+			$displayParams );
 
-		$text = $parser->insertStripItem( $text, $parser->mStripState );
-
-		return $text;
+		return $parser->insertStripItem( $text, $parser->mStripState );
 	}
 
 }

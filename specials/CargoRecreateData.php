@@ -7,10 +7,10 @@
  * @ingroup Cargo
  */
 
-class CargoRecreateData extends IncludableSpecialPage {
-	var $mTemplateTitle;
-	var $mTableName;
-	var $mIsDeclared;
+class CargoRecreateData extends UnlistedSpecialPage {
+	public $mTemplateTitle;
+	public $mTableName;
+	public $mIsDeclared;
 
 	function __construct( $templateTitle, $tableName, $isDeclared ) {
 		parent::__construct( 'RecreateData', 'recreatecargodata' );
@@ -22,16 +22,11 @@ class CargoRecreateData extends IncludableSpecialPage {
 	function execute( $query = null ) {
 		$out = $this->getOutput();
 
-		if ( ! $this->getUser()->isAllowed( 'recreatecargodata' ) ) {
-			$out->permissionRequired( 'recreatecargodata' );
-			return;
-		}
-
 		$this->setHeaders();
 
 		$tableExists = CargoUtils::tableExists( $this->mTableName );
 		if ( !$tableExists ) {
-			$out->setPageTitle( wfMessage( 'cargo-createdatatable' )->parse() );
+			$out->setPageTitle( $this->msg( 'cargo-createdatatable' )->parse() );
 		}
 
 		if ( empty( $this->mTemplateTitle ) ) {
@@ -56,11 +51,11 @@ class CargoRecreateData extends IncludableSpecialPage {
 		// isn't accidentally pressed twice.
 		$text = '<form method="post" onSubmit="submitButton.disabled = true; return true;">';
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
-		$text .= Html::element( 'p', null, wfMessage( $msg )->parse() );
+		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
 		$text .= Html::hidden( 'action', 'recreatedata' ) . "\n";
 		$text .= Html::hidden( 'submitted', 'yes' ) . "\n";
 
-		$text .= Html::input( 'submitButton', wfMessage( 'ok' )->parse(), 'submit' );
+		$text .= Html::input( 'submitButton', $this->msg( 'ok' )->parse(), 'submit' );
 		$text .= "\n</form>";
 
 		$out->addHTML( $text );
@@ -76,7 +71,8 @@ class CargoRecreateData extends IncludableSpecialPage {
 		$offset = 0;
 		do {
 			$jobs = array();
-			$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( array( 'LIMIT' => 500, 'OFFSET' => $offset ) );
+			$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( array(
+				'LIMIT' => 500, 'OFFSET' => $offset ) );
 			foreach ( $titlesWithThisTemplate as $titleWithThisTemplate ) {
 				$jobs[] = new CargoPopulateTableJob( $titleWithThisTemplate, $jobParams );
 			}
@@ -138,12 +134,5 @@ class CargoRecreateData extends IncludableSpecialPage {
 				$this->callPopulateTableJobsForTemplate( $attachedTemplateTitle, $jobParams );
 			}
 		}
-	}
-
-	/**
-	 * Don't list this in Special:SpecialPages.
-	 */
-	function isListed() {
-		return false;
 	}
 }

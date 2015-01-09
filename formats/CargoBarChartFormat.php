@@ -9,6 +9,13 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 		return array( 'width', 'height' );
 	}
 
+	/**
+	 *
+	 * @param array $sqlQueries
+	 * @param array $displayParams
+	 * @param array $querySpecificParams Unused
+	 * @return string
+	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$this->mOutput->addModules( 'ext.cargo.nvd3' );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
@@ -17,7 +24,7 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 
 		$svgAttrs = array();
 		if ( array_key_exists( 'width', $displayParams ) ) {
-			$svgAttrs['width ']= $displayParams['width'];
+			$svgAttrs['width '] = $displayParams['width'];
 		} else {
 			$svgAttrs['width'] = "100%";
 		}

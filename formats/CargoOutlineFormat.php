@@ -14,8 +14,8 @@
  * Represents a single row in the outline.
  */
 class CargoOutlineRow {
-	var $mOutlineFields;
-	var $mDisplayFields;
+	public $mOutlineFields;
+	public $mDisplayFields;
 
 	function __construct() {
 		$this->mOutlineFields = array();
@@ -42,7 +42,8 @@ class CargoOutlineRow {
 
 	function getOutlineFieldValues( $fieldName ) {
 		if ( !array_key_exists( $fieldName, $this->mOutlineFields ) ) {
-			throw new MWException( "Error: the outline field '$fieldName' must be among this query's fields." );
+			throw new MWException( "Error: the outline field '$fieldName' must be among this "
+			. "query's fields." );
 		}
 		return $this->mOutlineFields[$fieldName]['unformatted'];
 	}
@@ -56,9 +57,9 @@ class CargoOutlineRow {
  * A tree structure for holding the outline data.
  */
 class CargoOutlineTree {
-	var $mTree;
-	var $mUnsortedRows;
-	var $mFormattedValue;
+	public $mTree;
+	public $mUnsortedRows;
+	public $mFormattedValue;
 
 	function __construct( $rows = array(), $formattedValue = null ) {
 		$this->mTree = array();
@@ -71,7 +72,7 @@ class CargoOutlineTree {
 	}
 
 	function categorizeRow( $vals, $row, $formattedVals ) {
-		foreach ( $vals as $i => $val ) {
+		foreach ( $vals as $val ) {
 			if ( array_key_exists( $val, $this->mTree ) ) {
 				$this->mTree[$val]->mUnsortedRows[] = $row;
 			} else {
@@ -99,7 +100,7 @@ class CargoOutlineTree {
 
 class CargoOutlineFormat extends CargoListFormat {
 	protected $mOutlineFields = array();
-	var $mFieldDescriptions;
+	public $mFieldDescriptions;
 
 	function allowedParameters() {
 		return array( 'outline fields' );
@@ -107,14 +108,17 @@ class CargoOutlineFormat extends CargoListFormat {
 
 	function printTree( $outlineTree, $level = 0 ) {
 		$text = "";
-		if ( ! is_null( $outlineTree->mUnsortedRows ) ) {
+		if ( !is_null( $outlineTree->mUnsortedRows ) ) {
 			$text .= "<ul>\n";
 			foreach ( $outlineTree->mUnsortedRows as $row ) {
-				$text .= Html::rawElement( 'li', null, $this->displayRow( $row->mDisplayFields, $this->mFieldDescriptions ) ) . "\n";
+				$text .= Html::rawElement( 'li', null,
+						$this->displayRow( $row->mDisplayFields, $this->mFieldDescriptions ) ) . "\n";
 			}
 			$text .= "</ul>\n";
 		}
-		if ( $level > 0 ) $text .= "<ul>\n";
+		if ( $level > 0 ) {
+			$text .= "<ul>\n";
+		}
 		$numLevels = count( $this->mOutlineFields );
 		// Set font size and weight depending on level we're at.
 		$fontLevel = $level;
@@ -135,11 +139,15 @@ class CargoOutlineFormat extends CargoListFormat {
 		} else {
 			$fontWeight = 'regular';
 		}
-		foreach ( $outlineTree->mTree as $key => $node ) {
-			$text .= Html::rawElement( 'p', array( 'style' => "font-size: $fontSize; font-weight: $fontWeight;" ), $node->mFormattedValue ) . "\n";
+		foreach ( $outlineTree->mTree as $node ) {
+			$text .= Html::rawElement( 'p',
+					array( 'style' =>
+					"font-size: $fontSize; font-weight: $fontWeight;" ), $node->mFormattedValue ) . "\n";
 			$text .= $this->printTree( $node, $level + 1 );
 		}
-		if ( $level > 0 ) $text .= "</ul>\n";
+		if ( $level > 0 ) {
+			$text .= "</ul>\n";
+		}
 		return $text;
 	}
 
@@ -162,7 +170,8 @@ class CargoOutlineFormat extends CargoListFormat {
 				if ( in_array( $fieldName, $this->mOutlineFields ) ) {
 					if ( array_key_exists( 'isList', $fieldDescriptions[$fieldName] ) ) {
 						$delimiter = $fieldDescriptions[$fieldName]['delimiter'];
-						$coRow->addOutlineFieldValues( $fieldName, array_map( 'trim', explode( $delimiter, $value ) ) , array_map( 'trim', explode( $delimiter, $formattedValue ) ) );
+						$coRow->addOutlineFieldValues( $fieldName, array_map( 'trim', explode( $delimiter, $value ) ),
+							array_map( 'trim', explode( $delimiter, $formattedValue ) ) );
 					} else {
 						$coRow->addOutlineFieldValue( $fieldName, $value, $formattedValue );
 					}

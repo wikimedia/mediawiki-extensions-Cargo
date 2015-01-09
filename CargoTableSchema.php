@@ -10,7 +10,7 @@
 
 class CargoTableSchema {
 
-	var $mFieldDescriptions = array();
+	public $mFieldDescriptions = array();
 
 	public static function newFromDBString( $dbString ) {
 		$tableSchema = new CargoTableSchema();
@@ -19,7 +19,8 @@ class CargoTableSchema {
 			throw new MWException( "Invalid field information found for table." );
 		}
 		foreach ( $tableSchemaDBArray as $fieldName => $fieldDBArray ) {
-			$tableSchema->mFieldDescriptions[$fieldName] = CargoFieldDescription::newFromDBArray( $fieldDBArray );
+			$tableSchema->mFieldDescriptions[$fieldName] = CargoFieldDescription::newFromDBArray(
+					$fieldDBArray );
 		}
 		return $tableSchema;
 	}

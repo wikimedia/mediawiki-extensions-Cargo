@@ -8,13 +8,13 @@
  * @ingroup Cargo
  */
 class CargoFieldDescription {
-	var $mType;
-	var $mSize;
-	var $mIsList = false;
-	var $mDelimiter;
-	var $mAllowedValues = null;
-	var $mIsHidden = false;
-	var $mOtherParams = array();
+	public $mType;
+	public $mSize;
+	public $mIsList = false;
+	public $mDelimiter;
+	public $mAllowedValues = null;
+	public $mIsHidden = false;
+	public $mOtherParams = array();
 
 	/**
 	 * Initializes from a string within the #cargo_declare function.

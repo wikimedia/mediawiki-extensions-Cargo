@@ -11,6 +11,9 @@ class CargoQuery {
 	/**
 	 * Handles the #cargo_query parser function - calls a query on the
 	 * Cargo data stored in the database.
+	 *
+	 * @param Parser $parser
+	 * @return string
 	 */
 	public static function run( &$parser ) {
 		$params = func_get_args();
@@ -28,7 +31,7 @@ class CargoQuery {
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}
@@ -56,7 +59,8 @@ class CargoQuery {
 			}
 		}
 
-		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr );
+		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $orderByStr, $limitStr );
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
@@ -80,10 +84,10 @@ class CargoQuery {
 			// whether or not it's deferred could depend on the
 			// fields in the query, making the first 'Query
 			// necessary. There has to be some better way, though.
-			$sqlQuery = CargoSQLQuery::newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr );
+			$sqlQuery = CargoSQLQuery::newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+					$groupByStr, $orderByStr, $limitStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
-			$text = $parser->insertStripItem( $text, $parser->mStripState );
-			return $text;
+			return $parser->insertStripItem( $text, $parser->mStripState );
 		}
 
 		try {
@@ -91,7 +95,6 @@ class CargoQuery {
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
-
 
 		// Finally, do the display.
 		$text = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
@@ -102,9 +105,7 @@ class CargoQuery {
 			$text .= $queryDisplayer->viewMoreResultsLink();
 		}
 
-		$text = $parser->insertStripItem( $text, $parser->mStripState );
-
-		return $text;
+		return $parser->insertStripItem( $text, $parser->mStripState );
 	}
 
 }

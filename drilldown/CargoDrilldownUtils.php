@@ -9,6 +9,13 @@
 
 class CargoDrilldownUtils {
 
+	/**
+	 * Appears to be unused
+	 *
+	 * @global string $cgScriptPath
+	 * @param array $vars
+	 * @return boolean
+	 */
 	static function setGlobalJSVariables( &$vars ) {
 		global $cgScriptPath;
 
@@ -17,61 +24,37 @@ class CargoDrilldownUtils {
 		return true;
 	}
 
+	/**
+	 * Return the month represented by the given number.
+	 *
+	 * @global Language $wgLang
+	 * @param int $month
+	 * @return string Month name in user language
+	 * @todo This function should be replaced with direct calls to Language::getMonthName()
+	 */
 	static function monthToString( $month ) {
-		if ( $month == 1 ) {
-			return wfMessage( 'january' )->text();
-		} elseif ( $month == 2 ) {
-			return wfMessage( 'february' )->text();
-		} elseif ( $month == 3 ) {
-			return wfMessage( 'march' )->text();
-		} elseif ( $month == 4 ) {
-			return wfMessage( 'april' )->text();
-		} elseif ( $month == 5 ) {
-			// Needed to avoid using 3-letter abbreviation
-			return wfMessage( 'may_long' )->text();
-		} elseif ( $month == 6 ) {
-			return wfMessage( 'june' )->text();
-		} elseif ( $month == 7 ) {
-			return wfMessage( 'july' )->text();
-		} elseif ( $month == 8 ) {
-			return wfMessage( 'august' )->text();
-		} elseif ( $month == 9 ) {
-			return wfMessage( 'september' )->text();
-		} elseif ( $month == 10 ) {
-			return wfMessage( 'october' )->text();
-		} elseif ( $month == 11 ) {
-			return wfMessage( 'november' )->text();
-		} else { // if ($month == 12) {
-			return wfMessage( 'december' )->text();
+		global $wgLang;
+		if ( !is_int( $month ) || $month < 1 || $month > 12 ) {
+			return false;
 		}
+
+		return $wgLang->getMonthName( $month );
 	}
 
-	static function stringToMonth( $str ) {
-		if ( $str == wfMessage( 'january' )->text() ) {
-			return 1;
-		} elseif ( $str == wfMessage( 'february' )->text() ) {
-			return 2;
-		} elseif ( $str == wfMessage( 'march' )->text() ) {
-			return 3;
-		} elseif ( $str == wfMessage( 'april' )->text() ) {
-			return 4;
-		} elseif ( $str == wfMessage( 'may_long' )->text() ) {
-			return 5;
-		} elseif ( $str == wfMessage( 'june' )->text() ) {
-			return 6;
-		} elseif ( $str == wfMessage( 'july' )->text() ) {
-			return 7;
-		} elseif ( $str == wfMessage( 'august' )->text() ) {
-			return 8;
-		} elseif ( $str == wfMessage( 'september' )->text() ) {
-			return 9;
-		} elseif ( $str == wfMessage( 'october' )->text() ) {
-			return 10;
-		} elseif ( $str == wfMessage( 'november' )->text() ) {
-			return 11;
-		} else { // if ($strmonth == wfMessage('december')->text()) {
-			return 12;
+	/**
+	 * Return the month number (1-12) which precisely matches the string sent in the user's language
+	 *
+	 * @global Language $wgLang
+	 * @param string $str
+	 * @param Language $language
+	 * @return int|boolean
+	 */
+	static function stringToMonth( $str, Language $language = null ) {
+		if ( $language === null ) {
+			global $wgLang;
+			$language = $wgLang;
 		}
-	}
 
+		return array_search( $str, $language->getMonthNamesArray() );
+	}
 }

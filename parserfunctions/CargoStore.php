@@ -21,16 +21,14 @@ class CargoStore {
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props',
-			array(
-				'pp_page'
-			),
-			array(
-				'pp_value' => $tableName,
-				'pp_propname' => 'CargoTableName'
+		$res = $dbr->select( 'page_props', array(
+			'pp_page'
+			), array(
+			'pp_value' => $tableName,
+			'pp_propname' => 'CargoTableName'
 			)
 		);
-		if ( ! $row = $dbr->fetchRow( $res ) ) {
+		if ( !$row = $dbr->fetchRow( $res ) ) {
 			return null;
 		}
 		return $row['pp_page'];
@@ -61,7 +59,6 @@ class CargoStore {
 		}
 		if ( $numDegrees == null ) {
 			throw new MWException( "Error: could not parse degrees in \"$coordinateStr\"." );
-			return null;
 		}
 
 		foreach ( $minutesSymbols as $minutesSymbol ) {
@@ -121,7 +118,6 @@ class CargoStore {
 
 		if ( count( $latAndLonStrings ) != 2 ) {
 			throw new MWException( "Error parsing coordinates string: \"$coordinatesString\"." );
-			return null;
 		}
 		list( $latString, $lonString ) = $latAndLonStrings;
 
@@ -136,7 +132,9 @@ class CargoStore {
 		} else {
 			$latNum = self::coordinatePartToNumber( $latString );
 		}
-		if ( $latIsNegative ) $latNum *= -1;
+		if ( $latIsNegative ) {
+			$latNum *= -1;
+		}
 
 		$lonIsNegative = false;
 		if ( strpos( $lonString, 'W' ) > 0 ) {
@@ -148,7 +146,9 @@ class CargoStore {
 		} else {
 			$lonNum = self::coordinatePartToNumber( $lonString );
 		}
-		if ( $lonIsNegative ) $lonNum *= -1;
+		if ( $lonIsNegative ) {
+			$lonNum *= -1;
+		}
 
 		return array( $latNum, $lonNum );
 	}
@@ -156,16 +156,21 @@ class CargoStore {
 	/**
 	 * Handles the #cargo_set parser function - saves data for one
 	 * template call.
+	 *
+	 * @global string $wgCargoDigitGroupingCharacter
+	 * @global string $wgCargoDecimalMark
+	 * @param Parser $parser
+	 * @throws MWException
 	 */
 	public static function run( &$parser ) {
 		// This function does actual DB modifications - so only proceed
 		// is this is called via either a page save or a "recreate
 		// data" action for a template that this page calls.
 		if ( count( self::$settings ) == 0 ) {
-			wfDebugLog('cargo', "CargoStore::run() - skipping.\n");
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping.\n" );
 			return;
 		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
-			wfDebugLog('cargo', "CargoStore::run() - skipping 2.\n");
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping 2.\n" );
 			return;
 		}
 
@@ -177,7 +182,7 @@ class CargoStore {
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
-			
+
 			if ( count( $parts ) != 2 ) {
 				continue;
 			}
@@ -190,7 +195,9 @@ class CargoStore {
 				// Since we don't know whether any empty
 				// value is meant to be blank or null, let's
 				// go with null.
-				if ( $value == '' ) $value = null;
+				if ( $value == '' ) {
+					$value = null;
+				}
 				$fieldValue = $value;
 				$tableFieldValues[$fieldName] = $fieldValue;
 			}
@@ -204,7 +211,7 @@ class CargoStore {
 			// It came from a template "recreate data" action -
 			// make sure it passes various criteria.
 			if ( self::$settings['dbTableName'] != $tableName ) {
-				wfDebugLog('cargo', "CargoStore::run() - skipping 3.\n");
+				wfDebugLog( 'cargo', "CargoStore::run() - skipping 3.\n" );
 				return;
 			}
 		}
@@ -216,7 +223,7 @@ class CargoStore {
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.
-			wfDebugLog('cargo', "CargoStore::run() - skipping 4.\n");
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping 4.\n" );
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
@@ -228,7 +235,6 @@ class CargoStore {
 		}
 
 		// We're still here! Let's add to the DB table(s).
-
 		// First, though, let's do some processing:
 		// - remove invalid values, if any
 		// - put dates and numbers into correct format
@@ -251,7 +257,7 @@ class CargoStore {
 					$delimiter = $fieldDescription->mDelimiter;
 					$individualValues = explode( $delimiter, $curValue );
 					$valuesToBeKept = array();
-					foreach( $individualValues as $individualValue ) {
+					foreach ( $individualValues as $individualValue ) {
 						$realIndividualVal = trim( $individualValue );
 						if ( in_array( $realIndividualVal, $allowedValues ) ) {
 							$valuesToBeKept[] = $realIndividualVal;
@@ -281,7 +287,8 @@ class CargoStore {
 						// and dashes, and if there's
 						// exactly one altogether, we'll
 						// guess that it's a month only.
-						$numSpecialChars = substr_count( $curValue, ' ' ) + substr_count( $curValue, '/' ) + substr_count( $curValue, '-' );
+						$numSpecialChars = substr_count( $curValue, ' ' ) +
+							substr_count( $curValue, '/' ) + substr_count( $curValue, '-' );
 						if ( $numSpecialChars == 1 ) {
 							// No need to add
 							// anything - PHP will
@@ -295,11 +302,11 @@ class CargoStore {
 					$seconds = strtotime( $curValue );
 					if ( $fieldType == 'Date' ) {
 						// Put into YYYY-MM-DD format.
-						$tableFieldValues[$fieldName] = date('Y-m-d', $seconds );
+						$tableFieldValues[$fieldName] = date( 'Y-m-d', $seconds );
 					} else { // ( $fieldType == 'Datetime' )
 						// @TODO - check for
 						// "time missing" precision.
-						$tableFieldValues[$fieldName] = date('Y-m-d G:i:s', $seconds );
+						$tableFieldValues[$fieldName] = date( 'Y-m-d G:i:s', $seconds );
 					}
 					$tableFieldValues[$fieldName . '__precision'] = $precision;
 				}
@@ -376,7 +383,6 @@ class CargoStore {
 				// Now rename the field.
 				$tableFieldValues[$fieldName . '__full'] = $tableFieldValues[$fieldName];
 				unset( $tableFieldValues[$fieldName] );
-
 			} elseif ( $fieldType == 'Coordinates' ) {
 				list( $latitude, $longitude) = self::parseCoordinatesString( $tableFieldValues[$fieldName] );
 				// Rename the field.
@@ -396,10 +402,11 @@ class CargoStore {
 
 		// Finally, add a record of this to the cargo_pages table, if
 		// necessary.
-		$dbr = wfGetDB( DB_MASTER );
-		$res = $dbr->select( 'cargo_pages', 'page_id', array( 'table_name' => $tableName, 'page_id' => $pageID ) );
-		if ( ! $row = $dbr->fetchRow( $res ) ) {
-			$dbr->insert( 'cargo_pages', array( 'table_name' => $tableName, 'page_id' => $pageID ) );
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_pages', 'page_id',
+			array( 'table_name' => $tableName, 'page_id' => $pageID ) );
+		if ( !$row = $dbw->fetchRow( $res ) ) {
+			$dbw->insert( 'cargo_pages', array( 'table_name' => $tableName, 'page_id' => $pageID ) );
 		}
 	}
 

@@ -10,6 +10,8 @@
  *
  * @author Yaron Koren
  * @ingroup Cargo
+ * @todo This should really inherit from UnlistedSpecialPage and there should be a link from
+ * Special:CargoTables to delete that table.
  */
 
 class CargoDeleteCargoTable extends SpecialPage {
@@ -29,36 +31,34 @@ class CargoDeleteCargoTable extends SpecialPage {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->dropTable( $mainTable );
-			foreach( $fieldTables as $fieldTable ) {
+			foreach ( $fieldTables as $fieldTable ) {
 				$cdb->dropTable( $fieldTable );
 			}
 		} catch ( Exception $e ) {
-			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. Please make sure that your database user account has the DROP permission." );
+			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
+			. "Please make sure that your database user account has the DROP permission." );
 		}
 		$cdb->close();
 
-		$dbr = wfGetDB( DB_MASTER );
-		$dbr->delete( 'cargo_tables', array( 'main_table' => $mainTable ) );
-		$dbr->delete( 'cargo_pages', array( 'table_name' => $mainTable ) );
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->delete( 'cargo_tables', array( 'main_table' => $mainTable ) );
+		$dbw->delete( 'cargo_pages', array( 'table_name' => $mainTable ) );
 	}
 
 	function execute( $subpage = false ) {
 		$out = $this->getOutput();
 
-		if ( ! $this->getUser()->isAllowed( 'deletecargodata' ) ) {
-			$out->permissionRequired( 'deletecargodata' );
-			return;
-		}
-
 		$this->setHeaders();
 		if ( $subpage == '' ) {
+			/** @todo i18n for these error messages */
 			$out->addHTML( CargoUtils::formatError( "Error: table name must be set." ) );
 			return true;
 		}
 
 		// Make sure that this table exists.
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables' ), array( 'main_table' => $subpage ) );
+		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables' ),
+			array( 'main_table' => $subpage ) );
 		if ( $res->numRows() == 0 ) {
 			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$subpage\"." ) );
 			return true;
@@ -72,7 +72,7 @@ class CargoDeleteCargoTable extends SpecialPage {
 			self::deleteTable( $subpage, $fieldTables );
 			$text = Html::element( 'p', null, "The table \"$subpage\" has been deleted." ) . "\n";
 			$tablesLink = Linker::linkKnown( $ctPage->getTitle(), $ctPage->getDescription() );
-			$text .= Html::rawElement( 'p', null, wfMessage( 'returnto', $tablesLink )->text() );
+			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			return true;
 		}
@@ -81,11 +81,19 @@ class CargoDeleteCargoTable extends SpecialPage {
 		$tableLink = Html::element( 'a', array( 'href' => "$ctURL/$subpage", ), $subpage );
 
 		$text = Html::rawElement( 'p', null, "Delete the Cargo table \"$tableLink\"?" );
-		$formText = Html::submitButton( wfMessage( 'delete' ), array( 'name' => 'delete' ) );
+		$formText = Xml::submitButton( $this->msg( 'delete' ), array( 'name' => 'delete' ) );
 		$text .= Html::rawElement( 'form', array( 'method' => 'post' ), $formText );
 		$out->addHTML( $text );
 
 		return true;
 	}
 
+	/**
+	 * @todo Should be unlisted
+	 *
+	 * @return string
+	 */
+	protected function getGroupName() {
+		return 'cargo';
+	}
 }

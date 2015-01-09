@@ -18,36 +18,41 @@ class CargoDrilldown extends IncludableSpecialPage {
 	}
 
 	function execute( $query ) {
-		global $wgRequest, $wgOut, $wgTitle;
 		global $cgScriptPath;
 
-		if ( $wgTitle->getNamespace() != NS_SPECIAL ) {
+		$request = $this->getRequest();
+		$out = $this->getOutput();
+		$title = $this->getPageTitle();
+
+		if ( $this->including() ) {
 			global $wgParser;
 			$wgParser->disableCache();
 		}
 		$this->setHeaders();
-		$wgOut->addModules( 'ext.cargo.drilldown' );
-		$wgOut->addScript( '<!--[if IE]><link rel="stylesheet" href="' . $cgScriptPath . '/drilldown/resources/CargoDrilldownIEFixes.css" media="screen" /><![endif]-->' );
+		$out->addModules( 'ext.cargo.drilldown' );
+		$out->addScript( '<!--[if IE]><link rel="stylesheet" href="' . $cgScriptPath .
+			'/drilldown/resources/CargoDrilldownIEFixes.css" media="screen" /><![endif]-->' );
 
 		// Should this be a user setting?
 		$numResultsPerPage = 250;
 		list( $limit, $offset ) = wfCheckLimits( $numResultsPerPage, 'limit' );
 		// Get information on current table and the filters
 		// that have already been applied from the query string.
-		$tableName = str_replace( '_', ' ', $wgRequest->getVal( '_table' ) );
+		$tableName = str_replace( '_', ' ', $request->getVal( '_table' ) );
 		// if query string did not contain this variable, try the URL
-		if ( ! $tableName ) {
+		if ( !$tableName ) {
 			$queryparts = explode( '/', $query, 1 );
 			$tableName = isset( $queryparts[0] ) ? $queryparts[0] : '';
 		}
-		if ( ! $tableName ) {
-			$tableTitle = wfMessage( 'drilldown' )->text();
+		if ( !$tableName ) {
+			$tableTitle = $this->msg( 'drilldown' )->text();
 		} else {
-			$tableTitle = wfMessage( 'drilldown' )->text() . html_entity_decode( wfMessage( 'colon-separator' )->text() ) . str_replace( '_', ' ', $tableName );
+			$tableTitle = $this->msg( 'drilldown' )->text() . html_entity_decode(
+					$this->msg( 'colon-separator' )->text() ) . str_replace( '_', ' ', $tableName );
 		}
 		// If no table was specified, go with the first table,
 		// alphabetically.
-		if ( ! $tableName ) {
+		if ( !$tableName ) {
 			$tableNames = CargoUtils::getTables();
 			if ( count( $tableNames ) == 0 ) {
 				// There are no tables - just exit now.
@@ -58,7 +63,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$filters = array();
-		foreach( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( $fieldDescription->mIsHidden ) {
 				continue;
@@ -83,11 +88,11 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$applied_filters = array();
 		$remaining_filters = array();
 		foreach ( $filters as $i => $filter ) {
-			$filter_name = str_replace( array( ' ', "'" ) , array( '_', "\'" ), $filter->name );
-			$search_terms = $wgRequest->getArray( '_search_' . $filter_name );
-			$lower_date = $wgRequest->getArray( '_lower_' . $filter_name );
-			$upper_date = $wgRequest->getArray( '_upper_' . $filter_name );
-			if ( $vals_array = $wgRequest->getArray( $filter_name ) ) {
+			$filter_name = str_replace( array( ' ', "'" ), array( '_', "\'" ), $filter->name );
+			$search_terms = $request->getArray( '_search_' . $filter_name );
+			$lower_date = $request->getArray( '_lower_' . $filter_name );
+			$upper_date = $request->getArray( '_upper_' . $filter_name );
+			if ( $vals_array = $request->getArray( $filter_name ) ) {
 				foreach ( $vals_array as $j => $val ) {
 					$vals_array[$j] = str_replace( '_', ' ', $val );
 				}
@@ -97,7 +102,8 @@ class CargoDrilldown extends IncludableSpecialPage {
 				$applied_filters[] = CargoAppliedFilter::create( $filter, array(), $search_terms );
 				$filter_used[$i] = true;
 			} elseif ( $lower_date != null || $upper_date != null ) {
-				$applied_filters[] = CargoAppliedFilter::create( $filter, array(), null, $lower_date, $upper_date );
+				$applied_filters[] = CargoAppliedFilter::create( $filter, array(), null, $lower_date,
+						$upper_date );
 				$filter_used[$i] = true;
 			}
 		}
@@ -112,38 +118,48 @@ class CargoDrilldown extends IncludableSpecialPage {
 						$found_match = true;
 					}
 				}
-				if ( ! $found_match ) {
+				if ( !$found_match ) {
 					$matched_all_required_filters = false;
 					continue;
 				}
 			}
 			if ( $matched_all_required_filters ) {
-				if ( ! $filter_used[$i] )
-					$remaining_filters[] = $filter;
+				if ( !$filter_used[$i] ) $remaining_filters[] = $filter;
 			}
 		}
 
-		$wgOut->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
-		$rep = new CargoDrilldownPage( $tableName, $applied_filters, $remaining_filters, $offset, $limit );
+		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
+		$rep = new CargoDrilldownPage(
+			$tableName, $applied_filters, $remaining_filters, $offset, $limit );
 		$num = $rep->execute( $query );
-		$wgOut->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
+		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
 		// This has to be set last, because otherwise the QueryPage
 		// code will overwrite it.
-		$wgOut->setPageTitle( $tableTitle );
+		$out->setPageTitle( $tableTitle );
 
 		return $num;
+	}
+
+	protected function getGroupName() {
+		return 'cargo';
 	}
 }
 
 class CargoDrilldownPage extends QueryPage {
-	var $tableName = "";
-	var $applied_filters = array();
-	var $remaining_filters = array();
-	var $showSingleTable = false;
+	public $tableName = "";
+	public $applied_filters = array();
+	public $remaining_filters = array();
+	public $showSingleTable = false;
 
 	/**
 	 * Initialize the variables of this page
+	 *
+	 * @param string $tableName
+	 * @param array $applied_filters
+	 * @param array $remaining_filters
+	 * @param int $offset
+	 * @param int $limit
 	 */
 	function __construct( $tableName, $applied_filters, $remaining_filters, $offset, $limit ) {
 		parent::__construct( 'Drilldown' );
@@ -155,6 +171,13 @@ class CargoDrilldownPage extends QueryPage {
 		$this->limit = $limit;
 	}
 
+	/**
+	 *
+	 * @param string $tableName
+	 * @param array $applied_filters
+	 * @param string $filter_to_remove
+	 * @return string
+	 */
 	function makeBrowseURL( $tableName, $applied_filters = array(), $filter_to_remove = null ) {
 		$dd = SpecialPage::getTitleFor( 'Drilldown' );
 		$url = $dd->getLocalURL() . '/' . $tableName;
@@ -162,7 +185,7 @@ class CargoDrilldownPage extends QueryPage {
 			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 			$url .= "_single";
 		}
-		foreach ( $applied_filters as $i => $af ) {
+		foreach ( $applied_filters as $af ) {
 			if ( $af->filter->name == $filter_to_remove ) {
 				continue;
 			}
@@ -170,18 +193,21 @@ class CargoDrilldownPage extends QueryPage {
 				// do nothing
 			} elseif ( count( $af->values ) == 1 ) {
 				$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
-				$url .= urlencode( str_replace( ' ', '_', $af->filter->name ) ) . "=" . urlencode( str_replace( ' ', '_', $af->values[0]->text ) );
+				$url .= urlencode( str_replace( ' ', '_', $af->filter->name ) ) . "=" .
+					urlencode( str_replace( ' ', '_', $af->values[0]->text ) );
 			} else {
 				usort( $af->values, array( "CargoFilterValue", "compare" ) );
 				foreach ( $af->values as $j => $fv ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
-					$url .= urlencode( str_replace( ' ', '_', $af->filter->name ) ) . "[$j]=" . urlencode( str_replace( ' ', '_', $fv->text ) );
+					$url .= urlencode( str_replace( ' ', '_', $af->filter->name ) ) . "[$j]=" .
+						urlencode( str_replace( ' ', '_', $fv->text ) );
 				}
 			}
 			if ( $af->search_terms != null ) {
 				foreach ( $af->search_terms as $j => $search_term ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
-					$url .= '_search_' . urlencode( str_replace( ' ', '_', $af->filter->name ) . '[' . $j . ']' ) . "=" . urlencode( str_replace( ' ', '_', $search_term ) );
+					$url .= '_search_' . urlencode( str_replace( ' ', '_', $af->filter->name ) .
+							'[' . $j . ']' ) . "=" . urlencode( str_replace( ' ', '_', $search_term ) );
 				}
 			}
 		}
@@ -192,14 +218,19 @@ class CargoDrilldownPage extends QueryPage {
 		return "Drilldown";
 	}
 
-	function isExpensive() { return false; }
+	function isExpensive() {
+		return false;
+	}
 
-	function isSyndicated() { return false; }
+	function isSyndicated() {
+		return false;
+	}
 
 	function printTablesList( $tables ) {
 		global $wgCargoDrilldownUseTabs;
 
-		$chooseTableText = wfMessage( 'cargo-drilldown-choosetable' )->text() . wfMessage( 'colon-separator' )->text();
+		$chooseTableText = $this->msg( 'cargo-drilldown-choosetable' )->text() .
+			$this->msg( 'colon-separator' )->text();
 		if ( $wgCargoDrilldownUseTabs ) {
 			$cats_wrapper_class = "drilldown-tables-tabs-wrapper";
 			$cats_list_class = "drilldown-tables-tabs";
@@ -238,7 +269,8 @@ END;
 			} else {
 				$text .= '						<li class="tableName">';
 				$tableURL = $this->makeBrowseURL( $table );
-				$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ), $tableStr );
+				$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
+						$tableStr );
 			}
 			$text .= "</li>\n";
 		}
@@ -279,7 +311,7 @@ END;
 		}
 		$text .= "\t\t\t\t\t$filterLabel:";
 		if ( $isApplied ) {
-			$add_another_str = wfMessage( 'cargo-drilldown-addanothervalue' )->text();
+			$add_another_str = $this->msg( 'cargo-drilldown-addanothervalue' )->text();
 			$text .= " <span class=\"drilldown-filter-notes\">($add_another_str)</span>";
 		}
 		$displayText = ( $isApplied ) ? 'style="display: none;"' : '';
@@ -302,15 +334,17 @@ END;
 		$value = str_replace( '_', ' ', $value );
 		// if it's boolean, display something nicer than "0" or "1"
 		if ( $value === ' other' ) {
-			return Html::element( 'span', array( 'style' => 'font-style: italic;' ), wfMessage( 'htmlform-selectorother-other' )->text() );
+			return Html::element( 'span', array( 'style' => 'font-style: italic;' ),
+					$this->msg( 'htmlform-selectorother-other' )->text() );
 		} elseif ( $value === ' none' ) {
-			return Html::element( 'span', array( 'style' => 'font-style: italic;' ), wfMessage( 'powersearch-togglenone' )->text() );
+			return Html::element( 'span', array( 'style' => 'font-style: italic;' ),
+					$this->msg( 'powersearch-togglenone' )->text() );
 		} elseif ( $filter->fieldDescription->mType === 'Boolean' ) {
 			// Use existing MW messages for "Yes" and "No".
 			if ( $value == true ) {
-				return wfMessage( 'htmlform-yes' )->text();
+				return $this->msg( 'htmlform-yes' )->text();
 			} else {
-				return wfMessage( 'htmlform-no' )->text();
+				return $this->msg( 'htmlform-no' )->text();
 			}
 		} else {
 			return $value;
@@ -325,8 +359,9 @@ END;
 		$results_line = "";
 		$current_filter_values = array();
 		foreach ( $this->applied_filters as $af2 ) {
-			if ( $af->filter->name == $af2->filter->name )
+			if ( $af->filter->name == $af2->filter->name ) {
 				$current_filter_values = $af2->values;
+			}
 		}
 		if ( $af->filter->allowed_values != null ) {
 			$or_values = $af->filter->allowed_values;
@@ -341,7 +376,8 @@ END;
 				$filter_values[$or_value] = '';
 			}
 			$curSearchTermNum = count( $af->search_terms );
-			$results_line = $this->printComboBoxInput( $af->filter->name, $curSearchTermNum, $filter_values );
+			$results_line = $this->printComboBoxInput(
+				$af->filter->name, $curSearchTermNum, $filter_values );
 			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 		}
 		// add 'Other' and 'None', regardless of whether either has
@@ -351,7 +387,9 @@ END;
 		}
 		$or_values[] = '_none';
 		foreach ( $or_values as $i => $value ) {
-			if ( $i > 0 ) { $results_line .= " · "; }
+			if ( $i > 0 ) {
+				$results_line .= " · ";
+			}
 			$filter_text = $this->printFilterValue( $af->filter, $value );
 			$applied_filters = $this->applied_filters;
 			foreach ( $applied_filters as $af2 ) {
@@ -373,7 +411,9 @@ END;
 				$results_line .= "\n\t\t\t\t$filter_text";
 			} else {
 				$filter_url = $this->makeBrowseURL( $this->tableName, $applied_filters );
-				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a', array( 'href' => $filter_url, 'title' => wfMessage( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
+				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
+						array( 'href' => $filter_url,
+						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
 			}
 			foreach ( $applied_filters as $af2 ) {
 				if ( $af->filter->name == $af2->filter->name ) {
@@ -394,25 +434,34 @@ END;
 			$lowest_num_results = min( $filter_values );
 			$highest_num_results = max( $filter_values );
 			if ( $lowest_num_results != $highest_num_results ) {
-				$scale_factor = ( $wgCargoDrilldownLargestFontSize - $wgCargoDrilldownSmallestFontSize ) / ( log($highest_num_results) - log($lowest_num_results) );
+				$scale_factor = ( $wgCargoDrilldownLargestFontSize - $wgCargoDrilldownSmallestFontSize ) /
+					( log( $highest_num_results ) - log( $lowest_num_results ) );
 			}
 		}
 		// now print the values
 		$num_printed_values = 0;
 		foreach ( $filter_values as $value_str => $num_results ) {
-			if ( $num_printed_values++ > 0 ) { $results_line .= " · "; }
+			if ( $num_printed_values++ > 0 ) {
+				$results_line .= " · ";
+			}
 			$filter_text = $this->printFilterValue( $f, $value_str );
-			$filter_text .= "&nbsp;($num_results)";
-			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' . urlencode( str_replace( ' ', '_', $value_str ) );
+			$filter_text .= " ($num_results)";
+			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+				urlencode( str_replace( ' ', '_', $value_str ) );
 			if ( $wgCargoDrilldownSmallestFontSize > 0 && $wgCargoDrilldownLargestFontSize > 0 ) {
 				if ( $lowest_num_results != $highest_num_results ) {
-					$font_size = round( ((log($num_results) - log($lowest_num_results)) * $scale_factor ) + $wgCargoDrilldownSmallestFontSize );
+					$font_size = round( ((log( $num_results ) - log( $lowest_num_results )) * $scale_factor ) +
+						$wgCargoDrilldownSmallestFontSize );
 				} else {
 					$font_size = ( $wgCargoDrilldownSmallestFontSize + $wgCargoDrilldownLargestFontSize ) / 2;
 				}
-				$results_line .= "\n\t\t\t\t\t\t" . '<a href="' . $filter_url . '" title="' . wfMessage( 'cargo-drilldown-filterbyvalue' )->text() . '" style="font-size: ' . $font_size . 'px">' . $filter_text . '</a>';
+				$results_line .= "\n\t\t\t\t\t\t" . '<a href="' . $filter_url . '" title="' .
+					$this->msg( 'cargo-drilldown-filterbyvalue' )->text() . '" style="font-size: ' .
+					$font_size . 'px">' . $filter_text . '</a>';
 			} else {
-				$results_line .= "\n\t\t\t\t\t\t" . Html::element( 'a', array( 'href' => $filter_url, 'title' => wfMessage( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
+				$results_line .= "\n\t\t\t\t\t\t" . Html::element( 'a',
+						array( 'href' => $filter_url,
+						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
 			}
 		}
 		return $results_line;
@@ -442,7 +491,7 @@ END;
 		// Special handling if it's the first or last number in the
 		// series - we have to make sure that the "nice" equivalent is
 		// on the right "side" of the number.
-
+		//
 		// That's especially true for the last number -
 		// it has to be greater, not just equal to, because of the way
 		// number filtering works.
@@ -499,7 +548,7 @@ END;
 			} else {
 				// We do this now to save time on the next step,
 				// if we're creating individual filter values.
-				$uniqueValues[$curNumber]++;
+				$uniqueValues[$curNumber] ++;
 			}
 		}
 
@@ -535,11 +584,15 @@ END;
 		// each of the bucket separators, with the number of significant digits
 		// required based on their proximity to their neighbors.
 		// The first and last separators need special handling.
-		$bucketSeparators[0] = $this->getNearestNiceNumber( $bucketSeparators[0], null, $bucketSeparators[1] );
+		$bucketSeparators[0] = $this->getNearestNiceNumber( $bucketSeparators[0], null,
+			$bucketSeparators[1] );
 		for ( $i = 1; $i < count( $bucketSeparators ) - 1; $i++ ) {
-			$bucketSeparators[$i] = $this->getNearestNiceNumber( $bucketSeparators[$i], $bucketSeparators[$i - 1], $bucketSeparators[$i + 1] );
+			$bucketSeparators[$i] = $this->getNearestNiceNumber( $bucketSeparators[$i],
+				$bucketSeparators[$i - 1], $bucketSeparators[$i + 1] );
 		}
-		$bucketSeparators[count( $bucketSeparators ) - 1] = $this->getNearestNiceNumber( $bucketSeparators[count( $bucketSeparators ) - 1], $bucketSeparators[count( $bucketSeparators ) - 2], null );
+		$bucketSeparators[count( $bucketSeparators ) - 1] = $this->getNearestNiceNumber(
+			$bucketSeparators[count( $bucketSeparators ) - 1],
+			$bucketSeparators[count( $bucketSeparators ) - 2], null );
 
 		$oldSeparatorValue = $bucketSeparators[0];
 		for ( $i = 1; $i < count( $bucketSeparators ); $i++ ) {
@@ -553,14 +606,14 @@ END;
 		}
 
 		$curSeparator = 0;
-		for ($i = 0; $i < count( $numberArray ); $i++) {
+		for ( $i = 0; $i < count( $numberArray ); $i++ ) {
 			if ( $curSeparator < count( $propertyValues ) - 1 ) {
 				$curNumber = $numberArray[$i];
 				while ( $curNumber >= $bucketSeparators[$curSeparator + 1] ) {
 					$curSeparator++;
 				}
 			}
-			$propertyValues[$curSeparator]['numValues']++;
+			$propertyValues[$curSeparator]['numValues'] ++;
 		}
 
 		return $propertyValues;
@@ -603,7 +656,7 @@ END;
 			array_unshift( $filterValues, $noneBucket );
 		}
 
-		foreach( $filterValues as $i => $curBucket ) {
+		foreach ( $filterValues as $i => $curBucket ) {
 			if ( $i > 0 ) {
 				$text .= " &middot; ";
 			}
@@ -611,9 +664,11 @@ END;
 				$curText = $this->printFilterValue( null, ' none' );
 			} else {
 				// number_format() adds in commas for each thousands place.
-				$curText = number_format( $curBucket['lowerNumber'], 0, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
+				$curText = number_format( $curBucket['lowerNumber'], 0, $wgCargoDecimalMark,
+					$wgCargoDigitGroupingCharacter );
 				if ( $curBucket['higherNumber'] != null ) {
-					$curText .= ' - ' . number_format( $curBucket['higherNumber'], 0, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
+					$curText .= ' - ' . number_format( $curBucket['higherNumber'], 0, $wgCargoDecimalMark,
+							$wgCargoDigitGroupingCharacter );
 				}
 			}
 			$curText .= ' (' . $curBucket['numValues'] . ') ';
@@ -640,7 +695,7 @@ END;
 
 		$inputName = "_search_$filter_name";
 
-		$text =<<< END
+		$text = <<< END
 <form method="get">
 
 END;
@@ -667,7 +722,8 @@ END;
 		foreach ( $filter_values as $value => $num_instances ) {
 			if ( $value != '_other' && $value != '_none' ) {
 				$display_value = str_replace( '_', ' ', $value );
-				$text .= "\t\t" . Html::element( 'option', array( 'value' => $display_value ), $display_value ) . "\n";
+				$text .= "\t\t" . Html::element( 'option', array(
+						'value' => $display_value ), $display_value ) . "\n";
 			}
 		}
 
@@ -677,27 +733,25 @@ END;
 
 END;
 
-		$text .= Html::input( null, wfMessage( 'searchresultshead' )->text(), 'submit', array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
+		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
+				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
 		$text .= "</form>\n";
 		return $text;
 	}
 
+	/**
+	 * Appears to be unused
+	 *
+	 * @global Language $wgContLang
+	 * @param string $input_name Used in the HTML name attribute
+	 * @param type $cur_value an array that may contain the keys 'day', 'month' & 'year' with an
+	 * integer value
+	 * @return string
+	 */
 	function printDateInput( $input_name, $cur_value = null ) {
-		$month_names = array(
-			wfMessage( 'january' )->inContentLanguage()->text(),
-			wfMessage( 'february' )->inContentLanguage()->text(),
-			wfMessage( 'march' )->inContentLanguage()->text(),
-			wfMessage( 'april' )->inContentLanguage()->text(),
-			// Needed to avoid using 3-letter abbreviation
-			wfMessage( 'may_long' )->inContentLanguage()->text(),
-			wfMessage( 'june' )->inContentLanguage()->text(),
-			wfMessage( 'july' )->inContentLanguage()->text(),
-			wfMessage( 'august' )->inContentLanguage()->text(),
-			wfMessage( 'september' )->inContentLanguage()->text(),
-			wfMessage( 'october' )->inContentLanguage()->text(),
-			wfMessage( 'november' )->inContentLanguage()->text(),
-			wfMessage( 'december' )->inContentLanguage()->text()
-		);
+		/** @todo Shouldn't this use the user language? */
+		global $wgContLang;
+		$month_names = $wgContLang->getMonthNamesArray();
 
 		if ( is_array( $cur_value ) && array_key_exists( 'month', $cur_value ) ) {
 			$selected_month = $cur_value['month'];
@@ -705,16 +759,19 @@ END;
 			$selected_month = null;
 		}
 		$text = ' <select name="' . $input_name . "[month]\">\n";
-		global $wgAmericanDates;
+		/** @todo Always ouputs an American Date. Should use global. */
+		# global $wgAmericanDates;
 		foreach ( $month_names as $i => $name ) {
 			// pad out month to always be two digits
-			$month_value = str_pad( $i + 1, 2, "0", STR_PAD_LEFT );
-			$selected_str = ( $i + 1 == $selected_month ) ? "selected" : "";
+			$month_value = str_pad( $i, 2, "0", STR_PAD_LEFT );
+			$selected_str = ( $i == $selected_month ) ? "selected" : "";
 			$text .= "\t<option value=\"$month_value\" $selected_str>$name</option>\n";
 		}
 		$text .= "\t</select>\n";
-		$text .= '<input name="' . $input_name . '[day]" type="text" size="2" value="' . $cur_value['day'] . '" />' . "\n";
-		$text .= '<input name="' . $input_name . '[year]" type="text" size="4" value="' . $cur_value['year'] . '" />' . "\n";
+		$text .= '<input name="' . $input_name . '[day]" type="text" size="2" value="' .
+			$cur_value['day'] . '" />' . "\n";
+		$text .= '<input name="' . $input_name . '[year]" type="text" size="4" value="' .
+			$cur_value['year'] . '" />' . "\n";
 		return $text;
 	}
 
@@ -738,12 +795,12 @@ END;
 		$filter_name = urlencode( str_replace( ' ', '_', $f->name ) );
 		$normal_filter = true;
 		if ( count( $filter_values ) == 0 ) {
-			$results_line = '(' . wfMessage( 'cargo-drilldown-novalues' )->text() . ')';
+			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->text() . ')';
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 300 ) {
 			// If it's really big, don't show anything.
-			$results_line = wfMessage( 'cargo-drilldown-toomanyvalues' )->text();
+			$results_line = $this->msg( 'cargo-drilldown-toomanyvalues' )->text();
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
 			$results_line = $this->printComboBoxInput( $filter_name, 0, $filter_values );
@@ -771,7 +828,7 @@ END;
 
 		$header = "";
 		$this->show_single_cat = $wgRequest->getCheck( '_single' );
-		if ( ! $this->show_single_cat ) {
+		if ( !$this->show_single_cat ) {
 			$header .= $this->printTablesList( $tables );
 		}
 		// If there are no fields for this table,
@@ -782,14 +839,17 @@ END;
 			return $header;
 		}
 		$header .= '				<div id="drilldown-header">' . "\n";
-		if ( count ( $this->applied_filters ) > 0 ) {
+		if ( count( $this->applied_filters ) > 0 ) {
 			$tableURL = $this->makeBrowseURL( $this->tableName );
-			$header .= '<a href="' . $tableURL . '" title="' . wfMessage( 'cargo-drilldown-resetfilters' )->text() . '">' . str_replace( '_', ' ', $this->tableName ) . '</a>';
+			$header .= '<a href="' . $tableURL . '" title="' .
+				$this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
+				str_replace( '_', ' ', $this->tableName ) . '</a>';
 		} else {
 			$header .= str_replace( '_', ' ', $this->tableName );
 		}
 		foreach ( $this->applied_filters as $i => $af ) {
-			$header .= ( $i == 0 ) ? " > " : "\n\t\t\t\t\t<span class=\"drilldown-header-value\">&</span> ";
+			$header .= ( $i == 0 ) ? " > " :
+				"\n\t\t\t\t\t<span class=\"drilldown-header-value\">&</span> ";
 			$filter_label = str_replace( '_', ' ', $af->filter->name );
 			// Add an "x" to remove this filter, if it has more
 			// than one value.
@@ -798,35 +858,50 @@ END;
 				array_splice( $temp_filters_array, $i, 1 );
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 				array_splice( $temp_filters_array, $i, 0 );
-				$header .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' . wfMessage( 'cargo-drilldown-removefilter' )->text() . '"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a> : ';
+				$header .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
+					$this->msg( 'cargo-drilldown-removefilter' )->text() .
+					'"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a> : ';
 			} else {
 				$header .= "$filter_label: ";
 			}
 			foreach ( $af->values as $j => $fv ) {
-				if ( $j > 0 ) { $header .= ' <span class="drilldown-or">' . wfMessage( 'cargo-drilldown-or' )->text() . '</span> '; }
+				if ( $j > 0 ) {
+					$header .= ' <span class="drilldown-or">' .
+						$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+				}
 				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
 				$temp_filters_array = $this->applied_filters;
 				$removed_values = array_splice( $temp_filters_array[$i]->values, $j, 1 );
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
-				$header .= "\n	" . '				<span class="drilldown-header-value">' . $filter_text . '</span> <a href="' . $remove_filter_url . '" title="' . wfMessage( 'cargo-drilldown-removefilter' )->text() . '"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a>';
+				$header .= "\n	" . '				<span class="drilldown-header-value">' .
+					$filter_text . '</span> <a href="' . $remove_filter_url . '" title="' .
+					$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
+					$cgScriptPath . '/drilldown/resources/filter-x.png" /></a>';
 			}
 
 			if ( $af->search_terms != null ) {
 				foreach ( $af->search_terms as $j => $search_term ) {
-					if ( $j > 0 ) { $header .= ' <span class="drilldown-or">' . wfMessage( 'cargo-drilldown-or' )->text() . '</span> '; }
+					if ( $j > 0 ) {
+						$header .= ' <span class="drilldown-or">' .
+							$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+					}
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
-					$header .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term . '\'</span> <a href="' . $remove_filter_url . '" title="' . wfMessage( 'cargo-drilldown-removefilter' )->text() . '"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /> </a>';
+					$header .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
+						'\'</span> <a href="' . $remove_filter_url . '" title="' .
+						$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
+						$cgScriptPath . '/drilldown/resources/filter-x.png" /> </a>';
 				}
 			} elseif ( $af->lower_date != null || $af->upper_date != null ) {
-				$header .= "\n\t" . Html::element( 'span', array( 'class' => 'drilldown-header-value' ), $af->lower_date_string . " - " . $af->upper_date_string );
+				$header .= "\n\t" . Html::element( 'span', array( 'class' => 'drilldown-header-value' ),
+						$af->lower_date_string . " - " . $af->upper_date_string );
 			}
 		}
 		$header .= "</div>\n";
-		$drilldown_description = wfMessage( 'cargo-drilldown-docu' )->text();
+		$drilldown_description = $this->msg( 'cargo-drilldown-docu' )->text();
 		$header .= "				<p>$drilldown_description</p>\n";
 		// Display every filter, each on its own line; each line will
 		// contain the possible values, and, in parentheses, the
@@ -841,7 +916,8 @@ END;
 			// Some field types shouldn't get a filter at all.
 			if ( in_array( $fieldType, array( 'URL', 'Wikitext' ) ) ) {
 				continue;
-			} elseif ( $fieldType == 'Text' && $fieldDescription->mSize != null && $fieldDescription->mSize > 100 ) {
+			} elseif ( $fieldType == 'Text' && $fieldDescription->mSize != null &&
+				$fieldDescription->mSize > 100 ) {
 				continue;
 			}
 			$f = new CargoFilter();
@@ -953,11 +1029,11 @@ END;
 	 * OutputPage
 	 *
 	 * @param OutputPage $out OutputPage to print to
-	 * @param Skin $skin User skin to use
+	 * @param Skin $skin User skin to use - Unused
 	 * @param Database $dbr Database (read) connection to use
 	 * @param int $res Result pointer
-	 * @param int $num Number of available result rows
-	 * @param int $offset Paging offset
+	 * @param int $num Number of available result rows - Unused
+	 * @param int $offset Paging offset - Unused
 	 */
 	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$valuesTable = array();
@@ -975,6 +1051,7 @@ END;
 	}
 
 	function openList( $offset ) {
+
 	}
 
 	function closeList() {

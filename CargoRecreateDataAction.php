@@ -54,7 +54,8 @@ class CargoRecreateDataAction {
 	 */
 	static function displayTab( SkinTemplate $obj, array &$content_actions ) {
 		$title = $obj->getTitle();
-		if ( !$title || $title->getNamespace() !== NS_TEMPLATE || !$title->userCan( 'recreatecargodata' ) ) {
+		if ( !$title || $title->getNamespace() !== NS_TEMPLATE ||
+			!$title->userCan( 'recreatecargodata' ) ) {
 			return true;
 		}
 		$request = $obj->getRequest();

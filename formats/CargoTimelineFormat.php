@@ -9,17 +9,24 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 		return array( 'width', 'height', );
 	}
 
+	/**
+	 *
+	 * @param array $sqlQueries
+	 * @param array $displayParams
+	 * @param array $querySpecificParams Unused
+	 * @return type
+	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$this->mOutput->addModules( 'ext.cargo.timeline' );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'timeline';
 		//$queryParams['color'] = array();
-		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			if ( $querySpecificParams != null ) {
-				// Add any handling here.
-			}
-		}
+		/* foreach ( $sqlQueries as $i => $sqlQuery ) {
+		  if ( $querySpecificParams != null ) {
+		  // Add any handling here.
+		  }
+		  } */
 
 		if ( array_key_exists( 'height', $displayParams ) ) {
 			$height = $displayParams['height'];

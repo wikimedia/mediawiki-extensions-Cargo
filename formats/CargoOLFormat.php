@@ -10,6 +10,14 @@ class CargoOLFormat extends CargoListFormat {
 		return array( 'columns' );
 	}
 
+	/**
+	 *
+	 * @param array $valuesTable Unused
+	 * @param array $formattedValuesTable
+	 * @param array $fieldDescriptions
+	 * @param array $displayParams
+	 * @return string HTML
+	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( array_key_exists( 'columns', $displayParams ) ) {
 			$numColumns = max( $displayParams['columns'], 1 );
@@ -31,7 +39,8 @@ class CargoOLFormat extends CargoListFormat {
 		}
 		$text = Html::rawElement( 'ol', $olAttribs, $text );
 		if ( $numColumns > 1 ) {
-			$text = Html::rawElement( 'div', array( 'style' => "-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;" ), $text );
+			$text = Html::rawElement( 'div',
+					array( 'style' => "-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;" ), $text );
 		}
 		return $text;
 	}
