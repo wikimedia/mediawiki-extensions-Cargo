@@ -18,24 +18,27 @@ class CargoAppliedFilter {
 	var $lower_date_string;
 	var $upper_date_string;
 
-	static function create( $filter, $values, $search_terms = null, $lower_date = null, $upper_date = null ) {
+	static function create( $filter, $values, $search_terms = null, $lower_date = null,
+		$upper_date = null ) {
 		$af = new CargoAppliedFilter();
 		$af->filter = $filter;
 		if ( $search_terms != null ) {
 			$af->search_terms = array();
-			foreach( $search_terms as $search_term ) {
+			foreach ( $search_terms as $search_term ) {
 				$af->search_terms[] = htmlspecialchars( str_replace( '_', ' ', $search_term ) );
 			}
 		}
 		if ( $lower_date != null ) {
 			$af->lower_date = $lower_date;
-			$af->lower_date_string = CargoDrilldownUtils::monthToString( $lower_date['month'] ) . " " . $lower_date['day'] . ", " . $lower_date['year'];
+			$af->lower_date_string = CargoDrilldownUtils::monthToString( $lower_date['month'] ) .
+				" " . $lower_date['day'] . ", " . $lower_date['year'];
 		}
 		if ( $upper_date != null ) {
 			$af->upper_date = $upper_date;
-			$af->upper_date_string = CargoDrilldownUtils::monthToString( $upper_date['month'] ) . " " . $upper_date['day'] . ", " . $upper_date['year'];
+			$af->upper_date_string = CargoDrilldownUtils::monthToString( $upper_date['month'] ) .
+				" " . $upper_date['day'] . ", " . $upper_date['year'];
 		}
-		if ( ! is_array( $values ) ) {
+		if ( !is_array( $values ) ) {
 			$values = array( $values );
 		}
 		foreach ( $values as $val ) {
@@ -80,20 +83,25 @@ class CargoAppliedFilter {
 			}
 		}
 		if ( $this->lower_date != null ) {
-			$date_string = $this->lower_date['year'] . "-" . $this->lower_date['month'] . "-" . $this->lower_date['day'];
+			$date_string = $this->lower_date['year'] . "-" . $this->lower_date['month'] . "-" .
+				$this->lower_date['day'];
 			$sql .= "date($value_field) >= date('$date_string') ";
 		}
 		if ( $this->upper_date != null ) {
 			if ( $this->lower_date != null ) {
 				$sql .= " AND ";
 			}
-			$date_string = $this->upper_date['year'] . "-" . $this->upper_date['month'] . "-" . $this->upper_date['day'];
+			$date_string = $this->upper_date['year'] . "-" . $this->upper_date['month'] . "-" .
+				$this->upper_date['day'];
 			$sql .= "date($value_field) <= date('$date_string') ";
 		}
 		foreach ( $this->values as $i => $fv ) {
-			if ( $i > 0 ) { $sql .= " OR "; }
+			if ( $i > 0 ) {
+				$sql .= " OR ";
+			}
 			if ( $fv->is_other ) {
-				$checkNullOrEmptySql = "$value_field IS NULL " . ( $wgDBtype == 'postgres' ? '' : "OR $value_field = '' ");
+				$checkNullOrEmptySql = "$value_field IS NULL " . ( $wgDBtype == 'postgres' ? '' :
+						"OR $value_field = '' ");
 				$notOperatorSql = ( $wgDBtype == 'postgres' ? "not" : "!" );
 				$sql .= "($notOperatorSql ($checkNullOrEmptySql ";
 				foreach ( $this->filter->possible_applied_filters as $paf ) {
@@ -101,7 +109,8 @@ class CargoAppliedFilter {
 				}
 				$sql .= "))";
 			} elseif ( $fv->is_none ) {
-				$checkNullOrEmptySql = ( $wgDBtype == 'postgres' ? '' : "$value_field = '' OR ") . "$value_field IS NULL";
+				$checkNullOrEmptySql = ( $wgDBtype == 'postgres' ? '' : "$value_field = '' OR ") .
+					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $fv->is_numeric ) {
 				if ( $fv->lower_limit && $fv->upper_limit ) {
@@ -114,7 +123,8 @@ class CargoAppliedFilter {
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' ) {
 				$date_field = $this->filter->name;
 				if ( $fv->time_period == 'day' ) {
-					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} AND DAYOFMONTH($date_field) = {$fv->day} ";
+					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} "
+						. "AND DAYOFMONTH($date_field) = {$fv->day} ";
 				} elseif ( $fv->time_period == 'month' ) {
 					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} ";
 				} elseif ( $fv->time_period == 'year' ) {
@@ -125,7 +135,7 @@ class CargoAppliedFilter {
 				}
 			} else {
 				$value = $fv->text;
-				$sql .= "$value_field = '{$cdb->strencode($value)}'";
+				$sql .= "$value_field = '{$cdb->strencode( $value )}'";
 			}
 		}
 		$sql .= ")";

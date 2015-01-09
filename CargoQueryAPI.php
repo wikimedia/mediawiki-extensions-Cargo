@@ -26,7 +26,8 @@ class CargoQueryAPI extends ApiBase {
 			$this->dieUsage( 'The tables must be specified', 'param_substr' );
 		}
 
-		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr );
+		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $orderByStr, $limitStr );
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
@@ -46,8 +47,8 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array (
-			'limit' => array (
+		return array(
+			'limit' => array(
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_DFLT => 50,
 				ApiBase::PARAM_MIN => 1,
@@ -64,7 +65,7 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	protected function getParamDescription() {
-		return array (
+		return array(
 			'tables' => 'The Cargo database table or tables on which to search',
 			'fields' => 'The table field(s) to retrieve',
 			'where' => 'The conditions for the query, corresponding to an SQL WHERE clause',
@@ -76,12 +77,14 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	protected function getDescription() {
-		return 'An SQL-style query used for data tables, provided by the Cargo extension (http://www.mediawiki.org/Extension:Cargo)';
+		return 'An SQL-style query used for data tables, provided by the Cargo extension '
+			. '(http://www.mediawiki.org/Extension:Cargo)';
 	}
 
 	protected function getExamples() {
-		return array (
-			'api.php?action=cargoquery&tables=Items&fields=_pageName=Item,Source,Date=Publication_date&where=Source+LIKE+\'%New%\'&order_by=Date&limit=100'
+		return array(
+			'api.php?action=cargoquery&tables=Items&fields=_pageName=Item,Source,Date=Publication_date'
+			. '&where=Source+LIKE+\'%New%\'&order_by=Date&limit=100'
 		);
 	}
 

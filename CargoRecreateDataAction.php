@@ -11,7 +11,7 @@ class CargoRecreateDataAction {
 	 * Return the name of the action this object responds to
 	 * @return String lowercase
 	 */
-	public function getName(){
+	public function getName() {
 		return 'recreatedata';
 	}
 
@@ -19,6 +19,10 @@ class CargoRecreateDataAction {
 	 * The main action entry point. Do all output for display and send it to the context
 	 * output.
 	 * $this->getOutput(), etc.
+	 *
+	 * @param string $action
+	 * @param Article $article
+	 * @return boolean
 	 */
 	public static function show( $action, Article $article ) {
 		$title = $article->getTitle();
@@ -42,16 +46,18 @@ class CargoRecreateDataAction {
 	}
 
 	/**
-	 * Adds an "action" (i.e., a tab) to edit the current article with
-	 * a form
+	 * Adds an "action" (i.e., a tab) to recreate the current article's data
+	 *
+	 * @param SkinTemplate $obj
+	 * @param array $content_actions
+	 * @return boolean
 	 */
-	static function displayTab( $obj, &$content_actions ) {
-		global $wgRequest;
-
+	static function displayTab( SkinTemplate $obj, array &$content_actions ) {
 		$title = $obj->getTitle();
-		if ( !$title ) {
+		if ( !$title || $title->getNamespace() !== NS_TEMPLATE || !$title->userCan( 'recreatecargodata' ) ) {
 			return true;
 		}
+		$request = $obj->getRequest();
 
 		// Make sure that this is a template page, that it either
 		// has (or had) a #cargo_declare call or has a #cargo_attach
@@ -61,40 +67,39 @@ class CargoRecreateDataAction {
 			return true;
 		}
 
-		if ( !$title->userCan( 'recreatecargodata' ) ) {
-			return true;
-		}
-
 		// Check if table already exists, and set tab accordingly.
 		if ( CargoUtils::tableExists( $tableName ) ) {
-			$recreateDataTabText = wfMessage( 'recreatedata' )->parse();
+			$recreateDataTabMsg = 'recreatedata';
 		} else {
-			$recreateDataTabText = wfMessage( 'cargo-createdatatable' )->parse();
+			$recreateDataTabMsg = 'cargo-createdatatable';
 		}
 
 		$recreateDataTab = array(
-			'class' => ( $wgRequest->getVal( 'action' ) == 'recreatdata' ) ? 'selected' : '',
-			'text' => $recreateDataTabText,
+			'class' => ( $request->getVal( 'action' ) == 'recreatedata' ) ? 'selected' : '',
+			'text' => $obj->msg( $recreateDataTabMsg )->parse(),
 			'href' => $title->getLocalURL( 'action=recreatedata' )
 		);
 
 		$content_actions['recreatedata'] = $recreateDataTab;
 
-		return true; // always return true, in order not to stop MW's hook processing!
+		return true;
 	}
 
 	/**
 	 * Like displayTab(), but called with a different hook - this one is
 	 * called for the 'Vector' skin, and others.
+	 *
+	 * @param SkinTemplate $obj
+	 * @param array $links
+	 * @return boolean
 	 */
-	static function displayTab2( $obj, &$links ) {
+	static function displayTab2( SkinTemplate $obj, array &$links ) {
 		// The old '$content_actions' array is thankfully just a
 		// sub-array of this one.
 		$views_links = $links['actions'];
 		self::displayTab( $obj, $views_links );
 		$links['actions'] = $views_links;
 		return true;
-
 	}
 
 }

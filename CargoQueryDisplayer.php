@@ -96,9 +96,13 @@ class CargoQueryDisplayer {
 					// this, using array_map().
 					$delimiter = $fieldDescription->mDelimiter;
 					$fieldValues = explode( $delimiter, $value );
-					foreach( $fieldValues as $i => $fieldValue ) {
-						if ( trim( $fieldValue ) == '' ) continue;
-						if ( $i > 0 ) $text .= "$delimiter ";
+					foreach ( $fieldValues as $i => $fieldValue ) {
+						if ( trim( $fieldValue ) == '' ) {
+							continue;
+						}
+						if ( $i > 0 ) {
+							$text .= "$delimiter ";
+						}
 						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
 					}
 				} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
@@ -137,7 +141,8 @@ class CargoQueryDisplayer {
 			global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 			// Can we assume that the decimal mark will be a '.' in the database?
 			$numDecimalPlaces = strlen( $value ) - strrpos( $value, '.' ) - 1;
-			return number_format( $value, $numDecimalPlaces, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
+			return number_format( $value, $numDecimalPlaces, $wgCargoDecimalMark,
+				$wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Page' ) {
 			$title = Title::newFromText( $value );
 			return Linker::link( $title );
@@ -149,7 +154,8 @@ class CargoQueryDisplayer {
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
 		} elseif ( $type == 'URL' ) {
 			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
-				return Html::element( 'a', array( 'href' => $value ), $fieldDescription->mOtherParams['link text'] );
+				return Html::element( 'a', array( 'href' => $value ),
+						$fieldDescription->mOtherParams['link text'] );
 			} else {
 				// Otherwise, do nothing.
 				return $value;
@@ -170,7 +176,7 @@ class CargoQueryDisplayer {
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
 			$seconds = strtotime( $dateValue );
 			// 'o' is better than 'Y' because it does not add
-			// leading zeroes to years with less than four digits.
+			// leading zeroes to years with fewer than four digits.
 			return date( 'o', $seconds );
 		} else { // CargoStore::FULL_PRECISION
 			global $wgAmericanDates;
@@ -209,7 +215,8 @@ class CargoQueryDisplayer {
 		if ( array_key_exists( 'intro', $this->mDisplayParams ) ) {
 			$text .= $this->mDisplayParams['intro'];
 		}
-		$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions, $this->mDisplayParams );
+		$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions,
+			$this->mDisplayParams );
 		if ( array_key_exists( 'outro', $this->mDisplayParams ) ) {
 			$text .= $this->mDisplayParams['outro'];
 		}
@@ -248,7 +255,8 @@ class CargoQueryDisplayer {
 			$queryStringParams[$key] = $value;
 		}
 
-		return Html::rawElement( 'p', null, Linker::link( $vd, wfMessage( 'moredotdotdot' )->parse(), array(), $queryStringParams ) );
+		return Html::rawElement( 'p', null,
+				Linker::link( $vd, wfMessage( 'moredotdotdot' )->parse(), array(), $queryStringParams ) );
 	}
 
 }

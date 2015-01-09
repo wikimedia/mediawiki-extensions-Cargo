@@ -1,14 +1,22 @@
 <?php
+
 /**
  * CargoHooks class
  *
  * @author Yaron Koren
  * @ingroup Cargo
  */
-
 class CargoHooks {
 
-	static function setGlobalJSVariables( &$vars ) {
+	/**
+	 * Add date-related messages to Global JS vars in user language
+	 *
+	 * @global int $wgCargoMapClusteringMinimum
+	 * @param array $vars Global JS vars
+	 * @param OutputPage $out
+	 * @return boolean
+	 */
+	static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
 		global $wgCargoMapClusteringMinimum;
 
 		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
@@ -18,13 +26,33 @@ class CargoHooks {
 		// Built-in arrays already exist for month names, but those
 		// unfortunately are based on the language of the wiki, not
 		// the language of the user.
-		$vars['wgCargoMonthNames'] = array( wfMessage( 'january' )->text(), wfMessage( 'february' )->text(), wfMessage( 'march' )->text(), wfMessage( 'april' )->text(), wfMessage( 'may-long' )->text(), wfMessage( 'june' )->text(), wfMessage( 'july' )->text(), wfMessage( 'august' )->text(), wfMessage( 'september' )->text(), wfMessage( 'october' )->text(), wfMessage( 'november' )->text(), wfMessage( 'december' )->text() );
-		$vars['wgCargoMonthNamesShort'] = array( wfMessage( 'jan' )->text(), wfMessage( 'feb' )->text(), wfMessage( 'mar' )->text(), wfMessage( 'apr' )->text(), wfMessage( 'may' )->text(), wfMessage( 'jun' )->text(), wfMessage( 'jul' )->text(), wfMessage( 'aug' )->text(), wfMessage( 'sep' )->text(), wfMessage( 'oct' )->text(), wfMessage( 'nov' )->text(), wfMessage( 'dec' )->text() );
-		$vars['wgCargoWeekDays'] = array( wfMessage( 'sunday' )->text(), wfMessage( 'monday' )->text(), wfMessage( 'tuesday' )->text(), wfMessage( 'wednesday' )->text(), wfMessage( 'thursday' )->text(), wfMessage( 'friday' )->text(), wfMessage( 'saturday' )->text() );
-		$vars['wgCargoWeekDaysShort'] = array( wfMessage( 'sun' )->text(), wfMessage( 'mon' )->text(), wfMessage( 'tue' )->text(), wfMessage( 'wed' )->text(), wfMessage( 'thu' )->text(), wfMessage( 'fri' )->text(), wfMessage( 'sat' )->text() );
+		$vars['wgCargoMonthNames'] = $out->getLanguage()->getMonthNamesArray();
+		/**
+		 * @todo all these arrays should perhaps be switched to start keys from 1, in order to
+		 * match built-in arrys, such as wgMonthNames.
+		 */
+		array_shift( $vars['wgCargoMonthNames'] ); //start keys from 0
+
+		$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
+		array_shift( $vars['wgCargoMonthNamesShort'] ); //start keys from 0
+
+		$vars['wgCargoWeekDays'] = array();
+		$vars['wgCargoWeekDaysShort'] = array();
+		for ( $i = 1; $i < 8; $i++ ) {
+			$vars['wgCargoWeekDays'][] = $out->getLanguage()->getWeekdayName( $i );
+			$vars['wgCargoWeekDaysShort'][] = $out->getLanguage()->getWeekdayAbbreviation( $i );
+		}
+
 		return true;
 	}
 
+	/**
+	 * Add the "purge cache" tab to actions
+	 *
+	 * @param SkinTemplate $skinTemplate
+	 * @param array $links
+	 * @return boolean
+	 */
 	public static function addPurgeCacheTab( SkinTemplate &$skinTemplate, array &$links ) {
 		// Only add this tab if Semantic MediaWiki (which has its
 		// identical "refresh" tab) is not installed.
@@ -44,6 +72,9 @@ class CargoHooks {
 	}
 
 	/**
+	 * Delete a page
+	 *
+	 * @param int $pageID
 	 * @TODO - move this to a different class, like CargoUtils?
 	 */
 	public static function deletePageFromSystem( $pageID ) {
@@ -85,8 +116,21 @@ class CargoHooks {
 	 *
 	 * We use that hook, instead of 'PageContentSave', because we need
 	 * the page ID to have been set already for newly-created pages.
+	 *
+	 * @global Parser $wgParser
+	 * @param WikiPage $article
+	 * @param User $user Unused
+	 * @param Content $content
+	 * @param string $summary Unused
+	 * @param boolean $isMinor Unused
+	 * @param null $isWatch Unused
+	 * @param null $section Unused
+	 * @param int $flags Unused
+	 * @param Status $status Unused
+	 * @return boolean
 	 */
-	public static function onPageContentSaveComplete( $article, $user, $content, $summary, $isMinor, $isWatch, $section, $flags, $status ) {
+	public static function onPageContentSaveComplete( $article, $user, $content, $summary, $isMinor,
+		$isWatch, $section, $flags, $status ) {
 		// First, delete the existing data.
 		$pageID = $article->getID();
 		self::deletePageFromSystem( $pageID );
@@ -141,7 +185,18 @@ class CargoHooks {
 		return true;
 	}
 
-	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User &$user, $oldid, $newid, $reason ) {
+	/**
+	 *
+	 * @param Title $title Unused
+	 * @param Title $newtitle
+	 * @param User $user Unused
+	 * @param int $oldid
+	 * @param int $newid Unused
+	 * @param string $reason Unused
+	 * @return boolean
+	 */
+	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User &$user, $oldid,
+		$newid, $reason ) {
 		// For each main data table to which this page belongs, change
 		// the page name.
 		$newPageName = $newtitle->getPrefixedText();
@@ -162,7 +217,8 @@ class CargoHooks {
 	/**
 	 * Deletes all Cargo data about a page, if the page has been deleted.
 	 */
-	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content, $logEntry ) {
+	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content,
+		$logEntry ) {
 		self::deletePageFromSystem( $id );
 		return true;
 	}
@@ -175,18 +231,24 @@ class CargoHooks {
 		if ( $updater === null ) {
 			global $wgExtNewTables, $wgDBtype;
 			//if ( $wgDBtype == 'mysql' ) {
-				$wgExtNewTables[] = array( 'cargo_tables', "$dir/Cargo.sql" );
-				$wgExtNewTables[] = array( 'cargo_pages', "$dir/Cargo.sql" );
+			$wgExtNewTables[] = array( 'cargo_tables', "$dir/Cargo.sql" );
+			$wgExtNewTables[] = array( 'cargo_pages', "$dir/Cargo.sql" );
 			//}
 		} else {
 			//if ( $updater->getDB()->getType() == 'mysql' ) {
-				$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', "$dir/Cargo.sql", true ) );
-				$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', "$dir/Cargo.sql", true ) );
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', "$dir/Cargo.sql", true ) );
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', "$dir/Cargo.sql", true ) );
 			//}
 		}
 		return true;
 	}
 
+	/**
+	 * Called by a hook in the Admin Links extension.
+	 *
+	 * @param ALTree $adminLinksTree
+	 * @return boolean
+	 */
 	public static function addToAdminLinks( &$adminLinksTree ) {
 		$browseSearchSection = $adminLinksTree->getSection( wfMessage( 'adminlinks_browsesearch' )->text() );
 		$cargoRow = new ALRow( 'cargo' );

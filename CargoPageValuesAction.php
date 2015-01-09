@@ -11,7 +11,7 @@ class CargoPageValuesAction {
 	 * Return the name of the action this object responds to
 	 * @return String lowercase
 	 */
-	public function getName(){
+	public function getName() {
 		return 'pagevalues';
 	}
 
@@ -32,9 +32,16 @@ class CargoPageValuesAction {
 		return true;
 	}
 
-	public static function addLink( $skinTemplate, &$toolbox) {
+	/**
+	 * Add the "Page values" link to the toolbox
+	 *
+	 * @param BaseTemplate $skinTemplate
+	 * @param array $toolbox
+	 * @return boolean
+	 */
+	public static function addLink( BaseTemplate $skinTemplate, array &$toolbox ) {
 		$toolbox['cargo-pagevalues'] = array(
-			'text' => $skinTemplate->getSkin()->getContext()->msg( 'pagevalues' )->text(),
+			'msg' => 'pagevalues',
 			'href' => $skinTemplate->getSkin()->getTitle()->getLocalUrl( array( 'action' => 'pagevalues' ) ),
 			'id' => 't-cargopagevalueslink',
 			'rel' => 'cargo-pagevalues'

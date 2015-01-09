@@ -8,8 +8,14 @@
  */
 
 class CargoRecreateTablesJob extends Job {
-	function __construct( $title, $params = '', $id = 0 ) {
-		parent::__construct( 'cargoRecreateTables', $title, $params, $id );
+
+	/**
+	 *
+	 * @param Title $title
+	 * @param array|bool $params
+	 */
+	function __construct( $title, $params = false ) {
+		parent::__construct( 'cargoRecreateTables', $title, $params );
 	}
 
 	/**
@@ -27,15 +33,21 @@ class CargoRecreateTablesJob extends Job {
 		}
 
 		$templatePageID = $this->title->getArticleID();
-		self::recreateDBTablesForTemplate( $templatePageID );
+		$success = self::recreateDBTablesForTemplate( $templatePageID );
+		wfProfileOut( __METHOD__ );
+		return $success;
 	}
-
 
 	/**
 	 * Drop, and then create again, the database table(s) holding the
 	 * data for this template.
 	 * Why "tables"? Because every field that holds a list of values gets
 	 * its own helper table.
+	 *
+	 * @global string $wgDBtype
+	 * @param int $templatePageID
+	 * @return boolean
+	 * @throws MWException
 	 */
 	public static function recreateDBTablesForTemplate( $templatePageID ) {
 		global $wgDBtype;
@@ -57,7 +69,8 @@ class CargoRecreateTablesJob extends Job {
 			try {
 				$cdb->dropTable( $curTable );
 			} catch ( Exception $e ) {
-				throw new MWException( "Caught exception ($e) while trying to drop Cargo table. Please make sure that your database user account has the DROP permission." );
+				throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
+				. "Please make sure that your database user account has the DROP permission." );
 			}
 			$dbr->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
 		}
@@ -121,7 +134,8 @@ class CargoRecreateTablesJob extends Job {
 		$cdb->query( $createIndexSQL2 );
 		$createIndexSQL3 = "CREATE INDEX page_title_$tableName ON " . $cdb->tableName( $tableName ) . " (_pageTitle)";
 		$cdb->query( $createIndexSQL3 );
-		$createIndexSQL4 = "CREATE INDEX page_namespace_$tableName ON " . $cdb->tableName( $tableName ) . " (_pageNamespace)";
+		$createIndexSQL4 = "CREATE INDEX page_namespace_$tableName ON " . $cdb->tableName( $tableName )
+			. " (_pageNamespace)";
 		$cdb->query( $createIndexSQL4 );
 		$createIndexSQL5 = "CREATE UNIQUE INDEX id_$tableName ON " . $cdb->tableName( $tableName ) . " (_ID)";
 		$cdb->query( $createIndexSQL5 );
@@ -158,7 +172,9 @@ class CargoRecreateTablesJob extends Job {
 		}
 
 		// Finally, store all the info in the cargo_tables table.
-		$dbr->insert( 'cargo_tables', array( 'template_id' => $templatePageID, 'main_table' => $tableName, 'field_tables' => serialize( $fieldTableNames ), 'table_schema' => $tableSchemaString ) );
+		$dbr->insert( 'cargo_tables',
+			array( 'template_id' => $templatePageID, 'main_table' => $tableName,
+			'field_tables' => serialize( $fieldTableNames ), 'table_schema' => $tableSchemaString ) );
 		return true;
 	}
 
@@ -230,7 +246,6 @@ class CargoRecreateTablesJob extends Job {
 					// Should really be 'REAL', with
 					// accompanying handling.
 					return 'TEXT';
-
 			}
 		} else { // 'Text', 'Page', etc.
 			if ( $size == null ) {

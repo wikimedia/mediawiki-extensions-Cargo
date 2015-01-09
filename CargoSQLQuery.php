@@ -29,7 +29,8 @@ class CargoSQLQuery {
 	 * This is newFromValues() instead of __construct() so that an
 	 * object can be created without any values.
 	 */
-	public static function newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr ) {
+	public static function newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
+		$orderByStr, $limitStr ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
 		$sqlQuery = new CargoSQLQuery();
@@ -65,7 +66,8 @@ class CargoSQLQuery {
 	 * Lightweight constructor that just sets the fields, with (essentially)
 	 * no processing.
 	 */
-	public static function newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr, $orderByStr, $limitStr ) {
+	public static function newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
+		$orderByStr, $limitStr ) {
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
 		$sqlQuery->mTableNames = explode( ',', $tablesStr );
@@ -83,7 +85,7 @@ class CargoSQLQuery {
 	 * Gets an array of field names and their aliases from the passed-in
 	 * SQL fragment.
 	 */
-	function setAliasedFieldNames( ) {
+	function setAliasedFieldNames() {
 		$this->mAliasedFieldNames = array();
 		$fieldNames = CargoUtils::smartSplit( ',', $this->mFieldsStr );
 		// Default is "_pageName".
@@ -95,7 +97,8 @@ class CargoSQLQuery {
 		// and require "GROUP BY" instead.
 		foreach ( $fieldNames as $i => $fieldName ) {
 			if ( strtolower( substr( $fieldName, 0, 9 ) ) == 'distinct ' ) {
-				throw new MWException( "Error: The DISTINCT keyword is not allowed by Cargo; please use \"group by=\" instead." );
+				throw new MWException( "Error: The DISTINCT keyword is not allowed by Cargo; "
+				. "please use \"group by=\" instead." );
 			}
 		}
 
@@ -199,7 +202,7 @@ class CargoSQLQuery {
 		$matchedTables = array( $firstTableInJoins );
 		do {
 			$previousNumUnmatchedTables = $numUnmatchedTables;
-			foreach( $this->mCargoJoinConds as $joinCond ) {
+			foreach ( $this->mCargoJoinConds as $joinCond ) {
 				$table1 = $joinCond['table1'];
 				$table2 = $joinCond['table2'];
 				if ( !in_array( $table1, $this->mTableNames ) ) {
@@ -245,9 +248,9 @@ class CargoSQLQuery {
 			$this->mJoinConds[$table2] = array(
 				$cargoJoinCond['joinType'],
 				'cargo__' . $cargoJoinCond['table1'] . '.' .
-					$cargoJoinCond['field1'] . '=' .
-					'cargo__' . $cargoJoinCond['table2'] .
-					'.' . $cargoJoinCond['field2']
+				$cargoJoinCond['field1'] . '=' .
+				'cargo__' . $cargoJoinCond['table2'] .
+				'.' . $cargoJoinCond['field2']
 			);
 		}
 	}
@@ -297,7 +300,8 @@ class CargoSQLQuery {
 					$description->mType = 'Integer';
 				} elseif ( in_array( $probableFunction, array( 'concat', 'lower', 'lcase', 'upper', 'ucase' ) ) ) {
 					// Do nothing.
-				} elseif ( in_array( $probableFunction, array( 'date', 'date_format', 'date_add', 'date_sub', 'date_diff' ) ) ) {
+				} elseif ( in_array( $probableFunction,
+						array( 'date', 'date_format', 'date_add', 'date_sub', 'date_diff' ) ) ) {
 					$description->mType = 'Date';
 				}
 			} else {
@@ -321,7 +325,8 @@ class CargoSQLQuery {
 							}
 						}
 					}
-				} elseif ( strlen( $fieldName ) > 6 && strpos( $fieldName, '__full', strlen( $fieldName ) - 6 ) !== false ) {
+				} elseif ( strlen( $fieldName ) > 6 &&
+					strpos( $fieldName, '__full', strlen( $fieldName ) - 6 ) !== false ) {
 					$fieldName = substr( $fieldName, 0, strlen( $fieldName ) - 6 );
 				}
 				if ( $tableName != null ) {
@@ -434,19 +439,19 @@ class CargoSQLQuery {
 			$tableName = $virtualField['tableName'];
 
 			$likePattern1 = "/\b$tableName\.$fieldName(\s*HOLDS LIKE\s*)/";
-			$foundLikeMatch1 = preg_match( $likePattern1, $this->mWhereStr, $matches);
+			$foundLikeMatch1 = preg_match( $likePattern1, $this->mWhereStr, $matches );
 			$foundLikeMatch2 = $foundMatch1 = $foundMatch2 = false;
 			if ( !$foundLikeMatch1 ) {
 				$likePattern2 = "/\b$fieldName(\s*HOLDS LIKE\s*)/";
-				$foundLikeMatch2 = preg_match( $likePattern2, $this->mWhereStr, $matches);
+				$foundLikeMatch2 = preg_match( $likePattern2, $this->mWhereStr, $matches );
 			}
 
 			if ( !$foundLikeMatch1 && !$foundLikeMatch2 ) {
 				$pattern1 = "/\b$tableName\.$fieldName(\s*HOLDS\s*)?/";
-				$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches);
+				$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
 				if ( !$foundMatch1 ) {
 					$pattern2 = "/\b$fieldName(\s*HOLDS\s*)?/";
-					$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches);
+					$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
 				}
 			}
 
@@ -465,9 +470,11 @@ class CargoSQLQuery {
 					'field2' => '_rowID'
 				);
 				if ( $foundLikeMatch1 ) {
-					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value LIKE ", $this->mWhereStr );
+					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value LIKE ",
+						$this->mWhereStr );
 				} elseif ( $foundLikeMatch2 ) {
-					$this->mWhereStr = preg_replace( $likePattern2, "$fieldTableName._value LIKE ", $this->mWhereStr );
+					$this->mWhereStr = preg_replace( $likePattern2, "$fieldTableName._value LIKE ",
+						$this->mWhereStr );
 				} elseif ( $foundMatch1 ) {
 					$this->mWhereStr = preg_replace( $pattern1, "$fieldTableName._value=", $this->mWhereStr );
 				} elseif ( $foundMatch2 ) {
@@ -481,7 +488,7 @@ class CargoSQLQuery {
 		foreach ( $this->mCargoJoinConds as $i => $joinCond ) {
 			// We only handle 'HOLDS' here - no joining on
 			// 'HOLDS LIKE'.
-			if ( ! array_key_exists( 'holds', $joinCond ) ) {
+			if ( !array_key_exists( 'holds', $joinCond ) ) {
 				continue;
 			}
 
@@ -526,12 +533,12 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
 			$pattern1 = "/\b$tableName\.$fieldName\b/";
-			$foundMatch1 = preg_match( $pattern1, $this->mGroupByStr, $matches);
+			$foundMatch1 = preg_match( $pattern1, $this->mGroupByStr, $matches );
 			$pattern2 = "/\b$fieldName\b/";
 			$foundMatch2 = false;
 
 			if ( !$foundMatch1 ) {
-				$foundMatch2 = preg_match( $pattern2, $this->mGroupByStr, $matches);
+				$foundMatch2 = preg_match( $pattern2, $this->mGroupByStr, $matches );
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
@@ -598,12 +605,12 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
 			$pattern1 = "/\b$tableName\.$fieldName\b/";
-			$foundMatch1 = preg_match( $pattern1, $this->mOrderByStr, $matches);
+			$foundMatch1 = preg_match( $pattern1, $this->mOrderByStr, $matches );
 			$pattern2 = "/\b$fieldName\b/";
 			$foundMatch2 = false;
 
 			if ( !$foundMatch1 ) {
-				$foundMatch2 = preg_match( $pattern2, $this->mOrderByStr, $matches);
+				$foundMatch2 = preg_match( $pattern2, $this->mOrderByStr, $matches );
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
@@ -693,29 +700,33 @@ class CargoSQLQuery {
 			$fieldName = $coordinateField['fieldName'];
 			$tableName = $coordinateField['tableName'];
 			$pattern1 = "/\b$tableName\.$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
-			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches);
+			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
 			if ( !$foundMatch1 ) {
 				$pattern2 = "/\b$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
-				$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches);
+				$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				// If no "NEAR", throw an error.
 				if ( count( $matches ) != 3 ) {
-					throw new MWException( "Error: operator for the virtual coordinates field '$tableName.$fieldName' must be 'NEAR'." );
+					throw new MWException( "Error: operator for the virtual coordinates field "
+					. "'$tableName.$fieldName' must be 'NEAR'." );
 				}
 				$coordinatesAndDistance = explode( ',', $matches[2] );
 				if ( count( $coordinatesAndDistance ) != 3 ) {
-					throw new MWException( "Error: value for the 'NEAR' operator must be of the form \"(latitude, longitude, distance)\"." );
+					throw new MWException( "Error: value for the 'NEAR' operator must be of the form "
+					. "\"(latitude, longitude, distance)\"." );
 				}
 				list( $latitude, $longitude, $distance ) = $coordinatesAndDistance;
 				$distanceComponents = explode( ' ', trim( $distance ) );
 				if ( count( $distanceComponents ) != 2 ) {
-					throw new MWException( "Error: the third argument for the 'NEAR' operator, representing the distance, must be of the form \"number unit\"." );
+					throw new MWException( "Error: the third argument for the 'NEAR' operator, "
+					. "representing the distance, must be of the form \"number unit\"." );
 				}
 				list( $distanceNumber, $distanceUnit ) = $distanceComponents;
 				$distanceNumber = trim( $distanceNumber );
 				$distanceUnit = trim( $distanceUnit );
-				list( $latDistance, $longDistance ) = self::distanceToDegrees( $distanceNumber, $distanceUnit, $latitude );
+				list( $latDistance, $longDistance ) = self::distanceToDegrees( $distanceNumber, $distanceUnit,
+						$latitude );
 				// There are much better ways to do this, but
 				// for now, just make a "bounding box" instead
 				// of a bounding circle.
@@ -745,7 +756,8 @@ class CargoSQLQuery {
 		} elseif ( in_array( $distanceUnit, array( 'miles', 'mi' ) ) ) {
 			$distanceInKM = $distanceNumber * 1.60934;
 		} else {
-			throw new MWException( "Error: distance for 'NEAR' operator must be in either miles or kilometers (\"$distanceUnit\" specified)." );
+			throw new MWException( "Error: distance for 'NEAR' operator must be in either miles or "
+			. "kilometers (\"$distanceUnit\" specified)." );
 		}
 		// The calculation of distance to degrees latitude is
 		// essentially the same wherever you are on the globe, although
@@ -764,7 +776,9 @@ class CargoSQLQuery {
 		} else {
 			$latNum = CargoStore::coordinatePartToNumber( $latString );
 		}
-		if ( $latIsNegative ) $latNum *= -1;
+		if ( $latIsNegative ) {
+			$latNum *= -1;
+		}
 
 		$lengthOfOneDegreeLongitude = cos( deg2rad( $latNum ) ) * 111.321;
 		$longDistance = $distanceInKM / $lengthOfOneDegreeLongitude;
@@ -782,11 +796,11 @@ class CargoSQLQuery {
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 			$fieldDescription = $this->mFieldDescriptions[$alias];
 			if ( ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ) &&
-			// Make sure this is an actual field and not a call
-			// to a function, like DATE_FORMAT(), by checking for
-			// the presence of '(' and ')' - there's probably a
-			// more elegant way to do this.
-			( strpos( $fieldName, '(' ) == false ) && ( strpos( $fieldName, ')' ) == false ) ) {
+				// Make sure this is an actual field and not a call
+				// to a function, like DATE_FORMAT(), by checking for
+				// the presence of '(' and ')' - there's probably a
+				// more elegant way to do this.
+				( strpos( $fieldName, '(' ) == false ) && ( strpos( $fieldName, ')' ) == false ) ) {
 				$dateFields[] = $fieldName;
 			}
 		}
@@ -821,7 +835,7 @@ class CargoSQLQuery {
 		$cdb = CargoUtils::getDB();
 
 		foreach ( $this->mTableNames as $tableName ) {
-			if ( ! $cdb->tableExists( $tableName ) ) {
+			if ( !$cdb->tableExists( $tableName ) ) {
 				throw new MWException( "Error: no database table exists for \"$tableName\"." );
 			}
 		}
@@ -841,14 +855,15 @@ class CargoSQLQuery {
 			$realAliasedFieldNames['"' . $alias . '"'] = $fieldName;
 		}
 
-		$res = $cdb->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__, $selectOptions, $this->mJoinConds );
+		$res = $cdb->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
+			$selectOptions, $this->mJoinConds );
 
 		// Is there a more straightforward way of turning query
 		// results into an array?
 		$resultArray = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$resultsRow = array();
-			foreach( $this->mAliasedFieldNames as $alias => $fieldName ) {
+			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 				// Escape any HTML, to avoid JavaScript
 				// injections and the like.
 				$resultsRow[$alias] = htmlspecialchars( $row[$alias] );

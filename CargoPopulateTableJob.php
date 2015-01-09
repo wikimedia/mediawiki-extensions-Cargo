@@ -8,8 +8,14 @@
  */
 
 class CargoPopulateTableJob extends Job {
-	function __construct( $title, $params = '', $id = 0 ) {
-		parent::__construct( 'cargoPopulateTable', $title, $params, $id );
+
+	/**
+	 *
+	 * @param Title $title
+	 * @param array|bool $params
+	 */
+	function __construct( $title, $params = false ) {
+		parent::__construct( 'cargoPopulateTable', $title, $params );
 	}
 
 	/**

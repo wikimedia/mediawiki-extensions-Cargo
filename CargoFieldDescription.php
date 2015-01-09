@@ -18,14 +18,17 @@ class CargoFieldDescription {
 
 	/**
 	 * Initializes from a string within the #cargo_declare function.
+	 *
+	 * @param string $fieldDescriptionStr
+	 * @return \CargoFieldDescription
 	 */
 	static function newFromString( $fieldDescriptionStr ) {
 		$fieldDescription = new CargoFieldDescription();
 
-		if ( strpos( $fieldDescriptionStr, 'List') === 0 ) {
+		if ( strpos( $fieldDescriptionStr, 'List' ) === 0 ) {
 			$matches = array();
-			$foundMatch = preg_match( '/List \((.*)\) of (.*)/', $fieldDescriptionStr, $matches);
-			if (! $foundMatch) {
+			$foundMatch = preg_match( '/List \((.*)\) of (.*)/', $fieldDescriptionStr, $matches );
+			if ( !$foundMatch ) {
 				// Return a true error message here?
 				return null;
 			}
@@ -36,7 +39,7 @@ class CargoFieldDescription {
 
 		// There may be additional parameters, in/ parentheses.
 		$matches = array();
-		$foundMatch2 = preg_match( '/(.*)\s*\((.*)\)/', $fieldDescriptionStr, $matches);
+		$foundMatch2 = preg_match( '/(.*)\s*\((.*)\)/', $fieldDescriptionStr, $matches );
 		if ( $foundMatch2 ) {
 			$fieldDescriptionStr = trim( $matches[1] );
 			$extraParamsString = $matches[2];
@@ -66,6 +69,11 @@ class CargoFieldDescription {
 		return $fieldDescription;
 	}
 
+	/**
+	 *
+	 * @param array $descriptionData
+	 * @return \CargoFieldDescription
+	 */
 	static function newFromDBArray( $descriptionData ) {
 		$fieldDescription = new CargoFieldDescription();
 		foreach ( $descriptionData as $param => $value ) {
@@ -86,6 +94,10 @@ class CargoFieldDescription {
 		return $fieldDescription;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	function toDBArray() {
 		$descriptionData = array();
 		$descriptionData['type'] = $this->mType;

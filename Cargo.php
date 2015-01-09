@@ -8,11 +8,11 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-define( 'CARGO_VERSION', '0.5' );
+define( 'CARGO_VERSION', '0.5.1' );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
-	'name'	=> 'Cargo',
+	'name' => 'Cargo',
 	'version' => CARGO_VERSION,
 	'author' => 'Yaron Koren',
 	'url' => '',
