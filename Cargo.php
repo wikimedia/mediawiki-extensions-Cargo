@@ -8,14 +8,14 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-define( 'CARGO_VERSION', '0.5.2' );
+define( 'CARGO_VERSION', '0.5.1' );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'Cargo',
 	'version' => CARGO_VERSION,
 	'author' => 'Yaron Koren',
-	'url' => '',
+	'url' => 'https://www.mediawiki.org/wiki/Extension:Cargo',
 	'descriptionmsg' => 'cargo-desc',
 );
 
