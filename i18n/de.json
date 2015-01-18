@@ -1,0 +1,31 @@
+{
+	"@metadata": {
+		"authors": [
+			"Metalhead64"
+		]
+	},
+	"recreatedata": "Daten erneut erstellen",
+	"action-recreatecargodata": "Cargo-Daten erneut zu erstellen",
+	"action-deletecargodata": "Cargo-Daten zu löschen",
+	"cargo-createdatatable": "Datentabelle erstellen",
+	"cargo-recreatedata-success": "Die Daten werden neu erstellt.",
+	"viewdata": "Daten ansehen",
+	"cargotables": "Cargo-Tabellen",
+	"cargo-cargotables-tablelist": "Die folgenden Tabellen sind definiert:",
+	"cargo-cargotables-viewtable": "Tabelle ansehen: $1",
+	"cargo-cargotables-viewtablelink": "Tabelle ansehen",
+	"deletecargotable": "Cargo-Tabelle löschen",
+	"pagevalues": "Seitenwerte",
+	"cargo-pagevaluesfor": "Seitenwerte für „$1“",
+	"cargo-pagevalues-tablevalues": "Werte von „$1“",
+	"drilldown": "Drilldown",
+	"cargo-drilldown-choosetable": "Eine Tabelle auswählen",
+	"cargo-drilldown-filterbyvalue": "Filter von diesem Wert",
+	"cargo-drilldown-or": "oder",
+	"cargo-drilldown-removefilter": "Diesen Filter entfernen",
+	"cargo-drilldown-resetfilters": "Filter zurücksetzen",
+	"cargo-viewcsv": "CSV ansehen",
+	"cargo-viewjson": "JSON ansehen",
+	"cargo-purgecache": "Cache leeren",
+	"specialpages-group-cargo": "Cargo"
+}

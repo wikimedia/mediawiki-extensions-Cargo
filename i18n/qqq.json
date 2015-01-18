@@ -1,7 +1,5 @@
 {
-	"@metadata": {
-		"authors": []
-	},
+	"@metadata": [],
 	"cargo-desc": "{{desc|name=Cargo|url=http://www.mediawiki.org/wiki/Extension:Cargo}}",
 	"cargo-definestable": "A description of a template, that is displayed on that template's page.",
 	"cargo-tablenotcreated": "A notice to the user, displayed on a template page.",
