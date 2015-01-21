@@ -2,7 +2,7 @@ CREATE TABLE /*_*/cargo_tables (
 	template_id int NOT NULL,
 	main_table varchar(200) NOT NULL,
 	field_tables varchar(200) NOT NULL,
-	table_schema varchar(600) NOT NULL
+	table_schema BLOB NOT NULL
 ) /*$wgDBTableOptions*/;
 
 CREATE UNIQUE INDEX cargo_tables_template_id ON /*_*/cargo_tables (template_id);
