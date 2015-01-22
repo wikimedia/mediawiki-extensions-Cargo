@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Liuxinyu970226"
+		]
+	},
+	"recreatedata": "重新建立資料",
+	"action-recreatecargodata": "重新建立Cargo資料",
+	"action-deletecargodata": "刪除Cargo資料",
+	"cargo-recreatedata-success": "資料將被重新建立。",
+	"viewdata": "檢視資料",
+	"cargo-purgecache": "清除快取",
+	"specialpages-group-cargo": "Cargo"
+}

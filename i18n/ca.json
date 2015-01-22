@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Fitoschido"
+		]
+	},
+	"cargo-definestable": "Aquesta plantilla defineix la taula «$1».",
+	"cargo-tablenotcreated": "Encara no s’ha creat aquesta tabla.",
+	"cargo-addsrows": "Aquesta plantilla afegeix fileres a la taula «$1».",
+	"recreatedata": "Recrea les dades",
+	"action-recreatecargodata": "recrea les dades del Cargo",
+	"action-deletecargodata": "suprimeix les dades del Cargo",
+	"cargo-createdatatable": "Crea la taula de dades",
+	"cargo-cargotables-tablenotfound": "No s’ha trobat la taula «$1» en la base de dades del Cargo.",
+	"cargo-drilldown-choosetable": "Trieu una taula",
+	"cargo-drilldown-or": "o bé",
+	"cargo-drilldown-novalues": "No hi ha cap valor per a aquest filtre",
+	"cargo-viewcsv": "Mostra el CSV",
+	"cargo-viewjson": "Mostra el JSON",
+	"specialpages-group-cargo": "Cargo"
+}
