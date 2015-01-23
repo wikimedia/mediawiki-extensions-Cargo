@@ -33,12 +33,13 @@ class CargoDrilldownUtils {
 	 * @todo This function should be replaced with direct calls to Language::getMonthName()
 	 */
 	static function monthToString( $month ) {
-		global $wgLang;
-		if ( !is_int( $month ) || $month < 1 || $month > 12 ) {
+		$monthInt = intval( $month );
+		if ( $monthInt < 1 || $monthInt > 12 ) {
 			return false;
 		}
 
-		return $wgLang->getMonthName( $month );
+		global $wgLang;
+		return $wgLang->getMonthName( $monthInt );
 	}
 
 	/**
