@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Robin0van0der0vliet"
+		]
+	},
+	"cargo-cargotables-viewtablelink": "Tabel bekijken",
+	"pagevalues": "Paginawaarden",
+	"cargo-pagevalues-tablevalues": "\"$1\" waarden",
+	"cargo-drilldown-or": "of",
+	"cargo-viewcsv": "CSV bekijken",
+	"cargo-viewjson": "JSON bekijken"
+}
