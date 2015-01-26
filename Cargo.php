@@ -232,6 +232,7 @@ function cargoRegisterParserFunctions( &$parser ) {
 	return true;
 }
 
+$wgCargoFieldTypes = array( 'Page', 'Text', 'Integer', 'Float', 'Date', 'Datetime', 'Boolean', 'Coordinates', 'Wikitext', 'File' );
 $wgCargoDecimalMark = '.';
 $wgCargoDigitGroupingCharacter = ',';
 $wgCargoRecurringEventMaxInstances = 100;
