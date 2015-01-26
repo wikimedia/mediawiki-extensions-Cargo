@@ -19,7 +19,12 @@ class CargoViewData extends SpecialPage {
 		$this->setHeaders();
 		$out = $this->getOutput();
 		$out->addModuleStyles( 'ext.cargo.main' );
-		$rep = new ViewDataPage();
+		try {
+			$rep = new ViewDataPage();
+		} catch ( MWException $e ) {
+			$out->addWikiText( CargoUtils::formatError( $e->getMessage() ) );
+			return;
+		}
 		return $rep->execute( $query );
 	}
 
@@ -39,6 +44,14 @@ class ViewDataPage extends QueryPage {
 		$joinOnStr = $req->getVal( 'join_on' );
 		$groupByStr = $req->getVal( 'group_by' );
 		$orderByStr = $req->getVal( 'order_by' );
+
+		// For now, exit with an error message if there was no query
+		// set ('tables' is all that is necessary for a query).
+		// @TODO - if no query is set, display an interface for
+		// creating a query, in the manner of Special:Ask.
+		if ( $tablesStr == '' ) {
+			throw new MWException( "A Cargo query must be set in the URL query string." );
+		}
 
 		$limitStr = null;
 
