@@ -44,7 +44,12 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		foreach ( $valuesTable as $row ) {
 			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions );
 		}
-		return CargoUtils::smartParse( $text, $this->mParser );
+		global $wgTitle;
+		if ( $wgTitle->isSpecialPage() ) {
+			return CargoUtils::smartParse( $text, $this->mParser );
+		} else {
+			return $text;
+		}
 	}
 
 }

@@ -99,13 +99,24 @@ class CargoQuery {
 		// Finally, do the display.
 		$text = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
 
+		// The 'template' format gets special parsing, because
+		// it can be used to display a larger component, like a table,
+		// which means that everything needs to be parsed together
+		// instead of one instance at a time. Also, the template will
+		// contain wikitext, not HTML.
+		$displayHTML = ( $format != 'template' );
+
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
 		if ( count( $queryResults ) == $sqlQuery->mQueryLimit ) {
-			$text .= $queryDisplayer->viewMoreResultsLink();
+			$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML );
 		}
 
-		return $parser->insertStripItem( $text, $parser->mStripState );
+		if ( $displayHTML ) {
+			return $parser->insertStripItem( $text, $parser->mStripState );
+		} else {
+			return array( $text, 'noparse' => false );
+		}
 	}
 
 }
