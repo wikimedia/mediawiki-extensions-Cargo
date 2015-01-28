@@ -4,5 +4,8 @@
 			"Subi"
 		]
 	},
-	"cargo-drilldown-or": "edo"
+	"cargo-cargotables-viewtablelink": "Ikusi taula",
+	"cargo-drilldown-or": "edo",
+	"cargo-viewcsv": "Ikusi CSV",
+	"cargo-viewjson": "Ikusi JSON"
 }
