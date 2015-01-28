@@ -190,6 +190,11 @@ class CargoUtils {
 			$parser = $wgParser;
 		}
 		$title = $parser->getTitle();
+		if ( is_null( $title ) ) {
+			global $wgTitle;
+			$title = $wgTitle;
+		}
+
 		if ( $title != null && $title->isSpecial( 'RunJobs' ) ) {
 			// Conveniently, if this is called from within a job
 			// being run, the name of the page will be
