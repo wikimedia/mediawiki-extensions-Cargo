@@ -46,7 +46,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$coordinatesFields = array();
 		foreach ( $fieldDescriptions as $field => $description ) {
-			if ( $description['type'] == 'Coordinates' ) {
+			if ( $description->mType == 'Coordinates' ) {
 				$coordinatesFields[] = $field;
 			}
 		}
@@ -79,7 +79,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				if ( !array_key_exists( $fieldName, $fieldDescriptions ) ) {
 					continue;
 				}
-				$fieldType = $fieldDescriptions[$fieldName]['type'];
+				$fieldType = $fieldDescriptions[$fieldName]->mType;
 				if ( $fieldType == 'Coordinates' || $fieldType == 'Coordinates part' ) {
 					// Actually, we can ignore these.
 					continue;
