@@ -799,6 +799,9 @@ class CargoSQLQuery {
 	function handleDateFields() {
 		$dateFields = array();
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
+			if ( !array_key_exists( $alias, $this->mFieldDescriptions ) ) {
+				continue;
+			}
 			$fieldDescription = $this->mFieldDescriptions[$alias];
 			if ( ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ) &&
 				// Make sure this is an actual field and not a call
