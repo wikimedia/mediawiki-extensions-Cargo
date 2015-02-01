@@ -73,7 +73,9 @@ class CargoDisplayMap {
 		list ( $lat, $lon ) = CargoStore::parseCoordinatesString( $pointStr );
 		$valuesTable = array( array( 'Coords  lat' => $lat, 'Coords  lon' => $lon ) );
 		$formattedValuesTable = $valuesTable;
-		$fieldDescriptions = array( 'Coords' => array( 'type' => 'Coordinates' ) );
+		$coordsDesc = new CargoFieldDescription();
+		$coordsDesc->mType = 'Coordinates';
+		$fieldDescriptions = array( 'Coords' => $coordsDesc );
 		$displayParams = array();
 		if ( $heightStr != null ) {
 			$displayParams['height'] = $heightStr;
