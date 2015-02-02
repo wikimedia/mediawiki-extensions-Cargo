@@ -1,16 +1,25 @@
 {
 	"@metadata": {
 		"authors": [
-			"Fitoschido"
+			"Fitoschido",
+			"Toniher"
 		]
 	},
 	"cargo-definestable": "Aquesta plantilla defineix la taula «$1».",
-	"cargo-tablenotcreated": "Encara no s’ha creat aquesta tabla.",
+	"cargo-tablenotcreated": "Encara no s’ha creat aquesta taula.",
 	"cargo-addsrows": "Aquesta plantilla afegeix fileres a la taula «$1».",
 	"recreatedata": "Recrea les dades",
 	"action-recreatecargodata": "recrea les dades del Cargo",
 	"action-deletecargodata": "suprimeix les dades del Cargo",
 	"cargo-createdatatable": "Crea la taula de dades",
+	"viewdata": "Mostra les dades",
+	"cargotables": "Taules del Cargo",
+	"cargo-cargotables-tablelist": "S'han definit les taules següents:",
+	"cargo-cargotables-viewtable": "Mostra la taula: $1",
+	"cargo-cargotables-viewtablelink": "Mostra la taula",
+	"cargo-cargotables-notdeclared": "no definit per cap plantilla",
+	"cargo-cargotables-declaredby": "Declarat per $1",
+	"cargo-cargotables-attachedby": "adjunt per $1",
 	"cargo-cargotables-tablenotfound": "No s’ha trobat la taula «$1» en la base de dades del Cargo.",
 	"cargo-drilldown-choosetable": "Trieu una taula",
 	"cargo-drilldown-or": "o bé",
