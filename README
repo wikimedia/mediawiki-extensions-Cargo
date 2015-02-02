@@ -52,9 +52,10 @@ your 'LocalSettings.php' file:
 
 == Contact ==
 
-Most comments, questions, suggestions and bug reports should be sent to
-the Semantic MediaWiki mailing list:
+Comments, questions, suggestions and bug reports can be sent to either the
+MediaWiki or the Semantic MediaWiki mailing lists:
 
+ https://lists.wikimedia.org/mailman/listinfo/mediawiki-l
  https://lists.sourceforge.net/lists/listinfo/semediawiki-user
 
 Although the Cargo extension does not make use of Semantic MediaWiki, and
