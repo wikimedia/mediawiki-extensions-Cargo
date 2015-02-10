@@ -146,10 +146,10 @@ class CargoTables extends IncludableSpecialPage {
 			}
 
 			// "Declared by" text
-			$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
-			if ( count( $templatesThatDeclareThisTable ) == 0 ) {
+			if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
 				$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
 			} else {
+				$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
 				$templateLinks = array();
 				foreach ( $templatesThatDeclareThisTable as $templateID ) {
 					$templateTitle = Title::newFromID( $templateID );
