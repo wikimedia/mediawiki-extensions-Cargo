@@ -8,7 +8,7 @@
 
 if ( !defined( 'MEDIAWIKI' ) ) die();
 
-define( 'CARGO_VERSION', '0.5.2' );
+define( 'CARGO_VERSION', '0.6-alpha' );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
@@ -43,6 +43,7 @@ $wgHooks['BaseTemplateToolbox'][] = 'CargoPageValuesAction::addLink';
 $wgHooks['UnknownAction'][] = 'CargoPageValuesAction::show';
 $wgHooks['SkinTemplateNavigation'][] = 'CargoHooks::addPurgeCacheTab';
 $wgHooks['AdminLinks'][] = 'CargoHooks::addToAdminLinks';
+$wgHooks['PageSchemasRegisterHandlers'][] = 'CargoPageSchemas::registerClass';
 
 $wgMessagesDirs['Cargo'] = $dir . '/i18n';
 $wgExtensionMessagesFiles['Cargo'] = $dir . '/Cargo.i18n.php';
@@ -103,6 +104,7 @@ $wgAutoloadClasses['CargoCalendarFormat'] = $dir . '/formats/CargoCalendarFormat
 $wgAutoloadClasses['CargoTimelineFormat'] = $dir . '/formats/CargoTimelineFormat.php';
 $wgAutoloadClasses['CargoCategoryFormat'] = $dir . '/formats/CargoCategoryFormat.php';
 $wgAutoloadClasses['CargoBarChartFormat'] = $dir . '/formats/CargoBarChartFormat.php';
+$wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
 
 // Drilldown
 $wgAutoloadClasses['CargoAppliedFilter'] = $dir . '/drilldown/CargoAppliedFilter.php';

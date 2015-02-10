@@ -40,5 +40,6 @@
 	"cargo-viewcsv": "View CSV",
 	"cargo-viewjson": "View JSON",
 	"cargo-purgecache": "Purge cache",
-	"specialpages-group-cargo": "Cargo"
+	"specialpages-group-cargo": "Cargo",
+	"cargo-pageschemas-cargofield": "Cargo field"
 }
