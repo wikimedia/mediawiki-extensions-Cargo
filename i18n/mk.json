@@ -42,5 +42,6 @@
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-purgecache": "Исчисти меѓусклад",
-	"specialpages-group-cargo": "Карго"
+	"specialpages-group-cargo": "Карго",
+	"cargo-pageschemas-cargofield": "Карго-поле"
 }

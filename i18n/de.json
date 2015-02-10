@@ -42,5 +42,6 @@
 	"cargo-viewcsv": "CSV ansehen",
 	"cargo-viewjson": "JSON ansehen",
 	"cargo-purgecache": "Cache leeren",
-	"specialpages-group-cargo": "Cargo"
+	"specialpages-group-cargo": "Cargo",
+	"cargo-pageschemas-cargofield": "Cargo-Feld"
 }
