@@ -230,7 +230,7 @@ class CargoStore {
 
 		foreach ( $tableFieldValues as $fieldName => $fieldValue ) {
 			if ( !array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
-				throw new MWException( "Error: Unknown field, \"$fieldName\"." );
+				throw new MWException( "Error: Unknown Cargo field, \"$fieldName\"." );
 			}
 		}
 
