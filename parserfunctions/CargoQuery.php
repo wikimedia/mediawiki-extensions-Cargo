@@ -98,6 +98,11 @@ class CargoQuery {
 
 		// Finally, do the display.
 		$text = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
+		// If there are no results, it's just an automatic message so
+		// there's no need for special parsing.
+		if ( count( $queryResults ) == 0 ) {
+			return $text;
+		}
 
 		// The 'template' format gets special parsing, because
 		// it can be used to display a larger component, like a table,
