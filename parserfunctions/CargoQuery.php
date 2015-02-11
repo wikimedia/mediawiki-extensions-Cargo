@@ -65,7 +65,7 @@ class CargoQuery {
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
 		$queryDisplayer->mParser = $parser;
-		$formatter = $queryDisplayer->getFormatter( $parser->getOutput() );
+		$formatter = $queryDisplayer->getFormatter( $parser->getOutput(), $parser );
 
 		// Let the format run the query itself, if it wants to.
 		if ( $formatter->isDeferred() ) {

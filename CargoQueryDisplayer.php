@@ -67,9 +67,9 @@ class CargoQueryDisplayer {
 		return $formatClasses[$format];
 	}
 
-	public function getFormatter( $out ) {
+	public function getFormatter( $out, $parser = null ) {
 		$formatClass = $this->getFormatClass();
-		$formatObject = new $formatClass( $out );
+		$formatObject = new $formatClass( $out, $parser );
 		return $formatObject;
 	}
 
