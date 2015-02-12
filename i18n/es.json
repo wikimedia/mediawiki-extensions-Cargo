@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Macofe"
+			"Macofe",
+			"Awesomecat5"
 		]
 	},
 	"cargo-definestable": "Esta plantilla define la tabla \"$1\".",
@@ -27,5 +28,6 @@
 	"cargo-drilldown-toomanyvalues": "Demasiados valores; no se muestra.",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewjson": "Ver JSON",
-	"cargo-purgecache": "Limpiar la caché"
+	"cargo-purgecache": "Limpiar la caché",
+	"cargo-pageschemas-cargofield": "campo Cargo"
 }
