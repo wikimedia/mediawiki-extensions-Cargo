@@ -47,6 +47,7 @@ class CargoQueryDisplayer {
 			'timeline' => 'CargoTimelineFormat',
 			'category' => 'CargoCategoryFormat',
 			'bar chart' => 'CargoBarChartFormat',
+			'gallery' => 'CargoGalleryFormat',
 		);
 
 		if ( array_key_exists( $this->mFormat, $formatClasses ) ) {
