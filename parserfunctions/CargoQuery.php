@@ -59,8 +59,12 @@ class CargoQuery {
 			}
 		}
 
-		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+		try {
+			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $orderByStr, $limitStr );
+		} catch ( Exception $e ) {
+			return CargoUtils::formatError( $e->getMessage() );
+		}
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
