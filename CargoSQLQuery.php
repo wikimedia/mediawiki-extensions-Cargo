@@ -38,7 +38,7 @@ class CargoSQLQuery {
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
-		$sqlQuery->mTableNames = explode( ',', $tablesStr );
+		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
 		$sqlQuery->mFieldsStr = $fieldsStr;
 		// This _decode() call is necessary because the "where="
 		// clause can (and often does) include a call to {{PAGENAME}},
@@ -76,7 +76,7 @@ class CargoSQLQuery {
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
-		$sqlQuery->mTableNames = explode( ',', $tablesStr );
+		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
 		$sqlQuery->mFieldsStr = $fieldsStr;
 		$sqlQuery->mOrigWhereStr = $whereStr;
 		$sqlQuery->mWhereStr = $whereStr;

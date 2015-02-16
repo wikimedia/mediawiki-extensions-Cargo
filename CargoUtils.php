@@ -153,13 +153,13 @@ class CargoUtils {
 			}
 
 			if ( $curChar == $delimiter && $numOpenParentheses == 0 ) {
-				$returnValues[] = $curReturnValue;
+				$returnValues[] = trim( $curReturnValue );
 				$curReturnValue = '';
 			} else {
 				$curReturnValue .= $curChar;
 			}
 		}
-		$returnValues[] = $curReturnValue;
+		$returnValues[] = trim( $curReturnValue );
 
 		return $returnValues;
 	}
