@@ -273,7 +273,12 @@ class CargoStore {
 			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 				if ( $curValue != '' ) {
 					// Special handling if it's just a year.
-					if ( ctype_digit( $curValue ) ) {
+					// If it's a number and less than 8
+					// digits, assume it's a year (hey, it
+					// could be a very large BC year). If
+					// it's 8 digits, it's probably a full
+					// date in the form YYYYMMDD.
+					if ( ctype_digit( $curValue ) && strlen( $curValue ) < 8 ) {
 						// Add a fake date - it will
 						// get ignored later.
 						$curValue = "$curValue-01-01";
