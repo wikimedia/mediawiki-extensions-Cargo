@@ -102,9 +102,10 @@ class CargoQuery {
 
 		// Finally, do the display.
 		$text = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
-		// If there are no results, it's just an automatic message so
-		// there's no need for special parsing.
-		if ( count( $queryResults ) == 0 ) {
+		// If there are no results, and the limit was not set to 0,
+		// it's just an automatic message so there's no need for
+		// special parsing.
+		if ( count( $queryResults ) == 0 && $sqlQuery->mQueryLimit > 0 ) {
 			return $text;
 		}
 
