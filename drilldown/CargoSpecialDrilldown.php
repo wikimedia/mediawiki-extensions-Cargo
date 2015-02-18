@@ -455,13 +455,16 @@ END;
 				} else {
 					$font_size = ( $wgCargoDrilldownSmallestFontSize + $wgCargoDrilldownLargestFontSize ) / 2;
 				}
-				$results_line .= "\n\t\t\t\t\t\t" . '<a href="' . $filter_url . '" title="' .
-					$this->msg( 'cargo-drilldown-filterbyvalue' )->text() . '" style="font-size: ' .
-					$font_size . 'px">' . $filter_text . '</a>';
+				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
+					array( 'href' => $filter_url,
+						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text(),
+						'style' => "font-size: {$font_size}px"
+					 ), $filter_text );
 			} else {
-				$results_line .= "\n\t\t\t\t\t\t" . Html::element( 'a',
-						array( 'href' => $filter_url,
-						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
+				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
+					array( 'href' => $filter_url,
+						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text()
+					), $filter_text );
 			}
 		}
 		return $results_line;
