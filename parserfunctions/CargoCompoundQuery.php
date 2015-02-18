@@ -173,11 +173,22 @@ class CargoCompoundQuery {
 		$text = $formatter->display( $allQueryResults, $formattedQueryResults, $allFieldDescriptions,
 			$displayParams );
 
+		// The 'template' format gets special parsing, because
+		// it can be used to display a larger component, like a table,
+		// which means that everything needs to be parsed together
+		// instead of one instance at a time. Also, the template will
+		// contain wikitext, not HTML.
+		$displayHTML = ( $format != 'template' );
+
 		// Don't show a "view more" link.
 		// @TODO - is such a thing possible for a compound query,
 		// especially if there's a limit set for each query?
 
-		return $parser->insertStripItem( $text, $parser->mStripState );
+		if ( $displayHTML ) {
+			return $parser->insertStripItem( $text, $parser->mStripState );
+		} else {
+			return array( $text, 'noparse' => false );
+		}
 	}
 
 }
