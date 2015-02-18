@@ -660,7 +660,7 @@ END;
 			if ( $i > 0 ) {
 				$text .= " &middot; ";
 			}
-			if ( $curBucket['lowerNumber'] == ' none' ) {
+			if ( $curBucket['lowerNumber'] === ' none' ) {
 				$curText = $this->printFilterValue( null, ' none' );
 			} else {
 				// number_format() adds in commas for each thousands place.
