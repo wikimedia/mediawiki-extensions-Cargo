@@ -622,9 +622,23 @@ END;
 		return $propertyValues;
 	}
 
-	function printNumberRanges( $filter_name, $filter_values ) {
+	function printNumber( $num ) {
 		global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 
+		// Get the precision, i.e. the number of decimals to display.
+		// Copied from http://stackoverflow.com/questions/2430084/php-get-number-of-decimal-digits
+		if ( (int)$num == $num ) {
+			$numDecimals = 0;
+		} else {
+			$numDecimals = strlen( $num ) - strrpos( $num, '.' ) - 1;
+		}
+
+		// number_format() adds in commas for each thousands place.
+		return number_format( $num, $numDecimals, $wgCargoDecimalMark,
+			$wgCargoDigitGroupingCharacter );
+	}
+
+	function printNumberRanges( $filter_name, $filter_values ) {
 		// We generate $cur_url here, instead of passing it in, because
 		// if there's a previous value for this filter it may be
 		// removed.
@@ -666,12 +680,9 @@ END;
 			if ( $curBucket['lowerNumber'] === ' none' ) {
 				$curText = $this->printFilterValue( null, ' none' );
 			} else {
-				// number_format() adds in commas for each thousands place.
-				$curText = number_format( $curBucket['lowerNumber'], 0, $wgCargoDecimalMark,
-					$wgCargoDigitGroupingCharacter );
+				$curText = $this->printNumber( $curBucket['lowerNumber'] );
 				if ( $curBucket['higherNumber'] != null ) {
-					$curText .= ' - ' . number_format( $curBucket['higherNumber'], 0, $wgCargoDecimalMark,
-							$wgCargoDigitGroupingCharacter );
+					$curText .= ' - ' . $this->printNumber( $curBucket['higherNumber'] );
 				}
 			}
 			$curText .= ' (' . $curBucket['numValues'] . ') ';
