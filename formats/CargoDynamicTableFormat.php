@@ -58,8 +58,13 @@ END;
 
 		foreach ( $formattedValuesTable as $row ) {
 			$text .= "\t\t\t<tr>\n";
-			foreach ( $row as $value ) {
-				$text .= "\t\t\t\t<td>$value</td>\n";
+			foreach ( array_keys( $fieldDescriptions ) as $field ) {
+				if ( array_key_exists( $field, $row ) ) {
+					$value = $row[$field];
+				} else {
+					$value = null;
+				}
+				$text .= "\t\t\t\t" . Html::rawElement( 'td', null, $value ); 
 			}
 			$text .= "\t\t\t</tr>\n";
 		}
