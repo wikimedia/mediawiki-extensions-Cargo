@@ -45,7 +45,13 @@ class CargoExport extends UnlistedSpecialPage {
 		} elseif ( $format == 'nvd3chart' ) {
 			$this->displayNVD3ChartData( $sqlQueries );
 		} elseif ( $format == 'csv' ) {
-			$this->displayCSVData( $sqlQueries );
+			$delimiter = $req->getVal( 'delimiter' );
+			if ( $delimiter == '' ) {
+				$delimiter = ',';
+			} elseif ( $delimiter == '\t' ) {
+				$delimiter = "\t";
+			}
+			$this->displayCSVData( $sqlQueries, $delimiter );
 		} elseif ( $format == 'json' ) {
 			$this->displayJSONData( $sqlQueries );
 		}
@@ -210,15 +216,15 @@ class CargoExport extends UnlistedSpecialPage {
 		print json_encode( $displayedArray, JSON_NUMERIC_CHECK | JSON_HEX_TAG );
 	}
 
-	function displayCSVData( $sqlQueries ) {
+	function displayCSVData( $sqlQueries, $delimiter ) {
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
 		$out = fopen('php://output', 'w');
 		// Display header row.
-		fputcsv( $out, array_keys( reset( $queryResults ) ) );
+		fputcsv( $out, array_keys( reset( $queryResults ) ), $delimiter );
 		foreach( $queryResults as $queryResult ) {
-			fputcsv( $out, $queryResult );
+			fputcsv( $out, $queryResult, $delimiter );
 		}
 		fclose( $out );
 	}

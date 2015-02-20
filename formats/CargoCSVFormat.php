@@ -6,6 +6,10 @@
 
 class CargoCSVFormat extends CargoDeferredFormat {
 
+        function allowedParameters() {
+                return array( 'delimiter' );
+        }
+
 	/**
 	 *
 	 * @param array $sqlQueries
@@ -17,6 +21,9 @@ class CargoCSVFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'csv';
+		if ( array_key_exists( 'delimiter', $displayParams ) ) {
+			$queryParams['delimiter'] = $displayParams['delimiter'];
+		}
 
 		$linkAttrs = array(
 			'href' => $ce->getFullURL( $queryParams ),
