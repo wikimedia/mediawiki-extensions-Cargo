@@ -2,11 +2,17 @@
 	"@metadata": {
 		"authors": [
 			"Orikrin1998",
-			"Weft"
+			"Weft",
+			"Nicolapps"
 		]
 	},
+	"recreatedata": "Recréer les données",
 	"cargo-createdatatable": "Créer une table de données",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",
 	"cargo-pagevalues-tablevalues": "Valeur de \"$1\"",
+	"cargo-drilldown-or": "ou",
+	"cargo-drilldown-removefilter": "Supprimer cet élément",
+	"cargo-drilldown-resetfilters": "Remise à zéro des filtres",
+	"cargo-drilldown-addanothervalue": "Cliquez sur la flèche pour ajouter une autre valeur",
 	"cargo-purgecache": "Purger le cache"
 }

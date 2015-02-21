@@ -12,6 +12,7 @@
 	"action-recreatecargodata": "recrea les dades del Cargo",
 	"action-deletecargodata": "suprimeix les dades del Cargo",
 	"cargo-createdatatable": "Crea la taula de dades",
+	"cargo-recreatedata-success": "Les dades es tornaran a crear.",
 	"viewdata": "Mostra les dades",
 	"cargotables": "Taules del Cargo",
 	"cargo-cargotables-tablelist": "S'han definit les taules següents:",
@@ -21,10 +22,19 @@
 	"cargo-cargotables-declaredby": "Declarat per $1",
 	"cargo-cargotables-attachedby": "adjunt per $1",
 	"cargo-cargotables-tablenotfound": "No s’ha trobat la taula «$1» en la base de dades del Cargo.",
+	"cargo-cargotables-totalrows": "La taula té un total de $1 files.",
+	"deletecargotable": "Elimina la taula de Cargo",
+	"pagevalues": "Valors de la pàgina",
+	"cargo-pagevalues-tablevalues": "«$1» valors",
 	"cargo-drilldown-choosetable": "Trieu una taula",
+	"cargo-drilldown-filterbyvalue": "Filtra per aquest valor",
 	"cargo-drilldown-or": "o bé",
+	"cargo-drilldown-removefilter": "Suprimeix aquest filtre",
+	"cargo-drilldown-resetfilters": "Reinicia els filtres",
+	"cargo-drilldown-addanothervalue": "Feu clic a la fletxa per afegir un altre valor",
 	"cargo-drilldown-novalues": "No hi ha cap valor per a aquest filtre",
 	"cargo-viewcsv": "Mostra el CSV",
 	"cargo-viewjson": "Mostra el JSON",
-	"specialpages-group-cargo": "Cargo"
+	"specialpages-group-cargo": "Cargo",
+	"cargo-pageschemas-cargofield": "Camp de Cargo"
 }
