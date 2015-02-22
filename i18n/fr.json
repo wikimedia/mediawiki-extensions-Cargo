@@ -6,6 +6,8 @@
 			"Nicolapps"
 		]
 	},
+	"cargo-tablenotcreated": "Ce tableau n'a pas encore été créé.",
+	"cargo-addsrows": "Ce modèle ajoute des lignes dans le tableau \"$1\".",
 	"recreatedata": "Recréer les données",
 	"cargo-createdatatable": "Créer une table de données",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",
