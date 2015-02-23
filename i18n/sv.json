@@ -1,8 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
-			"Jenniesarina"
+			"Jenniesarina",
+			"WikiPhoenix"
 		]
 	},
+	"recreatedata": "Återskapa data",
+	"cargo-createdatatable": "Skapa datatabell",
+	"viewdata": "Visa data",
+	"cargo-cargotables-viewtable": "Visa tabell: $1",
+	"cargo-cargotables-viewtablelink": "Visa tabell",
+	"cargo-drilldown-choosetable": "Välj en tabell",
 	"cargo-pageschemas-cargofield": "Fraktområdet"
 }

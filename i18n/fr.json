@@ -3,13 +3,16 @@
 		"authors": [
 			"Orikrin1998",
 			"Weft",
-			"Nicolapps"
+			"Nicolapps",
+			"Brenloch56"
 		]
 	},
 	"cargo-tablenotcreated": "Ce tableau n'a pas encore été créé.",
 	"cargo-addsrows": "Ce modèle ajoute des lignes dans le tableau \"$1\".",
 	"recreatedata": "Recréer les données",
 	"cargo-createdatatable": "Créer une table de données",
+	"cargo-recreatedata-success": "Les données doivent être recrées",
+	"viewdata": "Afficher les données",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",
 	"cargo-pagevalues-tablevalues": "Valeur de \"$1\"",
 	"cargo-drilldown-or": "ou",
