@@ -199,8 +199,10 @@ class CargoHooks {
 	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User &$user, $oldid,
 		$newid, $reason ) {
 		// For each main data table to which this page belongs, change
-		// the page name.
+		// the page name-related fields.
 		$newPageName = $newtitle->getPrefixedText();
+		$newPageTitle = $newtitle->getText();
+		$newPageNamespace = $newtitle->getNamespace();
 		$dbr = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
 		// We use $oldid, because that's the page ID - $newid is the
@@ -209,9 +211,18 @@ class CargoHooks {
 		$res = $dbr->select( 'cargo_pages', 'table_name', array( 'page_id' => $oldid ) );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
-			$cdb->update(
-				$curMainTable, array( '_pageName' => $newPageName ), array( '_pageID' => $oldid ) );
+			$cdb->update( $curMainTable,
+				array(
+					'_pageName' => $newPageName,
+					'_pageTitle' => $newPageTitle,
+					'_pageNamespace' => $newPageNamespace
+				),
+				array( '_pageID' => $oldid )
+			);
 		}
+
+		// This call is needed to get the update to occur.
+		$cdb->close();
 
 		return true;
 	}
