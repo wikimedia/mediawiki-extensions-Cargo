@@ -63,6 +63,11 @@ class CargoPopulateTableJob extends Job {
 		}
 		$wgParser->parse( $pageText, $this->title, new ParserOptions() );
 
+		// We need to unset this, if the job was called via runJobs.php,
+		// so that it doesn't affect other (non-Cargo) jobs, like page
+		// refreshes.
+		unset( CargoStore::$settings['origin'] );
+
 		wfProfileOut( __METHOD__ );
 		return true;
 	}
