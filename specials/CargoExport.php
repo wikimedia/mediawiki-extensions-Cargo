@@ -217,6 +217,9 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayCSVData( $sqlQueries, $delimiter ) {
+		header( "Content-Type: text/csv" );
+		header( "Content-Disposition: attachment; filename=results.csv" );
+
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
@@ -230,6 +233,8 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayJSONData( $sqlQueries ) {
+		header( "Content-Type: application/json" );
+
 		$allQueryResults = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
