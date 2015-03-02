@@ -26,6 +26,7 @@ class CargoQuery {
 		$groupByStr = null;
 		$orderByStr = null;
 		$limitStr = null;
+		$moreResultsTextStr = null;
 		$format = 'auto'; // default
 		$displayParams = array();
 
@@ -53,6 +54,8 @@ class CargoQuery {
 				$limitStr = $value;
 			} elseif ( $key == 'format' ) {
 				$format = $value;
+			} elseif ( $key == 'more results text' ) {
+				$moreResultsTextStr = $value;
 			} else {
 				// We'll assume it's going to the formatter.
 				$displayParams[$key] = $value;
@@ -119,7 +122,11 @@ class CargoQuery {
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
 		if ( count( $queryResults ) == $sqlQuery->mQueryLimit ) {
-			$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML );
+			if ( $moreResultsTextStr != null ) {
+				$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML, $moreResultsTextStr );
+			} else {
+				$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML );
+			}
 		}
 
 		if ( $displayHTML ) {

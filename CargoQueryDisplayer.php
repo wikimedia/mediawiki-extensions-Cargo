@@ -227,7 +227,7 @@ class CargoQueryDisplayer {
 	/**
 	 * Display the link to view more results, pointing to Special:ViewData.
 	 */
-	public function viewMoreResultsLink( $displayHTML = true ) {
+	public function viewMoreResultsLink( $displayHTML = true, $moreResultsTextStr = wfMessage( 'moredotdotdot' )->parse() ) {
 		$vd = Title::makeTitleSafe( NS_SPECIAL, 'ViewData' );
 		$queryStringParams = array();
 		$sqlQuery = $this->mSQLQuery;
@@ -258,11 +258,11 @@ class CargoQueryDisplayer {
 
 		if ( $displayHTML ) {
 			return Html::rawElement( 'p', null,
-				Linker::link( $vd, wfMessage( 'moredotdotdot' )->parse(), array(), $queryStringParams ) );
+				Linker::link( $vd, $moreResultsTextStr, array(), $queryStringParams ) );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;
-			return '[' . $wgServer . $vd->getLinkURL( $queryStringParams ) . ' ' . wfMessage( 'moredotdotdot' )->parse() . ']';
+			return '[' . $wgServer . $vd->getLinkURL( $queryStringParams ) . ' ' . $moreResultsTextStr . ']';
 		}
 	}
 
