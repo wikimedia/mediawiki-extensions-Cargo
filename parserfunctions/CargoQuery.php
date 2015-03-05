@@ -26,7 +26,6 @@ class CargoQuery {
 		$groupByStr = null;
 		$orderByStr = null;
 		$limitStr = null;
-		$moreResultsTextStr = null;
 		$format = 'auto'; // default
 		$displayParams = array();
 

@@ -20,7 +20,6 @@ class CargoQueryDisplayer {
 		$cqd->mSQLQuery = $sqlQuery;
 		$cqd->mFieldDescriptions = $sqlQuery->mFieldDescriptions;
 		$cqd->mFieldTables = $sqlQuery->mFieldTables;
-
 		return $cqd;
 	}
 
@@ -229,6 +228,13 @@ class CargoQueryDisplayer {
 	 */
 	public function viewMoreResultsLink( $displayHTML = true ) {
 		$vd = Title::makeTitleSafe( NS_SPECIAL, 'ViewData' );
+		if ( array_key_exists( 'more results text', $this->mDisplayParams ) ) {
+			$moreResultsText = $this->mDisplayParams['more results text'];
+		}
+		else {
+			$moreResultsText = wfMessage( 'moredotdotdot' )->parse();
+		}
+
 		$queryStringParams = array();
 		$sqlQuery = $this->mSQLQuery;
 		$queryStringParams['tables'] = $sqlQuery->mTablesStr;
@@ -258,11 +264,11 @@ class CargoQueryDisplayer {
 
 		if ( $displayHTML ) {
 			return Html::rawElement( 'p', null,
-				Linker::link( $vd, wfMessage( 'moredotdotdot' )->parse(), array(), $queryStringParams ) );
+				Linker::link( $vd, $moreResultsText, array(), $queryStringParams ) );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;
-			return '[' . $wgServer . $vd->getLinkURL( $queryStringParams ) . ' ' . wfMessage( 'moredotdotdot' )->parse() . ']';
+			return '[' . $wgServer . $vd->getLinkURL( $queryStringParams ) . ' ' . $moreResultsText . ']';
 		}
 	}
 
