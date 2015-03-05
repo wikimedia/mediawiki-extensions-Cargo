@@ -54,8 +54,6 @@ class CargoQuery {
 				$limitStr = $value;
 			} elseif ( $key == 'format' ) {
 				$format = $value;
-			} elseif ( $key == 'more results text' ) {
-				$moreResultsTextStr = $value;
 			} else {
 				// We'll assume it's going to the formatter.
 				$displayParams[$key] = $value;
@@ -122,11 +120,7 @@ class CargoQuery {
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
 		if ( count( $queryResults ) == $sqlQuery->mQueryLimit ) {
-			if ( $moreResultsTextStr != null ) {
-				$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML, $moreResultsTextStr );
-			} else {
-				$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML );
-			}
+			$text .= $queryDisplayer->viewMoreResultsLink( $displayHTML );
 		}
 
 		if ( $displayHTML ) {
