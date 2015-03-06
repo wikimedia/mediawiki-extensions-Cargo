@@ -94,6 +94,13 @@ class CargoQuery {
 			return $parser->insertStripItem( $text, $parser->mStripState );
 		}
 
+		// If the query limit was set to 0, no need to run the query -
+		// all we need to do is show  the "more results" link, then exit.
+		if ( $sqlQuery->mQueryLimit == 0 ) {
+			$text = $queryDisplayer->viewMoreResultsLink( true );
+			return $parser->insertStripItem( $text, $parser->mStripState );
+		}
+
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
@@ -102,10 +109,10 @@ class CargoQuery {
 
 		// Finally, do the display.
 		$text = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
-		// If there are no results, and the limit was not set to 0,
-		// it's just an automatic message so there's no need for
-		// special parsing.
-		if ( count( $queryResults ) == 0 && $sqlQuery->mQueryLimit > 0 ) {
+		// If there are no results, then - given that we already know
+		// that the limit was not set to 0 - we just need to display an
+		// automatic message, so there's no need for special parsing.
+		if ( count( $queryResults ) == 0 ) {
 			return $text;
 		}
 
