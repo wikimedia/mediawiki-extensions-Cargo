@@ -43,7 +43,11 @@ class CargoListFormat extends CargoDisplayFormat {
 				} else {
 					$text .= ', ';
 				}
-				$text .= "<span class=\"cargoFieldName\">$fieldName:</span> $fieldValue";
+				if ( empty( $fieldName ) || strpos( $fieldName, 'Blank value ' ) !== false ) {
+					$text .= $fieldValue;
+				} else {
+					$text .= "<span class=\"cargoFieldName\">$fieldName:</span> $fieldValue";
+				}
 			}
 		}
 		if ( $startParenthesisAdded ) {

@@ -127,7 +127,10 @@ class CargoSQLQuery {
 				. "please use \"group by=\" instead." );
 			}
 		}
-
+		// For using "Blank value $countBlankAlias" as key in case of blank aliases,
+		// as aliases are used as keys and hence cannot be left blank.This is done so
+		// that field values in query results can be displayed without field name.
+		$countBlankAlias = 0;
 		foreach ( $fieldNames as $i => $fieldName ) {
 			$fieldNameParts = CargoUtils::smartSplit( '=', $fieldName );
 			if ( count( $fieldNameParts ) == 2 ) {
@@ -148,6 +151,10 @@ class CargoSQLQuery {
 				} else {
 					$alias = $realFieldName;
 				}
+			}
+			if ( empty( $alias ) ) {
+				$countBlankAlias++;
+				$alias = "Blank value $countBlankAlias";
 			}
 			$this->mAliasedFieldNames[$alias] = $fieldName;
 		}
