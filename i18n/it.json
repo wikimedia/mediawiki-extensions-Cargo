@@ -1,0 +1,14 @@
+{
+	"@metadata": {
+		"authors": [
+			"Beta16"
+		]
+	},
+	"cargo-drilldown-choosetable": "Scegli una tabella",
+	"cargo-drilldown-filterbyvalue": "Filtra per questo valore",
+	"cargo-drilldown-or": "o",
+	"cargo-drilldown-removefilter": "Rimuovi questo filtro",
+	"cargo-drilldown-resetfilters": "Azzera filtri",
+	"cargo-drilldown-addanothervalue": "Clicca la freccia per aggiungere un altro valore",
+	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro"
+}
