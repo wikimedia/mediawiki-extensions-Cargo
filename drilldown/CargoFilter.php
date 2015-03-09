@@ -185,7 +185,7 @@ class CargoFilter {
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$tableNames[] = $fieldTableName;
-			$fieldName = '_value';
+			$fieldName = 'cargo__' . $fieldTableName. '._value';
 			$joinConds[$fieldTableName] = array(
 				'LEFT OUTER JOIN',
 				'cargo__' . $this->tableName . '._ID = cargo__' . $fieldTableName . '._rowID'
