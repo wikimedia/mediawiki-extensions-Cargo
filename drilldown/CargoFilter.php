@@ -144,7 +144,9 @@ class CargoFilter {
 		$res = $cdb->select( $tableNames, array( $fields, 'COUNT(*)' ), $conds, null, $selectOptions,
 			$joinConds );
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			if ( $this->getTimePeriod( $appliedFilters ) == 'day' ) {
+			if ( $row[0] == null ) {
+				$possible_dates['_none'] = $row['COUNT(*)'];
+			} elseif ( $this->getTimePeriod( $appliedFilters ) == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[2] . ', ' . $row[0];
 				$possible_dates[$date_string] = $row[3];
 			} elseif ( $this->getTimePeriod( $appliedFilters ) == 'month' ) {
