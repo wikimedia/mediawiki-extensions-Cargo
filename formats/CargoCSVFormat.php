@@ -6,9 +6,9 @@
 
 class CargoCSVFormat extends CargoDeferredFormat {
 
-        function allowedParameters() {
-                return array( 'delimiter' );
-        }
+	function allowedParameters() {
+		return array( 'delimiter', 'link text', 'filename' );
+	}
 
 	/**
 	 *
@@ -28,16 +28,16 @@ class CargoCSVFormat extends CargoDeferredFormat {
 			$queryParams['filename'] = $displayParams['filename'];
 		}
 		if ( array_key_exists( 'link text', $displayParams ) ) {
-			$linktext = $displayParams['link text'];
-		} else { 
-			$linktext = wfMessage( 'cargo-viewcsv' )->text();
+			$linkText = $displayParams['link text'];
+		} else {
+			$linkText = wfMessage( 'cargo-viewcsv' )->text();
 		}
 		$linkAttrs = array(
 			'href' => $ce->getFullURL( $queryParams ),
 		);
-		$text = Html::rawElement( 'a', $linkAttrs, $linktext );
+		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
 
-		return $text; 
+		return $text;
 	}
 
 }

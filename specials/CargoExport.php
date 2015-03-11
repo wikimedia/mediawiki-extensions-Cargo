@@ -221,10 +221,8 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayCSVData( $sqlQueries, $delimiter, $filename ) {
-		$attachmenttext = "Content-Disposition: attachment; filename=";
-		$attachmenttext .= $filename;
 		header( "Content-Type: text/csv" );
-		header( $attachmenttext );
+		header( "Content-Disposition: attachment; filename=$filename" );
 
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
