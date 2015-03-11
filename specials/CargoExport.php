@@ -51,7 +51,11 @@ class CargoExport extends UnlistedSpecialPage {
 			} elseif ( $delimiter == '\t' ) {
 				$delimiter = "\t";
 			}
-			$this->displayCSVData( $sqlQueries, $delimiter );
+			$filename = $req->getVal( 'filename' );
+			if ( $filename == '' ) {
+				$filename = 'results.csv';
+			}
+			$this->displayCSVData( $sqlQueries, $delimiter, $filename );
 		} elseif ( $format == 'json' ) {
 			$this->displayJSONData( $sqlQueries );
 		}
@@ -216,9 +220,11 @@ class CargoExport extends UnlistedSpecialPage {
 		print json_encode( $displayedArray, JSON_NUMERIC_CHECK | JSON_HEX_TAG );
 	}
 
-	function displayCSVData( $sqlQueries, $delimiter ) {
+	function displayCSVData( $sqlQueries, $delimiter, $filename ) {
+		$attachmenttext = "Content-Disposition: attachment; filename=";
+		$attachmenttext .= $filename;
 		header( "Content-Type: text/csv" );
-		header( "Content-Disposition: attachment; filename=results.csv" );
+		header( $attachmenttext );
 
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];

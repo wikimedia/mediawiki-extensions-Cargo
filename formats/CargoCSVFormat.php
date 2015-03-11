@@ -24,13 +24,20 @@ class CargoCSVFormat extends CargoDeferredFormat {
 		if ( array_key_exists( 'delimiter', $displayParams ) ) {
 			$queryParams['delimiter'] = $displayParams['delimiter'];
 		}
-
+		if ( array_key_exists( 'filename', $displayParams ) ) {
+			$queryParams['filename'] = $displayParams['filename'];
+		}
+		if ( array_key_exists( 'link text', $displayParams ) ) {
+			$linktext = $displayParams['link text'];
+		} else { 
+			$linktext = wfMessage( 'cargo-viewcsv' )->text();
+		}
 		$linkAttrs = array(
 			'href' => $ce->getFullURL( $queryParams ),
 		);
-		$text = Html::rawElement( 'a', $linkAttrs, wfMessage( 'cargo-viewcsv' )->text() );
+		$text = Html::rawElement( 'a', $linkAttrs, $linktext );
 
-		return $text;
+		return $text; 
 	}
 
 }
