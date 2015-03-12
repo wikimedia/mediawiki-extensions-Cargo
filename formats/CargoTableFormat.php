@@ -24,7 +24,9 @@ class CargoTableFormat extends CargoDisplayFormat {
 		$text = '<table class="cargoTable">';
 		$text .= '<tr>';
 		foreach ( array_keys( $fieldDescriptions ) as $field ) {
-			$text .= Html::rawElement( 'th', null, $field ) . "\n";
+			if ( strpos( $field, 'Blank value ' ) === false ) {
+				$text .= Html::rawElement( 'th', null, $field ) . "\n";
+			}
 		}
 		$text .= "</tr>\n";
 		foreach ( $formattedValuesTable as $row ) {

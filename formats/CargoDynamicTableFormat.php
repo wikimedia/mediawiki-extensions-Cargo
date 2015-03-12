@@ -32,7 +32,12 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 
 END;
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
+				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+			}
+			else {
+				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
+			}
 		}
 
 		$text .=<<<END
@@ -45,7 +50,12 @@ END;
 END;
 
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
+				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+			}
+			else {
+				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
+			}
 		}
 
 		$text .=<<<END
