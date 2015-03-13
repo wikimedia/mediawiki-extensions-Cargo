@@ -45,7 +45,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions );
 		}
 		global $wgTitle;
-		if ( $wgTitle->isSpecialPage() ) {
+		if ( $wgTitle != null && $wgTitle->isSpecialPage() ) {
 			return CargoUtils::smartParse( $text, $this->mParser );
 		} else {
 			return $text;
