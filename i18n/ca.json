@@ -5,6 +5,7 @@
 			"Toniher"
 		]
 	},
+	"cargo-desc": "Emmagatzemament i consulta de les dades de plantilla",
 	"cargo-definestable": "Aquesta plantilla defineix la taula «$1».",
 	"cargo-tablenotcreated": "Encara no s’ha creat aquesta taula.",
 	"cargo-addsrows": "Aquesta plantilla afegeix fileres a la taula «$1».",
@@ -12,6 +13,8 @@
 	"action-recreatecargodata": "recrea les dades del Cargo",
 	"action-deletecargodata": "suprimeix les dades del Cargo",
 	"cargo-createdatatable": "Crea la taula de dades",
+	"cargo-recreatedata-desc": "Voleu tornar a generar les dades de Cargo d'aquesta plantilla?",
+	"cargo-recreatedata-createdata": "Voleu generar les dades de Cargo d'aquesta plantilla?",
 	"cargo-recreatedata-success": "Les dades es tornaran a crear.",
 	"viewdata": "Mostra les dades",
 	"cargotables": "Taules del Cargo",
@@ -25,16 +28,20 @@
 	"cargo-cargotables-totalrows": "La taula té un total de $1 files.",
 	"deletecargotable": "Elimina la taula de Cargo",
 	"pagevalues": "Valors de la pàgina",
+	"cargo-pagevaluesfor": "Valors de pàgina de «$1»",
 	"cargo-pagevalues-tablevalues": "«$1» valors",
 	"cargo-drilldown-choosetable": "Trieu una taula",
+	"cargo-drilldown-docu": "Feu clic als valors de filtre de sota per a restringir els resultats.",
 	"cargo-drilldown-filterbyvalue": "Filtra per aquest valor",
 	"cargo-drilldown-or": "o bé",
 	"cargo-drilldown-removefilter": "Suprimeix aquest filtre",
 	"cargo-drilldown-resetfilters": "Reinicia els filtres",
 	"cargo-drilldown-addanothervalue": "Feu clic a la fletxa per afegir un altre valor",
 	"cargo-drilldown-novalues": "No hi ha cap valor per a aquest filtre",
+	"cargo-drilldown-toomanyvalues": "Hi ha massa valors; no es mostraran.",
 	"cargo-viewcsv": "Mostra el CSV",
 	"cargo-viewjson": "Mostra el JSON",
+	"cargo-purgecache": "Purga la memòria cau",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Camp de Cargo"
 }
