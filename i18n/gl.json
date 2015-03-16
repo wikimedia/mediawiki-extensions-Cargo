@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Banjo"
+		]
+	},
+	"cargo-tablenotcreated": "A táboa non foi creada todavía.",
+	"cargo-createdatatable": "Crear táboa de datos",
+	"viewdata": "Ver datos",
+	"cargo-cargotables-viewtable": "Ver táboa: $1",
+	"cargo-cargotables-viewtablelink": "Ver táboa",
+	"pagevalues": "Valores de páxina",
+	"cargo-pagevaluesfor": "Valores de páxina para \"$1\"",
+	"cargo-drilldown-choosetable": "Escolla unha táboa",
+	"cargo-drilldown-or": "ou",
+	"cargo-drilldown-removefilter": "Eliminar este filtro",
+	"cargo-drilldown-resetfilters": "Restablecer filtros",
+	"cargo-drilldown-novalues": "Non hai valores para este filtro",
+	"cargo-viewcsv": "Ver CSV",
+	"cargo-viewjson": "Ver JSON",
+	"cargo-purgecache": "Limpar a caché"
+}
