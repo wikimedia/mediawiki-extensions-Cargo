@@ -25,7 +25,10 @@ class CargoTableFormat extends CargoDisplayFormat {
 		$text .= '<tr>';
 		foreach ( array_keys( $fieldDescriptions ) as $field ) {
 			if ( strpos( $field, 'Blank value ' ) === false ) {
-				$text .= Html::rawElement( 'th', null, $field ) . "\n";
+				// We add a class to enable special CSS and/or
+				// JS handling.
+				$className = 'field_' . str_replace( ' ', '_', $field );
+				$text .= Html::rawElement( 'th', array( 'class' => $className ), $field ) . "\n";
 			}
 		}
 		$text .= "</tr>\n";
@@ -37,7 +40,10 @@ class CargoTableFormat extends CargoDisplayFormat {
 				} else {
 					$value = null;
 				}
-				$text .= Html::rawElement( 'td', null, $value ) . "\n";
+				// We add a class to enable special CSS and/or
+				// JS handling.
+				$className = 'field_' . str_replace( ' ', '_', $field );
+				$text .= Html::rawElement( 'td', array( 'class' => $className ), $value ) . "\n";
 			}
 			$text .= "</tr>\n";
 		}
