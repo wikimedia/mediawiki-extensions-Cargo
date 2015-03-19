@@ -76,6 +76,7 @@ $wgSpecialPages['DeleteCargoTable'] = 'CargoDeleteCargoTable';
 $wgAutoloadClasses['CargoDeleteCargoTable'] = $dir . '/specials/CargoDeleteTable.php';
 $wgSpecialPages['ViewData'] = 'CargoViewData';
 $wgAutoloadClasses['CargoViewData'] = $dir . '/specials/CargoViewData.php';
+$wgAutoloadClasses['ViewDataPage'] = $dir . '/specials/CargoViewData.php';
 $wgSpecialPages['CargoExport'] = 'CargoExport';
 $wgAutoloadClasses['CargoExport'] = $dir . '/specials/CargoExport.php';
 $wgAutoloadClasses['CargoPageValuesAction'] = $dir . '/CargoPageValuesAction.php';
@@ -91,7 +92,11 @@ $wgAutoloadClasses['CargoULFormat'] = $dir . '/formats/CargoULFormat.php';
 $wgAutoloadClasses['CargoOLFormat'] = $dir . '/formats/CargoOLFormat.php';
 $wgAutoloadClasses['CargoTemplateFormat'] = $dir . '/formats/CargoTemplateFormat.php';
 $wgAutoloadClasses['CargoOutlineFormat'] = $dir . '/formats/CargoOutlineFormat.php';
+$wgAutoloadClasses['CargoOutlineRow'] = $dir . '/formats/CargoOutlineFormat.php';
+$wgAutoloadClasses['CargoOutlineTree'] = $dir . '/formats/CargoOutlineFormat.php';
 $wgAutoloadClasses['CargoTreeFormat'] = $dir . '/formats/CargoTreeFormat.php';
+$wgAutoloadClasses['CargoTreeFormatNode'] = $dir . '/formats/CargoTreeFormat.php';
+$wgAutoloadClasses['CargoTreeFormatTree'] = $dir . '/formats/CargoTreeFormat.php';
 $wgAutoloadClasses['CargoEmbeddedFormat'] = $dir . '/formats/CargoEmbeddedFormat.php';
 $wgAutoloadClasses['CargoCSVFormat'] = $dir . '/formats/CargoCSVFormat.php';
 $wgAutoloadClasses['CargoJSONFormat'] = $dir . '/formats/CargoJSONFormat.php';
@@ -114,6 +119,7 @@ $wgAutoloadClasses['CargoFilter'] = $dir . '/drilldown/CargoFilter.php';
 $wgAutoloadClasses['CargoFilterValue'] = $dir . '/drilldown/CargoFilterValue.php';
 $wgAutoloadClasses['CargoDrilldownUtils'] = $dir . '/drilldown/CargoDrilldownUtils.php';
 $wgAutoloadClasses['CargoDrilldown'] = $dir . '/drilldown/CargoSpecialDrilldown.php';
+$wgAutoloadClasses['CargoDrilldownPage'] = $dir . '/drilldown/CargoSpecialDrilldown.php';
 $wgSpecialPages['Drilldown'] = 'CargoDrilldown';
 
 // User rights
