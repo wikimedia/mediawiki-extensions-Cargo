@@ -273,4 +273,18 @@ class CargoHooks {
 		return true;
 	}
 
+	/**
+	 * Called by MediaWiki's ResourceLoaderStartUpModule::getConfig()
+	 * to set static (not request-specific) configuration variables
+	 * @param array $vars
+	*/
+	public static function onResourceLoaderGetConfigVars( array &$vars ) {
+		global $cgScriptPath;
+
+		$vars['cgDownArrowImage'] = "$cgScriptPath/drilldown/resources/down-arrow.png";
+		$vars['cgRightArrowImage'] = "$cgScriptPath/drilldown/resources/right-arrow.png";
+
+		return true;
+	}
+
 }
