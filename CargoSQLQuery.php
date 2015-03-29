@@ -33,7 +33,7 @@ class CargoSQLQuery {
 		$orderByStr, $limitStr ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
-		self::rejectSubqueries( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
+		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$orderByStr, $limitStr );
 
 		$sqlQuery = new CargoSQLQuery();
@@ -71,7 +71,7 @@ class CargoSQLQuery {
 	 */
 	public static function newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$orderByStr, $limitStr ) {
-		self::rejectSubqueries( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
+		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$orderByStr, $limitStr );
 
 		$sqlQuery = new CargoSQLQuery();
@@ -87,23 +87,34 @@ class CargoSQLQuery {
 		return $sqlQuery;
 	}
 
-	// Throw an error if there's a "SELECT" call, i.e. a subquery, in any
-	// of the #cargo_query parameters - this is a potential security risk.
+	// Throw an error if there are forbidden values in any of the
+	// #cargo_query parameters -  some or all of them are potential
+	// security risks.
 	// It could be that, given the way #cargo_query is structured, only
-	// the "where" clause can feasibly contain subqueries, but we might as
-	// well validate all the parameters.
-	public static function rejectSubqueries( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
+	// some of the parameters need to be checked for these strings,
+	// but we might as well validate all of them.
+	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$orderByStr, $limitStr ) {
 
-		$regexp = '/\bselect\b/i';
-		if ( preg_match( $regexp, $tablesStr ) ||
-			preg_match( $regexp, $fieldsStr ) ||
-			preg_match( $regexp, $whereStr ) ||
-			preg_match( $regexp, $joinOnStr ) ||
-			preg_match( $regexp, $groupByStr ) ||
-			preg_match( $regexp, $orderByStr ) ||
-			preg_match( $regexp, $limitStr ) ) {
-			throw new MWException( "Error: additional SELECT calls are not allowed within #cargo_query." );
+		$regexps = array(
+			'/\bselect\b/i' => 'SELECT',
+			'/\binto\b/i' => 'INTO',
+			'/\bfrom\b/i' => 'FROM',
+			'/\bload_file\b/i' => 'LOAD_FILE',
+			'/;/' => ';',
+			'/@/' => '@',
+			'/\<\?/' => '<?',
+		);
+		foreach ( $regexps as $regexp => $displayString ) {
+			if ( preg_match( $regexp, $tablesStr ) ||
+				preg_match( $regexp, $fieldsStr ) ||
+				preg_match( $regexp, $whereStr ) ||
+				preg_match( $regexp, $joinOnStr ) ||
+				preg_match( $regexp, $groupByStr ) ||
+				preg_match( $regexp, $orderByStr ) ||
+				preg_match( $regexp, $limitStr ) ) {
+				throw new MWException( "Error: the string \"$displayString\" cannot be used within #cargo_query." );
+			}
 		}
 	}
 
