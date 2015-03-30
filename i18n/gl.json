@@ -1,22 +1,48 @@
 {
 	"@metadata": {
 		"authors": [
-			"Banjo"
+			"Banjo",
+			"Elisardojm"
 		]
 	},
+	"cargo-desc": "Almacenamento e consulta de datos de modelo",
+	"cargo-definestable": "Este modelo define a táboa \"$1\".",
 	"cargo-tablenotcreated": "A táboa non foi creada todavía.",
+	"cargo-addsrows": "Este modelo engade filas á táboa \"$1\".",
+	"recreatedata": "Recrear datos",
+	"action-recreatecargodata": "volver crear os datos de Cargo",
+	"action-deletecargodata": "eliminar datos de Cargo",
 	"cargo-createdatatable": "Crear táboa de datos",
+	"cargo-recreatedata-desc": "Recrear os datos de Cargo para este modelo?",
+	"cargo-recreatedata-createdata": "Crear os datos de Cargo para este modelo?",
+	"cargo-recreatedata-success": "Os datos vanse volver crear.",
 	"viewdata": "Ver datos",
+	"cargotables": "Táboas do Cargo",
+	"cargo-cargotables-tablelist": "Defínense as seguintes táboas:",
 	"cargo-cargotables-viewtable": "Ver táboa: $1",
 	"cargo-cargotables-viewtablelink": "Ver táboa",
+	"cargo-cargotables-notdeclared": "non definido por ningún modelo",
+	"cargo-cargotables-declaredby": "Declarado por $1",
+	"cargo-cargotables-attachedby": "adxuntado a $1",
+	"cargo-cargotables-tablenotfound": "A táboa \"$1\" non se atopou na base de datos de Cargo.",
+	"cargo-cargotables-totalrows": "Esta táboa ten $1 filas en total.",
+	"deletecargotable": "Eliminar táboa de Cargo",
 	"pagevalues": "Valores de páxina",
 	"cargo-pagevaluesfor": "Valores de páxina para \"$1\"",
+	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
+	"drilldown": "Detallar",
 	"cargo-drilldown-choosetable": "Escolla unha táboa",
+	"cargo-drilldown-docu": "Prema nos filtros de abaixo para limitar os resultados.",
+	"cargo-drilldown-filterbyvalue": "Filtrar por este valor",
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Eliminar este filtro",
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
+	"cargo-drilldown-addanothervalue": "Prema na frecha para engadir outro valor",
 	"cargo-drilldown-novalues": "Non hai valores para este filtro",
+	"cargo-drilldown-toomanyvalues": "Demasiados valores; non se mostra.",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewjson": "Ver JSON",
-	"cargo-purgecache": "Limpar a caché"
+	"cargo-purgecache": "Limpar a caché",
+	"specialpages-group-cargo": "Cargo",
+	"cargo-pageschemas-cargofield": "campo de Cargo"
 }
