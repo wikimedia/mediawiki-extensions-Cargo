@@ -98,10 +98,10 @@ class CargoExport extends UnlistedSpecialPage {
 			$queryResults = $sqlQuery->run();
 
 			foreach ( $queryResults as $queryResult ) {
-				if ( $queryResult['name'] == '' ) {
-					$eventTitle = reset($queryResult);
-				} else {
+				if ( array_key_exists( 'name', $queryResult ) ) {
 					$eventTitle = $queryResult['name'];
+				} else {
+					$eventTitle = reset( $queryResult );
 				}
 				$title = Title::newFromText( $queryResult['_pageName'] );
 				$displayedArray[] = array(
