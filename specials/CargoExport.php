@@ -74,10 +74,13 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$dateFields = array();
-			foreach( $sqlQuery->mFieldDescriptions as $field => $description ) {
+			$dateFieldRealNames = array();
+			$dateFieldAliases = array();
+			foreach( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
-					$dateFields[] = $field;
+					$dateFieldAliases[] = $alias;
+					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
+					$dateFieldRealNames[] = $realFieldName;
 				}
 			}
 
@@ -86,7 +89,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$where .= " AND ";
 			}
 			$where .= "(";
-			foreach ( $dateFields as $j => $dateField ) {
+			foreach ( $dateFieldRealNames as $j => $dateField ) {
 				if ( $j > 0 ) {
 					$where .= " OR ";
 				}
@@ -109,7 +112,7 @@ class CargoExport extends UnlistedSpecialPage {
 					// necessarily the page name.
 					'title' => $eventTitle,
 					'url' => $title->getLocalURL(),
-					'start' => $queryResult[$dateFields[0]],
+					'start' => $queryResult[$dateFieldAliases[0]],
 					'color' => $colorArray[$i]
 				);
 			}
