@@ -61,6 +61,9 @@ class CargoExport extends UnlistedSpecialPage {
 		}
 	}
 
+	/**
+	 * Used for calendar format
+	 */
 	function displayCalendarData( $sqlQueries ) {
 		$req = $this->getRequest();
 
@@ -95,11 +98,16 @@ class CargoExport extends UnlistedSpecialPage {
 			$queryResults = $sqlQuery->run();
 
 			foreach ( $queryResults as $queryResult ) {
+				if ( $queryResult['name'] == '' ) {
+					$eventTitle = reset($queryResult);
+				} else {
+					$eventTitle = $queryResult['name'];
+				}
 				$title = Title::newFromText( $queryResult['_pageName'] );
 				$displayedArray[] = array(
 					// Get first field for the title - not
 					// necessarily the page name.
-					'title' => reset( $queryResult ),
+					'title' => $eventTitle,
 					'url' => $title->getLocalURL(),
 					'start' => $queryResult[$dateFields[0]],
 					'color' => $colorArray[$i]
