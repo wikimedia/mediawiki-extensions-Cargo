@@ -35,6 +35,7 @@ class CargoQueryDisplayer {
 			'template' => 'CargoTemplateFormat',
 			'embedded' => 'CargoEmbeddedFormat',
 			'csv' => 'CargoCSVFormat',
+			'excel' => 'CargoExcelFormat',
 			'json' => 'CargoJSONFormat',
 			'outline' => 'CargoOutlineFormat',
 			'tree' => 'CargoTreeFormat',

@@ -100,6 +100,7 @@ $wgAutoloadClasses['CargoTreeFormatNode'] = $dir . '/formats/CargoTreeFormat.php
 $wgAutoloadClasses['CargoTreeFormatTree'] = $dir . '/formats/CargoTreeFormat.php';
 $wgAutoloadClasses['CargoEmbeddedFormat'] = $dir . '/formats/CargoEmbeddedFormat.php';
 $wgAutoloadClasses['CargoCSVFormat'] = $dir . '/formats/CargoCSVFormat.php';
+$wgAutoloadClasses['CargoExcelFormat'] = $dir . '/formats/CargoExcelFormat.php';
 $wgAutoloadClasses['CargoJSONFormat'] = $dir . '/formats/CargoJSONFormat.php';
 $wgAutoloadClasses['CargoTableFormat'] = $dir . '/formats/CargoTableFormat.php';
 $wgAutoloadClasses['CargoDynamicTableFormat'] = $dir . '/formats/CargoDynamicTableFormat.php';

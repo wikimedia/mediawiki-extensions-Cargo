@@ -9,5 +9,6 @@
 	"cargo-pagevalues-tablevalues": "\"$1\" waarden",
 	"cargo-drilldown-or": "of",
 	"cargo-viewcsv": "CSV bekijken",
+	"cargo-viewxls": "XLS bekijken",
 	"cargo-viewjson": "JSON bekijken"
 }

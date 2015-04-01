@@ -56,6 +56,12 @@ class CargoExport extends UnlistedSpecialPage {
 				$filename = 'results.csv';
 			}
 			$this->displayCSVData( $sqlQueries, $delimiter, $filename );
+		} elseif ( $format == 'excel' ) {
+			$filename = $req->getVal( 'filename' );
+			if ( $filename == '' ) {
+				$filename = 'results.xls';
+			}
+			$this->displayExcelData( $sqlQueries, $filename );
 		} elseif ( $format == 'json' ) {
 			$this->displayJSONData( $sqlQueries );
 		}
@@ -245,6 +251,29 @@ class CargoExport extends UnlistedSpecialPage {
 			fputcsv( $out, $queryResult, $delimiter );
 		}
 		fclose( $out );
+	}
+
+	function displayExcelData( $sqlQueries, $filename ) {
+
+		// We'll only use the first query, if there's more than one.
+		$sqlQuery = $sqlQueries[0];
+		$queryResults = $sqlQuery->run();
+
+		$file = new PHPExcel();
+		$file->setActiveSheetIndex(0);
+
+		// Create array with header row and query results.
+		$header[] = array_keys( reset( $queryResults ) );
+		$rows = array_merge($header, $queryResults);
+
+		$file->getActiveSheet()->fromArray($rows, null, 'A1');
+		header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		header("Content-Disposition: attachment;filename=$filename");
+		header("Cache-Control: max-age=0");
+
+		$writer = PHPExcel_IOFactory::createWriter($file, 'Excel5');
+
+		$writer->save('php://output');
 	}
 
 	function displayJSONData( $sqlQueries ) {
