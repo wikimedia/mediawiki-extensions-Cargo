@@ -40,6 +40,7 @@
 	"cargo-drilldown-novalues": "Нема зададено вредности за овој филтер",
 	"cargo-drilldown-toomanyvalues": "Премногу вредности. Не можам да ги прикажам.",
 	"cargo-viewcsv": "Погл. CSV",
+	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-purgecache": "Исчисти меѓусклад",
 	"specialpages-group-cargo": "Карго",

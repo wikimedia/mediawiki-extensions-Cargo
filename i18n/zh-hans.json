@@ -40,6 +40,7 @@
 	"cargo-drilldown-novalues": "此过滤器没有值",
 	"cargo-drilldown-toomanyvalues": "太多的值；没有显示。",
 	"cargo-viewcsv": "查看CSV",
+	"cargo-viewxls": "查看XLS",
 	"cargo-viewjson": "查看JSON",
 	"cargo-purgecache": "刷新缓存",
 	"specialpages-group-cargo": "Cargo",
