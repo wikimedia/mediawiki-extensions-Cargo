@@ -3,7 +3,8 @@
 		"authors": [
 			"Macofe",
 			"Awesomecat5",
-			"Lmorillas"
+			"Lmorillas",
+			"Fitoschido"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -27,6 +28,8 @@
 	"cargo-cargotables-tablenotfound": "Tabla \"$1\" no encontrada en la base de datos de Cargo.",
 	"cargo-cargotables-totalrows": "Esta tabla tiene $1 filas en total.",
 	"deletecargotable": "Eliminar tabla de Cargo",
+	"pagevalues": "Valores de la página",
+	"cargo-pagevaluesfor": "Valores de la página «$1»",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
 	"cargo-drilldown-choosetable": "Elije una tabla",
 	"cargo-drilldown-docu": "Haz clic en los filtros debajo para limitar los resultados.",
