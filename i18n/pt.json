@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Imperadeiro90"
+			"Imperadeiro90",
+			"Vitorvicentevalente"
 		]
 	},
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Remover este filtro",
-	"cargo-drilldown-resetfilters": "Repor filtros"
+	"cargo-drilldown-resetfilters": "Repor filtros",
+	"cargo-viewxls": "Ver XLS"
 }
