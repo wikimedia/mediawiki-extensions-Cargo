@@ -41,6 +41,7 @@
 	"cargo-drilldown-novalues": "Non hai valores para este filtro",
 	"cargo-drilldown-toomanyvalues": "Demasiados valores; non se mostra.",
 	"cargo-viewcsv": "Ver CSV",
+	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
 	"cargo-purgecache": "Limpar a caché",
 	"specialpages-group-cargo": "Cargo",
