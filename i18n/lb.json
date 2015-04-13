@@ -4,14 +4,19 @@
 			"Robby"
 		]
 	},
+	"cargo-cargotables-viewtable": "Tabell weisen: $1",
 	"cargo-cargotables-viewtablelink": "Tabell weisen",
 	"cargo-cargotables-notdeclared": "vu kenger Schabloun definéiert",
 	"cargo-cargotables-declaredby": "Deklaréiert vum $1",
 	"cargo-cargotables-attachedby": "drugehaang vum $1",
+	"cargo-pagevalues-tablevalues": "\"$1\"-Wäerter",
 	"cargo-drilldown-choosetable": "Eng Tabell eraussichen",
 	"cargo-drilldown-or": "oder",
 	"cargo-drilldown-removefilter": "Dëse Filter ewechhuelen",
 	"cargo-drilldown-resetfilters": "Filteren zrécksetzen",
+	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
+	"cargo-viewjson": "JSON weisen",
+	"cargo-purgecache": "Tëschespäicher (Cache) eidelmaachen",
 	"specialpages-group-cargo": "Cargo"
 }
