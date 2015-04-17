@@ -109,7 +109,7 @@ function cargoCreateJobs( templateNum, numPagesHandled, replaceOldRows ) {
 	}
 	$("#recreateDataProgress").html( "<p>" + progressImage + "</p>" );
 	var queryStringData = {
-		//action: "cargorecreatedata",
+		action: "cargorecreatedata",
 		table: tableName,
 		template: templateName,
 		offset: numPagesHandled
@@ -148,7 +148,7 @@ $( "#cargoSubmit" ).click( function() {
 	$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />" );
 	$.get(
 		"/w/api.php",
-		{ /*action: "cargorecreatetables",*/ template: templateName }
+		{ action: "cargorecreatetables", template: templateName }
 	)
 	.done(function( msg ) {
 		$("#recreateTableProgress").html( "<p>" + recreateTableDoneMsg + "</p>" );
