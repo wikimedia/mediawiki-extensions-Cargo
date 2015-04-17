@@ -83,9 +83,9 @@ $wgAutoloadClasses['CargoExport'] = $dir . '/specials/CargoExport.php';
 $wgAutoloadClasses['CargoPageValuesAction'] = $dir . '/CargoPageValuesAction.php';
 $wgSpecialPages['PageValues'] = 'CargoPageValues';
 $wgAutoloadClasses['CargoPageValues'] = $dir . '/specials/CargoPageValues.php';
-$wgAutoloadClasses['CargoQueryAPI'] = $dir . '/CargoQueryAPI.php';
-$wgAutoloadClasses['CargoRecreateTablesAPI'] = $dir . '/CargoRecreateTablesAPI.php';
-$wgAutoloadClasses['CargoRecreateDataAPI'] = $dir . '/CargoRecreateDataAPI.php';
+$wgAutoloadClasses['CargoQueryAPI'] = $dir . '/api/CargoQueryAPI.php';
+$wgAutoloadClasses['CargoRecreateTablesAPI'] = $dir . '/api/CargoRecreateTablesAPI.php';
+$wgAutoloadClasses['CargoRecreateDataAPI'] = $dir . '/api/CargoRecreateDataAPI.php';
 
 // Display formats
 $wgAutoloadClasses['CargoDisplayFormat'] = $dir . '/formats/CargoDisplayFormat.php';
