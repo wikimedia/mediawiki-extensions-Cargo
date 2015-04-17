@@ -7,6 +7,8 @@
 	"recreatedata": "Dahte widder opboue",
 	"action-recreatecargodata": " Dahte widder opzeboue",
 	"action-deletecargodata": " Dahte fott ze schmiiße",
+	"cargo-recreatedata-success": "De Dahte wähde wider neu aanjelaht.",
 	"cargo-drilldown-or": "udder",
-	"cargo-drilldown-resetfilters": "Donn de Feltere widder op Schtandat sätze"
+	"cargo-drilldown-resetfilters": "Donn de Feltere widder op Schtandat sätze",
+	"cargo-viewxls": "Et <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Extensible Stylesheet Language\">XSL</i> belohre"
 }
