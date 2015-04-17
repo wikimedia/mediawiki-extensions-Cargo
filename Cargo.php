@@ -25,7 +25,6 @@ $dir = dirname( __FILE__ );
 $cgScriptPath = $wgScriptPath . '/extensions/Cargo';
 
 $wgJobClasses['cargoPopulateTable'] = 'CargoPopulateTableJob';
-$wgJobClasses['cargoRecreateTables'] = 'CargoRecreateTablesJob';
 
 $wgHooks['ParserFirstCallInit'][] = 'cargoRegisterParserFunctions';
 $wgHooks['MakeGlobalVariablesScript'][] = 'CargoHooks::setGlobalJSVariables';
@@ -52,6 +51,8 @@ $wgExtensionMessagesFiles['CargoMagic'] = $dir . '/Cargo.i18n.magic.php';
 
 // API modules
 $wgAPIModules['cargoquery'] = 'CargoQueryAPI';
+$wgAPIModules['cargorecreatetables'] = 'CargoRecreateTablesAPI';
+$wgAPIModules['cargorecreatedata'] = 'CargoRecreateDataAPI';
 
 // Register classes and special pages.
 $wgAutoloadClasses['CargoHooks'] = $dir . '/Cargo.hooks.php';
@@ -68,7 +69,6 @@ $wgAutoloadClasses['CargoQueryDisplayer'] = $dir . '/CargoQueryDisplayer.php';
 $wgAutoloadClasses['CargoRecurringEvent'] = $dir . '/parserfunctions/CargoRecurringEvent.php';
 $wgAutoloadClasses['CargoDisplayMap'] = $dir . '/parserfunctions/CargoDisplayMap.php';
 $wgAutoloadClasses['CargoPopulateTableJob'] = $dir . '/CargoPopulateTableJob.php';
-$wgAutoloadClasses['CargoRecreateTablesJob'] = $dir . '/CargoRecreateTablesJob.php';
 $wgAutoloadClasses['CargoRecreateDataAction'] = $dir . '/CargoRecreateDataAction.php';
 $wgAutoloadClasses['CargoRecreateData'] = $dir . '/specials/CargoRecreateData.php';
 $wgSpecialPages['CargoTables'] = 'CargoTables';
@@ -84,6 +84,8 @@ $wgAutoloadClasses['CargoPageValuesAction'] = $dir . '/CargoPageValuesAction.php
 $wgSpecialPages['PageValues'] = 'CargoPageValues';
 $wgAutoloadClasses['CargoPageValues'] = $dir . '/specials/CargoPageValues.php';
 $wgAutoloadClasses['CargoQueryAPI'] = $dir . '/CargoQueryAPI.php';
+$wgAutoloadClasses['CargoRecreateTablesAPI'] = $dir . '/CargoRecreateTablesAPI.php';
+$wgAutoloadClasses['CargoRecreateDataAPI'] = $dir . '/CargoRecreateDataAPI.php';
 
 // Display formats
 $wgAutoloadClasses['CargoDisplayFormat'] = $dir . '/formats/CargoDisplayFormat.php';

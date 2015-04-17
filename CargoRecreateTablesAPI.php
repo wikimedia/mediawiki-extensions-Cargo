@@ -1,41 +1,62 @@
 <?php
 /**
- * Background job to recreate the database table(s) for one template using the
- * data from the call(s) to that template in one page.
+ * Adds and handles the 'cargorecreatetables' action to the MediaWiki API.
  *
- * @author Yaron Koren
  * @ingroup Cargo
+ * @author Yaron Koren
  */
 
-class CargoRecreateTablesJob extends Job {
+class CargoRecreateTablesAPI extends ApiBase {
 
-	/**
-	 *
-	 * @param Title $title
-	 * @param array|bool $params
-	 */
-	function __construct( $title, $params = false ) {
-		parent::__construct( 'cargoRecreateTables', $title, $params );
+	public function __construct( $query, $moduleName ) {
+		parent::__construct( $query, $moduleName );
 	}
 
-	/**
-	 * Run a CargoRecreateTables job.
-	 *
-	 * @return boolean success
-	 */
-	function run() {
-		wfProfileIn( __METHOD__ );
+	public function execute() {
+		global $wgUser;
 
-		if ( is_null( $this->title ) ) {
-			$this->error = "cargoRecreateTables: Invalid title";
-			wfProfileOut( __METHOD__ );
-			return false;
+		if ( !$wgUser->isAllowed( 'recreatecargodata' ) || $wgUser->isBlocked() ) {
+			$this->dieUsageMsg( array( 'badaccess-groups' ) );
 		}
 
-		$templatePageID = $this->title->getArticleID();
+		$params = $this->extractRequestParams();
+		$templateStr = $params['template'];
+		if ( $templateStr == '' ) {
+			$this->dieUsage( 'The template must be specified', 'param_substr' );
+		}
+
+		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
+		$templatePageID = $templateTitle->getArticleID();
 		$success = self::recreateDBTablesForTemplate( $templatePageID );
-		wfProfileOut( __METHOD__ );
-		return $success;
+
+		// Set top-level elements.
+		$result = $this->getResult();
+		$result->addValue( null, 'success', true );
+	}
+
+	protected function getAllowedParams() {
+		return array(
+			'template' => array(
+				ApiBase::PARAM_TYPE => 'string',
+			),
+		);
+	}
+
+	protected function getParamDescription() {
+		return array(
+			'template' => 'The template whose declared Cargo table(s) should be recreated',
+		);
+	}
+
+	protected function getDescription() {
+		return 'An API module to recreate tables for the Cargo extension '
+			. '(http://www.mediawiki.org/Extension:Cargo)';
+	}
+
+	protected function getExamples() {
+		return array(
+			'api.php?action=cargorecreatetables&template=City'
+		);
 	}
 
 	/**

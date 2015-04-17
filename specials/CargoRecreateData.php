@@ -20,6 +20,8 @@ class CargoRecreateData extends UnlistedSpecialPage {
 	}
 
 	function execute( $query = null ) {
+		global $cgScriptPath;
+
 		$out = $this->getOutput();
 
 		$this->setHeaders();
@@ -35,85 +37,16 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			return true;
 		}
 
-		$formSubmitted = $this->getRequest()->getText( 'submitted' ) == 'yes';
-		if ( $formSubmitted ) {
-			// Recreate the data!
-			$this->recreateData();
-			// Redirect to the main template page - we need to
-			// add "action=purge" to the URL so that the new
-			// "View table" link will show up on the page.
-			$out->redirect( $this->mTemplateTitle->getFullURL( array( 'action' => 'purge' ) ) );
-			return true;
-		}
+		$templateData = array();
+		$dbr = wfGetDB( DB_SLAVE );
 
-		// Simple form.
-		// Add in a little bit of JS to make sure that the button
-		// isn't accidentally pressed twice.
-		$text = '<form method="post" onSubmit="submitButton.disabled = true; return true;">';
-		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
-		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
-		$text .= Html::hidden( 'action', 'recreatedata' ) . "\n";
-		$text .= Html::hidden( 'submitted', 'yes' ) . "\n";
-
-		$text .= Html::input( 'submitButton', $this->msg( 'ok' )->parse(), 'submit' );
-		$text .= "\n</form>";
-
-		$out->addHTML( $text );
-
-		return true;
-	}
-
-	function callPopulateTableJobsForTemplate( $templateTitle, $jobParams ) {
-		// We need to break this up into batches, to avoid running out
-		// of memory for large page sets.
-		// @TODO For *really* large page sets, it might make sense
-		// to create a job for each batch.
-		$offset = 0;
-		do {
-			$jobs = array();
-			$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( array(
-				'LIMIT' => 500, 'OFFSET' => $offset ) );
-			foreach ( $titlesWithThisTemplate as $titleWithThisTemplate ) {
-				$jobs[] = new CargoPopulateTableJob( $titleWithThisTemplate, $jobParams );
-			}
-			$offset += 500;
-			JobQueueGroup::singleton()->push( $jobs );
-		} while ( count( $titlesWithThisTemplate ) >= 500 );
-	}
-
-	/**
-	 * Calls jobs to drop and recreate the table(s) for this template.
-	 */
-	function recreateData() {
-		// If this template calls #cargo_declare (as opposed to
-		// #cargo_attach), drop and re-generate the Cargo DB table
-		// for it.`
-		if ( $this->mIsDeclared ) {
-			// Call this directly, instead of as a job; so that
-			// the re-creation of the table(s) always happens
-			// before any of the rows are added.
-			// Hopefully this will not ever cause the session to
-			// time out.
-
-			//$job = new CargoRecreateTablesJob( $this->mTemplateTitle );
-			//JobQueueGroup::singleton()->push( $job );
-			CargoRecreateTablesJob::recreateDBTablesForTemplate( $this->mTemplateTitle->getArticleID() );
-		}
-
-		// Now create a job, CargoPopulateTable, for each page
-		// that calls this template.
-		$jobParams = array(
-			'dbTableName' => $this->mTableName,
-			'replaceOldRows' => !$this->mIsDeclared
+		$templateData[] = array(
+			'name' => $this->mTemplateTitle->getText(),
+			'numPages' => $this->getNumPagesThatCallTemplate( $dbr, $this->mTemplateTitle )
 		);
 
-		$this->callPopulateTableJobsForTemplate( $this->mTemplateTitle, $jobParams );
-
-		// If this template calls #cargo_declare, see if any templates
-		// have attached themselves to this table, and if so, call
-		// this job for their pages as well.
 		if ( $this->mIsDeclared ) {
-			$dbr = wfGetDB( DB_SLAVE );
+			// Get all attached templates.
 			$res = $dbr->select( 'page_props',
 				array(
 					'pp_page'
@@ -126,13 +59,153 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			while ( $row = $dbr->fetchRow( $res ) ) {
 				$templateID = $row['pp_page'];
 				$attachedTemplateTitle = Title::newFromID( $templateID );
-				$jobParams = array(
-					'dbTableName' => $this->mTableName,
-					'replaceOldRows' => false
+				$numPages = $this->getNumPagesThatCallTemplate( $dbr, $attachedTemplateTitle );
+				$attachedTemplateName = $attachedTemplateTitle->getText();
+				$templateData[] = array(
+					'name' => $attachedTemplateName,
+					'numPages' => $numPages
 				);
-
-				$this->callPopulateTableJobsForTemplate( $attachedTemplateTitle, $jobParams );
+				$pagesPerAttachedTemplate[$attachedTemplateName] = $numPages;
 			}
 		}
+
+		$templateDataJS = json_encode( $templateData );
+		$recreateTableDoneMsg = wfMessage( 'cargo-recreatedata-tablecreated', $this->mTableName )->text();
+		$recreateDataDoneMsg = wfMessage( 'cargo-recreatedata-success' )->text();
+
+		$jsText = <<<END
+<script type="text/javascript">
+var cargoScriptPath = "$cgScriptPath";
+var tableName = "{$this->mTableName}";
+var templateData = $templateDataJS;
+var recreateTableDoneMsg = '$recreateTableDoneMsg';
+var recreateDataDoneMsg = '$recreateDataDoneMsg';
+var numTotalPages = 0;
+var numTotalPagesHandled = 0;
+
+for ( var i = 0; i < templateData.length; i++ ) {
+	numTotalPages += parseInt( templateData[i]['numPages'] );
+}
+
+
+function cargoReplaceRecreateDataForm() {
+	$("#recreateDataCanvas").html( "<div id=\"recreateTableProgress\"></div>" );
+	$("#recreateDataCanvas").append( "<div id=\"recreateDataProgress\"></div>" );
+}
+
+/**
+ * Recursive function that uses Ajax to populate a Cargo DB table with the
+ * data for one or more templates.
+ */
+function cargoCreateJobs( templateNum, numPagesHandled, replaceOldRows ) {
+	var curTemplate = templateData[templateNum];
+	var templateName = curTemplate['name'];
+	var numPages = curTemplate['numPages'];
+	if ( numTotalPages > 1000 ) {
+		var remainingPixels = 100 * numTotalPagesHandled / numTotalPages;
+		var progressImage = "<progress value=\"" + remainingPixels + "\" max=\"100\"></progress>";
+	} else {
+		var progressImage = "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />";
 	}
+	$("#recreateDataProgress").html( "<p>" + progressImage + "</p>" );
+	var queryStringData = {
+		//action: "cargorecreatedata",
+		table: tableName,
+		template: templateName,
+		offset: numPagesHandled
+	};
+	if ( replaceOldRows ) {
+		queryStringData['replaceOldRows'] = true;
+	}
+	$.get(
+		"/w/api.php",
+		queryStringData
+	)
+	.done(function( msg ) {
+		newNumPagesHandled = Math.min( numPagesHandled + 500, numPages );
+		numTotalPagesHandled += newNumPagesHandled - numPagesHandled;
+		if ( newNumPagesHandled < numPages ) {
+			cargoCreateJobs( templateNum, newNumPagesHandled, replaceOldRows );
+		} else {
+			if ( templateNum + 1 < templateData.length ) {
+				cargoCreateJobs( templateNum + 1, 0, replaceOldRows );
+			} else {
+				// We're done.
+				$("#recreateDataProgress").html( "<p>" + recreateDataDoneMsg + "</p>" );
+			}
+		}
+	});
+}
+
+END;
+
+		if ( $this->mIsDeclared ) {
+			$jsText .= <<<END
+$( "#cargoSubmit" ).click( function() {
+	cargoReplaceRecreateDataForm();
+
+	var templateName = templateData[0]['name'];
+	$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />" );
+	$.get(
+		"/w/api.php",
+		{ /*action: "cargorecreatetables",*/ template: templateName }
+	)
+	.done(function( msg ) {
+		$("#recreateTableProgress").html( "<p>" + recreateTableDoneMsg + "</p>" );
+		cargoCreateJobs( 0, 0, false );
+	});
+});
+</script>
+
+END;
+		} else {
+			$jsText .= <<<END
+$( "#cargoSubmit" ).click( function() {
+	cargoReplaceRecreateDataForm();
+	cargoCreateJobs( 0, 0, true );
+});
+</script>
+
+END;
+		}
+		$out->addScript( $jsText );
+
+		$formSubmitted = $this->getRequest()->getText( 'submitted' ) == 'yes';
+		if ( $formSubmitted ) {
+			// Recreate the data!
+			$this->recreateData();
+			// Redirect to the main template page - we need to
+			// add "action=purge" to the URL so that the new
+			// "View table" link will show up on the page.
+			$out->redirect( $this->mTemplateTitle->getFullURL( array( 'action' => 'purge' ) ) );
+			return true;
+		}
+
+		// Simple form.
+		$text = '<div id="recreateDataCanvas">' . "\n";
+		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
+		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
+		$text .= Html::element( 'button', array( 'id' => 'cargoSubmit' ), $this->msg( 'ok' )->parse() );
+		$text .= "\n</div>";
+
+		$out->addHTML( $text );
+
+		return true;
+	}
+
+	function getNumPagesThatCallTemplate( $dbr, $templateTitle ) {
+		$res = $dbr->select(
+			array( 'page', 'templatelinks' ),
+			'COUNT(*)',
+			array(
+				"tl_from=page_id",
+				"tl_namespace" => $templateTitle->getNamespace(),
+				"tl_title" => $templateTitle->getDBkey() ),
+			__METHOD__,
+			array()
+		);
+		$row = $dbr->fetchRow( $res );
+		return $row[0];
+	}
+
 }
