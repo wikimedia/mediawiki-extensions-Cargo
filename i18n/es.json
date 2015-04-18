@@ -17,7 +17,7 @@
 	"cargo-createdatatable": "Crear tabla de datos",
 	"cargo-recreatedata-desc": "Recrear los datos de Cargo para esta plantilla?",
 	"cargo-recreatedata-createdata": "Crear los datos de Cargo para esta plantilla?",
-	"cargo-recreatedata-success": "Los datos se van a volver a crear.",
+	"cargo-recreatedata-success": "Los datos se están creando de nuevo.",
 	"viewdata": "Ver datos",
 	"cargo-cargotables-tablelist": "Se definen las siguientes tablas:",
 	"cargo-cargotables-viewtable": "Ver tabla: $1",
