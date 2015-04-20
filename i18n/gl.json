@@ -15,7 +15,7 @@
 	"cargo-createdatatable": "Crear táboa de datos",
 	"cargo-recreatedata-desc": "Recrear os datos de Cargo para este modelo?",
 	"cargo-recreatedata-createdata": "Crear os datos de Cargo para este modelo?",
-	"cargo-recreatedata-success": "Os datos vanse volver crear.",
+	"cargo-recreatedata-success": "Os datos estan sendo recreados.",
 	"viewdata": "Ver datos",
 	"cargotables": "Táboas do Cargo",
 	"cargo-cargotables-tablelist": "Defínense as seguintes táboas:",
