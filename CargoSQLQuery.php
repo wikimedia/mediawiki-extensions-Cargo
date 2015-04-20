@@ -108,7 +108,8 @@ class CargoSQLQuery {
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
 				preg_match( $regexp, $fieldsStr ) ||
-				preg_match( $regexp, $whereStr ) ||
+				// The "WHERE" clause can include semicolons
+				( preg_match( $regexp, $whereStr ) && $regexp != '/;/' ) ||
 				preg_match( $regexp, $joinOnStr ) ||
 				preg_match( $regexp, $groupByStr ) ||
 				preg_match( $regexp, $orderByStr ) ||
