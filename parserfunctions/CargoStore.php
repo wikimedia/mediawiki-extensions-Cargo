@@ -174,6 +174,20 @@ class CargoStore {
 			return;
 		}
 
+		// Get page-related information early on, so we can exit
+		// quickly if there's a problem.
+		$title = $parser->getTitle();
+		$pageName = $title->getPrefixedText();
+		$pageTitle = $title->getText();
+		$pageNamespace = $title->getNamespace();
+		$pageID = $title->getArticleID();
+		if ( $pageID <= 0 ) {
+			// This will most likely happen if the title is a
+			// "special" page.
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping 3.\n" );
+			return;
+		}
+
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 
@@ -211,7 +225,7 @@ class CargoStore {
 			// It came from a template "recreate data" action -
 			// make sure it passes various criteria.
 			if ( self::$settings['dbTableName'] != $tableName ) {
-				wfDebugLog( 'cargo', "CargoStore::run() - skipping 3.\n" );
+				wfDebugLog( 'cargo', "CargoStore::run() - skipping 4.\n" );
 				return;
 			}
 		}
@@ -223,7 +237,7 @@ class CargoStore {
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping 4.\n" );
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping 5.\n" );
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
@@ -342,10 +356,6 @@ class CargoStore {
 		}
 
 		// Add the "metadata" field values.
-		$pageName = $parser->getTitle()->getPrefixedText();
-		$pageTitle = $parser->getTitle()->getText();
-		$pageNamespace = $parser->getTitle()->getNamespace();
-		$pageID = $parser->getTitle()->getArticleID();
 		$tableFieldValues['_pageName'] = $pageName;
 		$tableFieldValues['_pageTitle'] = $pageTitle;
 		$tableFieldValues['_pageNamespace'] = $pageNamespace;
