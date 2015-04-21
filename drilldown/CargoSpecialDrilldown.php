@@ -369,15 +369,19 @@ END;
 			$or_values = $af->getAllOrValues();
 		}
 		if ( $af->search_terms != null ) {
-			// HACK - printComboBoxInput() needs values as the
-			// *keys* of the array
-			$filter_values = array();
-			foreach ( $or_values as $or_value ) {
-				$filter_values[$or_value] = '';
-			}
 			$curSearchTermNum = count( $af->search_terms );
-			$results_line = $this->printComboBoxInput(
-				$af->filter->name, $curSearchTermNum, $filter_values );
+			if ( count( $or_values ) >= 300 ) {
+				$results_line = $this->printTextInput( $af->filter->name, $curSearchTermNum );
+			} else {
+				// HACK - printComboBoxInput() needs values as
+				// the *keys* of the array
+				$filter_values = array();
+				foreach ( $or_values as $or_value ) {
+					$filter_values[$or_value] = '';
+				}
+				$results_line = $this->printComboBoxInput(
+					$af->filter->name, $curSearchTermNum, $filter_values );
+				}
 			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 		}
 		// add 'Other' and 'None', regardless of whether either has
@@ -695,6 +699,50 @@ END;
 		return $text;
 	}
 
+	function printTextInput( $filter_name, $instance_num, $cur_value = null ) {
+		global $wgRequest;
+
+		$filter_name = str_replace( ' ', '_', $filter_name );
+		// URL-decode the filter name - necessary if it contains
+		// any non-Latin characters.
+		$filter_name = urldecode( $filter_name );
+
+		// Add on the instance number, since it can be one of a string
+		// of values.
+		$filter_name .= '[' . $instance_num . ']';
+
+		$inputName = "_search_$filter_name";
+
+		$text = <<< END
+<form method="get">
+
+END;
+
+		foreach ( $wgRequest->getValues() as $key => $val ) {
+			if ( $key != $inputName ) {
+				if ( is_array( $val ) ) {
+					foreach ( $val as $i => $realVal ) {
+						$keyString = $key . '[' . $i . ']';
+						$text .= Html::hidden( $keyString, $realVal ) . "\n";
+					}
+				} else {
+					$text .= Html::hidden( $key, $val ) . "\n";
+				}
+			}
+		}
+
+		$text .=<<< END
+	<input type="text" name="$inputName" value="$cur_value" />
+	<br />
+
+END;
+
+		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
+				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
+		$text .= "</form>\n";
+		return $text;
+	}
+
 	function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
 		global $wgRequest;
 
@@ -813,8 +861,10 @@ END;
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 300 ) {
-			// If it's really big, don't show anything.
-			$results_line = $this->msg( 'cargo-drilldown-toomanyvalues' )->text();
+			// If it's really big, just show a text input.
+			// @TODO - this should ideally use remote
+			// autocompletion instead.
+			$results_line = $this->printTextInput( $filter_name, 0 );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
 			$results_line = $this->printComboBoxInput( $filter_name, 0, $filter_values );

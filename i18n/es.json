@@ -39,7 +39,6 @@
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
 	"cargo-drilldown-addanothervalue": "Haz clic en la flecha para agregar otro valor",
 	"cargo-drilldown-novalues": "No hay valores para este filtro",
-	"cargo-drilldown-toomanyvalues": "Demasiados valores; no se muestra.",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",

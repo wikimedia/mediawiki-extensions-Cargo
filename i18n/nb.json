@@ -39,7 +39,6 @@
 	"cargo-drilldown-resetfilters": "Nullstill filtre",
 	"cargo-drilldown-addanothervalue": "Klikk på pilen for å legge til flere verdier",
 	"cargo-drilldown-novalues": "Det finnes ingen verdier for dette filteret",
-	"cargo-drilldown-toomanyvalues": "For mange verdier til at de kan vises.",
 	"cargo-viewcsv": "Vis CSV",
 	"cargo-viewxls": "Se XLS",
 	"cargo-viewjson": "Vis JSON",

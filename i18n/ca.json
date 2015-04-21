@@ -38,7 +38,6 @@
 	"cargo-drilldown-resetfilters": "Reinicia els filtres",
 	"cargo-drilldown-addanothervalue": "Feu clic a la fletxa per afegir un altre valor",
 	"cargo-drilldown-novalues": "No hi ha cap valor per a aquest filtre",
-	"cargo-drilldown-toomanyvalues": "Hi ha massa valors; no es mostraran.",
 	"cargo-viewcsv": "Mostra el CSV",
 	"cargo-viewjson": "Mostra el JSON",
 	"cargo-purgecache": "Purga la memòria cau",

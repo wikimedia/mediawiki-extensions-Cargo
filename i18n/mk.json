@@ -39,7 +39,6 @@
 	"cargo-drilldown-resetfilters": "Врати ги филтрите по основно",
 	"cargo-drilldown-addanothervalue": "Стиснете на стрелката за да додадете друга вредност",
 	"cargo-drilldown-novalues": "Нема зададено вредности за овој филтер",
-	"cargo-drilldown-toomanyvalues": "Премногу вредности. Не можам да ги прикажам.",
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Погл. JSON",
