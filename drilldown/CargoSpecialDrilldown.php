@@ -992,6 +992,9 @@ END;
 	}
 
 	function getQueryInfo() {
+		global $wgDBprefix;
+
+		$cargoPrefix = $wgDBprefix . 'cargo__';
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
@@ -1002,7 +1005,7 @@ END;
 				$tableNames[] = $fieldTableName;
 				$joinConds[$fieldTableName] = array(
 					'LEFT OUTER JOIN',
-					'cargo__' . $this->tableName . '._ID = cargo__' . $fieldTableName . '._rowID'
+					$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
 				);
 			}
 		}

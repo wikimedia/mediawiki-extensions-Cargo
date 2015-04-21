@@ -53,10 +53,11 @@ class CargoAppliedFilter {
 	 * combination to an SQL "WHERE" clause.
 	 */
 	function checkSQL() {
-		global $wgDBtype;
+		global $wgDBprefix, $wgDBtype;
+
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
-			$value_field = "cargo__$fieldTableName._value";
+			$value_field = $wgDBprefix . "cargo__$fieldTableName._value";
 		} else {
 			$value_field = $this->filter->name;
 		}

@@ -99,6 +99,9 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getQueryParts( $appliedFilters ) {
+		global $wgDBprefix;
+
+		$cargoPrefix = $wgDBprefix . 'cargo__';
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
@@ -109,7 +112,7 @@ class CargoFilter {
 				$tableNames[] = $fieldTableName;
 				$joinConds[$fieldTableName] = array(
 					'LEFT OUTER JOIN',
-					'cargo__' . $this->tableName . '._ID = cargo__' . $fieldTableName . '._rowID'
+					$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
 				);
 			}
 		}
@@ -183,14 +186,17 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getAllValues( $appliedFilters ) {
+		global $wgDBprefix;
+
+		$cargoPrefix = $wgDBprefix . 'cargo__';
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$tableNames[] = $fieldTableName;
-			$fieldName = 'cargo__' . $fieldTableName. '._value';
+			$fieldName = $cargoPrefix . $fieldTableName. '._value';
 			$joinConds[$fieldTableName] = array(
 				'LEFT OUTER JOIN',
-				'cargo__' . $this->tableName . '._ID = cargo__' . $fieldTableName . '._rowID'
+				$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
 			);
 		} else {
 			$fieldName = $this->name;
