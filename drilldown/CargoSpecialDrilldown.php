@@ -891,8 +891,8 @@ END;
 		}
 
 		$header = "";
-		$this->show_single_cat = $wgRequest->getCheck( '_single' );
-		if ( !$this->show_single_cat ) {
+		$this->showSingleTable = $wgRequest->getCheck( '_single' );
+		if ( !$this->showSingleTable ) {
 			$header .= $this->printTablesList( $tables );
 		}
 		// If there are no fields for this table,
@@ -1012,7 +1012,7 @@ END;
 	 */
 	function linkParameters() {
 		$params = array();
-		if ( $this->show_single_cat ) {
+		if ( $this->showSingleTable ) {
 			$params['_single'] = null;
 		}
 		$params['_table'] = $this->tableName;
