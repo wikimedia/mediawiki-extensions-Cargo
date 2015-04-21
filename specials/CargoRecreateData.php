@@ -20,7 +20,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 	}
 
 	function execute( $query = null ) {
-		global $cgScriptPath;
+		global $wgScriptPath, $cgScriptPath;
 
 		$out = $this->getOutput();
 
@@ -69,12 +69,15 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			}
 		}
 
+		// Is this the best way to get the API URL?
+		$apiURL = $wgScriptPath . "/api.php";
 		$templateDataJS = json_encode( $templateData );
 		$recreateTableDoneMsg = wfMessage( 'cargo-recreatedata-tablecreated', $this->mTableName )->text();
 		$recreateDataDoneMsg = wfMessage( 'cargo-recreatedata-success' )->text();
 
 		$jsText = <<<END
 <script type="text/javascript">
+var apiURL = "$apiURL";
 var cargoScriptPath = "$cgScriptPath";
 var tableName = "{$this->mTableName}";
 var templateData = $templateDataJS;
@@ -118,7 +121,7 @@ function cargoCreateJobs( templateNum, numPagesHandled, replaceOldRows ) {
 		queryStringData['replaceOldRows'] = true;
 	}
 	$.get(
-		"/w/api.php",
+		apiURL,
 		queryStringData
 	)
 	.done(function( msg ) {
@@ -147,7 +150,7 @@ $( "#cargoSubmit" ).click( function() {
 	var templateName = templateData[0]['name'];
 	$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />" );
 	$.get(
-		"/w/api.php",
+		apiURL,
 		{ action: "cargorecreatetables", template: templateName }
 	)
 	.done(function( msg ) {
