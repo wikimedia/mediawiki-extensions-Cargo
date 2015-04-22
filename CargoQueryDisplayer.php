@@ -23,11 +23,7 @@ class CargoQueryDisplayer {
 		return $cqd;
 	}
 
-	/**
-	 * Given a format name, and a list of the fields, returns the name
-	 * of the the function to call for that format.
-	 */
-	public function getFormatClass() {
+	public static function getAllFormatClasses() {
 		$formatClasses = array(
 			'list' => 'CargoListFormat',
 			'ul' => 'CargoULFormat',
@@ -49,7 +45,15 @@ class CargoQueryDisplayer {
 			'bar chart' => 'CargoBarChartFormat',
 			'gallery' => 'CargoGalleryFormat',
 		);
+		return $formatClasses;
+	}
 
+	/**
+	 * Given a format name, and a list of the fields, returns the name
+	 * of the the function to call for that format.
+	 */
+	public function getFormatClass() {
+		$formatClasses = self::getAllFormatClasses();
 		if ( array_key_exists( $this->mFormat, $formatClasses ) ) {
 			return $formatClasses[$this->mFormat];
 		}

@@ -19,6 +19,15 @@ class CargoViewData extends SpecialPage {
 		$this->setHeaders();
 		$out = $this->getOutput();
 		$out->addModuleStyles( 'ext.cargo.main' );
+
+		$req = $this->getRequest();
+		$tablesStr = $req->getVal( 'tables' );
+		if ( $tablesStr == '' ) {
+			$html = $this->displayInputForm();
+			$out->addHTML( $html );
+			return;
+		}
+
 		try {
 			$rep = new ViewDataPage();
 		} catch ( MWException $e ) {
@@ -30,6 +39,58 @@ class CargoViewData extends SpecialPage {
 
 	protected function getGroupName() {
 		return 'cargo';
+	}
+
+	static function displayInputRow( $labelText, $fieldName, $size ) {
+		$row = Html::element( 'td', array( 'class' => 'mw-label' ), $labelText );
+		$input = Html::input( $fieldName, '', 'text', array( 'size' => $size ) );
+		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
+		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
+	}
+
+	function displayInputForm() {
+		$text = <<<END
+<form>
+<table>
+<tbody>
+
+END;
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->text(), 'tables', 20 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->text(), 'fields', 40 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 60 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 40 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 20 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 20 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
+		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
+		$text .= <<<END
+<tr class="mw-htmlform-field-HTMLTextField">
+<td class="mw-label">
+$formatLabel
+</td>
+<td class="mw-input">
+<select name="format">
+<option value="">(Default)</option>
+
+END;
+		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
+		foreach ( $formatClasses as $formatName => $formatClass ) {
+			$text .= Html::element( 'option', null, $formatName );
+		}
+
+		$submitLabel = wfMessage( 'htmlform-submit' )->text();
+		$text .= <<<END
+
+</select>
+</td>
+</tr>
+</tbody>
+</table>
+<input type="submit" value="$submitLabel" />
+</form>
+
+END;
+		return $text;
 	}
 }
 
@@ -44,15 +105,6 @@ class ViewDataPage extends QueryPage {
 		$joinOnStr = $req->getVal( 'join_on' );
 		$groupByStr = $req->getVal( 'group_by' );
 		$orderByStr = $req->getVal( 'order_by' );
-
-		// For now, exit with an error message if there was no query
-		// set ('tables' is all that is necessary for a query).
-		// @TODO - if no query is set, display an interface for
-		// creating a query, in the manner of Special:Ask.
-		if ( $tablesStr == '' ) {
-			throw new MWException( "A Cargo query must be set in the URL query string." );
-		}
-
 		$limitStr = null;
 
 		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
@@ -169,6 +221,14 @@ class ViewDataPage extends QueryPage {
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		$queryDisplayer->mFormat = $this->format;
 		$formatter = $queryDisplayer->getFormatter( $out );
+
+		if ( $formatter->isDeferred() ) {
+			$displayParams = array();
+			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $displayParams );
+			$out->addHTML( $text );
+			return;
+		}
+
 		$this->displayParams['offset'] = $offset;
 		$queryDisplayer->mDisplayParams = $this->displayParams;
 		$html = $queryDisplayer->displayQueryResults( $formatter, $valuesTable );
