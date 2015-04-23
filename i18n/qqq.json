@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Umherirrender"
+			"Umherirrender",
+			"Liuxinyu970226"
 		]
 	},
 	"cargo-desc": "{{desc|name=Cargo|url=https://www.mediawiki.org/wiki/Extension:Cargo}}",
@@ -16,14 +17,14 @@
 	"cargo-recreatedata-createdata": "Label before a 'submit' button.",
 	"cargo-recreatedata-success": "Message displayed after user submits a \"recreate data\" form.",
 	"viewdata": "{{doc-special|ViewData}}",
-	"cargo-viewdata-tables": "Label in a form to set the names of one or more tables to query.",
-	"cargo-viewdata-fields": "Label in a form to set the names of one or more fields to query.",
-	"cargo-viewdata-where": "Label in a form to set the equivalent of an SQL 'WHERE' clause.",
+	"cargo-viewdata-tables": "Label in a form to set the names of one or more tables to query.\n{{Identical|Table}}",
+	"cargo-viewdata-fields": "Label in a form to set the names of one or more fields to query.\n{{Identical|Field}}",
+	"cargo-viewdata-where": "Label in a form to set the equivalent of an SQL 'WHERE' clause.\n{{Identical|Where}}",
 	"cargo-viewdata-joinon": "Label in a form to set the equivalent of an SQL 'JOIN ... ON' clause.",
 	"cargo-viewdata-groupby": "Label in a form to set the equivalent of an SQL 'GROUP BY' clause.",
 	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
-	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.",
-	"cargo-viewdata-format": "Label in a form to set the display format for query results.",
+	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
+	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
 	"cargotables": "{{doc-special|CargoTables}}",
 	"cargo-cargotables-tablelist": "Used as a page header.",
 	"cargo-cargotables-viewtable": "Parameters:\n* $1 - table name",
