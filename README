@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 0.6.1
+        Version 0.7
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -49,6 +49,13 @@ your MediaWiki 'extensions' directory, then add the following line to
 your 'LocalSettings.php' file:
 
      require_once( "$IP/extensions/Cargo/Cargo.php" );
+
+== Credits ==
+
+Cargo was created, and mostly written by, Yaron Koren.
+
+Important code contributions were also made by Ad Strack van Schijndel,
+Namit Ohri and Vivek Ghaisas.
 
 == Contact ==
 
