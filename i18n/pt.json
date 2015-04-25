@@ -5,6 +5,10 @@
 			"Vitorvicentevalente"
 		]
 	},
+	"cargo-viewdata-tables": "Tabela(s):",
+	"cargo-viewdata-orderby": "Ordenar por:",
+	"cargo-viewdata-limit": "Limite:",
+	"cargo-viewdata-format": "Formato:",
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Remover este filtro",
 	"cargo-drilldown-resetfilters": "Repor filtros",
