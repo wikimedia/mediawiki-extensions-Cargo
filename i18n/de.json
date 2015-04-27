@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Metalhead64"
+			"Metalhead64",
+			"Andreasburmeister"
 		]
 	},
 	"cargo-desc": "Ermöglicht das Speichern und Abfragen von Vorlagendaten",
@@ -21,7 +22,7 @@
 	"cargo-viewdata-fields": "Feld(er):",
 	"cargo-viewdata-where": "Where:",
 	"cargo-viewdata-joinon": "Join on:",
-	"cargo-viewdata-groupby": "Group by:",
+	"cargo-viewdata-groupby": "Gruppieren nach:",
 	"cargo-viewdata-orderby": "Sortieren nach:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
