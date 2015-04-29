@@ -20,7 +20,13 @@ class CargoRecreateData extends UnlistedSpecialPage {
 	}
 
 	function execute( $query = null ) {
-		global $wgScriptPath, $cgScriptPath;
+		global $wgUser, $wgScriptPath, $cgScriptPath;
+
+		// Check permissions.
+		if ( !$wgUser->isAllowed( 'recreatecargodata' ) ) {
+			$this->displayRestrictionError();
+			return;
+		}
 
 		$out = $this->getOutput();
 
