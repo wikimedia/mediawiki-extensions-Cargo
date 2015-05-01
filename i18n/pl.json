@@ -1,8 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Chrumps"
+			"Chrumps",
+			"Devwebtel"
 		]
 	},
-	"cargo-recreatedata-success": "Dane są odtwarzane."
+	"cargo-recreatedata-success": "Dane są odtwarzane.",
+	"cargo-viewdata-where": "Gdzie:",
+	"cargo-viewdata-limit": "Limit:",
+	"cargo-viewdata-format": "Format:"
 }
