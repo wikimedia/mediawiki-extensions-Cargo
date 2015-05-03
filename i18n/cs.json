@@ -1,0 +1,13 @@
+{
+	"@metadata": {
+		"authors": [
+			"Cvanca"
+		]
+	},
+	"cargo-viewdata-where": "WHERE:",
+	"cargo-viewdata-joinon": "JOIN ON:",
+	"cargo-viewdata-groupby": "GROUP BY:",
+	"cargo-viewdata-orderby": "ORDER BY:",
+	"cargo-viewdata-limit": "LIMIT:",
+	"cargo-viewdata-format": "Formát:"
+}
