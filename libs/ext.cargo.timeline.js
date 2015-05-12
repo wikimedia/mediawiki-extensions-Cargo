@@ -34,9 +34,8 @@ $(document).ready(function() {
 			// small lower one for navigation.
 			// The time period for the upper band (days, months,
 			// etc.) is based on the "density" of the points,
-			// which is calculated simply by dividing the number
-			// of events by the time distance between the earliest
-			// and latest dates.
+			// which is determined by the median time distance
+			// between point.
 			// The time period for the lower, navigation band is
 			// based on the time distance alone.
 			// If the two bands end up having the same time
@@ -44,23 +43,41 @@ $(document).ready(function() {
 			// It's not a perfect system, and the numbers used to
 			// decide the time periods are rather arbitrary,
 			// but in practice it seems to work out fairly well.
+			var daysDifferences = [];
+			var prevDate = null;
+			var curDate = null;
+			for ( eventNum = 0; eventNum < numEvents; eventNum++ ) {
+				prevDate = curDate;
+				var curDateStr = events[eventNum]['start'];
+				curDate = Date.parse( curDateStr );
+				if ( eventNum > 0 ) {
+					daysDifferences.push( ( curDate - prevDate ) / ( 1000 * 60 * 60 * 24 ) );
+				}
+			}
+			daysDifferences.sort();
+			var midway = Math.floor( daysDifferences.length / 2 );
+			if ( daysDifferences.length % 2 == 0 ) {
+				var medianDaysBetweenEvents = ( daysDifferences[midway - 1] + daysDifferences[midway] ) / 2.0;
+			} else {
+				var medianDaysBetweenEvents = daysDifferences[midway];
+			}
+
+			var bandType1 = Timeline.DateTime.DAY;
+			if ( medianDaysBetweenEvents < 3 ) {
+				// Keep the default.
+			} else if ( medianDaysBetweenEvents < 21 ) {
+				bandType1 = Timeline.DateTime.WEEK;
+			} else if ( medianDaysBetweenEvents < 90 ) {
+				bandType1 = Timeline.DateTime.MONTH;
+			} else {
+				bandType1 = Timeline.DateTime.YEAR;
+			}
+
 			var earliestDateStr = events[0]['start'];
 			var latestDateStr = events[numEvents - 1]['start'];
 			var earliestDate = Date.parse( earliestDateStr );
 			var latestDate = Date.parse( latestDateStr );
 			var daysDifference = ( latestDate - earliestDate ) / ( 1000 * 60 * 60 * 24 );
-			var eventsPerDay = numEvents / daysDifference;
-
-			var bandType1 = Timeline.DateTime.DAY;
-			if ( eventsPerDay > .2 ) {
-				// Keep the default.
-			} else if ( eventsPerDay > .03 ) {
-				bandType1 = Timeline.DateTime.WEEK;
-			} else if ( eventsPerDay > .0075 ) {
-				bandType1 = Timeline.DateTime.MONTH;
-			} else {
-				bandType1 = Timeline.DateTime.YEAR;
-			}
 
 			var bandType2 = Timeline.DateTime.DAY;
 			if ( daysDifference <= 14 ) {
