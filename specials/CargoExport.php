@@ -173,10 +173,16 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventDescription .= "<strong>$fieldName:</strong> $fieldValue<br />\n";
 				}
 
+				if ( array_key_exists( 'name', $queryResult ) ) {
+					$eventTitle = $queryResult['name'];
+				} else {
+					$eventTitle = reset( $queryResult );
+				}
+
 				$displayedArray[] = array(
 					// Get first field for the 'title' - not
 					// necessarily the page name.
-					'title' => reset( $queryResult ),
+					'title' => $eventTitle,
 					'start' => $queryResult[$dateFields[0]],
 					'description' => $eventDescription,
 					'link' => $title->getFullURL(),
