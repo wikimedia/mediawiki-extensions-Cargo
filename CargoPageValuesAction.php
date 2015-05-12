@@ -40,9 +40,16 @@ class CargoPageValuesAction {
 	 * @return boolean
 	 */
 	public static function addLink( BaseTemplate $skinTemplate, array &$toolbox ) {
+		$title = $skinTemplate->getSkin()->getTitle();
+		// This function doesn't usually get called for special pages, 
+		// but sometimes it is.
+		if ( $title->isSpecialPage() ) {
+			return true;
+		}
+
 		$toolbox['cargo-pagevalues'] = array(
 			'msg' => 'pagevalues',
-			'href' => $skinTemplate->getSkin()->getTitle()->getLocalUrl( array( 'action' => 'pagevalues' ) ),
+			'href' => $title->getLocalUrl( array( 'action' => 'pagevalues' ) ),
 			'id' => 't-cargopagevalueslink',
 			'rel' => 'cargo-pagevalues'
 		);
