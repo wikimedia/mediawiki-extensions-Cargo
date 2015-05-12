@@ -46,6 +46,16 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			'dataurl' => $ce->getFullURL( $queryParams ),
 			'style' => "width: $width"
 		);
+		if ( array_key_exists( 'view', $displayParams ) ) {
+			$view = $displayParams['view'];
+			// Enable simpler view names.
+			if ( $view == 'day' ) {
+				$view = 'basicDay';
+			} elseif ( $view == 'week' ) {
+				$view = 'basicWeek';
+			}
+			$attrs['startview'] = $view;
+		}
 		if ( array_key_exists( 'start date', $displayParams ) ) {
 			$attrs['startdate'] = $displayParams['start date'];
 		}
