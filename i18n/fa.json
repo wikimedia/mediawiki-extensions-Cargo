@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Danialbehzadi"
+			"Danialbehzadi",
+			"Dalba"
 		]
 	},
+	"recreatedata": "بازسازی داده‌ها",
 	"cargo-viewxls": "مشاهده XML"
 }
