@@ -4,7 +4,7 @@
  * @ingroup Cargo
  */
 
-class CargoTagcloudFormat extends CargoDisplayFormat {
+class CargoTagCloudFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
 		return array(
@@ -16,13 +16,13 @@ class CargoTagcloudFormat extends CargoDisplayFormat {
 
 	/**
 	 *
-	 * @param array $valuesTagcloud Unused
-	 * @param array $formattedValuesTagcloud
+	 * @param array $valuesTagCloud Unused
+	 * @param array $formattedValuesTagCloud
 	 * @param array $fieldDescriptions
 	 * @param array $displayParams
 	 * @return string HTML
 	 */
-	function display( $valuesTagcloud, $formattedValuesTagcloud, $fieldDescriptions, $displayParams ) {
+	function display( $valuesTagCloud, $formattedValuesTagCloud, $fieldDescriptions, $displayParams ) {
 
 		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
 
@@ -40,7 +40,7 @@ class CargoTagcloudFormat extends CargoDisplayFormat {
 
 		$tags = array();
 
-		foreach ( $formattedValuesTagcloud as $row ) {
+		foreach ( $formattedValuesTagCloud as $row ) {
 
 			$tag = $row[$tagFieldName];
 			$count = $row[$countFieldName];
@@ -82,7 +82,7 @@ class CargoTagcloudFormat extends CargoDisplayFormat {
 		}
 
 		$attrs = array (
-			'class' => 'cargoTagcloud',
+			'class' => 'cargoTagCloud',
 			'align' => 'justify'
 		);
 

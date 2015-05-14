@@ -114,7 +114,7 @@ $wgAutoloadClasses['CargoTimelineFormat'] = $dir . '/formats/CargoTimelineFormat
 $wgAutoloadClasses['CargoCategoryFormat'] = $dir . '/formats/CargoCategoryFormat.php';
 $wgAutoloadClasses['CargoBarChartFormat'] = $dir . '/formats/CargoBarChartFormat.php';
 $wgAutoloadClasses['CargoGalleryFormat'] = $dir . '/formats/CargoGalleryFormat.php';
-$wgAutoloadClasses['CargoTagcloudFormat'] = $dir . '/formats/CargoTagcloudFormat.php';
+$wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat.php';
 
 $wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
 
