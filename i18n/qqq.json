@@ -21,7 +21,6 @@
 	"cargo-viewdata-fields": "Label in a form to set the names of one or more fields to query.\n{{Identical|Field}}",
 	"cargo-viewdata-where": "Label in a form to set the equivalent of an SQL 'WHERE' clause.\n{{Identical|Where}}",
 	"cargo-viewdata-joinon": "Label in a form to set the equivalent of an SQL 'JOIN ... ON' clause.",
-	"cargo-viewdata-groupby": "Label in a form to set the equivalent of an SQL 'GROUP BY' clause.",
 	"cargo-viewdata-groupby": "Label in a form to set the equivalent of an SQL 'HAVING' clause.",
 	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",

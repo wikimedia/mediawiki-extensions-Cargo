@@ -1,9 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Macofe"
 		]
 	},
+	"cargo-viewdata-limit": "Limite:",
+	"cargo-viewdata-format": "Formato:",
 	"cargo-drilldown-choosetable": "Scegli una tabella",
 	"cargo-drilldown-filterbyvalue": "Filtra per questo valore",
 	"cargo-drilldown-or": "o",
