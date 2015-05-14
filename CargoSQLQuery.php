@@ -22,6 +22,7 @@ class CargoSQLQuery {
 	public $mFieldDescriptions;
 	public $mFieldTables;
 	public $mGroupByStr;
+	public $mHavingStr;
 	public $mOrderByStr;
 	public $mQueryLimit;
 
@@ -30,11 +31,11 @@ class CargoSQLQuery {
 	 * object can be created without any values.
 	 */
 	public static function newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$orderByStr, $limitStr ) {
+		$havingStr, $orderByStr, $limitStr ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-			$orderByStr, $limitStr );
+			$havingStr, $orderByStr, $limitStr );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
@@ -51,6 +52,7 @@ class CargoSQLQuery {
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mTableNames );
 		$sqlQuery->setOrderBy( $orderByStr );
 		$sqlQuery->mGroupByStr = $groupByStr;
+		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
 		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
@@ -70,9 +72,9 @@ class CargoSQLQuery {
 	 * no processing.
 	 */
 	public static function newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$orderByStr, $limitStr ) {
+		$havingStr, $orderByStr, $limitStr ) {
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-			$orderByStr, $limitStr );
+			$havingStr, $orderByStr, $limitStr );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
@@ -82,6 +84,7 @@ class CargoSQLQuery {
 		$sqlQuery->mWhereStr = $whereStr;
 		$sqlQuery->mJoinOnStr = $joinOnStr;
 		$sqlQuery->mGroupByStr = $groupByStr;
+		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->mOrderByStr = $orderByStr;
 		$sqlQuery->mQueryLimit = $limitStr;
 		return $sqlQuery;
@@ -94,7 +97,7 @@ class CargoSQLQuery {
 	// some of the parameters need to be checked for these strings,
 	// but we might as well validate all of them.
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$orderByStr, $limitStr ) {
+		$havingStr, $orderByStr, $limitStr ) {
 
 		$regexps = array(
 			'/\bselect\b/i' => 'SELECT',
@@ -112,6 +115,7 @@ class CargoSQLQuery {
 				( preg_match( $regexp, $whereStr ) && $regexp != '/;/' ) ||
 				preg_match( $regexp, $joinOnStr ) ||
 				preg_match( $regexp, $groupByStr ) ||
+				preg_match( $regexp, $havingStr ) ||
 				preg_match( $regexp, $orderByStr ) ||
 				preg_match( $regexp, $limitStr ) ) {
 				throw new MWException( "Error: the string \"$displayString\" cannot be used within #cargo_query." );
@@ -454,15 +458,15 @@ class CargoSQLQuery {
 	}
 
 	function handleVirtualFields() {
-		// The array-field alias can be found in the "where", "join on",
-		// "fields" or "order by" clauses. Handling depends on which
-		// clause it is:
+		// The array-field alias can be found in a number of different
+		// clauses. Handling depends on which clause it is:
 		// "where" - make sure that "HOLDS" or "HOlDS LIKE" is
 		//     specified. If it is, "translate" it, and add the values
 		//     table to "tables" and "join on".
 		// "join on" - make sure that "HOLDS" is specified, If it is,
 		//     "translate" it, and add the values table to "tables".
 		// "group by" - always "translate" it into the single value.
+		// "having" - same as "group by".
 		// "fields" - "translate" it, where the translation (i.e.
 		//     the true field) depends on whether or not the values
 		//     table is included.
@@ -574,8 +578,8 @@ class CargoSQLQuery {
 		}
 		$this->addToCargoJoinConds( $newCargoJoinConds );
 
-		// "group by"
-		// We handle this before "fields" and "order by" because,
+		// "group by" and "having"
+		// We handle these before "fields" and "order by" because,
 		// unlike those two, a virtual field here can affect the
 		// set of tables and fields being included - which will
 		// affect the other two.
@@ -607,8 +611,10 @@ class CargoSQLQuery {
 
 				if ( $foundMatch1 ) {
 					$this->mGroupByStr = preg_replace( $pattern1, $replacement, $this->mGroupByStr );
+					$this->mHavingStr = preg_replace( $pattern1, $replacement, $this->mHavingStr );
 				} elseif ( $foundMatch2 ) {
 					$this->mGroupByStr = preg_replace( $pattern2, $replacement, $this->mGroupByStr );
+					$this->mHavingStr = preg_replace( $pattern2, $replacement, $this->mHavingStr );
 				}
 			}
 		}
@@ -879,6 +885,7 @@ class CargoSQLQuery {
 			$this->mWhereStr = self::addTablePrefixes( $this->mWhereStr );
 		}
 		$this->mGroupByStr = self::addTablePrefixes( $this->mGroupByStr );
+		$this->mHavingStr = self::addTablePrefixes( $this->mHavingStr );
 		$this->mOrderByStr = self::addTablePrefixes( $this->mOrderByStr );
 	}
 
@@ -899,6 +906,9 @@ class CargoSQLQuery {
 
 		if ( $this->mGroupByStr != '' ) {
 			$selectOptions['GROUP BY'] = $this->mGroupByStr;
+		}
+		if ( $this->mHavingStr != '' ) {
+			$selectOptions['HAVING'] = $this->mHavingStr;
 		}
 		$selectOptions['ORDER BY'] = $this->mOrderByStr;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;

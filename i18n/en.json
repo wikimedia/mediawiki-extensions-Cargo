@@ -20,6 +20,7 @@
 	"cargo-viewdata-where": "Where:",
 	"cargo-viewdata-joinon": "Join on:",
 	"cargo-viewdata-groupby": "Group by:",
+	"cargo-viewdata-having": "Having:",
 	"cargo-viewdata-orderby": "Order by:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",

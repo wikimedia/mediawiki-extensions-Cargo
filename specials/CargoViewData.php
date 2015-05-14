@@ -60,6 +60,7 @@ END;
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 60 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 40 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 20 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-having' )->text(), 'having', 20 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 20 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
 		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
@@ -104,11 +105,12 @@ class ViewDataPage extends QueryPage {
 		$whereStr = $req->getVal( 'where' );
 		$joinOnStr = $req->getVal( 'join_on' );
 		$groupByStr = $req->getVal( 'group_by' );
+		$havingStr = $req->getVal( 'having' );
 		$orderByStr = $req->getVal( 'order_by' );
 		$limitStr = null;
 
 		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr );
 
 		$formatStr = $req->getVal( 'format' );
 		$this->format = $formatStr;
@@ -119,7 +121,7 @@ class ViewDataPage extends QueryPage {
 		$queryStringValues = $this->getRequest()->getValues();
 		foreach ( $queryStringValues as $key => $value ) {
 			if ( !in_array( $key,
-					array( 'title', 'tables', 'fields', 'join_on', 'order_by', 'group_by', 'format',
+					array( 'title', 'tables', 'fields', 'join_on', 'order_by', 'group_by', 'having', 'format',
 					'offset' ) ) ) {
 				$this->displayParams[$key] = $value;
 			}
@@ -146,6 +148,9 @@ class ViewDataPage extends QueryPage {
 		if ( $this->sqlQuery->mGroupByStr != '' ) {
 			$selectOptions['GROUP BY'] = $this->sqlQuery->mGroupByStr;
 		}
+		if ( $this->sqlQuery->mHavingStr != '' ) {
+			$selectOptions['HAVING'] = $this->sqlQuery->mHavingStr;
+		}
 		// "order by" is handled elsewhere, in getOrderFields().
 		//
 		// Field aliases need to have quotes placed around them
@@ -171,7 +176,8 @@ class ViewDataPage extends QueryPage {
 
 	function linkParameters() {
 		$possibleParams = array(
-			'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'format' );
+			'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'having', 'format'
+		);
 		$linkParams = array();
 		$req = $this->getRequest();
 		foreach ( $possibleParams as $possibleParam ) {

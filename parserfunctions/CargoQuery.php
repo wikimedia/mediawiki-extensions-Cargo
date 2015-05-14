@@ -24,6 +24,7 @@ class CargoQuery {
 		$whereStr = null;
 		$joinOnStr = null;
 		$groupByStr = null;
+		$havingStr = null;
 		$orderByStr = null;
 		$limitStr = null;
 		$format = 'auto'; // default
@@ -47,6 +48,8 @@ class CargoQuery {
 				$joinOnStr = $value;
 			} elseif ( $key == 'group by' ) {
 				$groupByStr = $value;
+			} elseif ( $key == 'having' ) {
+				$havingStr = $value;
 			} elseif ( $key == 'order by' ) {
 				$orderByStr = $value;
 			} elseif ( $key == 'limit' ) {
@@ -61,7 +64,7 @@ class CargoQuery {
 
 		try {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
@@ -89,7 +92,7 @@ class CargoQuery {
 			// fields in the query, making the first 'Query
 			// necessary. There has to be some better way, though.
 			$sqlQuery = CargoSQLQuery::newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-					$groupByStr, $orderByStr, $limitStr );
+					$groupByStr, $havingStr, $orderByStr, $limitStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
 			return $parser->insertStripItem( $text, $parser->mStripState );
 		}
