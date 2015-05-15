@@ -23,6 +23,7 @@
 	"cargo-viewdata-where": "Where:",
 	"cargo-viewdata-joinon": "Join on:",
 	"cargo-viewdata-groupby": "Gruppieren nach:",
+	"cargo-viewdata-having": "Hat:",
 	"cargo-viewdata-orderby": "Sortieren nach:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
