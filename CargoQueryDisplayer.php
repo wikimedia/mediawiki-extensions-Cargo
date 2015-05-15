@@ -179,14 +179,18 @@ class CargoQueryDisplayer {
 	}
 
 	static function formatDateFieldValue( $dateValue, $datePrecision, $type ) {
+		$seconds = strtotime( $dateValue );
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
-			$seconds = strtotime( $dateValue );
 			// 'o' is better than 'Y' because it does not add
 			// leading zeroes to years with fewer than four digits.
 			return date( 'o', $seconds );
-		} else { // CargoStore::FULL_PRECISION
+		} elseif ( $datePrecision == CargoStore::MONTH_ONLY ) {
+			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ) ) .
+				' ' . date( 'o', $seconds );
+		} else {
+			// CargoStore::FULL_PRECISION or
+			// CargoStore::TIME_MISSING
 			global $wgAmericanDates;
-			$seconds = strtotime( $dateValue );
 			if ( $wgAmericanDates ) {
 				// We use MediaWiki's representation of month
 				// names, instead of PHP's, because its i18n
@@ -196,7 +200,7 @@ class CargoQueryDisplayer {
 			} else {
 				$dateText = date( 'o-m-d', $seconds );
 			}
-			if ( $type == 'Date' ) {
+			if ( $type == 'Date' || $datePrecision == CargoStore::TIME_MISSING ) {
 				return $dateText;
 			}
 
