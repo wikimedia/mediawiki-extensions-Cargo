@@ -26,6 +26,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$whereArray = $req->getArray( 'where' );
 		$joinOnArray = $req->getArray( 'join_on' );
 		$groupByArray = $req->getArray( 'group_by' );
+		$havingArray = $req->getArray( 'having' );
 		$orderByArray = $req->getArray( 'order_by' );
 		$limitArray = $req->getArray( 'limit' );
 
@@ -33,7 +34,7 @@ class CargoExport extends UnlistedSpecialPage {
 		foreach ( $tableArray as $i => $table ) {
 			$sqlQueries[] = CargoSQLQuery::newFromValues(
 					$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
-					$orderByArray[$i], $limitArray[$i] );
+					$havingArray[$i], $orderByArray[$i], $limitArray[$i] );
 		}
 
 		$format = $req->getVal( 'format' );
