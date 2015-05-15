@@ -319,13 +319,41 @@ class CargoStore {
 						}
 					}
 					$seconds = strtotime( $curValue );
-					if ( $fieldType == 'Date' ) {
+					if ( $precision != self::FULL_PRECISION || $fieldType == 'Date' ) {
 						// Put into YYYY-MM-DD format.
 						$tableFieldValues[$fieldName] = date( 'Y-m-d', $seconds );
 					} else { // ( $fieldType == 'Datetime' )
-						// @TODO - check for
-						// "time missing" precision.
-						$tableFieldValues[$fieldName] = date( 'Y-m-d G:i:s', $seconds );
+						// Check for "time missing"
+						// precision.
+						$datePortion = date( 'Y-m-d', $seconds );
+						$timePortion = date( 'G:i:s', $seconds );
+						// If it's not right at midnight,
+						// there's definitely a time there.
+						if ( $timePortion !== '0:00:00' ) {
+							$tableFieldValues[$fieldName] = $datePortion . ' ' . $timePortion;
+						} else {
+							// It's midnight, so
+							// chances are good that
+							// there was no time
+							// specified, but how
+							// do we know for sure?
+							// Slight @HACK - look
+							// for either "00" or
+							// "AM" (or "am") in
+							// the original date
+							// string. If none of
+							// them is there,
+							// there's probably no
+							// time.
+							if ( strpos( $cur_value, '00' ) === false &&
+								strpos( $cur_value, 'AM' ) === false &&
+								strpos( $cur_value, 'am' ) === false ) {
+								$precision = self::TIME_MISSING;
+							}
+							// Either way, we just
+							// need the date portion.
+							$tableFieldValues[$fieldName] = $datePortion;
+						}
 					}
 					$tableFieldValues[$fieldName . '__precision'] = $precision;
 				}
