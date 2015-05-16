@@ -23,6 +23,7 @@
 	"cargo-viewdata-fields": "Campo(s):",
 	"cargo-viewdata-where": "Donde:",
 	"cargo-viewdata-groupby": "Agrupar por:",
+	"cargo-viewdata-having": "Conteniendo:",
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",

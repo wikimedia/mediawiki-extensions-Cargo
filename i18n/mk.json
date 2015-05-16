@@ -22,6 +22,7 @@
 	"cargo-viewdata-where": "Каде:",
 	"cargo-viewdata-joinon": "Поврзи на:",
 	"cargo-viewdata-groupby": "Групирај по:",
+	"cargo-viewdata-having": "Има:",
 	"cargo-viewdata-orderby": "Подреди по:",
 	"cargo-viewdata-limit": "Ограничување:",
 	"cargo-viewdata-format": "Формат:",

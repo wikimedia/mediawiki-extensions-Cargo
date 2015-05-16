@@ -22,6 +22,7 @@
 	"cargo-viewdata-where": "地点：",
 	"cargo-viewdata-joinon": "跟随：",
 	"cargo-viewdata-groupby": "分组依据：",
+	"cargo-viewdata-having": "拥有：",
 	"cargo-viewdata-orderby": "排序方式：",
 	"cargo-viewdata-limit": "限制：",
 	"cargo-viewdata-format": "格式：",
