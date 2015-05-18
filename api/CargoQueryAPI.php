@@ -20,6 +20,7 @@ class CargoQueryAPI extends ApiBase {
 		$joinOnStr = $params['join_on'];
 		$orderByStr = $params['order_by'];
 		$groupByStr = $params['group_by'];
+		$havingStr = $params['having'];
 		$limitStr = $params['limit'];
 
 		if ( $tablesStr == '' ) {
@@ -27,7 +28,7 @@ class CargoQueryAPI extends ApiBase {
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $orderByStr, $limitStr );
+				$havingStr, $groupByStr, $orderByStr, $limitStr );
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
@@ -59,8 +60,9 @@ class CargoQueryAPI extends ApiBase {
 			'fields' => null,
 			'where' => null,
 			'join_on' => null,
-			'order_by' => null,
 			'group_by' => null,
+			'having' => null,
+			'order_by' => null,
 		);
 	}
 
@@ -72,6 +74,7 @@ class CargoQueryAPI extends ApiBase {
 			'join_on' => 'Conditions for joining multiple tables, corresponding to an SQL JOIN ON clause',
 			'order_by' => 'The order of results, corresponding to an SQL ORDER BY clause',
 			'group_by' => 'Field(s) on which to group results, corresponding to an SQL GROUP BY clause',
+			'having' => 'Conditions for grouped values, corresponding to an SQL HAVING clause',
 			'limit' => 'Limit how many entries to return',
 		);
 	}
