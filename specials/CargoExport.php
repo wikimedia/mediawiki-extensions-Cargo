@@ -114,7 +114,11 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventTitle = reset( $queryResult );
 				}
 				$title = Title::newFromText( $queryResult['_pageName'] );
-				$displayedArray[] = array(
+				$startDateField = $dateFieldAliases[0];
+				$startDate = $queryResult[$startDateField];
+				$startDatePrecisionField = str_replace( ' ', '_', $startDateField ) . '__precision';
+				$startDatePrecision = $queryResult[$startDatePrecisionField];
+				$curEvent = array(
 					// Get first field for the title - not
 					// necessarily the page name.
 					'title' => $eventTitle,
@@ -122,6 +126,10 @@ class CargoExport extends UnlistedSpecialPage {
 					'start' => $queryResult[$dateFieldAliases[0]],
 					'color' => $colorArray[$i]
 				);
+				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
+					$curEvent['allDay'] = true;
+				}
+				$displayedArray[] = $curEvent;
 			}
 		}
 
