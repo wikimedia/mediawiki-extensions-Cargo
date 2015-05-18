@@ -21,7 +21,16 @@ class CargoExport extends UnlistedSpecialPage {
 		$this->getOutput()->setArticleBodyOnly( true );
 
 		$req = $this->getRequest();
-		$tableArray = $req->getArray( 'tables' );
+
+		// If no value has been set for 'tables', or 'table', just
+		// display a blank screen.
+		if ( $req->getCheck( 'tables' ) ) {
+			$tableArray = $req->getArray( 'tables' );
+		} elseif ( $req->getCheck( 'table' ) ) {
+			$tableArray = $req->getArray( 'table' );
+		} else {
+			return;
+		}
 		$fieldsArray = $req->getArray( 'fields' );
 		$whereArray = $req->getArray( 'where' );
 		$joinOnArray = $req->getArray( 'join_on' );
@@ -65,6 +74,8 @@ class CargoExport extends UnlistedSpecialPage {
 			$this->displayExcelData( $sqlQueries, $filename );
 		} elseif ( $format == 'json' ) {
 			$this->displayJSONData( $sqlQueries );
+		} else {
+			print "Error: format must be set.";
 		}
 	}
 
