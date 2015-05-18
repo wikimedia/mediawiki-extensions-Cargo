@@ -10,8 +10,8 @@ class CargoStore {
 
 	public static $settings = array();
 
-	const FULL_PRECISION = 0;
-	const TIME_MISSING = 1;
+	const DATE_AND_TIME = 0;
+	const DATE_ONLY = 1;
 	const MONTH_ONLY = 2;
 	const YEAR_ONLY = 3;
 
@@ -285,6 +285,7 @@ class CargoStore {
 				}
 			}
 			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+				$precision = null;
 				if ( $curValue != '' ) {
 					// Special handling if it's just a year.
 					// If it's a number and less than 8
@@ -315,20 +316,26 @@ class CargoStore {
 							// of the month.
 							$precision = self::MONTH_ONLY;
 						} else {
-							$precision = self::FULL_PRECISION;
+							// We have at least a
+							// full date.
+							if ( $fieldType == 'Date' ) {
+								$precision = self::DATE_ONLY;
+							}
 						}
 					}
 					$seconds = strtotime( $curValue );
-					if ( $precision != self::FULL_PRECISION || $fieldType == 'Date' ) {
+					if ( $precision == self::DATE_ONLY ) {
 						// Put into YYYY-MM-DD format.
 						$tableFieldValues[$fieldName] = date( 'Y-m-d', $seconds );
-					} else { // ( $fieldType == 'Datetime' )
-						// Check for "time missing"
-						// precision.
+					} else {
+						// It's a Datetime field, which
+						// may or may not have a time -
+						// check for that now.
 						$datePortion = date( 'Y-m-d', $seconds );
 						$timePortion = date( 'G:i:s', $seconds );
 						// If it's not right at midnight,
 						// there's definitely a time there.
+						$precision = self::DATE_AND_TIME;
 						if ( $timePortion !== '0:00:00' ) {
 							$tableFieldValues[$fieldName] = $datePortion . ' ' . $timePortion;
 						} else {
@@ -341,14 +348,14 @@ class CargoStore {
 							// for either "00" or
 							// "AM" (or "am") in
 							// the original date
-							// string. If none of
-							// them is there,
+							// string. If neither
+							// one is there,
 							// there's probably no
 							// time.
 							if ( strpos( $cur_value, '00' ) === false &&
 								strpos( $cur_value, 'AM' ) === false &&
 								strpos( $cur_value, 'am' ) === false ) {
-								$precision = self::TIME_MISSING;
+								$precision = self::DATE_ONLY;
 							}
 							// Either way, we just
 							// need the date portion.

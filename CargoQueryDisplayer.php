@@ -124,7 +124,7 @@ class CargoQueryDisplayer {
 							// happen, but if it
 							// does - let's just
 							// give up.
-							$datePrecision = CargoStore::FULL_PRECISION;
+							$datePrecision = CargoStore::DATE_ONLY;
 						}
 					}
 					$text = self::formatDateFieldValue( $value, $datePrecision, $fieldType );
@@ -188,8 +188,8 @@ class CargoQueryDisplayer {
 			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ) ) .
 				' ' . date( 'o', $seconds );
 		} else {
-			// CargoStore::FULL_PRECISION or
-			// CargoStore::TIME_MISSING
+			// CargoStore::DATE_AND_TIME or
+			// CargoStore::DATE_ONLY
 			global $wgAmericanDates;
 			if ( $wgAmericanDates ) {
 				// We use MediaWiki's representation of month
@@ -200,7 +200,10 @@ class CargoQueryDisplayer {
 			} else {
 				$dateText = date( 'o-m-d', $seconds );
 			}
-			if ( $type == 'Date' || $datePrecision == CargoStore::TIME_MISSING ) {
+			// @TODO - remove the redundant 'Date' check at some
+			// point. It's here because the "precision" constants
+			// changed a ittle in version 0.8.
+			if ( $type == 'Date' || $datePrecision == CargoStore::DATE_ONLY ) {
 				return $dateText;
 			}
 
