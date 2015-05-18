@@ -4,7 +4,8 @@
 			"Macofe",
 			"Awesomecat5",
 			"Lmorillas",
-			"Fitoschido"
+			"Fitoschido",
+			"Ryo567"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -22,6 +23,7 @@
 	"cargo-viewdata-tables": "Tabla(s):",
 	"cargo-viewdata-fields": "Campo(s):",
 	"cargo-viewdata-where": "Donde:",
+	"cargo-viewdata-joinon": "Unirse en:",
 	"cargo-viewdata-groupby": "Agrupar por:",
 	"cargo-viewdata-having": "Conteniendo:",
 	"cargo-viewdata-orderby": "Ordenar por:",

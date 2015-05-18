@@ -1,9 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Максим Підліснюк"
+			"Максим Підліснюк",
+			"Ата"
 		]
 	},
 	"cargo-recreatedata-tablecreated": "Відтворено таблицю відвантаження $1.",
-	"cargo-recreatedata-success": "Дані відтворюються."
+	"cargo-recreatedata-success": "Дані відтворюються.",
+	"cargo-viewdata-format": "Формат:",
+	"cargo-cargotables-viewtablelink": "Переглянути таблицю"
 }
