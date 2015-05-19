@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Batumski brodyaga"
+			"Batumski brodyaga",
+			"Дмитрий"
 		]
 	},
+	"cargo-viewdata-having": "Имеющие:",
 	"cargo-pageschemas-cargofield": "Поле груза"
 }
