@@ -48,6 +48,7 @@ class CargoCompoundQuery {
 			$whereStr = null;
 			$joinOnStr = null;
 			$groupByStr = null;
+			$havingStr = null;
 			$orderByStr = null;
 			$limitStr = null;
 
@@ -70,6 +71,8 @@ class CargoCompoundQuery {
 					$joinOnStr = $value;
 				} elseif ( $key == 'group by' ) {
 					$groupByStr = $value;
+				} elseif ( $key == 'having' ) {
+					$havingStr = $value;
 				} elseif ( $key == 'order by' ) {
 					$orderByStr = $value;
 				} elseif ( $key == 'limit' ) {
@@ -79,7 +82,7 @@ class CargoCompoundQuery {
 				}
 			}
 			$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-					$groupByStr, $orderByStr, $limitStr );
+					$havingStr, $groupByStr, $orderByStr, $limitStr );
 			$querySpecificParams[] = $displayParamsForThisQuery;
 		}
 
