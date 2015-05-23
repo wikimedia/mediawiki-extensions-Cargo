@@ -8,5 +8,11 @@
 	"cargo-recreatedata-success": "Dane są odtwarzane.",
 	"cargo-viewdata-where": "Gdzie:",
 	"cargo-viewdata-limit": "Limit:",
-	"cargo-viewdata-format": "Format:"
+	"cargo-viewdata-format": "Format:",
+	"cargo-drilldown-or": "lub",
+	"cargo-drilldown-removefilter": "Usuń ten filtr",
+	"cargo-drilldown-novalues": "Brak wartości dla tego filtra",
+	"cargo-viewcsv": "Zobacz CSV",
+	"cargo-viewxls": "Zobacz XLS",
+	"cargo-viewjson": "Zobacz JSON"
 }

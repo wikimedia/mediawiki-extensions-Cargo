@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Umherirrender",
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"Seb35"
 		]
 	},
 	"cargo-desc": "{{desc|name=Cargo|url=https://www.mediawiki.org/wiki/Extension:Cargo}}",
@@ -10,11 +11,12 @@
 	"cargo-tablenotcreated": "A notice to the user, displayed on a template page.",
 	"cargo-addsrows": "A description of a template, that is displayed on that template's page.",
 	"recreatedata": "{{doc-special|RecreateData}}",
-	"action-recreatecargodata": "{{doc-action|recreatecargodata}}",
-	"action-deletecargodata": "{{doc-action|deletecargodata}}",
+	"action-recreatecargodata": "{{doc-action|recreatecargodata}}\n{{doc-cargo}}",
+	"action-deletecargodata": "{{doc-action|deletecargodata}}\n{{doc-cargo}}",
 	"cargo-createdatatable": "Label before a 'submit' button.",
-	"cargo-recreatedata-desc": "Label before a 'submit' button.",
-	"cargo-recreatedata-createdata": "Label before a 'submit' button.",
+	"cargo-recreatedata-desc": "Label before a 'submit' button. ({{doc-cargo}})",
+	"cargo-recreatedata-createdata": "Label before a 'submit' button. ({{doc-cargo}})",
+	"cargo-recreatedata-tablecreated": "Informational message after success of creation of the table. ({{doc-cargo}})",
 	"cargo-recreatedata-success": "Message displayed after user submits a \"recreate data\" form.",
 	"viewdata": "{{doc-special|ViewData}}",
 	"cargo-viewdata-tables": "Label in a form to set the names of one or more tables to query.\n{{Identical|Table}}",
@@ -26,16 +28,16 @@
 	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
 	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
-	"cargotables": "{{doc-special|CargoTables}}",
+	"cargotables": "{{doc-special|CargoTables}}\n{{doc-cargo}}",
 	"cargo-cargotables-tablelist": "Used as a page header.",
 	"cargo-cargotables-viewtable": "Parameters:\n* $1 - table name",
 	"cargo-cargotables-viewtablelink": "The text of a link to a subpage of [[Special:CargoTables]].",
 	"cargo-cargotables-notdeclared": "Descriptive message placed in [[Special:CargoTables]].",
 	"cargo-cargotables-declaredby": "Parameters:\n* $1 - template name",
 	"cargo-cargotables-attachedby": "Parameters:\n* $1 - template name",
-	"cargo-cargotables-tablenotfound": "An error message.\n\nParameters:\n* $1 - table name.",
+	"cargo-cargotables-tablenotfound": "An error message. ({{doc-cargo}})\n\nParameters:\n* $1 - table name.",
 	"cargo-cargotables-totalrows": "Parameters:\n* $1 - number of rows in a database table.",
-	"deletecargotable": "{{doc-special|DeleteCargoTable}}",
+	"deletecargotable": "{{doc-special|DeleteCargoTable}}\n{{doc-cargo}}",
 	"pagevalues": "{{doc-special|PageValues}}",
 	"cargo-pagevaluesfor": "Parameters:\n* $1 - a page name.",
 	"cargo-pagevalues-tablevalues": "Parameters:\n* $1 - a database table name.",
@@ -52,5 +54,6 @@
 	"cargo-viewxls": "The text of a link.",
 	"cargo-viewjson": "The text of a link.",
 	"cargo-purgecache": "The name of a tab; the \"cache\" is the MediaWiki page cache.",
-	"specialpages-group-cargo": "Used for name of Special Page group"
+	"specialpages-group-cargo": "{{Doc-special-group|that=are related to the extension Cargo}}\n{{doc-cargo}}",
+	"cargo-pageschemas-cargofield": "The label for the input field of the database column."
 }
