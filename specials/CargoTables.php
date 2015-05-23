@@ -123,7 +123,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
-		$text = Html::element( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )->parse() ) . "\n";
+		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )->parse() ) . "\n";
 		$text .= "<ul>\n";
 		foreach ( $tableNames as $tableName ) {
 			$actionLinks = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ),
