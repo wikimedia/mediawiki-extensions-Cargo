@@ -99,6 +99,13 @@ class CargoSQLQuery {
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$havingStr, $orderByStr, $limitStr ) {
 
+		// Remove quoted strings from "where" parameter, to avoid
+		// unnecessary false positives from words like "from"
+		// being included in string comparisons.
+		$simplifiedWhereStr = str_replace( array( '\"', "\'" ), '', $whereStr );
+		$simplifiedWhereStr = preg_replace( '/"[^"]*"/', '', $simplifiedWhereStr );
+		$simplifiedWhereStr = preg_replace( "/'[^']*'/", '', $simplifiedWhereStr );
+
 		$regexps = array(
 			'/\bselect\b/i' => 'SELECT',
 			'/\binto\b/i' => 'INTO',
@@ -111,8 +118,7 @@ class CargoSQLQuery {
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
 				preg_match( $regexp, $fieldsStr ) ||
-				// The "WHERE" clause can include semicolons
-				( preg_match( $regexp, $whereStr ) && $regexp != '/;/' ) ||
+				preg_match( $regexp, $simplifiedWhereStr ) ||
 				preg_match( $regexp, $joinOnStr ) ||
 				preg_match( $regexp, $groupByStr ) ||
 				preg_match( $regexp, $havingStr ) ||
