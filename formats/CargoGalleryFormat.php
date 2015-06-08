@@ -39,11 +39,14 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		foreach( $fileNames as $fn ) {
 			if ( $usingPageName ) {
 				$title = Title::newFromText( $fn );
-				if ( $title->getNamespace() != NS_FILE ) {
+				if ( $title == null || $title->getNamespace() != NS_FILE ) {
 					continue;
 				}
 			} else {
 				$title = Title::makeTitleSafe( NS_FILE, $fn );
+				if ( $title == null ) {
+					continue;
+				}
 			}
 			$fileTitles[] = $title;
 		}
