@@ -21,7 +21,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 			}
 			$fieldNum++;
 		}
-		$wikiText .= '}}' . "\n";
+		$wikiText .= '}}';
 		return $wikiText;
 	}
 
