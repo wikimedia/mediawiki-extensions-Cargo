@@ -308,6 +308,20 @@ class CargoExport extends UnlistedSpecialPage {
 		$allQueryResults = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
+
+			// Turn "List" fields into arrays.
+			foreach ( $sqlQuery->mFieldDescriptions as $alias => $fieldDescription ) {
+				if ( $fieldDescription->mIsList ) {
+					$delimiter = $fieldDescription->mDelimiter;
+					for ( $i = 0; $i < count( $queryResults ); $i++ ) {
+						$curValue = $queryResults[$i][$alias];
+						if ( !is_array( $curValue ) ) {
+							$queryResults[$i][$alias] = explode( $delimiter, $curValue );
+						}
+					}
+				}
+			}
+
 			$allQueryResults = array_merge( $allQueryResults, $queryResults );
 		}
 		print json_encode( $allQueryResults, JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT );
