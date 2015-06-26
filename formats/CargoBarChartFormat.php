@@ -24,12 +24,22 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 
 		$svgAttrs = array();
 		if ( array_key_exists( 'width', $displayParams ) ) {
-			$svgAttrs['width '] = $displayParams['width'];
+			$width = $displayParams['width'];
+			// Add on "px", if no unit is defined.
+			if ( is_numeric( $width ) ) {
+				$width .= "px";
+			}
+			$svgAttrs['width'] = $width;
 		} else {
 			$svgAttrs['width'] = "100%";
 		}
 		if ( array_key_exists( 'height', $displayParams ) ) {
-			$svgAttrs['height'] = $displayParams['height'];
+			$height = $displayParams['height'];
+			// Add on "px", if no unit is defined.
+			if ( is_numeric( $height ) ) {
+				$height .= "px";
+			}
+			$svgAttrs['height'] = $height;
 		} else {
 			// Stub value, so that we know to replace it.
 			$svgAttrs['height'] = '1px';

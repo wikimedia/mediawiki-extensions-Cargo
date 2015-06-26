@@ -37,6 +37,10 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 
 		if ( array_key_exists( 'width', $displayParams ) ) {
 			$width = $displayParams['width'];
+			// Add on "px", if no unit is defined.
+			if ( is_numeric( $width ) ) {
+				$width .= "px";
+			}
 		} else {
 			$width = "100%";
 		}

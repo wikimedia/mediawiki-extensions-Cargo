@@ -30,11 +30,19 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 
 		if ( array_key_exists( 'height', $displayParams ) ) {
 			$height = $displayParams['height'];
+			// Add on "px", if no unit is defined.
+			if ( is_numeric( $height ) ) {
+				$height .= "px";
+			}
 		} else {
 			$height = "350px";
 		}
 		if ( array_key_exists( 'width', $displayParams ) ) {
 			$width = $displayParams['width'];
+			// Add on "px", if no unit is defined.
+			if ( is_numeric( $width ) ) {
+				$width .= "px";
+			}
 		} else {
 			$width = "100%";
 		}
