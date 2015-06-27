@@ -24,11 +24,11 @@ class CargoExport extends UnlistedSpecialPage {
 
 		// If no value has been set for 'tables', or 'table', just
 		// display a blank screen.
-		if ( $req->getCheck( 'tables' ) ) {
-			$tableArray = $req->getArray( 'tables' );
-		} elseif ( $req->getCheck( 'table' ) ) {
+		$tableArray = $req->getArray( 'tables' );
+		if ( $tableArray == null ) {
 			$tableArray = $req->getArray( 'table' );
-		} else {
+		}
+		if ( $tableArray == null ) {
 			return;
 		}
 		$fieldsArray = $req->getArray( 'fields' );
