@@ -208,8 +208,12 @@ class CargoQueryDisplayer {
 			}
 
 			// It's a Datetime - add time as well.
-			// @TODO - have some variable for 24-hour time display?
-			$timeText = date( 'g:i:s A', $seconds );
+			global $wgCargo24HourTime;
+			if ( $wgCargo24HourTime ) {
+				$timeText = date( 'G:i:s', $seconds );
+			} else {
+				$timeText = date( 'g:i:s A', $seconds );
+			}
 			return "$dateText $timeText";
 		}
 	}

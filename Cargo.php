@@ -258,6 +258,7 @@ $wgCargoDBuser = null;
 $wgCargoDBpassword = null;
 $wgCargoDefaultQueryLimit = 100;
 $wgCargoMaxQueryLimit = 5000;
+$wgCargo24HourTime = false;
 
 $wgCargoMapClusteringMinimum = 80;
 
