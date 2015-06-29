@@ -916,7 +916,10 @@ class CargoSQLQuery {
 		if ( $this->mHavingStr != '' ) {
 			$selectOptions['HAVING'] = $this->mHavingStr;
 		}
-		$selectOptions['ORDER BY'] = $this->mOrderByStr;
+		// For some reason, we need to put quotes around the "ORDER By"
+		// value specifically, so that non-ASCII characters are
+		// handled correctly.
+		$selectOptions['ORDER BY'] = '"' . $this->mOrderByStr . '"';
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 
 		// Aliases need to be surrounded by quotes when we actually
