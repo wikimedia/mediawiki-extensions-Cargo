@@ -179,17 +179,6 @@ END;
 		}
 		$out->addScript( $jsText );
 
-		$formSubmitted = $this->getRequest()->getText( 'submitted' ) == 'yes';
-		if ( $formSubmitted ) {
-			// Recreate the data!
-			$this->recreateData();
-			// Redirect to the main template page - we need to
-			// add "action=purge" to the URL so that the new
-			// "View table" link will show up on the page.
-			$out->redirect( $this->mTemplateTitle->getFullURL( array( 'action' => 'purge' ) ) );
-			return true;
-		}
-
 		// Simple form.
 		$text = '<div id="recreateDataCanvas">' . "\n";
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
