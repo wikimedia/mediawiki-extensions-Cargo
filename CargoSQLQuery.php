@@ -919,7 +919,7 @@ class CargoSQLQuery {
 		// @TODO - need handling of non-ASCII characters in field
 		// names, which for some reason cause problems in "ORDER BY"
 		// specifically.
-		$selectOptions['ORDER BY'] = $orderByStr;
+		$selectOptions['ORDER BY'] = $this->mOrderByStr;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 
 		// Aliases need to be surrounded by quotes when we actually
