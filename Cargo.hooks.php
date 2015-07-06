@@ -142,22 +142,8 @@ class CargoHooks {
 		// we need to parse it here anyway, for the settings we
 		// added to remain set.
 		CargoStore::$settings['origin'] = 'page save';
-		global $wgParser;
-		$title = $article->getTitle();
+		CargoUtils::parsePageForStorage( $article->getTitle(), $content->getNativeData() );
 
-		// Special handling for the Approved Revs extension.
-		$pageText = null;
-		$approvedText = null;
-		if ( class_exists( 'ApprovedRevs' ) ) {
-			$approvedText = ApprovedRevs::getApprovedContent( $title );
-		}
-		if ( $approvedText != null ) {
-			$pageText = $approvedText;
-		} else {
-			$pageText = $content->getNativeData();
-		}
-
-		$wgParser->parse( $pageText, $title, new ParserOptions() );
 		return true;
 	}
 

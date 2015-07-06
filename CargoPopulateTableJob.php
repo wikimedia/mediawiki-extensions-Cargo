@@ -47,21 +47,7 @@ class CargoPopulateTableJob extends Job {
 		// the #cargo_store function will take care of the rest.
 		CargoStore::$settings['origin'] = 'template';
 		CargoStore::$settings['dbTableName'] = $this->params['dbTableName'];
-
-		// @TODO - is there a "cleaner" way to get a page to be parsed?
-		global $wgParser;
-		// Special handling for the Approved Revs extension.
-		$pageText = null;
-		$approvedText = null;
-		if ( class_exists( 'ApprovedRevs' ) ) {
-			$approvedText = ApprovedRevs::getApprovedContent( $this->title );
-		}
-		if ( $approvedText != null ) {
-			$pageText = $approvedText;
-		} else {
-			$pageText = $article->getContent();
-		}
-		$wgParser->parse( $pageText, $this->title, new ParserOptions() );
+		CargoUtils::parsePageForStorage( $this->title, $article->getContent() );
 
 		// We need to unset this, if the job was called via runJobs.php,
 		// so that it doesn't affect other (non-Cargo) jobs, like page

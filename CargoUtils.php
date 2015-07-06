@@ -212,6 +212,24 @@ class CargoUtils {
 		return $value;
 	}
 
+	public static function parsePageForStorage( $title, $pageContents ) {
+		// @TODO - is there a "cleaner" way to get a page to be parsed?
+		global $wgParser;
+
+		// Special handling for the Approved Revs extension.
+		$pageText = null;
+		$approvedText = null;
+		if ( class_exists( 'ApprovedRevs' ) ) {
+			$approvedText = ApprovedRevs::getApprovedContent( $title );
+		}
+		if ( $approvedText != null ) {
+			$pageText = $approvedText;
+		} else {
+			$pageText = $pageContents;
+		}
+		$wgParser->parse( $pageText, $title, new ParserOptions() );
+	}
+
 	/**
 	 * Drop, and then create again, the database table(s) holding the
 	 * data for this template.
