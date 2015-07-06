@@ -118,8 +118,8 @@ class CargoTables extends IncludableSpecialPage {
 		global $wgUser;
 
 		$tableNames = CargoUtils::getTables();
-		$templatesThatDeclareTables = self::getAllPageProps( 'CargoTableName' );
-		$templatesThatAttachToTables = self::getAllPageProps( 'CargoAttachedTable' );
+		$templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
+		$templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
@@ -188,33 +188,6 @@ class CargoTables extends IncludableSpecialPage {
 		}
 		$text .= "</ul>\n";
 		return $text;
-	}
-
-	/**
-	 * Similar to CargoUtils::getPageProp().
-	 */
-	public static function getAllPageProps( $pageProp ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props', array(
-			'pp_page',
-			'pp_value'
-			), array(
-			'pp_propname' => $pageProp
-			)
-		);
-
-		$pagesPerValue = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			$pageID = $row['pp_page'];
-			$pageValue = $row['pp_value'];
-			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
-				$pagesPerValue[$pageValue][] = $pageID;
-			} else {
-				$pagesPerValue[$pageValue] = array( $pageID );
-			}
-		}
-
-		return $pagesPerValue;
 	}
 
 	protected function getGroupName() {

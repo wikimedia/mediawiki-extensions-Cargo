@@ -68,6 +68,52 @@ class CargoUtils {
 		return $row['pp_value'];
 	}
 
+	/**
+	 * Similar to getPageProp().
+	 */
+	public static function getAllPageProps( $pageProp ) {
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( 'page_props', array(
+			'pp_page',
+			'pp_value'
+			), array(
+			'pp_propname' => $pageProp
+			)
+		);
+
+		$pagesPerValue = array();
+		while ( $row = $dbr->fetchRow( $res ) ) {
+			$pageID = $row['pp_page'];
+			$pageValue = $row['pp_value'];
+			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
+				$pagesPerValue[$pageValue][] = $pageID;
+			} else {
+				$pagesPerValue[$pageValue] = array( $pageID );
+			}
+		}
+
+		return $pagesPerValue;
+	}
+
+	/**
+	 * Gets the template page where this table is defined -
+	 * hopefully there's exactly one of them.
+	 */
+	public static function getTemplateIDForDBTable( $tableName ) {
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( 'page_props', array(
+			'pp_page'
+			), array(
+			'pp_value' => $tableName,
+			'pp_propname' => 'CargoTableName'
+			)
+		);
+		if ( !$row = $dbr->fetchRow( $res ) ) {
+			return null;
+		}
+		return $row['pp_page'];
+	}
+
 	public static function formatError( $errorString ) {
 		return '<div class="error">' . $errorString . '</div>';
 	}

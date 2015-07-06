@@ -16,25 +16,6 @@ class CargoStore {
 	const YEAR_ONLY = 3;
 
 	/**
-	 * Gets the template page where this table is defined -
-	 * hopefully there's exactly one of them.
-	 */
-	public static function getTemplateIDForDBTable( $tableName ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props', array(
-			'pp_page'
-			), array(
-			'pp_value' => $tableName,
-			'pp_propname' => 'CargoTableName'
-			)
-		);
-		if ( !$row = $dbr->fetchRow( $res ) ) {
-			return null;
-		}
-		return $row['pp_page'];
-	}
-
-	/**
 	 * Parses one half of a set of coordinates into a number.
 	 *
 	 * Copied from Miga, also written by Yaron Koren
