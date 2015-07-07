@@ -282,14 +282,11 @@ class CargoUtils {
 	 * Why "tables"? Because every field that holds a list of values gets
 	 * its own helper table.
 	 *
-	 * @global string $wgDBtype
 	 * @param int $templatePageID
 	 * @return boolean
 	 * @throws MWException
 	 */
 	public static function recreateDBTablesForTemplate( $templatePageID ) {
-		global $wgDBtype;
-
 		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
 		// First, see if there even is DB storage for this template -
 		// if not, exit.
@@ -318,8 +315,9 @@ class CargoUtils {
 		$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
-		$intTypeString = self::fieldTypeToSQLType( 'Integer', $wgDBtype );
-		$textTypeString = self::fieldTypeToSQLType( 'Text', $wgDBtype );
+		$dbType = $cdb->getType();
+		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
+		$textTypeString = self::fieldTypeToSQLType( 'Text', $dbType );
 
 		$createSQL = "CREATE TABLE " .
 			$cdb->tableName( $tableName ) . ' ( ' .
@@ -345,17 +343,17 @@ class CargoUtils {
 				$createSQL .= $textTypeString;
 			} else {
 				$createSQL .= ", $fieldName ";
-				$createSQL .= self::fieldTypeToSQLType( $fieldType, $wgDBtype, $size );
+				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
 			}
 
 			if ( !$isList && $fieldType == 'Coordinates' ) {
-				$floatTypeString = self::fieldTypeToSQLType( 'Float', $wgDBtype );
+				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
 				$createSQL .= ', ' . $fieldName . '__lat ';
 				$createSQL .= $floatTypeString;
 				$createSQL .= ', ' . $fieldName . '__lon ';
 				$createSQL .= $floatTypeString;
 			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
-				$integerTypeString = self::fieldTypeToSQLType( 'Integer', $wgDBtype );
+				$integerTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
 				$createSQL .= ', ' . $fieldName . '__precision ';
 				$createSQL .= $integerTypeString;
 			}
@@ -399,12 +397,12 @@ class CargoUtils {
 				$cdb->tableName( $fieldTableName ) . ' ( ' .
 				"_rowID $intTypeString, ";
 			if ( $fieldType == 'Coordinates' ) {
-				$floatTypeString = self::fieldTypeToSQLType( 'Float', $wgDBtype );
+				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
 				$createSQL .= '_value ' . $floatTypeString . ', ';
 				$createSQL .= '_lat ' . $floatTypeString . ', ';
 				$createSQL .= '_lon ' . $floatTypeString;
 			} else {
-				$createSQL .= '_value ' . self::fieldTypeToSQLType( $fieldType, $wgDBtype, $size );
+				$createSQL .= '_value ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
 			}
 			$createSQL .= ' )';
 			$cdb->query( $createSQL );
