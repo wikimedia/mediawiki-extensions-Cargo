@@ -333,9 +333,9 @@ class CargoStore {
 							// one is there,
 							// there's probably no
 							// time.
-							if ( strpos( $cur_value, '00' ) === false &&
-								strpos( $cur_value, 'AM' ) === false &&
-								strpos( $cur_value, 'am' ) === false ) {
+							if ( strpos( $curValue, '00' ) === false &&
+								strpos( $curValue, 'AM' ) === false &&
+								strpos( $curValue, 'am' ) === false ) {
 								$precision = self::DATE_ONLY;
 							}
 							// Either way, we just
