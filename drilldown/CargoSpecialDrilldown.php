@@ -1104,7 +1104,8 @@ END;
 	 */
 	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$valuesTable = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		$cdb = CargoUtils::getDB();
+		while ( $row = $cdb->fetchRow( $res ) ) {
 			$valuesTable[] = array( 'title' => $row['title'] );
 		}
 		$queryDisplayer = new CargoQueryDisplayer();
