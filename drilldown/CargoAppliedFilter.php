@@ -53,18 +53,17 @@ class CargoAppliedFilter {
 	 * combination to an SQL "WHERE" clause.
 	 */
 	function checkSQL() {
-		global $wgDBprefix, $wgDBtype;
+		$cdb = CargoUtils::getDB();
 
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
-			$value_field = $wgDBprefix . "cargo__$fieldTableName._value";
+			$value_field = $cdb->tableName( $fieldTableName ) . "._value";
 		} else {
 			$value_field = $this->filter->name;
 		}
 		$sql = "(";
-		$cdb = CargoUtils::getDB();
 		if ( $this->search_terms != null ) {
-			$quoteReplace = ( $wgDBtype == 'postgres' ? "''" : "\'");
+			$quoteReplace = ( $cdb->getType() == 'postgres' ? "''" : "\'");
 			foreach ( $this->search_terms as $i => $search_term ) {
 				$search_term = str_replace( "'", $quoteReplace, $search_term );
 				if ( $i > 0 ) {
@@ -101,16 +100,16 @@ class CargoAppliedFilter {
 				$sql .= " OR ";
 			}
 			if ( $fv->is_other ) {
-				$checkNullOrEmptySql = "$value_field IS NULL " . ( $wgDBtype == 'postgres' ? '' :
+				$checkNullOrEmptySql = "$value_field IS NULL " . ( $cdb->getType() == 'postgres' ? '' :
 						"OR $value_field = '' ");
-				$notOperatorSql = ( $wgDBtype == 'postgres' ? "not" : "!" );
+				$notOperatorSql = ( $cdb->getType() == 'postgres' ? "not" : "!" );
 				$sql .= "($notOperatorSql ($checkNullOrEmptySql ";
 				foreach ( $this->filter->possible_applied_filters as $paf ) {
 					$sql .= " OR " . $paf->checkSQL();
 				}
 				$sql .= "))";
 			} elseif ( $fv->is_none ) {
-				$checkNullOrEmptySql = ( $wgDBtype == 'postgres' ? '' : "$value_field = '' OR ") .
+				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR ") .
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $fv->is_numeric ) {

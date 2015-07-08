@@ -99,9 +99,8 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getQueryParts( $appliedFilters ) {
-		global $wgDBprefix;
+		$cdb = CargoUtils::getDB();
 
-		$cargoPrefix = $wgDBprefix . 'cargo__';
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
@@ -112,7 +111,7 @@ class CargoFilter {
 				$tableNames[] = $fieldTableName;
 				$joinConds[$fieldTableName] = array(
 					'LEFT OUTER JOIN',
-					$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
+					$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
 				);
 			}
 		}
@@ -186,23 +185,21 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getAllValues( $appliedFilters ) {
-		global $wgDBprefix;
+		$cdb = CargoUtils::getDB();
 
-		$cargoPrefix = $wgDBprefix . 'cargo__';
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$tableNames[] = $fieldTableName;
-			$fieldName = $cargoPrefix . $fieldTableName. '._value';
+			$fieldName = $cdb->tableName( $fieldTableName ) . '._value';
 			$joinConds[$fieldTableName] = array(
 				'LEFT OUTER JOIN',
-				$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
+				$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
 			);
 		} else {
 			$fieldName = $this->name;
 		}
 
-		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $tableNames, array( $fieldName, 'COUNT(*)' ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();

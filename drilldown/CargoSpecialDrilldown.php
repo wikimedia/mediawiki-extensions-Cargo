@@ -1042,9 +1042,8 @@ END;
 	}
 
 	function getQueryInfo() {
-		global $wgDBprefix;
+		$cdb = CargoUtils::getDB();
 
-		$cargoPrefix = $wgDBprefix . 'cargo__';
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
@@ -1055,7 +1054,7 @@ END;
 				$tableNames[] = $fieldTableName;
 				$joinConds[$fieldTableName] = array(
 					'LEFT OUTER JOIN',
-					$cargoPrefix . $this->tableName . '._ID = ' . $cargoPrefix . $fieldTableName . '._rowID'
+					$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
 				);
 			}
 		}

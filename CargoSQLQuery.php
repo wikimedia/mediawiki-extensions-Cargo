@@ -37,6 +37,8 @@ class CargoSQLQuery {
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$havingStr, $orderByStr, $limitStr );
 
+		$cdb = CargoUtils::getDB();
+
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tablesStr;
 		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
@@ -57,12 +59,12 @@ class CargoSQLQuery {
 		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
 		$sqlQuery->handleDateFields();
-		$sqlQuery->setMWJoinConds();
+		$sqlQuery->setMWJoinConds( $cdb );
 		$sqlQuery->mQueryLimit = $wgCargoDefaultQueryLimit;
 		if ( $limitStr != '' ) {
 			$sqlQuery->mQueryLimit = min( $limitStr, $wgCargoMaxQueryLimit );
 		}
-		$sqlQuery->addTablePrefixesToAll();
+		$sqlQuery->addTablePrefixesToAll( $cdb );
 
 		return $sqlQuery;
 	}
@@ -295,7 +297,7 @@ class CargoSQLQuery {
 	 * conditions into the one that MediaWiki uses - this includes
 	 * adding the database prefix to each table name.
 	 */
-	function setMWJoinConds() {
+	function setMWJoinConds( $cdb ) {
 		if ( $this->mCargoJoinConds == null ) {
 			return;
 		}
@@ -305,9 +307,9 @@ class CargoSQLQuery {
 			$table2 = $cargoJoinCond['table2'];
 			$this->mJoinConds[$table2] = array(
 				$cargoJoinCond['joinType'],
-				'cargo__' . $cargoJoinCond['table1'] . '.' .
-				$cargoJoinCond['field1'] . '=' .
-				'cargo__' . $cargoJoinCond['table2'] .
+				$cdb->tableName( $cargoJoinCond['table1'] ) .
+				'.' . $cargoJoinCond['field1'] . '=' .
+				$cdb->tableName( $cargoJoinCond['table2'] ) .
 				'.' . $cargoJoinCond['field2']
 			);
 		}
@@ -883,16 +885,16 @@ class CargoSQLQuery {
 	 * prepended automatically by the MediaWiki query, while for
 	 * 'join on' the prefixes are added when the object is created.
 	 */
-	function addTablePrefixesToAll() {
+	function addTablePrefixesToAll( $cdb ) {
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-			$this->mAliasedFieldNames[$alias] = self::addTablePrefixes( $fieldName );
+			$this->mAliasedFieldNames[$alias] = self::addTablePrefixes( $fieldName, $cdb );
 		}
 		if ( !is_null( $this->mWhereStr ) ) {
-			$this->mWhereStr = self::addTablePrefixes( $this->mWhereStr );
+			$this->mWhereStr = self::addTablePrefixes( $this->mWhereStr, $cdb );
 		}
-		$this->mGroupByStr = self::addTablePrefixes( $this->mGroupByStr );
-		$this->mHavingStr = self::addTablePrefixes( $this->mHavingStr );
-		$this->mOrderByStr = self::addTablePrefixes( $this->mOrderByStr );
+		$this->mGroupByStr = self::addTablePrefixes( $this->mGroupByStr, $cdb );
+		$this->mHavingStr = self::addTablePrefixes( $this->mHavingStr, $cdb );
+		$this->mOrderByStr = self::addTablePrefixes( $this->mOrderByStr, $cdb );
 	}
 
 	/**
@@ -948,7 +950,7 @@ class CargoSQLQuery {
 		return $resultArray;
 	}
 
-	function addTablePrefixes( $string ) {
+	function addTablePrefixes( $string, $cdb ) {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = array();
@@ -957,8 +959,8 @@ class CargoSQLQuery {
 			// Is there a way to do this with just one regexp?
 			$tableNamePatterns[] = "/^$tableName\./";
 			$tableNamePatterns[] = "/(\W)$tableName\./";
-			$tableNameReplacements[] = "cargo__$tableName.";
-			$tableNameReplacements[] = "$1cargo__$tableName.";
+			$tableNameReplacements[] = $cdb->tableName( $tableName ) . ".";
+			$tableNameReplacements[] = "$1" . $cdb->tableName( $tableName ) . ".";
 		}
 
 		return preg_replace( $tableNamePatterns, $tableNameReplacements, $string );
