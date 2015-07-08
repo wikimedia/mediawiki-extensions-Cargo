@@ -415,6 +415,9 @@ class CargoUtils {
 			$fieldTableNames[] = $tableName . '__' . $fieldName;
 		}
 
+		// Necessary in some cases.
+		$cdb->close();
+
 		// Finally, store all the info in the cargo_tables table.
 		$dbr->insert( 'cargo_tables',
 			array( 'template_id' => $templatePageID, 'main_table' => $tableName,
