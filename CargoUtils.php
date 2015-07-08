@@ -286,7 +286,7 @@ class CargoUtils {
 	 * @return boolean
 	 * @throws MWException
 	 */
-	public static function recreateDBTablesForTemplate( $templatePageID ) {
+	public static function recreateDBTablesForTemplate( $templatePageID, $tableName = null ) {
 		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
 		// First, see if there even is DB storage for this template -
 		// if not, exit.
@@ -312,7 +312,10 @@ class CargoUtils {
 
 		$dbr->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
 
-		$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
+		if ( $tableName == null ) {
+			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
+		}
+
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
