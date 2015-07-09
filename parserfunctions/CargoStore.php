@@ -379,7 +379,7 @@ class CargoStore {
 
 		$cdb = CargoUtils::getDB();
 
-		$res = $cdb->select( $tableName, 'MAX(_ID) AS ID' );
+		$res = $cdb->select( $tableName, 'MAX(_ID) AS "ID"' );
 		$row = $cdb->fetchRow( $res );
 		$curRowID = $row['ID'] + 1;
 		$tableFieldValues['_ID'] = $curRowID;
