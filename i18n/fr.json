@@ -8,7 +8,8 @@
 			"Gomoko",
 			"Boniface",
 			"Lucky",
-			"Wladek92"
+			"Wladek92",
+			"Əric"
 		]
 	},
 	"cargo-desc": "Stockage et interrogation de données de modèle",
@@ -21,12 +22,18 @@
 	"cargo-createdatatable": "Créer une table de données",
 	"cargo-recreatedata-desc": "Recréer les données de Cargo pour ce modèle ?",
 	"cargo-recreatedata-createdata": "Créer les données de Cargo pour ce modèle ?",
+	"cargo-recreatedata-tablecreated": "Table Cargo $1 recrée.",
 	"cargo-recreatedata-success": "Les données vont être recréées.",
 	"viewdata": "Afficher les données",
+	"cargo-viewdata-tables": "Table(s):",
+	"cargo-viewdata-fields": "Champ(s):",
 	"cargo-viewdata-where": "Where:",
 	"cargo-viewdata-joinon": "Join on:",
 	"cargo-viewdata-groupby": "Group by:",
+	"cargo-viewdata-having": "ayant:",
 	"cargo-viewdata-orderby": "Trier par:",
+	"cargo-viewdata-limit": "Limite:",
+	"cargo-viewdata-format": "Format :",
 	"cargotables": "Tables de Cargo",
 	"cargo-cargotables-tablelist": "Les tables suivantes sont définies :",
 	"cargo-cargotables-viewtable": "Afficher la table : $1",
