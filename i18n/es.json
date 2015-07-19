@@ -41,7 +41,7 @@
 	"pagevalues": "Valores de la página",
 	"cargo-pagevaluesfor": "Valores de la página «$1»",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
-	"cargo-drilldown-choosetable": "Elije una tabla",
+	"cargo-drilldown-choosetable": "Elige una tabla",
 	"cargo-drilldown-docu": "Haz clic en los filtros debajo para limitar los resultados.",
 	"cargo-drilldown-filterbyvalue": "Filtrar por este valor",
 	"cargo-drilldown-or": "o",
