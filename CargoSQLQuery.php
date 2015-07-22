@@ -116,6 +116,8 @@ class CargoSQLQuery {
 			'/;/' => ';',
 			'/@/' => '@',
 			'/\<\?/' => '<?',
+			'/--/' => '--',
+			'/\/\*/' => '/*',
 		);
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
