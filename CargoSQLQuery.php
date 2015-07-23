@@ -441,7 +441,9 @@ class CargoSQLQuery {
 
 					// If we couldn't find a table name,
 					// throw an error.
-					throw new MWException( "Error: no field named \"$fieldName\" found for any of the specified database tables." );
+					if ( $tableName == '' ) {
+						throw new MWException( "Error: no field named \"$fieldName\" found for any of the specified database tables." );
+					}
 				}
 			}
 			// Fix alias.
