@@ -186,19 +186,46 @@ class CargoUtils {
 			return array();
 		}
 
+		$ignoreNextChar = false;
 		$returnValues = array();
 		$numOpenParentheses = 0;
+		$numOpenSingleQuotes = 0;
+		$numOpenDoubleQuotes = 0;
 		$curReturnValue = '';
 
 		for ( $i = 0; $i < strlen( $string ); $i++ ) {
 			$curChar = $string{$i};
-			if ( $curChar == '(' ) {
+
+			if ( $ignoreNextChar ) {
+				// If previous character was a backslash,
+				// ignore the current one, since it's escaped.
+				// What if this one is a backslash too?
+				// Doesn't matter - it's escaped.
+				$ignoreNextChar = false;
+			} elseif ( $curChar == '(' ) {
 				$numOpenParentheses++;
 			} elseif ( $curChar == ')' ) {
 				$numOpenParentheses--;
+			} elseif ( $curChar == '\'' ) {
+				if ( $numOpenSingleQuotes == 0 ) {
+					$numOpenSingleQuotes = 1;
+				} else {
+					$numOpenSingleQuotes = 0;
+				}
+			} elseif ( $curChar == '"' ) {
+				if ( $numOpenDoubleQuotes == 0 ) {
+					$numOpenDoubleQuotes = 1;
+				} else {
+					$numOpenDoubleQuotes = 0;
+				}
+			} elseif ( $curChar == '\\' ) {
+				$ignoreNextChar = true;
 			}
 
-			if ( $curChar == $delimiter && $numOpenParentheses == 0 ) {
+			if ( $curChar == $delimiter &&
+			$numOpenParentheses == 0 &&
+			$numOpenSingleQuotes == 0 &&
+			$numOpenDoubleQuotes == 0 ) {
 				$returnValues[] = trim( $curReturnValue );
 				$curReturnValue = '';
 			} else {
