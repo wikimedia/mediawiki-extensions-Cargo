@@ -390,6 +390,8 @@ class CargoSQLQuery {
 						array( 'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
 					$description->mType = 'Date';
 				}
+			} elseif ( preg_match( "/^'.*'$/m", $fieldName ) ) {
+				// It's a quoted, literal string  - do nothing.
 			} else {
 				// It's a standard field - though if it's
 				// '_value', or ends in '__full', it's actually
