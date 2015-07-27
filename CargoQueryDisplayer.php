@@ -247,8 +247,11 @@ class CargoQueryDisplayer {
 		$vd = Title::makeTitleSafe( NS_SPECIAL, 'ViewData' );
 		if ( array_key_exists( 'more results text', $this->mDisplayParams ) ) {
 			$moreResultsText = $this->mDisplayParams['more results text'];
-		}
-		else {
+			// If the value is blank, don't show a link at all.
+			if ( $moreResultsText == '' ) {
+				return '';
+			}
+		} else {
 			$moreResultsText = wfMessage( 'moredotdotdot' )->parse();
 		}
 
