@@ -136,6 +136,13 @@ class CargoSQLQuery {
 				throw new MWException( "Error: the string \"$displayString\" cannot be used within #cargo_query." );
 			}
 		}
+
+		self::getAndValidateSQLFunctions( $simplifiedWhereStr );
+		self::getAndValidateSQLFunctions( $joinOnStr );
+		self::getAndValidateSQLFunctions( $groupByStr );
+		self::getAndValidateSQLFunctions( $havingStr );
+		self::getAndValidateSQLFunctions( $orderByStr );
+		self::getAndValidateSQLFunctions( $limitStr );
 	}
 
 	/**
@@ -332,6 +339,24 @@ class CargoSQLQuery {
 		}
 	}
 
+	static function getAndValidateSQLFunctions( $str ) {
+		global $wgCargoAllowedSQLFunctions;
+
+		$sqlFunctionMatches = array();
+		$sqlFunctionRegex = '/\b(\S*?)\s?\(/';
+		preg_match_all( $sqlFunctionRegex, $str, $sqlFunctionMatches );
+		$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[1] );
+		// Throw an error if any of these functions
+		// are not in our "whitelist" of SQL functions.
+		foreach ( $sqlFunctions as $sqlFunction ) {
+			if ( !in_array( $sqlFunction, $wgCargoAllowedSQLFunctions ) ) {
+				throw new MWException( "Error: the SQL function \"$sqlFunction()\" is not allowed." );
+			}
+		}
+
+		return $sqlFunctions;
+	}
+
 	/**
 	 * Attempts to get the "field description" (type, etc.) of each field
 	 * specified in a SELECT call (via a #cargo_query call), using the set
@@ -345,12 +370,15 @@ class CargoSQLQuery {
 
 		$this->mFieldDescriptions = array();
 		$this->mFieldTables = array();
-		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
+		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
 			$tableName = null;
-			if ( strpos( $fieldName, '.' ) !== false ) {
+			if ( strpos( $origFieldName, '.' ) !== false ) {
 				// This could probably be done better with
 				// regexps.
-				list( $tableName, $fieldName ) = explode( '.', $fieldName, 2 );
+				list( $tableName, $fieldName ) = explode( '.', $origFieldName, 2 );
+			} else {
+				$fieldName = $origFieldName;
+				$tableName = null;
 			}
 			$description = new CargoFieldDescription();
 			// If it's a pre-defined field, we probably know its
@@ -359,25 +387,8 @@ class CargoSQLQuery {
 				$description->mType = 'Integer';
 			} elseif ( $fieldName == '_pageName' ) {
 				$description->mType = 'Page';
-			} elseif ( strpos( $tableName, '(' ) !== false || strpos( $fieldName, '(' ) !== false ) {
-				$sqlFunctionMatches = array();
-				$sqlFunctionRegex = '/\b(\S*?)\s?\(/';
-				preg_match_all( $sqlFunctionRegex, $fieldName, $sqlFunctionMatches );
-				$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[1] );
-				if ( count( $sqlFunctions ) == 0 ) {
-					// Must be in the "table name", then.
-					preg_match_all( $sqlFunctionRegex, $tableName, $sqlFunctionMatches );
-					$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[1] );
-				}
-
-				// Throw an error if any of these functions
-				// are not in our "whitelist" of SQL functions.
-				foreach ( $sqlFunctions as $sqlFunction ) {
-					if ( !in_array( $sqlFunction, $wgCargoAllowedSQLFunctions ) ) {
-						throw new MWException( "Error: the SQL function \"$sqlFunction()\" is not allowed." );
-					}
-				}
-
+			} elseif ( strpos( $origFieldName, '(' ) !== false ) {
+				$sqlFunctions = self::getAndValidateSQLFunctions( $origFieldName );
 				$firstFunction = $sqlFunctions[0];
 				if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL', 'ROUND' ) ) ) {
 					$description->mType = 'Integer';
