@@ -78,7 +78,7 @@ class CargoCategoryFormat extends CargoListFormat {
 		// clear all the CSS floats
 		$result .= "\n" . '<br style="clear: both;"/>';
 
-		// <H3> will generate TOC entries otherwise.  Probably need another way
+		// <H3> will generate TOC entries otherwise. Probably need another way
 		// to accomplish this -- user might still want TOC for other page content.
 		//$result .= '__NOTOC__';
 		return $result;

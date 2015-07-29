@@ -68,8 +68,8 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		// Display mode - can be 'traditional'/null, 'nolines',
 		// 'packed', 'packed-overlay' or 'packed-hover'; see
 		// https://www.mediawiki.org/wiki/Help:Images#Mode_parameter
-                $mode = ( array_key_exists( 'mode', $displayParams ) ) ?
-                        $displayParams['mode'] : null;
+		$mode = ( array_key_exists( 'mode', $displayParams ) ) ?
+			$displayParams['mode'] : null;
 
 		try {
 			// @TODO - it would be nice to pass in a context here,

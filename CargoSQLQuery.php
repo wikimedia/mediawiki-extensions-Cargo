@@ -94,7 +94,7 @@ class CargoSQLQuery {
 
 	/**
 	 * Throw an error if there are forbidden values in any of the
-	 * #cargo_query parameters -  some or all of them are potential
+	 * #cargo_query parameters - some or all of them are potential
 	 * security risks.
 	 *
 	 * It could be that, given the way #cargo_query is structured, only
@@ -402,7 +402,7 @@ class CargoSQLQuery {
 					$description->mType = 'Date';
 				}
 			} elseif ( preg_match( "/^'.*'$/m", $fieldName ) ) {
-				// It's a quoted, literal string  - do nothing.
+				// It's a quoted, literal string - do nothing.
 			} else {
 				// It's a standard field - though if it's
 				// '_value', or ends in '__full', it's actually
