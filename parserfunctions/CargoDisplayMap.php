@@ -70,7 +70,7 @@ class CargoDisplayMap {
 			$mappingFormat = new CargoOpenLayersFormat( $parser->getOutput() );
 		}
 
-		list ( $lat, $lon ) = CargoStore::parseCoordinatesString( $pointStr );
+		list ( $lat, $lon ) = CargoUtils::parseCoordinatesString( $pointStr );
 		$valuesTable = array( array( 'Coords  lat' => $lat, 'Coords  lon' => $lon ) );
 		$formattedValuesTable = $valuesTable;
 		$coordsDesc = new CargoFieldDescription();

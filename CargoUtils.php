@@ -537,4 +537,123 @@ class CargoUtils {
 		}
 	}
 
+	/**
+	 * Parses one half of a set of coordinates into a number.
+	 *
+	 * Copied from Miga, also written by Yaron Koren
+	 * (https://github.com/yaronkoren/miga/blob/master/MDVCoordinates.js)
+	 * - though that one is in Javascript.
+	 */
+	public static function coordinatePartToNumber( $coordinateStr ) {
+		$degreesSymbols = array( "\x{00B0}", "d" );
+		$minutesSymbols = array( "'", "\x{2032}", "\x{00B4}" );
+		$secondsSymbols = array( '"', "\x{2033}", "\x{00B4}\x{00B4}" );
+
+		$numDegrees = null;
+		$numMinutes = null;
+		$numSeconds = null;
+
+		foreach ( $degreesSymbols as $degreesSymbol ) {
+			$pattern = '/([\d\.]+)' . $degreesSymbol . '/u';
+			if ( preg_match( $pattern, $coordinateStr, $matches ) ) {
+				$numDegrees = floatval( $matches[1] );
+				break;
+			}
+		}
+		if ( $numDegrees == null ) {
+			throw new MWException( "Error: could not parse degrees in \"$coordinateStr\"." );
+		}
+
+		foreach ( $minutesSymbols as $minutesSymbol ) {
+			$pattern = '/([\d\.]+)' . $minutesSymbol . '/u';
+			if ( preg_match( $pattern, $coordinateStr, $matches ) ) {
+				$numMinutes = floatval( $matches[1] );
+				break;
+			}
+		}
+		if ( $numMinutes == null ) {
+			// This might not be an error - the number of minutes
+			// might just not have been set.
+			$numMinutes = 0;
+		}
+
+		foreach ( $secondsSymbols as $secondsSymbol ) {
+			$pattern = '/(\d+)' . $secondsSymbol . '/u';
+			if ( preg_match( $pattern, $coordinateStr, $matches ) ) {
+				$numSeconds = floatval( $matches[1] );
+				break;
+			}
+		}
+		if ( $numSeconds == null ) {
+			// This might not be an error - the number of seconds
+			// might just not have been set.
+			$numSeconds = 0;
+		}
+
+		return ( $numDegrees + ( $numMinutes / 60 ) + ( $numSeconds / 3600 ) );
+	}
+
+	/**
+	 * Parses a coordinate string in (hopefully) any standard format.
+	 *
+	 * Copied from Miga, also written by Yaron Koren
+	 * (https://github.com/yaronkoren/miga/blob/master/MDVCoordinates.js)
+	 * - though that one is in Javascript.
+	 */
+	public static function parseCoordinatesString( $coordinatesString ) {
+		$coordinatesString = trim( $coordinatesString );
+		if ( $coordinatesString == null ) {
+			return;
+		}
+
+		// This is safe to do, right?
+		$coordinatesString = str_replace( array( '[', ']' ), '', $coordinatesString );
+		// See if they're separated by commas.
+		if ( strpos( $coordinatesString, ',' ) > 0 ) {
+			$latAndLonStrings = explode( ',', $coordinatesString );
+		} else {
+			// If there are no commas, the first half, for the
+			// latitude, should end with either 'N' or 'S', so do a
+			// little hack to split up the two halves.
+			$coordinatesString = str_replace( array( 'N', 'S' ), array( 'N,', 'S,' ), $coordinatesString );
+			$latAndLonStrings = explode( ',', $coordinatesString );
+		}
+
+		if ( count( $latAndLonStrings ) != 2 ) {
+			throw new MWException( "Error parsing coordinates string: \"$coordinatesString\"." );
+		}
+		list( $latString, $lonString ) = $latAndLonStrings;
+
+		// Handle strings one at a time.
+		$latIsNegative = false;
+		if ( strpos( $latString, 'S' ) > 0 ) {
+			$latIsNegative = true;
+		}
+		$latString = str_replace( array( 'N', 'S' ), '', $latString );
+		if ( is_numeric( $latString ) ) {
+			$latNum = floatval( $latString );
+		} else {
+			$latNum = self::coordinatePartToNumber( $latString );
+		}
+		if ( $latIsNegative ) {
+			$latNum *= -1;
+		}
+
+		$lonIsNegative = false;
+		if ( strpos( $lonString, 'W' ) > 0 ) {
+			$lonIsNegative = true;
+		}
+		$lonString = str_replace( array( 'E', 'W' ), '', $lonString );
+		if ( is_numeric( $lonString ) ) {
+			$lonNum = floatval( $lonString );
+		} else {
+			$lonNum = self::coordinatePartToNumber( $lonString );
+		}
+		if ( $lonIsNegative ) {
+			$lonNum *= -1;
+		}
+
+		return array( $latNum, $lonNum );
+	}
+
 }

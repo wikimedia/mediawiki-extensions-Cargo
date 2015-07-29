@@ -881,7 +881,7 @@ class CargoSQLQuery {
 		$latDistance = $distanceInKM / 111;
 
 		// Convert the latitude string to a latitude number - code is
-		// copied from CargoStore::parseCoordinatesString().
+		// copied from CargoUtils::parseCoordinatesString().
 		$latIsNegative = false;
 		if ( strpos( $latString, 'S' ) > 0 ) {
 			$latIsNegative = true;
@@ -890,7 +890,7 @@ class CargoSQLQuery {
 		if ( is_numeric( $latString ) ) {
 			$latNum = floatval( $latString );
 		} else {
-			$latNum = CargoStore::coordinatePartToNumber( $latString );
+			$latNum = CargoUtils::coordinatePartToNumber( $latString );
 		}
 		if ( $latIsNegative ) {
 			$latNum *= -1;
