@@ -101,8 +101,10 @@ class CargoSQLQuery {
 	 * some of the parameters need to be checked for these strings,
 	 * but we might as well validate all of them.
 	 *
-	 * The function setDescriptionsForFields() also does specific
-	 * validation of the "tables=" and "fields=" parameters.
+	 * The function CargoUtils::getTableSchemas() also does specific
+	 * validation of the "tables" parameter, while this class's
+	 * setDescriptionsForFields() does validation of the "fields="
+	 * parameter.
 	 */
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$havingStr, $orderByStr, $limitStr ) {

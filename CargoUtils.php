@@ -149,6 +149,16 @@ class CargoUtils {
 			$tableSchemaString = $row['table_schema'];
 			$tableSchemas[$tableName] = CargoTableSchema::newFromDBString( $tableSchemaString );
 		}
+
+		// Validate the table names.
+		if ( count( $tableSchemas ) < count( $mainTableNames ) ) {
+			foreach ( $mainTableNames as $tableName ) {
+				if ( !array_key_exists( $tableName, $tableSchemas ) ) {
+					throw new MWException( "Error: table \"$tableName\" not found." );
+				}
+			}
+		}
+
 		return $tableSchemas;
 	}
 
