@@ -222,22 +222,16 @@ class CargoHooks {
 		return true;
 	}
 
-	public static function describeDBSchema( $updater = null ) {
-		$dir = dirname( __FILE__ );
-
+	public static function describeDBSchema( DatabaseUpdater $updater ) {
 		// DB updates
 		// For now, there's just a single SQL file for all DB types.
-		if ( $updater === null ) {
-			global $wgExtNewTables, $wgDBtype;
-			//if ( $wgDBtype == 'mysql' ) {
-			$wgExtNewTables[] = array( 'cargo_tables', "$dir/Cargo.sql" );
-			$wgExtNewTables[] = array( 'cargo_pages', "$dir/Cargo.sql" );
-			//}
-		} else {
-			//if ( $updater->getDB()->getType() == 'mysql' ) {
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', "$dir/Cargo.sql", true ) );
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', "$dir/Cargo.sql", true ) );
-			//}
+
+		if ( $updater->getDB()->getType() == 'mysql' || $updater->getDB()->getType() == 'sqlite' ) {
+			$updater->addExtensionTable( 'cargo_tables', __DIR__ . "/sql/Cargo.sql" );
+			$updater->addExtensionTable( 'cargo_pages', __DIR__ . "/sql/Cargo.sql" );
+		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ) );
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ) );
 		}
 		return true;
 	}
