@@ -199,14 +199,23 @@ class CargoExport extends UnlistedSpecialPage {
 					// necessarily the page name.
 					$eventTitle = reset( $queryResult );
 				}
-				$title = Title::newFromText( $eventTitle );
 
-				$displayedArray[] = array(
+				$eventDisplayDetails = array(
 					'title' => $eventTitle,
 					'start' => $queryResult[$dateFields[0]],
 					'description' => $eventDescription,
-					'link' => $title->getFullURL(),
 				);
+
+				// If we have the name of the page on which
+				// the event is defined, link to that -
+				// otherwise, don't link to anything.
+				// (In most cases, the _pageName field will
+				// also be the title of the event.)
+				if ( array_key_exists( '_pageName', $queryResult ) ) {
+					$title = Title::newFromText( $queryResult['_pageName'] );
+					$eventDisplayDetails['link'] = $title->getFullURL();
+				}
+				$displayedArray[] = $eventDisplayDetails;
 			}
 		}
 		// Sort by date, ascending.
