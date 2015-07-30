@@ -1,13 +1,13 @@
-﻿/*==================================================
+/*==================================================
  *  Localization of labellers.js
  *==================================================
  */
 
-Timeline.GregorianDateLabeller.monthNames["zh"] = [
-    "1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"
+Timeline.GregorianDateLabeller.monthNames["de"] = [
+    "Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"
 ];
 
-Timeline.GregorianDateLabeller.labelIntervalFunctions["zh"] = function(date, intervalUnit) {
+Timeline.GregorianDateLabeller.labelIntervalFunctions["de"] = function(date, intervalUnit) {
     var text;
     var emphasized = false;
     
@@ -16,8 +16,8 @@ Timeline.GregorianDateLabeller.labelIntervalFunctions["zh"] = function(date, int
     switch(intervalUnit) {
     case Timeline.DateTime.DAY:
     case Timeline.DateTime.WEEK:
-        text = Timeline.GregorianDateLabeller.getMonthName(date2.getUTCMonth(), this._locale) + 
-            date2.getUTCDate() + "日";
+        text = date2.getUTCDate() + ". " +
+            Timeline.GregorianDateLabeller.getMonthName(date2.getUTCMonth(), this._locale);
         break;
     default:
         return this.defaultLabelInterval(date, intervalUnit);
