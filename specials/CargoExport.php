@@ -170,7 +170,6 @@ class CargoExport extends UnlistedSpecialPage {
 			$queryResults = $sqlQuery->run();
 
 			foreach ( $queryResults as $queryResult ) {
-				$title = Title::newFromText( $queryResult['_pageName'] );
 				$eventDescription = '';
 				$firstField = true;
 				foreach ( $sqlQuery->mFieldDescriptions as $fieldName => $fieldDescription ) {
@@ -196,12 +195,13 @@ class CargoExport extends UnlistedSpecialPage {
 				if ( array_key_exists( 'name', $queryResult ) ) {
 					$eventTitle = $queryResult['name'];
 				} else {
-					$eventTitle = reset( $queryResult );
-				}
-
-				$displayedArray[] = array(
 					// Get first field for the 'title' - not
 					// necessarily the page name.
+					$eventTitle = reset( $queryResult );
+				}
+				$title = Title::newFromText( $eventTitle );
+
+				$displayedArray[] = array(
 					'title' => $eventTitle,
 					'start' => $queryResult[$dateFields[0]],
 					'description' => $eventDescription,
