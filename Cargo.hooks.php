@@ -8,6 +8,17 @@
  */
 class CargoHooks {
 
+	public static function registerParserFunctions( &$parser ) {
+		$parser->setFunctionHook( 'cargo_declare', array( 'CargoDeclare', 'run' ) );
+		$parser->setFunctionHook( 'cargo_attach', array( 'CargoAttach', 'run' ) );
+		$parser->setFunctionHook( 'cargo_store', array( 'CargoStore', 'run' ) );
+		$parser->setFunctionHook( 'cargo_query', array( 'CargoQuery', 'run' ) );
+		$parser->setFunctionHook( 'cargo_compound_query', array( 'CargoCompoundQuery', 'run' ) );
+		$parser->setFunctionHook( 'recurring_event', array( 'CargoRecurringEvent', 'run' ) );
+		$parser->setFunctionHook( 'cargo_display_map', array( 'CargoDisplayMap', 'run' ) );
+		return true;
+	}
+
 	/**
 	 * Add date-related messages to Global JS vars in user language
 	 *
