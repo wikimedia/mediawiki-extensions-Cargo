@@ -59,6 +59,8 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 				$view = 'basicWeek';
 			}
 			$attrs['startview'] = $view;
+		} else {
+			$attrs['startview'] = 'month';
 		}
 		if ( array_key_exists( 'start date', $displayParams ) ) {
 			$attrs['startdate'] = $displayParams['start date'];

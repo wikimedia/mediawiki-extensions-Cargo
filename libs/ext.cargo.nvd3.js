@@ -42,7 +42,7 @@ $(document).ready(function() {
 					.margin({top: 0, right: 0, bottom: 0, left: labelsWidth })
 					.showValues(true)           //Show bar value next to each bar.
 					.tooltips(false)             //Show tooltips on hover.
-					.transitionDuration(350)
+					.duration(350)
 					.showControls(false);        //Allow user to switch between "Grouped" and "Stacked" mode.
 
 				if ( !numbersIncludeDecimalPoints ) {
