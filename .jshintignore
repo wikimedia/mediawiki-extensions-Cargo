@@ -1,1 +1,14 @@
 node_modules
+
+# third-party libs
+libs/DataTables/**
+libs/SimileTimeline/**
+libs/d3.js
+libs/fullcalendar.js
+libs/markerclusterer.js
+libs/nv.d3.js
+
+# Temporarily igore these files until someone has a look at them and fix the warrnings
+libs/ext.cargo.maps.js
+libs/ext.cargo.nvd3.js
+libs/ext.cargo.timeline.js

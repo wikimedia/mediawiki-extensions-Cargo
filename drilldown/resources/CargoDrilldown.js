@@ -16,11 +16,15 @@
 		if (loc >= 0) {
 			var t = item.label.substr(0, loc) + '<strong>' + item.label.substr(loc, this.term.length) + '</strong>' + item.label.substr(loc + this.term.length);
 		} else {
+			/* jshint ignore:start */
 			var t = item.label;
+			/* jshint ignore:end */
 		}
 		return jQuery( "<li></li>" )
 			.data( "item.autocomplete", item )
+			/* jshint ignore:start */
 			.append( " <a>" + t + "</a>" )
+			/* jshint ignore:end */
 			.appendTo( ul );
 	};
 
@@ -93,17 +97,19 @@
 })(jQuery);
 
 jQuery.fn.toggleCDValuesDisplay = function() {
+	/* jshint ignore:start */
 	$valuesDiv = jQuery(this).closest(".drilldown-filter")
 		.find(".drilldown-filter-values");
-	if ($valuesDiv.css("display") == "none") {
+	if ($valuesDiv.css("display") === "none") {
 		$valuesDiv.css("display", "block");
 		var downArrowImage = mw.config.get( 'cgDownArrowImage' );
 		this.find("img").attr( "src", downArrowImage );
-        } else {
+	} else {
 		$valuesDiv.css("display", "none");
 		var rightArrowImage = mw.config.get( 'cgRightArrowImage' );
 		this.find("img").attr( "src", rightArrowImage );
-        }
+	}
+	/* jshint ignore:end */
 };
 
 jQuery(document).ready(function() {
