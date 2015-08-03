@@ -175,9 +175,11 @@ $wgResourceModules += array(
 			'libs/ext.cargo.calendar.css',
 		),
 		'scripts' => array(
-			'libs/moment.js',
 			'libs/fullcalendar.js',
 			'libs/ext.cargo.calendar.js',
+		),
+		'dependencies' => array(
+			'moment',
 		),
 		'position' => 'top',
 		'localBasePath' => __DIR__,
