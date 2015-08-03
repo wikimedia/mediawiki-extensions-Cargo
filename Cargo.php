@@ -19,7 +19,7 @@ $wgExtensionCredits['parserhook'][] = array(
 	'descriptionmsg' => 'cargo-desc',
 );
 
-$dir = dirname( __FILE__ );
+$dir = __DIR__ . '/';
 
 // Script path.
 $cgScriptPath = $wgScriptPath . '/extensions/Cargo';
