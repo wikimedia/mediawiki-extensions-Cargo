@@ -6,7 +6,19 @@
  * @author Yaron Koren
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) die();
+if ( function_exists( 'wfLoadExtension' ) ) {
+	wfLoadExtension( 'Cargo' );
+	// Keep i18n globals so mergeMessageFileList.php doesn't break
+	$wgMessagesDirs['Cargo'] = __DIR__ . '/i18n';
+	$wgExtensionMessagesFiles['CargoMagic'] = __DIR__ . '/Cargo.i18n.magic.php';
+	/* wfWarn(
+		'Deprecated PHP entry point used for Cargo extension. Please use wfLoadExtension instead, ' .
+		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+	); */
+	return;
+}
+
+/* For Backword Compatibility */
 
 define( 'CARGO_VERSION', '0.9' );
 

@@ -1,0 +1,298 @@
+{
+	"name": "Cargo",
+	"version": "0.9",
+	"author": "Yaron Koren",
+	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
+	"descriptionmsg": "cargo-desc",
+	"type": "parserhook",
+	"callback": "CargoHooks::registerExtension",
+	"AvailableRights": [
+		"recreatecargodata",
+		"deletecargodata"
+	],
+	"SpecialPages": {
+		"CargoTables": "CargoTables",
+		"DeleteCargoTable": "CargoDeleteCargoTable",
+		"ViewData": "CargoViewData",
+		"CargoExport": "CargoExport",
+		"PageValues": "CargoPageValues",
+		"Drilldown": "CargoDrilldown"
+	},
+	"JobClasses": {
+		"cargoPopulateTable": "CargoPopulateTableJob"
+	},
+	"APIModules": {
+		"cargoquery": "CargoQueryAPI",
+		"cargorecreatetables": "CargoRecreateTablesAPI",
+		"cargorecreatedata": "CargoRecreateDataAPI"
+	},
+	"MessagesDirs": {
+		"Cargo": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"CargoMagic": "Cargo.i18n.magic.php"
+	},
+	"AutoloadClasses": {
+		"CargoHooks": "Cargo.hooks.php",
+		"CargoUtils": "CargoUtils.php",
+		"CargoFieldDescription": "CargoFieldDescription.php",
+		"CargoTableSchema": "CargoTableSchema.php",
+		"CargoDeclare": "parserfunctions/CargoDeclare.php",
+		"CargoAttach": "parserfunctions/CargoAttach.php",
+		"CargoStore": "parserfunctions/CargoStore.php",
+		"CargoQuery": "parserfunctions/CargoQuery.php",
+		"CargoCompoundQuery": "parserfunctions/CargoCompoundQuery.php",
+		"CargoSQLQuery": "CargoSQLQuery.php",
+		"CargoQueryDisplayer": "CargoQueryDisplayer.php",
+		"CargoRecurringEvent": "parserfunctions/CargoRecurringEvent.php",
+		"CargoDisplayMap": "parserfunctions/CargoDisplayMap.php",
+		"CargoPopulateTableJob": "CargoPopulateTableJob.php",
+		"CargoRecreateDataAction": "CargoRecreateDataAction.php",
+		"CargoRecreateData": "specials/CargoRecreateData.php",
+		"CargoTables": "specials/CargoTables.php",
+		"CargoDeleteCargoTable": "specials/CargoDeleteTable.php",
+		"CargoViewData": "specials/CargoViewData.php",
+		"ViewDataPage": "specials/CargoViewData.php",
+		"CargoExport": "specials/CargoExport.php",
+		"CargoPageValuesAction": "CargoPageValuesAction.php",
+		"CargoPageValues": "specials/CargoPageValues.php",
+		"CargoQueryAPI": "api/CargoQueryAPI.php",
+		"CargoRecreateTablesAPI": "api/CargoRecreateTablesAPI.php",
+		"CargoRecreateDataAPI": "api/CargoRecreateDataAPI.php",
+		"CargoDisplayFormat": "formats/CargoDisplayFormat.php",
+		"CargoDeferredFormat": "formats/CargoDeferredFormat.php",
+		"CargoListFormat": "formats/CargoListFormat.php",
+		"CargoULFormat": "formats/CargoULFormat.php",
+		"CargoOLFormat": "formats/CargoOLFormat.php",
+		"CargoTemplateFormat": "formats/CargoTemplateFormat.php",
+		"CargoOutlineFormat": "formats/CargoOutlineFormat.php",
+		"CargoOutlineRow": "formats/CargoOutlineFormat.php",
+		"CargoOutlineTree": "formats/CargoOutlineFormat.php",
+		"CargoTreeFormat": "formats/CargoTreeFormat.php",
+		"CargoTreeFormatNode": "formats/CargoTreeFormat.php",
+		"CargoTreeFormatTree": "formats/CargoTreeFormat.php",
+		"CargoEmbeddedFormat": "formats/CargoEmbeddedFormat.php",
+		"CargoCSVFormat": "formats/CargoCSVFormat.php",
+		"CargoExcelFormat": "formats/CargoExcelFormat.php",
+		"CargoJSONFormat": "formats/CargoJSONFormat.php",
+		"CargoTableFormat": "formats/CargoTableFormat.php",
+		"CargoDynamicTableFormat": "formats/CargoDynamicTableFormat.php",
+		"CargoMapsFormat": "formats/CargoMapsFormat.php",
+		"CargoGoogleMapsFormat": "formats/CargoGoogleMapsFormat.php",
+		"CargoOpenLayersFormat": "formats/CargoOpenLayersFormat.php",
+		"CargoCalendarFormat": "formats/CargoCalendarFormat.php",
+		"CargoTimelineFormat": "formats/CargoTimelineFormat.php",
+		"CargoCategoryFormat": "formats/CargoCategoryFormat.php",
+		"CargoBarChartFormat": "formats/CargoBarChartFormat.php",
+		"CargoGalleryFormat": "formats/CargoGalleryFormat.php",
+		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
+		"CargoPageSchemas": "CargoPageSchemas.php",
+		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",
+		"CargoFilter": "drilldown/CargoFilter.php",
+		"CargoFilterValue": "drilldown/CargoFilterValue.php",
+		"CargoDrilldownUtils": "drilldown/CargoDrilldownUtils.php",
+		"CargoDrilldown": "drilldown/CargoSpecialDrilldown.php",
+		"CargoDrilldownPage": "drilldown/CargoSpecialDrilldown.php"
+	},
+	"ResourceModules": {
+		"ext.cargo.main": {
+			"styles": "Cargo.css"
+		},
+		"ext.cargo.drilldown": {
+			"styles": [
+				"drilldown/resources/CargoDrilldown.css",
+				"drilldown/resources/CargoJQueryUIOverrides.css"
+			],
+			"scripts": [
+				"drilldown/resources/CargoDrilldown.js"
+			],
+			"dependencies": [
+				"jquery.ui.autocomplete",
+				"jquery.ui.button"
+			],
+			"position": "top"
+		},
+		"ext.cargo.maps": {
+			"scripts": [
+				"libs/ext.cargo.maps.js",
+				"libs/markerclusterer.js"
+			],
+			"position": "top"
+		},
+		"ext.cargo.calendar": {
+			"styles": [
+				"libs/fullcalendar.css",
+				"libs/ext.cargo.calendar.css"
+			],
+			"scripts": [
+				"libs/fullcalendar.js",
+				"libs/ext.cargo.calendar.js"
+			],
+			"dependencies": [
+				"moment"
+			],
+			"position": "top"
+		},
+		"ext.cargo.timeline": {
+			"styles": [
+				"libs/SimileTimeline/styles/timeline.css",
+				"libs/SimileTimeline/styles/ethers.css",
+				"libs/SimileTimeline/styles/events.css"
+			],
+			"scripts": [
+				"libs/ext.cargo.timeline.js",
+				"libs/SimileTimeline/scripts/timeline.js",
+				"libs/SimileTimeline/scripts/util/platform.js",
+				"libs/SimileTimeline/scripts/util/debug.js",
+				"libs/SimileTimeline/scripts/util/xmlhttp.js",
+				"libs/SimileTimeline/scripts/util/dom.js",
+				"libs/SimileTimeline/scripts/util/graphics.js",
+				"libs/SimileTimeline/scripts/util/date-time.js",
+				"libs/SimileTimeline/scripts/util/data-structure.js",
+				"libs/SimileTimeline/scripts/units.js",
+				"libs/SimileTimeline/scripts/themes.js",
+				"libs/SimileTimeline/scripts/ethers.js",
+				"libs/SimileTimeline/scripts/ether-painters.js",
+				"libs/SimileTimeline/scripts/labellers.js",
+				"libs/SimileTimeline/scripts/sources.js",
+				"libs/SimileTimeline/scripts/layouts.js",
+				"libs/SimileTimeline/scripts/painters.js",
+				"libs/SimileTimeline/scripts/decorators.js"
+			],
+			"position": "top"
+		},
+		"ext.cargo.datatables": {
+			"styles": [
+				"libs/DataTables/css/jquery.dataTables.css"
+			],
+			"scripts": [
+				"libs/DataTables/js/jquery.dataTables.js",
+				"libs/ext.cargo.datatables.js"
+			],
+			"position": "top"
+		},
+		"ext.cargo.nvd3": {
+			"scripts": [
+				"libs/d3.js",
+				"libs/nv.d3.js",
+				"libs/ext.cargo.nvd3.js"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "Cargo"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"CargoHooks::registerParserFunctions"
+		],
+		"MakeGlobalVariablesScript": [
+			"CargoHooks::setGlobalJSVariables"
+		],
+		"PageContentSaveComplete": [
+			"CargoHooks::onPageContentSaveComplete"
+		],
+		"ApprovedRevsRevisionApproved": [
+			"CargoHooks::onARRevisionApproved"
+		],
+		"ApprovedRevsRevisionUnapproved": [
+			"CargoHooks::onARRevisionUnapproved"
+		],
+		"TitleMoveComplete": [
+			"CargoHooks::onTitleMoveComplete"
+		],
+		"ArticleDeleteComplete": [
+			"CargoHooks::onArticleDeleteComplete"
+		],
+		"LoadExtensionSchemaUpdates": [
+			"CargoHooks::describeDBSchema"
+		],
+		"SkinTemplateTabs": [
+			"CargoRecreateDataAction::displayTab"
+		],
+		"SkinTemplateNavigation": [
+			"CargoRecreateDataAction::displayTab2",
+			"CargoHooks::addPurgeCacheTab"
+		],
+		"UnknownAction": [
+			"CargoRecreateDataAction::show",
+			"CargoPageValuesAction::show"
+		],
+		"BaseTemplateToolbox": [
+			"CargoPageValuesAction::addLink"
+		],
+		"AdminLinks": [
+			"CargoHooks::addToAdminLinks"
+		],
+		"PageSchemasRegisterHandlers": [
+			"CargoPageSchemas::registerClass"
+		],
+		"ResourceLoaderGetConfigVars": [
+			"CargoHooks::onResourceLoaderGetConfigVars"
+		]
+	},
+	"config": {
+		"PageProps": {
+			"CargoTableName": "The name of the database table that holds this template's data",
+			"CargoFields": "The set of fields stored for this template"
+		},
+		"CargoFieldTypes": [
+			"Page",
+			"Text",
+			"Integer",
+			"Float",
+			"Date",
+			"Datetime",
+			"Boolean",
+			"Coordinates",
+			"Wikitext",
+			"File"
+		],
+		"CargoAllowedSQLFunctions": [
+			"COUNT",
+			"FLOOR",
+			"CEIL",
+			"ROUND",
+			"MAX",
+			"MIN",
+			"AVG",
+			"SUM",
+			"POWER",
+			"LN",
+			"LOG",
+			"CONCAT",
+			"LOWER",
+			"LCASE",
+			"UPPER",
+			"UCASE",
+			"SUBSTRING",
+			"FORMAT",
+			"DATE",
+			"DATE_FORMAT",
+			"DATE_ADD",
+			"DATE_SUB",
+			"DATE_DIFF"
+		],
+		"CargoDecimalMark": ".",
+		"CargoDigitGroupingCharacter": ",",
+		"CargoRecurringEventMaxInstances": 100,
+		"CargoDBtype": null,
+		"CargoDBserver": null,
+		"CargoDBname": null,
+		"CargoDBuser": null,
+		"CargoDBpassword": null,
+		"CargoDefaultQueryLimit": 100,
+		"CargoMaxQueryLimit": 5000,
+		"Cargo24HourTime": false,
+		"CargoMapClusteringMinimum": 80,
+		"CargoDrilldownUseTabs": false,
+		"CargoDrilldownSmallestFontSize": -1,
+		"CargoDrilldownLargestFontSize": -1,
+		"CargoDrilldownMinValuesForComboBox": 40,
+		"CargoDrilldownNumRangesForNumbers": 5
+	},
+	"manifest_version": 1
+}

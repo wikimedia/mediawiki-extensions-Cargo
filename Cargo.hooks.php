@@ -8,6 +8,17 @@
  */
 class CargoHooks {
 
+	public static function registerExtension() {
+		global $cgScriptPath, $wgScriptPath, $wgGroupPermissions;
+
+		// Script path.
+		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
+
+		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
+		$wgGroupPermissions['sysop']['deletecargodata'] = true;
+	}
+
+
 	public static function registerParserFunctions( &$parser ) {
 		$parser->setFunctionHook( 'cargo_declare', array( 'CargoDeclare', 'run' ) );
 		$parser->setFunctionHook( 'cargo_attach', array( 'CargoAttach', 'run' ) );
