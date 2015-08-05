@@ -6,6 +6,7 @@
 			"Seb35"
 		]
 	},
+	"extensionname-cargo": "{{optional}}",
 	"cargo-desc": "{{desc|name=Cargo|url=https://www.mediawiki.org/wiki/Extension:Cargo}}",
 	"cargo-definestable": "A description of a template, that is displayed on that template's page.",
 	"cargo-tablenotcreated": "A notice to the user, displayed on a template page.",

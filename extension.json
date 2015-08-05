@@ -1,5 +1,6 @@
 {
 	"name": "Cargo",
+	"namemsg": "extensionname-cargo",
 	"version": "0.9",
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",

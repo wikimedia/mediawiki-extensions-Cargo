@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": []
 	},
+	"extensionname-cargo": "Cargo",
 	"cargo-desc": "Storage and querying of template data",
 	"cargo-definestable": "This template defines the table \"$1\".",
 	"cargo-tablenotcreated": "This table has not been created yet.",
