@@ -9,10 +9,21 @@
 class CargoHooks {
 
 	public static function registerExtension() {
-		global $cgScriptPath, $wgScriptPath, $wgGroupPermissions;
+		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgCargoAllowedSQLFunctions, $wgGroupPermissions;
 
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
+
+		$wgCargoFieldTypes = array( 'Page', 'Text', 'Integer', 'Float', 'Date', 'Datetime', 'Boolean', 'Coordinates', 'Wikitext', 'File' );
+		$wgCargoAllowedSQLFunctions = array(
+			// Math functions
+			'COUNT', 'FLOOR', 'CEIL', 'ROUND',
+			'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG',
+			// String functions
+			'CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE', 'SUBSTRING', 'FORMAT',
+			// Date functions
+			'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF'
+		);
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
 		$wgGroupPermissions['sysop']['deletecargodata'] = true;
