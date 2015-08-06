@@ -276,14 +276,38 @@ class CargoExport extends UnlistedSpecialPage {
 		header( "Content-Type: text/csv" );
 		header( "Content-Disposition: attachment; filename=$filename" );
 
-		// We'll only use the first query, if there's more than one.
-		$sqlQuery = $sqlQueries[0];
-		$queryResults = $sqlQuery->run();
+		$queryResultsArray = array();
+		$allHeaders = array();
+		foreach( $sqlQueries as $sqlQuery ) {
+			$queryResults = $sqlQuery->run();
+			$allHeaders = array_merge( $allHeaders, array_keys( reset( $queryResults ) ) );
+			$queryResultsArray[] = $queryResults;
+		}
+
+		// Remove duplicates from headers array.
+		$allHeaders = array_unique( $allHeaders );
+
 		$out = fopen('php://output', 'w');
+
 		// Display header row.
-		fputcsv( $out, array_keys( reset( $queryResults ) ), $delimiter );
-		foreach( $queryResults as $queryResult ) {
-			fputcsv( $out, $queryResult, $delimiter );
+		fputcsv( $out, $allHeaders, $delimiter );
+
+		// Display the data.
+		foreach ( $queryResultsArray as $queryResults ) {
+			foreach ( $queryResults as $queryResultRow ) {
+				// Put in a blank if this row doesn't contain
+				// a certain column (this will only happen
+				// for compound queries).
+				$displayedRow = array();
+				foreach ( $allHeaders as $header ) {
+					if ( array_key_exists( $header, $queryResultRow ) ) {
+						$displayedRow[$header] = $queryResultRow[$header];
+					} else {
+						$displayedRow[$header] = null;
+					}
+				}
+				fputcsv( $out, $displayedRow, $delimiter );
+			}
 		}
 		fclose( $out );
 	}
