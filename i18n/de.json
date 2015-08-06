@@ -5,6 +5,7 @@
 			"Andreasburmeister"
 		]
 	},
+	"extensionname-cargo": "Cargo",
 	"cargo-desc": "Ermöglicht das Speichern und Abfragen von Vorlagendaten",
 	"cargo-definestable": "Diese Vorlage definiert die Tabelle „$1“.",
 	"cargo-tablenotcreated": "Diese Tabelle wurde noch nicht erstellt.",

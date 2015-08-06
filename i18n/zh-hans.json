@@ -4,6 +4,7 @@
 			"Liuxinyu970226"
 		]
 	},
+	"extensionname-cargo": "Cargo",
 	"cargo-desc": "模板数据的存储和查询",
 	"cargo-definestable": "此模板定义表格“$1”。",
 	"cargo-tablenotcreated": "此表格尚未创建。",
