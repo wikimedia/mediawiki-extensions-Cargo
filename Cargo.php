@@ -146,10 +146,6 @@ $wgGroupPermissions['sysop']['recreatecargodata'] = true;
 $wgAvailableRights[] = 'deletecargodata';
 $wgGroupPermissions['sysop']['deletecargodata'] = true;
 
-// Page properties
-$wgPageProps['CargoTableName'] = "The name of the database table that holds this template's data";
-$wgPageProps['CargoFields'] = 'The set of fields stored for this template';
-
 // ResourceLoader modules
 $wgResourceModules += array(
 	'ext.cargo.main' => array(

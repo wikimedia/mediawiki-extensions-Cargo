@@ -236,10 +236,6 @@
 		]
 	},
 	"config": {
-		"PageProps": {
-			"CargoTableName": "The name of the database table that holds this template's data",
-			"CargoFields": "The set of fields stored for this template"
-		},
 		"CargoFieldTypes": [
 			"Page",
 			"Text",
