@@ -107,7 +107,7 @@ class ViewDataPage extends QueryPage {
 		$groupByStr = $req->getVal( 'group_by' );
 		$havingStr = $req->getVal( 'having' );
 		$orderByStr = $req->getVal( 'order_by' );
-		$limitStr = null;
+		$limitStr = $req->getVal( 'limit' );
 
 		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr );
