@@ -4,6 +4,7 @@
 			"Bjankuloski06"
 		]
 	},
+	"extensionname-cargo": "Карго",
 	"cargo-desc": "Овозможува складирање и побарување на шаблонски податоци",
 	"cargo-definestable": "Шаблонов ја определува табелата „$1“.",
 	"cargo-tablenotcreated": "Табелава сè уште не е создаена.",
