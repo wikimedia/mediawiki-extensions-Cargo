@@ -150,6 +150,7 @@ $wgGroupPermissions['sysop']['deletecargodata'] = true;
 $wgResourceModules += array(
 	'ext.cargo.main' => array(
 		'styles' => 'Cargo.css',
+		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -242,6 +243,7 @@ $wgResourceModules += array(
 			'libs/nv.d3.js',
 			'libs/ext.cargo.nvd3.js',
 		),
+		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),

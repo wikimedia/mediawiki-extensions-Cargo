@@ -99,7 +99,8 @@
 	},
 	"ResourceModules": {
 		"ext.cargo.main": {
-			"styles": "Cargo.css"
+			"styles": "Cargo.css",
+			"position": "top"
 		},
 		"ext.cargo.drilldown": {
 			"styles": [
@@ -179,7 +180,8 @@
 				"libs/d3.js",
 				"libs/nv.d3.js",
 				"libs/ext.cargo.nvd3.js"
-			]
+			],
+			"position": "top"
 		}
 	},
 	"ResourceFileModulePaths": {
