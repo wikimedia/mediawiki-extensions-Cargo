@@ -148,84 +148,82 @@ class CargoStore {
 			}
 			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 				$precision = null;
-				if ( $curValue != '' ) {
-					// Special handling if it's just a year.
-					// If it's a number and less than 8
-					// digits, assume it's a year (hey, it
-					// could be a very large BC year). If
-					// it's 8 digits, it's probably a full
-					// date in the form YYYYMMDD.
-					if ( ctype_digit( $curValue ) && strlen( $curValue ) < 8 ) {
-						// Add a fake date - it will
-						// get ignored later.
-						$curValue = "$curValue-01-01";
-						$precision = self::YEAR_ONLY;
-					} else {
-						// Determine if there's a month
-						// but no day. There's no ideal
-						// way to do this, so: we'll
-						// just look for the total
-						// number of spaces, slashes
-						// and dashes, and if there's
-						// exactly one altogether, we'll
-						// guess that it's a month only.
-						$numSpecialChars = substr_count( $curValue, ' ' ) +
-							substr_count( $curValue, '/' ) + substr_count( $curValue, '-' );
-						if ( $numSpecialChars == 1 ) {
-							// No need to add
-							// anything - PHP will
-							// set it to the 1st
-							// of the month.
-							$precision = self::MONTH_ONLY;
-						} else {
-							// We have at least a
-							// full date.
-							if ( $fieldType == 'Date' ) {
-								$precision = self::DATE_ONLY;
-							}
-						}
-					}
-					$seconds = strtotime( $curValue );
-					if ( $precision == self::DATE_ONLY ) {
-						// Put into YYYY-MM-DD format.
-						$tableFieldValues[$fieldName] = date( 'Y-m-d', $seconds );
-					} else {
-						// It's a Datetime field, which
-						// may or may not have a time -
-						// check for that now.
-						$datePortion = date( 'Y-m-d', $seconds );
-						$timePortion = date( 'G:i:s', $seconds );
-						// If it's not right at midnight,
-						// there's definitely a time there.
-						$precision = self::DATE_AND_TIME;
-						if ( $timePortion !== '0:00:00' ) {
-							$tableFieldValues[$fieldName] = $datePortion . ' ' . $timePortion;
-						} else {
-							// It's midnight, so
-							// chances are good that
-							// there was no time
-							// specified, but how
-							// do we know for sure?
-							// Slight @HACK - look
-							// for either "00" or
-							// "AM" (or "am") in
-							// the original date
-							// string. If neither
-							// one is there,
-							// there's probably no
-							// time.
-							if ( strpos( $curValue, '00' ) === false &&
-								strpos( $curValue, 'AM' ) === false &&
-								strpos( $curValue, 'am' ) === false ) {
-								$precision = self::DATE_ONLY;
-							}
-							// Either way, we just
-							// need the date portion.
-							$tableFieldValues[$fieldName] = $datePortion;
-						}
-					}
-					$tableFieldValues[$fieldName . '__precision'] = $precision;
+				if ( $curValue == '' ) {
+					continue;
 				}
+
+				// Special handling if it's just a year. If
+				// it's a number and less than 8 digits, assume
+				// it's a year (hey, it could be a very large
+				// BC year). If it's 8 digits, it's probably a
+				// full date in the form YYYYMMDD.
+				if ( ctype_digit( $curValue ) && strlen( $curValue ) < 8 ) {
+					// Add a fake date - it will get
+					// ignored later.
+					$curValue = "$curValue-01-01";
+					$precision = self::YEAR_ONLY;
+				} else {
+					// Determine if there's a month but no
+					// day. There's no ideal way to do
+					// this, so: we'll just look for the
+					// total number of spaces, slashes and
+					// dashes, and if there's exactly one
+					// altogether, we'll/ guess that it's a
+					// month only.
+					$numSpecialChars = substr_count( $curValue, ' ' ) +
+						substr_count( $curValue, '/' ) + substr_count( $curValue, '-' );
+					if ( $numSpecialChars == 1 ) {
+						// No need to add anything -
+						// PHP will set it to the first
+						// of the month.
+						$precision = self::MONTH_ONLY;
+					} else {
+						// We have at least a full date.
+						if ( $fieldType == 'Date' ) {
+							$precision = self::DATE_ONLY;
+						}
+					}
+				}
+
+				$seconds = strtotime( $curValue );
+				// If the precision has already been set, then
+				// we know it doesn't include a time value -
+				// we can set the value already.
+				if ( $precision != null ) {
+					// Put into YYYY-MM-DD format.
+					$tableFieldValues[$fieldName] = date( 'Y-m-d', $seconds );
+				} else {
+					// It's a Datetime field, which
+					// may or may not have a time -
+					// check for that now.
+					$datePortion = date( 'Y-m-d', $seconds );
+					$timePortion = date( 'G:i:s', $seconds );
+					// If it's not right at midnight,
+					// there's definitely a time there.
+					$precision = self::DATE_AND_TIME;
+					if ( $timePortion !== '0:00:00' ) {
+						$tableFieldValues[$fieldName] = $datePortion . ' ' . $timePortion;
+					} else {
+						// It's midnight, so chances
+						// are good that there was no
+						// time specified, but how do
+						// we know for sure?
+						// Slight @HACK - look for
+						// either "00" or "AM" (or "am")
+						// in the original date string.
+						// If neither one is there,
+						// there's probably no time.
+						if ( strpos( $curValue, '00' ) === false &&
+							strpos( $curValue, 'AM' ) === false &&
+							strpos( $curValue, 'am' ) === false ) {
+							$precision = self::DATE_ONLY;
+						}
+						// Either way, we just
+						// need the date portion.
+						$tableFieldValues[$fieldName] = $datePortion;
+					}
+				}
+				$tableFieldValues[$fieldName . '__precision'] = $precision;
 			} elseif ( $fieldType == 'Integer' ) {
 				// Remove digit-grouping character.
 				global $wgCargoDigitGroupingCharacter;
