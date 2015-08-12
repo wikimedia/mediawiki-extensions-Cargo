@@ -12,6 +12,7 @@
 			"Əric"
 		]
 	},
+	"extensionname-cargo": "Cargo",
 	"cargo-desc": "Stockage et interrogation de données de modèle",
 	"cargo-definestable": "Ce modèle définit la table « $1 ».",
 	"cargo-tablenotcreated": "Ce tableau n'a pas encore été créé.",
