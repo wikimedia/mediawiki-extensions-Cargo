@@ -25,7 +25,7 @@ define( 'CARGO_VERSION', '0.9' );
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'Cargo',
-	'name' => 'extensionname-cargo',
+	'namemsg' => 'extensionname-cargo',
 	'version' => CARGO_VERSION,
 	'author' => 'Yaron Koren',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Cargo',
