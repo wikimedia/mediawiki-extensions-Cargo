@@ -20,7 +20,7 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 
 /* For Backword Compatibility */
 
-define( 'CARGO_VERSION', '0.9' );
+define( 'CARGO_VERSION', '0.10-alpha' );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
