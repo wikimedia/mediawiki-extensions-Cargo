@@ -120,10 +120,13 @@ class ViewDataPage extends QueryPage {
 		$this->displayParams = array();
 		$queryStringValues = $this->getRequest()->getValues();
 		foreach ( $queryStringValues as $key => $value ) {
-			if ( !in_array( $key,
-					array( 'title', 'tables', 'fields', 'join_on', 'order_by', 'group_by', 'having', 'format',
+			// For some reason, getValues() turns all spaces
+			// into underlines.
+			$paramName = str_replace( '_', ' ', $key );
+			if ( !in_array( $paramName,
+					array( 'title', 'tables', 'fields', 'join on', 'order by', 'group by', 'having', 'format',
 					'offset' ) ) ) {
-				$this->displayParams[$key] = $value;
+				$this->displayParams[$paramName] = $value;
 			}
 		}
 	}
