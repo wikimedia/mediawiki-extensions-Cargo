@@ -26,7 +26,7 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Cargo tables",
-	"cargo-cargotables-tablelist": "The following tables are defined:",
+	"cargo-cargotables-tablelist": "The following {{PLURAL:$1|table is|tables are}} defined:",
 	"cargo-cargotables-viewtable": "View table: $1",
 	"cargo-cargotables-viewtablelink": "View table",
 	"cargo-cargotables-notdeclared": "not defined by any template",
