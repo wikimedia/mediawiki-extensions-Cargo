@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Metalhead64",
-			"Andreasburmeister"
+			"Andreasburmeister",
+			"Purodha"
 		]
 	},
 	"extensionname-cargo": "Cargo",
@@ -16,7 +17,7 @@
 	"cargo-createdatatable": "Datentabelle erstellen",
 	"cargo-recreatedata-desc": "Cargo-Daten für diese Vorlage neu erstellen?",
 	"cargo-recreatedata-createdata": "Cargo-Daten für diese Vorlage erstellen?",
-	"cargo-recreatedata-tablecreated": "Cargo-Tabelle „$1“ neu erstellt.",
+	"cargo-recreatedata-tablecreated": "Cargo-Tabelle „$1“ wiederhergestellt.",
 	"cargo-recreatedata-success": "Die Daten werden neu erstellt.",
 	"viewdata": "Daten ansehen",
 	"cargo-viewdata-tables": "Tabelle(n):",
