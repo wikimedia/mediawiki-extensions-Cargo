@@ -71,7 +71,6 @@ class CargoRecreateData extends UnlistedSpecialPage {
 					'name' => $attachedTemplateName,
 					'numPages' => $numPages
 				);
-				$pagesPerAttachedTemplate[$attachedTemplateName] = $numPages;
 			}
 		}
 
