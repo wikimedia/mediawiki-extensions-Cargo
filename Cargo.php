@@ -154,6 +154,17 @@ $wgResourceModules += array(
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
+	'ext.cargo.recreatedata' => array(
+		'scripts' => 'libs/ext.cargo.recreatedata.js',
+		'dependencies' => 'mediawiki.jqueryMsg',
+		'messages' => array(
+			'cargo-recreatedata-tablecreated',
+			'cargo-recreatedata-success'
+		),
+		'position' => 'top',
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Cargo'
+	),
 	'ext.cargo.drilldown' => array(
 		'styles' => array(
 			'drilldown/resources/CargoDrilldown.css',

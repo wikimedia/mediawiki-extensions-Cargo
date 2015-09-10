@@ -43,6 +43,8 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			return true;
 		}
 
+		$out->addModules( 'ext.cargo.recreatedata' );
+
 		$templateData = array();
 		$dbr = wfGetDB( DB_SLAVE );
 
@@ -74,112 +76,24 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			}
 		}
 
-		// Is this the best way to get the API URL?
-		$apiURL = $wgScriptPath . "/api.php";
-		$templateDataJS = json_encode( $templateData );
-		$recreateTableDoneMsg = wfMessage( 'cargo-recreatedata-tablecreated', $this->mTableName )->text();
-		$recreateDataDoneMsg = wfMessage( 'cargo-recreatedata-success' )->text();
-
-		$jsText = <<<END
-<script type="text/javascript">
-var apiURL = "$apiURL";
-var cargoScriptPath = "$cgScriptPath";
-var tableName = "{$this->mTableName}";
-var templateData = $templateDataJS;
-var recreateTableDoneMsg = '$recreateTableDoneMsg';
-var recreateDataDoneMsg = '$recreateDataDoneMsg';
-var numTotalPages = 0;
-var numTotalPagesHandled = 0;
-
-for ( var i = 0; i < templateData.length; i++ ) {
-	numTotalPages += parseInt( templateData[i]['numPages'] );
-}
-
-
-function cargoReplaceRecreateDataForm() {
-	$("#recreateDataCanvas").html( "<div id=\"recreateTableProgress\"></div>" );
-	$("#recreateDataCanvas").append( "<div id=\"recreateDataProgress\"></div>" );
-}
-
-/**
- * Recursive function that uses Ajax to populate a Cargo DB table with the
- * data for one or more templates.
- */
-function cargoCreateJobs( templateNum, numPagesHandled, replaceOldRows ) {
-	var curTemplate = templateData[templateNum];
-	var templateName = curTemplate['name'];
-	var numPages = curTemplate['numPages'];
-	if ( numTotalPages > 1000 ) {
-		var remainingPixels = 100 * numTotalPagesHandled / numTotalPages;
-		var progressImage = "<progress value=\"" + remainingPixels + "\" max=\"100\"></progress>";
-	} else {
-		var progressImage = "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />";
-	}
-	$("#recreateDataProgress").html( "<p>" + progressImage + "</p>" );
-	var queryStringData = {
-		action: "cargorecreatedata",
-		table: tableName,
-		template: templateName,
-		offset: numPagesHandled
-	};
-	if ( replaceOldRows ) {
-		queryStringData['replaceOldRows'] = true;
-	}
-	$.get(
-		apiURL,
-		queryStringData
-	)
-	.done(function( msg ) {
-		newNumPagesHandled = Math.min( numPagesHandled + 500, numPages );
-		numTotalPagesHandled += newNumPagesHandled - numPagesHandled;
-		if ( newNumPagesHandled < numPages ) {
-			cargoCreateJobs( templateNum, newNumPagesHandled, replaceOldRows );
-		} else {
-			if ( templateNum + 1 < templateData.length ) {
-				cargoCreateJobs( templateNum + 1, 0, replaceOldRows );
-			} else {
-				// We're done.
-				$("#recreateDataProgress").html( "<p>" + recreateDataDoneMsg + "</p>" );
-			}
-		}
-	});
-}
-
-END;
-
-		if ( $this->mIsDeclared ) {
-			$jsText .= <<<END
-$( "#cargoSubmit" ).click( function() {
-	cargoReplaceRecreateDataForm();
-
-	var templateName = templateData[0]['name'];
-	$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />" );
-	$.get(
-		apiURL,
-		{ action: "cargorecreatetables", template: templateName }
-	)
-	.done(function( msg ) {
-		$("#recreateTableProgress").html( "<p>" + recreateTableDoneMsg + "</p>" );
-		cargoCreateJobs( 0, 0, false );
-	});
-});
-</script>
-
-END;
-		} else {
-			$jsText .= <<<END
-$( "#cargoSubmit" ).click( function() {
-	cargoReplaceRecreateDataForm();
-	cargoCreateJobs( 0, 0, true );
-});
-</script>
-
-END;
-		}
-		$out->addScript( $jsText );
+		// Store all the necesssary data on the page.
+		$text = Html::element( 'div', array(
+				'hidden' => 'true',
+				'id' => 'recreateDataData',
+				// These two variables are not data-
+				// specific, but this seemed like the
+				// easiest way to pass them over without
+				// interfering with any other pages.
+				// (Is this the best way to get the
+				// API URL?)
+				'apiurl' => $wgScriptPath . "/api.php",
+				'cargoscriptpath' => $cgScriptPath,
+				'tablename' => $this->mTableName,
+				'isdeclared' => $this->mIsDeclared
+			), json_encode( $templateData ) );
 
 		// Simple form.
-		$text = '<div id="recreateDataCanvas">' . "\n";
+		$text .= '<div id="recreateDataCanvas">' . "\n";
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
 		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
 		$text .= Html::element( 'button', array( 'id' => 'cargoSubmit' ), $this->msg( 'ok' )->parse() );
