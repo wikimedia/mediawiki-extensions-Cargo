@@ -1,7 +1,7 @@
 {
 	"name": "Cargo",
 	"namemsg": "extensionname-cargo",
-	"version": "0.9",
+	"version": "0.10-alpha",
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
@@ -100,6 +100,15 @@
 	"ResourceModules": {
 		"ext.cargo.main": {
 			"styles": "Cargo.css",
+			"position": "top"
+		},
+		"ext.cargo.recreatedata": {
+			"scripts": "libs/ext.cargo.recreatedata.js",
+			"dependencies": "mediawiki.jqueryMsg",
+			"messages": [
+				"cargo-recreatedata-tablecreated",
+				"cargo-recreatedata-success"
+			],
 			"position": "top"
 		},
 		"ext.cargo.drilldown": {
