@@ -98,9 +98,11 @@ CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
 	var infoWindows = [];
 	var numItems = this.allItemValues.length;
 	for ( i = 0; i < numItems; i++ ) {
-		infoWindows[i] = new google.maps.InfoWindow({
-			content: CargoMap.createPopupHTMLForRow( this.allItemValues[i] )
-		});
+		if ( this.allItemValues[i]['title'] != null ) {
+			infoWindows[i] = new google.maps.InfoWindow({
+				content: CargoMap.createPopupHTMLForRow( this.allItemValues[i] )
+			});
+		}
 	}
 
 	if ( doMarkerClustering ) {
@@ -123,12 +125,14 @@ CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
 			markers.push( marker );
 		}
 
-		google.maps.event.addListener(marker, 'click', function() {
-			for ( i = 0; i < numItems; i++ ) {
-				infoWindows[i].close();
-			}
-			infoWindows[this.itemNum].open(map,this);
-		});
+		if ( curItem['title'] != null ) {
+			google.maps.event.addListener(marker, 'click', function() {
+				for ( i = 0; i < numItems; i++ ) {
+					infoWindows[i].close();
+				}
+				infoWindows[this.itemNum].open(map,this);
+			});
+		}
 	}
 	if ( doMarkerClustering ) {
 		var mc = new MarkerClusterer( map, markers );
@@ -185,17 +189,19 @@ CargoMap.prototype.displayWithOpenLayers = function() {
 		}
 		markers.addMarker( marker );
 
-		marker.events.register( 'mousedown', feature, function(evt) {
-			if (this.popup == null ) {
-				this.popup = this.createPopup( true );
-				map.addPopup( this.popup );
-				this.popup.show();
-			} else {
-				this.popup.toggle();
-			}
-			currentPopup = this.popup;
-			OpenLayers.Event.stop( evt );
-		});
+		if ( curItem['title'] != null ) {
+			marker.events.register( 'mousedown', feature, function(evt) {
+				if (this.popup == null ) {
+					this.popup = this.createPopup( true );
+					map.addPopup( this.popup );
+					this.popup.show();
+				} else {
+					this.popup.toggle();
+				}
+				currentPopup = this.popup;
+				OpenLayers.Event.stop( evt );
+			});
+		}
 	}
 }
 
@@ -205,7 +211,7 @@ jQuery(document).ready( function() {
 		var valuesForMap = jQuery.parseJSON(mapDataText);
 		var mappingService = $(this).find(".cargoMapData").attr('mappingService');
 		var zoomLevel = $(this).find(".cargoMapData").attr('zoom');
-		var doMarkerClustering = valuesForMap.length >= wgCargoMapClusteringMinimum;
+		var doMarkerClustering = valuesForMap.length >= mw.config.get( 'wgCargoMapClusteringMinimum' );
 		var cargoMap = new CargoMap( valuesForMap, $(this).attr('id'), zoomLevel );
 		cargoMap.display( mappingService, doMarkerClustering );
 	});
