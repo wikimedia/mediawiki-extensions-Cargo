@@ -6,6 +6,11 @@
  * @author Yaron Koren
  */
 
+// We need to set this at the top, so that it is also defined if
+// wfLoadExtension() is called, because its presence is used by other
+// extensions to determine whether Cargo is installed.
+define( 'CARGO_VERSION', '0.10-alpha' );
+
 if ( function_exists( 'wfLoadExtension' ) ) {
 	wfLoadExtension( 'Cargo' );
 	// Keep i18n globals so mergeMessageFileList.php doesn't break
@@ -18,9 +23,7 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 	return;
 }
 
-/* For Backword Compatibility */
-
-define( 'CARGO_VERSION', '0.10-alpha' );
+// All the rest is for backward compatibility, for MW 1.25 and lower.
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
