@@ -2,9 +2,19 @@
 	"@metadata": {
 		"authors": [
 			"Danialbehzadi",
-			"Dalba"
+			"Dalba",
+			"Reza1615"
 		]
 	},
 	"recreatedata": "بازسازی داده‌ها",
+	"cargo-viewdata-orderby": "ترتیب بر اساس:",
+	"cargo-viewdata-limit": "محدودیت:",
+	"cargo-viewdata-format": "قالب:",
+	"cargo-drilldown-filterbyvalue": "فیلتر با این مقدار",
+	"cargo-drilldown-or": "یا",
+	"cargo-drilldown-removefilter": "حذف این فیلتر",
+	"cargo-drilldown-resetfilters": "تنظیم فیلترها از نو",
+	"cargo-drilldown-addanothervalue": "برای اضافه‌کردن مقداری دیگر بر روی پیکان کلیک کنید.",
+	"cargo-drilldown-novalues": "هیچ مقداری برای این فیلتر وجود ندارد",
 	"cargo-viewxls": "مشاهده XML"
 }
