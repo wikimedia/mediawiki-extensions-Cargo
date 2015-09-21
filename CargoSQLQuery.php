@@ -112,6 +112,17 @@ class CargoSQLQuery {
 		// Remove quoted strings from "where" parameter, to avoid
 		// unnecessary false positives from words like "from"
 		// being included in string comparisons.
+		// However, before we do that, check for certain strings that
+		// shouldn't be in quote marks either.
+		$whereStrRegexps = array(
+			'/\-\-/' => '--',
+			'/#/' => '#',
+		);
+		foreach ( $whereStrRegexps as $regexp => $displayString ) {
+			if ( preg_match( $regexp, $whereStr ) ) {
+				throw new MWException( "Error in \"where\" parameter: the string \"$displayString\" cannot be used within #cargo_query." );
+			}
+		}
 		$simplifiedWhereStr = str_replace( array( '\"', "\'" ), '', $whereStr );
 		$simplifiedWhereStr = preg_replace( '/"[^"]*"/', '', $simplifiedWhereStr );
 		$simplifiedWhereStr = preg_replace( "/'[^']*'/", '', $simplifiedWhereStr );
@@ -120,11 +131,13 @@ class CargoSQLQuery {
 			'/\bselect\b/i' => 'SELECT',
 			'/\binto\b/i' => 'INTO',
 			'/\bfrom\b/i' => 'FROM',
+			'/\bunion\b/i' => 'UNION',
 			'/;/' => ';',
 			'/@/' => '@',
 			'/\<\?/' => '<?',
-			'/--/' => '--',
+			'/\-\-/' => '--',
 			'/\/\*/' => '/*',
+			'/#/' => '#',
 		);
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
