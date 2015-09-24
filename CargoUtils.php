@@ -539,6 +539,17 @@ class CargoUtils {
 				case "mssql":
 				case "mysql":
 				case "postgres":
+					// For at least MySQL, there's a limit
+					// on how many total bytes a table's
+					// fields can have, and "Text" and
+					// "Blob" fields don't get added to the
+					// total, so if it's a big piece of
+					// text, just make it a "Text" field.
+					if ( $size > 1000 ) {
+						return 'Text';
+					} else {
+						return "Varchar($size)";
+					}
 				case "oracle":
 					return "Varchar($size)";
 				case "sqlite":
