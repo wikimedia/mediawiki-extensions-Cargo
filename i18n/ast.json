@@ -4,7 +4,7 @@
 			"Xuacu"
 		]
 	},
-	"extensionname-cargo": "Cargo",
+	"cargo-extensionname": "Cargo",
 	"cargo-desc": "Almacenamientu y consulta de datos de plantía",
 	"cargo-definestable": "Esta plantía define la tabla \"$1\".",
 	"cargo-tablenotcreated": "Esta tabla inda nun se creó.",

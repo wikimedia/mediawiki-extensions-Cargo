@@ -6,7 +6,7 @@
 			"Toliño"
 		]
 	},
-	"extensionname-cargo": "Cargo",
+	"cargo-extensionname": "Cargo",
 	"cargo-desc": "Almacenamento e consulta de datos de modelo",
 	"cargo-definestable": "Este modelo define a táboa \"$1\".",
 	"cargo-tablenotcreated": "A táboa non foi creada todavía.",

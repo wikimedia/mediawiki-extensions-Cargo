@@ -28,7 +28,7 @@ if ( function_exists( 'wfLoadExtension' ) ) {
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'Cargo',
-	'namemsg' => 'extensionname-cargo',
+	'namemsg' => 'cargo-extensionname',
 	'version' => CARGO_VERSION,
 	'author' => 'Yaron Koren',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Cargo',
