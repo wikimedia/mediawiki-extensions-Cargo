@@ -6,7 +6,7 @@
 			"Dars"
 		]
 	},
-	"extensionname-cargo": "Вантаж",
+	"cargo-extensionname": "Вантаж",
 	"cargo-recreatedata-tablecreated": "Відтворено таблицю відвантаження $1.",
 	"cargo-recreatedata-success": "Дані відтворюються.",
 	"cargo-viewdata-format": "Формат:",

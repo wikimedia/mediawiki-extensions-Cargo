@@ -4,7 +4,7 @@
 			"Purodha"
 		]
 	},
-	"extensionname-cargo": "Kargo (Schablohnedathe)",
+	"cargo-extensionname": "Kargo (Schablohnedathe)",
 	"cargo-desc": "Schpeijschere un Affrohre vun Dahte en Tabälle un Schablohne,",
 	"cargo-definestable": "Heh di Schablohn beschtemmp di Tabäll „$1“.",
 	"cargo-tablenotcreated": "Heh di Tabäll wood noch nit aanjelaht.",
