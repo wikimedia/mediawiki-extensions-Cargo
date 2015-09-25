@@ -89,6 +89,7 @@
 		"CargoBarChartFormat": "formats/CargoBarChartFormat.php",
 		"CargoGalleryFormat": "formats/CargoGalleryFormat.php",
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
+		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",
 		"CargoPageSchemas": "CargoPageSchemas.php",
 		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",
 		"CargoFilter": "drilldown/CargoFilter.php",
@@ -189,6 +190,12 @@
 				"libs/d3.js",
 				"libs/nv.d3.js",
 				"libs/ext.cargo.nvd3.js"
+			],
+			"position": "top"
+		},
+		"ext.cargo.exhibit": {
+			"scripts": [
+				"libs/ext.cargo.exhibit.js"
 			],
 			"position": "top"
 		}

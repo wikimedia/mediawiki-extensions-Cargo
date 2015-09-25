@@ -131,6 +131,7 @@ $wgAutoloadClasses['CargoCategoryFormat'] = $dir . '/formats/CargoCategoryFormat
 $wgAutoloadClasses['CargoBarChartFormat'] = $dir . '/formats/CargoBarChartFormat.php';
 $wgAutoloadClasses['CargoGalleryFormat'] = $dir . '/formats/CargoGalleryFormat.php';
 $wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat.php';
+$wgAutoloadClasses['CargoExhibitFormat'] = $dir . '/formats/CargoExhibitFormat.php';
 
 $wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
 
@@ -256,6 +257,14 @@ $wgResourceModules += array(
 			'libs/d3.js',
 			'libs/nv.d3.js',
 			'libs/ext.cargo.nvd3.js',
+		),
+		'position' => 'top',
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Cargo'
+	),
+	'ext.cargo.exhibit' => array(
+		'scripts' => array(
+			'libs/ext.cargo.exhibit.js',
 		),
 		'position' => 'top',
 		'localBasePath' => __DIR__,
