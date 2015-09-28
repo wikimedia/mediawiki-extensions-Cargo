@@ -45,6 +45,7 @@ class CargoQueryDisplayer {
 			'bar chart' => 'CargoBarChartFormat',
 			'gallery' => 'CargoGalleryFormat',
 			'tag cloud' => 'CargoTagCloudFormat',
+			'exhibit' => 'CargoExhibitFormat',
 		);
 		return $formatClasses;
 	}

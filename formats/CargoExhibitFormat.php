@@ -190,9 +190,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		}
 
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
-
 		$queryParams['format'] = 'csv';
-		$queryParams['limit'] = '1000';
 
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$dataurl = htmlentities( $ce->getFullURL( $queryParams ) );
