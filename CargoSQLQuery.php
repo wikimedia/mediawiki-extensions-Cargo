@@ -70,29 +70,6 @@ class CargoSQLQuery {
 	}
 
 	/**
-	 * Lightweight constructor that just sets the fields, with (essentially)
-	 * no processing.
-	 */
-	public static function newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$havingStr, $orderByStr, $limitStr ) {
-		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-			$havingStr, $orderByStr, $limitStr );
-
-		$sqlQuery = new CargoSQLQuery();
-		$sqlQuery->mTablesStr = $tablesStr;
-		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
-		$sqlQuery->mFieldsStr = $fieldsStr;
-		$sqlQuery->mOrigWhereStr = $whereStr;
-		$sqlQuery->mWhereStr = $whereStr;
-		$sqlQuery->mJoinOnStr = $joinOnStr;
-		$sqlQuery->mGroupByStr = $groupByStr;
-		$sqlQuery->mHavingStr = $havingStr;
-		$sqlQuery->mOrderByStr = $orderByStr;
-		$sqlQuery->mQueryLimit = $limitStr;
-		return $sqlQuery;
-	}
-
-	/**
 	 * Throw an error if there are forbidden values in any of the
 	 * #cargo_query parameters - some or all of them are potential
 	 * security risks.

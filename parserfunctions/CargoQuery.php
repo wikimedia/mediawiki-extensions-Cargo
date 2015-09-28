@@ -91,7 +91,7 @@ class CargoQuery {
 			// whether or not it's deferred could depend on the
 			// fields in the query, making the first 'Query
 			// necessary. There has to be some better way, though.
-			$sqlQuery = CargoSQLQuery::newFromValues2( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 					$groupByStr, $havingStr, $orderByStr, $limitStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
 			return $parser->insertStripItem( $text, $parser->mStripState );
