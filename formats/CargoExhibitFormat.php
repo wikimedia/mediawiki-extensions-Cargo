@@ -54,9 +54,9 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$attrs["data-ex-view-class"] = "Timeline";
 
 		if ( ! array_key_exists( "start", $this->displayParams ) ) {
-			$tmp = $this->hasDate( $sqlQueries );
-			if ( count($tmp) > 0 ){
-				$this->displayParams['start'] = $tmp[0];
+			$dateFields = $this->getDateFields( $sqlQueries );
+			if ( count( $dateFields ) > 0 ) {
+				$this->displayParams['start'] = $dateFields[0];
 			}
 		}
 
