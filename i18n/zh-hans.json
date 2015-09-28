@@ -28,7 +28,7 @@
 	"cargo-viewdata-limit": "限制：",
 	"cargo-viewdata-format": "格式：",
 	"cargotables": "Cargo表格",
-	"cargo-cargotables-tablelist": "以下表格已被定义：",
+	"cargo-cargotables-tablelist": "以下{{PLURAL:$1|表格}}已被定义：",
 	"cargo-cargotables-viewtable": "查看表格：$1",
 	"cargo-cargotables-viewtablelink": "查看表格",
 	"cargo-cargotables-notdeclared": "没有被任何模板定义",

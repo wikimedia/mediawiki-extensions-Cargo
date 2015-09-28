@@ -30,7 +30,7 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Cargo-Tabellen",
-	"cargo-cargotables-tablelist": "Die folgenden Tabellen sind definiert:",
+	"cargo-cargotables-tablelist": "Die {{PLURAL:$1|folgende Tabelle ist|folgenden Tabellen sind}} definiert:",
 	"cargo-cargotables-viewtable": "Tabelle ansehen: $1",
 	"cargo-cargotables-viewtablelink": "Tabelle ansehen",
 	"cargo-cargotables-notdeclared": "von keiner Vorlage definiert",
