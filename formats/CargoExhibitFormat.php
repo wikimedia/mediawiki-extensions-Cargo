@@ -249,14 +249,12 @@ EOLABEL;
 			}
 
 		if ( count( $this->views ) > 1 ){
-			$text .= Html::rawElement( 'div',
+			$text_views  = Html::rawElement( 'div',
 				array( 'data-ex-role' => "viewPanel" ),
 				$text_views );
-		} else {
-			$text .= $text_views ;
 		}
 
-		return '<div id="cargoExhibit">' . $text . '</div>' ;
+		return  $text . '<div id="cargoExhibit">' . $text_views . '</div>' ;
 	}
 
 	/**
