@@ -173,7 +173,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$exhibit_busy = $cgScriptPath . "/skins/loading.gif";
 		// The "loading" message is just alt-text, so it doesn't really
 		// matter that it's hardcoded in English.
-		$text = '<img "loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
+		$preViewsText = '<img id="loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
 
 		$field_list = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
@@ -203,14 +203,14 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$this->displayParams = $displayParams;
 
 		// lens
-		$text .= $this->createLens( $field_list );
+		$preViewsText .= $this->createLens( $field_list );
 
 		// Facets
 		if ( array_key_exists( 'facets', $displayParams ) ) {
 			$facets = array_map('trim', explode( ',' , $displayParams['facets'] ) );
-			$text .= $this->createFacets( $facets );
+			$preViewsText .= $this->createFacets( $facets );
 		} else {
-			$text .= $this->createFacets( array_slice( $field_list, 0, 3 ) );
+			$preViewsText .= $this->createFacets( array_slice( $field_list, 0, 3 ) );
 		}
 
 		if ( array_key_exists( 'datalabel', $displayParams ) ) {
@@ -233,30 +233,27 @@ EOLABEL;
 			$this->automateViews( $sqlQueries );
 		}
 
-		$text_views = "";
-
+		$viewsText = "";
 		foreach ( $this->views as $view ) {
 			switch ( $view ) {
 				case "Timeline":
-					$text_views .= $this->createTimeline( $sqlQueries );
+					$viewsText .= $this->createTimeline( $sqlQueries );
 					break;
 				case "Map":
-					$text_views .= $this->createMap( $sqlQueries );
+					$viewsText .= $this->createMap( $sqlQueries );
 					break;
 				case "Tabular":
-					$text_views .= $this->createTabular($field_list);
+					$viewsText .= $this->createTabular($field_list);
 				}
 			}
 
 		if ( count( $this->views ) > 1 ){
-			$text .= Html::rawElement( 'div',
+			$viewsText = Html::rawElement( 'div',
 				array( 'data-ex-role' => "viewPanel" ),
-				$text_views );
-		} else {
-			$text .= $text_views ;
+				$viewsText );
 		}
 
-		return '<div id="cargoExhibit">' . $text . '</div>' ;
+		return $preViewsText . '<div id="cargoExhibit">' . $viewsText . '</div>' ;
 	}
 
 	/**
