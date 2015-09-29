@@ -27,7 +27,7 @@
 	"cargo-viewdata-limit": "הגבלה (LIMIT):",
 	"cargo-viewdata-format": "תסדיר:",
 	"cargotables": "טבלאות מטען",
-	"cargo-cargotables-tablelist": "הטבלאות הבאות מוגדרות:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|הטבלה הבאה מוגדרת|הטבלאות הבאות מוגדרות}}:",
 	"cargo-cargotables-viewtable": "הצגת הטבלה: $1",
 	"cargo-cargotables-viewtablelink": "הצגת טבלה",
 	"cargo-cargotables-notdeclared": "לא מוגדר בשום תבנית",

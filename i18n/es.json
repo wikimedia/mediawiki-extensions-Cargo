@@ -29,7 +29,7 @@
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
-	"cargo-cargotables-tablelist": "Se definen las siguientes tablas:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|Está definida la siguiente tabla|Están definidas las siguientes tablas}}:",
 	"cargo-cargotables-viewtable": "Ver tabla: $1",
 	"cargo-cargotables-viewtablelink": "Ver tabla",
 	"cargo-cargotables-notdeclared": "no definido por ninguna plantilla",

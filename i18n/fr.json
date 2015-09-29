@@ -36,7 +36,7 @@
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Format :",
 	"cargotables": "Tables de Cargo",
-	"cargo-cargotables-tablelist": "Les tables suivantes sont définies :",
+	"cargo-cargotables-tablelist": "{{PLURAl:$1|La table suivante est définie|Les tables suivantes sont définies}} :",
 	"cargo-cargotables-viewtable": "Afficher la table : $1",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",
 	"cargo-cargotables-notdeclared": "non défini par un modèle",
