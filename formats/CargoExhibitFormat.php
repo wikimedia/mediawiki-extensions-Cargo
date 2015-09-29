@@ -173,7 +173,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$exhibit_busy = $cgScriptPath . "/skins/loading.gif";
 		// The "loading" message is just alt-text, so it doesn't really
 		// matter that it's hardcoded in English.
-		$text = '<img "loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
+		$text = '<img id="loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
 
 		$field_list = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
