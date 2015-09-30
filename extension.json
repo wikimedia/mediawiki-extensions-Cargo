@@ -110,7 +110,7 @@
 				"cargo-recreatedata-tablecreated",
 				"cargo-recreatedata-success"
 			],
-			"position": "top"
+			"position": "bottom"
 		},
 		"ext.cargo.drilldown": {
 			"styles": [

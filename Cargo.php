@@ -165,7 +165,7 @@ $wgResourceModules += array(
 			'cargo-recreatedata-tablecreated',
 			'cargo-recreatedata-success'
 		),
-		'position' => 'top',
+		'position' => 'bottom',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
