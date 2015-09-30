@@ -28,7 +28,7 @@
 	"cargo-viewdata-limit": "Jräns:",
 	"cargo-viewdata-format": "Fommahd:",
 	"cargotables": "Tabälle met Kargo (Schablohnedathe)",
-	"cargo-cargotables-tablelist": "{{PLURAL:$1|Heh di Tabäll es|Heh di Tabälle sin|Kein Tabälle sin}} ald doh:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|Heh di Tabäll es|Heh di Tabälle sin|Kein Tabälle sin}} doh:",
 	"cargo-cargotables-viewtable": "Belohr di Tabäll: „$1“",
 	"cargo-cargotables-viewtablelink": "Belohr di Tabäll",
 	"cargo-cargotables-notdeclared": "nit övver en Schablohn faßjelaht",
