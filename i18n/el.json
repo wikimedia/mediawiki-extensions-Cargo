@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Protnet"
+			"Protnet",
+			"Geraki"
 		]
 	},
 	"cargo-desc": "Αποθήκευση και ερωτήματα δεδομένων προτύπων",
@@ -23,7 +24,7 @@
 	"cargo-viewdata-limit": "Όριο:",
 	"cargo-viewdata-format": "Μορφή:",
 	"cargotables": "Πίνακες Cargo",
-	"cargo-cargotables-tablelist": "Οι παρακάτω πίνακες ορίζονται:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|Ο παρακάτω πίνακας ορίζεται|Οι παρακάτω πίνακες ορίζονται:}}",
 	"cargo-cargotables-viewtable": "Προβολή πίνακα: $1",
 	"cargo-cargotables-viewtablelink": "Προβολή πίνακα",
 	"deletecargotable": "Διαγραφή πίνακα Cargo",
