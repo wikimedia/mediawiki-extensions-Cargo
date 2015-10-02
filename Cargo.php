@@ -11,7 +11,12 @@
 // extensions to determine whether Cargo is installed.
 define( 'CARGO_VERSION', '0.10-alpha' );
 
-if ( function_exists( 'wfLoadExtension' ) ) {
+// There's a bug in extension loading in versions 1.25.1 and 1.25.2 that
+// makes it unusable for Cargo - don't load extensions unless we're at
+// version 1.25.3 or higher.
+// (See https://phabricator.wikimedia.org/T109243)
+//if ( function_exists( 'wfLoadExtension' ) ) {
+if ( version_compare( $wgVersion, '1.25.3', '>=' ) ) {
 	wfLoadExtension( 'Cargo' );
 	// Keep i18n globals so mergeMessageFileList.php doesn't break
 	$wgMessagesDirs['Cargo'] = __DIR__ . '/i18n';
