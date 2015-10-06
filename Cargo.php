@@ -9,7 +9,7 @@
 // We need to set this at the top, so that it is also defined if
 // wfLoadExtension() is called, because its presence is used by other
 // extensions to determine whether Cargo is installed.
-define( 'CARGO_VERSION', '0.10-alpha' );
+define( 'CARGO_VERSION', '0.10' );
 
 // There's a bug in extension loading in versions 1.25.1 and 1.25.2 that
 // makes it unusable for Cargo - don't load extensions unless we're at
