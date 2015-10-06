@@ -22,7 +22,7 @@ class CargoHooks {
 			// String functions
 			'CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE', 'SUBSTRING', 'FORMAT',
 			// Date functions
-			'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF'
+			'NOW', 'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATEDIFF', 'DATE_FORMAT'
 		);
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
