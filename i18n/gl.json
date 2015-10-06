@@ -30,7 +30,7 @@
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargotables": "Táboas do Cargo",
-	"cargo-cargotables-tablelist": "Defínense as seguintes táboas:",
+	"cargo-cargotables-tablelist": "Defínense {{PLURAL:$1|A seguinte táboa está definida:|As seguintes táboas están definidas:}}:",
 	"cargo-cargotables-viewtable": "Ver táboa: $1",
 	"cargo-cargotables-viewtablelink": "Ver táboa",
 	"cargo-cargotables-notdeclared": "non definido por ningún modelo",
