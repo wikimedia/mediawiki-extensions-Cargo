@@ -20,7 +20,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	function createMap( $sqlQueries ){
-		$maps_script = '<link rel="exhibit-extension" href="http://api.simile-widgets.org/exhibit/HEAD/extensions/map/map-extension.js"/>';
+		$maps_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/map/map-extension.js"/>';
 		$this->mOutput->addHeadItem( $maps_script, $maps_script );
 
 		if ( ! array_key_exists( "latlng", $this->displayParams ) ) {
@@ -45,7 +45,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	function createTimeline( $sqlQueries ){
-		$timeline_script = '<link rel="exhibit-extension" href="http://api.simile-widgets.org/exhibit/HEAD/extensions/time/time-extension.js"/>';
+		$timeline_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/time/time-extension.js"/>';
 		$this->mOutput->addHeadItem( $timeline_script, $timeline_script );
 
 		// div

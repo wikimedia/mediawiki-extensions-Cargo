@@ -1,7 +1,7 @@
 // Loads Exhibit API after document is ready.
 // @author @lmorillas
 
-Exhibit_urlPrefix = "http://api.simile-widgets.org/exhibit/HEAD/";
+Exhibit_urlPrefix = "//api.simile-widgets.org/exhibit/HEAD/";
 Exhibit_TimeExtension_urlPrefix = Exhibit_urlPrefix + "extensions/time/";
 Exhibit_MapExtension_urlPrefix = Exhibit_urlPrefix + "extensions/map/";
 
@@ -11,7 +11,7 @@ window.tableStyler = function(table, database) {
     $(table).addClass("cargoTable");
 };
 
-ex_url = "http://api.simile-widgets.org/exhibit/HEAD/exhibit-api.js";
+ex_url = "//api.simile-widgets.org/exhibit/HEAD/exhibit-api.js";
 
 jQuery("#loading_exhibit").show();
 
