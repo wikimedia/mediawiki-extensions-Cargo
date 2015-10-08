@@ -164,7 +164,10 @@ $wgResourceModules += array(
 		'remoteExtPath' => 'Cargo'
 	),
 	'ext.cargo.recreatedata' => array(
-		'scripts' => 'libs/ext.cargo.recreatedata.js',
+		'scripts' => array(
+			'libs/ext.cargo.js',
+			'libs/ext.cargo.recreatedata.js',
+		),
 		'dependencies' => 'mediawiki.jqueryMsg',
 		'messages' => array(
 			'cargo-recreatedata-tablecreated',

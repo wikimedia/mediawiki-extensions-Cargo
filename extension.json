@@ -104,7 +104,10 @@
 			"position": "top"
 		},
 		"ext.cargo.recreatedata": {
-			"scripts": "libs/ext.cargo.recreatedata.js",
+			"scripts": [
+				"libs/ext.cargo.js",
+				"libs/ext.cargo.recreatedata.js"
+			],
 			"dependencies": "mediawiki.jqueryMsg",
 			"messages": [
 				"cargo-recreatedata-tablecreated",

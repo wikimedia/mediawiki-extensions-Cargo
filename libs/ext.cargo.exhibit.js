@@ -1,17 +1,18 @@
 // Loads Exhibit API after document is ready.
 // @author @lmorillas
 
-Exhibit_urlPrefix = "//api.simile-widgets.org/exhibit/HEAD/";
-Exhibit_TimeExtension_urlPrefix = Exhibit_urlPrefix + "extensions/time/";
-Exhibit_MapExtension_urlPrefix = Exhibit_urlPrefix + "extensions/map/";
+/*jshint globals Exhibit */
+
+var Exhibit_urlPrefix = "//api.simile-widgets.org/exhibit/HEAD/";
+var Exhibit_TimeExtension_urlPrefix = Exhibit_urlPrefix + "extensions/time/";
+var Exhibit_MapExtension_urlPrefix = Exhibit_urlPrefix + "extensions/map/";
+var ex_url = "//api.simile-widgets.org/exhibit/HEAD/exhibit-api.js";
 
 window.Exhibit_parameters="?autoCreate=false";
 
 window.tableStyler = function(table, database) {
     $(table).addClass("cargoTable");
 };
-
-ex_url = "//api.simile-widgets.org/exhibit/HEAD/exhibit-api.js";
 
 jQuery("#loading_exhibit").show();
 
