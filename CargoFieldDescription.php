@@ -39,7 +39,7 @@ class CargoFieldDescription {
 
 		// There may be additional parameters, in/ parentheses.
 		$matches = array();
-		$foundMatch2 = preg_match( '/(.*)\s*\((.*)\)/', $fieldDescriptionStr, $matches );
+		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/', $fieldDescriptionStr, $matches );
 		if ( $foundMatch2 ) {
 			$fieldDescriptionStr = trim( $matches[1] );
 			$extraParamsString = $matches[2];
@@ -53,7 +53,26 @@ class CargoFieldDescription {
 					$paramKey = trim( $extraParamParts[0] );
 					$paramValue = trim( $extraParamParts[1] );
 					if ( $paramKey == 'allowed values' ) {
-						$fieldDescription->mAllowedValues = array_map( 'trim', explode( ',', $paramValue ) );
+						// Replace the comma/delimiter
+						// substitution with a character
+						// that has no chance of being
+						// included in the values list -
+						// namely, the ASCII beep.
+
+						// The delimiter can't be a
+						// semicolon, because that's
+						// already used to separate
+						// "extra parameters", so just
+						// hardcode it to a semicolon.
+						$delimiter = ',';
+						$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
+						$allowedValuesArray = explode( $delimiter, $allowedValuesStr );
+						foreach ( $allowedValuesArray as $i => $value ) {
+							if ( $value == '' ) continue;
+							// Replace beep back with comma, trim.
+							$value = str_replace( "\a", $delimiter, trim( $value ) );
+							$fieldDescription->mAllowedValues[] = $value;
+						}
 					} elseif ( $paramKey == 'size' ) {
 						$fieldDescription->mSize = $paramValue;
 					} else {
