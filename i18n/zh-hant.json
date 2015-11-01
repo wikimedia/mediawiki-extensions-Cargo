@@ -11,6 +11,7 @@
 	"cargo-recreatedata-success": "資料將被重新建立。",
 	"viewdata": "檢視資料",
 	"cargo-viewdata-tables": "表格：",
+	"cargo-viewdata-fields": "欄位：",
 	"cargo-viewdata-format": "格式：",
 	"cargo-viewcsv": "檢視 CSV",
 	"cargo-viewjson": "檢視 JSON",
