@@ -262,7 +262,7 @@ class CargoUtils {
 		// set using {{PAGENAME}}, which for some reason
 		// HTML-encodes some of its characters - see
 		// https://www.mediawiki.org/wiki/Help:Magic_words#Page_names
-		// Of course, Text and Page fields could be set using
+		// Of course, String and Page fields could be set using
 		// {{PAGENAME}} as well, but those seem less likely.
 		$value = htmlspecialchars_decode( $value );
 		// Parse it as if it's wikitext. The exact call
@@ -357,13 +357,13 @@ class CargoUtils {
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
 		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
-		$textTypeString = self::fieldTypeToSQLType( 'Text', $dbType );
+		$stringTypeString = self::fieldTypeToSQLType( 'String', $dbType );
 
 		$createSQL = "CREATE TABLE " .
 			$cdb->tableName( $tableName ) . ' ( ' .
 			"_ID $intTypeString NOT NULL UNIQUE, " .
-			"_pageName $textTypeString NOT NULL, " .
-			"_pageTitle $textTypeString NOT NULL, " .
+			"_pageName $stringTypeString NOT NULL, " .
+			"_pageTitle $stringTypeString NOT NULL, " .
 			"_pageNamespace $intTypeString NOT NULL, " .
 			"_pageID $intTypeString NOT NULL";
 
@@ -380,7 +380,7 @@ class CargoUtils {
 				$createSQL .= ', ' . $fieldName . '__full ';
 				// The field holding the full list will always
 				// just be text
-				$createSQL .= $textTypeString;
+				$createSQL .= $stringTypeString;
 			} else {
 				$createSQL .= ", $fieldName ";
 				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
@@ -531,7 +531,10 @@ class CargoUtils {
 					// accompanying handling.
 					return 'TEXT';
 			}
-		} else { // 'Text', 'Page', etc.
+		} elseif ( $fieldType == 'Text' ) {
+			// This one is simple.
+			return 'Text';
+		} else { // 'String', 'Page', etc.
 			if ( $size == null ) {
 				$size = 300;
 			}

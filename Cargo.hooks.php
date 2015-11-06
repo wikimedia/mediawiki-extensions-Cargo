@@ -14,7 +14,7 @@ class CargoHooks {
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
 
-		$wgCargoFieldTypes = array( 'Page', 'Text', 'Integer', 'Float', 'Date', 'Datetime', 'Boolean', 'Coordinates', 'Wikitext', 'File' );
+		$wgCargoFieldTypes = array( 'Page', 'String', 'Text', 'Integer', 'Float', 'Date', 'Datetime', 'Boolean', 'Coordinates', 'Wikitext', 'File', 'URL', 'Email' );
 		$wgCargoAllowedSQLFunctions = array(
 			// Math functions
 			'COUNT', 'FLOOR', 'CEIL', 'ROUND',
