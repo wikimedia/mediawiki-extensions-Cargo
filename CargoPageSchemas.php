@@ -111,7 +111,8 @@ class CargoPageSchemas extends PSExtensionHandler {
 			}
 		}
 
-		$text = "\t<p>" . 'Table name:' . ' ' . Html::input( 'cargo_template_table_name_num', $tableName, 'text', array( 'size' => 30 ) ) . "</p>\n";
+		$text = "\t<p>" . wfMessage( 'cargo-pageschemas-tablename' )->text() . ' ' .
+			Html::input( 'cargo_template_table_name_num', $tableName, 'text', array( 'size' => 30 ) ) . "</p>\n";
 
 		return array( $text, $hasExistingValues );
 	}
@@ -147,7 +148,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 		}
 		$allowedValuesLabel = wfMessage( 'sf_createproperty_allowedvalsinput' )->escaped();
 		if ( $allowedValuesLabel == '' ) {
-			$allowedValuesLabel = 'Type:';
+			$allowedValuesLabel = 'Allowed values:';
 		}
 
 		$html_text = "<p>$typeLabel ";
