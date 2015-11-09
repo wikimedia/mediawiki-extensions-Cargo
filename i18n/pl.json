@@ -14,5 +14,6 @@
 	"cargo-drilldown-novalues": "Brak wartości dla tego filtra",
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
-	"cargo-viewjson": "Zobacz JSON"
+	"cargo-viewjson": "Zobacz JSON",
+	"cargo-pageschemas-tablename": "Nazwa tabeli:"
 }
