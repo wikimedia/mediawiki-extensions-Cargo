@@ -14,5 +14,6 @@
 	"cargo-drilldown-removefilter": "Rimuovi questo filtro",
 	"cargo-drilldown-resetfilters": "Azzera filtri",
 	"cargo-drilldown-addanothervalue": "Clicca la freccia per aggiungere un altro valore",
-	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro"
+	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro",
+	"cargo-pageschemas-tablename": "Nome tabella:"
 }
