@@ -335,13 +335,17 @@ class CargoSQLQuery {
 		global $wgCargoAllowedSQLFunctions;
 
 		$sqlFunctionMatches = array();
-		$sqlFunctionRegex = '/\b(\S*?)\s?\(/';
+		$sqlFunctionRegex = '/[\b=](\S*?)\s?\(/';
 		preg_match_all( $sqlFunctionRegex, $str, $sqlFunctionMatches );
 		$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[1] );
 		// Throw an error if any of these functions
 		// are not in our "whitelist" of SQL functions.
+		// Also add to this whitelist the SQL keywords AND, OR and
+		// NOT, because the parsing can mistake these for functions.
+		$logicalOperators = array( 'AND', 'OR', 'NOT' );
+		$allowedFunctions = array_merge( $wgCargoAllowedSQLFunctions, $logicalOperators );
 		foreach ( $sqlFunctions as $sqlFunction ) {
-			if ( !in_array( $sqlFunction, $wgCargoAllowedSQLFunctions ) ) {
+			if ( !in_array( $sqlFunction, $allowedFunctions ) ) {
 				throw new MWException( "Error: the SQL function \"$sqlFunction()\" is not allowed." );
 			}
 		}
@@ -358,8 +362,6 @@ class CargoSQLQuery {
 	 * functions contained in this clause.
 	 */
 	function setDescriptionsForFields() {
-		global $wgCargoAllowedSQLFunctions;
-
 		$this->mFieldDescriptions = array();
 		$this->mFieldTables = array();
 		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
