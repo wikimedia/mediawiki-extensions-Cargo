@@ -914,12 +914,13 @@ class CargoSQLQuery {
 				// the presence of '(' and ')' - there's probably a
 				// more elegant way to do this.
 				( strpos( $fieldName, '(' ) == false ) && ( strpos( $fieldName, ')' ) == false ) ) {
-				$dateFields[] = $fieldName;
+				$dateFields[$alias] = $fieldName;
 			}
 		}
-		foreach ( $dateFields as $dateField ) {
+		foreach ( $dateFields as $alias => $dateField ) {
 			$precisionFieldName = $dateField . '__precision';
-			$this->mAliasedFieldNames[$precisionFieldName] = $precisionFieldName;
+			$precisionFieldAlias = $alias . '__precision';
+			$this->mAliasedFieldNames[$precisionFieldAlias] = $precisionFieldName;
 		}
 	}
 
