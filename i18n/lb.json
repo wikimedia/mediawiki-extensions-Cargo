@@ -26,5 +26,6 @@
 	"cargo-viewxls": "XLS weisen",
 	"cargo-viewjson": "JSON weisen",
 	"cargo-purgecache": "Tëschespäicher (Cache) eidelmaachen",
-	"specialpages-group-cargo": "Cargo"
+	"specialpages-group-cargo": "Cargo",
+	"cargo-pageschemas-tablename": "Numm vun der Tabell:"
 }

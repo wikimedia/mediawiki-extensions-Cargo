@@ -28,7 +28,7 @@
 	"cargo-viewdata-limit": "Ограничување:",
 	"cargo-viewdata-format": "Формат:",
 	"cargotables": "Карго-табели",
-	"cargo-cargotables-tablelist": "Определени се следниве табели:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|Зададена е следнава табела|Зададени се следниве табели}}:",
 	"cargo-cargotables-viewtable": "Погл. табелата: $1",
 	"cargo-cargotables-viewtablelink": "Погл. табелата",
 	"cargo-cargotables-notdeclared": "неопределено од ниеден шаблон",
@@ -54,5 +54,6 @@
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-purgecache": "Исчисти меѓусклад",
 	"specialpages-group-cargo": "Карго",
-	"cargo-pageschemas-cargofield": "Карго-поле"
+	"cargo-pageschemas-cargofield": "Карго-поле",
+	"cargo-pageschemas-tablename": "Име на табелата:"
 }

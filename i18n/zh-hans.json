@@ -54,5 +54,6 @@
 	"cargo-viewjson": "查看JSON",
 	"cargo-purgecache": "刷新缓存",
 	"specialpages-group-cargo": "Cargo",
-	"cargo-pageschemas-cargofield": "Cargo字段"
+	"cargo-pageschemas-cargofield": "Cargo字段",
+	"cargo-pageschemas-tablename": "表格名称："
 }
