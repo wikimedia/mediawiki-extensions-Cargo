@@ -56,5 +56,6 @@
 	"cargo-viewjson": "Ver JSON",
 	"cargo-purgecache": "Limpar a caché",
 	"specialpages-group-cargo": "Cargo",
-	"cargo-pageschemas-cargofield": "campo de Cargo"
+	"cargo-pageschemas-cargofield": "campo de Cargo",
+	"cargo-pageschemas-tablename": "Nome da táboa:"
 }
