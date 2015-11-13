@@ -28,7 +28,7 @@
 	"cargo-viewdata-limit": "Llende:",
 	"cargo-viewdata-format": "Formatu:",
 	"cargotables": "Tables de Cargo",
-	"cargo-cargotables-tablelist": "Tán definíes les siguientes tables:",
+	"cargo-cargotables-tablelist": "{{PLURAL:$1|Ta definida la siguiente table|Tán definíes les siguientes tables}}:",
 	"cargo-cargotables-viewtable": "Ver la tabla: $1",
 	"cargo-cargotables-viewtablelink": "Ver tabla",
 	"cargo-cargotables-notdeclared": "nun definío por nenguna plantía",
@@ -54,5 +54,6 @@
 	"cargo-viewjson": "Ver como JSON",
 	"cargo-purgecache": "Purgar la caché",
 	"specialpages-group-cargo": "Cargo",
-	"cargo-pageschemas-cargofield": "Campu de Cargo"
+	"cargo-pageschemas-cargofield": "Campu de Cargo",
+	"cargo-pageschemas-tablename": "Nome de la tabla:"
 }
