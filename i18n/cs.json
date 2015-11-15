@@ -9,5 +9,6 @@
 	"cargo-viewdata-groupby": "GROUP BY:",
 	"cargo-viewdata-orderby": "ORDER BY:",
 	"cargo-viewdata-limit": "LIMIT:",
-	"cargo-viewdata-format": "Formát:"
+	"cargo-viewdata-format": "Formát:",
+	"cargo-pageschemas-tablename": "Název tabulky:"
 }
