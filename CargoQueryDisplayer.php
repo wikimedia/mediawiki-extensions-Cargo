@@ -113,7 +113,7 @@ class CargoQueryDisplayer {
 						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
 					}
 				} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
-					$datePrecisionField = str_replace( ' ', '_', $fieldName ) . '__precision';
+					$datePrecisionField = str_replace( '_', ' ', $fieldName ) . '__precision';
 					if ( array_key_exists( $datePrecisionField, $row ) ) {
 						$datePrecision = $row[$datePrecisionField];
 					} else {
