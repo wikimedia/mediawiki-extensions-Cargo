@@ -192,6 +192,8 @@ class CargoQueryDisplayer {
 			// around.
 			return date( 'o', $seconds + 300000 );
 		} elseif ( $datePrecision == CargoStore::MONTH_ONLY ) {
+			// Same issue as above.
+			$seconds += 300000;
 			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ) ) .
 				' ' . date( 'o', $seconds );
 		} else {
