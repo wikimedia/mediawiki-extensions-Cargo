@@ -14,5 +14,6 @@
 	"cargo-cargotables-viewtablelink": "Visa tabell",
 	"cargo-drilldown-choosetable": "Välj en tabell",
 	"cargo-viewxls": "Visa XLS",
-	"cargo-pageschemas-cargofield": "Fraktområdet"
+	"cargo-pageschemas-cargofield": "Fraktområdet",
+	"cargo-pageschemas-tablename": "Tabellnamn:"
 }
