@@ -335,7 +335,7 @@ class CargoSQLQuery {
 		global $wgCargoAllowedSQLFunctions;
 
 		$sqlFunctionMatches = array();
-		$sqlFunctionRegex = '/(\b|=|>|<)(\S*?)\s?\(/';
+		$sqlFunctionRegex = '/(\b|\W)(\w*?)\s?\(/';
 		preg_match_all( $sqlFunctionRegex, $str, $sqlFunctionMatches );
 		$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[2] );
 		// Throw an error if any of these functions
