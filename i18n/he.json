@@ -53,5 +53,6 @@
 	"cargo-viewjson": "הצגת JSON",
 	"cargo-purgecache": "ניקוי המטמון",
 	"specialpages-group-cargo": "מטען",
-	"cargo-pageschemas-cargofield": "שדה מטען"
+	"cargo-pageschemas-cargofield": "שדה מטען",
+	"cargo-pageschemas-tablename": "שם הטבלה:"
 }
