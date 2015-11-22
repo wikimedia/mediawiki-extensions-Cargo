@@ -388,13 +388,12 @@ class CargoSQLQuery {
 					$description->mType = 'Integer';
 				} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
 					$description->mType = 'Float';
-				} elseif ( in_array(
-						$firstFunction, array( 'CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE', 'SUBSTRING', 'FORMAT' ) ) ) {
-					// Do nothing - it's text.
 				} elseif ( in_array( $firstFunction,
-						array( 'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
+						array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
 					$description->mType = 'Date';
 				}
+				// If it's anything else ('CONCAT', 'SUBSTRING',
+				// etc. etc.), we don't have to do anything.
 			} elseif ( preg_match( "/^'.*'$/m", $fieldName ) ) {
 				// It's a quoted, literal string - do nothing.
 			} else {
