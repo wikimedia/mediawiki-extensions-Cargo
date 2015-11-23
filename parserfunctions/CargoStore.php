@@ -303,8 +303,18 @@ class CargoStore {
 			}
 		}
 
+		// Put quotes around everything - this doesn't help with
+		// anything, but it might in the future, if Cargo becomes
+		// more permissive about field naming.
+		$quotedFieldValues = array();
+		foreach( $tableFieldValues as $fieldName => $fieldValue ) {
+			$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
+			$quotedFieldValues[$quotedFieldName] = $fieldValue;
+		}
+
 		// Insert the current data into the main table.
-		$cdb->insert( $tableName, $tableFieldValues );
+		$cdb->insert( $tableName, $quotedFieldValues );
+
 		// This close() call, for some reason, is necessary for the
 		// subsequent SQL to be called correctly, when jobs are run
 		// in the standard way.

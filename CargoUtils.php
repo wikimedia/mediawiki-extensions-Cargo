@@ -382,7 +382,7 @@ class CargoUtils {
 				// just be text
 				$createSQL .= $stringTypeString;
 			} else {
-				$createSQL .= ", $fieldName ";
+				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName ) . ' ';
 				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
 			}
 
