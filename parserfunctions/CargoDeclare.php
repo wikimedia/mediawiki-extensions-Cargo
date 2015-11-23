@@ -52,6 +52,11 @@ class CargoDeclare {
 				} elseif ( strpos( $fieldName, ',' ) !== false ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; "
 							. "this is not allowed." );
+				} elseif ( in_array( strtolower( $fieldName ),
+					// Some of these are more likely as
+					// field names than others...
+					array( 'create', 'table', 'update', 'insert', 'delete', 'select', 'where', 'join', 'on', 'order', 'group', 'by', 'limit', 'having', 'is', 'null', 'and', 'or', 'between', 'merge', 'union', 'intersect', 'except', 'case', 'if' ) ) ) {
+					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is an SQL keyword." );
 				}
 
 				$fieldDescription = CargoFieldDescription::newFromString( $fieldDescriptionStr );
