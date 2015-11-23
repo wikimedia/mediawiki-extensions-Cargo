@@ -129,6 +129,12 @@ class CargoQueryDisplayer {
 						}
 					}
 					$text = self::formatDateFieldValue( $value, $datePrecision, $fieldType );
+				} elseif ( $fieldType == 'Boolean' ) {
+					// Displaying a check mark for "yes"
+					// and an x mark for "no" would be
+					// cool, but those are apparently far
+					// from universal symbols.
+					$text = ( $value == true ) ? wfMessage( 'htmlform-yes' )->text() : wfMessage( 'htmlform-no' )->text();
 				} else {
 					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
 				}
