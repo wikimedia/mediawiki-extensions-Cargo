@@ -37,7 +37,7 @@ class CargoULFormat extends CargoListFormat {
 		if ( $numColumns > 1 ) {
 			$text = Html::rawElement( 'div',
 					array( 'style' =>
-					"-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;" ), $text );
+					"-webkit-column-count: $numColumns; -moz-column-count: $numColumns; column-count: $numColumns;" ), $text );
 		}
 		return $text;
 	}

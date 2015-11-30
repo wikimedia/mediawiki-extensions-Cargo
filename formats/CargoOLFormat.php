@@ -40,7 +40,7 @@ class CargoOLFormat extends CargoListFormat {
 		$text = Html::rawElement( 'ol', $olAttribs, $text );
 		if ( $numColumns > 1 ) {
 			$text = Html::rawElement( 'div',
-					array( 'style' => "-webkit-column-count: 3; -moz-column-count: 3; column-count: 3;" ), $text );
+					array( 'style' => "-webkit-column-count: $numColumns; -moz-column-count: $numColumns; column-count: $numColumns;" ), $text );
 		}
 		return $text;
 	}
