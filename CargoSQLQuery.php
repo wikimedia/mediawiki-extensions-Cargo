@@ -434,6 +434,14 @@ class CargoSQLQuery {
 					// helper fields.
 					$description->mType = 'Coordinates part';
 					$tableName = '';
+				} elseif ( substr( $fieldName, -11 ) == '__precision' ) {
+					// Special handling for lat/lon
+					// helper fields.
+					// @TODO - we need validation on
+					// __lat, __lon and __precision fields,
+					// to make sure that they exist.
+					$description->mType = 'Date precision';
+					$tableName = '';
 				} else {
 					// Go through all the fields, until we
 					// find the one matching this one.
