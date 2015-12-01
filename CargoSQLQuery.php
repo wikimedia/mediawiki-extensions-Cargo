@@ -345,6 +345,11 @@ class CargoSQLQuery {
 		$logicalOperators = array( 'AND', 'OR', 'NOT' );
 		$allowedFunctions = array_merge( $wgCargoAllowedSQLFunctions, $logicalOperators );
 		foreach ( $sqlFunctions as $sqlFunction ) {
+			// @TODO - fix the original regexp to avoid blank
+			// strings, so that this check is not necessary.
+			if ( trim( $sqlFunction ) == '' ) {
+				continue;
+			}
 			if ( !in_array( $sqlFunction, $allowedFunctions ) ) {
 				throw new MWException( "Error: the SQL function \"$sqlFunction()\" is not allowed." );
 			}
