@@ -55,9 +55,11 @@ class CargoDeclare {
 				} elseif ( in_array( strtolower( $fieldName ),
 					// Some of these are more likely as
 					// field names than others...
-					array( 'create', 'table', 'update', 'insert', 'delete', 'select', 'where',
-						'join', 'on', 'order', 'group', 'by', 'limit', 'having', 'is',
-						'like', 'not', 'null', 'and', 'or', 'between', 'merge',
+					array( 'create', 'table', 'update', 'insert', 'delete',
+						'select', 'distinct', 'from', 'join', 'on',
+						'where', 'order', 'by', 'asc', 'desc', 'limit',
+						'group', 'having', 'like', 'is', 'null',
+						'not', 'and', 'or', 'between', 'merge',
 						'union', 'intersect', 'except', 'case', 'if' ) ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is an SQL keyword." );
 				} elseif ( in_array( strtolower( $fieldName ),
