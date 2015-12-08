@@ -521,6 +521,11 @@ class CargoSQLQuery {
 		return false;
 	}
 
+	function whereStringHasPattern( $searchPattern ) {
+		$searchPattern = "/(^|\s|\()$searchPattern\s/";
+		return preg_match( $searchPattern, $this->mWhereStr, $matches );
+	}
+
 	function handleVirtualFields() {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
@@ -556,49 +561,60 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
 
-			$likePattern1 = "/\b$tableName\.$fieldName(\s*HOLDS LIKE\s*)/";
-			$foundLikeMatch1 = preg_match( $likePattern1, $this->mWhereStr, $matches );
+			// Is this field in the "where" string at all? If not,
+			// skip it.
+			$pattern1 = "$tableName\.$fieldName";
+			$foundMatch1 = $this->whereStringHasPattern( $pattern1 );
+			if ( !$foundMatch1 ) {
+				$pattern2 = $fieldName;
+				$foundMatch2 = $this->whereStringHasPattern( $pattern2 );
+				if ( !$foundMatch2 ) {
+					continue;
+				}
+			}
+
+			$likePattern1 = "$tableName\.$fieldName\s*HOLDS\s*LIKE";
+			$foundLikeMatch1 = $this->whereStringHasPattern( $likePattern1 );
 			$foundLikeMatch2 = $foundMatch1 = $foundMatch2 = false;
 			if ( !$foundLikeMatch1 ) {
-				$likePattern2 = "/\b$fieldName(\s*HOLDS LIKE\s*)/";
-				$foundLikeMatch2 = preg_match( $likePattern2, $this->mWhereStr, $matches );
+				$likePattern2 = "$fieldName\s*HOLDS\s*LIKE";
+				$foundLikeMatch2 = $this->whereStringHasPattern( $likePattern2 );
 			}
 
 			if ( !$foundLikeMatch1 && !$foundLikeMatch2 ) {
-				$pattern1 = "/\b$tableName\.$fieldName(\s*HOLDS\s*)?/";
-				$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
-				if ( !$foundMatch1 ) {
-					$pattern2 = "/\b$fieldName(\s*HOLDS\s*)?/";
-					$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
+				$holdsPattern1 = "$tableName\.$fieldName\s*HOLDS";
+				$foundHoldsMatch1 = $this->whereStringHasPattern( $holdsPattern1 );
+				if ( !$foundHoldsMatch1 ) {
+					$holdsPattern2 = "$fieldName\s*HOLDS";
+					$foundHoldsMatch2 = $this->whereStringHasPattern( $holdsPattern2 );
 				}
 			}
 
-			if ( $foundLikeMatch1 || $foundLikeMatch2 || $foundMatch1 || $foundMatch2 ) {
-				// If no "HOLDS", throw an error.
-				if ( count( $matches ) == 1 ) {
-					throw new MWException( "Error: operator for the virtual field '"
-					. "$tableName.$fieldName' must be 'HOLDS' or 'HOLDS LIKE'." );
-				}
-				$fieldTableName = $tableName . '__' . $fieldName;
-				$this->addFieldTableToTableNames( $fieldTableName, $tableName );
-				$this->mCargoJoinConds[] = array(
-					'joinType' => 'LEFT OUTER JOIN',
-					'table1' => $tableName,
-					'field1' => '_ID',
-					'table2' => $fieldTableName,
-					'field2' => '_rowID'
-				);
-				if ( $foundLikeMatch1 ) {
-					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value LIKE ",
-						$this->mWhereStr );
-				} elseif ( $foundLikeMatch2 ) {
-					$this->mWhereStr = preg_replace( $likePattern2, "$fieldTableName._value LIKE ",
-						$this->mWhereStr );
-				} elseif ( $foundMatch1 ) {
-					$this->mWhereStr = preg_replace( $pattern1, "$fieldTableName._value=", $this->mWhereStr );
-				} elseif ( $foundMatch2 ) {
-					$this->mWhereStr = preg_replace( $pattern2, "$fieldTableName._value=", $this->mWhereStr );
-				}
+			// If no "HOLDS", throw an error.
+			if ( !$foundLikeMatch1 && !$foundLikeMatch2 && !$foundHoldsMatch1 && !$foundHoldsMatch2 ) {
+				throw new MWException( "Error: operator for the virtual field '"
+				. "$tableName.$fieldName' must be 'HOLDS' or 'HOLDS LIKE'." );
+			}
+
+			$fieldTableName = $tableName . '__' . $fieldName;
+			$this->addFieldTableToTableNames( $fieldTableName, $tableName );
+			$this->mCargoJoinConds[] = array(
+				'joinType' => 'LEFT OUTER JOIN',
+				'table1' => $tableName,
+				'field1' => '_ID',
+				'table2' => $fieldTableName,
+				'field2' => '_rowID'
+			);
+			if ( $foundLikeMatch1 ) {
+				$this->mWhereStr = preg_replace( "/$likePattern1/", "$fieldTableName._value LIKE",
+					$this->mWhereStr );
+			} elseif ( $foundLikeMatch2 ) {
+				$this->mWhereStr = preg_replace( "/$likePattern2/", "$fieldTableName._value LIKE",
+					$this->mWhereStr );
+			} elseif ( $foundHoldsMatch1 ) {
+				$this->mWhereStr = preg_replace( "/$holdsPattern1/", "$fieldTableName._value=", $this->mWhereStr );
+			} elseif ( $foundHoldsMatch2 ) {
+				$this->mWhereStr = preg_replace( "/$holdsPattern2/", "$fieldTableName._value=", $this->mWhereStr );
 			}
 		}
 
@@ -651,9 +667,9 @@ class CargoSQLQuery {
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
-			$pattern1 = "/\b$tableName\.$fieldName\b/";
+			$pattern1 = "/(^|\s)$tableName\.$fieldName($|\s)/";
 			$foundMatch1 = preg_match( $pattern1, $this->mGroupByStr, $matches );
-			$pattern2 = "/\b$fieldName\b/";
+			$pattern2 = "/(^|\s)$fieldName($|\s)/";
 			$foundMatch2 = false;
 
 			if ( !$foundMatch1 ) {
@@ -725,9 +741,9 @@ class CargoSQLQuery {
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
-			$pattern1 = "/\b$tableName\.$fieldName\b/";
+			$pattern1 = "/(^|\s)$tableName\.$fieldName($|\s)/";
 			$foundMatch1 = preg_match( $pattern1, $this->mOrderByStr, $matches );
-			$pattern2 = "/\b$fieldName\b/";
+			$pattern2 = "/(^|\s)$fieldName($|\s)/";
 			$foundMatch2 = false;
 
 			if ( !$foundMatch1 ) {
@@ -821,10 +837,10 @@ class CargoSQLQuery {
 		foreach ( $coordinateFields as $coordinateField ) {
 			$fieldName = $coordinateField['fieldName'];
 			$tableName = $coordinateField['tableName'];
-			$pattern1 = "/\b$tableName\.$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
+			$pattern1 = "/(^|\s|\()$tableName\.$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
 			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
 			if ( !$foundMatch1 ) {
-				$pattern2 = "/\b$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
+				$pattern2 = "/(^|\s|\()$fieldName(\s*NEAR\s*)\(([^)]*)\)/";
 				$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
