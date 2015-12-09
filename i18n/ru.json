@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Batumski brodyaga",
-			"Дмитрий"
+			"Дмитрий",
+			"Okras"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
-	"cargo-pageschemas-cargofield": "Поле груза"
+	"cargo-pageschemas-cargofield": "Поле груза",
+	"cargo-pageschemas-tablename": "Имя таблицы:"
 }
