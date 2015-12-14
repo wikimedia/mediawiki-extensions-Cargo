@@ -99,7 +99,7 @@ class CargoSQLQuery {
 		// contains a call to {{PAGENAME}} and the page name has any
 		// special characters, because {{PAGENAME]] unfortunately
 		// HTML-encodes the value, which leads to a '#' in the string.
-		$decodedWhereStr = html_entity_decode( $whereStr );
+		$decodedWhereStr = html_entity_decode( $whereStr, ENT_QUOTES );
 		foreach ( $whereStrRegexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $decodedWhereStr ) ) {
 				throw new MWException( "Error in \"where\" parameter: the string \"$displayString\" cannot be used within #cargo_query." );
