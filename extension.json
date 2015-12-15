@@ -6,6 +6,9 @@
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
 	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.25.3"
+	},
 	"callback": "CargoHooks::registerExtension",
 	"AvailableRights": [
 		"recreatecargodata",
@@ -33,7 +36,8 @@
 		]
 	},
 	"ExtensionMessagesFiles": {
-		"CargoMagic": "Cargo.i18n.magic.php"
+		"CargoMagic": "Cargo.i18n.magic.php",
+		"CargoAlias": "Cargo.alias.php"
 	},
 	"AutoloadClasses": {
 		"CargoHooks": "Cargo.hooks.php",

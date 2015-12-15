@@ -15,22 +15,19 @@ define( 'CARGO_VERSION', '0.10' );
 // makes it unusable for Cargo - don't load extensions unless we're at
 // version 1.25.3 or higher.
 // (See https://phabricator.wikimedia.org/T109243)
-//if ( function_exists( 'wfLoadExtension' ) ) {
-
-// Actually, for now, don't ever load it - the setting of global
-// variables in extension.json needs to be fixed.
-//if ( version_compare( $wgVersion, '1.25.3', '>=' ) ) {
-
-if ( false ) {
-	wfLoadExtension( 'Cargo' );
-	// Keep i18n globals so mergeMessageFileList.php doesn't break
-	$wgMessagesDirs['Cargo'] = __DIR__ . '/i18n';
-	$wgExtensionMessagesFiles['CargoMagic'] = __DIR__ . '/Cargo.i18n.magic.php';
-	/* wfWarn(
-		'Deprecated PHP entry point used for Cargo extension. Please use wfLoadExtension instead, ' .
-		'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
-	); */
-	return;
+if ( version_compare( $GLOBALS['wgVersion'], '1.25.3c', '>' ) ) {
+	if ( function_exists( 'wfLoadExtension' ) ) {
+		wfLoadExtension( 'Cargo' );
+		// Keep i18n globals so mergeMessageFileList.php doesn't break
+		$wgMessagesDirs['Cargo'] = __DIR__ . '/i18n';
+		$wgExtensionMessagesFiles['CargoMagic'] = __DIR__ . '/Cargo.i18n.magic.php';
+		$wgExtensionMessagesFiles['CargoAlias'] = __DIR__ . '/Cargo.alias.php';
+		/* wfWarn(
+			'Deprecated PHP entry point used for Cargo extension. Please use wfLoadExtension instead, ' .
+			'see https://www.mediawiki.org/wiki/Extension_registration for more details.'
+		); */
+		return;
+	}
 }
 
 // All the rest is for backward compatibility, for MW 1.25 and lower.
