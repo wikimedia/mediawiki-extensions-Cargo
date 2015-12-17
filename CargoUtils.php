@@ -188,8 +188,10 @@ class CargoUtils {
 	}
 
 	/**
-	 * Splits a string by the delimiter, but ignores delimiters contained
-	 * within parentheses.
+	 * Splits a string by the delimiter, but ensures that parenthesis, separators
+	 * and "the other quote" (single quote in a double quoted string or double
+	 * quote in a single quoted string) inside a quoted string are not considered
+	 * lexically.
 	 */
 	static function smartSplit( $delimiter, $string ) {
 		if ( $string == '' ) {
@@ -199,8 +201,6 @@ class CargoUtils {
 		$ignoreNextChar = false;
 		$returnValues = array();
 		$numOpenParentheses = 0;
-		$numOpenSingleQuotes = 0;
-		$numOpenDoubleQuotes = 0;
 		$curReturnValue = '';
 
 		for ( $i = 0; $i < strlen( $string ); $i++ ) {
@@ -216,26 +216,18 @@ class CargoUtils {
 				$numOpenParentheses++;
 			} elseif ( $curChar == ')' ) {
 				$numOpenParentheses--;
-			} elseif ( $curChar == '\'' ) {
-				if ( $numOpenSingleQuotes == 0 ) {
-					$numOpenSingleQuotes = 1;
-				} else {
-					$numOpenSingleQuotes = 0;
+			} elseif ( $curChar == '\'' || $curChar == '"' ) {
+				$pos = CargoUtils::findQuotedStringEnd($string, $curChar, $i + 1 );
+				if ( $pos === false ) {
+					throw new MWException( "Error: unmatched quote in SQL string constant." );
 				}
-			} elseif ( $curChar == '"' ) {
-				if ( $numOpenDoubleQuotes == 0 ) {
-					$numOpenDoubleQuotes = 1;
-				} else {
-					$numOpenDoubleQuotes = 0;
-				}
+				$curReturnValue .= substr( $string, $i, $pos - $i );
+				$i = $pos;
 			} elseif ( $curChar == '\\' ) {
 				$ignoreNextChar = true;
 			}
 
-			if ( $curChar == $delimiter &&
-			$numOpenParentheses == 0 &&
-			$numOpenSingleQuotes == 0 &&
-			$numOpenDoubleQuotes == 0 ) {
+			if ( $curChar == $delimiter && $numOpenParentheses == 0 ) {
 				$returnValues[] = trim( $curReturnValue );
 				$curReturnValue = '';
 			} else {
@@ -244,7 +236,80 @@ class CargoUtils {
 		}
 		$returnValues[] = trim( $curReturnValue );
 
+		if ( $ignoreNextChar ) {
+			throw new MWException( "Error: incomplete escape sequence." );
+		}
+
 		return $returnValues;
+	}
+
+	/**
+	* find the end of a quoted string
+	*/
+	public static function findQuotedStringEnd( $string, $quoteChar, $pos ) {
+		$ignoreNextChar = false;
+		for ( $i = $pos ; $i < strlen($string) ; $i++ ) {
+			$curChar = $string{$i};
+			if ( $ignoreNextChar ) {
+				$ignoreNextChar = false;
+			} elseif ( $curChar == $quoteChar ) {
+				if ( $i + 1 < strlen($string) && $string{$i + 1} == $quoteChar ) {
+					$i++;
+				} else {
+					return $i;
+				}
+			} elseif ( $curChar == '\\' ) {
+				$ignoreNextChar = true;
+			}
+		}
+		if ( $ignoreNextChar ) {
+			throw new MWException( "Error: incomplete escape sequence." );
+		}
+		return false;
+	}
+
+	/**
+	* Delete text within quotes and raise exception if a quoted string
+	* is not closed.
+	*/
+	public static function removeQuotedStrings( $string ) {
+		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
+		$string = preg_replace( $noQuotesPattern, '', $string );
+		if ( strpos($string,'"') !== false || strpos($string,"'") !== false ) {
+			throw new MWException( "Error: unclosed string literal." );
+		}
+		return $string;
+	}
+
+	/**
+	 * Generates a Regular Expression to match $fieldName in a SQL string.
+	 * Allows for $ as valid identifier character.
+	 */
+	public static function getSQLFieldPattern( $fieldName, $closePattern = true ) {
+		$fieldName = str_replace( '$', '\$', $fieldName );
+		$pattern = '/([^\w$.]|^)'.$fieldName;
+		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
+	}
+
+	/**
+	 * Generates a Regular Expression to match $tableName.$fieldName in a
+	 * SQL string. Allows for $ as valid identifier character.
+	 */
+	public static function getSQLTableAndFieldPattern( $tableName, $fieldName, $closePattern = true ) {
+		$fieldName = str_replace( '$', '\$', $fieldName );
+		$tableName = str_replace( '$', '\$', $tableName );
+		$pattern = '/([^\w$]|^)'.$tableName.'\.'.$fieldName;
+		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
+	}
+
+	/**
+	 * Generates a Regular Expression to match $tableName in a SQL string.
+	 * Allows for $ as valid identifier character.
+	 */
+	public static function getSQLTablePattern( $tableName, $closePattern = true ) {
+		$tableName = str_replace( '$', '\$', $tableName );
+		$pattern = '/([^\w$]|^)'.$tableName.'\.';
+		return $pattern . ( $closePattern ? '/i' : '' );
 	}
 
 	/**
