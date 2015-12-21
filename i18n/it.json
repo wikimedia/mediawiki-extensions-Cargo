@@ -5,6 +5,7 @@
 			"Macofe"
 		]
 	},
+	"apihelp-cargoquery-param-fields": "I campi della tabella da recuperare",
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",

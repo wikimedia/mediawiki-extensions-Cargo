@@ -12,6 +12,7 @@
 	"recreatedata": "重新创建数据",
 	"action-recreatecargodata": "重新创建Cargo数据",
 	"action-deletecargodata": "删除Cargo数据",
+	"apihelp-cargoquery-description": "在Cargo数据上运行一次查询。",
 	"cargo-createdatatable": "创建数据表",
 	"cargo-recreatedata-desc": "为此模板重新创建Cargo数据么？",
 	"cargo-recreatedata-createdata": "为此模板创建Cargo数据么？",
