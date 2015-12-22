@@ -593,6 +593,7 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
 			$foundLikeMatch1 = $foundMatch1 = $foundLikeMatch2 = $foundMatch2 = false;
+			$likePattern1 = $likePattern2 = '';
 			$patternSuffix = '\s+(HOLDS)\s+(LIKE)?/i';
 			$throwException = false;
 
@@ -631,6 +632,9 @@ class CargoSQLQuery {
 					'table2' => $fieldTableName,
 					'field2' => '_rowID'
 				);
+				$likePattern1 = str_replace( '([^\w$.]|^)', '\b', $likePattern1);
+				$likePattern2 = str_replace( '([^\w$.]|^)', '\b', $likePattern2);
+
 				if ( $foundLikeMatch1 ) {
 					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value LIKE ",
 						$this->mWhereStr );
