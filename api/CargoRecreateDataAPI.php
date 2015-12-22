@@ -72,6 +72,7 @@ class CargoRecreateDataAPI extends ApiBase {
 		return array(
 			'template' => 'The template whose data to use',
 			'table' => 'The Cargo database table to repopulate',
+			'offset' => 'Of the pages that call this template, the number at which to start querying',
 			'replaceOldRows' => 'Whether to replace old rows for each page while repopulating the table',
 		);
 	}
