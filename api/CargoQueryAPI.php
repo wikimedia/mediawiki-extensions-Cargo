@@ -75,7 +75,7 @@ class CargoQueryAPI extends ApiBase {
 			'order_by' => 'The order of results, corresponding to an SQL ORDER BY clause',
 			'group_by' => 'Field(s) on which to group results, corresponding to an SQL GROUP BY clause',
 			'having' => 'Conditions for grouped values, corresponding to an SQL HAVING clause',
-			'limit' => 'Limit how many entries to return',
+			'limit' => 'A limit on the number of results returned',
 		);
 	}
 
