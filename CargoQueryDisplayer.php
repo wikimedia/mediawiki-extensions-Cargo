@@ -101,7 +101,7 @@ class CargoQueryDisplayer {
 				if ( $fieldDescription->mIsList ) {
 					// There's probably an easier way to do
 					// this, using array_map().
-					$delimiter = $fieldDescription->mDelimiter;
+					$delimiter = $fieldDescription->getDelimiter();
 					$fieldValues = explode( $delimiter, $value );
 					foreach ( $fieldValues as $i => $fieldValue ) {
 						if ( trim( $fieldValue ) == '' ) {

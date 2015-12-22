@@ -130,7 +130,7 @@ class CargoStore {
 			if ( $fieldDescription->mAllowedValues != null ) {
 				$allowedValues = $fieldDescription->mAllowedValues;
 				if ( $fieldDescription->mIsList ) {
-					$delimiter = $fieldDescription->mDelimiter;
+					$delimiter = $fieldDescription->getDelimiter();
 					$individualValues = explode( $delimiter, $curValue );
 					$valuesToBeKept = array();
 					foreach ( $individualValues as $individualValue ) {
@@ -269,7 +269,8 @@ class CargoStore {
 			$fieldType = $fieldDescription->mType;
 			if ( $fieldDescription->mIsList ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
-				$individualValues = explode( $fieldDescription->mDelimiter, $tableFieldValues[$fieldName] );
+				$delimiter = $fieldDescription->getDelimiter();
+				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName] );
 				foreach ( $individualValues as $individualValue ) {
 					$individualValue = trim( $individualValue );
 					// Ignore blank values.

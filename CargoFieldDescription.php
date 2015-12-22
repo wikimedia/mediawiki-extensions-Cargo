@@ -11,7 +11,7 @@ class CargoFieldDescription {
 	public $mType;
 	public $mSize;
 	public $mIsList = false;
-	public $mDelimiter;
+	private $mDelimiter;
 	public $mAllowedValues = null;
 	public $mIsHidden = false;
 	public $mOtherParams = array();
@@ -111,6 +111,18 @@ class CargoFieldDescription {
 			}
 		}
 		return $fieldDescription;
+	}
+
+	function getDelimiter() {
+		// Make "\n" represent a newline
+		if ( $this->mDelimiter == '\n' ) {
+			return "\n";
+		}
+		return $this->mDelimiter;
+	}
+
+	function setDelimiter( $delimiter ) {
+		$this->mDelimiter = $delimiter;
 	}
 
 	/**

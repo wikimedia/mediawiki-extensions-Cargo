@@ -345,7 +345,7 @@ class CargoExport extends UnlistedSpecialPage {
 			// Turn "List" fields into arrays.
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $fieldDescription ) {
 				if ( $fieldDescription->mIsList ) {
-					$delimiter = $fieldDescription->mDelimiter;
+					$delimiter = $fieldDescription->getDelimiter();
 					for ( $i = 0; $i < count( $queryResults ); $i++ ) {
 						$curValue = $queryResults[$i][$alias];
 						if ( !is_array( $curValue ) ) {
