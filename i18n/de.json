@@ -14,6 +14,8 @@
 	"recreatedata": "Daten erneut erstellen",
 	"action-recreatecargodata": "Cargo-Daten erneut zu erstellen",
 	"action-deletecargodata": "Cargo-Daten zu löschen",
+	"apihelp-cargoquery-param-fields": "Die abzurufenden Tabellenfelder",
+	"apihelp-cargorecreatetables-description": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
 	"cargo-createdatatable": "Datentabelle erstellen",
 	"cargo-recreatedata-desc": "Cargo-Daten für diese Vorlage neu erstellen?",
 	"cargo-recreatedata-createdata": "Cargo-Daten für diese Vorlage erstellen?",
