@@ -114,11 +114,8 @@ class CargoFieldDescription {
 	}
 
 	function getDelimiter() {
-		// Make "\n" represent a newline
-		if ( $this->mDelimiter == '\n' ) {
-			return "\n";
-		}
-		return $this->mDelimiter;
+		// Make "\n" represent a newline.
+		return str_replace( '\n', "\n", $this->mDelimiter );
 	}
 
 	function setDelimiter( $delimiter ) {
