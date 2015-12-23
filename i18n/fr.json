@@ -9,7 +9,8 @@
 			"Boniface",
 			"Lucky",
 			"Wladek92",
-			"Əric"
+			"Əric",
+			"Orlodrim"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -28,7 +29,7 @@
 	"apihelp-cargoquery-param-order_by": "L’ordre des résultats, correspondant à une clause SQL ORDER BY",
 	"apihelp-cargoquery-param-group_by": "Champs sur lesquels grouper les résultats, correspondant à une clause SQL GROUP BY",
 	"apihelp-cargoquery-param-having": "Conditions pour les valeurs groupées, correspondant à une clause SQL HAVING",
-	"apihelp-cargoquery-param-limit": "Une limite du nombre de résultats renvoyé",
+	"apihelp-cargoquery-param-limit": "Une limite du nombre de résultats renvoyés",
 	"apihelp-cargorecreatetables-description": "Recrée une ou plusieurs tables de Cargo.",
 	"apihelp-cargorecreatetables-param-template": "Le modèle qui a déclaré les tables de Cargo doit être recréé",
 	"apihelp-cargorecreatedata-description": "Remplir de nouveau les données dans une table de Cargo.",
