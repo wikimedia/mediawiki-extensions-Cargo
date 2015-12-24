@@ -558,6 +558,22 @@ class CargoSQLQuery {
 		return false;
 	}
 
+	/*
+	 * Provides HOLDS functionality to WHERE clause by replacing $pattern
+	 * in $subject with $replacement and setting $found to true if
+	 * successful (leaves it untouched otehrwise). Includes modifying
+	 * the regex beginning from a non-valid identifier character to word
+	 * boundary.
+	 */
+	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found ) {
+		if ( preg_match( $pattern, $subject ) ) {
+			$pattern = str_replace( '([^\w$]|^)', '\b', $pattern);
+			$pattern = str_replace( '([^\w$.]|^)', '\b', $pattern);
+			$subject = preg_replace( $pattern, $replacement, $subject );
+			$found = true;
+		}
+	}
+
 	function handleVirtualFields() {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
@@ -592,38 +608,57 @@ class CargoSQLQuery {
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
 			$tableName = $virtualField['tableName'];
-			$foundLikeMatch1 = $foundMatch1 = $foundLikeMatch2 = $foundMatch2 = false;
-			$likePattern1 = $likePattern2 = '';
-			$patternSuffix = '\s+(HOLDS)\s+(LIKE)?/i';
+			$fieldTableName = $tableName . '__' . $fieldName;
+			$replacementFieldName = $fieldTableName . '._value';
+			$patternSuffix = '\b\s*/i';
+			$fieldReplaced = false;
 			$throwException = false;
 
-			$simplePattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName );
-			if ( preg_match( $simplePattern1, $this->mWhereStr ) ) {
-				$likePattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ).
-						$patternSuffix;
-				if ( preg_match( $likePattern1, $this->mWhereStr, $matches ) ) {
-					$foundMatch1 = count( $matches ) == 3;
-					$foundLikeMatch1 = count( $matches ) == 4;
+			$patternSimple = array(
+				CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName ),
+				CargoUtils::getSQLFieldPattern( $fieldName )
+				);
+			$patternRoot = array(
+				CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . '\s+',
+				CargoUtils::getSQLFieldPattern( $fieldName, false ) . '\s+'
+				);
+
+			for ( $i = 0 ; $i < 2 ; $i++ ) {
+				if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
+
+					$this->substVirtualFieldName(
+						$this->mWhereStr,
+						$patternRoot[$i] . 'HOLDS\s+NOT\s+LIKE' . $patternSuffix,
+						"$replacementFieldName NOT LIKE ",
+						$fieldReplaced);
+
+					$this->substVirtualFieldName(
+						$this->mWhereStr,
+						$patternRoot[$i] . 'HOLDS\s+LIKE' . $patternSuffix,
+						"$replacementFieldName LIKE ",
+						$fieldReplaced);
+
+					$this->substVirtualFieldName(
+						$this->mWhereStr,
+						$patternRoot[$i] . 'HOLDS\s+NOT' . $patternSuffix,
+						"$replacementFieldName!=",
+						$fieldReplaced);
+
+					$this->substVirtualFieldName(
+						$this->mWhereStr,
+						$patternRoot[$i] . 'HOLDS' . $patternSuffix,
+						"$replacementFieldName=",
+						$fieldReplaced);
+
+					if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
+						throw new MWException( "Error: operator for the virtual field '" .
+							"$tableName.$fieldName' must be 'HOLDS', 'HOLDS NOT', '" .
+							"HOLDS LIKE' or 'HOLDS NOT LIKE'." );
+					}
 				}
-				$throwException = $throwException || (! $foundMatch1 && ! $foundLikeMatch1);
-			}
-			$simplePattern2 = CargoUtils::getSQLFieldPattern( $fieldName );
-			if ( preg_match( $simplePattern2, $this->mWhereStr ) ) {
-				$likePattern2 = CargoUtils::getSQLFieldPattern( $fieldName, false ).
-						$patternSuffix;
-				if ( preg_match( $likePattern2, $this->mWhereStr, $matches ) ) {
-					$foundMatch2 = count( $matches ) == 3;
-					$foundLikeMatch2 = count( $matches ) == 4;
-				}
-				$throwException = $throwException || (! $foundMatch2 && ! $foundLikeMatch2);
-			}
-			if ( $throwException ) {
-				throw new MWException( "Error: operator for the virtual field '" .
-					"$tableName.$fieldName' must be 'HOLDS' or 'HOLDS LIKE'." );
 			}
 
-			if ( $foundLikeMatch1 || $foundLikeMatch2 || $foundMatch1 || $foundMatch2 ) {
-				$fieldTableName = $tableName . '__' . $fieldName;
+			if ( $fieldReplaced ) {
 				$this->addFieldTableToTableNames( $fieldTableName, $tableName );
 				$this->mCargoJoinConds[] = array(
 					'joinType' => 'LEFT OUTER JOIN',
@@ -632,20 +667,6 @@ class CargoSQLQuery {
 					'table2' => $fieldTableName,
 					'field2' => '_rowID'
 				);
-				$likePattern1 = str_replace( '([^\w$.]|^)', '\b', $likePattern1);
-				$likePattern2 = str_replace( '([^\w$.]|^)', '\b', $likePattern2);
-
-				if ( $foundLikeMatch1 ) {
-					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value LIKE ",
-						$this->mWhereStr );
-				} elseif ( $foundLikeMatch2 ) {
-					$this->mWhereStr = preg_replace( $likePattern2, "$fieldTableName._value LIKE ",
-						$this->mWhereStr );
-				} elseif ( $foundMatch1 ) {
-					$this->mWhereStr = preg_replace( $likePattern1, "$fieldTableName._value=", $this->mWhereStr );
-				} elseif ( $foundMatch2 ) {
-					$this->mWhereStr = preg_replace( $likePattern2, "$fieldTableName._value=", $this->mWhereStr );
-				}
 			}
 		}
 
