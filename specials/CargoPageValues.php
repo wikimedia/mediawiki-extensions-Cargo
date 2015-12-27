@@ -36,10 +36,10 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$text = '';
 
-		$dbr = wfGetDB( DB_MASTER );
-		$res = $dbr->select(
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select(
 			'cargo_pages', 'table_name', array( 'page_id' => $this->mTitle->getArticleID() ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$tableName = $row['table_name'];
 			$queryResults = $this->getRowsForPageInTable( $tableName );
 			$text .= Html::element( 'h2', null,

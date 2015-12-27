@@ -22,10 +22,10 @@ class CargoUtils {
 	public static function getDB() {
 		global $wgDBuser, $wgDBpassword, $wgDBprefix;
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBtype;
-		$dbr = wfGetDB( DB_SLAVE );
-		$server = $dbr->getServer();
-		$name = $dbr->getDBname();
-		$type = $dbr->getType();
+		$dbw = wfGetDB( DB_MASTER );
+		$server = $dbw->getServer();
+		$name = $dbw->getDBname();
+		$type = $dbw->getType();
 
 		$dbType = is_null( $wgCargoDBtype ) ? $type : $wgCargoDBtype;
 		$dbServer = is_null( $wgCargoDBserver ) ? $server : $wgCargoDBserver;
@@ -52,8 +52,8 @@ class CargoUtils {
 	 * Gets a page property for the specified page ID and property name.
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props', array(
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'page_props', array(
 			'pp_value'
 			), array(
 			'pp_page' => $pageID,
@@ -61,7 +61,7 @@ class CargoUtils {
 			)
 		);
 
-		if ( !$row = $dbr->fetchRow( $res ) ) {
+		if ( !$row = $dbw->fetchRow( $res ) ) {
 			return null;
 		}
 
@@ -72,8 +72,8 @@ class CargoUtils {
 	 * Similar to getPageProp().
 	 */
 	public static function getAllPageProps( $pageProp ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props', array(
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'page_props', array(
 			'pp_page',
 			'pp_value'
 			), array(
@@ -82,7 +82,7 @@ class CargoUtils {
 		);
 
 		$pagesPerValue = array();
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$pageID = $row['pp_page'];
 			$pageValue = $row['pp_value'];
 			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
@@ -100,15 +100,15 @@ class CargoUtils {
 	 * hopefully there's exactly one of them.
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'page_props', array(
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'page_props', array(
 			'pp_page'
 			), array(
 			'pp_value' => $tableName,
 			'pp_propname' => 'CargoTableName'
 			)
 		);
-		if ( !$row = $dbr->fetchRow( $res ) ) {
+		if ( !$row = $dbw->fetchRow( $res ) ) {
 			return null;
 		}
 		return $row['pp_page'];
@@ -120,9 +120,9 @@ class CargoUtils {
 
 	public static function getTables() {
 		$tableNames = array();
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', 'main_table' );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', 'main_table' );
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$tableNames[] = $row[0];
 		}
 		return $tableNames;
@@ -141,10 +141,10 @@ class CargoUtils {
 			}
 		}
 		$tableSchemas = array();
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
 			array( 'main_table' => $mainTableNames ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$tableName = $row['main_table'];
 			$tableSchemaString = $row['table_schema'];
 			$tableSchemas[$tableName] = CargoTableSchema::newFromDBString( $tableSchemaString );
@@ -397,11 +397,11 @@ class CargoUtils {
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $tableSchemaString );
 
-		$dbr = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		$cdb = self::getDB();
 
-		$res = $dbr->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curTable = $row['main_table'];
 			try {
 				$cdb->dropTable( $curTable );
@@ -409,10 +409,10 @@ class CargoUtils {
 				throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 				. "Please make sure that your database user account has the DROP permission." );
 			}
-			$dbr->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
+			$dbw->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
 		}
 
-		$dbr->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
+		$dbw->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
 
 		if ( $tableName == null ) {
 			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
@@ -521,7 +521,7 @@ class CargoUtils {
 		$cdb->close();
 
 		// Finally, store all the info in the cargo_tables table.
-		$dbr->insert( 'cargo_tables',
+		$dbw->insert( 'cargo_tables',
 			array( 'template_id' => $templatePageID, 'main_table' => $tableName,
 			'field_tables' => serialize( $fieldTableNames ), 'table_schema' => $tableSchemaString ) );
 		return true;

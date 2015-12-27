@@ -56,8 +56,8 @@ class CargoDeleteCargoTable extends SpecialPage {
 		}
 
 		// Make sure that this table exists.
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables' ),
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', array( 'main_table', 'field_tables' ),
 			array( 'main_table' => $subpage ) );
 		if ( $res->numRows() == 0 ) {
 			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$subpage\"." ) );

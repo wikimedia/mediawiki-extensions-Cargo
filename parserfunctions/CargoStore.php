@@ -93,9 +93,9 @@ class CargoStore {
 		}
 
 		// Get the declaration of the table.
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', 'table_schema', array( 'main_table' => $tableName ) );
-		$row = $dbr->fetchRow( $res );
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', 'table_schema', array( 'main_table' => $tableName ) );
+		$row = $dbw->fetchRow( $res );
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.

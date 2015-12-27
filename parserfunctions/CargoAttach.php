@@ -41,9 +41,9 @@ class CargoAttach {
 			return CargoUtils::formatError( "Error: Table name must be specified." );
 		}
 
-		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', 'COUNT(*)', array( 'main_table' => $tableName ) );
-		$row = $dbr->fetchRow( $res );
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', 'COUNT(*)', array( 'main_table' => $tableName ) );
+		$row = $dbw->fetchRow( $res );
 		if ( $row[0] == 0 ) {
 			return CargoUtils::formatError( "Error: The specified table, \"$tableName\", does not exist." );
 		}

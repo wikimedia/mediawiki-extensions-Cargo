@@ -46,16 +46,16 @@ class CargoRecreateData extends UnlistedSpecialPage {
 		$out->addModules( 'ext.cargo.recreatedata' );
 
 		$templateData = array();
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbw = wfGetDB( DB_MASTER );
 
 		$templateData[] = array(
 			'name' => $this->mTemplateTitle->getText(),
-			'numPages' => $this->getNumPagesThatCallTemplate( $dbr, $this->mTemplateTitle )
+			'numPages' => $this->getNumPagesThatCallTemplate( $dbw, $this->mTemplateTitle )
 		);
 
 		if ( $this->mIsDeclared ) {
 			// Get all attached templates.
-			$res = $dbr->select( 'page_props',
+			$res = $dbw->select( 'page_props',
 				array(
 					'pp_page'
 				),
@@ -64,10 +64,10 @@ class CargoRecreateData extends UnlistedSpecialPage {
 					'pp_propname' => 'CargoAttachedTable'
 				)
 			);
-			while ( $row = $dbr->fetchRow( $res ) ) {
+			while ( $row = $dbw->fetchRow( $res ) ) {
 				$templateID = $row['pp_page'];
 				$attachedTemplateTitle = Title::newFromID( $templateID );
-				$numPages = $this->getNumPagesThatCallTemplate( $dbr, $attachedTemplateTitle );
+				$numPages = $this->getNumPagesThatCallTemplate( $dbw, $attachedTemplateTitle );
 				$attachedTemplateName = $attachedTemplateTitle->getText();
 				$templateData[] = array(
 					'name' => $attachedTemplateName,
@@ -104,8 +104,8 @@ class CargoRecreateData extends UnlistedSpecialPage {
 		return true;
 	}
 
-	function getNumPagesThatCallTemplate( $dbr, $templateTitle ) {
-		$res = $dbr->select(
+	function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
+		$res = $dbw->select(
 			array( 'page', 'templatelinks' ),
 			'COUNT(*)',
 			array(
@@ -115,7 +115,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			__METHOD__,
 			array()
 		);
-		$row = $dbr->fetchRow( $res );
+		$row = $dbw->fetchRow( $res );
 		return $row[0];
 	}
 

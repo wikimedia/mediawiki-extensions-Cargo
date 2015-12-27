@@ -117,15 +117,15 @@ class CargoHooks {
 		// efficiently delete from the former.)
 
 		// Get all the "main" tables that this page is contained in.
-		$dbr = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
-		$res = $dbr->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
 
 			// First, delete from the "field" tables.
-			$res2 = $dbr->select( 'cargo_tables', 'field_tables', array( 'main_table' => $curMainTable ) );
-			$row2 = $dbr->fetchRow( $res2 );
+			$res2 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => $curMainTable ) );
+			$row2 = $dbw->fetchRow( $res2 );
 			$fieldTableNames = unserialize( $row2['field_tables'] );
 			foreach ( $fieldTableNames as $curFieldTable ) {
 				// Thankfully, the MW DB API already provides a
@@ -139,7 +139,7 @@ class CargoHooks {
 		}
 
 		// Finally, delete from cargo_pages.
-		$dbr->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
+		$dbw->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
 
 		// This call is needed to get deletions to actually happen.
 		$cdb->close();
@@ -222,13 +222,13 @@ class CargoHooks {
 		$newPageName = $newtitle->getPrefixedText();
 		$newPageTitle = $newtitle->getText();
 		$newPageNamespace = $newtitle->getNamespace();
-		$dbr = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
 		// We use $oldid, because that's the page ID - $newid is the
 		// ID of the redirect page.
 		// @TODO - do anything with the redirect?
-		$res = $dbr->select( 'cargo_pages', 'table_name', array( 'page_id' => $oldid ) );
-		while ( $row = $dbr->fetchRow( $res ) ) {
+		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $oldid ) );
+		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
 			$cdb->update( $curMainTable,
 				array(
