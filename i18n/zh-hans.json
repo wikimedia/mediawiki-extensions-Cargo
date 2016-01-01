@@ -16,6 +16,7 @@
 	"apihelp-cargoquery-param-fields": "要检索的表格字段",
 	"apihelp-cargoquery-param-order_by": "结果顺序，与SQL ORDER BY子句相一致",
 	"apihelp-cargorecreatetables-description": "重新创建一个或多个Cargo表格。",
+	"apihelp-cargorecreatedata-description": "重新在Cargo表格中填充数据。",
 	"apihelp-cargorecreatedata-param-template": "数据使用的模板",
 	"cargo-createdatatable": "创建数据表",
 	"cargo-recreatedata-desc": "为此模板重新创建Cargo数据么？",
