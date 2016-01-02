@@ -35,7 +35,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		// Should this be a user setting?
 		$numResultsPerPage = 250;
-		list( $limit, $offset ) = wfCheckLimits( $numResultsPerPage, 'limit' );
+		list( $limit, $offset ) = $request->getLimitOffset( $numResultsPerPage, 'limit' );
 		// Get information on current table and the filters
 		// that have already been applied from the query string.
 		$tableName = str_replace( '_', ' ', $request->getVal( '_table' ) );
