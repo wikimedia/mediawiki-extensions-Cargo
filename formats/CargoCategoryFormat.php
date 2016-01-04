@@ -27,48 +27,59 @@ class CargoCategoryFormat extends CargoListFormat {
 		} else {
 			$numColumns = 3;
 		}
+		if ( array_key_exists( 'header field', $displayParams ) ) {
+			$headerField = str_replace( '_', ' ', $displayParams['header field'] );
+			if ( count( $valuesTable ) > 0 && !array_key_exists( $headerField, $valuesTable[0] ) ) {
+				throw new MWException( "Error: the header field \"$headerField\" must be among this query's fields." );
+			}
+			$this->undisplayedFields[] = $headerField;
+		} else {
+			$headerField = null;
+		}
 
 		$result = '';
 		$num = count( $valuesTable );
 
 		$prev_first_char = "";
 		$rows_per_column = ceil( $num / $numColumns );
-		// column width is a percentage
+		// Column width is a percentage.
 		$column_width = floor( 100 / $numColumns );
 
 		// Print all result rows:
 		$rowindex = 0;
 
 		foreach ( $formattedValuesTable as $i => $row ) {
-//print_r($row);die;
-			$content = reset( $valuesTable[$i] );
-
-			$cur_first_char = $wgContLang->firstChar( $content );
+			if ( $headerField == null ) {
+				$curValue = reset( $valuesTable[$i] );
+			} else {
+				$curValue = $valuesTable[$i][$headerField];
+			}
+			$cur_first_char = $wgContLang->firstChar( $curValue );
 
 			if ( $rowindex % $rows_per_column == 0 ) {
-				$result .= "\n			<div style=\"float: left; width: $column_width%;\">\n";
+				$result .= "\n\t\t\t<div style=\"float: left; width: $column_width%;\">\n";
 				if ( $cur_first_char == $prev_first_char ) {
-					$result .= "				<h3>$cur_first_char " .
+					$result .= "\t\t\t\t<h3>$cur_first_char " .
 						wfMessage( 'listingcontinuesabbrev' )->text() . "</h3>\n				<ul>\n";
 				}
 			}
 
-			// if we're at a new first letter, end
-			// the last list and start a new one
+			// If we're at a new first letter, end
+			// the last list and start a new one.
 			if ( $cur_first_char != $prev_first_char ) {
 				if ( $rowindex % $rows_per_column > 0 ) {
 					$result .= "				</ul>\n";
 				}
-				$result .= "				<h3>$cur_first_char</h3>\n				<ul>\n";
+				$result .= "\t\t\t\t<h3>$cur_first_char</h3>\n				<ul>\n";
 			}
 			$prev_first_char = $cur_first_char;
 
-			$result .= '<li>' . self::displayRow( $row, $fieldDescriptions ) . "</li>\n";
+			$result .= '<li>' . $this->displayRow( $row, $fieldDescriptions ) . "</li>\n";
 
 			// end list if we're at the end of the column
 			// or the page
 			if ( ( $rowindex + 1 ) % $rows_per_column == 0 && ( $rowindex + 1 ) < $num ) {
-				$result .= "				</ul>\n			</div> <!-- end column -->";
+				$result .= "\t\t\t\t</ul>\n\t\t\t</div> <!-- end column -->";
 			}
 
 			$rowindex++;

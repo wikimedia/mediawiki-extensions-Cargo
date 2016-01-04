@@ -6,6 +6,8 @@
 
 class CargoListFormat extends CargoDisplayFormat {
 
+	protected $undisplayedFields = array();
+
 	function __construct( $output, $parser = null ) {
 		parent::__construct( $output, $parser );
 		$this->mOutput->addModules( 'ext.cargo.main' );
@@ -36,6 +38,8 @@ class CargoListFormat extends CargoDisplayFormat {
 			if ( $firstField ) {
 				$text = $fieldValue;
 				$firstField = false;
+			} elseif ( in_array( $fieldName, $this->undisplayedFields ) ) {
+				// Do nothing.
 			} else {
 				if ( !$startParenthesisAdded ) {
 					$text .= ' (';
