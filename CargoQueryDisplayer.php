@@ -108,7 +108,16 @@ class CargoQueryDisplayer {
 							continue;
 						}
 						if ( $i > 0 ) {
-							$text .= "$delimiter ";
+							// Use a "middle dot" as
+							// the list delimiter -
+							// it's better than using
+							// a comma, or the
+							// defined delimiter,
+							// because it's more
+							// consistent and makes
+							// it clearer whether
+							// list parsing worked.
+							$text .= " &middot; ";
 						}
 						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
 					}
