@@ -49,8 +49,12 @@ class CargoViewData extends SpecialPage {
 	}
 
 	function displayInputForm() {
+		// Add the name of this special page as a hidden input, in
+		// case the wiki doesn't use nice URLs.
+		$hiddenTitleInput = Html::hidden( 'title', $this->getPageTitle()->getFullText() );
 		$text = <<<END
 <form>
+$hiddenTitleInput
 <table>
 <tbody>
 
