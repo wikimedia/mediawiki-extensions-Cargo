@@ -7,10 +7,10 @@
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'mode' );
+		return array( 'mode','show bytes','show filename','per row','image width','image height' );
 	}
 
-	function getFileTitles( $valuesTable, $fieldDescriptions ) {
+	function getFileTitles( $valuesTable, $fieldDescriptions,$captionField,$altField,$linkField ) {		
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {
@@ -31,27 +31,39 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		$fileNames = array();
 		foreach ( $valuesTable as $row ) {
 			if ( array_key_exists( $fileField, $row ) ) {
-				$fileNames[] = $row[$fileField];
+				$fileNames[] = array(
+					'title'=>$row[$fileField],
+					'caption'=>$row[$captionField],
+					'alt'=>$row[$altField],
+					'link'=>Title::newFromText($row[$linkField])
+				);				
 			}
 		}
 
-		$fileTitles = array();
-		foreach( $fileNames as $fn ) {
+		$files = array();
+		foreach( $fileNames as $f ) {
 			if ( $usingPageName ) {
-				$title = Title::newFromText( $fn );
+				$title = Title::newFromText( $f['title'] );
 				if ( $title == null || $title->getNamespace() != NS_FILE ) {
 					continue;
 				}
 			} else {
-				$title = Title::makeTitleSafe( NS_FILE, $fn );
+				$title = Title::makeTitleSafe( NS_FILE, $f['title'] );
 				if ( $title == null ) {
 					continue;
 				}
 			}
-			$fileTitles[] = $title;
+			
+			$files[]= array (
+				'title'=>$title,
+				'caption'=>CargoUtils::smartParse($f['caption'],NULL),
+				'alt'=>$f['alt'],
+				'link'=>( $f['link'] !== null )?$f['link']->getLinkURL():NULL
+			);
+
 		}
 
-		return $fileTitles;
+		return $files;
 	}
 
 	/**
@@ -63,8 +75,35 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$fileTitles = self::getFileTitles( $valuesTable, $fieldDescriptions );
-
+		if ( array_key_exists( 'caption field', $displayParams ) ) {
+			$captionField = str_replace( '_', ' ', $displayParams['caption field'] );
+			if ( count( $valuesTable ) > 0 && !array_key_exists( $captionField, $valuesTable[0] ) ) {
+				throw new MWException( "Error: the caption field \"$captionField\" must be among this query's fields." );
+			}
+			$this->undisplayedFields[] = $captionField;
+		} else {
+			$captionField = null;
+		}
+		if ( array_key_exists( 'alt field', $displayParams ) ) {
+			$altField = str_replace( '_', ' ', $displayParams['alt field'] );
+			if ( count( $valuesTable ) > 0 && !array_key_exists( $altField, $valuesTable[0] ) ) {
+				throw new MWException( "Error: the alt field \"$altField\" must be among this query's fields." );
+			}
+			$this->undisplayedFields[] = $altField;
+		} else {
+			$altField = null;
+		}
+		if ( array_key_exists( 'link field', $displayParams ) ) {
+			$linkField = str_replace( '_', ' ', $displayParams['link field'] );
+			if ( count( $valuesTable ) > 0 && !array_key_exists( $linkField, $valuesTable[0] ) ) {
+				throw new MWException( "Error: the link field \"$linkField\" must be among this query's fields." );
+			}
+			$this->undisplayedFields[] = $linkField;
+		} else {
+			$linkField = null;
+		}
+		
+		$files = self::getFileTitles( $valuesTable, $fieldDescriptions,$captionField,$altField,$linkField);
 		// Display mode - can be 'traditional'/null, 'nolines',
 		// 'packed', 'packed-overlay' or 'packed-hover'; see
 		// https://www.mediawiki.org/wiki/Help:Images#Mode_parameter
@@ -79,9 +118,19 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 			// User specified something invalid, fallback to default.
 			$gallery = ImageGalleryBase::factory( false );
 		}
+		if(array_key_exists( 'show bytes', $displayParams ))
+			$gallery->setShowBytes ( $displayParams['show bytes'] );
+		if(array_key_exists( 'show filename', $displayParams ))
+			$gallery->setShowFilename ( $displayParams['show filename'] );
+		if(array_key_exists( 'per row', $displayParams ))
+			$gallery->setPerRow($displayParams['per row'] );
+		if(array_key_exists( 'image width', $displayParams ))
+			$gallery->setWidths( $displayParams['image width'] );
+		if(array_key_exists( 'image height', $displayParams ))
+			$gallery->setHeights( $displayParams['image height']);
 
-		foreach ( $fileTitles as $title ) {
-			$gallery->add( $title );
+		foreach ( $files as $file ) {
+			$gallery->add( $file['title'],$file['caption'],$file['alt'],$file['link'] );
 		}
 
 		$text = "<div id=\"mw-category-media\">\n";
