@@ -300,4 +300,9 @@ class CargoHooks {
 		return true;
 	}
 
+	public static function addLuaLibrary( $engine, &$extraLibraries ) {
+		$extraLibraries['mw.ext.cargo'] = 'CargoLuaLibrary';
+		return true;
+	}
+
 }

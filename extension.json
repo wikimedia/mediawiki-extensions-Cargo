@@ -66,6 +66,7 @@
 		"CargoQueryAPI": "api/CargoQueryAPI.php",
 		"CargoRecreateTablesAPI": "api/CargoRecreateTablesAPI.php",
 		"CargoRecreateDataAPI": "api/CargoRecreateDataAPI.php",
+		"CargoLuaLibrary": "CargoLua.library.php",
 		"CargoDisplayFormat": "formats/CargoDisplayFormat.php",
 		"CargoDeferredFormat": "formats/CargoDeferredFormat.php",
 		"CargoListFormat": "formats/CargoListFormat.php",
@@ -94,6 +95,7 @@
 		"CargoGalleryFormat": "formats/CargoGalleryFormat.php",
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",
+		"CargoNativeFormat": "formats/CargoNativeFormat.php",
 		"CargoPageSchemas": "CargoPageSchemas.php",
 		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",
 		"CargoFilter": "drilldown/CargoFilter.php",
@@ -258,6 +260,9 @@
 		],
 		"ResourceLoaderGetConfigVars": [
 			"CargoHooks::onResourceLoaderGetConfigVars"
+		],
+		"ScribuntoExternalLibraries": [
+			"CargoHooks::addLuaLibrary"
 		]
 	},
 	"config": {
@@ -272,6 +277,7 @@
 		"CargoDefaultQueryLimit": 100,
 		"CargoMaxQueryLimit": 5000,
 		"Cargo24HourTime": false,
+		"CargoQueryResults": null,
 		"CargoMapClusteringMinimum": 80,
 		"CargoDrilldownUseTabs": false,
 		"CargoDrilldownSmallestFontSize": -1,
