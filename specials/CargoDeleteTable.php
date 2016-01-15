@@ -20,6 +20,10 @@ class CargoDeleteCargoTable extends SpecialPage {
 		parent::__construct( 'DeleteCargoTable', 'deletecargodata' );
 	}
 
+	public function doesWrites() {
+		return true;
+	}
+
 	/**
 	 * The table being deleted here is a Cargo table, not a DB table per
 	 * se - a Cargo table corresponds to a main DB table, plus
