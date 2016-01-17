@@ -15,6 +15,8 @@
 	"recreatedata": "Recrear datos",
 	"action-recreatecargodata": "volver a crear los datos de Cargo",
 	"action-deletecargodata": "eliminar datos de Cargo",
+	"apihelp-cargoquery-param-limit": "Un límite en el número de resultados devueltos",
+	"apihelp-cargorecreatedata-param-template": "La plantilla cuyos datos se usarán",
 	"cargo-createdatatable": "Crear tabla de datos",
 	"cargo-recreatedata-desc": "Recrear los datos de Cargo para esta plantilla?",
 	"cargo-recreatedata-createdata": "Crear los datos de Cargo para esta plantilla?",

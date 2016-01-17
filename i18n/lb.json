@@ -6,6 +6,7 @@
 	},
 	"cargo-extensionname": "Cargo",
 	"apihelp-cargoquery-param-limit": "Eng Limit fir d'Zuel vun de Resultater déi zréckgi gëtt",
+	"apihelp-cargorecreatedata-param-template": "D'Schabloun där hir Donnéeë benotzt ginn",
 	"cargo-recreatedata-success": "D'Donnéeë ginn zesummegesicht.",
 	"cargo-viewdata-tables": "Tabell(en):",
 	"cargo-viewdata-fields": "Feld(er):",
