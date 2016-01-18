@@ -7,7 +7,7 @@
 		]
 	},
 	"apihelp-cargoquery-param-fields": "I campi della tabella da recuperare",
-	"apihelp-cargorecreatedata-param-template": "Il modello con i dati di utilizzo",
+	"apihelp-cargorecreatedata-param-template": "Il modello con i dati da utilizzare",
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",
