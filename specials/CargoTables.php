@@ -39,7 +39,7 @@ class CargoTables extends IncludableSpecialPage {
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows', "'''" . $row[0] . "'''" ) . "\n" );
+		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( $row[0] )->text() . "\n" );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
