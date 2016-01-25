@@ -11,6 +11,7 @@
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",
+	"cargo-cargotables-totalrows": "Questa tabella ha complessivamente '''$1''' {{PLURAL:$1|riga|righe}}.",
 	"cargo-drilldown-choosetable": "Scegli una tabella",
 	"cargo-drilldown-filterbyvalue": "Filtra per questo valore",
 	"cargo-drilldown-or": "o",
