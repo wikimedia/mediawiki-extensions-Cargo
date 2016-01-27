@@ -2,7 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Robin0van0der0vliet",
-			"Esketti"
+			"Esketti",
+			"Robin van der Vliet",
+			"Sjoerddebruin"
 		]
 	},
 	"cargo-desc": "Opslag en opvragen van sjabloon gegevens",
@@ -24,7 +26,7 @@
 	"cargo-viewdata-joinon": "Join op:",
 	"cargo-viewdata-groupby": "Groep:",
 	"cargo-viewdata-having": "Het hebben van:",
-	"cargo-viewdata-orderby": "Order door:",
+	"cargo-viewdata-orderby": "Sorteren op:",
 	"cargo-viewdata-limit": "Beperkingen",
 	"cargo-viewdata-format": "Formaat:",
 	"cargotables": "Lading tabellen",

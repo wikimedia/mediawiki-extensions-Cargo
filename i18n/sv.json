@@ -12,6 +12,7 @@
 	"cargo-cargotables-tablelist": "Följande {{PLURAL:$1|tabell är definierad|tabeller är definierade}}:",
 	"cargo-cargotables-viewtable": "Visa tabell: $1",
 	"cargo-cargotables-viewtablelink": "Visa tabell",
+	"cargo-cargotables-totalrows": "Denna tabell har totalt '''$1''' {{PLURAL:$1|rad|rader}}.",
 	"cargo-drilldown-choosetable": "Välj en tabell",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
