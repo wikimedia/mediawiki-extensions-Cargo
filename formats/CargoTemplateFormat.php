@@ -7,19 +7,27 @@
 class CargoTemplateFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'template' );
+		return array( 'template', 'named args' );
 	}
 
-	function displayRow( $templateName, $row, $fieldDescriptions ) {
+	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
 		$wikiText = '{{' . $templateName;
-		// We add the field number in to the template call to not
-		// mess up values that contain '='.
-		$fieldNum = 1;
-		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			if ( array_key_exists( $fieldName, $row ) ) {
-				$wikiText .= '|' . $fieldNum . '=' . $row[$fieldName];
+		if ( strtolower( $namedArgs ) == "yes" ) {
+			foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+				if ( array_key_exists( $fieldName, $row ) ) {
+					$wikiText .= '|' . $fieldName . '=' . $row[$fieldName];
+				}
 			}
-			$fieldNum++;
+		} else {
+			// We add the field number in to the template call to not
+			// mess up values that contain '='.
+			$fieldNum = 1;
+			foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+				if ( array_key_exists( $fieldName, $row ) ) {
+					$wikiText .= '|' . $fieldNum . '=' . $row[$fieldName];
+				}
+				$fieldNum++;
+			}
 		}
 		$wikiText .= '}}';
 		return $wikiText;
@@ -40,9 +48,10 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		}
 
 		$templateName = $displayParams['template'];
+		$namedArgs = !empty($displayParams['named args']) ? $displayParams['named args'] : "no";
 		$text = '';
 		foreach ( $valuesTable as $row ) {
-			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions );
+			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions, $namedArgs );
 		}
 		global $wgTitle;
 		if ( $wgTitle != null && $wgTitle->isSpecialPage() ) {
