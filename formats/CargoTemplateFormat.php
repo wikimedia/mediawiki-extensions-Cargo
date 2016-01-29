@@ -12,20 +12,13 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 
 	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
 		$wikiText = '{{' . $templateName;
-		if ( strtolower( $namedArgs ) == "yes" ) {
-			foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-				if ( array_key_exists( $fieldName, $row ) ) {
-					$wikiText .= '|' . $fieldName . '=' . $row[$fieldName];
-				}
-			}
-		} else {
-			// We add the field number in to the template call to not
-			// mess up values that contain '='.
-			$fieldNum = 1;
-			foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-				if ( array_key_exists( $fieldName, $row ) ) {
-					$wikiText .= '|' . $fieldNum . '=' . $row[$fieldName];
-				}
+		// If we're not using named arguments, we add the field number
+		// in to the template call, to not  mess up values that contain '='.
+		$fieldNum = 1;
+		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( array_key_exists( $fieldName, $row ) ) {
+				$paramName = $namedArgs ? $fieldName : $fieldNum;
+				$wikiText .= '|' . $paramName . '=' . $row[$fieldName];
 				$fieldNum++;
 			}
 		}
@@ -48,7 +41,10 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		}
 
 		$templateName = $displayParams['template'];
-		$namedArgs = !empty($displayParams['named args']) ? $displayParams['named args'] : "no";
+		$namedArgs = false;
+		if ( array_key_exists( 'named args', $displayParams ) ) {
+			$namedArgs = strtolower( $displayParams['named args'] ) == 'yes';
+		}
 		$text = '';
 		foreach ( $valuesTable as $row ) {
 			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions, $namedArgs );
