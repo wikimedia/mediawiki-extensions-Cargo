@@ -11,11 +11,11 @@
 // extensions to determine whether Cargo is installed.
 define( 'CARGO_VERSION', '0.10' );
 
-// There are bugs in various versions of MW 1.25 that make extension.json
+// There are bugs in MW 1.25 and 1.26 that make extension.json
 // unusable for Cargo - for simplicity's sake, don't load extensions
-// unless we're at version 1.26 or higher.
+// unless we're at version 1.27 or higher.
 //if ( function_exists( 'wfLoadExtension' ) ) {
-if ( version_compare( $GLOBALS['wgVersion'], '1.26', '>=' ) ) {
+if ( version_compare( $GLOBALS['wgVersion'], '1.27', '>=' ) ) {
 	wfLoadExtension( 'Cargo' );
 	// Keep i18n globals so mergeMessageFileList.php doesn't break
 	$wgMessagesDirs['Cargo'] = __DIR__ . '/i18n';
