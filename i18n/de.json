@@ -16,6 +16,8 @@
 	"action-deletecargodata": "Cargo-Daten zu löschen",
 	"apihelp-cargoquery-param-fields": "Die abzurufenden Tabellenfelder",
 	"apihelp-cargorecreatetables-description": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
+	"apihelp-cargorecreatedata-description": "Wiederbefüllt die Daten in eine Cargo-Tabelle.",
+	"apihelp-cargorecreatedata-param-template": "Die Vorlage, deren Daten verwendet werden sollen.",
 	"cargo-createdatatable": "Datentabelle erstellen",
 	"cargo-recreatedata-desc": "Cargo-Daten für diese Vorlage neu erstellen?",
 	"cargo-recreatedata-createdata": "Cargo-Daten für diese Vorlage erstellen?",
