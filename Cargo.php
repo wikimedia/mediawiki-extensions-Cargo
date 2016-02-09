@@ -9,7 +9,7 @@
 // We need to set this at the top, so that it is also defined if
 // wfLoadExtension() is called, because its presence is used by other
 // extensions to determine whether Cargo is installed.
-define( 'CARGO_VERSION', '0.10' );
+define( 'CARGO_VERSION', '0.11' );
 
 // There are bugs in MW 1.25 and 1.26 that make extension.json
 // unusable for Cargo - for simplicity's sake, don't load extensions

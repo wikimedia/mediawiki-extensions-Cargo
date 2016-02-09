@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 0.10-alpha
+        Version 0.11
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -54,10 +54,10 @@ your 'LocalSettings.php' file:
 
 Cargo was created, and mostly written by, Yaron Koren.
 
-Query formats were also added by Cindy Cicalese and Luis Morillas.
+Query formats were also added by Cindy Cicalese, Luis Morillas and StasR.
 
 Important code contributions were also made by Ad Strack van Schijndel,
-Namit Ohri and Vivek Ghaisas.
+Ed Hoo, Namit Ohri and Vivek Ghaisas.
 
 == Contact ==
 
