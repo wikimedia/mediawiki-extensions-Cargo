@@ -18,6 +18,7 @@
 	"apihelp-cargorecreatetables-description": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
 	"apihelp-cargorecreatedata-description": "Wiederbefüllt die Daten in eine Cargo-Tabelle.",
 	"apihelp-cargorecreatedata-param-template": "Die Vorlage, deren Daten verwendet werden sollen.",
+	"apihelp-cargorecreatedata-param-table": "Die wiederzubefüllende Cargo-Datenbanktabelle",
 	"cargo-createdatatable": "Datentabelle erstellen",
 	"cargo-recreatedata-desc": "Cargo-Daten für diese Vorlage neu erstellen?",
 	"cargo-recreatedata-createdata": "Cargo-Daten für diese Vorlage erstellen?",
