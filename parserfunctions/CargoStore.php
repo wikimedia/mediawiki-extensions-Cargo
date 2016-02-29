@@ -242,7 +242,11 @@ class CargoStore {
 				$msgForNo = wfMessage( 'htmlform-no' )->text();
 				if ( $curValue === '' || $curValue === null ) {
 					// Do nothing.
-				} elseif ( $curValue === 0 || strtolower( $curValue ) == strtolower( $msgForNo ) ) {
+				} elseif ( $curValue === 0
+					||  $curValue === '0'
+					|| strtolower( $curValue ) === 'no'
+					|| strtolower( $curValue ) == strtolower( $msgForNo ) )
+				{
 					$tableFieldValues[$fieldName] = '0';
 				} else {
 					$tableFieldValues[$fieldName] = '1';
