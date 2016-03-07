@@ -52,7 +52,7 @@ class CargoCompoundQuery {
 			$orderByStr = null;
 			$limitStr = null;
 
-			$queryClauses = explode( ';', $param );
+			$queryClauses = CargoUtils::smartSplit( ';', $param );
 			$displayParamsForThisQuery = array();
 			foreach ( $queryClauses as $clause ) {
 				$parts = explode( '=', $clause, 2 );
