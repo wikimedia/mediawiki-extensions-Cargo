@@ -39,9 +39,6 @@ class CargoStore {
 		// Get page-related information early on, so we can exit
 		// quickly if there's a problem.
 		$title = $parser->getTitle();
-		$pageName = $title->getPrefixedText();
-		$pageTitle = $title->getText();
-		$pageNamespace = $title->getNamespace();
 		$pageID = $title->getArticleID();
 		if ( $pageID <= 0 ) {
 			// This will most likely happen if the title is a
@@ -104,11 +101,29 @@ class CargoStore {
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
+		self::storeAllData( $title, $tableName, $tableFieldValues, $tableSchema );
+
+		// Finally, add a record of this to the cargo_pages table, if
+		// necessary.
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_pages', 'page_id',
+			array( 'table_name' => $tableName, 'page_id' => $pageID ) );
+		if ( !$row = $dbw->fetchRow( $res ) ) {
+			$dbw->insert( 'cargo_pages', array( 'table_name' => $tableName, 'page_id' => $pageID ) );
+		}
+	}
+
+	public static function storeAllData( $title, $tableName, $tableFieldValues, $tableSchema ) {
 		foreach ( $tableFieldValues as $fieldName => $fieldValue ) {
 			if ( !array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
 				throw new MWException( "Error: Unknown Cargo field, \"$fieldName\"." );
 			}
 		}
+
+		$pageID = $title->getArticleID();
+		$pageName = $title->getPrefixedText();
+		$pageTitle = $title->getText();
+		$pageNamespace = $title->getNamespace();
 
 		// We're still here! Let's add to the DB table(s).
 		// First, though, let's do some processing:
@@ -324,15 +339,5 @@ class CargoStore {
 		// subsequent SQL to be called correctly, when jobs are run
 		// in the standard way.
 		$cdb->close();
-
-		// Finally, add a record of this to the cargo_pages table, if
-		// necessary.
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'cargo_pages', 'page_id',
-			array( 'table_name' => $tableName, 'page_id' => $pageID ) );
-		if ( !$row = $dbw->fetchRow( $res ) ) {
-			$dbw->insert( 'cargo_pages', array( 'table_name' => $tableName, 'page_id' => $pageID ) );
-		}
 	}
-
 }

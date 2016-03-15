@@ -418,6 +418,111 @@ class CargoUtils {
 			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
 		}
 
+		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
+
+		return true;
+	}
+
+	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
+		// Possible values for $dbType: "mssql", "mysql", "oracle",
+		// "postgres", "sqlite"
+		// @TODO - make sure it's one of these.
+		if ( $fieldType == 'Integer' ) {
+			switch ( $dbType ) {
+				case "mssql":
+				case "mysql":
+				case "postgres":
+					return 'Int';
+				case "sqlite":
+					return 'INTEGER';
+				case "oracle":
+					return 'Number';
+			}
+		} elseif ( $fieldType == 'Float' ) {
+			switch ( $dbType ) {
+				case "mssql":
+				case "mysql":
+					return 'Float';
+				case "postgres":
+					return 'Numeric';
+				case "sqlite":
+					return 'REAL';
+				case "oracle":
+					return 'Number';
+			}
+		} elseif ( $fieldType == 'Boolean' ) {
+			switch ( $dbType ) {
+				case "mssql":
+					return 'Bit';
+				case "mysql":
+				case "postgres":
+					return 'Boolean';
+				case "sqlite":
+					return 'INTEGER';
+				case "oracle":
+					return 'Byte';
+			}
+		} elseif ( $fieldType == 'Date' ) {
+			switch ( $dbType ) {
+				case "mssql":
+				case "mysql":
+				case "postgres":
+				case "oracle":
+					return 'Date';
+				case "sqlite":
+					// Should really be 'REAL', with
+					// accompanying handling.
+					return 'TEXT';
+			}
+		} elseif ( $fieldType == 'Datetime' ) {
+			// Some DB types have a datetime type that includes
+			// the time zone, but MySQL unfortunately doesn't,
+			// so the best solution for time zones is probably
+			// to have a separate field for them.
+			switch ( $dbType ) {
+				case "mssql":
+					return 'Datetime2';
+				case "mysql":
+					return 'Datetime';
+				case "postgres":
+				case "oracle":
+					return 'Timestamp';
+				case "sqlite":
+					// Should really be 'REAL', with
+					// accompanying handling.
+					return 'TEXT';
+			}
+		} elseif ( $fieldType == 'Text' ) {
+			// This one is simple.
+			return 'Text';
+		} else { // 'String', 'Page', etc.
+			if ( $size == null ) {
+				$size = 300;
+			}
+			switch ( $dbType ) {
+				case "mssql":
+				case "mysql":
+				case "postgres":
+					// For at least MySQL, there's a limit
+					// on how many total bytes a table's
+					// fields can have, and "Text" and
+					// "Blob" fields don't get added to the
+					// total, so if it's a big piece of
+					// text, just make it a "Text" field.
+					if ( $size > 1000 ) {
+						return 'Text';
+					} else {
+						return "Varchar($size)";
+					}
+				case "oracle":
+					return "Varchar($size)";
+				case "sqlite":
+					return 'TEXT';
+			}
+		}
+	}
+
+	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
@@ -521,109 +626,12 @@ class CargoUtils {
 		$cdb->close();
 
 		// Finally, store all the info in the cargo_tables table.
-		$dbw->insert( 'cargo_tables',
-			array( 'template_id' => $templatePageID, 'main_table' => $tableName,
-			'field_tables' => serialize( $fieldTableNames ), 'table_schema' => $tableSchemaString ) );
-		return true;
-	}
-
-	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
-		// Possible values for $dbType: "mssql", "mysql", "oracle",
-		// "postgres", "sqlite"
-		// @TODO - make sure it's one of these.
-		if ( $fieldType == 'Integer' ) {
-			switch ( $dbType ) {
-				case "mssql":
-				case "mysql":
-				case "postgres":
-					return 'Int';
-				case "sqlite":
-					return 'INTEGER';
-				case "oracle":
-					return 'Number';
-			}
-		} elseif ( $fieldType == 'Float' ) {
-			switch ( $dbType ) {
-				case "mssql":
-				case "mysql":
-					return 'Float';
-				case "postgres":
-					return 'Numeric';
-				case "sqlite":
-					return 'REAL';
-				case "oracle":
-					return 'Number';
-			}
-		} elseif ( $fieldType == 'Boolean' ) {
-			switch ( $dbType ) {
-				case "mssql":
-					return 'Bit';
-				case "mysql":
-				case "postgres":
-					return 'Boolean';
-				case "sqlite":
-					return 'INTEGER';
-				case "oracle":
-					return 'Byte';
-			}
-		} elseif ( $fieldType == 'Date' ) {
-			switch ( $dbType ) {
-				case "mssql":
-				case "mysql":
-				case "postgres":
-				case "oracle":
-					return 'Date';
-				case "sqlite":
-					// Should really be 'REAL', with
-					// accompanying handling.
-					return 'TEXT';
-			}
-		} elseif ( $fieldType == 'Datetime' ) {
-			// Some DB types have a datetime type that includes
-			// the time zone, but MySQL unfortunately doesn't,
-			// so the best solution for time zones is probably
-			// to have a separate field for them.
-			switch ( $dbType ) {
-				case "mssql":
-					return 'Datetime2';
-				case "mysql":
-					return 'Datetime';
-				case "postgres":
-				case "oracle":
-					return 'Timestamp';
-				case "sqlite":
-					// Should really be 'REAL', with
-					// accompanying handling.
-					return 'TEXT';
-			}
-		} elseif ( $fieldType == 'Text' ) {
-			// This one is simple.
-			return 'Text';
-		} else { // 'String', 'Page', etc.
-			if ( $size == null ) {
-				$size = 300;
-			}
-			switch ( $dbType ) {
-				case "mssql":
-				case "mysql":
-				case "postgres":
-					// For at least MySQL, there's a limit
-					// on how many total bytes a table's
-					// fields can have, and "Text" and
-					// "Blob" fields don't get added to the
-					// total, so if it's a big piece of
-					// text, just make it a "Text" field.
-					if ( $size > 1000 ) {
-						return 'Text';
-					} else {
-						return "Varchar($size)";
-					}
-				case "oracle":
-					return "Varchar($size)";
-				case "sqlite":
-					return 'TEXT';
-			}
-		}
+		$dbw->insert( 'cargo_tables', array(
+			'template_id' => $templatePageID,
+			'main_table' => $tableName,
+			'field_tables' => serialize( $fieldTableNames ),
+			'table_schema' => $tableSchemaString
+		) );
 	}
 
 	/**
