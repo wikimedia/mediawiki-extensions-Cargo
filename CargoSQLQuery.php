@@ -25,6 +25,7 @@ class CargoSQLQuery {
 	public $mHavingStr;
 	public $mOrderByStr;
 	public $mQueryLimit;
+	public $mSearchTerms = array();
 
 	/**
 	 * This is newFromValues() instead of __construct() so that an
@@ -59,6 +60,7 @@ class CargoSQLQuery {
 		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
 		$sqlQuery->handleDateFields();
+		$sqlQuery->handleSearchTextFields();
 		$sqlQuery->setMWJoinConds( $cdb );
 		$sqlQuery->mQueryLimit = $wgCargoDefaultQueryLimit;
 		if ( $limitStr != '' ) {
@@ -922,10 +924,10 @@ class CargoSQLQuery {
 				// There are much better ways to do this, but
 				// for now, just make a "bounding box" instead
 				// of a bounding circle.
-				$newWhere = "$tableName.{$fieldName}__lat >= " . max( $latitude - $latDistance, -90 ) .
+				$newWhere = " $tableName.{$fieldName}__lat >= " . max( $latitude - $latDistance, -90 ) .
 					" AND $tableName.{$fieldName}__lat <= " . min( $latitude + $latDistance, 90 ) .
 					" AND $tableName.{$fieldName}__lon >= " . max( $longitude - $longDistance, -180 ) .
-					" AND $tableName.{$fieldName}__lon <= " . min( $longitude + $longDistance, 180 );
+					" AND $tableName.{$fieldName}__lon <= " . min( $longitude + $longDistance, 180 ) . ' ';
 
 				if ( $foundMatch1 ) {
 					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
@@ -1003,6 +1005,50 @@ class CargoSQLQuery {
 			$precisionFieldName = $dateField . '__precision';
 			$precisionFieldAlias = $alias . '__precision';
 			$this->mAliasedFieldNames[$precisionFieldAlias] = $precisionFieldName;
+		}
+	}
+
+	function handleSearchTextFields() {
+		$searchTextFields = array();
+		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
+			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+				if ( $fieldDescription->mType == 'Searchtext' ) {
+					$searchTextFields[] = array(
+						'fieldName' => $fieldName,
+						'tableName' => $tableName
+					);
+				}
+			}
+		}
+
+		$matches = array();
+		foreach ( $searchTextFields as $searchTextField ) {
+			$fieldName = $searchTextField['fieldName'];
+			$tableName = $searchTextField['tableName'];
+			$patternSuffix = '(\s+MATCHES\s*)([^)\s]*)/i';
+
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;
+			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
+			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix;
+			$foundMatch2 = false;
+
+			if ( !$foundMatch1 ) {
+				$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
+			}
+			if ( $foundMatch1 || $foundMatch2 ) {
+				$searchString = $matches[3];
+				$newWhere = " MATCH($tableName.$fieldName) AGAINST ($searchString IN BOOLEAN MODE) ";
+
+				if ( $foundMatch1 ) {
+					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
+				} elseif ( $foundMatch2 ) {
+					$this->mWhereStr = preg_replace( $pattern2, $newWhere, $this->mWhereStr );
+				}
+				$searchEngine = new CargoSearchMySQL();
+				$searchTerms = $searchEngine->getSearchTerms( $searchString );
+				// @TODO - does $tableName need to be in there?
+				$this->mSearchTerms[$fieldName] = $searchTerms;
+			}
 		}
 	}
 

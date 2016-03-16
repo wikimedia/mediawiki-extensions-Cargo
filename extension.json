@@ -96,6 +96,7 @@
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",
 		"CargoNativeFormat": "formats/CargoNativeFormat.php",
+		"CargoSearchMySQL": "search/CargoSearchMySQL.php",
 		"CargoPageSchemas": "CargoPageSchemas.php",
 		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",
 		"CargoFilter": "drilldown/CargoFilter.php",

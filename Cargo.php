@@ -141,6 +141,7 @@ $wgAutoloadClasses['CargoGalleryFormat'] = $dir . '/formats/CargoGalleryFormat.p
 $wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat.php';
 $wgAutoloadClasses['CargoExhibitFormat'] = $dir . '/formats/CargoExhibitFormat.php';
 $wgAutoloadClasses['CargoNativeFormat'] = $dir . '/formats/CargoNativeFormat.php';
+$wgAutoloadClasses['CargoSearchMySQL'] = $dir . '/search/CargoSearchMySQL.php';
 
 $wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
 

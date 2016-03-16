@@ -145,6 +145,9 @@ class CargoQueryDisplayer {
 					// cool, but those are apparently far
 					// from universal symbols.
 					$text = ( $value == true ) ? wfMessage( 'htmlform-yes' )->text() : wfMessage( 'htmlform-no' )->text();
+				} elseif ( $fieldType == 'Searchtext' && array_key_exists( $fieldName, $this->mSQLQuery->mSearchTerms ) ) {
+					$searchTerms = $this->mSQLQuery->mSearchTerms[$fieldName];
+					$text = Html::rawElement( 'span', array( 'class' => 'searchresult' ), self::getTextSnippet( $value, $searchTerms ) );
 				} else {
 					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
 				}
@@ -189,7 +192,14 @@ class CargoQueryDisplayer {
 			return $value;
 		} elseif ( $type == 'Wikitext' || $type == '' ) {
 			return CargoUtils::smartParse( $value, $parser );
+		} elseif ( $type == 'Searchtext' ) {
+			if ( strlen( $value ) > 300 ) {
+				return substr( $value, 0, 300 ) . ' ...';
+			} else {
+				return $value;
+			}
 		}
+
 		// If it's not any of these specially-handled types, just
 		// return the value.
 		return $value;
@@ -241,6 +251,32 @@ class CargoQueryDisplayer {
 			}
 			return "$dateText $timeText";
 		}
+	}
+
+	/**
+	 * Based heavily on MediaWiki's SearchResult::getTextSnippet()
+	 */
+	function getTextSnippet( $text, $terms ) {
+		global $wgAdvancedSearchHighlighting;
+		list( $contextlines, $contextchars ) = SearchEngine::userHighlightPrefs();
+
+		foreach ( $terms as $i => $term ) {
+			$terms[$i] = str_replace( array( '"', "'" ), '', $term );
+		}
+
+		$h = new SearchHighlighter();
+		if ( count( $terms ) > 0 ) {
+			if ( $wgAdvancedSearchHighlighting ) {
+				$snippet = $h->highlightText( $text, $terms, $contextlines, $contextchars );
+			} else {
+				$snippet = $h->highlightSimple( $text, $terms, $contextlines, $contextchars );
+			}
+		} else {
+			$snippet = $h->highlightNone( $text, $contextlines, $contextchars );
+		}
+
+		// Why is this necessary for Cargo, but not for MediaWiki?
+		return html_entity_decode( $snippet );
 	}
 
 	public function displayQueryResults( $formatter, $queryResults ) {
