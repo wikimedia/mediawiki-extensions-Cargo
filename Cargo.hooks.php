@@ -137,6 +137,7 @@ class CargoHooks {
 			// Now, delete from the "main" table.
 			$cdb->delete( $curMainTable, array( '_pageID' => $pageID ) );
 		}
+		$cdb->delete( '_pageData', array( '_pageID' => $pageID ) );
 
 		// Finally, delete from cargo_pages.
 		$dbw->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
@@ -176,6 +177,9 @@ class CargoHooks {
 		// added to remain set.
 		CargoStore::$settings['origin'] = 'page save';
 		CargoUtils::parsePageForStorage( $article->getTitle(), $content->getNativeData() );
+
+		// Also, save the "page data".
+		CargoPageData::storeValuesForPage( $article->getTitle() );
 
 		return true;
 	}

@@ -11,6 +11,13 @@
 // extensions to determine whether Cargo is installed.
 define( 'CARGO_VERSION', '0.11' );
 
+define( 'CARGO_STORE_CREATION_DATE', 1 );
+define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
+define( 'CARGO_STORE_CREATOR', 3 );
+define( 'CARGO_STORE_FULL_TEXT', 4 );
+define( 'CARGO_STORE_CATEGORIES', 5 );
+define( 'CARGO_STORE_NUM_REVISIONS', 6 );
+
 // There are bugs in MW 1.25 and 1.26 that make extension.json
 // unusable for Cargo - for simplicity's sake, don't load extensions
 // unless we're at version 1.27 or higher.
@@ -89,6 +96,7 @@ $wgAutoloadClasses['CargoQuery'] = $dir . '/parserfunctions/CargoQuery.php';
 $wgAutoloadClasses['CargoCompoundQuery'] = $dir . '/parserfunctions/CargoCompoundQuery.php';
 $wgAutoloadClasses['CargoSQLQuery'] = $dir . '/CargoSQLQuery.php';
 $wgAutoloadClasses['CargoQueryDisplayer'] = $dir . '/CargoQueryDisplayer.php';
+$wgAutoloadClasses['CargoPageData'] = $dir . '/CargoPageData.php';
 $wgAutoloadClasses['CargoRecurringEvent'] = $dir . '/parserfunctions/CargoRecurringEvent.php';
 $wgAutoloadClasses['CargoDisplayMap'] = $dir . '/parserfunctions/CargoDisplayMap.php';
 $wgAutoloadClasses['CargoPopulateTableJob'] = $dir . '/CargoPopulateTableJob.php';
@@ -317,3 +325,5 @@ $wgCargoDrilldownSmallestFontSize = -1;
 $wgCargoDrilldownLargestFontSize = -1;
 $wgCargoDrilldownMinValuesForComboBox = 40;
 $wgCargoDrilldownNumRangesForNumbers = 5;
+
+$wgCargoPageDataColumns = array();

@@ -17,6 +17,8 @@ class CargoPageValues extends IncludableSpecialPage {
 	}
 
 	function execute( $subpage = null ) {
+		global $wgCargoPageDataColumns;
+
 		if ( $subpage ) {
 			// Allow inclusion with e.g. {{Special:PageValues/Book}}
 			$this->mTitle = Title::newFromText( $subpage );
@@ -37,11 +39,28 @@ class CargoPageValues extends IncludableSpecialPage {
 		$text = '';
 
 		$dbw = wfGetDB( DB_MASTER );
+
+		$tableNames = array();
+
+		// Make _pageData the first table, if it holds any real data.
+		if ( count( $wgCargoPageDataColumns ) > 0 ) {
+			$tableNames[] = '_pageData';
+		}
+
 		$res = $dbw->select(
 			'cargo_pages', 'table_name', array( 'page_id' => $this->mTitle->getArticleID() ) );
 		while ( $row = $dbw->fetchRow( $res ) ) {
-			$tableName = $row['table_name'];
-			$queryResults = $this->getRowsForPageInTable( $tableName );
+			$tableNames[] = $row['table_name'];
+		}
+
+		foreach ( $tableNames as $tableName ) {
+			try {
+				$queryResults = $this->getRowsForPageInTable( $tableName );
+			} catch ( Exception $e ) {
+				// Most likely this is because the _pageData
+				// table doesn't exist.
+				continue;
+			}
 			$text .= Html::element( 'h2', null,
 					$this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text() ) . "\n";
 			foreach ( $queryResults as $rowValues ) {
@@ -75,7 +94,8 @@ class CargoPageValues extends IncludableSpecialPage {
 				// @TODO - do some custom formatting
 			}
 
-			$fieldAlias = str_replace( '_', ' ', $fieldName );
+			//$fieldAlias = str_replace( '_', ' ', $fieldName );
+			$fieldAlias = $fieldName;
 
 			if ( $fieldDescription->mIsList ) {
 				$aliasedFieldNames[$fieldAlias] = $fieldName . '__full';
@@ -101,6 +121,9 @@ class CargoPageValues extends IncludableSpecialPage {
 	 * Based on MediaWiki's InfoAction::addRow()
 	 */
 	function printRow( $name, $value ) {
+		if ( $name == '_fullText' && strlen( $value ) > 300 ) {
+			$value = substr( $value, 0, 300 ) . ' ...';
+		}
 		return Html::rawElement( 'tr', array(),
 			Html::rawElement( 'td', array( 'style' => 'vertical-align: top;' ), $name ) .
 			Html::rawElement( 'td', array(), $value )

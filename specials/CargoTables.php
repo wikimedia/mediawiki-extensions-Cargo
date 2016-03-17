@@ -55,7 +55,11 @@ class CargoTables extends IncludableSpecialPage {
 				continue;
 			}
 
-			$fieldAlias = str_replace( '_', ' ', $fieldName );
+			if ( $fieldName[0] != '_' ) {
+				$fieldAlias = str_replace( '_', ' ', $fieldName );
+			} else {
+				$fieldAlias = $fieldName;
+			}
 			$fieldType = $fieldDescription->mType;
 			// Special handling for URLs, to avoid them
 			// overwhelming the page.

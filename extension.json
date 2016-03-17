@@ -51,6 +51,7 @@
 		"CargoCompoundQuery": "parserfunctions/CargoCompoundQuery.php",
 		"CargoSQLQuery": "CargoSQLQuery.php",
 		"CargoQueryDisplayer": "CargoQueryDisplayer.php",
+		"CargoPageData": "CargoPageData.php",
 		"CargoRecurringEvent": "parserfunctions/CargoRecurringEvent.php",
 		"CargoDisplayMap": "parserfunctions/CargoDisplayMap.php",
 		"CargoPopulateTableJob": "CargoPopulateTableJob.php",
@@ -284,7 +285,8 @@
 		"CargoDrilldownSmallestFontSize": -1,
 		"CargoDrilldownLargestFontSize": -1,
 		"CargoDrilldownMinValuesForComboBox": 40,
-		"CargoDrilldownNumRangesForNumbers": 5
+		"CargoDrilldownNumRangesForNumbers": 5,
+		"CargoPageDataColumns": []
 	},
 	"manifest_version": 1
 }
