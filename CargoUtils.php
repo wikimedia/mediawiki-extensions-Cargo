@@ -495,6 +495,11 @@ class CargoUtils {
 		} elseif ( $fieldType == 'Text' ) {
 			// This one is simple.
 			return 'Text';
+		} elseif ( $fieldType == 'Searchtext' ) {
+			if ( $dbType != 'mysql' ) {
+				throw new MWException( "Error: a \"Searchtext\" field can currently only be defined for MySQL databases." );
+			}
+			return 'Text';
 		} else { // 'String', 'Page', etc.
 			if ( $size == null ) {
 				$size = 300;
@@ -566,6 +571,8 @@ class CargoUtils {
 				$integerTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
 				$createSQL .= ', ' . $fieldName . '__precision ';
 				$createSQL .= $integerTypeString;
+			} elseif ( $fieldType == 'Searchtext' ) {
+				$createSQL .= ", FULLTEXT KEY $fieldName ($fieldName)";
 			}
 		}
 		$createSQL .= ' )';
