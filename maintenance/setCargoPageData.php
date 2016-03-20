@@ -34,28 +34,33 @@ class SetCargoPageData extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		
+
 		$this->mDescription = "Stores a set of data each page in the wiki in one or more database tables, for use within Cargo queries.";
 	}
 
 	public function execute() {
 		global $wgCargoPageDataColumns;
 
-		$cdb = CargoUtils::getDB();
-		$dbw = wfGetDB( DB_MASTER );
+		$dbr = wfGetDB( DB_SLAVE );
+		$res = $dbr->select( 'cargo_tables', array( 'field_tables' ),
+			array( 'main_table' => '_pageData' ) );
 
-		$cdb->dropTable( '_pageData' );
-		$dbw->delete( 'cargo_tables', array( 'main_table' => '_pageData' ) );
+		$numRows = $res->numRows();
+		if ( $numRows > 0 ) {
+			$row = $res->fetchRow();
+			$fieldTables = unserialize( $row['field_tables'] );
+			CargoDeleteCargoTable::deleteTable( '_pageData', $fieldTables );
+		}
 
 		$tableSchema = CargoPageData::getTableSchema();
 		$tableSchemaString = $tableSchema->toDBString();
 
+		$cdb = CargoUtils::getDB();
+		$dbw = wfGetDB( DB_MASTER );
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, '_pageData', $tableSchema, $tableSchemaString, 0 );
 
-		$dbr = wfGetDB( DB_SLAVE );
-		
-		$pages = $dbr->select( 'page', array( 'page_id' ) ); 
-		
+		$pages = $dbr->select( 'page', array( 'page_id' ) );
+
 		while ( $page = $pages->fetchObject() ) {
 			$title = Title::newFromID( $page->page_id );
 			if ( $title == null ) {
