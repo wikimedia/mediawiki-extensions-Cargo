@@ -137,7 +137,10 @@ class CargoHooks {
 			// Now, delete from the "main" table.
 			$cdb->delete( $curMainTable, array( '_pageID' => $pageID ) );
 		}
-		$cdb->delete( '_pageData', array( '_pageID' => $pageID ) );
+		$res3 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => '_pageData' ) );
+		if ( $dbw->numRows( $res3 ) > 0 ) {
+			$cdb->delete( '_pageData', array( '_pageID' => $pageID ) );
+		}
 
 		// Finally, delete from cargo_pages.
 		$dbw->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
