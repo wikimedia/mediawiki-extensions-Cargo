@@ -5,7 +5,7 @@
  * auxiliary tables) for all pages in the wiki.
  *
  * Usage:
- *  no parameters
+ *  php setCargoPageData.php --delete
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@ class SetCargoPageData extends Maintenance {
 		parent::__construct();
 
 		$this->mDescription = "Stores a set of data each page in the wiki in one or more database tables, for use within Cargo queries.";
+
+		$this->addOption( "delete", "Delete the page data DB table(s)", false, false );
 	}
 
 	public function execute() {
@@ -50,6 +52,15 @@ class SetCargoPageData extends Maintenance {
 			$row = $res->fetchRow();
 			$fieldTables = unserialize( $row['field_tables'] );
 			CargoDeleteCargoTable::deleteTable( '_pageData', $fieldTables );
+		}
+
+		if ( $this->getOption( "delete" ) ) {
+			if ( $numRows > 0 ) {
+				$this->output( "\n Deleted page data table(s).\n" );
+			} else {
+				$this->output( "\n No page data tables found; exiting.\n" );
+			}
+			return;
 		}
 
 		$tableSchema = CargoPageData::getTableSchema();
