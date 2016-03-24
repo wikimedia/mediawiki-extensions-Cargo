@@ -1025,7 +1025,7 @@ class CargoSQLQuery {
 		foreach ( $searchTextFields as $searchTextField ) {
 			$fieldName = $searchTextField['fieldName'];
 			$tableName = $searchTextField['tableName'];
-			$patternSuffix = '(\s+MATCHES\s*)([^)\s]*)/i';
+			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;
 			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
