@@ -11,6 +11,8 @@ class CargoHooks {
 	public static function registerExtension() {
 		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgCargoAllowedSQLFunctions, $wgGroupPermissions;
 
+		define( 'CARGO_VERSION', '1.0-alpha' );
+
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
 
@@ -31,8 +33,14 @@ class CargoHooks {
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
 		$wgGroupPermissions['sysop']['deletecargodata'] = true;
-	}
 
+		define( 'CARGO_STORE_CREATION_DATE', 1 );
+		define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
+		define( 'CARGO_STORE_CREATOR', 3 );
+		define( 'CARGO_STORE_FULL_TEXT', 4 );
+		define( 'CARGO_STORE_CATEGORIES', 5 );
+		define( 'CARGO_STORE_NUM_REVISIONS', 6 );
+	}
 
 	public static function registerParserFunctions( &$parser ) {
 		$parser->setFunctionHook( 'cargo_declare', array( 'CargoDeclare', 'run' ) );
@@ -65,8 +73,9 @@ class CargoHooks {
 		// the language of the user.
 		$vars['wgCargoMonthNames'] = $out->getLanguage()->getMonthNamesArray();
 		/**
-		 * @todo all these arrays should perhaps be switched to start keys from 1, in order to
-		 * match built-in arrys, such as wgMonthNames.
+		 * @TODO - all these arrays should perhaps be switched to start
+		 * keys from 1, in order to match built-in arrys, such as
+		 * $wgMonthNames.
 		 */
 		array_shift( $vars['wgCargoMonthNames'] ); //start keys from 0
 

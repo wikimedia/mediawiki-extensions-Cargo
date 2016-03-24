@@ -6,18 +6,6 @@
  * @author Yaron Koren
  */
 
-// We need to set this at the top, so that it is also defined if
-// wfLoadExtension() is called, because its presence is used by other
-// extensions to determine whether Cargo is installed.
-define( 'CARGO_VERSION', '1.0-alpha' );
-
-define( 'CARGO_STORE_CREATION_DATE', 1 );
-define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
-define( 'CARGO_STORE_CREATOR', 3 );
-define( 'CARGO_STORE_FULL_TEXT', 4 );
-define( 'CARGO_STORE_CATEGORIES', 5 );
-define( 'CARGO_STORE_NUM_REVISIONS', 6 );
-
 // There are bugs in MW 1.25 and 1.26 that make extension.json
 // unusable for Cargo - for simplicity's sake, don't load extensions
 // unless we're at version 1.27 or higher.
@@ -35,7 +23,16 @@ if ( version_compare( $GLOBALS['wgVersion'], '1.27', '>=' ) ) {
 	return;
 }
 
-// All the rest is for backward compatibility, for MW 1.25 and lower.
+// All the rest is for backward compatibility, for MW 1.26 and lower.
+
+define( 'CARGO_VERSION', '1.0-alpha' );
+
+define( 'CARGO_STORE_CREATION_DATE', 1 );
+define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
+define( 'CARGO_STORE_CREATOR', 3 );
+define( 'CARGO_STORE_FULL_TEXT', 4 );
+define( 'CARGO_STORE_CATEGORIES', 5 );
+define( 'CARGO_STORE_NUM_REVISIONS', 6 );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
