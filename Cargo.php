@@ -300,9 +300,13 @@ $wgCargoAllowedSQLFunctions = array(
 	'COUNT', 'FLOOR', 'CEIL', 'ROUND',
 	'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG',
 	// String functions
-	'CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE', 'SUBSTRING', 'FORMAT',
+	'CONCAT', 'GROUP_CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE',
+	'SUBSTRING', 'FORMAT',
 	// Date functions
-	'NOW', 'DATE', 'DATE_FORMAT', 'DATE_ADD', 'DATE_SUB', 'DATEDIFF', 'DATE_FORMAT'
+	'NOW', 'DATE', 'YEAR', 'MONTH', 'DAYOFMONTH', 'DATE_FORMAT',
+	'DATE_ADD', 'DATE_SUB', 'DATEDIFF',
+	// @HACK - not a function, and shouldn't have to be here.
+	'NEAR'
 );
 
 $wgCargoDecimalMark = '.';
