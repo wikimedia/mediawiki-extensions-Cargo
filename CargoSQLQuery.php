@@ -53,7 +53,7 @@ class CargoSQLQuery {
 		$sqlQuery->setCargoJoinConds( $joinOnStr );
 		$sqlQuery->setAliasedFieldNames();
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mTableNames );
-		$sqlQuery->setOrderBy( $orderByStr );
+		$sqlQuery->setOrderBy( $cdb, $orderByStr );
 		$sqlQuery->mGroupByStr = $groupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
@@ -332,13 +332,14 @@ class CargoSQLQuery {
 		}
 	}
 
-	function setOrderBy( $orderByStr = null ) {
+	function setOrderBy( $cdb, $orderByStr = null ) {
 		if ( $orderByStr != '' ) {
 			$this->mOrderByStr = $orderByStr;
 		} else {
 			// By default, sort on the first field.
 			reset( $this->mAliasedFieldNames );
-			$this->mOrderByStr = current( $this->mAliasedFieldNames );
+			$firstField = current( $this->mAliasedFieldNames );
+			$this->mOrderByStr = $cdb->addIdentifierQuotes( $firstField );
 		}
 	}
 

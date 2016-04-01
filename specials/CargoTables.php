@@ -91,7 +91,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$sqlQuery->setDescriptionsForFields();
 		$sqlQuery->handleDateFields();
-		$sqlQuery->setOrderBy();
+		$sqlQuery->setOrderBy( $cdb );
 		$sqlQuery->mQueryLimit = 100;
 
 		$queryResults = $sqlQuery->run();

@@ -582,19 +582,19 @@ class CargoUtils {
 		//$cdb->ignoreErrors( false );
 
 		$createIndexSQL = "CREATE INDEX page_id_$tableName ON " . $cdb->tableName( $tableName ) .
-			" (_pageID)";
+			' (' . $cdb->addIdentifierQuotes( '_pageID' ) . ')';
 		$cdb->query( $createIndexSQL );
 		$createIndexSQL2 = "CREATE INDEX page_name_$tableName ON " . $cdb->tableName( $tableName ) .
-			" (_pageName)";
+			' (' . $cdb->addIdentifierQuotes( '_pageName' ) . ')';
 		$cdb->query( $createIndexSQL2 );
 		$createIndexSQL3 = "CREATE INDEX page_title_$tableName ON " . $cdb->tableName( $tableName ) .
-			" (_pageTitle)";
+			' (' . $cdb->addIdentifierQuotes( '_pageTitle' ) . ')';
 		$cdb->query( $createIndexSQL3 );
 		$createIndexSQL4 = "CREATE INDEX page_namespace_$tableName ON " . $cdb->tableName( $tableName )
-			. " (_pageNamespace)";
+			. ' (' . $cdb->addIdentifierQuotes( '_pageNamespace' ) . ')';
 		$cdb->query( $createIndexSQL4 );
 		$createIndexSQL5 = "CREATE UNIQUE INDEX id_$tableName ON " . $cdb->tableName( $tableName ) .
-			" (_ID)";
+			' (' . $cdb->addIdentifierQuotes( '_ID' ) . ')';
 		$cdb->query( $createIndexSQL5 );
 
 		// Now also create tables for each of the 'list' fields,
@@ -624,7 +624,8 @@ class CargoUtils {
 			$createSQL .= ' )';
 			$cdb->query( $createSQL );
 			$createIndexSQL = "CREATE INDEX row_id_$fieldTableName ON " .
-				$cdb->tableName( $fieldTableName ) . " (_rowID)";
+				$cdb->tableName( $fieldTableName ) .
+				' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
 			$cdb->query( $createIndexSQL );
 			$fieldTableNames[] = $tableName . '__' . $fieldName;
 		}
