@@ -536,11 +536,11 @@ class CargoUtils {
 
 		$createSQL = "CREATE TABLE " .
 			$cdb->tableName( $tableName ) . ' ( ' .
-			"_ID $intTypeString NOT NULL UNIQUE, " .
-			"_pageName $stringTypeString NOT NULL, " .
-			"_pageTitle $stringTypeString NOT NULL, " .
-			"_pageNamespace $intTypeString NOT NULL, " .
-			"_pageID $intTypeString NOT NULL";
+			$cdb->addIdentifierQuotes( '_ID' ) . " $intTypeString NOT NULL UNIQUE, " .
+			$cdb->addIdentifierQuotes( '_pageName' ) . " $stringTypeString NOT NULL, " .
+			$cdb->addIdentifierQuotes( '_pageTitle' ) . " $stringTypeString NOT NULL, " .
+			$cdb->addIdentifierQuotes( '_pageNamespace' ) . " $intTypeString NOT NULL, " .
+			$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString NOT NULL";
 
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$size = $fieldDescription->mSize;
@@ -552,7 +552,7 @@ class CargoUtils {
 				// instead, we'll have one called
 				// fieldName + '__full', and a separate table
 				// for holding each value.
-				$createSQL .= ', ' . $fieldName . '__full ';
+				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__full' ) . ' ';
 				// The field holding the full list will always
 				// just be text
 				$createSQL .= $stringTypeString;
@@ -563,16 +563,16 @@ class CargoUtils {
 
 			if ( !$isList && $fieldType == 'Coordinates' ) {
 				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
-				$createSQL .= ', ' . $fieldName . '__lat ';
+				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__lat' ) . ' ';
 				$createSQL .= $floatTypeString;
-				$createSQL .= ', ' . $fieldName . '__lon ';
+				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__lon' ) . ' ';
 				$createSQL .= $floatTypeString;
 			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 				$integerTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
-				$createSQL .= ', ' . $fieldName . '__precision ';
+				$createSQL .= ", " . $cdb->addIdentifierQuotes( $fieldName . '__precision' ) . ' ';
 				$createSQL .= $integerTypeString;
 			} elseif ( $fieldType == 'Searchtext' ) {
-				$createSQL .= ", FULLTEXT KEY $fieldName ($fieldName)";
+				$createSQL .= ", FULLTEXT KEY $fieldName (" . $cdb->addIdentifierQuotes( $fieldName ) . ')';
 			}
 		}
 		$createSQL .= ' )';

@@ -1101,7 +1101,14 @@ class CargoSQLQuery {
 		// call the DB query.
 		$realAliasedFieldNames = array();
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-			$realAliasedFieldNames['"' . $alias . '"'] = $fieldName;
+			$alias = $cdb->addIdentifierQuotes( $alias );
+			// If it's really a field name, add quotes around it.
+			// (The quotes are mostly needed for Postgres, which
+			// lowercases all unquoted fields.)
+			if ( strpos( $fieldName, '(' ) === false ) {
+				$fieldName = $cdb->addIdentifierQuotes( $fieldName );
+			}
+			$realAliasedFieldNames[$alias] = $fieldName;
 		}
 
 		$res = $cdb->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
