@@ -57,7 +57,7 @@ class CargoSQLQuery {
 		$sqlQuery->mGroupByStr = $groupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
-		$sqlQuery->handleVirtualFields();
+		$sqlQuery->handleVirtualFields( $cdb );
 		$sqlQuery->handleVirtualCoordinateFields();
 		$sqlQuery->handleDateFields();
 		$sqlQuery->handleSearchTextFields();
@@ -577,7 +577,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function handleVirtualFields() {
+	function handleVirtualFields( $cdb ) {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
 		// "where" - make sure that "HOLDS" or "HOlDS LIKE" is
@@ -666,9 +666,9 @@ class CargoSQLQuery {
 				$this->mCargoJoinConds[] = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableName,
-					'field1' => '_ID',
+					'field1' => $cdb->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableName,
-					'field2' => '_rowID'
+					'field2' => $cdb->addIdentifierQuotes( '_rowID' )
 				);
 			}
 		}
@@ -693,9 +693,9 @@ class CargoSQLQuery {
 				$newJoinCond = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableName,
-					'field1' => '_ID',
+					'field1' => $cdb->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableName,
-					'field2' => '_rowID'
+					'field2' => $cdb->addIdentifierQuotes( '_rowID' )
 				);
 				$newCargoJoinConds[] = $newJoinCond;
 				$newJoinCond2 = array(
@@ -737,9 +737,9 @@ class CargoSQLQuery {
 					$this->mCargoJoinConds[] = array(
 						'joinType' => 'LEFT OUTER JOIN',
 						'table1' => $tableName,
-						'field1' => '_ID',
+						'field1' => $cdb->addIdentifierQuotes( '_ID' ),
 						'table2' => $fieldTableName,
-						'field2' => '_rowID'
+						'field2' => $cdb->addIdentifierQuotes( '_rowID' )
 					);
 				}
 				$replacement = "$fieldTableName._value";
@@ -784,7 +784,7 @@ class CargoSQLQuery {
 			// whether or not that field has been "joined" on.
 			$fieldTableName = $tableName . '__' . $fieldName;
 			if ( $this->fieldTableIsIncluded( $fieldTableName ) ) {
-				$fieldName = $fieldTableName . '._value';
+				$fieldName = $fieldTableName . '.' . $cdb->addIdentifierQuotes( '_value' );
 			} else {
 				$fieldName .= '__full';
 			}
@@ -1106,7 +1106,7 @@ class CargoSQLQuery {
 			// If it's really a field name, add quotes around it.
 			// (The quotes are mostly needed for Postgres, which
 			// lowercases all unquoted fields.)
-			if ( strpos( $fieldName, '(' ) === false ) {
+			if ( strpos( $fieldName, '(' ) === false && !$cdb->isQuotedIdentifier( $fieldName ) ) {
 				$fieldName = $cdb->addIdentifierQuotes( $fieldName );
 			}
 			$realAliasedFieldNames[$alias] = $fieldName;

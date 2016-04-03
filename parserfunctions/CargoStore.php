@@ -277,7 +277,8 @@ class CargoStore {
 
 		$cdb = CargoUtils::getDB();
 
-		$res = $cdb->select( $tableName, 'MAX(_ID) AS "ID"' );
+		$res = $cdb->select( $tableName, 'MAX(' .
+			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
 		$row = $cdb->fetchRow( $res );
 		$curRowID = $row['ID'] + 1;
 		$tableFieldValues['_ID'] = $curRowID;
@@ -323,9 +324,8 @@ class CargoStore {
 			}
 		}
 
-		// Put quotes around everything - this doesn't help with
-		// anything, but it might in the future, if Cargo becomes
-		// more permissive about field naming.
+		// Put quotes around everything - needed for Postgres,
+		// which otherwise lowercases all field names.
 		$quotedFieldValues = array();
 		foreach( $tableFieldValues as $fieldName => $fieldValue ) {
 			$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
