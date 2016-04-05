@@ -14,6 +14,7 @@
 	"recreatedata": "Daten erneut erstellen",
 	"action-recreatecargodata": "Cargo-Daten erneut zu erstellen",
 	"action-deletecargodata": "Cargo-Daten zu löschen",
+	"apihelp-cargoquery-description": "Führt eine Abfrage zu den Cargo-Daten aus.",
 	"apihelp-cargoquery-param-fields": "Die abzurufenden Tabellenfelder",
 	"apihelp-cargoquery-param-limit": "Die maximale Anzahl der zurückgegebenen Ergebnisse",
 	"apihelp-cargorecreatetables-description": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
