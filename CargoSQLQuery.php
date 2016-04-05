@@ -9,6 +9,7 @@
 
 class CargoSQLQuery {
 
+	private $mCargoDB;
 	public $mTablesStr;
 	public $mTableNames;
 	public $mFieldsStr;
@@ -27,6 +28,10 @@ class CargoSQLQuery {
 	public $mQueryLimit;
 	public $mSearchTerms = array();
 
+	function __construct() {
+		$this->mCargoDB = CargoUtils::getDB();
+	}
+
 	/**
 	 * This is newFromValues() instead of __construct() so that an
 	 * object can be created without any values.
@@ -38,9 +43,8 @@ class CargoSQLQuery {
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$havingStr, $orderByStr, $limitStr );
 
-		$cdb = CargoUtils::getDB();
-
 		$sqlQuery = new CargoSQLQuery();
+		$sqlQuery->mCargoDB = CargoUtils::getDB();
 		$sqlQuery->mTablesStr = $tablesStr;
 		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
 		$sqlQuery->mFieldsStr = $fieldsStr;
@@ -53,20 +57,20 @@ class CargoSQLQuery {
 		$sqlQuery->setCargoJoinConds( $joinOnStr );
 		$sqlQuery->setAliasedFieldNames();
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mTableNames );
-		$sqlQuery->setOrderBy( $cdb, $orderByStr );
+		$sqlQuery->setOrderBy( $orderByStr );
 		$sqlQuery->mGroupByStr = $groupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
-		$sqlQuery->handleVirtualFields( $cdb );
+		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
 		$sqlQuery->handleDateFields();
 		$sqlQuery->handleSearchTextFields();
-		$sqlQuery->setMWJoinConds( $cdb );
+		$sqlQuery->setMWJoinConds();
 		$sqlQuery->mQueryLimit = $wgCargoDefaultQueryLimit;
 		if ( $limitStr != '' ) {
 			$sqlQuery->mQueryLimit = min( $limitStr, $wgCargoMaxQueryLimit );
 		}
-		$sqlQuery->addTablePrefixesToAll( $cdb );
+		$sqlQuery->addTablePrefixesToAll();
 
 		return $sqlQuery;
 	}
@@ -314,7 +318,7 @@ class CargoSQLQuery {
 	 * conditions into the one that MediaWiki uses - this includes
 	 * adding the database prefix to each table name.
 	 */
-	function setMWJoinConds( $cdb ) {
+	function setMWJoinConds() {
 		if ( $this->mCargoJoinConds == null ) {
 			return;
 		}
@@ -324,22 +328,22 @@ class CargoSQLQuery {
 			$table2 = $cargoJoinCond['table2'];
 			$this->mJoinConds[$table2] = array(
 				$cargoJoinCond['joinType'],
-				$cdb->tableName( $cargoJoinCond['table1'] ) .
+				$this->mCargoDB->tableName( $cargoJoinCond['table1'] ) .
 				'.' . $cargoJoinCond['field1'] . '=' .
-				$cdb->tableName( $cargoJoinCond['table2'] ) .
+				$this->mCargoDB->tableName( $cargoJoinCond['table2'] ) .
 				'.' . $cargoJoinCond['field2']
 			);
 		}
 	}
 
-	function setOrderBy( $cdb, $orderByStr = null ) {
+	function setOrderBy( $orderByStr = null ) {
 		if ( $orderByStr != '' ) {
 			$this->mOrderByStr = $orderByStr;
 		} else {
 			// By default, sort on the first field.
 			reset( $this->mAliasedFieldNames );
 			$firstField = current( $this->mAliasedFieldNames );
-			$this->mOrderByStr = $cdb->addIdentifierQuotes( $firstField );
+			$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $firstField );
 		}
 	}
 
@@ -577,7 +581,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function handleVirtualFields( $cdb ) {
+	function handleVirtualFields() {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
 		// "where" - make sure that "HOLDS" or "HOlDS LIKE" is
@@ -666,9 +670,9 @@ class CargoSQLQuery {
 				$this->mCargoJoinConds[] = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableName,
-					'field1' => $cdb->addIdentifierQuotes( '_ID' ),
+					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableName,
-					'field2' => $cdb->addIdentifierQuotes( '_rowID' )
+					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 				);
 			}
 		}
@@ -693,9 +697,9 @@ class CargoSQLQuery {
 				$newJoinCond = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableName,
-					'field1' => $cdb->addIdentifierQuotes( '_ID' ),
+					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableName,
-					'field2' => $cdb->addIdentifierQuotes( '_rowID' )
+					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 				);
 				$newCargoJoinConds[] = $newJoinCond;
 				$newJoinCond2 = array(
@@ -737,9 +741,9 @@ class CargoSQLQuery {
 					$this->mCargoJoinConds[] = array(
 						'joinType' => 'LEFT OUTER JOIN',
 						'table1' => $tableName,
-						'field1' => $cdb->addIdentifierQuotes( '_ID' ),
+						'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
 						'table2' => $fieldTableName,
-						'field2' => $cdb->addIdentifierQuotes( '_rowID' )
+						'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 					);
 				}
 				$replacement = "$fieldTableName._value";
@@ -784,7 +788,8 @@ class CargoSQLQuery {
 			// whether or not that field has been "joined" on.
 			$fieldTableName = $tableName . '__' . $fieldName;
 			if ( $this->fieldTableIsIncluded( $fieldTableName ) ) {
-				$fieldName = $fieldTableName . '.' . $cdb->addIdentifierQuotes( '_value' );
+				$fieldName = $fieldTableName . '.' .
+					$this->mCargoDB->addIdentifierQuotes( '_value' );
 			} else {
 				$fieldName .= '__full';
 			}
@@ -1059,16 +1064,16 @@ class CargoSQLQuery {
 	 * prepended automatically by the MediaWiki query, while for
 	 * 'join on' the prefixes are added when the object is created.
 	 */
-	function addTablePrefixesToAll( $cdb ) {
+	function addTablePrefixesToAll() {
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-			$this->mAliasedFieldNames[$alias] = self::addTablePrefixes( $fieldName, $cdb );
+			$this->mAliasedFieldNames[$alias] = $this->addTablePrefixes( $fieldName );
 		}
 		if ( !is_null( $this->mWhereStr ) ) {
-			$this->mWhereStr = self::addTablePrefixes( $this->mWhereStr, $cdb );
+			$this->mWhereStr = $this->addTablePrefixes( $this->mWhereStr );
 		}
-		$this->mGroupByStr = self::addTablePrefixes( $this->mGroupByStr, $cdb );
-		$this->mHavingStr = self::addTablePrefixes( $this->mHavingStr, $cdb );
-		$this->mOrderByStr = self::addTablePrefixes( $this->mOrderByStr, $cdb );
+		$this->mGroupByStr = $this->addTablePrefixes( $this->mGroupByStr );
+		$this->mHavingStr = $this->addTablePrefixes( $this->mHavingStr );
+		$this->mOrderByStr = $this->addTablePrefixes( $this->mOrderByStr );
 	}
 
 	/**
@@ -1076,10 +1081,8 @@ class CargoSQLQuery {
 	 * appending the Cargo prefix onto table names where necessary.
 	 */
 	function run() {
-		$cdb = CargoUtils::getDB();
-
 		foreach ( $this->mTableNames as $tableName ) {
-			if ( !$cdb->tableExists( $tableName ) ) {
+			if ( !$this->mCargoDB->tableExists( $tableName ) ) {
 				throw new MWException( "Error: no database table exists named \"$tableName\"." );
 			}
 		}
@@ -1102,23 +1105,23 @@ class CargoSQLQuery {
 		// call the DB query.
 		$realAliasedFieldNames = array();
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-			$alias = $cdb->addIdentifierQuotes( $alias );
+			$alias = $this->mCargoDB->addIdentifierQuotes( $alias );
 			// If it's really a field name, add quotes around it.
 			// (The quotes are mostly needed for Postgres, which
 			// lowercases all unquoted fields.)
-			if ( strpos( $fieldName, '(' ) === false && !$cdb->isQuotedIdentifier( $fieldName ) ) {
-				$fieldName = $cdb->addIdentifierQuotes( $fieldName );
+			if ( strpos( $fieldName, '(' ) === false && !$this->mCargoDB->isQuotedIdentifier( $fieldName ) ) {
+				$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
 			}
 			$realAliasedFieldNames[$alias] = $fieldName;
 		}
 
-		$res = $cdb->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
+		$res = $this->mCargoDB->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
 			$selectOptions, $this->mJoinConds );
 
 		// Is there a more straightforward way of turning query
 		// results into an array?
 		$resultArray = array();
-		while ( $row = $cdb->fetchRow( $res ) ) {
+		while ( $row = $this->mCargoDB->fetchRow( $res ) ) {
 			$resultsRow = array();
 			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 				// Escape any HTML, to avoid JavaScript
@@ -1131,14 +1134,14 @@ class CargoSQLQuery {
 		return $resultArray;
 	}
 
-	function addTablePrefixes( $string, $cdb ) {
+	function addTablePrefixes( $string ) {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = array();
 		$tableNameReplacements = array();
 		foreach ( $this->mTableNames as $tableName ) {
 			$tableNamePatterns[] = CargoUtils::getSQLTablePattern($tableName);
-			$tableNameReplacements[] = "$1" . $cdb->tableName( $tableName ) . ".";
+			$tableNameReplacements[] = "$1" . $this->mCargoDB->tableName( $tableName ) . ".";
 		}
 
 		return preg_replace( $tableNamePatterns, $tableNameReplacements, $string );
