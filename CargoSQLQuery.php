@@ -19,6 +19,7 @@ class CargoSQLQuery {
 	public $mCargoJoinConds;
 	public $mJoinConds;
 	public $mAliasedFieldNames;
+	public $mFieldStringAliases;
 	public $mTableSchemas;
 	public $mFieldDescriptions;
 	public $mFieldTables;
@@ -153,6 +154,14 @@ class CargoSQLQuery {
 	}
 
 	/**
+	 * Gets a mapping of original field name strings to their field name aliases
+	 * as they appear in the query result
+	 */
+	function getAliasForFieldString( $fieldString ) {
+		return $this->mFieldStringAliases[$fieldString];
+	}
+
+	/**
 	 * Gets an array of field names and their aliases from the passed-in
 	 * SQL fragment.
 	 */
@@ -179,6 +188,7 @@ class CargoSQLQuery {
 		// displayed.
 		$blankAliasCount = 0;
 		foreach ( $fieldNames as $i => $fieldName ) {
+			$originalFieldName = $fieldName;
 			$fieldNameParts = CargoUtils::smartSplit( '=', $fieldName );
 			if ( count( $fieldNameParts ) == 2 ) {
 				$fieldName = trim( $fieldNameParts[0] );
@@ -204,6 +214,7 @@ class CargoSQLQuery {
 				$alias = "Blank value $blankAliasCount";
 			}
 			$this->mAliasedFieldNames[$alias] = $fieldName;
+			$this->mFieldStringAliases[$originalFieldName] = $alias;
 		}
 	}
 
