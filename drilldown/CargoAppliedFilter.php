@@ -57,7 +57,7 @@ class CargoAppliedFilter {
 
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
-			$value_field = $cdb->tableName( $fieldTableName ) . "._value";
+			$value_field = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
 		} else {
 			$value_field = $this->filter->name;
 		}

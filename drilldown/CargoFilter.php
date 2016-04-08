@@ -109,10 +109,7 @@ class CargoFilter {
 			if ( $af->filter->fieldDescription->mIsList ) {
 				$fieldTableName = $this->tableName . '__' . $af->filter->name;
 				$tableNames[] = $fieldTableName;
-				$joinConds[$fieldTableName] = array(
-					'LEFT OUTER JOIN',
-					$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
-				);
+				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
 			}
 		}
 		return array( $tableNames, $conds, $joinConds );
@@ -191,11 +188,8 @@ class CargoFilter {
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$tableNames[] = $fieldTableName;
-			$fieldName = $cdb->tableName( $fieldTableName ) . '._value';
-			$joinConds[$fieldTableName] = array(
-				'LEFT OUTER JOIN',
-				$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
-			);
+			$fieldName = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
+			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
 		} else {
 			$fieldName = $this->name;
 		}

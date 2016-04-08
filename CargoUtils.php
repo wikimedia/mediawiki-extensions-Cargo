@@ -287,7 +287,7 @@ class CargoUtils {
 	 */
 	public static function getSQLFieldPattern( $fieldName, $closePattern = true ) {
 		$fieldName = str_replace( '$', '\$', $fieldName );
-		$pattern = '/([^\w$.,]|^)'.$fieldName;
+		$pattern = '/([^\w$.,]|^)' . $fieldName;
 		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
 	}
 
@@ -298,7 +298,7 @@ class CargoUtils {
 	public static function getSQLTableAndFieldPattern( $tableName, $fieldName, $closePattern = true ) {
 		$fieldName = str_replace( '$', '\$', $fieldName );
 		$tableName = str_replace( '$', '\$', $tableName );
-		$pattern = '/([^\w$,]|^)'.$tableName.'\.'.$fieldName;
+		$pattern = '/([^\w$,]|^)' . $tableName . '\.' . $fieldName;
 		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
 	}
 
@@ -308,7 +308,7 @@ class CargoUtils {
 	 */
 	public static function getSQLTablePattern( $tableName, $closePattern = true ) {
 		$tableName = str_replace( '$', '\$', $tableName );
-		$pattern = '/([^\w$]|^)'.$tableName.'\.';
+		$pattern = '/([^\w$]|^)(' . $tableName . ')\.(\w*)';
 		return $pattern . ( $closePattern ? '/i' : '' );
 	}
 
@@ -612,14 +612,14 @@ class CargoUtils {
 			$fieldType = $fieldDescription->mType;
 			$createSQL = "CREATE TABLE " .
 				$cdb->tableName( $fieldTableName ) . ' ( ' .
-				"_rowID $intTypeString, ";
+				$cdb->addIdentifierQuotes( '_rowID' ) . " $intTypeString, ";
 			if ( $fieldType == 'Coordinates' ) {
 				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
-				$createSQL .= '_value ' . $floatTypeString . ', ';
-				$createSQL .= '_lat ' . $floatTypeString . ', ';
-				$createSQL .= '_lon ' . $floatTypeString;
+				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . " $floatTypeString, ";
+				$createSQL .= $cdb->addIdentifierQuotes( '_lat' ) . " $floatTypeString, ";
+				$createSQL .= $cdb->addIdentifierQuotes( '_lon' ) . " $floatTypeString";
 			} else {
-				$createSQL .= '_value ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
+				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
 			}
 			$createSQL .= ' )';
 			$cdb->query( $createSQL );
@@ -759,6 +759,20 @@ class CargoUtils {
 		}
 
 		return array( $latNum, $lonNum );
+	}
+
+	public static function escapedFieldName( $cdb, $tableName, $fieldName ) {
+		return $cdb->tableName( $tableName ) . '.' .
+			$cdb->addIdentifierQuotes( $fieldName );
+	}
+
+	public static function joinOfMainAndFieldTable( $cdb, $mainTableName, $fieldTableName ) {
+		return array(
+			'LEFT OUTER JOIN',
+			self::escapedFieldName( $cdb, $mainTableName, '_ID' ) .
+				' = ' .
+				self::escapedFieldName( $cdb, $fieldTableName, '_rowID' )
+		);
 	}
 
 }

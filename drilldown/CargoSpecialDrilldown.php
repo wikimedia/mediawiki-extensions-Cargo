@@ -1052,10 +1052,7 @@ END;
 			if ( $af->filter->fieldDescription->mIsList ) {
 				$fieldTableName = $this->tableName . '__' . $af->filter->name;
 				$tableNames[] = $fieldTableName;
-				$joinConds[$fieldTableName] = array(
-					'LEFT OUTER JOIN',
-					$cdb->tableName( $this->tableName ) . '._ID = ' . $cdb->tableName( $fieldTableName ) . '._rowID'
-				);
+				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
 			}
 		}
 

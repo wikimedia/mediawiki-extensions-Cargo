@@ -343,7 +343,11 @@ class CargoSQLQuery {
 			// By default, sort on the first field.
 			reset( $this->mAliasedFieldNames );
 			$firstField = current( $this->mAliasedFieldNames );
-			$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $firstField );
+			if ( strpos( $firstField, '(' ) === false ) {
+				$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $firstField );
+			} else {
+				$this->mOrderByStr = $firstField;
+			}
 		}
 	}
 
@@ -1109,7 +1113,7 @@ class CargoSQLQuery {
 			// If it's really a field name, add quotes around it.
 			// (The quotes are mostly needed for Postgres, which
 			// lowercases all unquoted fields.)
-			if ( strpos( $fieldName, '(' ) === false && !$this->mCargoDB->isQuotedIdentifier( $fieldName ) ) {
+			if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false && !$this->mCargoDB->isQuotedIdentifier( $fieldName ) ) {
 				$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
 			}
 			$realAliasedFieldNames[$alias] = $fieldName;
@@ -1140,11 +1144,19 @@ class CargoSQLQuery {
 		$tableNamePatterns = array();
 		$tableNameReplacements = array();
 		foreach ( $this->mTableNames as $tableName ) {
-			$tableNamePatterns[] = CargoUtils::getSQLTablePattern($tableName);
-			$tableNameReplacements[] = "$1" . $this->mCargoDB->tableName( $tableName ) . ".";
+			$tableNamePatterns[] = CargoUtils::getSQLTablePattern( $tableName );
 		}
 
-		return preg_replace( $tableNamePatterns, $tableNameReplacements, $string );
+		return preg_replace_callback( $tableNamePatterns,
+			function( $matches ) {
+				$beforeText = $matches[1];
+				$tableName = $matches[2];
+				$fieldName = $matches[3];
+				return $beforeText .
+					$this->mCargoDB->tableName( $tableName ) . "." .
+					$this->mCargoDB->addIdentifierQuotes( $fieldName );
+			},
+			$string );
 	}
 
 }
