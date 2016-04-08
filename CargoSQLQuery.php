@@ -354,7 +354,7 @@ class CargoSQLQuery {
 			// By default, sort on the first field.
 			reset( $this->mAliasedFieldNames );
 			$firstField = current( $this->mAliasedFieldNames );
-			if ( strpos( $firstField, '(' ) === false ) {
+			if ( strpos( $firstField, '(' ) === false && strpos( $firstField, '.' ) === false ) {
 				$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $firstField );
 			} else {
 				$this->mOrderByStr = $firstField;
