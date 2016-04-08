@@ -978,10 +978,7 @@ END;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldType = $fieldDescription->mType;
 			// Some field types shouldn't get a filter at all.
-			if ( in_array( $fieldType, array( 'URL', 'Wikitext' ) ) ) {
-				continue;
-			} elseif ( $fieldType == 'Text' && $fieldDescription->mSize != null &&
-				$fieldDescription->mSize > 100 ) {
+			if ( in_array( $fieldType, array( 'Text', 'URL', 'Wikitext', 'Searchtext' ) ) ) {
 				continue;
 			}
 			$f = new CargoFilter();
