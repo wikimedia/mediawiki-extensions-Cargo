@@ -34,7 +34,7 @@
 	"cargo-cargotables-declaredby": "מוצהר על־ידי $1",
 	"cargo-cargotables-attachedby": "משויך על־ידי $1",
 	"cargo-cargotables-tablenotfound": "הטבלה \"$1\" לא נמצאת במסד הנתונים של מטען.",
-	"cargo-cargotables-totalrows": "בטבלה הזאת יש $1 שורות בסך הכול.",
+	"cargo-cargotables-totalrows": "בטבלה הזאת יש {{PLURAL:$1|שורה '''אחת'''|'''$1''' שורות}} בסך הכול.",
 	"deletecargotable": "מחיקת טבלת מטען",
 	"pagevalues": "ערכי דף",
 	"cargo-pagevaluesfor": "ערכי דף עבור \"$1\"",
