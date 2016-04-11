@@ -775,4 +775,15 @@ class CargoUtils {
 		);
 	}
 
+	public static function escapedInsert( $db, $tableName, $fieldValues ) {
+		// Put quotes around the field names - needed for Postgres,
+		// which otherwise lowercases all field names.
+		$quotedFieldValues = array();
+		foreach( $fieldValues as $fieldName => $fieldValue ) {
+			$quotedFieldName = $db->addIdentifierQuotes( $fieldName );
+			$quotedFieldValues[$quotedFieldName] = $fieldValue;
+		}
+		$db->insert( $tableName, $quotedFieldValues );
+	}
+
 }

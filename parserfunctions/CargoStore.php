@@ -258,7 +258,7 @@ class CargoStore {
 				if ( $curValue === '' || $curValue === null ) {
 					// Do nothing.
 				} elseif ( $curValue === 0
-					||  $curValue === '0'
+					|| $curValue === '0'
 					|| strtolower( $curValue ) === 'no'
 					|| strtolower( $curValue ) == strtolower( $msgForNo ) )
 				{
@@ -308,7 +308,7 @@ class CargoStore {
 						$fieldValues['_lat'] = $latitude;
 						$fieldValues['_lon'] = $longitude;
 					}
-					$cdb->insert( $fieldTableName, $fieldValues );
+					CargoUtils::escapedInsert( $cdb, $fieldTableName, $fieldValues );
 				}
 
 				// Now rename the field.
@@ -324,16 +324,8 @@ class CargoStore {
 			}
 		}
 
-		// Put quotes around everything - needed for Postgres,
-		// which otherwise lowercases all field names.
-		$quotedFieldValues = array();
-		foreach( $tableFieldValues as $fieldName => $fieldValue ) {
-			$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
-			$quotedFieldValues[$quotedFieldName] = $fieldValue;
-		}
-
 		// Insert the current data into the main table.
-		$cdb->insert( $tableName, $quotedFieldValues );
+		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
 		// This close() call, for some reason, is necessary for the
 		// subsequent SQL to be called correctly, when jobs are run
