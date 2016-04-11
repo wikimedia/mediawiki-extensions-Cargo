@@ -803,8 +803,7 @@ class CargoSQLQuery {
 			// whether or not that field has been "joined" on.
 			$fieldTableName = $tableName . '__' . $fieldName;
 			if ( $this->fieldTableIsIncluded( $fieldTableName ) ) {
-				$fieldName = $fieldTableName . '.' .
-					$this->mCargoDB->addIdentifierQuotes( '_value' );
+				$fieldName = $fieldTableName . '._value';
 			} else {
 				$fieldName .= '__full';
 			}
