@@ -177,16 +177,6 @@ class CargoUtils {
 		return array( $attachedTableName, false );
 	}
 
-	static function tableExists( $tableName ) {
-		$cdb = self::getDB();
-		try {
-			$cdb->select( $tableName, '*', null, null, array( 'LIMIT' => 1 ) );
-		} catch ( Exception $e ) {
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * Splits a string by the delimiter, but ensures that parenthesis, separators
 	 * and "the other quote" (single quote in a double quoted string or double

@@ -69,7 +69,8 @@ class CargoRecreateDataAction {
 		}
 
 		// Check if table already exists, and set tab accordingly.
-		if ( CargoUtils::tableExists( $tableName ) ) {
+		$cdb = CargoUtils::getDB();
+		if ( $cdb->tableExists( $tableName ) ) {
 			$recreateDataTabMsg = 'recreatedata';
 		} else {
 			$recreateDataTabMsg = 'cargo-createdatatable';

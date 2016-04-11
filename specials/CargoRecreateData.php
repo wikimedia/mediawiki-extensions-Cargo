@@ -32,7 +32,8 @@ class CargoRecreateData extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 
-		$tableExists = CargoUtils::tableExists( $this->mTableName );
+		$cdb = CargoUtils::getDB();
+		$tableExists = $cdb->tableExists( $this->mTableName );
 		if ( !$tableExists ) {
 			$out->setPageTitle( $this->msg( 'cargo-createdatatable' )->parse() );
 		}
