@@ -136,6 +136,8 @@ class CargoHooks {
 		// Get all the "main" tables that this page is contained in.
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
+		$cdbPageIDCheck = array( $cdb->addIdentifierQuotes( '_pageID' ) => $pageID );
+
 		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
 		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
@@ -148,15 +150,20 @@ class CargoHooks {
 				// Thankfully, the MW DB API already provides a
 				// nice method for deleting based on a join.
 				$cdb->deleteJoin(
-					$curFieldTable, $curMainTable, '_rowID', '_ID', array( '_pageID' => $pageID ) );
+					$curFieldTable,
+					$curMainTable,
+					$cdb->addIdentifierQuotes( '_rowID' ),
+					$cdb->addIdentifierQuotes( '_ID' ),
+					$cdbPageIDCheck
+				);
 			}
 
 			// Now, delete from the "main" table.
-			$cdb->delete( $curMainTable, array( '_pageID' => $pageID ) );
+			$cdb->delete( $curMainTable, $cdbPageIDCheck );
 		}
 		$res3 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => '_pageData' ) );
 		if ( $dbw->numRows( $res3 ) > 0 ) {
-			$cdb->delete( '_pageData', array( '_pageID' => $pageID ) );
+			$cdb->delete( '_pageData', $cdbPageIDCheck );
 		}
 
 		// Finally, delete from cargo_pages.
