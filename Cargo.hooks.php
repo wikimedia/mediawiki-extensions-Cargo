@@ -222,6 +222,7 @@ class CargoHooks {
 		// this page to be saved by Cargo, since the page will be
 		// parsed right after this.
 		CargoStore::$settings['origin'] = 'Approved Revs revision approved';
+		CargoPageData::storeValuesForPage( $title );
 		return true;
 	}
 
@@ -237,6 +238,7 @@ class CargoHooks {
 			// No point storing the Cargo data if it's blank.
 			CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
 		}
+		CargoPageData::storeValuesForPage( $title, $egApprovedRevsBlankIfUnapproved );
 		return true;
 	}
 
