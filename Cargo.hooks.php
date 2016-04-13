@@ -229,10 +229,14 @@ class CargoHooks {
 	 * Called by a hook in the Approved Revs extension.
 	 */
 	public static function onARRevisionUnapproved( $parser, $title ) {
+		global $egApprovedRevsBlankIfUnapproved;
+
 		$pageID = $title->getArticleID();
 		self::deletePageFromSystem( $pageID );
-		// This is all we need - see onARRevisionApproved(), above.
-		CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
+		if ( ! $egApprovedRevsBlankIfUnapproved ) {
+			// No point storing the Cargo data if it's blank.
+			CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
+		}
 		return true;
 	}
 

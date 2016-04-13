@@ -46,7 +46,13 @@ class CargoPageData {
 		return $tableSchema;
 	}
 
-	public static function storeValuesForPage( $title ) {
+	/**
+	 * The $setToBlank argument is a bit of a hack - used right now only
+	 * for "blank if unapproved" with the Approved Revs extension, because
+	 * that setting doesn't seem to take effect soon enough to get parsed
+	 * as a blank page.
+	 */
+	public static function storeValuesForPage( $title, $setToBlank = false ) {
 		global $wgCargoPageDataColumns;
 
 		if ( $title == null ) {
@@ -80,20 +86,26 @@ class CargoPageData {
 			$pageDataValues['_creator'] = $wikiPage->getCreator();
 		}
 		if ( in_array( CARGO_STORE_FULL_TEXT, $wgCargoPageDataColumns ) ) {
-			$article = new Article( $title );
-			$pageDataValues['_fullText'] = $article->getContent();
+			if ( $setToBlank ) {
+				$pageDataValues['_fullText'] = '';
+			} else {
+				$article = new Article( $title );
+				$pageDataValues['_fullText'] = $article->getContent();
+			}
 		}
 		if ( in_array( CARGO_STORE_CATEGORIES, $wgCargoPageDataColumns ) ) {
 			$pageCategories = array();
-			$dbr = wfGetDB( DB_SLAVE );
-			$res = $dbr->select(
-				'categorylinks',
-				'cl_to',
-				array( 'cl_from' => $title->getArticleID() ),
-				__METHOD__
-			);
-			foreach ( $res as $row ) {
-				$pageCategories[] = $row->cl_to;
+			if ( !$setToBlank ) {
+				$dbr = wfGetDB( DB_SLAVE );
+				$res = $dbr->select(
+					'categorylinks',
+					'cl_to',
+					array( 'cl_from' => $title->getArticleID() ),
+					__METHOD__
+				);
+				foreach ( $res as $row ) {
+					$pageCategories[] = $row->cl_to;
+				}
 			}
 
 			$pageCategoriesString = implode( '|', $pageCategories );
