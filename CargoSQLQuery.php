@@ -1033,8 +1033,13 @@ class CargoSQLQuery {
 		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
 			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 				if ( $fieldDescription->mType == 'Searchtext' ) {
+					$fieldAlias = array_search( $fieldName, $this->mAliasedFieldNames );
+					if ( $fieldAlias === false ) {
+						continue;
+					}
 					$searchTextFields[] = array(
 						'fieldName' => $fieldName,
+						'fieldAlias' => $fieldAlias,
 						'tableName' => $tableName
 					);
 				}
@@ -1044,6 +1049,7 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $searchTextFields as $searchTextField ) {
 			$fieldName = $searchTextField['fieldName'];
+			$fieldAlias = $searchTextField['fieldAlias'];
 			$tableName = $searchTextField['tableName'];
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
@@ -1067,7 +1073,7 @@ class CargoSQLQuery {
 				$searchEngine = new CargoSearchMySQL();
 				$searchTerms = $searchEngine->getSearchTerms( $searchString );
 				// @TODO - does $tableName need to be in there?
-				$this->mSearchTerms[$fieldName] = $searchTerms;
+				$this->mSearchTerms[$fieldAlias] = $searchTerms;
 			}
 		}
 	}
