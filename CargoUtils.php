@@ -518,6 +518,8 @@ class CargoUtils {
 	}
 
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
+		global $wgCargoDBtype;
+
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
@@ -532,6 +534,7 @@ class CargoUtils {
 			$cdb->addIdentifierQuotes( '_pageNamespace' ) . " $intTypeString NOT NULL, " .
 			$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString NOT NULL";
 
+		$containsSearchTextType = false;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$size = $fieldDescription->mSize;
 			$isList = $fieldDescription->mIsList;
@@ -563,9 +566,16 @@ class CargoUtils {
 				$createSQL .= $integerTypeString;
 			} elseif ( $fieldType == 'Searchtext' ) {
 				$createSQL .= ", FULLTEXT KEY $fieldName (" . $cdb->addIdentifierQuotes( $fieldName ) . ')';
+				$containsSearchTextType = true;
 			}
 		}
 		$createSQL .= ' )';
+
+		// For MySQL 5.6 and earlier, only MyISAM supports 'FULLTEXT'
+		// indexes; InnoDB does not.
+		if ( $containsSearchTextType && $wgCargoDBtype == 'mysql' ) {
+			$createSQL .= ' ENGINE=MyISAM';
+		}
 
 		//$cdb->ignoreErrors( true );
 		$cdb->query( $createSQL );
