@@ -1158,21 +1158,21 @@ class CargoSQLQuery {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = array();
-		$tableNameReplacements = array();
 		foreach ( $this->mTableNames as $tableName ) {
 			$tableNamePatterns[] = CargoUtils::getSQLTablePattern( $tableName );
 		}
 
 		return preg_replace_callback( $tableNamePatterns,
-			function( $matches ) {
-				$beforeText = $matches[1];
-				$tableName = $matches[2];
-				$fieldName = $matches[3];
-				return $beforeText .
-					$this->mCargoDB->tableName( $tableName ) . "." .
-					$this->mCargoDB->addIdentifierQuotes( $fieldName );
-			},
-			$string );
+			array( $this, 'addQuotes' ), $string );
+	}
+
+	private function addQuotes( $matches ) {
+		$beforeText = $matches[1];
+		$tableName = $matches[2];
+		$fieldName = $matches[3];
+		return $beforeText .
+			$this->mCargoDB->tableName( $tableName ) . "." .
+			$this->mCargoDB->addIdentifierQuotes( $fieldName );
 	}
 
 }
