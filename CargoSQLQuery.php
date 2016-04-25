@@ -589,8 +589,8 @@ class CargoSQLQuery {
 	 */
 	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found ) {
 		if ( preg_match( $pattern, $subject ) ) {
-			$pattern = str_replace( '([^\w$]|^)', '\b', $pattern);
-			$pattern = str_replace( '([^\w$.]|^)', '\b', $pattern);
+			$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern);
+			$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern);
 			$subject = preg_replace( $pattern, $replacement, $subject );
 			$found = true;
 		}
