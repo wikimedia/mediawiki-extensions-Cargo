@@ -369,6 +369,7 @@ class CargoSQLQuery {
 		$sqlFunctionRegex = '/(\b|\W)(\w*?)\s*\(/';
 		preg_match_all( $sqlFunctionRegex, $str, $sqlFunctionMatches );
 		$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[2] );
+		$sqlFunctions = array_map( 'trim', $sqlFunctions );
 		// Throw an error if any of these functions
 		// are not in our "whitelist" of SQL functions.
 		// Also add to this whitelist the SQL keywords AND, OR and
@@ -378,7 +379,7 @@ class CargoSQLQuery {
 		foreach ( $sqlFunctions as $sqlFunction ) {
 			// @TODO - fix the original regexp to avoid blank
 			// strings, so that this check is not necessary.
-			if ( trim( $sqlFunction ) == '' ) {
+			if ( $sqlFunction == '' ) {
 				continue;
 			}
 			if ( !in_array( $sqlFunction, $allowedFunctions ) ) {
