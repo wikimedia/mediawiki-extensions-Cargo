@@ -20,10 +20,6 @@ function cargo.setupInterface( options )
     package.loaded['mw.ext.cargo'] = cargo
 end
 
-function cargo.get()
-    return php.get()
-end
-
 function cargo.query(tables, fields, args)
     return php.query(tables, fields, args)
 end

@@ -4,27 +4,12 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 
 	function register() {
 		$lib = array(
-			'get' => array( $this, 'cargoGet' ),
-			'query' => array( $this, 'cargoQuery' ),
+			'query' => array( $this, 'cargoQuery' )
 		);
 		return $this->getEngine()->registerInterface( __DIR__ . '/cargo.lua', $lib, array() );
 	}
 
-	function cargoGet() {
-		global $wgCargoQueryResults;
-
-		$val = $wgCargoQueryResults;
-		if ( $val == null ) {
-			return array( null );
-		}
-
-		array_unshift( $val, null );
-		$wgCargoQueryResults = null;
-		return array( $val );
-	}
-
 	function cargoQuery($tables, $fields, $args) {
-
 		$this->checkType( 'query', 1, $tables, 'string' );
 		$this->checkType( 'query', 2, $fields, 'string' );
 		$this->checkTypeOptional( 'query', 3, $args, 'table', array() );

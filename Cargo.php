@@ -145,7 +145,6 @@ $wgAutoloadClasses['CargoBarChartFormat'] = $dir . '/formats/CargoBarChartFormat
 $wgAutoloadClasses['CargoGalleryFormat'] = $dir . '/formats/CargoGalleryFormat.php';
 $wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat.php';
 $wgAutoloadClasses['CargoExhibitFormat'] = $dir . '/formats/CargoExhibitFormat.php';
-$wgAutoloadClasses['CargoNativeFormat'] = $dir . '/formats/CargoNativeFormat.php';
 $wgAutoloadClasses['CargoSearchMySQL'] = $dir . '/search/CargoSearchMySQL.php';
 
 $wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
@@ -320,7 +319,6 @@ $wgCargoDBpassword = null;
 $wgCargoDefaultQueryLimit = 100;
 $wgCargoMaxQueryLimit = 5000;
 $wgCargo24HourTime = false;
-$wgCargoQueryResults = null;
 
 $wgCargoMapClusteringMinimum = 80;
 
