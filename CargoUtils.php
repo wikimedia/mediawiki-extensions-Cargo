@@ -623,7 +623,8 @@ class CargoUtils {
 			}
 			$createSQL .= ' )';
 			$cdb->query( $createSQL );
-			$createIndexSQL = "CREATE INDEX row_id_$fieldTableName ON " .
+			$createIndexSQL = 'CREATE INDEX ' .
+				$cdb->addIdentifierQuotes( 'row_id_$fieldTableName' ) . ' ON ' .
 				$cdb->tableName( $fieldTableName ) .
 				' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
 			$cdb->query( $createIndexSQL );

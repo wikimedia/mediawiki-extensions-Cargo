@@ -406,7 +406,7 @@ class CargoSQLQuery {
 			$fieldName = null;
 			$description = new CargoFieldDescription();
 
-			$fieldPattern = '/^([\w$]+)([.]([\w$]+))?$/';
+			$fieldPattern = '/^([-\w$]+)([.]([-\w$]+))?$/';
 			$fieldPatternFound = preg_match( $fieldPattern, $origFieldName, $fieldPatternMatches );
 			$stringPatternFound = false;
 			$hasFunctionCall = false;
