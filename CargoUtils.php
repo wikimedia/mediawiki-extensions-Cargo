@@ -390,9 +390,19 @@ class CargoUtils {
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = self::getDB();
 
+		$tableNames = array();
 		$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
 		while ( $row = $dbw->fetchRow( $res ) ) {
-			$curTable = $row['main_table'];
+			$tableNames[] = $row['main_table'];
+		}
+
+		// For whatever reason, that DB query might have failed -
+		// if so, just add the table name here.
+		if ( $tableName != null && !in_array( $tableName, $tableNames ) ) {
+			$tableNames[] = $tableName;
+		}
+
+		foreach( $tableNames as $curTable ) {
 			try {
 				$cdb->dropTable( $curTable );
 			} catch ( Exception $e ) {
