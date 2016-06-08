@@ -902,17 +902,18 @@ END;
 			( count( $this->remaining_filters ) == 0 ) ) {
 			return $header;
 		}
-		$header .= '				<div id="drilldown-header">' . "\n";
+
+		$appliedFiltersHTML = '				<div id="drilldown-header">' . "\n";
 		if ( count( $this->applied_filters ) > 0 ) {
 			$tableURL = $this->makeBrowseURL( $this->tableName );
-			$header .= '<a href="' . $tableURL . '" title="' .
+			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
 				$this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
 				str_replace( '_', ' ', $this->tableName ) . '</a>';
 		} else {
-			$header .= str_replace( '_', ' ', $this->tableName );
+			$appliedFiltersHTML .= str_replace( '_', ' ', $this->tableName );
 		}
 		foreach ( $this->applied_filters as $i => $af ) {
-			$header .= ( $i == 0 ) ? " > " :
+			$appliedFiltersHTML .= ( $i == 0 ) ? " > " :
 				"\n\t\t\t\t\t<span class=\"drilldown-header-value\">&</span> ";
 			$filter_label = str_replace( '_', ' ', $af->filter->name );
 			// Add an "x" to remove this filter, if it has more
@@ -922,15 +923,15 @@ END;
 				array_splice( $temp_filters_array, $i, 1 );
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 				array_splice( $temp_filters_array, $i, 0 );
-				$header .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
+				$appliedFiltersHTML .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
 					$this->msg( 'cargo-drilldown-removefilter' )->text() .
 					'"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a> : ';
 			} else {
-				$header .= "$filter_label: ";
+				$appliedFiltersHTML .= "$filter_label: ";
 			}
 			foreach ( $af->values as $j => $fv ) {
 				if ( $j > 0 ) {
-					$header .= ' <span class="drilldown-or">' .
+					$appliedFiltersHTML .= ' <span class="drilldown-or">' .
 						$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
 				}
 				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
@@ -938,7 +939,7 @@ END;
 				$removed_values = array_splice( $temp_filters_array[$i]->values, $j, 1 );
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
-				$header .= "\n	" . '				<span class="drilldown-header-value">' .
+				$appliedFiltersHTML .= "\n	" . '				<span class="drilldown-header-value">' .
 					$filter_text . '</span> <a href="' . $remove_filter_url . '" title="' .
 					$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
 					$cgScriptPath . '/drilldown/resources/filter-x.png" /></a>';
@@ -947,34 +948,39 @@ END;
 			if ( $af->search_terms != null ) {
 				foreach ( $af->search_terms as $j => $search_term ) {
 					if ( $j > 0 ) {
-						$header .= ' <span class="drilldown-or">' .
+						$appliedFilersHTML .= ' <span class="drilldown-or">' .
 							$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
 					}
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
-					$header .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
+					$appliedFilersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
 						'\'</span> <a href="' . $remove_filter_url . '" title="' .
 						$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
 						$cgScriptPath . '/drilldown/resources/filter-x.png" /> </a>';
 				}
 			} elseif ( $af->lower_date != null || $af->upper_date != null ) {
-				$header .= "\n\t" . Html::element( 'span', array( 'class' => 'drilldown-header-value' ),
+				$appliedFiltersHTML .= "\n\t" . Html::element( 'span', array( 'class' => 'drilldown-header-value' ),
 						$af->lower_date_string . " - " . $af->upper_date_string );
 			}
 		}
-		$header .= "</div>\n";
+
+		$appliedFiltersHTML .= "</div>\n";
+		$header .= $appliedFiltersHTML;
 		$drilldown_description = $this->msg( 'cargo-drilldown-docu' )->text();
 		$header .= "				<p>$drilldown_description</p>\n";
+
 		// Display every filter, each on its own line; each line will
 		// contain the possible values, and, in parentheses, the
 		// number of pages that match that value.
-		$header .= "				<div class=\"drilldown-filters\">\n";
+		$filtersHTML = "				<div class=\"drilldown-filters\">\n";
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->applied_filters );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		$tableSchemas = CargoUtils::getTableSchemas( array( $this->tableName ) );
 		$tableSchema = $tableSchemas[$this->tableName];
+
+		$numFilters = 0;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldType = $fieldDescription->mType;
 			// Some field types shouldn't get a filter at all.
@@ -988,19 +994,27 @@ END;
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
 					if ( $fieldType == 'Date' || $fieldType == 'Integer' || $fieldType == 'Float' ) {
-						$header .= $this->printUnappliedFilterLine( $f );
+						$filtersHTML .= $this->printUnappliedFilterLine( $f );
 					} else {
-						$header .= $this->printAppliedFilterLine( $af );
+						$filtersHTML .= $this->printAppliedFilterLine( $af );
 					}
 				}
 			}
 			foreach ( $this->remaining_filters as $rf ) {
 				if ( $rf->name == $f->name ) {
-					$header .= $this->printUnappliedFilterLine( $rf, $cur_url );
+					$filtersHTML .= $this->printUnappliedFilterLine( $rf, $cur_url );
 				}
 			}
+			$numFilters++;
 		}
-		$header .= "				</div> <!-- drilldown-filters -->\n";
+		$filtersHTML .= "				</div> <!-- drilldown-filters -->\n";
+
+		if ( $numFilters == 0 ) {
+			return '';
+		}
+
+		$header .= $filtersHTML;
+
 		return $header;
 	}
 
