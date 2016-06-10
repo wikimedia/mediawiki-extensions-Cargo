@@ -339,7 +339,10 @@ class CargoUtils {
 			// Special:RunJobs.
 			// If that's the case, do nothing - we don't need to
 			// parse the value.
-		} elseif ( ( $title != null && $title->isSpecialPage() ) ||
+		// This next clause should only be called for Cargo's special
+		// pages, not for SF's Special:RunQuery. Don't know about other
+		// special pages.
+		} elseif ( ( $title != null && $title->isSpecialPage() && !$wgRequest->getCheck( 'wpRunQuery' ) ) ||
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
 			$parserOutput = $parser->parse( $value, $title, new ParserOptions(), false );
