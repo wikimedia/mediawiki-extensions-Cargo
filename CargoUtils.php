@@ -444,8 +444,9 @@ class CargoUtils {
 		} elseif ( $fieldType == 'Float' ) {
 			switch ( $dbType ) {
 				case "mssql":
-				case "mysql":
 					return 'Float';
+				case "mysql":
+					return 'Double';
 				case "postgres":
 					return 'Numeric';
 				case "sqlite":
