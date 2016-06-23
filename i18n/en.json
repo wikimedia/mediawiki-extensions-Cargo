@@ -50,6 +50,7 @@
 	"cargo-cargotables-attachedby": "attached by $1",
 	"cargo-cargotables-tablenotfound": "Table \"$1\" not found in Cargo database.",
 	"cargo-cargotables-totalrows": "This table has '''$1''' {{PLURAL:$1|row|rows}} altogether.",
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|row|rows}}",
 	"deletecargotable": "Delete Cargo table",
 	"pagevalues": "Page values",
 	"cargo-pagevaluesfor": "Page values for \"$1\"",

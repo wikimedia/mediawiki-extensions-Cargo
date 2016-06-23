@@ -55,6 +55,7 @@
 	"cargo-cargotables-attachedby": "Parameters:\n* $1 - template name",
 	"cargo-cargotables-tablenotfound": "An error message. ({{doc-cargo}})\n\nParameters:\n* $1 - table name.",
 	"cargo-cargotables-totalrows": "Parameters:\n* $1 - number of rows in a database table.",
+	"cargo-cargotables-totalrowsshort": "Parameters:\n* $1 - number of rows in a database table.",
 	"deletecargotable": "{{doc-special|DeleteCargoTable}}\n{{doc-cargo}}",
 	"pagevalues": "{{doc-special|PageValues}}",
 	"cargo-pagevaluesfor": "Parameters:\n* $1 - a page name.",

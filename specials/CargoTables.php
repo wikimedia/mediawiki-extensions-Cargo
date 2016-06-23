@@ -121,6 +121,7 @@ class CargoTables extends IncludableSpecialPage {
 	function displayListOfTables() {
 		global $wgUser;
 
+		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();
 		$templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
 		$templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
@@ -149,6 +150,10 @@ class CargoTables extends IncludableSpecialPage {
 				$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $deleteTableURL ),
 						$this->msg( 'delete' )->text() );
 			}
+
+			$res = $cdb->select( $tableName, 'COUNT(*)' );
+			$row = $cdb->fetchRow( $res );
+			$numRowsText = $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( $row[0] )->parse();
 
 			// "Declared by" text
 			if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
@@ -183,7 +188,7 @@ class CargoTables extends IncludableSpecialPage {
 						'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();
 			}
 
-			$tableText = "$tableName ($actionLinks) ($declaringTemplatesText";
+			$tableText = "$tableName ($actionLinks) - $numRowsText ($declaringTemplatesText";
 			if ( $attachingTemplatesText != '' ) {
 				$tableText .= ", $attachingTemplatesText";
 			}
