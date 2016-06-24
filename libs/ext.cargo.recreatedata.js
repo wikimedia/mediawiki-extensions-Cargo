@@ -17,6 +17,7 @@
 	var cargoScriptPath = dataDiv.attr("cargoscriptpath");
 	var tableName = dataDiv.attr("tablename");
 	var isDeclared = dataDiv.attr("isdeclared");
+	var viewTableURL = dataDiv.attr("viewtableurl");
 	var templateData = jQuery.parseJSON( dataDiv.html() );
 
 	var numTotalPages = 0;
@@ -66,7 +67,7 @@
 					recreateData.createJobs( templateNum + 1, 0, replaceOldRows );
 				} else {
 					// We're done.
-					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p>" );
+					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p><p><a href=\"" + viewTableURL + "\">" + mw.msg( 'cargo-cargotables-viewtablelink' ) + "</a>.</p>" );
 				}
 			}
 		});

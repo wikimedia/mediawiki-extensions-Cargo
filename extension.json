@@ -118,7 +118,8 @@
 			"dependencies": "mediawiki.jqueryMsg",
 			"messages": [
 				"cargo-recreatedata-tablecreated",
-				"cargo-recreatedata-success"
+				"cargo-recreatedata-success",
+				"cargo-cargotables-viewtablelink"
 			],
 			"position": "bottom"
 		},

@@ -77,6 +77,9 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			}
 		}
 
+		$ct = SpecialPage::getTitleFor( 'CargoTables' );
+		$viewTableURL = $ct->getInternalURL() . '/' . $this->mTableName;
+
 		// Store all the necesssary data on the page.
 		$text = Html::element( 'div', array(
 				'hidden' => 'true',
@@ -90,7 +93,8 @@ class CargoRecreateData extends UnlistedSpecialPage {
 				'apiurl' => $wgScriptPath . "/api.php",
 				'cargoscriptpath' => $cgScriptPath,
 				'tablename' => $this->mTableName,
-				'isdeclared' => $this->mIsDeclared
+				'isdeclared' => $this->mIsDeclared,
+				'viewtableurl' => $viewTableURL
 			), json_encode( $templateData ) );
 
 		// Simple form.

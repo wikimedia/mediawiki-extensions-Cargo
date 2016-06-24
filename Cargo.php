@@ -180,7 +180,8 @@ $wgResourceModules += array(
 		'dependencies' => 'mediawiki.jqueryMsg',
 		'messages' => array(
 			'cargo-recreatedata-tablecreated',
-			'cargo-recreatedata-success'
+			'cargo-recreatedata-success',
+			'cargo-cargotables-viewtablelink'
 		),
 		'position' => 'bottom',
 		'localBasePath' => __DIR__,
