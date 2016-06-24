@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80"
+			"Amire80",
+			"Guycn2"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -51,6 +52,7 @@
 	"cargo-cargotables-attachedby": "משויך על־ידי $1",
 	"cargo-cargotables-tablenotfound": "הטבלה \"$1\" לא נמצאת במסד הנתונים של Cargo.",
 	"cargo-cargotables-totalrows": "בטבלה הזאת יש {{PLURAL:$1|שורה '''אחת'''|'''$1''' שורות}} בסך הכול.",
+	"cargo-cargotables-totalrowsshort": "{{PLURAL:$1|שורה אחת|$1 שורות}}",
 	"deletecargotable": "מחיקת טבלת Cargo",
 	"pagevalues": "ערכי דף",
 	"cargo-pagevaluesfor": "ערכי דף עבור \"$1\"",
