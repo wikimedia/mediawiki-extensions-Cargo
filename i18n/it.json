@@ -24,6 +24,7 @@
 	"cargo-cargotables-declaredby": "Dichiarato da $1",
 	"cargo-cargotables-tablenotfound": "La tabella \"$1\" non è stata trovata nel database Cargo.",
 	"cargo-cargotables-totalrows": "Questa tabella ha complessivamente '''$1''' {{PLURAL:$1|riga|righe}}.",
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|riga|righe}}",
 	"deletecargotable": "Cancella tabella Cargo",
 	"pagevalues": "Valori pagina",
 	"cargo-pagevaluesfor": "Valori pagina per \"$1\"",

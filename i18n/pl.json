@@ -9,6 +9,7 @@
 	"cargo-viewdata-where": "Gdzie:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|wiersz|wiersze|wierszy}}",
 	"cargo-drilldown-or": "lub",
 	"cargo-drilldown-removefilter": "Usuń ten filtr",
 	"cargo-drilldown-novalues": "Brak wartości dla tego filtra",

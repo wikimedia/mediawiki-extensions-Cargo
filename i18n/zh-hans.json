@@ -52,6 +52,7 @@
 	"cargo-cargotables-attachedby": "由$1附加",
 	"cargo-cargotables-tablenotfound": "在Cargo数据库中没有发现表格“$1”。",
 	"cargo-cargotables-totalrows": "这个表格总共有'''$1'''{{PLURAL:$1|行}}。",
+	"cargo-cargotables-totalrowsshort": "$1{{PLURAL:$1|行}}",
 	"deletecargotable": "删除Cargo表格",
 	"pagevalues": "页面值",
 	"cargo-pagevaluesfor": "用于“$1”的页面值",
