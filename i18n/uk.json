@@ -55,6 +55,7 @@
 	"cargo-cargotables-attachedby": "прикріплено шаблоном $1",
 	"cargo-cargotables-tablenotfound": "Таблиця «$1» не знайдена в базі даних Cargo.",
 	"cargo-cargotables-totalrows": "Ця таблиця має загалом '''$1''' {{PLURAL:$1|рядок|рядки|рядків}}.",
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|рядок|рядки|рядків}}",
 	"deletecargotable": "Вилучити таблицю Cargo",
 	"pagevalues": "Значення сторінок",
 	"cargo-pagevaluesfor": "Значення сторінки «$1»",

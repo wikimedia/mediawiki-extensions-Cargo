@@ -4,5 +4,6 @@
 			"V.narsikar"
 		]
 	},
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|ओळ|ओळी}}",
 	"cargo-pageschemas-tablename": "सारणीचे नाव:"
 }
