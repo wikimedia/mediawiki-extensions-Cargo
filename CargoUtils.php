@@ -539,6 +539,7 @@ class CargoUtils {
 		$dbType = $cdb->getType();
 		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
 		$stringTypeString = self::fieldTypeToSQLType( 'String', $dbType );
+		$textTypeString = self::fieldTypeToSQLType( 'Text', $dbType );
 
 		$createSQL = "CREATE TABLE " .
 			$cdb->tableName( $tableName ) . ' ( ' .
@@ -561,8 +562,8 @@ class CargoUtils {
 				// for holding each value.
 				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__full' ) . ' ';
 				// The field holding the full list will always
-				// just be text
-				$createSQL .= $stringTypeString;
+				// just be text - and it could be long.
+				$createSQL .= $textTypeString;
 			} else {
 				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName ) . ' ';
 				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
