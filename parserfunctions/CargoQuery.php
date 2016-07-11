@@ -27,13 +27,20 @@ class CargoQuery {
 		$havingStr = null;
 		$orderByStr = null;
 		$limitStr = null;
+		$noHTML = false;
 		$format = 'auto'; // default
 		$displayParams = array();
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
 
-			if ( count( $parts ) != 2 ) {
+			if ( count( $parts ) == 1 ) {
+				if ( $param == 'no html' ) {
+					$noHTML = true;
+				}
+				continue;
+			}
+			if ( count( $parts ) > 2 ) {
 				continue;
 			}
 			$key = trim( $parts[0] );
@@ -124,7 +131,7 @@ class CargoQuery {
 		// which means that everything needs to be parsed together
 		// instead of one instance at a time. Also, the template will
 		// contain wikitext, not HTML.
-		$displayHTML = ( $format != 'template' );
+		$displayHTML = ( !$noHTML && $format != 'template' );
 
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
