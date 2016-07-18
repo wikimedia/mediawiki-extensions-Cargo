@@ -78,6 +78,12 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+		// The cache unfortunately prevents the CSS from getting
+		// displayed.
+		if ( $this->mParser != null ) {
+			$this->mParser->disableCache();
+		}
+
 		if ( array_key_exists( 'caption field', $displayParams ) ) {
 			$captionField = str_replace( '_', ' ', $displayParams['caption field'] );
 			if ( $captionField[0] == ' ' ) {
