@@ -87,8 +87,8 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$colorArray = $req->getArray( 'color' );
 
-		$startDate = $req->getVal( 'start' );
-		$endDate = $req->getVal( 'end' );
+		$datesLowerLimit = $req->getVal( 'start' );
+		$datesUpperLimit = $req->getVal( 'end' );
 
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
@@ -111,7 +111,7 @@ class CargoExport extends UnlistedSpecialPage {
 				if ( $j > 0 ) {
 					$where .= " OR ";
 				}
-				$where .= "($dateField >= '$startDate' AND $dateField <= '$endDate')";
+				$where .= "($dateField >= '$datesLowerLimit' AND $dateField <= '$datesUpperLimit)";
 			}
 			$where .= ")";
 			$sqlQuery->mWhereStr = $where;
