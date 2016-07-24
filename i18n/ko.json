@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"SeoJeongHo",
-			"Revi"
+			"Revi",
+			"Ykhwong"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",
@@ -18,5 +19,6 @@
 	"cargo-recreatedata-success": "데이터가 재생성되고 있습니다.",
 	"viewdata": "데이터 보기",
 	"cargo-viewdata-tables": "테이블:",
+	"cargo-cargotables-totalrowsshort": "$1개의 {{PLURAL:$1|행}}",
 	"cargo-viewxls": "XLS 보기"
 }
