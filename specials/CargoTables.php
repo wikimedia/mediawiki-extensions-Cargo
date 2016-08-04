@@ -63,7 +63,9 @@ class CargoTables extends IncludableSpecialPage {
 			$fieldType = $fieldDescription->mType;
 			// Special handling for URLs, to avoid them
 			// overwhelming the page.
-			if ( $fieldType == 'URL' ) {
+			// @TODO - something similar should be done for lists
+			// of URLs.
+			if ( $fieldType == 'URL' && !$fieldDescription->mIsList ) {
 				// Thankfully, there's a message in core
 				// MediaWiki that seems to just be "URL".
 				$fieldName = "CONCAT('[', $fieldName, ' " .
