@@ -28,6 +28,13 @@ class CargoTables extends IncludableSpecialPage {
 		$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 		$out->setPageTitle( $pageTitle );
 
+		// Mimic the appearance of a subpage to link back to
+		// Special:CargoTables.
+		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+		$mainPageLink = Linker::linkKnown( $ctPage->getTitle(),
+			htmlspecialchars( $ctPage->getDescription() ) );
+		$out->setSubtitle( '< '. $mainPageLink );
+
 		$cdb = CargoUtils::getDB();
 
 		// First, display a count.
