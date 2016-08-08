@@ -1,0 +1,22 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kumkumuk",
+			"Mirzali"
+		]
+	},
+	"cargo-viewdata-where": "Koti:",
+	"cargo-viewdata-limit": "Limit:",
+	"cargo-viewdata-format": "Format:",
+	"cargotables": "Tabloyê kargoyi",
+	"cargo-drilldown-choosetable": "Tablo weçine",
+	"cargo-drilldown-or": "ya zi",
+	"cargo-drilldown-removefilter": "Enê parzûni wedare",
+	"cargo-drilldown-resetfilters": "Parzûnan cıra bere",
+	"cargo-viewcsv": "CSV bıvêne",
+	"cargo-viewxls": "XLS bıvêne",
+	"cargo-viewjson": "JSON bıvêne",
+	"cargo-purgecache": "Verviri veng ke",
+	"specialpages-group-cargo": "Kargo",
+	"cargo-pageschemas-tablename": "Nameyê tabloyi:"
+}
