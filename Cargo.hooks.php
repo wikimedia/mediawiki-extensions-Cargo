@@ -24,13 +24,6 @@ class CargoHooks {
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
 		$wgGroupPermissions['sysop']['deletecargodata'] = true;
-
-		define( 'CARGO_STORE_CREATION_DATE', 1 );
-		define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
-		define( 'CARGO_STORE_CREATOR', 3 );
-		define( 'CARGO_STORE_FULL_TEXT', 4 );
-		define( 'CARGO_STORE_CATEGORIES', 5 );
-		define( 'CARGO_STORE_NUM_REVISIONS', 6 );
 	}
 
 	public static function registerParserFunctions( &$parser ) {

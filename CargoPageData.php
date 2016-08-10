@@ -7,27 +7,35 @@
  */
 class CargoPageData {
 
+	// Constants for possible table fields/columns
+	const CREATION_DATE = 1;
+	const MODIFICATION_DATE = 2;
+	const CREATOR = 3;
+	const FULL_TEXT = 4;
+	const CATEGORIES = 5;
+	const NUM_REVISIONS = 6;
+
 	static function getTableSchema() {
 		global $wgCargoPageDataColumns;
 
 		$fieldTypes = array();
 
-		if ( in_array( CARGO_STORE_CREATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CREATION_DATE, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creationDate'] = array( 'Date', false );
 		}
-		if ( in_array( CARGO_STORE_MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_modificationDate'] = array( 'Date', false );
 		}
-		if ( in_array( CARGO_STORE_CREATOR, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CREATOR, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creator'] = array( 'String', false );
 		}
-		if ( in_array( CARGO_STORE_FULL_TEXT, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::FULL_TEXT, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_fullText'] = array( 'Searchtext', false );
 		}
-		if ( in_array( CARGO_STORE_CATEGORIES, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CATEGORIES, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_categories'] = array( 'String', true );
 		}
-		if ( in_array( CARGO_STORE_NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_numRevisions'] = array( 'Integer', false );
 		}
 
@@ -70,7 +78,7 @@ class CargoPageData {
 		$wikiPage = WikiPage::factory( $title );
 		$pageDataValues = array();
 
-		if ( in_array( CARGO_STORE_CREATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CREATION_DATE, $wgCargoPageDataColumns ) ) {
 			$firstRevision = $title->getFirstRevision();
 			if ( $firstRevision == null ) {
 				// This can sometimes happen.
@@ -79,13 +87,13 @@ class CargoPageData {
 				$pageDataValues['_creationDate'] = $firstRevision->getTimestamp();
 			}
 		}
-		if ( in_array( CARGO_STORE_MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_modificationDate'] = $wikiPage->getTimestamp();
 		}
-		if ( in_array( CARGO_STORE_CREATOR, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CREATOR, $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_creator'] = $wikiPage->getCreator();
 		}
-		if ( in_array( CARGO_STORE_FULL_TEXT, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::FULL_TEXT, $wgCargoPageDataColumns ) ) {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
@@ -93,7 +101,7 @@ class CargoPageData {
 				$pageDataValues['_fullText'] = $article->getContent();
 			}
 		}
-		if ( in_array( CARGO_STORE_CATEGORIES, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::CATEGORIES, $wgCargoPageDataColumns ) ) {
 			$pageCategories = array();
 			if ( !$setToBlank ) {
 				$dbr = wfGetDB( DB_SLAVE );
@@ -111,7 +119,7 @@ class CargoPageData {
 			$pageCategoriesString = implode( '|', $pageCategories );
 			$pageDataValues['_categories'] = $pageCategoriesString;
 		}
-		if ( in_array( CARGO_STORE_NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
+		if ( in_array( self::NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			$res = $dbr->select(
 				'revision',

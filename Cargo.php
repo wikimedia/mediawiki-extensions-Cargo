@@ -27,13 +27,6 @@ if ( version_compare( $GLOBALS['wgVersion'], '1.27', '>=' ) ) {
 
 define( 'CARGO_VERSION', '1.0.1' );
 
-define( 'CARGO_STORE_CREATION_DATE', 1 );
-define( 'CARGO_STORE_MODIFICATION_DATE', 2 );
-define( 'CARGO_STORE_CREATOR', 3 );
-define( 'CARGO_STORE_FULL_TEXT', 4 );
-define( 'CARGO_STORE_CATEGORIES', 5 );
-define( 'CARGO_STORE_NUM_REVISIONS', 6 );
-
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,
 	'name' => 'Cargo',
