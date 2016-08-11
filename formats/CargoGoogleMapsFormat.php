@@ -12,8 +12,10 @@ class CargoGoogleMapsFormat extends CargoMapsFormat {
 	}
 
 	public function getScripts() {
+		global $wgCargoGoogleMapsKey;
+
 		return array(
-			"https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"
+			"https://maps.googleapis.com/maps/api/js?v=3.exp&key=$wgCargoGoogleMapsKey"
 		);
 	}
 

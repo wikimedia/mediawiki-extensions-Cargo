@@ -314,6 +314,7 @@ $wgCargoDefaultQueryLimit = 100;
 $wgCargoMaxQueryLimit = 5000;
 $wgCargo24HourTime = false;
 
+$wgCargoGoogleMapsKey = null;
 $wgCargoMapClusteringMinimum = 80;
 
 $wgCargoDrilldownUseTabs = false;

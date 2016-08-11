@@ -279,6 +279,7 @@
 		"CargoDefaultQueryLimit": 100,
 		"CargoMaxQueryLimit": 5000,
 		"Cargo24HourTime": false,
+		"CargoGoogleMapsKey": null,
 		"CargoMapClusteringMinimum": 80,
 		"CargoDrilldownUseTabs": false,
 		"CargoDrilldownSmallestFontSize": -1,
