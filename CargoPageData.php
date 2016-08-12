@@ -7,35 +7,35 @@
  */
 class CargoPageData {
 
-	// Constants for possible table fields/columns
-	const CREATION_DATE = 1;
-	const MODIFICATION_DATE = 2;
-	const CREATOR = 3;
-	const FULL_TEXT = 4;
-	const CATEGORIES = 5;
-	const NUM_REVISIONS = 6;
-
+	/**
+	 * Set the schema based on what has been entered in LocalSettings.php.
+	 * Strings are used to set the field names; it would have been
+	 * better to use constants (like CARGO_CREATION_DATE or
+	 * CargoPageData::CREATION_DATE instead of 'creationDate') but
+	 * unfortunately the extension.json system doesn't support any kind
+	 * of constants.
+	 */
 	static function getTableSchema() {
 		global $wgCargoPageDataColumns;
 
 		$fieldTypes = array();
 
-		if ( in_array( self::CREATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creationDate'] = array( 'Date', false );
 		}
-		if ( in_array( self::MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'modificationDate', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_modificationDate'] = array( 'Date', false );
 		}
-		if ( in_array( self::CREATOR, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'creator', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creator'] = array( 'String', false );
 		}
-		if ( in_array( self::FULL_TEXT, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_fullText'] = array( 'Searchtext', false );
 		}
-		if ( in_array( self::CATEGORIES, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_categories'] = array( 'String', true );
 		}
-		if ( in_array( self::NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_numRevisions'] = array( 'Integer', false );
 		}
 
@@ -78,7 +78,7 @@ class CargoPageData {
 		$wikiPage = WikiPage::factory( $title );
 		$pageDataValues = array();
 
-		if ( in_array( self::CREATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
 			$firstRevision = $title->getFirstRevision();
 			if ( $firstRevision == null ) {
 				// This can sometimes happen.
@@ -87,13 +87,13 @@ class CargoPageData {
 				$pageDataValues['_creationDate'] = $firstRevision->getTimestamp();
 			}
 		}
-		if ( in_array( self::MODIFICATION_DATE, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'modificationDate', $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_modificationDate'] = $wikiPage->getTimestamp();
 		}
-		if ( in_array( self::CREATOR, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'creator', $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_creator'] = $wikiPage->getCreator();
 		}
-		if ( in_array( self::FULL_TEXT, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
@@ -101,7 +101,7 @@ class CargoPageData {
 				$pageDataValues['_fullText'] = $article->getContent();
 			}
 		}
-		if ( in_array( self::CATEGORIES, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			$pageCategories = array();
 			if ( !$setToBlank ) {
 				$dbr = wfGetDB( DB_SLAVE );
@@ -119,7 +119,7 @@ class CargoPageData {
 			$pageCategoriesString = implode( '|', $pageCategories );
 			$pageDataValues['_categories'] = $pageCategoriesString;
 		}
-		if ( in_array( self::NUM_REVISIONS, $wgCargoPageDataColumns ) ) {
+		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			$res = $dbr->select(
 				'revision',
