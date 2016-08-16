@@ -984,7 +984,7 @@ END;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldType = $fieldDescription->mType;
 			// Some field types shouldn't get a filter at all.
-			if ( in_array( $fieldType, array( 'Text', 'URL', 'Wikitext', 'Searchtext' ) ) ) {
+			if ( in_array( $fieldType, array( 'Text', 'File', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
 				continue;
 			}
 			$f = new CargoFilter();
