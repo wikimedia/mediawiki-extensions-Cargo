@@ -167,16 +167,16 @@ class CargoSQLQuery {
 	 */
 	function setAliasedFieldNames() {
 		$this->mAliasedFieldNames = array();
-		$fieldNames = CargoUtils::smartSplit( ',', $this->mFieldsStr );
+		$fieldStrings = CargoUtils::smartSplit( ',', $this->mFieldsStr );
 		// Default is "_pageName".
-		if ( count( $fieldNames ) == 0 ) {
-			$fieldNames[] = '_pageName';
+		if ( count( $fieldStrings ) == 0 ) {
+			$fieldStrings[] = '_pageName';
 		}
 
 		// Quick error-checking: for now, just disallow "DISTINCT",
 		// and require "GROUP BY" instead.
-		foreach ( $fieldNames as $i => $fieldName ) {
-			if ( strtolower( substr( $fieldName, 0, 9 ) ) == 'distinct ' ) {
+		foreach ( $fieldStrings as $i => $fieldString ) {
+			if ( strtolower( substr( $fieldString, 0, 9 ) ) == 'distinct ' ) {
 				throw new MWException( "Error: The DISTINCT keyword is not allowed by Cargo; "
 				. "please use \"group by=\" instead." );
 			}
@@ -187,13 +187,13 @@ class CargoSQLQuery {
 		// "Blank value X" - it will get replaced back before being
 		// displayed.
 		$blankAliasCount = 0;
-		foreach ( $fieldNames as $i => $fieldName ) {
-			$originalFieldName = $fieldName;
-			$fieldNameParts = CargoUtils::smartSplit( '=', $fieldName );
-			if ( count( $fieldNameParts ) == 2 ) {
-				$fieldName = trim( $fieldNameParts[0] );
-				$alias = trim( $fieldNameParts[1] );
+		foreach ( $fieldStrings as $i => $fieldString ) {
+			$fieldStringParts = CargoUtils::smartSplit( '=', $fieldString );
+			if ( count( $fieldStringParts ) == 2 ) {
+				$fieldName = trim( $fieldStringParts[0] );
+				$alias = trim( $fieldStringParts[1] );
 			} else {
+				$fieldName = $fieldString;
 				// Might as well change underscores to spaces
 				// by default - but for regular field names,
 				// not the special ones.
@@ -214,7 +214,7 @@ class CargoSQLQuery {
 				$alias = "Blank value $blankAliasCount";
 			}
 			$this->mAliasedFieldNames[$alias] = $fieldName;
-			$this->mFieldStringAliases[$originalFieldName] = $alias;
+			$this->mFieldStringAliases[$fieldString] = $alias;
 		}
 	}
 
