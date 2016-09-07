@@ -948,14 +948,14 @@ END;
 			if ( $af->search_terms != null ) {
 				foreach ( $af->search_terms as $j => $search_term ) {
 					if ( $j > 0 ) {
-						$appliedFilersHTML .= ' <span class="drilldown-or">' .
+						$appliedFiltersHTML .= ' <span class="drilldown-or">' .
 							$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
 					}
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName, $temp_filters_array );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
-					$appliedFilersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
+					$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
 						'\'</span> <a href="' . $remove_filter_url . '" title="' .
 						$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
 						$cgScriptPath . '/drilldown/resources/filter-x.png" /> </a>';
