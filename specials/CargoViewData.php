@@ -161,15 +161,22 @@ class ViewDataPage extends QueryPage {
 		// "order by" is handled elsewhere, in getOrderFields().
 		//
 		// Field aliases need to have quotes placed around them
-		// before actually running the query.
-		$realAliasedFieldNames = array();
-		foreach ( $this->sqlQuery->mAliasedFieldNames as $alias => $fieldName ) {
-			$realAliasedFieldNames['"' . $alias . '"'] = $fieldName;
+		// before running the query - though, starting in
+		// MW 1.27 (specifically, with
+		// https://gerrit.wikimedia.org/r/#/c/286489/),
+		// the quotes get added automatically.
+		if ( version_compare( $GLOBALS['wgVersion'], '1.27', '<' ) ) {
+			$aliasedFieldNames = array();
+			foreach ( $this->sqlQuery->mAliasedFieldNames as $alias => $fieldName ) {
+				$aliasedFieldNames['"' . $alias . '"'] = $fieldName;
+			}
+		} else {
+			$aliasedFieldNames = $this->sqlQuery->mAliasedFieldNames;
 		}
 
 		$queryInfo = array(
 			'tables' => $this->sqlQuery->mTableNames,
-			'fields' => $realAliasedFieldNames,
+			'fields' => $aliasedFieldNames,
 			'options' => $selectOptions
 		);
 		if ( $this->sqlQuery->mWhereStr != '' ) {
