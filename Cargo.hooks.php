@@ -231,8 +231,11 @@ class CargoHooks {
 	 * @param int $newid Unused
 	 * @param string $reason Unused
 	 * @return boolean
+	 *
+	 * It's $user here and not &$user due to a bug in MW 1.27 - this declaration works
+	 * across all versions, thankfully.
 	 */
-	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User &$user, $oldid,
+	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User $user, $oldid,
 		$newid, $reason ) {
 		// For each main data table to which this page belongs, change
 		// the page name-related fields.
