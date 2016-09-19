@@ -51,7 +51,7 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 
 		$result = array();
 
-		$fieldArray = array_map( 'trim', explode( ',', $fields ) );
+		$fieldArray = CargoUtils::smartSplit( ',', $fields );
 
 		$rowIndex = 1; // because Lua arrays start at 1
 		foreach ( $rows as $row ) {
