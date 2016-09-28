@@ -17,7 +17,7 @@ class CargoUtils {
 	 * @global string $wgCargoDBuser
 	 * @global string $wgCargoDBpassword
 	 * @global string $wgCargoDBtype
-	 * @return DatabaseBase
+	 * @return Database
 	 */
 	public static function getDB() {
 		global $wgDBuser, $wgDBpassword, $wgDBprefix;
@@ -35,17 +35,16 @@ class CargoUtils {
 		$dbFlags = DBO_DEFAULT;
 		$dbTablePrefix = $wgDBprefix . 'cargo__';
 
-		$db = DatabaseBase::factory( $dbType,
-				array(
-				'host' => $dbServer,
-				'user' => $dbUsername,
-				'password' => $dbPassword,
-				'dbname' => $dbName,
-				'flags' => $dbFlags,
-				'tablePrefix' => $dbTablePrefix,
-				)
-		);
-		return $db;
+		$params = [
+			'host' => $dbServer,
+			'user' => $dbUsername,
+			'password' => $dbPassword,
+			'dbname' => $dbName,
+			'flags' => $dbFlags,
+			'tablePrefix' => $dbTablePrefix,
+		];
+
+		return Database::factory( $dbType, $params );
 	}
 
 	/**
