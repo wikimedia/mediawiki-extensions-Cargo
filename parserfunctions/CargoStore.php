@@ -16,7 +16,7 @@ class CargoStore {
 	const YEAR_ONLY = 3;
 
 	/**
-	 * Handles the #cargo_set parser function - saves data for one
+	 * Handles the #cargo_store parser function - saves data for one
 	 * template call.
 	 *
 	 * @global string $wgCargoDigitGroupingCharacter
@@ -26,7 +26,7 @@ class CargoStore {
 	 */
 	public static function run( &$parser ) {
 		// This function does actual DB modifications - so only proceed
-		// is this is called via either a page save or a "recreate
+		// if this is called via either a page save or a "recreate
 		// data" action for a template that this page calls.
 		if ( count( self::$settings ) == 0 ) {
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping.\n" );

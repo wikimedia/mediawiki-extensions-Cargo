@@ -52,7 +52,7 @@ class CargoQueryDisplayer {
 
 	/**
 	 * Given a format name, and a list of the fields, returns the name
-	 * of the the function to call for that format.
+	 * of the function to call for that format.
 	 */
 	public function getFormatClass() {
 		$formatClasses = self::getAllFormatClasses();

@@ -233,8 +233,8 @@ class CargoUtils {
 	}
 
 	/**
-	* find the end of a quoted string
-	*/
+	 * Finds the end of a quoted string.
+	 */
 	public static function findQuotedStringEnd( $string, $quoteChar, $pos ) {
 		$ignoreNextChar = false;
 		for ( $i = $pos ; $i < strlen($string) ; $i++ ) {
@@ -258,9 +258,9 @@ class CargoUtils {
 	}
 
 	/**
-	* Delete text within quotes and raise exception if a quoted string
-	* is not closed.
-	*/
+	 * Deletes text within quotes and raises and exception if a quoted string
+	 * is not closed.
+	 */
 	public static function removeQuotedStrings( $string ) {
 		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
 		$string = preg_replace( $noQuotesPattern, '', $string );
@@ -302,7 +302,7 @@ class CargoUtils {
 	}
 
 	/**
-	 * Parse a piece of wikitext differently depending on whether
+	 * Parses a piece of wikitext differently depending on whether
 	 * we're in a special or regular page.
 	 *
 	 * @global WebRequest $wgRequest
