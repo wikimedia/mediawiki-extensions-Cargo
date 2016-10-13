@@ -62,15 +62,15 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
-		$filters = array();
+		$all_filters = array();
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( $fieldDescription->mIsHidden ) {
 				continue;
 			}
 
-			// Skip coordinate fields.
-			if ( $fieldDescription->mType == 'Coordinates' ) {
+			// Some field types shouldn't get a filter at all.
+			if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
 				continue;
 			}
 
@@ -78,16 +78,16 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$curFilter->setName( $fieldName );
 			$curFilter->setTableName( $tableName );
 			$curFilter->setFieldDescription( $fieldDescription );
-			$filters[] = $curFilter;
+			$all_filters[] = $curFilter;
 		}
 
 		$filter_used = array();
-		foreach ( $filters as $i => $filter ) {
+		foreach ( $all_filters as $i => $filter ) {
 			$filter_used[] = false;
 		}
 		$applied_filters = array();
 		$remaining_filters = array();
-		foreach ( $filters as $i => $filter ) {
+		foreach ( $all_filters as $i => $filter ) {
 			$filter_name = str_replace( array( ' ', "'" ), array( '_', "\'" ), $filter->name );
 			$search_terms = $request->getArray( '_search_' . $filter_name );
 			$lower_date = $request->getArray( '_lower_' . $filter_name );
@@ -107,9 +107,9 @@ class CargoDrilldown extends IncludableSpecialPage {
 				$filter_used[$i] = true;
 			}
 		}
-		// add every unused filter to the $remaining_filters array,
-		// unless it requires some other filter that hasn't been applied
-		foreach ( $filters as $i => $filter ) {
+		// Add every unused filter to the $remaining_filters array,
+		// unless it requires some other filter that hasn't been applied.
+		foreach ( $all_filters as $i => $filter ) {
 			$matched_all_required_filters = true;
 			foreach ( $filter->required_filters as $required_filter ) {
 				$found_match = false;
@@ -130,7 +130,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
 		$rep = new CargoDrilldownPage(
-			$tableName, $applied_filters, $remaining_filters, $offset, $limit );
+			$tableName, $all_filters, $applied_filters, $remaining_filters, $offset, $limit );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -148,6 +148,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
+	public $all_filters = array();
 	public $applied_filters = array();
 	public $remaining_filters = array();
 	public $showSingleTable = false;
@@ -161,10 +162,11 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $applied_filters, $remaining_filters, $offset, $limit ) {
+	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $offset, $limit ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
+		$this->all_filters = $all_filters;
 		$this->applied_filters = $applied_filters;
 		$this->remaining_filters = $remaining_filters;
 		$this->offset = $offset;
@@ -977,20 +979,8 @@ END;
 		$filtersHTML = "				<div class=\"drilldown-filters\">\n";
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->applied_filters );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
-		$tableSchemas = CargoUtils::getTableSchemas( array( $this->tableName ) );
-		$tableSchema = $tableSchemas[$this->tableName];
 
-		$numFilters = 0;
-		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-			$fieldType = $fieldDescription->mType;
-			// Some field types shouldn't get a filter at all.
-			if ( in_array( $fieldType, array( 'Text', 'File', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
-				continue;
-			}
-			$f = new CargoFilter();
-			$f->setName( $fieldName );
-			$f->setTableName( $this->tableName );
-			$f->setFieldDescription( $fieldDescription );
+		foreach ( $this->all_filters as $f ) {
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
 					if ( $fieldType == 'Date' || $fieldType == 'Integer' || $fieldType == 'Float' ) {
