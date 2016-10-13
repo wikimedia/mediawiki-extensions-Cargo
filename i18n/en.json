@@ -57,7 +57,7 @@
 	"cargo-pagevalues-tablevalues": "\"$1\" values",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Choose a table",
-	"cargo-drilldown-docu": "Click on the filter values below to narrow your results.",
+	"cargo-drilldown-docu": "Use the filters below to narrow your results.",
 	"cargo-drilldown-filterbyvalue": "Filter by this value",
 	"cargo-drilldown-or": "or",
 	"cargo-drilldown-removefilter": "Remove this filter",
