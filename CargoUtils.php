@@ -27,7 +27,10 @@ class CargoUtils {
 		$name = $dbw->getDBname();
 		$type = $dbw->getType();
 
-		$dbType = is_null( $wgCargoDBtype ) ? $type : $wgCargoDBtype;
+		// We need $wgCargoDBtype for other functions.
+		if ( is_null( $wgCargoDBtype ) ) {
+			$wgCargoDBtype = $type;
+		}
 		$dbServer = is_null( $wgCargoDBserver ) ? $server : $wgCargoDBserver;
 		$dbUsername = is_null( $wgCargoDBuser ) ? $wgDBuser : $wgCargoDBuser;
 		$dbPassword = is_null( $wgCargoDBpassword ) ? $wgDBpassword : $wgCargoDBpassword;
@@ -44,7 +47,7 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		];
 
-		return Database::factory( $dbType, $params );
+		return Database::factory( $wgCargoDBtype, $params );
 	}
 
 	/**
