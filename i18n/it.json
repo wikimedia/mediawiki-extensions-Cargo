@@ -30,6 +30,7 @@
 	"cargo-pagevaluesfor": "Valori pagina per \"$1\"",
 	"cargo-pagevalues-tablevalues": "valori \"$1\"",
 	"cargo-drilldown-choosetable": "Scegli una tabella",
+	"cargo-drilldown-docu": "Utilizza i filtri sotto per restringere i risultati.",
 	"cargo-drilldown-filterbyvalue": "Filtra per questo valore",
 	"cargo-drilldown-or": "o",
 	"cargo-drilldown-removefilter": "Rimuovi questo filtro",

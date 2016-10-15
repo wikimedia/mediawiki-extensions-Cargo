@@ -59,7 +59,7 @@
 	"cargo-pagevalues-tablevalues": "“$1”值",
 	"drilldown": "钻取",
 	"cargo-drilldown-choosetable": "选择一个表格",
-	"cargo-drilldown-docu": "点击下面的过滤值以缩小您的结果。",
+	"cargo-drilldown-docu": "使用下面的过滤器以缩小您的结果。",
 	"cargo-drilldown-filterbyvalue": "按此值过滤",
 	"cargo-drilldown-or": "或",
 	"cargo-drilldown-removefilter": "移除此过滤器",

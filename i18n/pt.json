@@ -12,6 +12,7 @@
 	"cargo-viewdata-format": "Formato:",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|A seguinte tabela está definida|As seguintes tabelas estão definidas}}:",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|linha|linhas}}",
+	"cargo-drilldown-docu": "Use o filtro abaixo para restringir os seus resultados.",
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Remover este filtro",
 	"cargo-drilldown-resetfilters": "Repor filtros",

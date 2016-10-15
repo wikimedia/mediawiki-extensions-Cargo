@@ -16,6 +16,7 @@
 	"cargo-cargotables-totalrows": "Denna tabell har totalt '''$1''' {{PLURAL:$1|rad|rader}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|rad|rader}}",
 	"cargo-drilldown-choosetable": "Välj en tabell",
+	"cargo-drilldown-docu": "Använd filtren nedan för att begränsa dina resultat.",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
 	"cargo-pageschemas-tablename": "Tabellnamn:"
