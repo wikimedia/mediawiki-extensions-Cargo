@@ -155,20 +155,6 @@ class CargoAppliedFilter {
 			$value_field = $this->filter->name;
 		}
 
-		if ( $this->filter->fieldDescription->mType == 'Date' ) {
-			// Is this necessary?
-			$date_field = $value_field;
-			if ( $this->filter->getTimePeriod() == 'month' ) {
-				$value_field = "YEAR($date_field), MONTH($date_field)";
-			} elseif ( $this->filter->getTimePeriod() == 'day' ) {
-				$value_field = "YEAR($date_field), MONTH($date_field), DAYOFMONTH($date_field)";
-			} elseif ( $this->filter->getTimePeriod() == 'year' ) {
-				$value_field = "YEAR($date_field)";
-			} else { // if ( $this->filter->getTimePeriod() == 'year range' ) {
-				$value_field = "YEAR($date_field)";
-			}
-		}
-
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $tableName, "DISTINCT " . $value_field );
 		while ( $row = $cdb->fetchRow( $res ) ) {
