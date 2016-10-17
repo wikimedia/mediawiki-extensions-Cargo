@@ -74,11 +74,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				continue;
 			}
 
-			$curFilter = new CargoFilter();
-			$curFilter->setName( $fieldName );
-			$curFilter->setTableName( $tableName );
-			$curFilter->setFieldDescription( $fieldDescription );
-			$all_filters[] = $curFilter;
+			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription );
 		}
 
 		$filter_used = array();

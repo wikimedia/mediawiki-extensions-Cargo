@@ -18,15 +18,9 @@ class CargoFilter {
 	public $required_filters = array();
 	public $possible_applied_filters = array();
 
-	public function setName( $name ) {
+	function __construct( $name, $tableName, $fieldDescription ) {
 		$this->name = $name;
-	}
-
-	public function setTableName( $tableName ) {
 		$this->tableName = $tableName;
-	}
-
-	public function setFieldDescription( $fieldDescription ) {
 		$this->fieldDescription = $fieldDescription;
 	}
 
