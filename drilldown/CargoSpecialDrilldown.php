@@ -1045,12 +1045,10 @@ END;
 		$conds = array();
 		$joinConds = array();
 		foreach ( $this->applied_filters as $i => $af ) {
-			$conds[] = $af->checkSQL();
-			if ( $af->filter->fieldDescription->mIsList ) {
-				$fieldTableName = $this->tableName . '__' . $af->filter->name;
-				$tableNames[] = $fieldTableName;
-				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
-			}
+			list( $curTableNames, $curConds, $curJoinConds ) = $af->getQueryParts( $this->tableName );
+			$tableNames = array_merge( $tableNames, $curTableNames );
+			$conds = array_merge( $conds, $curConds );
+			$joinConds = array_merge( $joinConds, $curJoinConds );
 		}
 
 		$aliasedFieldNames = array(

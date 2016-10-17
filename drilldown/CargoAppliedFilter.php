@@ -142,6 +142,24 @@ class CargoAppliedFilter {
 		return $sql;
 	}
 
+	function getQueryParts( $mainTableName ) {
+		$cdb = CargoUtils::getDB();
+
+		$tableNames = array();
+		$conds = array();
+		$joinConds = array();
+
+		$conds[] = $this->checkSQL();
+
+		if ( $this->filter->fieldDescription->mIsList ) {
+			$fieldTableName = $mainTableName . '__' . $this->filter->name;
+			$tableNames[] = $fieldTableName;
+			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $mainTableName, $fieldTableName );
+		}
+
+		return array( $tableNames, $conds, $joinConds );
+	}
+
 	/**
 	 * Gets an array of all values that this filter has.
 	 */
