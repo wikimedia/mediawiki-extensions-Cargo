@@ -36,7 +36,7 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return string
 	 */
-	function getTimePeriod( $appliedFilters ) {
+	function getTimePeriod( $fullTextSearchTerm, $appliedFilters ) {
 		// If it's not a date field, return null.
 		if ( $this->fieldDescription->mType != 'Date' ) {
 			return null;
@@ -44,7 +44,7 @@ class CargoFilter {
 
 		$cdb = CargoUtils::getDB();
 		$date_field = $this->name;
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
 		$res = $cdb->select( $tableNames, array( "MIN($date_field)", "MAX($date_field)" ), $conds, null,
 			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
@@ -85,12 +85,21 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getQueryParts( $appliedFilters ) {
+	function getQueryParts( $fullTextSearchTerm, $appliedFilters ) {
 		$cdb = CargoUtils::getDB();
 
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
+          
+		if ( $fullTextSearchTerm != null ) {
+			list( $curTableNames, $curConds, $curJoinConds ) =
+				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm, $this->tableName, $this->searchableFiles );
+			$tableNames = array_merge( $tableNames, $curTableNames );
+			$conds = array_merge( $conds, $curConds );
+			$joinConds = array_merge( $joinConds, $curJoinConds );
+		}
+
 		foreach ( $appliedFilters as $af ) {
 			$conds[] = $af->checkSQL();
 			if ( $af->filter->fieldDescription->mIsList ) {
@@ -110,7 +119,7 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getTimePeriodValues( $appliedFilters ) {
+	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters ) {
 		$possible_dates = array();
 		$date_field = $this->name;
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
@@ -125,7 +134,7 @@ class CargoFilter {
 			$fields = "YEAR($date_field)";
 		}
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
 		$selectOptions = array( 'GROUP BY' => $fields, 'ORDER BY' => $fields );
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $tableNames, array( $fields, 'COUNT(*)' ), $conds, null, $selectOptions,
@@ -169,10 +178,10 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getAllValues( $appliedFilters ) {
+	function getAllValues( $fullTextSearchTerm, $appliedFilters ) {
 		$cdb = CargoUtils::getDB();
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$tableNames[] = $fieldTableName;
