@@ -158,13 +158,7 @@ class CargoAppliedFilter {
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $tableName, "DISTINCT " . $value_field );
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			if ( $this->filter->fieldDescription->mType == 'Date' &&
-				$this->filter->getTimePeriod() == 'month' ) {
-				$value_string = CargoDrilldownUtils::monthToString( $row[1] ) . " " . $row[0];
-			} else {
-				$value_string = $row[0];
-			}
-			$possible_values[] = $value_string;
+			$possible_values[] = $row[0];
 		}
 		$cdb->freeResult( $res );
 		return $possible_values;
