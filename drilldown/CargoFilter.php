@@ -13,7 +13,6 @@ class CargoFilter {
 	public $tableName;
 	public $fieldType;
 	public $fieldDescription;
-	public $time_period = null;
 	public $allowed_values;
 	public $required_filters = array();
 	public $possible_applied_filters = array();
@@ -41,11 +40,6 @@ class CargoFilter {
 		// If it's not a date field, return null.
 		if ( $this->fieldDescription->mType != 'Date' ) {
 			return null;
-		}
-
-		// If it has already been set, just return it.
-		if ( $this->time_period != null ) {
-			return $this->time_period;
 		}
 
 		$cdb = CargoUtils::getDB();
@@ -76,15 +70,14 @@ class CargoFilter {
 		$yearDifference = $maxYear - $minYear;
 		$monthDifference = ( 12 * $yearDifference ) + ( $maxMonth - $minMonth );
 		if ( $yearDifference > 30 ) {
-			$this->time_period = 'decade';
+			return 'decade';
 		} elseif ( $yearDifference > 2 ) {
-			$this->time_period = 'year';
+			return 'year';
 		} elseif ( $monthDifference > 1 ) {
-			$this->time_period = 'month';
+			return 'month';
 		} else {
-			$this->time_period = 'day';
+			return 'day';
 		}
-		return $this->time_period;
 	}
 
 	/**
