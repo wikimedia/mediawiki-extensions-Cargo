@@ -113,14 +113,15 @@ class CargoFilter {
 	function getTimePeriodValues( $appliedFilters ) {
 		$possible_dates = array();
 		$date_field = $this->name;
+		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
 
-		if ( $this->getTimePeriod( $appliedFilters ) == 'day' ) {
+		if ( $timePeriod == 'day' ) {
 			$fields = "YEAR($date_field), MONTH($date_field), DAYOFMONTH($date_field)";
-		} elseif ( $this->getTimePeriod( $appliedFilters ) == 'month' ) {
+		} elseif ( $timePeriod == 'month' ) {
 			$fields = "YEAR($date_field), MONTH($date_field)";
-		} elseif ( $this->getTimePeriod( $appliedFilters ) == 'year' ) {
+		} elseif ( $timePeriod == 'year' ) {
 			$fields = "YEAR($date_field)";
-		} else { // if ( $this->getTimePeriod() == 'decade' ) {
+		} else { // if ( $timePeriod == 'decade' ) {
 			$fields = "YEAR($date_field)";
 		}
 
@@ -132,16 +133,16 @@ class CargoFilter {
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			if ( $row[0] == null ) {
 				$possible_dates['_none'] = $row['COUNT(*)'];
-			} elseif ( $this->getTimePeriod( $appliedFilters ) == 'day' ) {
+			} elseif ( $timePeriod == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[2] . ', ' . $row[0];
 				$possible_dates[$date_string] = $row[3];
-			} elseif ( $this->getTimePeriod( $appliedFilters ) == 'month' ) {
+			} elseif ( $timePeriod == 'month' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[0];
 				$possible_dates[$date_string] = $row[2];
-			} elseif ( $this->getTimePeriod( $appliedFilters ) == 'year' ) {
+			} elseif ( $timePeriod == 'year' ) {
 				$date_string = $row[0];
 				$possible_dates[$date_string] = $row[1];
-			} else { // if ( $this->getTimePeriod() == 'decade' )
+			} else { // if ( $timePeriod == 'decade' )
 				// Unfortunately, there's no SQL DECADE()
 				// function - so we have to take these values,
 				// which are grouped into year "buckets", and
