@@ -579,9 +579,8 @@ class CargoUtils {
 				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__lon' ) . ' ';
 				$createSQL .= $floatTypeString;
 			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
-				$integerTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
 				$createSQL .= ", " . $cdb->addIdentifierQuotes( $fieldName . '__precision' ) . ' ';
-				$createSQL .= $integerTypeString;
+				$createSQL .= $intTypeString;
 			} elseif ( $fieldType == 'Searchtext' ) {
 				$createSQL .= ", FULLTEXT KEY $fieldName (" . $cdb->addIdentifierQuotes( $fieldName ) . ')';
 				$containsSearchTextType = true;

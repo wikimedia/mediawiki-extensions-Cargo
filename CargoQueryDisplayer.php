@@ -144,7 +144,7 @@ class CargoQueryDisplayer {
 					// cool, but those are apparently far
 					// from universal symbols.
 					$text = ( $value == true ) ? wfMessage( 'htmlform-yes' )->text() : wfMessage( 'htmlform-no' )->text();
-				} elseif ( $fieldType == 'Searchtext' && array_key_exists( $fieldName, $this->mSQLQuery->mSearchTerms ) ) {
+				} elseif ( $fieldType == 'Searchtext' && $this->mSQLQuery && array_key_exists( $fieldName, $this->mSQLQuery->mSearchTerms ) ) {
 					$searchTerms = $this->mSQLQuery->mSearchTerms[$fieldName];
 					$text = Html::rawElement( 'span', array( 'class' => 'searchresult' ), self::getTextSnippet( $value, $searchTerms ) );
 				} else {
