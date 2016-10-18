@@ -327,6 +327,46 @@ class CargoStore {
 		// Insert the current data into the main table.
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
+		// Also insert the names of any "attached" files into the
+		// "files" helper table.
+		$fileTableName = $tableName . '___files';
+		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			$fieldType = $fieldDescription->mType;
+			if ( $fieldType != 'File' ) {
+				continue;
+			}
+			if ( $fieldDescription->mIsList ) {
+				$delimiter = $fieldDescription->getDelimiter();
+				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName . '__full'] );
+				foreach ( $individualValues as $individualValue ) {
+					$individualValue = trim( $individualValue );
+					// Ignore blank values.
+					if ( $individualValue == '' ) {
+						continue;
+					}
+					$fieldValues = array(
+						'_pageName' => $pageName,
+						'_pageID' => $pageID,
+						'_fieldName' => $fieldName,
+						'_fileName' => $individualValue
+					);
+					CargoUtils::escapedInsert( $cdb, $fileTableName, $fieldValues );
+				}
+			} else {
+				$fileName = $tableFieldValues[$fieldName];
+				if ( $fileName == '' ) {
+					continue;
+				}
+				$fieldValues = array(
+					'_pageName' => $pageName,
+					'_pageID' => $pageID,
+					'_fieldName' => $fieldName,
+					'_fileName' => $fileName
+				);
+				CargoUtils::escapedInsert( $cdb, $fileTableName, $fieldValues );
+			}
+		}
+
 		// This close() call, for some reason, is necessary for the
 		// subsequent SQL to be called correctly, when jobs are run
 		// in the standard way.

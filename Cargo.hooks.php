@@ -138,6 +138,12 @@ class CargoHooks {
 				);
 			}
 
+			// Delete from the "files" helper table, if it exists.
+			$curFilesTable = $curMainTable . '___files';
+			if ( $cdb->tableExists( $curFilesTable ) ) {
+				$cdb->delete( $curFilesTable, $cdbPageIDCheck );
+			}
+
 			// Now, delete from the "main" table.
 			$cdb->delete( $curMainTable, $cdbPageIDCheck );
 		}

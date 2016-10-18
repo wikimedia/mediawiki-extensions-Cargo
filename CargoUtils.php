@@ -552,6 +552,7 @@ class CargoUtils {
 			$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString NOT NULL";
 
 		$containsSearchTextType = false;
+		$containsFileType = false;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$size = $fieldDescription->mSize;
 			$isList = $fieldDescription->mIsList;
@@ -584,6 +585,8 @@ class CargoUtils {
 			} elseif ( $fieldType == 'Searchtext' ) {
 				$createSQL .= ", FULLTEXT KEY $fieldName (" . $cdb->addIdentifierQuotes( $fieldName ) . ')';
 				$containsSearchTextType = true;
+			} elseif ( $fieldType == 'File' ) {
+				$containsFileType = true;
 			}
 		}
 		$createSQL .= ' )';
@@ -646,6 +649,22 @@ class CargoUtils {
 				' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
 			$cdb->query( $createIndexSQL );
 			$fieldTableNames[] = $tableName . '__' . $fieldName;
+		}
+
+		// And create a helper table holding all the files stored in
+		// this table, if there are any.
+		if ( $containsFileType ) {
+			$fileTableName = $tableName . '___files';
+			$cdb->dropTable( $fileTableName );
+			$fieldType = $fieldDescription->mType;
+			$createSQL = "CREATE TABLE " .
+				$cdb->tableName( $fileTableName ) . ' ( ' .
+				$cdb->addIdentifierQuotes( '_pageName' ) . " $stringTypeString, " .
+				$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString, " .
+				$cdb->addIdentifierQuotes( '_fieldName' ) . " $stringTypeString, " .
+				$cdb->addIdentifierQuotes( '_fileName' ) . " $stringTypeString";
+			$createSQL .= ' )';
+			$cdb->query( $createSQL );
 		}
 
 		// Necessary in some cases.
