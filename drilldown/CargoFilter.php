@@ -13,14 +13,16 @@ class CargoFilter {
 	public $tableName;
 	public $fieldType;
 	public $fieldDescription;
+	public $searchableFiles;
 	public $allowed_values;
 	public $required_filters = array();
 	public $possible_applied_filters = array();
 
-	function __construct( $name, $tableName, $fieldDescription ) {
+	function __construct( $name, $tableName, $fieldDescription, $searchableFiles ) {
 		$this->name = $name;
 		$this->tableName = $tableName;
 		$this->fieldDescription = $fieldDescription;
+		$this->searchableFiles = $searchableFiles;
 	}
 
 	public function addRequiredFilter( $filterName ) {
@@ -136,12 +138,17 @@ class CargoFilter {
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
 		$selectOptions = array( 'GROUP BY' => $fields, 'ORDER BY' => $fields );
+		if ( $this->searchableFiles ) {
+			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
+		} else {
+			$countClause = "COUNT(*)";
+		}
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableNames, array( $fields, 'COUNT(*)' ), $conds, null, $selectOptions,
+		$res = $cdb->select( $tableNames, array( $fields, $countClause ), $conds, null, $selectOptions,
 			$joinConds );
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			if ( $row[0] == null ) {
-				$possible_dates['_none'] = $row['COUNT(*)'];
+				$possible_dates['_none'] = $row[$countClause];
 			} elseif ( $timePeriod == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[2] . ', ' . $row[0];
 				$possible_dates[$date_string] = $row[3];
@@ -191,7 +198,13 @@ class CargoFilter {
 			$fieldName = $this->name;
 		}
 
-		$res = $cdb->select( $tableNames, array( $fieldName, 'COUNT(*)' ), $conds, null,
+		if ( $this->searchableFiles ) {
+			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
+		} else {
+			$countClause = "COUNT(*)";
+		}
+
+		$res = $cdb->select( $tableNames, array( $fieldName, $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {

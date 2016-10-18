@@ -66,6 +66,8 @@
 	"cargo-drilldown-novalues": "There are no values for this filter",
 	"cargo-drilldown-fulltext": "Full text",
 	"cargo-drilldown-pagetext": "Page text",
+	"cargo-drilldown-filename": "File name",
+	"cargo-drilldown-filetext": "File text",
 	"cargo-viewcsv": "View CSV",
 	"cargo-viewxls": "View XLS",
 	"cargo-viewjson": "View JSON",

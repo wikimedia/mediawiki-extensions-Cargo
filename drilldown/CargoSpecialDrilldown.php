@@ -19,6 +19,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 	function execute( $query ) {
 		global $cgScriptPath, $wgCargoPageDataColumns;
+		global $wgCargoFileDataColumns;
 
 		$request = $this->getRequest();
 		$out = $this->getOutput();
@@ -64,11 +65,18 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$all_filters = array();
 		$fullTextSearchTerm = null;
+		$searchableFiles = false;
 
 		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
 			$vals_array = $request->getArray( '_search' );
 			if ( $vals_array != null ) {
 				$fullTextSearchTerm = $vals_array[0];
+			}
+		}
+
+		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( !$fieldDescription->mIsHidden && $fieldDescription->mType == 'File' && in_array( 'fullText', $wgCargoFileDataColumns ) ) {
+				$searchableFiles = true;
 			}
 		}
 
@@ -83,7 +91,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				continue;
 			}
 
-			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription );
+			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription, $searchableFiles );
 		}
 
 		$filter_used = array();
@@ -135,7 +143,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
 		$rep = new CargoDrilldownPage(
-			$tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $offset, $limit );
+			$tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchableFiles, $offset, $limit );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -157,6 +165,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $applied_filters = array();
 	public $remaining_filters = array();
 	public $fullTextSearchTerm;
+	public $searchableFiles;
 	public $showSingleTable = false;
 
 	/**
@@ -166,10 +175,11 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param array $applied_filters
 	 * @param array $remaining_filters
 	 * @param string $fullTextSearchTerm;
+	 * @param boolean $searchableFiles
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $offset, $limit ) {
+	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchableFiles, $offset, $limit ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -177,6 +187,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->applied_filters = $applied_filters;
 		$this->remaining_filters = $remaining_filters;
 		$this->fullTextSearchTerm = $fullTextSearchTerm;
+		$this->searchableFiles = $searchableFiles;
 		$this->offset = $offset;
 		$this->limit = $limit;
 	}
@@ -1096,11 +1107,28 @@ END;
 		}
 
 		$aliasedFieldNames = array(
-			'title' => '_pageName',
-			'value' => '_pageName',
-			'namespace' => '_pageNamespace',
-			'ID' => '_pageID'
+			'title' => 'cargo__' . $this->tableName . '._pageName',
+			'value' => 'cargo__' . $this->tableName . '._pageName',
+			'namespace' => 'cargo__' . $this->tableName . '._pageNamespace',
+			'ID' => 'cargo__' . $this->tableName . '._pageID'
 		);
+
+		if ( $this->fullTextSearchTerm != null ) {
+			$aliasedFieldNames['pageText'] = 'cargo___pageData._fullText';
+			if ( $this->searchableFiles ) {
+				$aliasedFieldNames['fileName'] = 'cargo___fileData._pageName';
+				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
+				// @HACK -  the result set may contain both
+				// pages and files that match the search term.
+				// So how do we know, for each result row,
+				// whether it's for a page or a file? We add
+				// the "match on file" clause as a (boolean)
+				// query field. There may be a more efficient
+				// way to do this, using SQL variables or
+				// something.
+				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $this->fullTextSearchTerm );
+			}
+		}
 
 		$queryInfo = array(
 			'tables' => $tableNames,
@@ -1113,7 +1141,7 @@ END;
 		return $queryInfo;
 	}
 
-	static function getFullTextSearchQueryParts( $searchTerm, $mainTableName ) {
+	static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $searchableFiles ) {
 		$cdb = CargoUtils::getDB();
 
 		$tableNames = array();
@@ -1127,13 +1155,34 @@ END;
 			' = ' .
 			CargoUtils::escapedFieldName( $cdb, '_pageData', '_pageID' )
 		);
-		$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+          
+		if ( $searchableFiles ) {
+			$fileTableName = $mainTableName . '___files';
+			$tableNames[] = $fileTableName;
+			$joinConds[$fileTableName] = array(
+				'LEFT OUTER JOIN',
+				CargoUtils::escapedFieldName( $cdb, $mainTableName, '_pageID' ) .
+				' = ' .
+				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_pageID' )
+			);
+			$tableNames[] = '_fileData';
+			$joinConds['_fileData'] = array(
+				'JOIN',
+				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_fileName' ) .
+				' = ' .
+				CargoUtils::escapedFieldName( $cdb, '_fileData', '_pageTitle' )
+			);
+			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm ) . ' OR ' .
+				CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+		} else {
+			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+		}
 
 		return array( $tableNames, $conds, $joinConds );
 	}
 
 	function getOrderFields() {
-		return array( '_pageName' );
+		return array( 'cargo__' . $this->tableName . '._pageName' );
 	}
 
 	function sortDescending() {
@@ -1160,29 +1209,51 @@ END;
 		$valuesTable = array();
 		$cdb = CargoUtils::getDB();
 		$pageTextStr = $this->msg( 'cargo-drilldown-pagetext' )->text();
+		$fileNameStr = $this->msg( 'cargo-drilldown-filename' )->text();
+		$fileTextStr = $this->msg( 'cargo-drilldown-filetext' )->text();
 
+		// @HACK - the current SQL query may return the same page as a
+		// result more than once. So keep an array of pages that have
+		// been returned so that we show each page only once.
+		$matchingPages = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			$curValue = array( 'title' => $row['title'] );
-			if ( array_key_exists( 'pageText', $row ) ) {
-				$curValue[$pageTextStr] = $row['pageText'];
+			$pageName = $row['title'];
+			$curValue = array( 'title' => $pageName );
+			if ( array_key_exists( 'foundFileMatch', $row ) && $row['foundFileMatch'] ) {
+				$curValue[$fileNameStr] = $row['fileName'];
+				$curValue[$fileTextStr] = $row['fileText'];
+				$valuesTable[] = $curValue;
+			} elseif ( array_key_exists( 'pageText', $row ) ) {
+				if ( !in_array( $pageName, $matchingPages ) ) {
+					$curValue[$pageTextStr] = $row['pageText'];
+					$valuesTable[] = $curValue;
+					$matchingPages[] = $pageName;
+				}
 			}
-			$valuesTable[] = $curValue;
 		}
+
 		$queryDisplayer = new CargoQueryDisplayer();
 		$fieldDescription = new CargoFieldDescription();
 		$fieldDescription->mType = 'Page';
 		$queryDisplayer->mFieldDescriptions = array( 'title' => $fieldDescription );
-          
+
 		if ( $this->fullTextSearchTerm != null ) {
 			$searchTerms = CargoUtils::smartSplit( ' ', $this->fullTextSearchTerm );
 			$dummySQLQuery = new CargoSQLQuery();
 			$dummySQLQuery->mSearchTerms = array(
-				$pageTextStr => $searchTerms
+				$pageTextStr => $searchTerms,
+				$fileTextStr => $searchTerms
 			);
 			$queryDisplayer->mSQLQuery = $dummySQLQuery;
 			$fullTextFieldDescription = new CargoFieldDescription();
 			$fullTextFieldDescription->mType = 'Searchtext';
+			$fileFieldDescription = new CargoFieldDescription();
+			$fileFieldDescription->mType = 'Page';
+			$stringFieldDescription = new CargoFieldDescription();
+			$stringFieldDescription->mType = 'String';
 			$queryDisplayer->mFieldDescriptions[$pageTextStr] = $fullTextFieldDescription;
+			$queryDisplayer->mFieldDescriptions[$fileNameStr] = $fileFieldDescription;
+			$queryDisplayer->mFieldDescriptions[$fileTextStr] = $fullTextFieldDescription;
 		}
 
 		$queryDisplayer->mFormat = 'category';
