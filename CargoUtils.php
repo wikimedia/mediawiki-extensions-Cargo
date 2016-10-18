@@ -660,6 +660,12 @@ class CargoUtils {
 		) );
 	}
 
+	public static function fullTextMatchSQL( $cdb, $tableName, $fieldName, $searchTerm ) {
+		$fullFieldName = self::escapedFieldName( $cdb, $tableName, $fieldName );
+		$searchTerm = str_replace( "'", "\'", $searchTerm );
+		return " MATCH($fullFieldName) AGAINST ('$searchTerm' IN BOOLEAN MODE) ";
+	}
+
 	/**
 	 * Parses one half of a set of coordinates into a number.
 	 *
