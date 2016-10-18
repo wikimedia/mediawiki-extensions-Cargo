@@ -87,6 +87,7 @@ $wgAutoloadClasses['CargoCompoundQuery'] = $dir . '/parserfunctions/CargoCompoun
 $wgAutoloadClasses['CargoSQLQuery'] = $dir . '/CargoSQLQuery.php';
 $wgAutoloadClasses['CargoQueryDisplayer'] = $dir . '/CargoQueryDisplayer.php';
 $wgAutoloadClasses['CargoPageData'] = $dir . '/CargoPageData.php';
+$wgAutoloadClasses['CargoFileData'] = $dir . '/CargoFileData.php';
 $wgAutoloadClasses['CargoRecurringEvent'] = $dir . '/parserfunctions/CargoRecurringEvent.php';
 $wgAutoloadClasses['CargoDisplayMap'] = $dir . '/parserfunctions/CargoDisplayMap.php';
 $wgAutoloadClasses['CargoPopulateTableJob'] = $dir . '/CargoPopulateTableJob.php';
@@ -325,3 +326,4 @@ $wgCargoDrilldownMinValuesForComboBox = 40;
 $wgCargoDrilldownNumRangesForNumbers = 5;
 
 $wgCargoPageDataColumns = array();
+$wgCargoFileDataColumns = array();

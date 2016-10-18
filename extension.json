@@ -52,6 +52,7 @@
 		"CargoSQLQuery": "CargoSQLQuery.php",
 		"CargoQueryDisplayer": "CargoQueryDisplayer.php",
 		"CargoPageData": "CargoPageData.php",
+		"CargoFileData": "CargoFileData.php",
 		"CargoRecurringEvent": "parserfunctions/CargoRecurringEvent.php",
 		"CargoDisplayMap": "parserfunctions/CargoDisplayMap.php",
 		"CargoPopulateTableJob": "CargoPopulateTableJob.php",
@@ -287,6 +288,7 @@
 		"CargoDrilldownMinValuesForComboBox": 40,
 		"CargoDrilldownNumRangesForNumbers": 5,
 		"CargoPageDataColumns": [],
+		"CargoFileDataColumns": [],
 		"CargoAllowedSQLFunctions":["COUNT", "FLOOR", "CEIL", "ROUND","MAX", "MIN", "AVG", "SUM", "POWER", "LN", "LOG","CONCAT", "GROUP_CONCAT", "LOWER", "LCASE", "UPPER", "UCASE","SUBSTRING", "FORMAT","NOW", "DATE", "YEAR", "MONTH", "DAYOFMONTH", "DATE_FORMAT","DATE_ADD", "DATE_SUB", "DATEDIFF","NEAR"]
 	},
 	"manifest_version": 1

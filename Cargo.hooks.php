@@ -185,8 +185,9 @@ class CargoHooks {
 		CargoStore::$settings['origin'] = 'page save';
 		CargoUtils::parsePageForStorage( $article->getTitle(), $content->getNativeData() );
 
-		// Also, save the "page data".
+		// Also, save the "page data" and (if appropriate) "file data".
 		CargoPageData::storeValuesForPage( $article->getTitle() );
+		CargoFileData::storeValuesForFile( $article->getTitle() );
 
 		return true;
 	}
@@ -203,6 +204,7 @@ class CargoHooks {
 		// parsed right after this.
 		CargoStore::$settings['origin'] = 'Approved Revs revision approved';
 		CargoPageData::storeValuesForPage( $title );
+		CargoFileData::storeValuesForFile( $title );
 		return true;
 	}
 
@@ -219,6 +221,7 @@ class CargoHooks {
 			CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
 		}
 		CargoPageData::storeValuesForPage( $title, $egApprovedRevsBlankIfUnapproved );
+		CargoFileData::storeValuesForFile( $title, $egApprovedRevsBlankIfUnapproved );
 		return true;
 	}
 
