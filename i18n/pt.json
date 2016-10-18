@@ -16,5 +16,7 @@
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Remover este filtro",
 	"cargo-drilldown-resetfilters": "Repor filtros",
+	"cargo-drilldown-fulltext": "Texto completo",
+	"cargo-drilldown-pagetext": "Texto da página",
 	"cargo-viewxls": "Ver XLS"
 }

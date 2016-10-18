@@ -26,6 +26,8 @@
 	"cargo-drilldown-or": "oder",
 	"cargo-drilldown-removefilter": "Dëse Filter ewechhuelen",
 	"cargo-drilldown-resetfilters": "Filteren zrécksetzen",
+	"cargo-drilldown-fulltext": "Integralen Text",
+	"cargo-drilldown-pagetext": "Text vun der Säit",
 	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
 	"cargo-viewjson": "JSON weisen",

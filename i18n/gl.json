@@ -68,6 +68,8 @@
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
 	"cargo-drilldown-addanothervalue": "Prema na frecha para engadir outro valor",
 	"cargo-drilldown-novalues": "Non hai valores para este filtro",
+	"cargo-drilldown-fulltext": "Texto completo",
+	"cargo-drilldown-pagetext": "Texto da páxina",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",

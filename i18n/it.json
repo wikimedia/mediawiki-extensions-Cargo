@@ -37,6 +37,8 @@
 	"cargo-drilldown-resetfilters": "Azzera filtri",
 	"cargo-drilldown-addanothervalue": "Clicca la freccia per aggiungere un altro valore",
 	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro",
+	"cargo-drilldown-fulltext": "Testo completo",
+	"cargo-drilldown-pagetext": "Testo della pagina",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
 	"cargo-pageschemas-tablename": "Nome tabella:"

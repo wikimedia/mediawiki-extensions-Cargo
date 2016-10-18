@@ -75,6 +75,8 @@
 	"cargo-drilldown-resetfilters": "Remise à zéro des filtres",
 	"cargo-drilldown-addanothervalue": "Cliquez sur la flèche pour ajouter une autre valeur",
 	"cargo-drilldown-novalues": "Il n’y a pas de valeur pour ce filtre",
+	"cargo-drilldown-fulltext": "Texte complet",
+	"cargo-drilldown-pagetext": "Texte de la page",
 	"cargo-viewcsv": "Afficher le CSV",
 	"cargo-viewxls": "Afficher l'XLS",
 	"cargo-viewjson": "Afficher le JSON",
