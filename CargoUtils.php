@@ -132,7 +132,7 @@ class CargoUtils {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_tables', 'main_table' );
 		while ( $row = $dbw->fetchRow( $res ) ) {
-			$tableNames[] = $row[0];
+			$tableNames[] = $row['main_table'];
 		}
 		return $tableNames;
 	}

@@ -285,9 +285,9 @@ END;
 		}
 		$cdb = CargoUtils::getDB();
 		foreach ( $tables as $table ) {
-			$res = $cdb->select( $table, 'COUNT(*)' );
+			$res = $cdb->select( $table, 'COUNT(*) AS total' );
 			$row = $cdb->fetchRow( $res );
-			$tableRows = $row[0];
+			$tableRows = $row['total'];
 			$realTableName = str_replace( '_', ' ', $table );
 			$tableStr = "$realTableName ($tableRows)";
 			if ( $this->tableName == $table ) {

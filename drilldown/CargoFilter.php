@@ -47,10 +47,10 @@ class CargoFilter {
 		$cdb = CargoUtils::getDB();
 		$date_field = $this->name;
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
-		$res = $cdb->select( $tableNames, array( "MIN($date_field)", "MAX($date_field)" ), $conds, null,
+		$res = $cdb->select( $tableNames, array( "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ), $conds, null,
 			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
-		$minDate = $row[0];
+		$minDate = $row['min_date'];
 		if ( is_null( $minDate ) ) {
 			return null;
 		}
@@ -61,7 +61,7 @@ class CargoFilter {
 			$minYear = $minDateParts[0];
 			$minMonth = $minDay = 0;
 		}
-		$maxDate = $row[1];
+		$maxDate = $row['max_date'];
 		$maxDateParts = explode( '-', $maxDate );
 		if ( count( $maxDateParts ) == 3 ) {
 			list( $maxYear, $maxMonth, $maxDay ) = $maxDateParts;
@@ -127,50 +127,59 @@ class CargoFilter {
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
 
 		if ( $timePeriod == 'day' ) {
-			$fields = "YEAR($date_field), MONTH($date_field), DAYOFMONTH($date_field)";
+			$fields = "YEAR($date_field) AS year_field, MONTH($date_field) AS month_field, DAYOFMONTH($date_field) AS day_of_month_field";
 		} elseif ( $timePeriod == 'month' ) {
-			$fields = "YEAR($date_field), MONTH($date_field)";
+			$fields = "YEAR($date_field) AS year_field, MONTH($date_field) AS month_field";
 		} elseif ( $timePeriod == 'year' ) {
-			$fields = "YEAR($date_field)";
+			$fields = "YEAR($date_field) AS year_field";
 		} else { // if ( $timePeriod == 'decade' ) {
-			$fields = "YEAR($date_field)";
+			$fields = "YEAR($date_field) AS year_field";
 		}
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
-		$selectOptions = array( 'GROUP BY' => $fields, 'ORDER BY' => $fields );
+		$selectOptions = [ 'GROUP BY' => $fields, 'ORDER BY' => $fields ];
 		if ( $this->searchableFiles ) {
-			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
+			$fields[] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID) AS total";
 		} else {
-			$countClause = "COUNT(*)";
+			$fields[] = "COUNT(*) AS total";
 		}
+
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableNames, array( $fields, $countClause ), $conds, null, $selectOptions,
-			$joinConds );
+
+		$res = $cdb->select(
+			$tableNames,
+			$fields,
+			$conds,
+			__METHOD__,
+			$selectOptions,
+			$joinConds
+		);
+
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			if ( $row[0] == null ) {
-				$possible_dates['_none'] = $row[$countClause];
+			if ( empty( current( $row ) ) ) {
+				$possible_dates['_none'] = $row['total'];
 			} elseif ( $timePeriod == 'day' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[2] . ', ' . $row[0];
-				$possible_dates[$date_string] = $row[3];
+				$date_string = CargoDrilldownUtils::monthToString( $row['month_field'] ) . ' ' . $row['day_of_month_field'] . ', ' . $row['year_field'];
+				$possible_dates[$date_string] = $row['total'];
 			} elseif ( $timePeriod == 'month' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row[1] ) . ' ' . $row[0];
-				$possible_dates[$date_string] = $row[2];
+				$date_string = CargoDrilldownUtils::monthToString( $row['month_field'] ) . ' ' . $row['year_field'];
+				$possible_dates[$date_string] = $row['total'];
 			} elseif ( $timePeriod == 'year' ) {
-				$date_string = $row[0];
-				$possible_dates[$date_string] = $row[1];
+				$date_string = $row['year_field'];
+				$possible_dates[$date_string] = $row['total'];
 			} else { // if ( $timePeriod == 'decade' )
 				// Unfortunately, there's no SQL DECADE()
 				// function - so we have to take these values,
 				// which are grouped into year "buckets", and
 				// re-group them into decade buckets.
-				$year_string = $row[0];
+				$year_string = $row['year_field'];
 				$start_of_decade = $year_string - ( $year_string % 10 );
 				$end_of_decade = $start_of_decade + 9;
 				$decade_string = $start_of_decade . ' - ' . $end_of_decade;
 				if ( !array_key_exists( $decade_string, $possible_dates ) ) {
-					$possible_dates[$decade_string] = $row[1];
+					$possible_dates[$decade_string] = $row['total'];
 				} else {
-					$possible_dates[$decade_string] += $row[1];
+					$possible_dates[$decade_string] += $row['total'];
 				}
 			}
 		}
@@ -199,20 +208,20 @@ class CargoFilter {
 		}
 
 		if ( $this->searchableFiles ) {
-			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
+			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID) AS total";
 		} else {
-			$countClause = "COUNT(*)";
+			$countClause = "COUNT(*) AS total";
 		}
 
 		$res = $cdb->select( $tableNames, array( $fieldName, $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			$value_string = $row[0];
+			$value_string = $row['_value'];
 			if ( $value_string == '' ) {
 				$value_string = ' none';
 			}
-			$possible_values[$value_string] = $row[1];
+			$possible_values[$value_string] = $row['total'];
 		}
 		$cdb->freeResult( $res );
 

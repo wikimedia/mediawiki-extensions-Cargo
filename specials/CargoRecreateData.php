@@ -112,7 +112,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 	function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
 		$res = $dbw->select(
 			array( 'page', 'templatelinks' ),
-			'COUNT(*)',
+			'COUNT(*) AS total',
 			array(
 				"tl_from=page_id",
 				"tl_namespace" => $templateTitle->getNamespace(),
@@ -121,7 +121,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			array()
 		);
 		$row = $dbw->fetchRow( $res );
-		return $row[0];
+		return intval($row['total']);
 	}
 
 }

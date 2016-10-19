@@ -39,14 +39,14 @@ class CargoTables extends IncludableSpecialPage {
 
 		// First, display a count.
 		try {
-			$res = $cdb->select( $tableName, 'COUNT(*)' );
+			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		} catch ( Exception $e ) {
 			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ),
 					$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( $row[0] )->text() . "\n" );
+		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval($row['total']) )->text() . "\n" );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
@@ -160,9 +160,9 @@ class CargoTables extends IncludableSpecialPage {
 						$this->msg( 'delete' )->text() );
 			}
 
-			$res = $cdb->select( $tableName, 'COUNT(*)' );
+			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 			$row = $cdb->fetchRow( $res );
-			$numRowsText = $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( $row[0] )->parse();
+			$numRowsText = $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( intval($row['total']) )->parse();
 
 			// "Declared by" text
 			if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {

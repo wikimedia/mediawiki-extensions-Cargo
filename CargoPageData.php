@@ -123,12 +123,12 @@ class CargoPageData {
 			$dbr = wfGetDB( DB_SLAVE );
 			$res = $dbr->select(
 				'revision',
-				'COUNT(*)',
+				'COUNT(*) as total',
 				array( 'rev_page' => $title->getArticleID() ),
 				__METHOD__
 			);
 			$row = $dbr->fetchRow( $res );
-			$pageDataValues['_numRevisions'] = $row[0];
+			$pageDataValues['_numRevisions'] = intval($row['total']);
 		}
 
 		CargoStore::storeAllData( $title, '_pageData', $pageDataValues, $tableSchemas['_pageData'] );
