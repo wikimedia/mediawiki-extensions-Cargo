@@ -39,6 +39,8 @@
 	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro",
 	"cargo-drilldown-fulltext": "Testo completo",
 	"cargo-drilldown-pagetext": "Testo della pagina",
+	"cargo-drilldown-filename": "Nome del file",
+	"cargo-drilldown-filetext": "Testo del file",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
 	"cargo-pageschemas-tablename": "Nome tabella:"

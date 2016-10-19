@@ -70,6 +70,8 @@
 	"cargo-drilldown-novalues": "Non hai valores para este filtro",
 	"cargo-drilldown-fulltext": "Texto completo",
 	"cargo-drilldown-pagetext": "Texto da páxina",
+	"cargo-drilldown-filename": "Nome de ficheiro",
+	"cargo-drilldown-filetext": "Texto do ficheiro",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",

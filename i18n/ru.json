@@ -3,10 +3,16 @@
 		"authors": [
 			"Batumski brodyaga",
 			"Дмитрий",
-			"Okras"
+			"Okras",
+			"Irus"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
+	"cargo-drilldown-docu": "Используйте фильтры ниже, чтобы сузить результаты.",
+	"cargo-drilldown-fulltext": "Полный текст",
+	"cargo-drilldown-pagetext": "Текст страницы",
+	"cargo-drilldown-filename": "Имя файла",
+	"cargo-drilldown-filetext": "Текстовый файл",
 	"cargo-pageschemas-cargofield": "Поле груза",
 	"cargo-pageschemas-tablename": "Имя таблицы:"
 }

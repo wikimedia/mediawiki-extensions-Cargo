@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Amire80",
-			"Guycn2"
+			"Guycn2",
+			"Or"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -66,6 +67,8 @@
 	"cargo-drilldown-resetfilters": "לאתחל מסננים",
 	"cargo-drilldown-addanothervalue": "יש ללחוץ על חץ כדי להוסיף ערך אחר",
 	"cargo-drilldown-novalues": "אין ערכים למסנן הזה",
+	"cargo-drilldown-pagetext": "טקסט הדף",
+	"cargo-drilldown-filename": "שם הקובץ",
 	"cargo-viewcsv": "הצגת CSV",
 	"cargo-viewxls": "הצגת XLS",
 	"cargo-viewjson": "הצגת JSON",

@@ -14,6 +14,7 @@
 	"cargo-drilldown-or": "lub",
 	"cargo-drilldown-removefilter": "Usuń ten filtr",
 	"cargo-drilldown-novalues": "Brak wartości dla tego filtra",
+	"cargo-drilldown-filename": "Nazwa pliku",
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
 	"cargo-viewjson": "Zobacz JSON",

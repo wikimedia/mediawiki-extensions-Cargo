@@ -77,6 +77,8 @@
 	"cargo-drilldown-novalues": "Il n’y a pas de valeur pour ce filtre",
 	"cargo-drilldown-fulltext": "Texte complet",
 	"cargo-drilldown-pagetext": "Texte de la page",
+	"cargo-drilldown-filename": "Nom du fichier",
+	"cargo-drilldown-filetext": "Texte du fichier",
 	"cargo-viewcsv": "Afficher le CSV",
 	"cargo-viewxls": "Afficher l'XLS",
 	"cargo-viewjson": "Afficher le JSON",

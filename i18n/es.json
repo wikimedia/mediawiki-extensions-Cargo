@@ -5,7 +5,8 @@
 			"Awesomecat5",
 			"Lmorillas",
 			"Fitoschido",
-			"Ryo567"
+			"Ryo567",
+			"Irus"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -52,6 +53,8 @@
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
 	"cargo-drilldown-addanothervalue": "Haz clic en la flecha para agregar otro valor",
 	"cargo-drilldown-novalues": "No hay valores para este filtro",
+	"cargo-drilldown-filename": "Nombre del archivo",
+	"cargo-drilldown-filetext": "Filete de texto",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
