@@ -8,6 +8,8 @@
 
 class CargoUtils {
 
+	static $CargoDB = null;
+
 	/**
 	 *
 	 * @global string $wgDBuser
@@ -20,6 +22,10 @@ class CargoUtils {
 	 * @return Database
 	 */
 	public static function getDB() {
+		if ( self::$CargoDB != null && self::$CargoDB->isOpen() ) {
+			return self::$CargoDB;
+		}
+
 		global $wgDBuser, $wgDBpassword, $wgDBprefix;
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBtype;
 		$dbw = wfGetDB( DB_MASTER );
@@ -47,7 +53,8 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		];
 
-		return Database::factory( $wgCargoDBtype, $params );
+		self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
+		return self::$CargoDB;
 	}
 
 	/**
