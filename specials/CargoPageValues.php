@@ -17,7 +17,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	}
 
 	function execute( $subpage = null ) {
-		global $wgCargoPageDataColumns;
+		global $wgCargoPageDataColumns, $wgCargoFileDataColumns;
 
 		if ( $subpage ) {
 			// Allow inclusion with e.g. {{Special:PageValues/Book}}
@@ -42,9 +42,13 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$tableNames = array();
 
-		// Make _pageData the first table, if it holds any real data.
+		// Make _pageData and _fileData the first two tables, if
+		// either of them hold any real data.
 		if ( count( $wgCargoPageDataColumns ) > 0 ) {
 			$tableNames[] = '_pageData';
+		}
+		if ( count( $wgCargoFileDataColumns ) > 0 ) {
+			$tableNames[] = '_fileData';
 		}
 
 		$res = $dbw->select(
