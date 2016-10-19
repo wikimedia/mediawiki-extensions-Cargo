@@ -1025,6 +1025,7 @@ END;
 		foreach ( $this->all_filters as $f ) {
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
+					$fieldType = $f->fieldDescription->mType;
 					if ( $fieldType == 'Date' || $fieldType == 'Integer' || $fieldType == 'Float' ) {
 						$filtersHTML .= $this->printUnappliedFilterLine( $f );
 					} else {
@@ -1037,11 +1038,10 @@ END;
 					$filtersHTML .= $this->printUnappliedFilterLine( $rf, $cur_url );
 				}
 			}
-			$numFilters++;
 		}
 		$filtersHTML .= "				</div> <!-- drilldown-filters -->\n";
 
-		if ( $numFilters == 0 ) {
+		if ( count( $this->all_filters ) == 0 ) {
 			return '';
 		}
 
