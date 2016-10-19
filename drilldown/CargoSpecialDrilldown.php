@@ -1022,6 +1022,11 @@ END;
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
+		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
+			$fullTextSearchInput = $this->printTextInput( '_search', 0, $this->fullTextSearchTerm );
+			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
+		}
+
 		foreach ( $this->all_filters as $f ) {
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
