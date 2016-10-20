@@ -126,22 +126,21 @@ class CargoFilter {
 		$date_field = $this->name;
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
 
+		$fields = array();
+		$fields['year_field'] = "YEAR($date_field)";
+		if ( $timePeriod == 'month' || $timePeriod == 'day' ) {
+			$fields['month_field'] = "MONTH($date_field)";
+		}
 		if ( $timePeriod == 'day' ) {
-			$fields = "YEAR($date_field) AS year_field, MONTH($date_field) AS month_field, DAYOFMONTH($date_field) AS day_of_month_field";
-		} elseif ( $timePeriod == 'month' ) {
-			$fields = "YEAR($date_field) AS year_field, MONTH($date_field) AS month_field";
-		} elseif ( $timePeriod == 'year' ) {
-			$fields = "YEAR($date_field) AS year_field";
-		} else { // if ( $timePeriod == 'decade' ) {
-			$fields = "YEAR($date_field) AS year_field";
+			$fields['day_of_month_field'] = "DAYOFMONTH($date_field)";
 		}
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
-		$selectOptions = [ 'GROUP BY' => $fields, 'ORDER BY' => $fields ];
+		$selectOptions = [ 'GROUP BY' => array_keys( $fields ), 'ORDER BY' => array_keys( $fields ) ];
 		if ( $this->searchableFiles ) {
-			$fields[] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID) AS total";
+			$fields['total'] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
 		} else {
-			$fields[] = "COUNT(*) AS total";
+			$fields['total'] = "COUNT(*)";
 		}
 
 		$cdb = CargoUtils::getDB();
@@ -213,11 +212,11 @@ class CargoFilter {
 			$countClause = "COUNT(*) AS total";
 		}
 
-		$res = $cdb->select( $tableNames, array( $fieldName, $countClause ), $conds, null,
+		$res = $cdb->select( $tableNames, array( "$fieldName AS value", $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			$value_string = $row['_value'];
+			$value_string = $row['value'];
 			if ( $value_string == '' ) {
 				$value_string = ' none';
 			}
