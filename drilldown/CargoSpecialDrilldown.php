@@ -1234,6 +1234,8 @@ END;
 					$valuesTable[] = $curValue;
 					$matchingPages[] = $pageName;
 				}
+			} else {
+				$valuesTable[] = $curValue;
 			}
 		}
 
