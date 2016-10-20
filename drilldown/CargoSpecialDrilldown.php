@@ -34,9 +34,6 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$out->addScript( '<!--[if IE]><link rel="stylesheet" href="' . $cgScriptPath .
 			'/drilldown/resources/CargoDrilldownIEFixes.css" media="screen" /><![endif]-->' );
 
-		// Should this be a user setting?
-		$numResultsPerPage = 250;
-		list( $limit, $offset ) = $request->getLimitOffset( $numResultsPerPage, 'limit' );
 		// Get information on current table and the filters
 		// that have already been applied from the query string.
 		$tableName = str_replace( '_', ' ', $request->getVal( '_table' ) );
@@ -79,6 +76,13 @@ class CargoDrilldown extends IncludableSpecialPage {
 				$searchableFiles = true;
 			}
 		}
+
+		if ( $searchableFiles ) {
+			$numResultsPerPage = 100;
+		} else {
+			$numResultsPerPage = 250;
+		}
+		list( $limit, $offset ) = $request->getLimitOffset( $numResultsPerPage, 'limit' );
 
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
@@ -1278,6 +1282,10 @@ END;
 		}
 
 		$queryDisplayer->mFormat = 'category';
+		// Make display wider if we're also showing file information.
+		if ( $this->searchableFiles && $this->fullTextSearchTerm != '' ) {
+			$queryDisplayer->mDisplayParams['columns'] = 2;
+		}
 		$formatter = $queryDisplayer->getFormatter( $out );
 		$html = $queryDisplayer->displayQueryResults( $formatter, $valuesTable );
 		$out->addHTML( $html );
