@@ -726,7 +726,7 @@ END;
 		return $text;
 	}
 
-	function printTextInput( $filter_name, $instance_num, $cur_value = null ) {
+	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false, $cur_value = null ) {
 		global $wgRequest;
 
 		$filter_name = str_replace( ' ', '_', $filter_name );
@@ -762,11 +762,22 @@ END;
 			}
 		}
 
-		$text .=<<< END
+		if ( $is_full_text_search ) {
+			$text .=<<< END
+<div class="oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" data-ooui>
+	<input type="text" name="$inputName" value="$cur_value" />
+<span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
+<span class='oo-ui-indicatorElement-indicator'></span>
+</div>
+
+END;
+		} else {
+			$text .=<<< END
 	<input type="text" name="$inputName" value="$cur_value" />
 	<br />
 
 END;
+		}
 
 		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
 				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
@@ -1023,7 +1034,7 @@ END;
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
 		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
-			$fullTextSearchInput = $this->printTextInput( '_search', 0, $this->fullTextSearchTerm );
+			$fullTextSearchInput = $this->printTextInput( '_search', 0,  true, $this->fullTextSearchTerm );
 			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
 		}
 
