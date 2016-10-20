@@ -1075,6 +1075,9 @@ END;
 			$params['_single'] = null;
 		}
 		$params['_table'] = $this->tableName;
+		if ( $this->fullTextSearchTerm != '' ) {
+			$params['_search'] = $this->fullTextSearchTerm;
+		}
 		foreach ( $this->applied_filters as $i => $af ) {
 			if ( count( $af->values ) == 1 ) {
 				$key_string = str_replace( ' ', '_', $af->filter->name );
