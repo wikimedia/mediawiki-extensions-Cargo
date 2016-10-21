@@ -213,7 +213,7 @@ class CargoDrilldownPage extends QueryPage {
 
 		if ( $searchTerm != null ) {
 			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
-			$url .= '_search=' . urlencode( str_replace( ' ', '_', $searchTerm ) );
+			$url .= '_search=' . urlencode( $searchTerm );
 		}
 
 		foreach ( $applied_filters as $af ) {
@@ -746,6 +746,10 @@ END;
 			$inputName = '_search';
 		} else {
 			$inputName = "_search_$filter_name";
+		}
+
+		if ( $cur_value != null ) {
+			$cur_value = htmlentities( $cur_value );
 		}
 
 		$text = <<< END
