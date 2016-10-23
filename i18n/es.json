@@ -54,7 +54,7 @@
 	"cargo-drilldown-addanothervalue": "Haz clic en la flecha para agregar otro valor",
 	"cargo-drilldown-novalues": "No hay valores para este filtro",
 	"cargo-drilldown-filename": "Nombre del archivo",
-	"cargo-drilldown-filetext": "Filete de texto",
+	"cargo-drilldown-filetext": "Texto del archivo",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
