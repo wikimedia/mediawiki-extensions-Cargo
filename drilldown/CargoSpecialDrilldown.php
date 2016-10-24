@@ -962,7 +962,7 @@ END;
 		} else {
 			$appliedFiltersHTML .= str_replace( '_', ' ', $this->tableName );
 		}
-          
+
 		if ( $this->fullTextSearchTerm != null ) {
 			$appliedFiltersHTML .= " > ";
 			$appliedFiltersHTML .= $this->msg( 'cargo-drilldown-fulltext' )->text() . ': ';
@@ -1042,7 +1042,7 @@ END;
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
 		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
-			$fullTextSearchInput = $this->printTextInput( '_search', 0,  true, $this->fullTextSearchTerm );
+			$fullTextSearchInput = $this->printTextInput( '_search', 0, true, $this->fullTextSearchTerm );
 			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
 		}
 
@@ -1092,7 +1092,7 @@ END;
 				$value_string = str_replace( ' ', '_', $af->values[0]->text );
 				$params[$key_string] = $value_string;
 			} else {
-				// HACK - QueryPage's pagination-URL code,
+				// @HACK - QueryPage's pagination-URL code,
 				// which uses wfArrayToCGI(), doesn't support
 				// two-dimensional arrays, which is what we
 				// need - instead, add the brackets directly
@@ -1145,7 +1145,7 @@ END;
 			if ( $this->searchableFiles ) {
 				$aliasedFieldNames['fileName'] = 'cargo___fileData._pageName';
 				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
-				// @HACK -  the result set may contain both
+				// @HACK - the result set may contain both
 				// pages and files that match the search term.
 				// So how do we know, for each result row,
 				// whether it's for a page or a file? We add
@@ -1182,7 +1182,7 @@ END;
 			' = ' .
 			CargoUtils::escapedFieldName( $cdb, '_pageData', '_pageID' )
 		);
-          
+
 		if ( $searchableFiles ) {
 			$fileTableName = $mainTableName . '___files';
 			$tableNames[] = $fileTableName;

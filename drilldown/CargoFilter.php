@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * Defines a class, CargoFilter, that holds the information in a filter.
  *
@@ -93,7 +93,7 @@ class CargoFilter {
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
-          
+
 		if ( $fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
 				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm, $this->tableName, $this->searchableFiles );

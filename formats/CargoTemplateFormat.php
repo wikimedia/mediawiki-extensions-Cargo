@@ -13,7 +13,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
 		$wikiText = '{{' . $templateName;
 		// If we're not using named arguments, we add the field number
-		// in to the template call, to not  mess up values that contain '='.
+		// in to the template call, to not mess up values that contain '='.
 		$fieldNum = 1;
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( array_key_exists( $fieldName, $row ) ) {
