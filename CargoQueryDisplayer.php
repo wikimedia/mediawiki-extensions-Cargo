@@ -260,7 +260,13 @@ class CargoQueryDisplayer {
 		list( $contextlines, $contextchars ) = SearchEngine::userHighlightPrefs();
 
 		foreach ( $terms as $i => $term ) {
-			$terms[$i] = str_replace( array( '"', "'" ), '', $term );
+			// Try to map from a MySQL search to a PHP one -
+			// this code could probably be improved.
+			$term = str_replace( array( '"' /*, "'"*/, '+', '*' ), '', $term );
+			if ( strpos( $term, '*' ) !== false ) {
+				$term = '\b' . $term . '\b';
+			}
+			$terms[$i] = $term;
 		}
 
 		$h = new SearchHighlighter();
