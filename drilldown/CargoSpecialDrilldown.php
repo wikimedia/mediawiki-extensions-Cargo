@@ -1141,7 +1141,13 @@ END;
 		);
 
 		if ( $this->fullTextSearchTerm != null ) {
-			$aliasedFieldNames['pageText'] = 'cargo___pageData._fullText';
+			if ( $this->tableName == '_fileData' ) {
+				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
+				$aliasedFieldNames['foundFileMatch'] = '1';
+			} else {
+				$aliasedFieldNames['pageText'] = 'cargo___pageData._fullText';
+			}
+
 			if ( $this->searchableFiles ) {
 				$aliasedFieldNames['fileName'] = 'cargo___fileData._pageName';
 				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
@@ -1174,6 +1180,15 @@ END;
 		$tableNames = array();
 		$conds = array();
 		$joinConds = array();
+
+		// Special quick handling for the "data" tables.
+		if ( $mainTableName == '_fileData' ) {
+			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm );
+			return array( $tableNames, $conds, $joinConds );
+		} elseif ( $mainTableName == '_pageData' ) {
+			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+			return array( $tableNames, $conds, $joinConds );
+		}
 
 		$tableNames[] = '_pageData';
 		$joinConds['_pageData'] = array(
@@ -1247,6 +1262,10 @@ END;
 			$pageName = $row['title'];
 			$curValue = array( 'title' => $pageName );
 			if ( array_key_exists( 'foundFileMatch', $row ) && $row['foundFileMatch'] ) {
+				if ( array_key_exists( 'fileName', $row ) ) {
+					// Not used for _fileData drilldown.
+					$curValue[$fileNameStr] = $row['fileName'];
+				}
 				$curValue[$fileNameStr] = $row['fileName'];
 				$curValue[$fileTextStr] = $row['fileText'];
 				$valuesTable[] = $curValue;
