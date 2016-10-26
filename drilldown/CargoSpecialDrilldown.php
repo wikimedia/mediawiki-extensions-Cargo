@@ -42,12 +42,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$queryparts = explode( '/', $query, 1 );
 			$tableName = isset( $queryparts[0] ) ? $queryparts[0] : '';
 		}
-		if ( !$tableName ) {
-			$tableTitle = $this->msg( 'drilldown' )->text();
-		} else {
-			$tableTitle = $this->msg( 'drilldown' )->text() . html_entity_decode(
-					$this->msg( 'colon-separator' )->text() ) . str_replace( '_', ' ', $tableName );
-		}
+
 		// If no table was specified, go with the first table,
 		// alphabetically.
 		if ( !$tableName ) {
@@ -153,6 +148,12 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		// This has to be set last, because otherwise the QueryPage
 		// code will overwrite it.
+		if ( !$tableName ) {
+			$tableTitle = $this->msg( 'drilldown' )->text();
+		} else {
+			$tableTitle = $this->msg( 'drilldown' )->text() . html_entity_decode(
+					$this->msg( 'colon-separator' )->text() ) . $rep->displayTableName( $tableName );
+		}
 		$out->setPageTitle( $tableTitle );
 
 		return $num;
@@ -292,8 +293,7 @@ END;
 			$res = $cdb->select( $table, 'COUNT(*) AS total' );
 			$row = $cdb->fetchRow( $res );
 			$tableRows = $row['total'];
-			$realTableName = str_replace( '_', ' ', $table );
-			$tableStr = "$realTableName ($tableRows)";
+			$tableStr = $this->displayTableName( $table ) . " ($tableRows)";
 			if ( $this->tableName == $table ) {
 				$text .= '						<li class="tableName selected">';
 				$text .= $tableStr;
@@ -312,6 +312,20 @@ END;
 
 END;
 		return $text;
+	}
+
+	function displayTableName( $tableName = null ) {
+		if ( $tableName == null ) {
+			$tableName = $this->tableName;
+		}
+
+		if ( $tableName == '_pageData' ) {
+			return $this->msg( 'cargo-drilldown-allpages' );
+		} elseif ( $tableName == '_fileData' ) {
+			return $this->msg( 'cargo-drilldown-allfiles' );
+		} else {
+			return str_replace( '_', ' ', $tableName );
+		}
 	}
 
 	/**
@@ -958,9 +972,9 @@ END;
 			$tableURL = $this->makeBrowseURL( $this->tableName );
 			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
 				$this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
-				str_replace( '_', ' ', $this->tableName ) . '</a>';
+				$this->displayTableName() . '</a>';
 		} else {
-			$appliedFiltersHTML .= str_replace( '_', ' ', $this->tableName );
+			$appliedFiltersHTML .= $this->displayTableName();
 		}
 
 		if ( $this->fullTextSearchTerm != null ) {
@@ -1147,7 +1161,6 @@ END;
 			} else {
 				$aliasedFieldNames['pageText'] = 'cargo___pageData._fullText';
 			}
-
 			if ( $this->searchableFiles ) {
 				$aliasedFieldNames['fileName'] = 'cargo___fileData._pageName';
 				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
@@ -1266,7 +1279,6 @@ END;
 					// Not used for _fileData drilldown.
 					$curValue[$fileNameStr] = $row['fileName'];
 				}
-				$curValue[$fileNameStr] = $row['fileName'];
 				$curValue[$fileTextStr] = $row['fileText'];
 				$valuesTable[] = $curValue;
 			} elseif ( array_key_exists( 'pageText', $row ) ) {
