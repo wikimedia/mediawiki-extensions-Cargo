@@ -62,6 +62,8 @@
 	"cargo-pagevalues-tablevalues": "Parameters:\n* $1 - a database table name.",
 	"drilldown": "{{doc-special|Drilldown}}",
 	"cargo-drilldown-choosetable": "This is the title of the box in [[Special:Drilldown]] that displays the tables that may be browsed.",
+	"cargo-drilldown-allpages": "The text of a link.",
+	"cargo-drilldown-allfiles": "The text of a link.",
 	"cargo-drilldown-docu": "Used as a page header.",
 	"cargo-drilldown-filterbyvalue": "This is the content of a tooltip on [[Special:Drilldown]] when you hover your mouse over a browsable value.",
 	"cargo-drilldown-or": "{{Identical|Or}}",

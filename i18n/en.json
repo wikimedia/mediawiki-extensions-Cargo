@@ -57,6 +57,8 @@
 	"cargo-pagevalues-tablevalues": "\"$1\" values",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Choose a table",
+	"cargo-drilldown-allpages": "All pages",
+	"cargo-drilldown-allfiles": "All files",
 	"cargo-drilldown-docu": "Use the filters below to narrow your results.",
 	"cargo-drilldown-filterbyvalue": "Filter by this value",
 	"cargo-drilldown-or": "or",
