@@ -16,7 +16,7 @@
 	"action-deletecargodata": "eliminar dados Cargo",
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
 	"apihelp-cargoquery-param-tables": "A base de dados ou a tabela Cargo a consultar",
-	"apihelp-cargoquery-param-fields": "O campo, ou campos, a obter",
+	"apihelp-cargoquery-param-fields": "O(s) campo(s) a obter",
 	"apihelp-cargoquery-param-where": "As condições para a consulta, correspondentes a uma cláusula WHERE de SQL",
 	"apihelp-cargoquery-param-join_on": "Condições para fazer o <i>join</i> de várias tabelas, correspondentes a uma cláusula JOIN ON de SQL",
 	"apihelp-cargoquery-param-order_by": "A ordem dos resultados, correspondente a uma cláusula ORDER BY de SQL",

@@ -53,6 +53,8 @@
 	"cargo-pagevalues-tablevalues": "Werte von „$1“",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Eine Tabelle auswählen",
+	"cargo-drilldown-allpages": "Alle Seiten",
+	"cargo-drilldown-allfiles": "Alle Dateien",
 	"cargo-drilldown-docu": "Verwende die unteren Filter, um deine Ergebnisse einzuschränken.",
 	"cargo-drilldown-filterbyvalue": "Filter von diesem Wert",
 	"cargo-drilldown-or": "oder",
