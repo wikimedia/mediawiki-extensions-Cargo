@@ -661,7 +661,7 @@ END;
 		for ( $i = 0; $i < count( $numberArray ); $i++ ) {
 			if ( $curSeparator < count( $propertyValues ) - 1 ) {
 				$curNumber = $numberArray[$i];
-				while ( $curNumber >= $bucketSeparators[$curSeparator + 1] ) {
+				while ( ( $curSeparator < count( $bucketSeparators) ) && ( $curNumber >= $bucketSeparators[$curSeparator + 1] ) ) {
 					$curSeparator++;
 				}
 			}
