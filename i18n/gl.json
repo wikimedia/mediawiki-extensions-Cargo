@@ -61,6 +61,8 @@
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
 	"drilldown": "Detallar",
 	"cargo-drilldown-choosetable": "Escolla unha táboa",
+	"cargo-drilldown-allpages": "Todas as páxinas",
+	"cargo-drilldown-allfiles": "Todos os ficheiros",
 	"cargo-drilldown-docu": "Use os filtros de abaixo para limitar os resultados.",
 	"cargo-drilldown-filterbyvalue": "Filtrar por este valor",
 	"cargo-drilldown-or": "ou",

@@ -59,6 +59,8 @@
 	"cargo-pagevalues-tablevalues": "вредности од „$1“",
 	"drilldown": "Истенчување",
 	"cargo-drilldown-choosetable": "Изберете табела",
+	"cargo-drilldown-allpages": "Сите страници",
+	"cargo-drilldown-allfiles": "Сите податотеки",
 	"cargo-drilldown-docu": "Подолу послужете се со филтрите за да го уточните исходот од барањето.",
 	"cargo-drilldown-filterbyvalue": "Филтрирај по оваа вредност",
 	"cargo-drilldown-or": "или",

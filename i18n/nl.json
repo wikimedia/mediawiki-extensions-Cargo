@@ -44,6 +44,8 @@
 	"cargo-pagevalues-tablevalues": "\"$1\" waarden",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Kies een tafel",
+	"cargo-drilldown-allpages": "Alle pagina's",
+	"cargo-drilldown-allfiles": "Alle bestanden",
 	"cargo-drilldown-docu": "Klik op het filter onderstaande waarden te verfijn uw resultaten.",
 	"cargo-drilldown-filterbyvalue": "Op deze waarde filteren",
 	"cargo-drilldown-or": "of",

@@ -10,6 +10,8 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|wiersz|wiersze|wierszy}}",
+	"cargo-drilldown-allpages": "Wszystkie strony",
+	"cargo-drilldown-allfiles": "Wszystkie pliki",
 	"cargo-drilldown-docu": "Użyj poniższych filtrów, aby zawęzić wyniki.",
 	"cargo-drilldown-or": "lub",
 	"cargo-drilldown-removefilter": "Usuń ten filtr",

@@ -59,6 +59,8 @@
 	"cargo-pagevalues-tablevalues": "“$1”值",
 	"drilldown": "钻取",
 	"cargo-drilldown-choosetable": "选择一个表格",
+	"cargo-drilldown-allpages": "所有页面",
+	"cargo-drilldown-allfiles": "所有文件",
 	"cargo-drilldown-docu": "使用下面的过滤器以缩小您的结果。",
 	"cargo-drilldown-filterbyvalue": "按此值过滤",
 	"cargo-drilldown-or": "或",

@@ -20,6 +20,8 @@
 	"viewdata": "데이터 보기",
 	"cargo-viewdata-tables": "테이블:",
 	"cargo-cargotables-totalrowsshort": "$1개의 {{PLURAL:$1|행}}",
+	"cargo-drilldown-allpages": "모든 문서",
+	"cargo-drilldown-allfiles": "모든 파일",
 	"cargo-drilldown-docu": "결과를 줄이려면 아래의 필터를 사용하십시오.",
 	"cargo-drilldown-fulltext": "전문",
 	"cargo-drilldown-pagetext": "문서 텍스트",

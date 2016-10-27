@@ -68,6 +68,8 @@
 	"cargo-pagevalues-tablevalues": "Valeur de \"$1\"",
 	"drilldown": "Détailler",
 	"cargo-drilldown-choosetable": "Choisir une table",
+	"cargo-drilldown-allpages": "Toutes les pages",
+	"cargo-drilldown-allfiles": "Tous les fichiers",
 	"cargo-drilldown-docu": "Utiliser les filtres ci-dessous pour restreindre vos résultats.",
 	"cargo-drilldown-filterbyvalue": "Filtrer avec cette valeur",
 	"cargo-drilldown-or": "ou",
