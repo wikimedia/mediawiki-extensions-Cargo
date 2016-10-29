@@ -8,6 +8,8 @@
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
+	"cargo-drilldown-allpages": "Все страницы",
+	"cargo-drilldown-allfiles": "Все файлы",
 	"cargo-drilldown-docu": "Используйте фильтры ниже, чтобы сузить результаты.",
 	"cargo-drilldown-fulltext": "Полный текст",
 	"cargo-drilldown-pagetext": "Текст страницы",
