@@ -19,7 +19,7 @@ class CargoUtils {
 	 * @global string $wgCargoDBuser
 	 * @global string $wgCargoDBpassword
 	 * @global string $wgCargoDBtype
-	 * @return Database
+	 * @return Database or DatabaseBase
 	 */
 	public static function getDB() {
 		if ( self::$CargoDB != null && self::$CargoDB->isOpen() ) {
@@ -53,7 +53,12 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		];
 
-		self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
+		if ( class_exists( 'Database' ) ) {
+			// MW 1.27+
+			self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
+		} else {
+			self::$CargoDB = DatabaseBase::factory( $wgCargoDBtype, $params );
+		}
 		return self::$CargoDB;
 	}
 
