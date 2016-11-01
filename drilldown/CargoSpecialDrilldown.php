@@ -945,7 +945,7 @@ END;
 	}
 
 	function getPageHeader() {
-		global $wgRequest, $wgCargoPageDataColumns;
+		global $wgRequest, $wgCargoPageDataColumns, $wgCargoFileDataColumns;
 		global $cgScriptPath;
 
 		$tables = CargoUtils::getTables();
@@ -959,11 +959,20 @@ END;
 		if ( !$this->showSingleTable ) {
 			$header .= $this->printTablesList( $tables );
 		}
+
+		// @TODO - this needs to be a little more complex, because
+		// there's the possibility that a table will have
+		// text-searchable files even if the pages themselves are not
+		// searchable.
+		$displaySearchInput = ( $this->tableName == '_fileData' &&
+			in_array( 'fullText', $wgCargoFileDataColumns ) ) ||
+			( $this->tableName != '_fileData' &&
+			in_array( 'fullText', $wgCargoPageDataColumns ) );
+
 		// If there are no fields for this table,
 		// escape now that we've (possibly) printed the
 		// tables list.
-		if ( count( $this->all_filters ) == 0 &&
-			!array_key_exists( 'fullText', $wgCargoPageDataColumns ) ) {
+		if ( count( $this->all_filters ) == 0 && !$displaySearchInput ) {
 			return $header;
 		}
 
@@ -1055,7 +1064,7 @@ END;
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
-		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
+		if ( $displaySearchInput ) {
 			$fullTextSearchInput = $this->printTextInput( '_search', 0, true, $this->fullTextSearchTerm );
 			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
 		}
