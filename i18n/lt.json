@@ -4,5 +4,7 @@
 			"Eitvys200"
 		]
 	},
-	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|eilė|eilės}}"
+	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|eilė|eilės}}",
+	"cargo-drilldown-allpages": "Visi puslapiai",
+	"cargo-drilldown-allfiles": "Visi failai"
 }

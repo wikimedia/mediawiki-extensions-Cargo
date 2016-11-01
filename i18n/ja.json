@@ -2,9 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Surgical21",
-			"Sujiniku"
+			"Sujiniku",
+			"Otokoume"
 		]
 	},
 	"cargo-viewdata-limit": "制限",
-	"cargo-cargotables-tablelist": "次の{{PLURAL:$1|テーブル}}が定義されています:"
+	"cargo-cargotables-tablelist": "次の{{PLURAL:$1|テーブル}}が定義されています:",
+	"cargo-drilldown-allpages": "すべてのページ",
+	"cargo-drilldown-allfiles": "すべてのファイル"
 }
