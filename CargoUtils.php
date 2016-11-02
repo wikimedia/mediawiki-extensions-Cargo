@@ -517,7 +517,7 @@ class CargoUtils {
 			if ( $dbType != 'mysql' ) {
 				throw new MWException( "Error: a \"Searchtext\" field can currently only be defined for MySQL databases." );
 			}
-			return 'Text';
+			return 'Mediumtext';
 		} else { // 'String', 'Page', etc.
 			if ( $size == null ) {
 				$size = 300;
