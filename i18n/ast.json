@@ -59,6 +59,8 @@
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
 	"drilldown": "En detalle",
 	"cargo-drilldown-choosetable": "Escueye una tabla",
+	"cargo-drilldown-allpages": "Toles páxines",
+	"cargo-drilldown-allfiles": "Tolos ficheros",
 	"cargo-drilldown-docu": "Usa los filtros de más abaxo pa llendar los resultaos.",
 	"cargo-drilldown-filterbyvalue": "Filtriar por esti valor",
 	"cargo-drilldown-or": "o",
