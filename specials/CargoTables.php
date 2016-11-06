@@ -141,6 +141,14 @@ class CargoTables extends IncludableSpecialPage {
 			$this->msg( 'cargo-cargotables-tablelist' )->numParams( count( $tableNames ) )->parse() ) . "\n";
 		$text .= "<ul>\n";
 		foreach ( $tableNames as $tableName ) {
+			if ( !$cdb->tableExists( $tableName ) ) {
+				$tableText = "$tableName - ";
+				// @TODO - this should probably be an i18n message.
+				$tableText .= "<span class=\"error\">Table is registered, but does not exist!</span>";
+				$text .= Html::rawElement( 'li', null, $tableText );
+				continue;
+			}
+
 			$actionLinks = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ),
 					$this->msg( 'view' )->text() );
 
