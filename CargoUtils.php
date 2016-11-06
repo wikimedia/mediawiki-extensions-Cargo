@@ -404,6 +404,10 @@ class CargoUtils {
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $tableSchemaString );
 
+		if ( $tableName == null ) {
+			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
+		}
+
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = self::getDB();
 
@@ -430,10 +434,6 @@ class CargoUtils {
 		}
 
 		$dbw->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
-
-		if ( $tableName == null ) {
-			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
-		}
 
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
 
