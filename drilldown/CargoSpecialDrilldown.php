@@ -785,8 +785,10 @@ END;
 		}
 
 		if ( $is_full_text_search ) {
+			// Make this input narrower than the standard MediaWiki search
+			// input, to accomodate the list of tables on the side.
 			$text .=<<< END
-<div class="oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" data-ooui>
+<div class="oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="max-width: 40em;" data-ooui>
 	<input type="text" name="$inputName" value="$cur_value" />
 <span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
 <span class='oo-ui-indicatorElement-indicator'></span>
