@@ -165,7 +165,13 @@ class CargoQueryDisplayer {
 		} elseif ( $type == 'Float' ) {
 			global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 			// Can we assume that the decimal mark will be a '.' in the database?
-			$numDecimalPlaces = strlen( $value ) - strrpos( $value, '.' ) - 1;
+			$locOfDecimalPoint = strrpos( $value, '.' );
+			if ( $locOfDecimalPoint === false ) {
+				// Better to show "17.0" than "17", if it's a Float.
+				$numDecimalPlaces = 1;
+			} else {
+				$numDecimalPlaces = strlen( $value ) - $locOfDecimalPoint - 1;
+			}
 			return number_format( $value, $numDecimalPlaces, $wgCargoDecimalMark,
 				$wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Page' ) {
