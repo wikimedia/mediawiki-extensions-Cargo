@@ -49,7 +49,7 @@ class CargoRecreateData extends Maintenance {
 		if ( $tableName == null ) {
 			$tableNames = CargoUtils::getTables();
 			foreach ( $tableNames as $i => $tableName ) {
-				if ( $tableName == '_pageData' ) {
+				if ( $tableName == '_pageData' || $tableName == '_fileData' ) {
 					// This is handled in a separate script.
 					continue;
 				}
