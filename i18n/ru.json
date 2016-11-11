@@ -4,14 +4,15 @@
 			"Batumski brodyaga",
 			"Дмитрий",
 			"Okras",
-			"Irus"
+			"Irus",
+			"Sunpriat"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
 	"cargo-drilldown-allpages": "Все страницы",
 	"cargo-drilldown-allfiles": "Все файлы",
 	"cargo-drilldown-docu": "Используйте фильтры ниже, чтобы сузить результаты.",
-	"cargo-drilldown-fulltext": "Полный текст",
+	"cargo-drilldown-fulltext": "Полнотекстовый",
 	"cargo-drilldown-pagetext": "Текст страницы",
 	"cargo-drilldown-filename": "Имя файла",
 	"cargo-drilldown-filetext": "Текстовый файл",

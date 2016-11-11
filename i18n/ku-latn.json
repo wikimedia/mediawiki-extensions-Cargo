@@ -4,5 +4,7 @@
 			"George Animal"
 		]
 	},
-	"cargo-viewdata-where": "Li ku:"
+	"cargo-viewdata-where": "Li ku:",
+	"cargo-drilldown-allpages": "Hemû rûpel",
+	"cargo-drilldown-allfiles": "Hemû dosye"
 }
