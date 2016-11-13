@@ -62,6 +62,8 @@
 	"cargo-pagevalues-tablevalues": "Значення «$1»",
 	"drilldown": "Перегляд ієрархії",
 	"cargo-drilldown-choosetable": "Вибрати таблицю",
+	"cargo-drilldown-allpages": "Усі сторінки",
+	"cargo-drilldown-allfiles": "Усі файли",
 	"cargo-drilldown-docu": "Використовуйте фільтри внизу, аби звузити отримані результати.",
 	"cargo-drilldown-filterbyvalue": "Фільтрувати за цим значенням",
 	"cargo-drilldown-or": "або",
