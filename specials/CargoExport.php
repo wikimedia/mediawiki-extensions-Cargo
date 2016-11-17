@@ -127,7 +127,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$title = Title::newFromText( $queryResult['_pageName'] );
 				$startDateField = $dateFieldAliases[0];
 				$startDate = $queryResult[$startDateField];
-				$startDatePrecisionField = str_replace( ' ', '_', $startDateField ) . '__precision';
+				$startDatePrecisionField = $startDateField . '__precision';
 				$startDatePrecision = $queryResult[$startDatePrecisionField];
 				$curEvent = array(
 					// Get first field for the title - not
