@@ -57,7 +57,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$all_filters = array();
 		$fullTextSearchTerm = null;
-		$searchablePages = array_key_exists( 'fullText', $wgCargoPageDataColumns );
+		$searchablePages = in_array( 'fullText', $wgCargoPageDataColumns );
 		$searchableFiles = false;
 
 		// Get this term, whether or not this is actually a searchable
@@ -1166,7 +1166,7 @@ END;
 		);
 
 		if ( $this->fullTextSearchTerm != null ) {
-			if ( $this->tableName == '_fileData' || !$searchablePages ) {
+			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
 				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
 				$aliasedFieldNames['foundFileMatch'] = '1';
 			} else {
