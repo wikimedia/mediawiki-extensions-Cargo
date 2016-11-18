@@ -57,13 +57,14 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$all_filters = array();
 		$fullTextSearchTerm = null;
+		$searchablePages = array_key_exists( 'fullText', $wgCargoPageDataColumns );
 		$searchableFiles = false;
 
-		if ( in_array( 'fullText', $wgCargoPageDataColumns ) ) {
-			$vals_array = $request->getArray( '_search' );
-			if ( $vals_array != null ) {
-				$fullTextSearchTerm = $vals_array[0];
-			}
+		// Get this term, whether or not this is actually a searchable
+		// table; no point doing complex logic here to determine that.
+		$vals_array = $request->getArray( '_search' );
+		if ( $vals_array != null ) {
+			$fullTextSearchTerm = $vals_array[0];
 		}
 
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
@@ -90,7 +91,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				continue;
 			}
 
-			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription, $searchableFiles );
+			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription, $searchablePages, $searchableFiles );
 		}
 
 		$filter_used = array();
@@ -142,7 +143,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
 		$rep = new CargoDrilldownPage(
-			$tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchableFiles, $offset, $limit );
+			$tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchablePages, $searchableFiles, $offset, $limit );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -170,6 +171,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $applied_filters = array();
 	public $remaining_filters = array();
 	public $fullTextSearchTerm;
+	public $searchablePages;
 	public $searchableFiles;
 	public $showSingleTable = false;
 
@@ -179,12 +181,13 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param string $tableName
 	 * @param array $applied_filters
 	 * @param array $remaining_filters
-	 * @param string $fullTextSearchTerm;
+	 * @param string $fullTextSearchTerm
+	 * @param boolean $searchablePages
 	 * @param boolean $searchableFiles
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchableFiles, $offset, $limit ) {
+	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchablePages, $searchableFiles, $offset, $limit ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -192,6 +195,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->applied_filters = $applied_filters;
 		$this->remaining_filters = $remaining_filters;
 		$this->fullTextSearchTerm = $fullTextSearchTerm;
+		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
 		$this->offset = $offset;
 		$this->limit = $limit;
@@ -962,14 +966,10 @@ END;
 			$header .= $this->printTablesList( $tables );
 		}
 
-		// @TODO - this needs to be a little more complex, because
-		// there's the possibility that a table will have
-		// text-searchable files even if the pages themselves are not
-		// searchable.
 		$displaySearchInput = ( $this->tableName == '_fileData' &&
 			in_array( 'fullText', $wgCargoFileDataColumns ) ) ||
 			( $this->tableName != '_fileData' &&
-			in_array( 'fullText', $wgCargoPageDataColumns ) );
+			( $this->searchablePages || $this->searchableFiles ) );
 
 		// If there are no fields for this table,
 		// escape now that we've (possibly) printed the
@@ -1166,7 +1166,7 @@ END;
 		);
 
 		if ( $this->fullTextSearchTerm != null ) {
-			if ( $this->tableName == '_fileData' ) {
+			if ( $this->tableName == '_fileData' || !$searchablePages ) {
 				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
 				$aliasedFieldNames['foundFileMatch'] = '1';
 			} else {
@@ -1198,7 +1198,7 @@ END;
 		return $queryInfo;
 	}
 
-	static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $searchableFiles ) {
+	static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $searchablePages, $searchableFiles ) {
 		$cdb = CargoUtils::getDB();
 
 		$tableNames = array();
@@ -1214,13 +1214,15 @@ END;
 			return array( $tableNames, $conds, $joinConds );
 		}
 
-		$tableNames[] = '_pageData';
-		$joinConds['_pageData'] = array(
-			'LEFT OUTER JOIN',
-			CargoUtils::escapedFieldName( $cdb, $mainTableName, '_pageID' ) .
-			' = ' .
-			CargoUtils::escapedFieldName( $cdb, '_pageData', '_pageID' )
-		);
+		if ( $searchablePages ) {
+			$tableNames[] = '_pageData';
+			$joinConds['_pageData'] = array(
+				'LEFT OUTER JOIN',
+				CargoUtils::escapedFieldName( $cdb, $mainTableName, '_pageID' ) .
+				' = ' .
+				CargoUtils::escapedFieldName( $cdb, '_pageData', '_pageID' )
+			);
+		}
 
 		if ( $searchableFiles ) {
 			$fileTableName = $mainTableName . '___files';
@@ -1229,7 +1231,7 @@ END;
 				'LEFT OUTER JOIN',
 				CargoUtils::escapedFieldName( $cdb, $mainTableName, '_pageID' ) .
 				' = ' .
-				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_pageID' )
+				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_pageID' )	
 			);
 			$tableNames[] = '_fileData';
 			$joinConds['_fileData'] = array(
@@ -1238,8 +1240,12 @@ END;
 				' = ' .
 				CargoUtils::escapedFieldName( $cdb, '_fileData', '_pageTitle' )
 			);
-			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm ) . ' OR ' .
-				CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+			if ( $searchablePages ) {
+				$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm ) . ' OR ' .
+					CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+			} else {
+				$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm );
+			}
 		} else {
 			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
 		}

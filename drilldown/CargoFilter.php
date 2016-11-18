@@ -14,14 +14,16 @@ class CargoFilter {
 	public $fieldType;
 	public $fieldDescription;
 	public $searchableFiles;
+	public $searchablePages;
 	public $allowed_values;
 	public $required_filters = array();
 	public $possible_applied_filters = array();
 
-	function __construct( $name, $tableName, $fieldDescription, $searchableFiles ) {
+	function __construct( $name, $tableName, $fieldDescription, $searchablePages, $searchableFiles ) {
 		$this->name = $name;
 		$this->tableName = $tableName;
 		$this->fieldDescription = $fieldDescription;
+		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
 	}
 
@@ -96,7 +98,7 @@ class CargoFilter {
 
 		if ( $fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
-				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm, $this->tableName, $this->searchableFiles );
+				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm, $this->tableName, $this->searchablePages, $this->searchableFiles );
 			$tableNames = array_merge( $tableNames, $curTableNames );
 			$conds = array_merge( $conds, $curConds );
 			$joinConds = array_merge( $joinConds, $curJoinConds );
