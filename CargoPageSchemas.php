@@ -142,11 +142,11 @@ class CargoPageSchemas extends PSExtensionHandler {
 			$allowedValuesString = implode( ', ', $allowedValues );
 		}
 
-		$typeLabel = wfMessage( 'sf_createproperty_proptype' )->escaped();
+		$typeLabel = wfMessage( 'pf_createproperty_proptype' )->escaped();
 		if ( $typeLabel == '' ) {
 			$typeLabel = 'Type:';
 		}
-		$allowedValuesLabel = wfMessage( 'sf_createproperty_allowedvalsinput' )->escaped();
+		$allowedValuesLabel = wfMessage( 'pf_createproperty_allowedvalsinput' )->escaped();
 		if ( $allowedValuesLabel == '' ) {
 			$allowedValuesLabel = 'Allowed values:';
 		}
@@ -242,7 +242,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 					}
 				}
 				$allowedValuesStr = implode( ', ', $allowedValues );
-				$allowedValuesLabel = wfMessage( 'sf_createclass_allowedvalues' )->escaped();
+				$allowedValuesLabel = wfMessage( 'pf_createclass_allowedvalues' )->escaped();
 				if ( $allowedValuesLabel == '' ) {
 					$allowedValuesLabel = 'Allowed values:';
 				}
