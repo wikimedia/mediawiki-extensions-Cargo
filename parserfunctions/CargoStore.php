@@ -344,19 +344,21 @@ class CargoStore {
 					if ( $individualValue == '' ) {
 						continue;
 					}
+					$fileName = CargoUtils::removeNamespaceFromFileName( $individualValue );
 					$fieldValues = array(
 						'_pageName' => $pageName,
 						'_pageID' => $pageID,
 						'_fieldName' => $fieldName,
-						'_fileName' => $individualValue
+						'_fileName' => $fileName
 					);
 					CargoUtils::escapedInsert( $cdb, $fileTableName, $fieldValues );
 				}
 			} else {
-				$fileName = $tableFieldValues[$fieldName];
-				if ( $fileName == '' ) {
+				$fullFileName = $tableFieldValues[$fieldName];
+				if ( $fullFileName == '' ) {
 					continue;
 				}
+				$fileName = CargoUtils::removeNamespaceFromFileName( $fullFileName );
 				$fieldValues = array(
 					'_pageName' => $pageName,
 					'_pageID' => $pageID,

@@ -286,6 +286,15 @@ class CargoUtils {
 	}
 
 	/**
+	 * Get rid of the "File:" or "Image:" (in the wiki's language) at the
+	 * beginning of a file name, if it's there.
+	 */
+	public static function removeNamespaceFromFileName( $fileName ) {
+		$fileTitle = Title::newFromText( $fileName, NS_FILE );
+		return $fileTitle->getText();
+	}
+
+	/**
 	 * Generates a Regular Expression to match $fieldName in a SQL string.
 	 * Allows for $ as valid identifier character.
 	 */
