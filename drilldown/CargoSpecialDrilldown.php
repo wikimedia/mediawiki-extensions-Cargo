@@ -1145,7 +1145,7 @@ END;
 
 		if ( $this->fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
-				self::getFullTextSearchQueryParts( $this->fullTextSearchTerm, $this->tableName, $this->searchableFiles );
+				self::getFullTextSearchQueryParts( $this->fullTextSearchTerm, $this->tableName, $this->searchablePages, $this->searchableFiles );
 			$tableNames = array_merge( $tableNames, $curTableNames );
 			$conds = array_merge( $conds, $curConds );
 			$joinConds = array_merge( $joinConds, $curJoinConds );
