@@ -30,7 +30,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 			return null;
 		} elseif ( count( $sqlQueries ) == 1 ) {
 			$sqlQuery = $sqlQueries[0];
-			$queryParams['tables'] = implode( ',', $sqlQuery->mTableNames );
+			$queryParams['tables'] = $sqlQuery->mTablesStr;
 			if ( $sqlQuery->mJoinOnStr != '' ) {
 				$queryParams['join on'] = $sqlQuery->mJoinOnStr;
 			}
@@ -54,7 +54,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 			}
 		} else {
 			foreach ( $sqlQueries as $i => $sqlQuery ) {
-				$queryParams['tables'][] = implode( ',', $sqlQuery->mTableNames );
+				$queryParams['tables'][] = $sqlQuery->mTablesStr;
 				$queryParams['join on'][] = $sqlQuery->mJoinOnStr;
 				$queryParams['fields'][] = $sqlQuery->mFieldsStr;
 				$queryParams['where'][] = $sqlQuery->mWhereStr;
