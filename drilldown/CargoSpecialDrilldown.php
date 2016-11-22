@@ -433,9 +433,10 @@ END;
 				}
 			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 		}
-		// add 'Other' and 'None', regardless of whether either has
-		// any results - add 'Other' only if it's not a date field
-		if ( $af->filter->fieldDescription->mType != 'Date' ) {
+		// Add 'Other' and 'None', regardless of whether either has
+		// any results - add 'Other' only if it's not a date field.
+		$fieldType = $af->filter->fieldDescription->mType;
+		if ( $fieldType != 'Date' && $fieldType != 'Datetime' ) {
 			$or_values[] = '_other';
 		}
 		$or_values[] = '_none';
@@ -915,7 +916,7 @@ END;
 		global $wgCargoDrilldownMinValuesForComboBox;
 
 		$fieldType = $f->fieldDescription->mType;
-		if ( $fieldType == 'Date' ) {
+		if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 			$filter_values = $f->getTimePeriodValues( $this->fullTextSearchTerm, $this->applied_filters );
 		} else {
 			$filter_values = $f->getAllValues( $this->fullTextSearchTerm, $this->applied_filters );
@@ -1075,7 +1076,7 @@ END;
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
 					$fieldType = $f->fieldDescription->mType;
-					if ( $fieldType == 'Date' || $fieldType == 'Integer' || $fieldType == 'Float' ) {
+					if ( in_array( $fieldType, array( 'Date', 'Datetime', 'Integer', 'Float' ) ) ) {
 						$filtersHTML .= $this->printUnappliedFilterLine( $f );
 					} else {
 						$filtersHTML .= $this->printAppliedFilterLine( $af );

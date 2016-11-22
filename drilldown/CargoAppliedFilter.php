@@ -112,15 +112,7 @@ class CargoAppliedFilter {
 				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR ") .
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
-			} elseif ( $fv->is_numeric ) {
-				if ( $fv->lower_limit && $fv->upper_limit ) {
-					$sql .= "($value_field >= {$fv->lower_limit} AND $value_field <= {$fv->upper_limit}) ";
-				} elseif ( $fv->lower_limit ) {
-					$sql .= "$value_field > {$fv->lower_limit} ";
-				} elseif ( $fv->upper_limit ) {
-					$sql .= "$value_field < {$fv->upper_limit} ";
-				}
-			} elseif ( $this->filter->fieldDescription->mType == 'Date' ) {
+			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
 				$date_field = $this->filter->name;
 				if ( $fv->time_period == 'day' ) {
 					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} "
@@ -132,6 +124,14 @@ class CargoAppliedFilter {
 				} else { // if ( $fv->time_period == 'year range' ) {
 					$sql .= "YEAR($date_field) >= {$fv->year} ";
 					$sql .= "AND YEAR($date_field) <= {$fv->end_year} ";
+				}
+			} elseif ( $fv->is_numeric ) {
+				if ( $fv->lower_limit && $fv->upper_limit ) {
+					$sql .= "($value_field >= {$fv->lower_limit} AND $value_field <= {$fv->upper_limit}) ";
+				} elseif ( $fv->lower_limit ) {
+					$sql .= "$value_field > {$fv->lower_limit} ";
+				} elseif ( $fv->upper_limit ) {
+					$sql .= "$value_field < {$fv->upper_limit} ";
 				}
 			} else {
 				$value = $fv->text;
