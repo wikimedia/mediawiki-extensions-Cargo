@@ -138,6 +138,14 @@ class CargoFilter {
 		}
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
+
+		// Don't include imprecise date values in further filtering.
+		if ( $timePeriod == 'month' ) {
+			$conds[] = $date_field . '__precision <= ' . CargoStore::MONTH_ONLY;
+		} elseif ( $timePeriod == 'day' ) {
+			$conds[] = $date_field . '__precision <= ' . CargoStore::DATE_ONLY;
+		}
+
 		$selectOptions = [ 'GROUP BY' => array_keys( $fields ), 'ORDER BY' => array_keys( $fields ) ];
 		if ( $this->searchableFiles ) {
 			$fields['total'] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
