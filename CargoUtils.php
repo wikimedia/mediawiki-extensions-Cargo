@@ -44,14 +44,14 @@ class CargoUtils {
 		$dbFlags = DBO_DEFAULT;
 		$dbTablePrefix = $wgDBprefix . 'cargo__';
 
-		$params = [
+		$params = array(
 			'host' => $dbServer,
 			'user' => $dbUsername,
 			'password' => $dbPassword,
 			'dbname' => $dbName,
 			'flags' => $dbFlags,
 			'tablePrefix' => $dbTablePrefix,
-		];
+		);
 
 		if ( class_exists( 'Database' ) ) {
 			// MW 1.27+
