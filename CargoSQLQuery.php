@@ -23,6 +23,7 @@ class CargoSQLQuery {
 	public $mTableSchemas;
 	public $mFieldDescriptions;
 	public $mFieldTables;
+	public $mOrigGroupByStr;
 	public $mGroupByStr;
 	public $mHavingStr;
 	public $mOrderByStr;
@@ -53,13 +54,14 @@ class CargoSQLQuery {
 		// clause can (and often does) include a call to {{PAGENAME}},
 		// which HTML-encodes certain characters, notably single quotes.
 		$sqlQuery->mOrigWhereStr = htmlspecialchars_decode( $whereStr, ENT_QUOTES );
-		$sqlQuery->mWhereStr = htmlspecialchars_decode( $whereStr, ENT_QUOTES );
+		$sqlQuery->mWhereStr = $sqlQuery->mOrigWhereStr;
 		$sqlQuery->mJoinOnStr = $joinOnStr;
 		$sqlQuery->setCargoJoinConds( $joinOnStr );
 		$sqlQuery->setAliasedFieldNames();
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mTableNames );
 		$sqlQuery->setOrderBy( $orderByStr );
-		$sqlQuery->mGroupByStr = $groupByStr;
+		$sqlQuery->mOrigGroupByStr = $groupByStr;
+		$sqlQuery->mGroupByStr = $sqlQuery->mOrigGroupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
 		$sqlQuery->handleVirtualFields();
