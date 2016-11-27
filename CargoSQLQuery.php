@@ -1139,7 +1139,8 @@ class CargoSQLQuery {
 			// If it's really a field name, add quotes around it.
 			// (The quotes are mostly needed for Postgres, which
 			// lowercases all unquoted fields.)
-			if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false && !$this->mCargoDB->isQuotedIdentifier( $fieldName ) ) {
+			if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false &&
+				!$this->mCargoDB->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
 				$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
 			}
 			$realAliasedFieldNames[$alias] = $fieldName;

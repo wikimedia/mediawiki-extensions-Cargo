@@ -326,6 +326,14 @@ class CargoUtils {
 	}
 
 	/**
+	 * Determines whether a string is a literal.
+	 * This may need different handling for different (non-MySQL) DB types.
+	 */
+	public static function isSQLStringLiteral( $string ) {
+		return $string[0] == "'" && substr( $string, -1, 1 ) == "'";
+	}
+
+	/**
 	 * Parses a piece of wikitext differently depending on whether
 	 * we're in a special or regular page.
 	 *
