@@ -1160,22 +1160,22 @@ END;
 		}
 
 		$aliasedFieldNames = array(
-			'title' => 'cargo__' . $this->tableName . '._pageName',
-			'value' => 'cargo__' . $this->tableName . '._pageName',
-			'namespace' => 'cargo__' . $this->tableName . '._pageNamespace',
-			'ID' => 'cargo__' . $this->tableName . '._pageID'
+			'title' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageName' ),
+			'value' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageName' ),
+			'namespace' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageNamespace' ),
+			'ID' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageID' )
 		);
 
 		if ( $this->fullTextSearchTerm != null ) {
 			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
-				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
+				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_fullText' );
 				$aliasedFieldNames['foundFileMatch'] = '1';
 			} else {
-				$aliasedFieldNames['pageText'] = 'cargo___pageData._fullText';
+				$aliasedFieldNames['pageText'] = CargoUtils::escapedFieldName( $cdb, '_pageData', '_fullText' );
 			}
 			if ( $this->searchableFiles ) {
-				$aliasedFieldNames['fileName'] = 'cargo___fileData._pageName';
-				$aliasedFieldNames['fileText'] = 'cargo___fileData._fullText';
+				$aliasedFieldNames['fileName'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_pageName' );
+				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_fullText' );
 				// @HACK - the result set may contain both
 				// pages and files that match the search term.
 				// So how do we know, for each result row,
@@ -1255,7 +1255,8 @@ END;
 	}
 
 	function getOrderFields() {
-		return array( 'cargo__' . $this->tableName . '._pageName' );
+		$cdb = CargoUtils::getDB();
+		return array( CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageName' ) );
 	}
 
 	function sortDescending() {
