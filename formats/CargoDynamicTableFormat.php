@@ -25,8 +25,40 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.datatables' );
 
+		// Special handlng for ordering.
+		$dataOrderString = null;
+		if ( array_key_exists( 'order by', $displayParams ) ) {
+			$dataTableOrderByParams = array();
+			$orderByClauses = explode( ',', $displayParams['order by'] );
+			foreach ( $orderByClauses as $orderByClause ) {
+				$orderByClause = strtolower( trim( $orderByClause ) );
+				$sortAscending = true;
+				if ( substr( $orderByClause, -4 ) === ' asc' ) {
+					$orderByClause = trim( substr( $orderByClause, 0, -3 ) );
+				} elseif ( substr( $orderByClause, -5 ) === ' desc' ) {
+					$sortAscending = false;
+					$orderByClause = trim( substr( $orderByClause, 0, -4 ) );
+				}
+				foreach ( array_keys( $fieldDescriptions ) as $i => $fieldName ) {
+					$fieldName = strtolower( str_replace( ' ', '_', $fieldName ) );
+					if ( $orderByClause == $fieldName ) {
+						$dataTableOrderByParams[] = array( $i, $sortAscending ? 'asc' : 'desc' );
+					}
+				}
+			}
+			if ( count( $dataTableOrderByParams ) > 0 ) {
+				// We have to set the text in this awkward way,
+				// instead of using the Html class, because it
+				// has to be displayed in a very specific way -
+				// single quotes outside, double quotes inside -
+				// for the jQuery part to work, and the Html
+				// class won't do it that way.
+				$dataOrderString = "data-order='" . json_encode( $dataTableOrderByParams ) . "'";
+			}
+		}
+
 		$text = <<<END
-	<table class="cargoDynamicTable display" cellspacing="0" width="100%">
+	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $dataOrderString>
 		<thead>
 			<tr>
 

@@ -132,6 +132,11 @@ class ViewDataPage extends QueryPage {
 					'offset' ) ) ) {
 				$this->displayParams[$paramName] = $value;
 			}
+			// Special handling.
+			if ( $this->format == 'dynamic table' && $paramName == 'order by' ) {
+				$this->displayParams['order by'] = $value;
+			}
+
 		}
 	}
 

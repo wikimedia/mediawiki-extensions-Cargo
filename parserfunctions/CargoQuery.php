@@ -68,6 +68,10 @@ class CargoQuery {
 				$displayParams[$key] = $value;
 			}
 		}
+		// Special handling.
+		if ( $format == 'dynamic table' && $orderByStr != null ) {
+			$displayParams['order by'] = $orderByStr;
+		}
 
 		try {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
