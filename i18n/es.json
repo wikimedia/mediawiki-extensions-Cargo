@@ -48,7 +48,7 @@
 	"cargo-drilldown-choosetable": "Elige una tabla",
 	"cargo-drilldown-allpages": "Todas las páginas",
 	"cargo-drilldown-allfiles": "Todos los archivos",
-	"cargo-drilldown-docu": "Haz clic en los filtros debajo para limitar los resultados.",
+	"cargo-drilldown-docu": "Utiliza los filtros siguientes para delimitar los resultados.",
 	"cargo-drilldown-filterbyvalue": "Filtrar por este valor",
 	"cargo-drilldown-or": "o",
 	"cargo-drilldown-removefilter": "Quitar este filtro",
