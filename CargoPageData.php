@@ -97,8 +97,8 @@ class CargoPageData {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
-				$article = new Article( $title );
-				$pageDataValues['_fullText'] = $article->getContent();
+				$page = WikiPage::factory( $title );
+				$pageDataValues['_fullText'] = ContentHandler::getContentText( $page->getContent() );
 			}
 		}
 		if ( in_array( 'categories', $wgCargoPageDataColumns ) ) {
