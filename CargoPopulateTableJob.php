@@ -32,14 +32,14 @@ class CargoPopulateTableJob extends Job {
 			return false;
 		}
 
-		$article = new Article( $this->title );
+		$page = WikiPage::factory( $this->title );
 
 		// If it was requested, delete all the existing rows for
 		// this page in this Cargo table. This is only necessary
 		// if the table wasn't just dropped and recreated.
 		if ( $this->params['replaceOldRows'] == true ) {
 			$cdb = CargoUtils::getDB();
-			$cdb->delete( $this->params['dbTableName'], array( '_pageID' => $article->getID() ) );
+			$cdb->delete( $this->params['dbTableName'], array( '_pageID' => $page->getID() ) );
 		}
 
 		// All we need to do here is set some global variables based
@@ -47,7 +47,7 @@ class CargoPopulateTableJob extends Job {
 		// the #cargo_store function will take care of the rest.
 		CargoStore::$settings['origin'] = 'template';
 		CargoStore::$settings['dbTableName'] = $this->params['dbTableName'];
-		CargoUtils::parsePageForStorage( $this->title, $article->getContent() );
+		CargoUtils::parsePageForStorage( $this->title, ContentHandler::getContentText( $page->getContent() ) );
 
 		// We need to unset this, if the job was called via runJobs.php,
 		// so that it doesn't affect other (non-Cargo) jobs, like page
