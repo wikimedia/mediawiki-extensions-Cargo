@@ -34,9 +34,8 @@ class SetCargoPageData extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-
+		$this->requireExtension( 'Cargo' );
 		$this->mDescription = "Stores a set of data for each page in the wiki in one or more database tables, for use within Cargo queries.";
-
 		$this->addOption( "delete", "Delete the page data DB table(s)", false, false );
 	}
 

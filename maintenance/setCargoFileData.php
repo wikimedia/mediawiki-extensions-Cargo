@@ -34,9 +34,8 @@ class SetCargoFileData extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-
+		$this->requireExtension( 'Cargo' );
 		$this->mDescription = "Stores a set of data for each file in the wiki in one or more database tables, for use within Cargo queries.";
-
 		$this->addOption( "delete", "Delete the file data DB table(s)", false, false );
 	}
 
