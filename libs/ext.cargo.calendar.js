@@ -7,8 +7,7 @@ $(document).ready(function() {
 		var dataURL = decodeURI( $(this).attr('dataurl') );
 		var startView = $(this).attr('startview');
 		var startDate = moment( $(this).attr('startdate') );
-		$(this).fullCalendar({
-			// put your options and callbacks here
+		var calendarSettings = {
 			events: dataURL,
 			header: {
 				left: 'today prev,next',
@@ -28,7 +27,18 @@ $(document).ready(function() {
 					$(jsEvent.target).attr('title', decodedDescription);
 				}
 			}
-		});
+		};
+
+		// Do some validation on the 'height' input.
+		var height = $(this).attr('height');
+		var numHeight = Number(height);
+		if ( numHeight > 0 ) {
+			calendarSettings.height = numHeight;
+		} else if ( height == "auto" ) {
+			calendarSettings.height = height;
+		}
+
+		$(this).fullCalendar( calendarSettings );
 	});
 
 });

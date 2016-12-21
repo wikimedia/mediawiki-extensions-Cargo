@@ -6,7 +6,7 @@
 
 class CargoCalendarFormat extends CargoDeferredFormat {
 	function allowedParameters() {
-		return array( 'width', 'start date', 'color' );
+		return array( 'width', 'start date', 'color', 'height' );
 	}
 
 	/**
@@ -45,10 +45,23 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			$width = "100%";
 		}
 
+		if ( array_key_exists( 'height', $displayParams ) ) {
+			$height = $displayParams['height'];
+			// The height should be either a number or "auto".
+			if ( !is_numeric( $height ) ) {
+				if ( $height != "auto") {
+					$height = null;
+				}
+			}
+		} else {
+			$height = null;
+		}
+
 		$attrs = array(
 			'class' => 'cargoCalendar',
 			'dataurl' => $ce->getFullURL( $queryParams ),
-			'style' => "width: $width"
+			'style' => "width: $width",
+			'height' => $height,
 		);
 		if ( array_key_exists( 'view', $displayParams ) ) {
 			$view = $displayParams['view'];
