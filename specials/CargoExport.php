@@ -124,6 +124,12 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$eventTitle = reset( $queryResult );
 				}
+				if ( array_key_exists( 'description', $queryResult ) ) {
+					$eventDescription = $queryResult['description'];
+				} else {
+					$eventDescription = null;
+				}
+
 				$title = Title::newFromText( $queryResult['_pageName'] );
 				$startDateField = $dateFieldAliases[0];
 				$startDate = $queryResult[$startDateField];
@@ -135,7 +141,8 @@ class CargoExport extends UnlistedSpecialPage {
 					'title' => $eventTitle,
 					'url' => $title->getLocalURL(),
 					'start' => $queryResult[$dateFieldAliases[0]],
-					'color' => $colorArray[$i]
+					'color' => $colorArray[$i],
+					'description' => $eventDescription
 				);
 				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
 					$curEvent['allDay'] = true;

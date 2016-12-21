@@ -17,6 +17,17 @@ $(document).ready(function() {
 			},
 			defaultView: startView,
 			defaultDate: startDate,
+			// Add event description to 'title' attribute, for
+			// mouseover.
+			eventMouseover: function(event, jsEvent, view) {
+				if (view.name !== 'agendaDay') {
+					// JS lacks an "HTML decode" function,
+					// so we use this jQuery hack.
+					// Copied from http://stackoverflow.com/a/10715834
+					var decodedDescription = $('<div/>').html(event.description).text();
+					$(jsEvent.target).attr('title', decodedDescription);
+				}
+			}
 		});
 	});
 
