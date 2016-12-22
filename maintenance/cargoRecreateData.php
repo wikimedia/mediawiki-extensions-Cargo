@@ -34,7 +34,11 @@ class CargoRecreateData extends Maintenance {
 
 	public function __construct() {
 		parent::__construct();
-		$this->requireExtension( 'Cargo' );
+
+		// MW 1.28
+		if ( method_exists( $this, 'requireExtension' ) ) {
+			$this->requireExtension( 'Cargo' );
+		}
 		$this->mDescription = "Recreate the data for one or more Cargo database tables.";
 		$this->addOption( 'table', 'The Cargo table to recreate', false, true );
 	}
