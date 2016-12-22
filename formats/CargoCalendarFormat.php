@@ -6,7 +6,7 @@
 
 class CargoCalendarFormat extends CargoDeferredFormat {
 	function allowedParameters() {
-		return array( 'width', 'start date', 'color', 'height' );
+		return array( 'width', 'start date', 'color', 'text color', 'height' );
 	}
 
 	/**
@@ -22,6 +22,7 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'fullcalendar';
 		$queryParams['color'] = array();
+		$queryParams['text color'] = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			if ( $querySpecificParams != null ) {
 				if ( array_key_exists( 'color', $querySpecificParams[$i] ) ) {
@@ -31,6 +32,14 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 					// preserve the order for the queries
 					// that do contain a color.
 					$queryParams['color'][] = null;
+				}
+				if ( array_key_exists( 'text color', $querySpecificParams[$i] ) ) {
+					$queryParams['text color'][] = $querySpecificParams[$i]['text color'];
+				} else {
+					// Stick an empty value in there, to
+					// preserve the order for the queries
+					// that do contain a color.
+					$queryParams['text color'][] = null;
 				}
 			}
 		}

@@ -86,6 +86,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$req = $this->getRequest();
 
 		$colorArray = $req->getArray( 'color' );
+		$textColorArray = $req->getArray( 'text_color' );
 
 		$datesLowerLimit = $req->getVal( 'start' );
 		$datesUpperLimit = $req->getVal( 'end' );
@@ -142,6 +143,7 @@ class CargoExport extends UnlistedSpecialPage {
 					'url' => $title->getLocalURL(),
 					'start' => $queryResult[$dateFieldAliases[0]],
 					'color' => $colorArray[$i],
+					'textColor' => $textColorArray[$i],
 					'description' => $eventDescription
 				);
 				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
