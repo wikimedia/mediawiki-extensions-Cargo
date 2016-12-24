@@ -6,7 +6,8 @@
 			"Lmorillas",
 			"Fitoschido",
 			"Ryo567",
-			"Irus"
+			"Irus",
+			"Dgstranz"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -16,6 +17,12 @@
 	"recreatedata": "Recrear datos",
 	"action-recreatecargodata": "volver a crear los datos de Cargo",
 	"action-deletecargodata": "eliminar datos de Cargo",
+	"apihelp-cargoquery-param-fields": "Campo(s) de la tabla que recuperar",
+	"apihelp-cargoquery-param-where": "Condiciones de la consulta, correspondientes a una cláusula WHERE de SQL",
+	"apihelp-cargoquery-param-join_on": "Condiciones para unir varias tablas, correspondientes a una cláusula JOIN ON de SQL",
+	"apihelp-cargoquery-param-order_by": "Orden de los resultados, correspondiente a una cláusula ORDER BY de SQL",
+	"apihelp-cargoquery-param-group_by": "Campo o campos en los que agrupar los resultados, correspondientes a una cláusula GROUP BY de SQL",
+	"apihelp-cargoquery-param-having": "Condiciones para valores agrupados, correspondientes a una cláusula HAVING de SQL",
 	"apihelp-cargoquery-param-limit": "Un límite en el número de resultados devueltos",
 	"apihelp-cargorecreatedata-param-template": "La plantilla cuyos datos se usarán",
 	"cargo-createdatatable": "Crear tabla de datos",
