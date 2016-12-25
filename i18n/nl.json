@@ -4,7 +4,8 @@
 			"Robin0van0der0vliet",
 			"Esketti",
 			"Robin van der Vliet",
-			"Sjoerddebruin"
+			"Sjoerddebruin",
+			"Mainframe98"
 		]
 	},
 	"cargo-desc": "Opslag en opvragen van sjabloon gegevens",
@@ -20,7 +21,7 @@
 	"cargo-recreatedata-tablecreated": "Opnieuw Cargo tabel \"$1\".",
 	"cargo-recreatedata-success": "De gegevens worden gemaakt.",
 	"viewdata": "Bekijk de gegevens",
-	"cargo-viewdata-tables": "Tafel(s):",
+	"cargo-viewdata-tables": "Tabel(len):",
 	"cargo-viewdata-fields": "Veld(en):",
 	"cargo-viewdata-where": "Waar:",
 	"cargo-viewdata-joinon": "Join op:",
@@ -31,7 +32,7 @@
 	"cargo-viewdata-format": "Formaat:",
 	"cargotables": "Lading tabellen",
 	"cargo-cargotables-tablelist": "De volgende tabellen zijn gedefinieerd:",
-	"cargo-cargotables-viewtable": "Bekijk de tabel: $1",
+	"cargo-cargotables-viewtable": "Bekijk tabel: $1",
 	"cargo-cargotables-viewtablelink": "Tabel bekijken",
 	"cargo-cargotables-notdeclared": "niet bepaald door een template",
 	"cargo-cargotables-declaredby": "Verklaard door $1",
@@ -43,7 +44,7 @@
 	"cargo-pagevaluesfor": "Waarden van de pagina voor \"$1\"",
 	"cargo-pagevalues-tablevalues": "\"$1\" waarden",
 	"drilldown": "Drilldown",
-	"cargo-drilldown-choosetable": "Kies een tafel",
+	"cargo-drilldown-choosetable": "Kies een tabel",
 	"cargo-drilldown-allpages": "Alle pagina's",
 	"cargo-drilldown-allfiles": "Alle bestanden",
 	"cargo-drilldown-docu": "Klik op het filter onderstaande waarden te verfijn uw resultaten.",
