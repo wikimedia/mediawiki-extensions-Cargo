@@ -94,6 +94,40 @@
 		}
 	});
 
+	jQuery.widget("ui.CDRemoteAutocomplete", {
+		_create: function() {
+			var input = this.element;
+			input.autocomplete({
+				source: function( request, response ) {
+					var urlAPI = mw.config.get( 'wgScriptPath' ) + "/api.php?action=cargoautocomplete" +
+						"&table=" + input.attr('data-cargo-table') +
+						"&field=" + input.attr('data-cargo-field');
+					var fieldIsArray = input.attr('data-cargo-field-is-list');
+					if ( fieldIsArray != undefined ) {
+						urlAPI += "&field_is_array=" + fieldIsArray;
+					}
+					urlAPI += "&where=" + input.attr('data-cargo-where') +
+						"&format=json";
+					$.ajax({
+						url: urlAPI,
+						dataType: "json",
+						//jsonp: false,
+						data: {
+							substr: request.term
+						},
+						success: function( data ) {
+							response( data.cargoautocomplete );
+						},
+						error: function( jqxhr, status, error ) {
+							// Add debugging stuff here.
+						}
+					});
+				}
+			})
+			.addClass("ui-widget ui-widget-content");
+		}
+	});
+
 })(jQuery);
 
 jQuery.fn.toggleCDValuesDisplay = function() {
@@ -114,5 +148,6 @@ jQuery.fn.toggleCDValuesDisplay = function() {
 
 jQuery(document).ready(function() {
 	jQuery(".cargoDrilldownComboBox").CDComboBox();
-        jQuery(".drilldown-values-toggle").click( function() {jQuery(this).toggleCDValuesDisplay();} );
+	jQuery(".cargoDrilldownRemoteAutocomplete").CDRemoteAutocomplete();
+	jQuery(".drilldown-values-toggle").click( function() {jQuery(this).toggleCDValuesDisplay();} );
 });

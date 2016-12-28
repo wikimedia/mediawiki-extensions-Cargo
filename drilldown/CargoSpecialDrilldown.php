@@ -749,22 +749,22 @@ END;
 		return $text;
 	}
 
-	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false, $cur_value = null ) {
+	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false, $cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false ) {
 		global $wgRequest;
 
-		$filter_name = str_replace( ' ', '_', $filter_name );
+		$filterStr = str_replace( ' ', '_', $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
-		$filter_name = urldecode( $filter_name );
+		$filterStr = urldecode( $filterStr );
 
 		// Add on the instance number, since it can be one of a string
 		// of values.
-		$filter_name .= '[' . $instance_num . ']';
+		$filterStr .= '[' . $instance_num . ']';
 
-		if ( strpos( $filter_name, '_search' ) === 0 ) {
+		if ( strpos( $filterStr, '_search' ) === 0 ) {
 			$inputName = '_search';
 		} else {
-			$inputName = "_search_$filter_name";
+			$inputName = "_search_$filterStr";
 		}
 
 		if ( $cur_value != null ) {
@@ -801,11 +801,27 @@ END;
 
 END;
 		} else {
-			$text .=<<< END
-	<input type="text" name="$inputName" value="$cur_value" />
-	<br />
-
-END;
+			$inputAttrs = array();
+			if ( $has_remote_autocompletion ) {
+				$inputAttrs['class'] = "cargoDrilldownRemoteAutocomplete";
+				$inputAttrs['data-cargo-table'] = $this->tableName;
+				$inputAttrs['data-cargo-field'] = $filter_name;
+				if ( $filter_is_list ) {
+					$inputAttrs['data-cargo-field-is-list'] = true;
+				}
+				$inputAttrs['size'] = 30;
+				$inputAttrs['style'] = 'padding-left: 3px;';
+				$whereSQL = '';
+				foreach ( $this->applied_filters as $i => $af ) {
+					if ( $i > 0 ) {
+						$whereSQL .= ' AND ';
+					}
+					$whereSQL .= $af->checkSQL();
+				}
+				$inputAttrs['data-cargo-where'] = $whereSQL;
+			}
+			$text .= Html::input( $inputName, $cur_value, 'text', $inputAttrs ) . "\n";
+			$text .= "<br />\n\n";
 		}
 
 		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
@@ -931,11 +947,9 @@ END;
 			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->text() . ')';
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
-		} elseif ( count( $filter_values ) >= 300 ) {
-			// If it's really big, just show a text input.
-			// @TODO - this should ideally use remote
-			// autocompletion instead.
-			$results_line = $this->printTextInput( $filter_name, 0 );
+		} elseif ( count( $filter_values ) >= 250 ) {
+			// Lots of values - switch to remote autocompletion.
+			$results_line = $this->printTextInput( $filter_name, 0, false, null, true, $f->fieldDescription->mIsList );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
 			$results_line = $this->printComboBoxInput( $filter_name, 0, $filter_values );
