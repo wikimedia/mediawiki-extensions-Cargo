@@ -222,6 +222,17 @@ $wgResourceModules += array(
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
+	'ext.cargo.timelinebase' => array(
+		'scripts' => array(
+			'libs/ext.cargo.timeline.js',
+			'libs/SimileTimeline/scripts/timeline.js',
+			'libs/SimileTimeline/scripts/util/platform.js',
+			'libs/SimileTimeline/scripts/util/xmlhttp.js',
+			'libs/SimileTimeline/scripts/util/data-structure.js',
+			'libs/SimileTimeline/scripts/units.js',
+			'libs/SimileTimeline/scripts/sources.js',
+		)
+	),
 	'ext.cargo.timeline' => array(
 		'styles' => array(
 			'libs/SimileTimeline/styles/timeline.css',
@@ -229,25 +240,19 @@ $wgResourceModules += array(
 			'libs/SimileTimeline/styles/events.css',
 		),
 		'scripts' => array(
-			'libs/ext.cargo.timeline.js',
-			'libs/SimileTimeline/scripts/timeline.js',
-			'libs/SimileTimeline/scripts/util/platform.js',
 			'libs/SimileTimeline/scripts/util/debug.js',
-			'libs/SimileTimeline/scripts/util/xmlhttp.js',
 			'libs/SimileTimeline/scripts/util/dom.js',
 			'libs/SimileTimeline/scripts/util/graphics.js',
 			'libs/SimileTimeline/scripts/util/date-time.js',
-			'libs/SimileTimeline/scripts/util/data-structure.js',
-			'libs/SimileTimeline/scripts/units.js',
 			'libs/SimileTimeline/scripts/themes.js',
 			'libs/SimileTimeline/scripts/ethers.js',
 			'libs/SimileTimeline/scripts/ether-painters.js',
 			'libs/SimileTimeline/scripts/labellers.js',
-			'libs/SimileTimeline/scripts/sources.js',
 			'libs/SimileTimeline/scripts/layouts.js',
 			'libs/SimileTimeline/scripts/painters.js',
 			'libs/SimileTimeline/scripts/decorators.js',
 		),
+		'dependencies' => 'timelinebase',
 		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
