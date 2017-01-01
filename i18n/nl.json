@@ -50,7 +50,7 @@
 	"cargo-drilldown-docu": "Klik op het filter onderstaande waarden te verfijn uw resultaten.",
 	"cargo-drilldown-filterbyvalue": "Op deze waarde filteren",
 	"cargo-drilldown-or": "of",
-	"cargo-drilldown-removefilter": "Deze filter verwijderen",
+	"cargo-drilldown-removefilter": "Dit filter verwijderen",
 	"cargo-drilldown-resetfilters": "Filters opnieuw instellen",
 	"cargo-drilldown-addanothervalue": "Klik op de pijl om nog een waarde toe te voegen",
 	"cargo-drilldown-novalues": "Er zijn geen waarden voor dit filter",
