@@ -125,6 +125,28 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$eventTitle = reset( $queryResult );
 				}
+				if ( array_key_exists( 'color', $queryResult ) ) {
+					$eventColor = $queryResult['color'];
+				} else {
+					$eventColor = $colorArray[$i];
+				}
+				if ( array_key_exists( 'text color', $queryResult ) ) {
+					$eventTextColor = $queryResult['text color'];
+				} else {
+					$eventTextColor = $textColorArray[$i];
+				}
+				if ( array_key_exists( 'start', $queryResult ) ) {
+					$eventStart = $queryResult['start'];
+				} else {
+					$eventStart = $queryResult[$dateFieldAliases[0]];
+				}
+				if ( array_key_exists( 'end', $queryResult ) ) {
+					$eventEnd = $queryResult['end'];
+				} elseif ( count( $dateFieldAliases ) > 1 && array_key_exists( $dateFieldAliases[1], $queryResult ) ) {
+					$eventEnd = $queryResult[$dateFieldAliases[1]];
+				} else {
+					$eventEnd = null;
+				}
 				if ( array_key_exists( 'description', $queryResult ) ) {
 					$eventDescription = $queryResult['description'];
 				} else {
@@ -141,9 +163,10 @@ class CargoExport extends UnlistedSpecialPage {
 					// necessarily the page name.
 					'title' => $eventTitle,
 					'url' => $title->getLocalURL(),
-					'start' => $queryResult[$dateFieldAliases[0]],
-					'color' => $colorArray[$i],
-					'textColor' => $textColorArray[$i],
+					'start' => $eventStart,
+					'end' => $eventEnd,
+					'color' => $eventColor,
+					'textColor' => $eventTextColor,
 					'description' => $eventDescription
 				);
 				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
