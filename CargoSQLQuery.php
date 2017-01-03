@@ -721,7 +721,7 @@ class CargoSQLQuery {
 				);
 				$newCargoJoinConds[] = $newJoinCond;
 				$newJoinCond2 = array(
-					'joinType' => 'LEFT OUTER JOIN',
+					'joinType' => 'RIGHT OUTER JOIN',
 					'table1' => $fieldTableName,
 					'field1' => '_value',
 					'table2' => $this->mCargoJoinConds[$i]['table2'],
