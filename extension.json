@@ -28,7 +28,8 @@
 	"APIModules": {
 		"cargoquery": "CargoQueryAPI",
 		"cargorecreatetables": "CargoRecreateTablesAPI",
-		"cargorecreatedata": "CargoRecreateDataAPI"
+		"cargorecreatedata": "CargoRecreateDataAPI",
+		"cargoautocomplete": "CargoAutocompleteAPI"
 	},
 	"MessagesDirs": {
 		"Cargo": [
@@ -68,6 +69,7 @@
 		"CargoQueryAPI": "api/CargoQueryAPI.php",
 		"CargoRecreateTablesAPI": "api/CargoRecreateTablesAPI.php",
 		"CargoRecreateDataAPI": "api/CargoRecreateDataAPI.php",
+		"CargoAutocompleteAPI": "api/CargoAutocompleteAPI.php",
 		"CargoLuaLibrary": "CargoLua.library.php",
 		"CargoDisplayFormat": "formats/CargoDisplayFormat.php",
 		"CargoDeferredFormat": "formats/CargoDeferredFormat.php",

@@ -73,6 +73,7 @@ $wgExtensionMessagesFiles['CargoAlias'] = $dir . '/Cargo.alias.php';
 $wgAPIModules['cargoquery'] = 'CargoQueryAPI';
 $wgAPIModules['cargorecreatetables'] = 'CargoRecreateTablesAPI';
 $wgAPIModules['cargorecreatedata'] = 'CargoRecreateDataAPI';
+$wgAPIModules['cargoautocomplete'] = 'CargoAutocompleteAPI';
 
 // Register classes and special pages.
 $wgAutoloadClasses['CargoHooks'] = $dir . '/Cargo.hooks.php';
@@ -108,6 +109,7 @@ $wgAutoloadClasses['CargoPageValues'] = $dir . '/specials/CargoPageValues.php';
 $wgAutoloadClasses['CargoQueryAPI'] = $dir . '/api/CargoQueryAPI.php';
 $wgAutoloadClasses['CargoRecreateTablesAPI'] = $dir . '/api/CargoRecreateTablesAPI.php';
 $wgAutoloadClasses['CargoRecreateDataAPI'] = $dir . '/api/CargoRecreateDataAPI.php';
+$wgAutoloadClasses['CargoAutocompleteAPI'] = $dir . '/api/CargoAutocompleteAPI.php';
 $wgAutoloadClasses['CargoLuaLibrary'] = $dir . '/CargoLua.library.php';
 
 // Display formats
