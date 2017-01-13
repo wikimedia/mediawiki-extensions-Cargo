@@ -294,6 +294,9 @@ class CargoHooks {
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
 			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ) );
 			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ) );
+		} elseif ( $updater->getDB()->getType() == 'mssql' ) {
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.mssql.sql", true ) );
+			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.mssql.sql", true ) );
 		}
 		return true;
 	}
