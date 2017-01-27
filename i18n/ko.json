@@ -3,7 +3,8 @@
 		"authors": [
 			"SeoJeongHo",
 			"Revi",
-			"Ykhwong"
+			"Ykhwong",
+			"Jerrykim306"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",
@@ -19,6 +20,8 @@
 	"cargo-recreatedata-success": "데이터가 재생성되고 있습니다.",
 	"viewdata": "데이터 보기",
 	"cargo-viewdata-tables": "테이블:",
+	"cargo-viewdata-limit": "제한:",
+	"cargo-viewdata-format": "형식:",
 	"cargo-cargotables-totalrowsshort": "$1개의 {{PLURAL:$1|행}}",
 	"cargo-drilldown-allpages": "모든 문서",
 	"cargo-drilldown-allfiles": "모든 파일",
