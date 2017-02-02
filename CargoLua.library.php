@@ -58,7 +58,9 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			$values = array();
 			foreach ( $fieldArray as $fieldString ) {
 				$alias = $query->getAliasForFieldString( $fieldString );
-				$values[$fieldString] = $row[$alias];
+				$nameArray = CargoUtils::smartSplit( '=', $fieldString );
+				$name = $nameArray[ count( $nameArray ) - 1 ];
+				$values[$name] = htmlspecialchars_decode( $row[$alias] );
 			}
 			$result[$rowIndex++] = $values;
 		}
