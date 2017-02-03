@@ -268,14 +268,7 @@ class CargoQueryDisplayer {
 		foreach ( $terms as $i => $term ) {
 			// Try to map from a MySQL search to a PHP one -
 			// this code could probably be improved.
-			$term = str_replace( array( '+', '*' ), '', $term );
-			// Get rid of quote marks, but only if they're at the
-			// beginning and end of the string.
-			$firstChars = substr( $term, 0, 3 );
-			$lastChars = substr( $term, -3 );
-			if ( ( $firstChars == '\b"' && $lastChars == '"\b' ) || ( $firstChars == "\b'" && $lastChars == "'\b" ) ) {
-				$term = '\b' . substr( $term, 3, -3 ) . '\b';
-			}
+			$term = str_replace( array( '"', "'", '+', '*' ), '', $term );
 			// What is the point of this...?
 			if ( strpos( $term, '*' ) !== false ) {
 				$term = '\b' . $term . '\b';
