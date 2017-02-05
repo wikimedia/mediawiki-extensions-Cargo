@@ -15,5 +15,6 @@ $specialPageAliases['en'] = array(
 	'CargoTables' => array( 'CargoTables' ),
 	'DeleteCargoTable' => array( 'DeleteCargoTable' ),
 	'Drilldown' => array( 'Drilldown' ),
+	'PageValues' => array( 'PageValues' ),
 	'ViewData' => array( 'ViewData' ),
 );
