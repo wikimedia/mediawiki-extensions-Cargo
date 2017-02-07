@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 1.2
+        Version 1.3
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -57,7 +57,7 @@ Cargo was created, and mostly written by, Yaron Koren.
 Query formats were also added by Cindy Cicalese, Luis Morillas and StasR.
 
 Important code contributions were also made by Ad Strack van Schijndel,
-Ed Hoo, Namit Ohri and Vivek Ghaisas.
+Duncan Crane, Ed Hoo, Namit Ohri, Paladox, Vivek Ghaisas and others.
 
 == Contact ==
 
