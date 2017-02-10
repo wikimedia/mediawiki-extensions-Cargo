@@ -54,6 +54,10 @@ class CargoCategoryFormat extends CargoListFormat {
 			} else {
 				$curValue = $valuesTable[$i][$headerField];
 			}
+			// Ignore the namespace when setting the index character.
+			if ( array_key_exists( 'namespace', $row ) ) {
+				$curValue = str_replace( $row['namespace'] . ':', '', $curValue );
+			}
 			$cur_first_char = $wgContLang->firstChar( $curValue );
 
 			if ( $rowindex % $rows_per_column == 0 ) {

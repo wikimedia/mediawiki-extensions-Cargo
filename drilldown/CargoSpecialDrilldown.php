@@ -1270,7 +1270,7 @@ END;
 
 	function getOrderFields() {
 		$cdb = CargoUtils::getDB();
-		return array( CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageName' ) );
+		return array( CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageTitle' ) );
 	}
 
 	function sortDescending() {
@@ -1307,6 +1307,10 @@ END;
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$pageName = $row['title'];
 			$curValue = array( 'title' => $pageName );
+			$pageNamespace = $this->getLanguage()->getFormattedNsText( $row['namespace'] );
+			if ( $pageNamespace != '' ) {
+				$curValue['namespace'] = $pageNamespace;
+			}
 			if ( array_key_exists( 'foundFileMatch', $row ) && $row['foundFileMatch'] ) {
 				if ( array_key_exists( 'fileName', $row ) ) {
 					// Not used for _fileData drilldown.
