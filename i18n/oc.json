@@ -4,5 +4,6 @@
 			"Cedric31"
 		]
 	},
-	"action-deletecargodata": "suprimir las donadas de Cargo"
+	"action-deletecargodata": "suprimir las donadas de Cargo",
+	"cargo-drilldown-novalues": "I a pas de valor per aqueste filtre"
 }
