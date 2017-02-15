@@ -334,3 +334,4 @@ $wgCargoDrilldownNumRangesForNumbers = 5;
 
 $wgCargoPageDataColumns = array();
 $wgCargoFileDataColumns = array();
+$wgCargoHideNamespaceName = array( NS_FILE );
