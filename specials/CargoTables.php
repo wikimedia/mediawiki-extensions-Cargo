@@ -30,9 +30,17 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Mimic the appearance of a subpage to link back to
 		// Special:CargoTables.
+		if ( method_exists( $this, 'getLinkRenderer' ) ) {
+			$linkRenderer = $this->getLinkRenderer();
+		} else {
+			$linkRenderer = null;
+		}
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
-		$mainPageLink = Linker::linkKnown( $ctPage->getTitle(),
-			htmlspecialchars( $ctPage->getDescription() ) );
+		$mainPageLink = CargoUtils::makeLink(
+			$linkRenderer,
+			$ctPage->getTitle(),
+			htmlspecialchars( $ctPage->getDescription() )
+		);
 		$out->setSubtitle( '< '. $mainPageLink );
 
 		$cdb = CargoUtils::getDB();
@@ -135,6 +143,12 @@ class CargoTables extends IncludableSpecialPage {
 		$templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
 		$templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 
+		if ( method_exists( $this, 'getLinkRenderer' ) ) {
+			$linkRenderer = $this->getLinkRenderer();
+		} else {
+			$linkRenderer = null;
+		}
+
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
 		$text = Html::rawElement( 'p', null,
@@ -180,7 +194,7 @@ class CargoTables extends IncludableSpecialPage {
 				$templateLinks = array();
 				foreach ( $templatesThatDeclareThisTable as $templateID ) {
 					$templateTitle = Title::newFromID( $templateID );
-					$templateLinks[] = Linker::link( $templateTitle );
+					$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 				}
 				$declaringTemplatesText = $this->msg(
 						'cargo-cargotables-declaredby', implode( $templateLinks ) )->text();
@@ -199,7 +213,7 @@ class CargoTables extends IncludableSpecialPage {
 				$templateLinks = array();
 				foreach ( $templatesThatAttachToThisTable as $templateID ) {
 					$templateTitle = Title::newFromID( $templateID );
-					$templateLinks[] = Linker::link( $templateTitle );
+					$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 				}
 				$attachingTemplatesText = $this->msg(
 						'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();

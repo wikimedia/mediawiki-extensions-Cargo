@@ -75,7 +75,12 @@ class CargoDeleteCargoTable extends SpecialPage {
 		if ( $this->getRequest()->getCheck( 'delete' ) ) {
 			self::deleteTable( $subpage, $fieldTables );
 			$text = Html::element( 'p', null, "The table \"$subpage\" has been deleted." ) . "\n";
-			$tablesLink = Linker::linkKnown( $ctPage->getTitle(), $ctPage->getDescription() );
+			if ( method_exists( $this, 'getLinkRenderer' ) ) {
+				$linkRenderer = $this->getLinkRenderer();
+			} else {
+				$linkRenderer = null;
+			}
+			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getTitle(), $ctPage->getDescription() );
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			return true;

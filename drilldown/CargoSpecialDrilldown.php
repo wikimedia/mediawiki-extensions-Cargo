@@ -1279,7 +1279,12 @@ END;
 
 	function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( $result->namespace, $result->value );
-		return Linker::link( $title, htmlspecialchars( $title->getText() ) );
+		if ( method_exists( $this, 'getLinkRenderer' ) ) {
+			$linkRenderer = $this->getLinkRenderer();
+		} else {
+			$linkRenderer = null;
+		}
+		return CargoUtils::makeLink( $linkRenderer, $title, htmlspecialchars( $title->getText() ) );
 	}
 
 	/**

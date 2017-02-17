@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * CargoQueryDisplayer - class for displaying query results.
  *
@@ -176,18 +179,25 @@ class CargoQueryDisplayer {
 				$wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Page' ) {
 			$title = Title::newFromText( $value );
+			if ( function_exists( 'MediaWiki\MediaWikiServices::getLinkRenderer' ) ) {
+				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+			} else {
+				$linkRenderer = null;
+			}
 			// Hide the namespace in the display?
 			global $wgCargoHideNamespaceName;
 			if ( in_array( $title->getNamespace(), $wgCargoHideNamespaceName ) ) {
-				return Linker::link( $title , $title->getRootText() );
+				return CargoUtils::makeLink( $linkRenderer, $title, $title->getRootText() );
 			} else {
-				return Linker::link( $title );
+				return CargoUtils::makeLink( $linkRenderer, $title );
 			}
 		} elseif ( $type == 'File' ) {
 			// 'File' values are basically pages in the File:
 			// namespace; they are displayed as thumbnails within
 			// queries.
 			$title = Title::newFromText( $value, NS_FILE );
+			// makeThumbLinkObj() is still not deprecated in MW 1.28,
+			// but presumably it will be at some point.
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
 		} elseif ( $type == 'URL' ) {
 			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
@@ -366,8 +376,13 @@ class CargoQueryDisplayer {
 		}
 
 		if ( $displayHTML ) {
+			if ( function_exists( 'MediaWiki\MediaWikiServices::getLinkRenderer' ) ) {
+				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+			} else {
+				$linkRenderer = null;
+			}
 			return Html::rawElement( 'p', null,
-				Linker::link( $vd, $moreResultsText, array(), $queryStringParams ) );
+				CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, array(), $queryStringParams ) );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;
