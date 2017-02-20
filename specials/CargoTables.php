@@ -81,10 +81,16 @@ class CargoTables extends IncludableSpecialPage {
 			// @TODO - something similar should be done for lists
 			// of URLs.
 			if ( $fieldType == 'URL' && !$fieldDescription->mIsList ) {
-				// Thankfully, there's a message in core
-				// MediaWiki that seems to just be "URL".
-				$fieldName = "CONCAT('[', $fieldName, ' " .
-					$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
+				// CONCAT() was only defined in MS SQL Server
+				// in version 11.0, from 2012.
+				if ( $cdb->getType() == 'mssql' && version_compare( $cdb->getServerInfo(), '11.0', '<' ) ) {
+					// Just show the URL.
+				} else {
+					// Thankfully, there's a message in core
+					// MediaWiki that seems to just be "URL".
+					$fieldName = "CONCAT('[', $fieldName, ' " .
+						$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
+				}
 			}
 
 			if ( $fieldDescription->mIsList ) {
