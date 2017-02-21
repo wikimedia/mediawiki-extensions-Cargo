@@ -45,6 +45,7 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Cargo-Tabellen",
+	"cargo-cargotables-beingpopulated": "<strong>Hinweis:</strong> Eine oder mehrere dieser Tabellen werden derzeit über die Auftragswarteschlange befüllt.",
 	"cargo-cargotables-tablelist": "Die {{PLURAL:$1|folgende Tabelle ist|folgenden Tabellen sind}} definiert:",
 	"cargo-cargotables-viewtable": "Tabelle ansehen: $1",
 	"cargo-cargotables-viewtablelink": "Tabelle ansehen",

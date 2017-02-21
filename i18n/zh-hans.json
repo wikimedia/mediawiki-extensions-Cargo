@@ -51,6 +51,7 @@
 	"cargo-viewdata-limit": "限制：",
 	"cargo-viewdata-format": "格式：",
 	"cargotables": "Cargo表格",
+	"cargo-cargotables-beingpopulated": "<strong>注意：</strong>这些表格中的一个或多个现正在通过工作队列填充。",
 	"cargo-cargotables-tablelist": "以下{{PLURAL:$1|表格}}已被定义：",
 	"cargo-cargotables-viewtable": "查看表格：$1",
 	"cargo-cargotables-viewtablelink": "查看表格",

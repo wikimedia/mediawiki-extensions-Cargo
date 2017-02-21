@@ -61,6 +61,7 @@
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Format :",
 	"cargotables": "Tables de Cargo",
+	"cargo-cargotables-beingpopulated": "<strong>Note :</strong> Une au moins de ces tables est actuellement en cours de remplissage, via la file de tâches.",
 	"cargo-cargotables-tablelist": "{{PLURAl:$1|La table suivante est définie|Les tables suivantes sont définies}} :",
 	"cargo-cargotables-viewtable": "Afficher la table : $1",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",

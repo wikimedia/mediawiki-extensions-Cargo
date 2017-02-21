@@ -51,6 +51,7 @@
 	"cargo-viewdata-limit": "Ограничување:",
 	"cargo-viewdata-format": "Формат:",
 	"cargotables": "Табели во „Карго“",
+	"cargo-cargotables-beingpopulated": "<strong>Напомена:</strong> Една или повеќе од овие табели во моментов се пополнуваат преку редица на задачи.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Зададена е следнава табела|Зададени се следниве табели}}:",
 	"cargo-cargotables-viewtable": "Погл. табелата: $1",
 	"cargo-cargotables-viewtablelink": "Погл. табелата",
