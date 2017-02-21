@@ -49,6 +49,7 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Cargo tables",
+	"cargo-cargotables-beingpopulated": "<strong>Note:</strong> One or more of these tables are currently being populated, via the job queue.",
 	"cargo-cargotables-tablelist": "The following {{PLURAL:$1|table is|tables are}} defined:",
 	"cargo-cargotables-viewtable": "View table: $1",
 	"cargo-cargotables-viewtablelink": "View table",

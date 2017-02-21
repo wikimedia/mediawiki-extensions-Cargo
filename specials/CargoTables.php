@@ -144,6 +144,19 @@ class CargoTables extends IncludableSpecialPage {
 	function displayListOfTables() {
 		global $wgUser;
 
+		$text = '';
+
+		// Show a note if there are currently Cargo populate-data jobs
+		// that haven't been run, to make troubleshooting easier.
+		$group = JobQueueGroup::singleton();
+		// The following line would have made more sense to call, but
+		// it seems to return true if there are *any* jobs in the
+		// queue - a bug in MediaWiki?
+		//if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
+		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
+			$text .= '<div class="warningbox">' . $this->msg( 'cargo-cargotables-beingpopulated' )->text() . "</div>\n";
+		}
+
 		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();
 		$templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
@@ -157,7 +170,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
-		$text = Html::rawElement( 'p', null,
+		$text .= Html::rawElement( 'p', null,
 			$this->msg( 'cargo-cargotables-tablelist' )->numParams( count( $tableNames ) )->parse() ) . "\n";
 		$text .= "<ul>\n";
 		foreach ( $tableNames as $tableName ) {

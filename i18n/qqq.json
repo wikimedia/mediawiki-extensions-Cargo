@@ -55,6 +55,7 @@
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
 	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
 	"cargotables": "{{doc-special|CargoTables}}\n{{doc-cargo}}",
+	"cargo-cargotables-beingpopulated": "An informational message to the user.",
 	"cargo-cargotables-tablelist": "Used as a page header.",
 	"cargo-cargotables-viewtable": "Parameters:\n* $1 - table name",
 	"cargo-cargotables-viewtablelink": "The text of a link to a subpage of [[Special:CargoTables]].",
