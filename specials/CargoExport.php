@@ -162,13 +162,16 @@ class CargoExport extends UnlistedSpecialPage {
 					// Get first field for the title - not
 					// necessarily the page name.
 					'title' => $eventTitle,
-					'url' => $title->getLocalURL(),
 					'start' => $eventStart,
 					'end' => $eventEnd,
 					'color' => $eventColor,
 					'textColor' => $eventTextColor,
 					'description' => $eventDescription
 				);
+				if ( array_key_exists( '_pageName', $queryResult ) ) {
+					$title = Title::newFromText( $queryResult['_pageName'] );
+					$curEvent['url'] = $title->getLocalURL();
+				}
 				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
 					$curEvent['allDay'] = true;
 				}
