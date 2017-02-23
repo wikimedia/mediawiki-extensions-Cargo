@@ -194,6 +194,18 @@ class CargoTables extends IncludableSpecialPage {
 			$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $drilldownURL ),
 					$drilldownPage->getDescription() );
 
+			// It's a bit odd to include the "Recreate data"
+			// link, since it's an action for the template and
+			// not the table (if a template defines two tables,
+			// this will recreate both of them), but for standard
+			// setups, this makes things more convenient.
+			if ( $wgUser->isAllowed( 'recreatecargodata' ) && array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
+				$firstTemplateID = $templatesThatDeclareTables[$tableName][0];
+				$templateTitle = Title::newFromID( $firstTemplateID );
+				$actionLinks .= ' | ' . CargoUtils::makeLink( $linkRenderer, $templateTitle,
+					$this->msg( 'recreatedata' )->text(), array(), array( 'action' => 'recreatedata' ) );
+			}
+
 			if ( $wgUser->isAllowed( 'deletecargodata' ) ) {
 				$deleteTablePage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
 				$deleteTableURL = $deleteTablePage->getTitle()->getLocalURL() . '/' . $tableName;
