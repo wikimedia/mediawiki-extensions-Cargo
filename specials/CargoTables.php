@@ -58,7 +58,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
-		$sqlQuery->mTableNames = array( $tableName );
+		$sqlQuery->mAliasedTableNames = array( $tableName => $tableName );
 
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$sqlQuery->mTableSchemas = $tableSchemas;

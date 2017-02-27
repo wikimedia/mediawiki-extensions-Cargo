@@ -180,7 +180,7 @@ class ViewDataPage extends QueryPage {
 		}
 
 		$queryInfo = array(
-			'tables' => $this->sqlQuery->mTableNames,
+			'tables' => $this->sqlQuery->mAliasedTableNames,
 			'fields' => $aliasedFieldNames,
 			'options' => $selectOptions
 		);

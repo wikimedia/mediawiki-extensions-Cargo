@@ -11,7 +11,7 @@ class CargoSQLQuery {
 
 	private $mCargoDB;
 	public $mTablesStr;
-	public $mTableNames;
+	public $mAliasedTableNames;
 	public $mFieldsStr;
 	public $mOrigWhereStr;
 	public $mWhereStr;
@@ -48,7 +48,7 @@ class CargoSQLQuery {
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mCargoDB = CargoUtils::getDB();
 		$sqlQuery->mTablesStr = $tablesStr;
-		$sqlQuery->mTableNames = array_map( 'trim', explode( ',', $tablesStr ) );
+		$sqlQuery->setAliasedTableNames();
 		$sqlQuery->mFieldsStr = $fieldsStr;
 		// This _decode() call is necessary because the "where="
 		// clause can (and often does) include a call to {{PAGENAME}},
@@ -58,7 +58,7 @@ class CargoSQLQuery {
 		$sqlQuery->mJoinOnStr = $joinOnStr;
 		$sqlQuery->setCargoJoinConds( $joinOnStr );
 		$sqlQuery->setAliasedFieldNames();
-		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mTableNames );
+		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mAliasedTableNames );
 		$sqlQuery->setOrderBy( $orderByStr );
 		$sqlQuery->mOrigGroupByStr = $groupByStr;
 		$sqlQuery->mGroupByStr = $sqlQuery->mOrigGroupByStr;
@@ -220,6 +220,26 @@ class CargoSQLQuery {
 		}
 	}
 
+	function setAliasedTableNames() {
+		$this->mAliasedTableNames = array();
+		$tableStrings = CargoUtils::smartSplit( ',', $this->mTablesStr );
+
+		foreach ( $tableStrings as $i => $tableString ) {
+			$tableStringParts = CargoUtils::smartSplit( '=', $tableString );
+			if ( count( $tableStringParts ) == 2 ) {
+				$tableName = trim( $tableStringParts[0] );
+				$alias = trim( $tableStringParts[1] );
+			} else {
+				$tableName = $tableString;
+				$alias = $tableString;
+			}
+			if ( empty( $alias ) ) {
+				throw new MWException( "Error: blank table aliases cannot be set." );
+			}
+			$this->mAliasedTableNames[$alias] = $tableName;
+		}
+	}
+
 	/**
 	 * This does double duty: it both creates a "join conds" array
 	 * from the string, and validates the set of join conditions
@@ -237,7 +257,7 @@ class CargoSQLQuery {
 		$this->mCargoJoinConds = array();
 
 		if ( trim( $joinOnStr ) == '' ) {
-			if ( count( $this->mTableNames ) > 1 ) {
+			if ( count( $this->mAliasedTableNames ) > 1 ) {
 				throw new MWException( "Error: join conditions must be set for tables." );
 			}
 			return;
@@ -289,7 +309,7 @@ class CargoSQLQuery {
 		// are "joined" together. There's probably some more
 		// efficient network algorithm for this sort of thing, but
 		// oh well.
-		$numUnmatchedTables = count( $this->mTableNames );
+		$numUnmatchedTables = count( $this->mAliasedTableNames );
 		$firstJoinCond = current( $this->mCargoJoinConds );
 		$firstTableInJoins = $firstJoinCond['table1'];
 		$matchedTables = array( $firstTableInJoins );
@@ -298,10 +318,11 @@ class CargoSQLQuery {
 			foreach ( $this->mCargoJoinConds as $joinCond ) {
 				$table1 = $joinCond['table1'];
 				$table2 = $joinCond['table2'];
-				if ( !in_array( $table1, $this->mTableNames ) ) {
+				// Check against aliases, not table names.
+				if ( !array_key_exists( $table1, $this->mAliasedTableNames ) ) {
 					throw new MWException( "Error: table \"$table1\" is not in list of table names." );
 				}
-				if ( !in_array( $table2, $this->mTableNames ) ) {
+				if ( !array_key_exists( $table2, $this->mAliasedTableNames ) ) {
 					throw new MWException( "Error: table \"$table2\" is not in list of table names." );
 				}
 
@@ -317,8 +338,8 @@ class CargoSQLQuery {
 		} while ( $numUnmatchedTables > 0 && $numUnmatchedTables > $previousNumUnmatchedTables );
 
 		if ( $numUnmatchedTables > 0 ) {
-			foreach ( $this->mTableNames as $tableName ) {
-				if ( !in_array( $tableName, $matchedTables ) ) {
+			foreach ( array_keys( $this->mAliasedTableNames ) as $tableAlias ) {
+				if ( !in_array( $tableAlias, $matchedTables ) ) {
 					throw new MWException( "Error: Table \"$tableName\" is not included within the "
 					. "join conditions." );
 				}
@@ -338,13 +359,24 @@ class CargoSQLQuery {
 
 		$this->mJoinConds = array();
 		foreach ( $this->mCargoJoinConds as $cargoJoinCond ) {
+			// Only add the DB prefix to the table names if
+			// they're true table names and not aliases.
+			$table1 = $cargoJoinCond['table1'];
+			if ( !array_key_exists( $table1, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table1] == $table1 ) {
+				$cargoTable1 = $this->mCargoDB->tableName( $table1 );
+			} else {
+				$cargoTable1 = $table1;
+			}
 			$table2 = $cargoJoinCond['table2'];
+			if ( !array_key_exists( $table2, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table2] == $table2 ) {
+				$cargoTable2 = $this->mCargoDB->tableName( $table2 );
+			} else {
+				$cargoTable2 = $table2;
+			}
 			$this->mJoinConds[$table2] = array(
 				$cargoJoinCond['joinType'],
-				$this->mCargoDB->tableName( $cargoJoinCond['table1'] ) .
-				'.' . $cargoJoinCond['field1'] . '=' .
-				$this->mCargoDB->tableName( $cargoJoinCond['table2'] ) .
-				'.' . $cargoJoinCond['field2']
+				$cargoTable1 . '.' . $cargoJoinCond['field1'] . '=' .
+				$cargoTable2 . '.' . $cargoJoinCond['field2']
 			);
 		}
 	}
@@ -477,7 +509,7 @@ class CargoSQLQuery {
 						// otherwise a standalone call
 						// to "_value" will presumably
 						// crash the SQL call.
-						foreach ( $this->mTableNames as $curTable ) {
+						foreach ( $this->mAliasedTableNames as $curTable ) {
 							if ( strpos( $curTable, '__' ) !== false ) {
 								list( $tableName, $fieldName ) = explode( '__', $curTable );
 								break;
@@ -489,12 +521,16 @@ class CargoSQLQuery {
 					$fieldName = substr( $fieldName, 0, strlen( $fieldName ) - 6 );
 				}
 				if ( $tableName != null ) {
-					if ( !array_key_exists( $tableName, $this->mTableSchemas ) ) {
-						throw new MWException( "Error: no database table exists named \"$tableName\"." );
-					} elseif ( !array_key_exists( $fieldName, $this->mTableSchemas[$tableName]->mFieldDescriptions ) ) {
-						throw new MWException( "Error: no field named \"$fieldName\" found for the database table \"$tableName\"." );
+					if ( !array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
+						throw new MWException( "Error: invalid table alias \"$tableName\"." );
+					}
+					$actualTableName = $this->mAliasedTableNames[$tableName];
+					if ( !array_key_exists( $actualTableName, $this->mTableSchemas ) ) {
+						throw new MWException( "Error: no database table exists named \"$actualTableName\"." );
+					} elseif ( !array_key_exists( $fieldName, $this->mTableSchemas[$actualTableName]->mFieldDescriptions ) ) {
+						throw new MWException( "Error: no field named \"$fieldName\" found for the database table \"$actualTableName\"." );
 					} else {
-						$description = $this->mTableSchemas[$tableName]->mFieldDescriptions[$fieldName];
+						$description = $this->mTableSchemas[$actualTableName]->mFieldDescriptions[$fieldName];
 					}
 				} elseif ( substr( $fieldName, -5 ) == '__lat' || substr( $fieldName, -5 ) == '__lon' ) {
 					// Special handling for lat/lon
@@ -553,18 +589,16 @@ class CargoSQLQuery {
 		}
 	}
 
-	function addFieldTableToTableNames( $fieldTableName, $tableName ) {
-		// Add it in in the correct place, if it should be added
-		// at all.
-		if ( in_array( $fieldTableName, $this->mTableNames ) ) {
+	function addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias ) {
+		// Add it in in the correct place, if it should be added at all.
+		if ( array_key_exists( $fieldTableAlias, $this->mAliasedTableNames ) ) {
 			return;
 		}
-		if ( !in_array( $tableName, $this->mTableNames ) ) {
+		if ( !array_key_exists( $tableAlias, $this->mAliasedTableNames ) ) {
 			// Show an error message here?
 			return;
 		}
-		$indexOfMainTable = array_search( $tableName, $this->mTableNames );
-		array_splice( $this->mTableNames, $indexOfMainTable + 1, 0, $fieldTableName );
+		$this->mAliasedTableNames[$fieldTableAlias] = $fieldTableName;
 	}
 
 	/**
@@ -573,10 +607,10 @@ class CargoSQLQuery {
 	 * fields" depends on whether the separate table for that field has
 	 * been included in the query.
 	 */
-	function fieldTableIsIncluded( $fieldTableName ) {
+	function fieldTableIsIncluded( $fieldTableAlias ) {
 		foreach ( $this->mCargoJoinConds as $cargoJoinCond ) {
-			if ( $cargoJoinCond['table1'] == $fieldTableName ||
-				$cargoJoinCond['table2'] == $fieldTableName ) {
+			if ( $cargoJoinCond['table1'] == $fieldTableAlias ||
+				$cargoJoinCond['table2'] == $fieldTableAlias ) {
 				return true;
 			}
 		}
@@ -619,11 +653,17 @@ class CargoSQLQuery {
 		$virtualFields = array();
 		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
 			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-				if ( $fieldDescription->mIsList ) {
-					$virtualFields[] = array(
-						'fieldName' => $fieldName,
-						'tableName' => $tableName
-					);
+				if ( !$fieldDescription->mIsList ) {
+					continue;
+				}
+				foreach ( $this->mAliasedTableNames as $tableAlias => $tableName2 ) {
+					if ( $tableName == $tableName2 ) {
+						$virtualFields[] = array(
+							'fieldName' => $fieldName,
+							'tableAlias' => $tableAlias,
+							'tableName' => $tableName
+						);
+					}
 				}
 			}
 		}
@@ -632,19 +672,22 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
+			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
+
 			$fieldTableName = $tableName . '__' . $fieldName;
-			$replacementFieldName = $fieldTableName . '._value';
+			$fieldTableAlias = $tableAlias . '__' . $fieldName;
+			$replacementFieldName = $fieldTableAlias . '._value';
 			$patternSuffix = '\b\s*/i';
 			$fieldReplaced = false;
 			$throwException = false;
 
 			$patternSimple = array(
-				CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName ),
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName ),
 				CargoUtils::getSQLFieldPattern( $fieldName )
 				);
 			$patternRoot = array(
-				CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . '\s+',
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . '\s+',
 				CargoUtils::getSQLFieldPattern( $fieldName, false ) . '\s+'
 				);
 
@@ -684,12 +727,12 @@ class CargoSQLQuery {
 			}
 
 			if ( $fieldReplaced ) {
-				$this->addFieldTableToTableNames( $fieldTableName, $tableName );
+				$this->addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias );
 				$this->mCargoJoinConds[] = array(
 					'joinType' => 'LEFT OUTER JOIN',
-					'table1' => $tableName,
+					'table1' => $tableAlias,
 					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
-					'table2' => $fieldTableName,
+					'table2' => $fieldTableAlias,
 					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 				);
 			}
@@ -706,15 +749,17 @@ class CargoSQLQuery {
 
 			foreach ( $virtualFields as $virtualField ) {
 				$fieldName = $virtualField['fieldName'];
+				$tableAlias = $virtualField['tableAlias'];
 				$tableName = $virtualField['tableName'];
-				if ( $fieldName != $joinCond['field1'] || $tableName != $joinCond['table1'] ) {
+				if ( $fieldName != $joinCond['field1'] || $tableAlias != $joinCond['table1'] ) {
 					continue;
 				}
 				$fieldTableName = $tableName . '__' . $fieldName;
-				$this->addFieldTableToTableNames( $fieldTableName, $tableName );
+				$fieldTableAlias = $tableAlias . '__' . $fieldName;
+				$this->addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias );
 				$newJoinCond = array(
 					'joinType' => 'LEFT OUTER JOIN',
-					'table1' => $tableName,
+					'table1' => $tableAlias,
 					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableName,
 					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
@@ -743,6 +788,7 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
+			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName );
 			$foundMatch1 = preg_match( $pattern1, $this->mGroupByStr, $matches );
@@ -754,17 +800,18 @@ class CargoSQLQuery {
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
-				if ( !$this->fieldTableIsIncluded( $fieldTableName ) ) {
-					$this->addFieldTableToTableNames( $fieldTableName, $tableName );
+				$fieldTableAlias = $tableAlias . '__' . $fieldName;
+				if ( !$this->fieldTableIsIncluded( $fieldTableAlias ) ) {
+					$this->addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias );
 					$this->mCargoJoinConds[] = array(
 						'joinType' => 'LEFT OUTER JOIN',
-						'table1' => $tableName,
+						'table1' => $tableAlias,
 						'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
-						'table2' => $fieldTableName,
+						'table2' => $fieldTableAlias,
 						'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 					);
 				}
-				$replacement = "$fieldTableName._value";
+				$replacement = "$fieldTableAlias._value";
 
 				if ( $foundMatch1 ) {
 					$this->mGroupByStr = preg_replace( $pattern1, $replacement, $this->mGroupByStr );
@@ -785,7 +832,7 @@ class CargoSQLQuery {
 				// regexps.
 				list( $tableName, $fieldName ) = explode( '.', $fieldName, 2 );
 			} else {
-				$tableName = $this->mFieldTables[$alias];
+				$tableAlias = $this->mFieldTables[$alias];
 			}
 
 			// We're only interested in virtual list fields.
@@ -804,9 +851,9 @@ class CargoSQLQuery {
 			// translated, to either the "full" equivalent or to
 			// the "value" field in the field table - depending on
 			// whether or not that field has been "joined" on.
-			$fieldTableName = $tableName . '__' . $fieldName;
-			if ( $this->fieldTableIsIncluded( $fieldTableName ) ) {
-				$fieldName = $fieldTableName . '._value';
+			$fieldTableName = $tableAlias . '__' . $fieldName;
+			if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
+				$fieldName = $fieldTableAlias . '._value';
 			} else {
 				$fieldName .= '__full';
 			}
@@ -817,8 +864,9 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
+			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
-			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName );
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName );
 			$foundMatch1 = preg_match( $pattern1, $this->mOrderByStr, $matches );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName );
 			$foundMatch2 = false;
@@ -828,8 +876,9 @@ class CargoSQLQuery {
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
-				if ( $this->fieldTableIsIncluded( $fieldTableName ) ) {
-					$replacement = "$fieldTableName._value";
+				$fieldTableAlias = $tableAlias . '__' . $fieldName;
+				if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
+					$replacement = "$fieldTableAlias._value";
 				} else {
 					$replacement = $tableName . '.' . $fieldName . '__full';
 				}
@@ -878,7 +927,7 @@ class CargoSQLQuery {
 				// regexps.
 				list( $tableName, $fieldName ) = explode( '.', $fieldName, 2 );
 			} else {
-				$tableName = $this->mFieldTables[$alias];
+				$tableAlias = $this->mFieldTables[$alias];
 			}
 
 			// We have to do this roundabout checking, instead
@@ -1104,9 +1153,9 @@ class CargoSQLQuery {
 	 * appending the Cargo prefix onto table names where necessary.
 	 */
 	function run() {
-		foreach ( $this->mTableNames as $tableName ) {
+		foreach ( $this->mAliasedTableNames as $tableName ) {
 			if ( !$this->mCargoDB->tableExists( $tableName ) ) {
-				throw new MWException( "Error: no database table exists named \"$tableName\"." );
+				throw new MWException( "Error: No database table exists named \"$tableName\"." );
 			}
 		}
 
@@ -1146,7 +1195,7 @@ class CargoSQLQuery {
 			$realAliasedFieldNames[$alias] = $fieldName;
 		}
 
-		$res = $this->mCargoDB->select( $this->mTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
+		$res = $this->mCargoDB->select( $this->mAliasedTableNames, $realAliasedFieldNames, $this->mWhereStr, __METHOD__,
 			$selectOptions, $this->mJoinConds );
 
 		// Is there a more straightforward way of turning query
@@ -1169,7 +1218,7 @@ class CargoSQLQuery {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = array();
-		foreach ( $this->mTableNames as $tableName ) {
+		foreach ( $this->mAliasedTableNames as $tableName ) {
 			$tableNamePatterns[] = CargoUtils::getSQLTablePattern( $tableName );
 		}
 

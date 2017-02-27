@@ -87,7 +87,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 	function getRowsForPageInTable( $tableName ) {
 		$sqlQuery = new CargoSQLQuery();
-		$sqlQuery->mTableNames = array( $tableName );
+		$sqlQuery->mAliasedTableNames = array( $tableName => $tableName );
 
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$sqlQuery->mTableSchemas = $tableSchemas;
