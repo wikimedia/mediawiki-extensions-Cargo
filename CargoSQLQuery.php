@@ -598,7 +598,12 @@ class CargoSQLQuery {
 			// Show an error message here?
 			return;
 		}
-		$this->mAliasedTableNames[$fieldTableAlias] = $fieldTableName;
+
+		// array_splice() for an associative array - copied from
+		// http://stackoverflow.com/a/1783125
+		$indexOfMainTable = array_search( $tableAlias, array_keys( $this->mAliasedTableNames ) );
+		$offset = $indexOfMainTable + 1;
+		$this->mAliasedTableNames = array_slice( $this->mAliasedTableNames, 0, $offset, true ) + array( $fieldTableAlias => $fieldTableName ) + array_slice( $this->mAliasedTableNames, $offset, null, true );
 	}
 
 	/**
@@ -761,13 +766,13 @@ class CargoSQLQuery {
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableAlias,
 					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
-					'table2' => $fieldTableName,
+					'table2' => $fieldTableAlias,
 					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 				);
 				$newCargoJoinConds[] = $newJoinCond;
 				$newJoinCond2 = array(
 					'joinType' => 'RIGHT OUTER JOIN',
-					'table1' => $fieldTableName,
+					'table1' => $fieldTableAlias,
 					'field1' => '_value',
 					'table2' => $this->mCargoJoinConds[$i]['table2'],
 					'field2' => $this->mCargoJoinConds[$i]['field2']
