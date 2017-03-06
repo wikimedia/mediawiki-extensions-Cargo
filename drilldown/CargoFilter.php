@@ -134,7 +134,12 @@ class CargoFilter {
 			$fields['month_field'] = "MONTH($date_field)";
 		}
 		if ( $timePeriod == 'day' ) {
-			$fields['day_of_month_field'] = "DAYOFMONTH($date_field)";
+			$cdb = CargoUtils::getDB();
+			if ( $cdb->getType() == 'mssql' ) {
+				$fields['day_of_month_field'] = "DAY($date_field)";
+			} else {
+				$fields['day_of_month_field'] = "DAYOFMONTH($date_field)";
+			}
 		}
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
@@ -146,7 +151,9 @@ class CargoFilter {
 			$conds[] = $date_field . '__precision <= ' . CargoStore::DATE_ONLY;
 		}
 
-		$selectOptions = [ 'GROUP BY' => array_keys( $fields ), 'ORDER BY' => array_keys( $fields ) ];
+		// We call array_values(), and not array_keys(), because
+		// SQL Server can't group by aliases.
+		$selectOptions = [ 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) ];
 		if ( $this->searchableFiles ) {
 			$fields['total'] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
 		} else {
