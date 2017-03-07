@@ -115,8 +115,9 @@ class CargoAppliedFilter {
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
 				$date_field = $this->filter->name;
 				if ( $fv->time_period == 'day' ) {
+					$dayFunction = ( $cdb->getType() == 'mssql' ) ? 'DAY' : 'DAYOFMONTH';
 					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} "
-						. "AND DAYOFMONTH($date_field) = {$fv->day} ";
+						. "AND $dayFunction($date_field) = {$fv->day} ";
 				} elseif ( $fv->time_period == 'month' ) {
 					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} ";
 				} elseif ( $fv->time_period == 'year' ) {

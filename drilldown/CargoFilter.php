@@ -35,6 +35,25 @@ class CargoFilter {
 		return $this->tableName;
 	}
 
+	function getDateParts( $dateFromDB ) {
+		// Does this only happen for MS SQL Server DBs?
+		if ( $dateFromDB instanceof DateTime ) {
+			$year = $dateFromDB->format( 'Y' );
+			$month = $dateFromDB->format( 'm' );
+			$day = $dateFromDB->format( 'd' );
+			return array( $year, $month, $day );
+		}
+
+		// It's a string.
+		$dateParts = explode( '-', $dateFromDB );
+		if ( count( $dateParts ) == 3 ) {
+			return $dateParts;
+		} else {
+			// year, month, day
+		return array( $dateParts[0], 0, 0 );
+		}
+	}
+
 	/**
 	 *
 	 * @param array $appliedFilters
@@ -56,21 +75,9 @@ class CargoFilter {
 		if ( is_null( $minDate ) ) {
 			return null;
 		}
-		$minDateParts = explode( '-', $minDate );
-		if ( count( $minDateParts ) == 3 ) {
-			list( $minYear, $minMonth, $minDay ) = $minDateParts;
-		} else {
-			$minYear = $minDateParts[0];
-			$minMonth = $minDay = 0;
-		}
+		list( $minYear, $minMonth, $minDay ) = $this->getDateParts( $minDate );
 		$maxDate = $row['max_date'];
-		$maxDateParts = explode( '-', $maxDate );
-		if ( count( $maxDateParts ) == 3 ) {
-			list( $maxYear, $maxMonth, $maxDay ) = $maxDateParts;
-		} else {
-			$maxYear = $maxDateParts[0];
-			$maxMonth = $maxDay = 0;
-		}
+		list( $maxYear, $maxMonth, $maxDay ) = $this->getDateParts( $maxDate );
 		$yearDifference = $maxYear - $minYear;
 		$monthDifference = ( 12 * $yearDifference ) + ( $maxMonth - $minMonth );
 		if ( $yearDifference > 30 ) {
