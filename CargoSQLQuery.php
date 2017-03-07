@@ -1209,9 +1209,16 @@ class CargoSQLQuery {
 		while ( $row = $this->mCargoDB->fetchRow( $res ) ) {
 			$resultsRow = array();
 			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-				// Escape any HTML, to avoid JavaScript
-				// injections and the like.
-				$resultsRow[$alias] = htmlspecialchars( $row[$alias] );
+				$curValue = $row[$alias];
+				if ( $curValue instanceof DateTime ) {
+					// MSSQL dates only?
+					$resultsRow[$alias] = $curValue->format( DateTime::W3C );
+				} else {
+					// It's a string.
+					// Escape any HTML, to avoid JavaScript
+					// injections and the like.
+					$resultsRow[$alias] = htmlspecialchars( $curValue );
+				}
 			}
 			$resultArray[] = $resultsRow;
 		}
