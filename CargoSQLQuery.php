@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * CargoSQLQuery - a wrapper class around SQL queries, that also handles
  * the special Cargo keywords like "HOLDS" and "NEAR".
@@ -1012,6 +1012,20 @@ class CargoSQLQuery {
 					$this->mWhereStr = preg_replace( $pattern2, $newWhere, $this->mWhereStr );
 				}
 			}
+		}
+
+		// "order by"
+		// This one is simpler than the others - just add a "__full"
+		// to each coordinates field in the "order by" clause.
+		$matches = array();
+		foreach ( $coordinateFields as $coordinateField ) {
+			$fieldName = $coordinateField['fieldName'];
+			$tableName = $coordinateField['tableName'];
+
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, true );
+			$this->mOrderByStr = preg_replace( $pattern1, '$1' . "$tableName.$fieldName" . '__full$2', $this->mOrderByStr );
+			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, true );
+			$this->mOrderByStr = preg_replace( $pattern2, '$1' . $fieldName . '__full$2', $this->mOrderByStr );
 		}
 	}
 
