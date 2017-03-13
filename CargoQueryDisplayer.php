@@ -179,6 +179,9 @@ class CargoQueryDisplayer {
 				$wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Page' ) {
 			$title = Title::newFromText( $value );
+			if ( $title == null ) {
+				return null;
+			}
 			if ( function_exists( 'MediaWiki\MediaWikiServices::getLinkRenderer' ) ) {
 				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 			} else {
