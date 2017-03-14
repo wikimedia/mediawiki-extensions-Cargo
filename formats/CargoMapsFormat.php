@@ -93,6 +93,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			// coordinate for this "row".
 			// @TODO - handle lists of coordinates as well.
 			foreach ( $coordinatesFields as $coordinatesField ) {
+				$coordinatesField = str_replace( ' ', '_', $coordinatesField );
 				$latValue = $valuesRow[$coordinatesField . '  lat'];
 				$lonValue = $valuesRow[$coordinatesField . '  lon'];
 				// @TODO - enforce the existence of a field
