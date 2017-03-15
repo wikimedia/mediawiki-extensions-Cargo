@@ -101,6 +101,26 @@ class CargoHooks {
 		return true;
 	}
 
+	public static function addTemplateFieldStart( $field, &$fieldStart ) {
+		// If a generated template contains a field of type
+		// 'Coordinates', add a #cargo_display_map call to the
+		// display of that field.
+		if ( $field->getFieldType() == 'Coordinates' ) {
+			$fieldStart .= '{{#cargo_display_map:point=';
+		}
+		return true;
+	}
+
+	public static function addTemplateFieldEnd( $field, &$fieldEnd ) {
+		// If a generated template contains a field of type
+		// 'Coordinates', add (the end of) a #cargo_display_map call
+		// to the display of that field.
+		if ( $field->getFieldType() == 'Coordinates' ) {
+			$fieldEnd .= '}}';
+		}
+		return true;
+	}
+
 	/**
 	 * Delete a page
 	 *
