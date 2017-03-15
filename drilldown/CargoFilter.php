@@ -133,20 +133,16 @@ class CargoFilter {
 	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters ) {
 		$possible_dates = array();
 		$date_field = $this->name;
+		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
 
 		$fields = array();
-		$fields['year_field'] = "YEAR($date_field)";
+		$fields['year_field'] = $yearValue;
 		if ( $timePeriod == 'month' || $timePeriod == 'day' ) {
-			$fields['month_field'] = "MONTH($date_field)";
+			$fields['month_field'] = $monthValue;
 		}
 		if ( $timePeriod == 'day' ) {
-			$cdb = CargoUtils::getDB();
-			if ( $cdb->getType() == 'mssql' ) {
-				$fields['day_of_month_field'] = "DAY($date_field)";
-			} else {
-				$fields['day_of_month_field'] = "DAYOFMONTH($date_field)";
-			}
+			$fields['day_of_month_field'] = $dayValue;
 		}
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );

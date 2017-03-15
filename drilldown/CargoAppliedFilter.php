@@ -114,17 +114,15 @@ class CargoAppliedFilter {
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
 				$date_field = $this->filter->name;
+				list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
 				if ( $fv->time_period == 'day' ) {
-					$dayFunction = ( $cdb->getType() == 'mssql' ) ? 'DAY' : 'DAYOFMONTH';
-					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} "
-						. "AND $dayFunction($date_field) = {$fv->day} ";
+					$sql .= "$yearValue = {$fv->year} AND $monthValue = {$fv->month} AND $dayValue = {$fv->day} ";
 				} elseif ( $fv->time_period == 'month' ) {
-					$sql .= "YEAR($date_field) = {$fv->year} AND MONTH($date_field) = {$fv->month} ";
+					$sql .= "$yearValue = {$fv->year} AND $monthValue = {$fv->month} ";
 				} elseif ( $fv->time_period == 'year' ) {
-					$sql .= "YEAR($date_field) = {$fv->year} ";
+					$sql .= "$yearValue = {$fv->year} ";
 				} else { // if ( $fv->time_period == 'year range' ) {
-					$sql .= "YEAR($date_field) >= {$fv->year} ";
-					$sql .= "AND YEAR($date_field) <= {$fv->end_year} ";
+					$sql .= "$yearValue >= {$fv->year} AND $yearValue <= {$fv->end_year} ";
 				}
 			} elseif ( $fv->is_numeric ) {
 				if ( $fv->lower_limit && $fv->upper_limit ) {

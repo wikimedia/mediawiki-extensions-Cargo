@@ -341,6 +341,26 @@ class CargoUtils {
 		return $string[0] == "'" && substr( $string, -1, 1 ) == "'";
 	}
 
+	static function getDateFunctions( $dateDBField ) {
+		global $wgCargoDBtype;
+
+		// Unfortunately, date handling in general - and date extraction
+		// specifically - is done differently in almost every DB
+		// system. If support were ever added for SQLite or Oracle,
+		// those would require special handling as well.
+		if ( $wgCargoDBtype == 'postgres' ) {
+			$yearValue = "EXTRACT(YEAR FROM $dateDBField)";
+			$monthValue = "EXTRACT(MONTH FROM $dateDBField)";
+			$dayValue = "EXTRACT(DAY FROM $dateDBField)";
+		} else { // MySQL, MS SQL Server
+			$yearValue = "YEAR($dateDBField)";
+			$monthValue = "MONTH($dateDBField)";
+			// SQL Server only supports DAY(), not DAYOFMONTH().
+			$dayValue = "DAY($dateDBField)";
+		}
+		return array( $yearValue, $monthValue, $dayValue );
+	}
+
 	/**
 	 * Parses a piece of wikitext differently depending on whether
 	 * we're in a special or regular page.
