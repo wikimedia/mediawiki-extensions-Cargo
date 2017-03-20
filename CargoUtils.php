@@ -556,8 +556,16 @@ class CargoUtils {
 					return 'TEXT';
 			}
 		} elseif ( $fieldType == 'Text' ) {
-			// This one is simple.
-			return 'Text';
+			switch ( $dbType ) {
+				case "mssql":
+					return 'Varchar(Max)';
+				case "mysql":
+				case "postgres":
+				case "sqlite":
+					return 'Text';
+				case "oracle":
+					return 'Varchar2(4000)';
+			}
 		} elseif ( $fieldType == 'Searchtext' ) {
 			if ( $dbType != 'mysql' ) {
 				throw new MWException( "Error: a \"Searchtext\" field can currently only be defined for MySQL databases." );
@@ -569,6 +577,7 @@ class CargoUtils {
 			}
 			switch ( $dbType ) {
 				case "mssql":
+					return "Varchar($size)";
 				case "mysql":
 				case "postgres":
 					// For at least MySQL, there's a limit
@@ -583,7 +592,7 @@ class CargoUtils {
 						return "Varchar($size)";
 					}
 				case "oracle":
-					return "Varchar($size)";
+					return "Varchar2($size)";
 				case "sqlite":
 					return 'TEXT';
 			}
