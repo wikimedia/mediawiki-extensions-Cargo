@@ -440,7 +440,10 @@ class CargoSQLQuery {
 			$fieldName = null;
 			$description = new CargoFieldDescription();
 
-			$fieldPattern = '/^([-\w$]+)([.]([-\w$]+))?$/';
+			// We use \p{L} instead of \w here in order to handle
+			// accented and other non-ASCII characters in table
+			// and field names.
+			$fieldPattern = '/^([-_\p{L}$]+)([.]([-_\p{L}$]+))?$/u';
 			$fieldPatternFound = preg_match( $fieldPattern, $origFieldName, $fieldPatternMatches );
 			$stringPatternFound = false;
 			$hasFunctionCall = false;
@@ -467,7 +470,7 @@ class CargoSQLQuery {
 				if ( ! $stringPatternFound ) {
 					$noQuotesOrigFieldName = CargoUtils::removeQuotedStrings( $origFieldName );
 
-					$functionCallPattern = '/\w\s*\(/';
+					$functionCallPattern = '/\p{L}\s*\(/';
 					$hasFunctionCall = preg_match( $functionCallPattern, $noQuotesOrigFieldName );
 				}
 			}
