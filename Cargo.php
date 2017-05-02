@@ -235,7 +235,9 @@ $wgResourceModules += array(
 			'libs/SimileTimeline/scripts/util/data-structure.js',
 			'libs/SimileTimeline/scripts/units.js',
 			'libs/SimileTimeline/scripts/sources.js',
-		)
+		),
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Cargo'
 	),
 	'ext.cargo.timeline' => array(
 		'styles' => array(
@@ -256,7 +258,7 @@ $wgResourceModules += array(
 			'libs/SimileTimeline/scripts/painters.js',
 			'libs/SimileTimeline/scripts/decorators.js',
 		),
-		'dependencies' => 'timelinebase',
+		'dependencies' => 'ext.cargo.timelinebase',
 		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
