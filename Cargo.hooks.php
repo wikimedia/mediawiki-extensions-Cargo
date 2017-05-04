@@ -288,6 +288,21 @@ class CargoHooks {
 				array( '_pageID' => $oldid )
 			);
 		}
+          
+		// Update the page title in the "general data" tables.
+		$generalTables = array( '_pageData', '_fileData' );
+		foreach ( $generalTables as $generalTable ) {
+			if ( $cdb->tableExists( $generalTable ) ) {
+				$cdb->update( $generalTable,
+					array(
+						'_pageName' => $newPageName,
+						'_pageTitle' => $newPageTitle,
+						'_pageNamespace' => $newPageNamespace
+					),
+					array( '_pageID' => $oldid )
+				);
+			}
+		}
 
 		// This call is needed to get the update to occur.
 		$cdb->close();
