@@ -4,6 +4,10 @@
 			"Subi"
 		]
 	},
+	"viewdata": "Ikusi datuak",
+	"cargo-viewdata-tables": "Taula(k):",
+	"cargo-viewdata-fields": "Eremua(k):",
+	"cargo-viewdata-where": "Non:",
 	"cargo-cargotables-viewtablelink": "Ikusi taula",
 	"cargo-drilldown-or": "edo",
 	"cargo-viewcsv": "Ikusi CSV",
