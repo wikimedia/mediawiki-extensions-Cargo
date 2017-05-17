@@ -440,10 +440,10 @@ class CargoSQLQuery {
 			$fieldName = null;
 			$description = new CargoFieldDescription();
 
-			// We use \p{L} instead of \w here in order to handle
-			// accented and other non-ASCII characters in table
-			// and field names.
-			$fieldPattern = '/^([-_\p{L}$]+)([.]([-_\p{L}$]+))?$/u';
+			// We use "\p{L}0-9" instead of \w here in order to
+			// handle accented and other non-ASCII characters in
+			// table and field names.
+			$fieldPattern = '/^([-_\p{L}0-9$]+)([.]([-_\p{L}0-9$]+))?$/u';
 			$fieldPatternFound = preg_match( $fieldPattern, $origFieldName, $fieldPatternMatches );
 			$stringPatternFound = false;
 			$hasFunctionCall = false;
