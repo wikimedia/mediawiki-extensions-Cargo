@@ -14,6 +14,7 @@ class CargoFieldDescription {
 	private $mDelimiter;
 	public $mAllowedValues = null;
 	public $mIsHidden = false;
+	public $mIsHierarchy = false;
 	public $mOtherParams = array();
 
 	/**
@@ -27,7 +28,7 @@ class CargoFieldDescription {
 
 		if ( strpos( $fieldDescriptionStr, 'List' ) === 0 ) {
 			$matches = array();
-			$foundMatch = preg_match( '/List \((.*)\) of (.*)/', $fieldDescriptionStr, $matches );
+			$foundMatch = preg_match( '/List \((.*)\) of (.*)/s', $fieldDescriptionStr, $matches );
 			if ( !$foundMatch ) {
 				// Return a true error message here?
 				return null;
@@ -39,7 +40,7 @@ class CargoFieldDescription {
 
 		// There may be additional parameters, in/ parentheses.
 		$matches = array();
-		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/', $fieldDescriptionStr, $matches );
+		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/s', $fieldDescriptionStr, $matches );
 		if ( $foundMatch2 ) {
 			$fieldDescriptionStr = trim( $matches[1] );
 			$extraParamsString = $matches[2];
@@ -48,6 +49,9 @@ class CargoFieldDescription {
 				$extraParamParts = explode( '=', $extraParam, 2 );
 				if ( count( $extraParamParts ) == 1 ) {
 					$paramKey = trim( $extraParamParts[0] );
+					if ( $paramKey == 'hierarchy' ) {
+						$mIsHierarchy = true;
+					}
 					$fieldDescription->mOtherParams[$paramKey] = true;
 				} else {
 					$paramKey = trim( $extraParamParts[0] );
@@ -108,6 +112,8 @@ class CargoFieldDescription {
 				$fieldDescription->mAllowedValues = $value;
 			} elseif ( $param == 'hidden' ) {
 				$fieldDescription->mIsHidden = true;
+			} elseif ( $param == 'hierarchy' ) {
+				$fieldDescription->mIsHierarchy = true;
 			}
 		}
 		return $fieldDescription;
@@ -143,6 +149,9 @@ class CargoFieldDescription {
 		}
 		if ( $this->mIsHidden ) {
 			$descriptionData['hidden'] = true;
+		}
+		if ( $this->mIsHierarchy ) {
+			$descriptionData['hierarchy'] = true;
 		}
 		foreach ( $this->mOtherParams as $otherParam => $value ) {
 			$descriptionData[$otherParam] = $value;
