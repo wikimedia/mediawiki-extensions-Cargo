@@ -859,7 +859,7 @@ class CargoSQLQuery {
 			// translated, to either the "full" equivalent or to
 			// the "value" field in the field table - depending on
 			// whether or not that field has been "joined" on.
-			$fieldTableName = $tableAlias . '__' . $fieldName;
+			$fieldTableAlias = $tableAlias . '__' . $fieldName;
 			if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 				$fieldName = $fieldTableAlias . '._value';
 			} else {
@@ -883,7 +883,6 @@ class CargoSQLQuery {
 				$foundMatch2 = preg_match( $pattern2, $this->mOrderByStr, $matches );
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
-				$fieldTableName = $tableName . '__' . $fieldName;
 				$fieldTableAlias = $tableAlias . '__' . $fieldName;
 				if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 					$replacement = "$fieldTableAlias._value";
