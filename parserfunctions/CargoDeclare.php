@@ -73,6 +73,9 @@ class CargoDeclare {
 				if ( $fieldDescription == null ) {
 					return CargoUtils::formatError( "Error: could not parse type for field \"$fieldName\"." );
 				}
+				if ( $fieldDescription->mIsHierarchy == true && $fieldDescription->mType == 'Coordinates' ) {
+					return CargoUtils::formatError( "Error: Hierarchy enumeration field cannot be created for $fieldDescription->mType type." );
+				}
 				$tableSchema->mFieldDescriptions[$fieldName] = $fieldDescription;
 			}
 		}

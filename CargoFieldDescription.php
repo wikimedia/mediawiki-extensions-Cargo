@@ -50,7 +50,7 @@ class CargoFieldDescription {
 				if ( count( $extraParamParts ) == 1 ) {
 					$paramKey = trim( $extraParamParts[0] );
 					if ( $paramKey == 'hierarchy' ) {
-						$mIsHierarchy = true;
+						$fieldDescription->mIsHierarchy = true;
 					}
 					$fieldDescription->mOtherParams[$paramKey] = true;
 				} else {

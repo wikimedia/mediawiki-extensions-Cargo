@@ -686,34 +686,58 @@ class CargoUtils {
 		// if there are any.
 		$fieldTableNames = array();
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-			if ( !$fieldDescription->mIsList ) {
-				continue;
+			if ( $fieldDescription->mIsList ) {
+				// The double underscore in this table name should
+				// prevent anyone from giving this name to a "real"
+				// table.
+				$fieldTableName = $tableName . '__' . $fieldName;
+				$cdb->dropTable( $fieldTableName );
+				$fieldType = $fieldDescription->mType;
+				$createSQL = "CREATE TABLE " .
+					$cdb->tableName( $fieldTableName ) . ' ( ' .
+					$cdb->addIdentifierQuotes( '_rowID' ) . " $intTypeString, ";
+				if ( $fieldType == 'Coordinates' ) {
+					$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
+					$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . " $floatTypeString, ";
+					$createSQL .= $cdb->addIdentifierQuotes( '_lat' ) . " $floatTypeString, ";
+					$createSQL .= $cdb->addIdentifierQuotes( '_lon' ) . " $floatTypeString";
+				} else {
+					$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
+				}
+				$createSQL .= ' )';
+				$cdb->query( $createSQL );
+				$createIndexSQL = 'CREATE INDEX ' .
+					$cdb->addIdentifierQuotes( 'row_id_$fieldTableName' ) . ' ON ' .
+					$cdb->tableName( $fieldTableName ) .
+					' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
+				$cdb->query( $createIndexSQL );
+				$fieldTableNames[] = $tableName . '__' . $fieldName;
 			}
-			// The double underscore in this table name should
-			// prevent anyone from giving this name to a "real"
-			// table.
-			$fieldTableName = $tableName . '__' . $fieldName;
-			$cdb->dropTable( $fieldTableName );
-			$fieldType = $fieldDescription->mType;
-			$createSQL = "CREATE TABLE " .
-				$cdb->tableName( $fieldTableName ) . ' ( ' .
-				$cdb->addIdentifierQuotes( '_rowID' ) . " $intTypeString, ";
-			if ( $fieldType == 'Coordinates' ) {
-				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
-				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . " $floatTypeString, ";
-				$createSQL .= $cdb->addIdentifierQuotes( '_lat' ) . " $floatTypeString, ";
-				$createSQL .= $cdb->addIdentifierQuotes( '_lon' ) . " $floatTypeString";
-			} else {
-				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
+			if ( $fieldDescription->mIsHierarchy ) {
+				$fieldTableName = $tableName . '__' . $fieldName . '__hierarchy';
+				$cdb->dropTable( $fieldTableName );
+				$fieldType = $fieldDescription->mType;
+				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldTableName ) . ' ( ' ;
+				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size ) . ", ";
+				$createSQL .= $cdb->addIdentifierQuotes( '_left' ) . " $intTypeString, ";
+				$createSQL .= $cdb->addIdentifierQuotes( '_right' ) . " $intTypeString ";
+				$createSQL .= ' )';
+				$cdb->query( $createSQL );
+				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldTableName" ) . ' ON ' ;
+				$createIndexSQL .= $cdb->tableName( $fieldTableName ) . ' (' ;
+				$createIndexSQL .= $cdb->addIdentifierQuotes( '_value' ) . ', ';
+				$createIndexSQL .= $cdb->addIdentifierQuotes( '_left' ) . ', ';
+				$createIndexSQL .= $cdb->addIdentifierQuotes( '_right' ) . ')';
+				$cdb->query( $createIndexSQL );
+				$fieldTableNames[] = $fieldTableName;
+				//Insert Hierarchy Structure
+				$allowedValuesWikitext = $fieldDescription->mAllowedValues[0];
+				$hierarchyTree = CargoHierarchy::newFromWikiText( $allowedValuesWikitext );
+				$hierarchyStructureData = $hierarchyTree->generateHierarchyStructureTableData();
+				foreach( $hierarchyStructureData as $entry ) {
+					$cdb->insert( $fieldTableName, $entry );
+				}
 			}
-			$createSQL .= ' )';
-			$cdb->query( $createSQL );
-			$createIndexSQL = 'CREATE INDEX ' .
-				$cdb->addIdentifierQuotes( 'row_id_$fieldTableName' ) . ' ON ' .
-				$cdb->tableName( $fieldTableName ) .
-				' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
-			$cdb->query( $createIndexSQL );
-			$fieldTableNames[] = $tableName . '__' . $fieldName;
 		}
 
 		// And create a helper table holding all the files stored in
