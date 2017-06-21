@@ -15,6 +15,7 @@ class CargoFieldDescription {
 	public $mAllowedValues = null;
 	public $mIsHidden = false;
 	public $mIsHierarchy = false;
+	public $mHierarchyStructure = null;
 	public $mOtherParams = array();
 
 	/**
@@ -68,12 +69,25 @@ class CargoFieldDescription {
 						// already used to separate
 						// "extra parameters", so just
 						// hardcode it to a semicolon.
+						if( $fieldDescription->mIsHierarchy == true ) {
+							// $paramValue contains "*" hierarchy structure
+							$fieldDescription->mHierarchyStructure = trim( $paramValue );
+							// now make the allowed values param similar to the syntax
+							// used by other fields
+							$hierarchyNodesArray = explode( "\n", $paramValue );
+							$allowedValuesArray = array();
+							foreach ( $hierarchyNodesArray as $node ) {
+								// Remove prefix of multiple "*"
+								$allowedValuesArray[] = preg_replace( '/^[*]*/', '', $node );
+							}
+							$paramValue = implode( ',', $allowedValuesArray );
+						}
 						$delimiter = ',';
 						$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
 						$allowedValuesArray = explode( $delimiter, $allowedValuesStr );
 						foreach ( $allowedValuesArray as $i => $value ) {
 							if ( $value == '' ) continue;
-							// Replace beep back with comma, trim.
+							// Replace beep back with delimiter, trim.
 							$value = str_replace( "\a", $delimiter, trim( $value ) );
 							$fieldDescription->mAllowedValues[] = $value;
 						}
@@ -114,6 +128,8 @@ class CargoFieldDescription {
 				$fieldDescription->mIsHidden = true;
 			} elseif ( $param == 'hierarchy' ) {
 				$fieldDescription->mIsHierarchy = true;
+			} elseif ( $param == 'hierarchyStructure' ) {
+				$fieldDescription->mHierarchyStructure = $value;
 			}
 		}
 		return $fieldDescription;
@@ -152,6 +168,7 @@ class CargoFieldDescription {
 		}
 		if ( $this->mIsHierarchy ) {
 			$descriptionData['hierarchy'] = true;
+			$descriptionData['hierarchyStructure'] = $this->mHierarchyStructure;
 		}
 		foreach ( $this->mOtherParams as $otherParam => $value ) {
 			$descriptionData[$otherParam] = $value;

@@ -730,11 +730,10 @@ class CargoUtils {
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_right' ) . ')';
 				$cdb->query( $createIndexSQL );
 				$fieldTableNames[] = $fieldTableName;
-				//Insert Hierarchy Structure
-				$allowedValuesWikitext = $fieldDescription->mAllowedValues[0];
-				$hierarchyTree = CargoHierarchy::newFromWikiText( $allowedValuesWikitext );
-				$hierarchyStructureData = $hierarchyTree->generateHierarchyStructureTableData();
-				foreach( $hierarchyStructureData as $entry ) {
+				// Insert hierarchy information in the __hierarchy table
+				$hierarchyTree = CargoHierarchy::newFromWikiText( $fieldDescription->mHierarchyStructure );
+				$hierarchyStructureTableData = $hierarchyTree->generateHierarchyStructureTableData();
+				foreach( $hierarchyStructureTableData as $entry ) {
 					$cdb->insert( $fieldTableName, $entry );
 				}
 			}
