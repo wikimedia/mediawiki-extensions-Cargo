@@ -294,6 +294,10 @@ END;
 		}
 		$cdb = CargoUtils::getDB();
 		foreach ( $tables as $table ) {
+			if( $cdb->tableExists( $table ) == false ) {
+				$text .= '<li class="tableName error">' . $table . "</li>";
+				continue;
+			}
 			$res = $cdb->select( $table, 'COUNT(*) AS total' );
 			$row = $cdb->fetchRow( $res );
 			$tableRows = $row['total'];
