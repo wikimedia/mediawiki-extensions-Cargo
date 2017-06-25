@@ -112,6 +112,11 @@ class CargoRecreateData extends Maintenance {
 
 		foreach( $templatesForThisTable as $templatePageID ) {
 			$templateTitle = Title::newFromID( $templatePageID );
+			if( $templateTitle == null ) {
+				// It is possible that the Template to which the table is associated, is now deleted by the user
+				print "Template (Template Page ID = $templatePageID) does not exist, cannot recreate data corresponding to this template\n";
+				continue;
+			}
 			if ( !$quiet ) {
 				print "Handling template that adds to this table: " . $templateTitle->getText() . "\n";
 			}
