@@ -64,6 +64,7 @@ class CargoSQLQuery {
 		$sqlQuery->mGroupByStr = $sqlQuery->mOrigGroupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsForFields();
+		$sqlQuery->handleHierarchyFields();
 		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
 		$sqlQuery->handleDateFields();
@@ -669,7 +670,8 @@ class CargoSQLQuery {
 						$virtualFields[] = array(
 							'fieldName' => $fieldName,
 							'tableAlias' => $tableAlias,
-							'tableName' => $tableName
+							'tableName' => $tableName,
+							'isHierarchy' => $fieldDescription->mIsHierarchy
 						);
 					}
 				}
@@ -682,6 +684,7 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
+			$isHierarchy = $virtualField['isHierarchy'];
 
 			$fieldTableName = $tableName . '__' . $fieldName;
 			$fieldTableAlias = $tableAlias . '__' . $fieldName;
@@ -727,9 +730,15 @@ class CargoSQLQuery {
 						$fieldReplaced);
 
 					if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
-						throw new MWException( "Error: operator for the virtual field '" .
-							"$tableName.$fieldName' must be 'HOLDS', 'HOLDS NOT', '" .
-							"HOLDS LIKE' or 'HOLDS NOT LIKE'." );
+						if ( $isHierarchy ) {
+							throw new MWException( "Error: operator for the hierarchy field '" .
+								"$tableName.$fieldName' must be 'HOLDS', 'HOLDS NOT', '" .
+								"HOLDS WITHIN', 'HOLDS LIKE' or 'HOLDS NOT LIKE'." );
+						} else {
+							throw new MWException( "Error: operator for the virtual field '" .
+								"$tableName.$fieldName' must be 'HOLDS', 'HOLDS NOT', '" .
+								"HOLDS LIKE' or 'HOLDS NOT LIKE'." );
+						}
 					}
 				}
 			}
@@ -1028,6 +1037,121 @@ class CargoSQLQuery {
 			$this->mOrderByStr = preg_replace( $pattern1, '$1' . "$tableName.$fieldName" . '__full$2', $this->mOrderByStr );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, true );
 			$this->mOrderByStr = preg_replace( $pattern2, '$1' . $fieldName . '__full$2', $this->mOrderByStr );
+		}
+	}
+
+	/**
+	 * Handles Hierarchy fields' "WHERE" operations
+	 */
+	function handleHierarchyFields() {
+		// "where" - make sure that if
+		//		"WITHIN" (if not list) or "HOLDS WITHIN" (if list)
+		//		is specified, then translate the clause accordingly.
+		// other translations in case of List fields,
+		// are handled by handleVirtualFields().
+
+		// First, create an array of the hierarchy fields in the
+		// current set of tables.
+		$hierarchyFields = array();
+		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
+			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+				if ( !$fieldDescription->mIsHierarchy ) {
+					continue;
+				}
+				foreach ( $this->mAliasedTableNames as $tableAlias => $tableName2 ) {
+					if ( $tableName == $tableName2 ) {
+						$hierarchyFields[] = array(
+							'fieldName' => $fieldName,
+							'tableAlias' => $tableAlias,
+							'tableName' => $tableName,
+							'isList'=> $fieldDescription->mIsList
+						);
+					}
+				}
+			}
+		}
+
+		// "where"
+		foreach ( $hierarchyFields as $hierarchyField ) {
+			$fieldName = $hierarchyField['fieldName'];
+			$tableName = $hierarchyField['tableName'];
+			$tableAlias = $hierarchyField['tableAlias'];
+			$fieldIsList = $hierarchyField['isList'];
+
+			$patternSimple = array(
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName ),
+				CargoUtils::getSQLFieldPattern( $fieldName )
+				);
+			$patternRootArray = array(
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ),
+				CargoUtils::getSQLFieldPattern( $fieldName, false )
+				);
+
+			$simpleMatch = false;
+			$completeMatch = false;
+			$patternRoot = "";
+
+			if ( preg_match( $patternSimple[0], $this->mWhereStr ) ) {
+				$simpleMatch = true;
+				$patternRoot = $patternRootArray[0];
+			} elseif ( preg_match( $patternSimple[1], $this->mWhereStr ) ) {
+				$simpleMatch = true;
+				$patternRoot = $patternRootArray[1];
+			}
+			// else we don't have current field in WHERE clause
+
+			if ( !$simpleMatch ) {
+				continue;
+			}
+			$patternSuffix = '([\'"]?[^\'"]*[\'"]?)/i';  // To capture string in quotes or a number
+			$hierarchyTable = $this->mCargoDB->tableName( $tableName  . '__' . $fieldName .   '__hierarchy' );
+			$fieldTableName = $this->mCargoDB->tableName( $tableName . '__' . $fieldName );
+			$completeSearchPattern = "";
+			$matches = array();
+			$newWhere = "";
+
+			if ( preg_match( $patternRoot . '(\s+HOLDS WITHIN\s+)' . $patternSuffix, $this->mWhereStr, $matches ) ) {
+				if ( !$fieldIsList ) {
+					throw new MWException( "Error: \"HOLDS WITHIN\" cannot be used for single hierarchy field, use \"WITHIN\" instead." );
+				}
+				$completeMatch = true;
+				$completeSearchPattern = $patternRoot . '(\s+HOLDS WITHIN\s+)' . $patternSuffix;
+				if ( count( $matches ) != 4 || $matches[3] === "" ) {
+					throw new MWException( "Error: Please specify a value for \"HOLDS WITHIN\"");
+				}
+				$withinValue = $matches[3];
+				$subquery =  "( SELECT _value FROM $hierarchyTable WHERE " .
+					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
+					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
+					")";
+				$subquery = "( SELECT DISTINCT( _rowID ) FROM $fieldTableName WHERE _value IN " . $subquery . " )";
+				$newWhere = " " . $tableName . "._ID" . " IN " . $subquery;
+			}
+
+			if ( preg_match( $patternRoot . '(\s+WITHIN\s+)' . $patternSuffix, $this->mWhereStr, $matches ) ) {
+				if ( $fieldIsList ) {
+					throw new MWException( "Error: \"WITHIN\" cannot be used for list hierarchy field, use \"HOLDS WITHIN\" instead." );
+				}
+				$completeMatch = true;
+				$completeSearchPattern = $patternRoot . '(\s+WITHIN\s+)' . $patternSuffix;
+				if ( count( $matches ) != 4 || $matches[3] === "" ) {
+					throw new MWException( "Error: Please specify a value for \"WITHIN\"");
+				}
+				$withinValue = $matches[3];
+				$subquery =  "( SELECT _value FROM $hierarchyTable WHERE " .
+					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
+					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
+					")";
+				$newWhere = " " . $fieldName . " IN " . $subquery;
+			}
+
+			if ( $completeMatch ) {
+				$this->substVirtualFieldName( $this->mWhereStr, $completeSearchPattern, $newWhere, $fieldReplaced);
+				$this->mWhereStr = preg_replace( $completeSearchPattern, $newWhere, $this->mWhereStr );
+			}
+
+			// In case fieldIsList === true, there is a possibility of more Query commands.
+			// like "HOLDS" and "HOLDS LIKE", that is handled by handleVirtualFields()
 		}
 	}
 
