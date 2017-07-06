@@ -684,7 +684,8 @@ class CargoUtils {
 
 		// Now also create tables for each of the 'list' fields,
 		// if there are any.
-		$fieldTableNames = array();
+		$fieldTableNames = array();  // Store table names of tables that store data regarding pages
+		$fieldHelperTableNames = array();  // Store table names of tables that store meta data regarding template or fields
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsList ) {
 				// The double underscore in this table name should
@@ -714,27 +715,27 @@ class CargoUtils {
 				$fieldTableNames[] = $tableName . '__' . $fieldName;
 			}
 			if ( $fieldDescription->mIsHierarchy ) {
-				$fieldTableName = $tableName . '__' . $fieldName . '__hierarchy';
-				$cdb->dropTable( $fieldTableName );
+				$fieldHelperTableName = $tableName . '__' . $fieldName . '__hierarchy';
+				$cdb->dropTable( $fieldHelperTableName );
 				$fieldType = $fieldDescription->mType;
-				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldTableName ) . ' ( ' ;
+				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldHelperTableName ) . ' ( ' ;
 				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size ) . ", ";
 				$createSQL .= $cdb->addIdentifierQuotes( '_left' ) . " $intTypeString, ";
 				$createSQL .= $cdb->addIdentifierQuotes( '_right' ) . " $intTypeString ";
 				$createSQL .= ' )';
 				$cdb->query( $createSQL );
-				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldTableName" ) . ' ON ' ;
-				$createIndexSQL .= $cdb->tableName( $fieldTableName ) . ' (' ;
+				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldHelperTableName" ) . ' ON ' ;
+				$createIndexSQL .= $cdb->tableName( $fieldHelperTableName ) . ' (' ;
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_value' ) . ', ';
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_left' ) . ', ';
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_right' ) . ')';
 				$cdb->query( $createIndexSQL );
-				$fieldTableNames[] = $fieldTableName;
+				$fieldHelperTableNames[] = $fieldHelperTableName;
 				// Insert hierarchy information in the __hierarchy table
 				$hierarchyTree = CargoHierarchy::newFromWikiText( $fieldDescription->mHierarchyStructure );
 				$hierarchyStructureTableData = $hierarchyTree->generateHierarchyStructureTableData();
 				foreach( $hierarchyStructureTableData as $entry ) {
-					$cdb->insert( $fieldTableName, $entry );
+					$cdb->insert( $fieldHelperTableName, $entry );
 				}
 			}
 		}
@@ -763,6 +764,7 @@ class CargoUtils {
 			'template_id' => $templatePageID,
 			'main_table' => $tableName,
 			'field_tables' => serialize( $fieldTableNames ),
+			'field_helper_tables' => serialize( $fieldHelperTableNames ),
 			'table_schema' => $tableSchemaString
 		) );
 	}

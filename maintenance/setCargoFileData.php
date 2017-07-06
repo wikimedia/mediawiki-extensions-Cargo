@@ -51,14 +51,15 @@ class SetCargoFileData extends Maintenance {
 		global $wgCargoFileDataColumns;
 
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', array( 'field_tables' ),
+		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => '_fileData' ) );
 
 		$numRows = $res->numRows();
 		if ( $numRows >= 0 ) {
 			$row = $res->fetchRow();
 			$fieldTables = unserialize( $row['field_tables'] );
-			CargoDeleteCargoTable::deleteTable( '_fileData', $fieldTables );
+			$fieldHelperTables = unserialize( $row['field_helper_tables'] );
+			CargoDeleteCargoTable::deleteTable( '_fileData', $fieldTables, $fieldHelperTables );
 		}
 
 		if ( $this->getOption( "delete" ) ) {

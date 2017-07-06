@@ -31,12 +31,15 @@ class CargoDeleteCargoTable extends SpecialPage {
 	 * Also, records need to be removed from the cargo_tables and
 	 * cargo_pages tables.
 	 */
-	public static function deleteTable( $mainTable, $fieldTables ) {
+	public static function deleteTable( $mainTable, $fieldTables, $fieldHelperTables = array() ) {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->dropTable( $mainTable );
 			foreach ( $fieldTables as $fieldTable ) {
 				$cdb->dropTable( $fieldTable );
+			}
+			foreach ( $fieldHelperTables as $fieldHelperTable ) {
+				$cdb->dropTable( $fieldHelperTable );
 			}
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
@@ -61,7 +64,7 @@ class CargoDeleteCargoTable extends SpecialPage {
 
 		// Make sure that this table exists.
 		$dbr = wfGetDB( DB_SLAVE );
-		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables' ),
+		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $subpage ) );
 		if ( $res->numRows() == 0 ) {
 			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$subpage\"." ) );
@@ -71,9 +74,10 @@ class CargoDeleteCargoTable extends SpecialPage {
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$row = $res->fetchRow();
 		$fieldTables = unserialize( $row['field_tables'] );
+		$fieldHelperTables = unserialize( $row['field_helper_tables'] );
 
 		if ( $this->getRequest()->getCheck( 'delete' ) ) {
-			self::deleteTable( $subpage, $fieldTables );
+			self::deleteTable( $subpage, $fieldTables, $fieldHelperTables );
 			$text = Html::element( 'p', null, "The table \"$subpage\" has been deleted." ) . "\n";
 			if ( method_exists( $this, 'getLinkRenderer' ) ) {
 				$linkRenderer = $this->getLinkRenderer();

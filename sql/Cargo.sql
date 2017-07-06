@@ -2,6 +2,7 @@ CREATE TABLE /*_*/cargo_tables (
 	template_id int NOT NULL,
 	main_table varchar(200) NOT NULL,
 	field_tables text NOT NULL,
+	field_helper_tables text NOT NULL,
 	table_schema text NOT NULL
 ) /*$wgDBTableOptions*/;
 

@@ -249,7 +249,8 @@
 			"CargoHooks::onArticleDeleteComplete"
 		],
 		"LoadExtensionSchemaUpdates": [
-			"CargoHooks::describeDBSchema"
+			"CargoHooks::describeDBSchema",
+			"CargoHooks::cargoSchemaUpdates"
 		],
 		"SkinTemplateTabs": [
 			"CargoRecreateDataAction::displayTab"

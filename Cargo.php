@@ -52,6 +52,7 @@ $wgHooks['ApprovedRevsRevisionUnapproved'][] = 'CargoHooks::onARRevisionUnapprov
 $wgHooks['TitleMoveComplete'][] = 'CargoHooks::onTitleMoveComplete';
 $wgHooks['ArticleDeleteComplete'][] = 'CargoHooks::onArticleDeleteComplete';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'CargoHooks::describeDBSchema';
+$wgHooks['LoadExtensionSchemaUpdates'][] = 'CargoHooks::cargoSchemaUpdates';
 // 'SkinTemplateNavigation' replaced 'SkinTemplateTabs' in the Vector skin
 $wgHooks['SkinTemplateTabs'][] = 'CargoRecreateDataAction::displayTab';
 $wgHooks['SkinTemplateNavigation'][] = 'CargoRecreateDataAction::displayTab2';
