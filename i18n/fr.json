@@ -42,6 +42,7 @@
 	"apihelp-cargorecreatedata-param-offset": "Parmi les pages qui appellent ce modèle, le numéro à partir duquel démarrer la requête",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "S’il faut remplacer les anciennes lignes de chaque page lors du remplissage de nouveau de la table",
 	"apihelp-cargoautocomplete-description": "Appel à l’auto-complétion utilisé par l’extension Cargo.",
+	"apihelp-cargoautocomplete-summary": "Appel à l’auto-complétion utilisé par l’extension Cargo.",
 	"apihelp-cargoautocomplete-param-limit": "Une limite du nombre de résultats renvoyés",
 	"apihelp-cargoautocomplete-param-substr": "Rechercher la sous-chaîne",
 	"apihelp-cargoautocomplete-param-table": "Table Cargo pour laquelle rechercher les valeurs",
