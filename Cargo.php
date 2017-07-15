@@ -68,7 +68,6 @@ $wgHooks['ResourceLoaderGetConfigVars'][] = 'CargoHooks::onResourceLoaderGetConf
 $wgHooks['ScribuntoExternalLibraries'][] = 'CargoHooks::addLuaLibrary';
 
 $wgMessagesDirs['Cargo'] = $dir . '/i18n';
-$wgExtensionMessagesFiles['Cargo'] = $dir . '/Cargo.i18n.php';
 $wgExtensionMessagesFiles['CargoMagic'] = $dir . '/Cargo.i18n.magic.php';
 $wgExtensionMessagesFiles['CargoAlias'] = $dir . '/Cargo.alias.php';
 
