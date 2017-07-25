@@ -30,7 +30,7 @@ class CargoHierarchy {
 	public static function newFromWikiText( $wikitext ) {
 		// A dummy node (__pseudo_root__ is added so that
 		// multiple nodes can be added in the first level
-		$fullTree = new CargoHierarchy();
+		$fullTree = new static();
 		$lines = explode( "\n", $wikitext );
 		foreach ( $lines as $line ) {
 			$numBullets = 0;
@@ -40,8 +40,9 @@ class CargoHierarchy {
 			if ( $numBullets == 0 ) continue;
 			$lineText = trim( substr( $line, $numBullets ) );
 			$curParentNode = $fullTree->getLastNodeForLevel( $numBullets );
-			$curParentNode->addChild( new CargoHierarchy( $lineText ) );
+			$curParentNode->addChild( new static( $lineText ) );
 		}
+		$fullTree->computeLeftRight();
 		return $fullTree;
 	}
 
@@ -55,18 +56,17 @@ class CargoHierarchy {
 
 	function generateHierarchyStructureTableData() {
 		$tableData = array();
-		$this->computeLeftRight();
 		//  Preorder traversal using Stack data structure
 		$stack = new SplStack();
 		$stack->push( $this );
-		while( !$stack->isEmpty() ) {
+		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
 			$row = array();
 			$row['_value'] = $node->mTitle;
 			$row['_left'] = $node->mLeft;
 			$row['_right'] = $node->mRight;
 			$tableData[] = $row;
-			foreach( array_reverse( $node->mChildren ) as $child ) {
+			foreach ( array_reverse( $node->mChildren ) as $child ) {
 				$stack->push( $child );
 			}
 		}
@@ -77,7 +77,7 @@ class CargoHierarchy {
 		$this->mLeft = $counter;
 		$counter += 1;
 		//  Visit mChildren of the current node
-		foreach( $this->mChildren as $child ) {
+		foreach ( $this->mChildren as $child ) {
 			$child->computeLeftRight( $counter );
 		}
 		$this->mRight = $counter;
