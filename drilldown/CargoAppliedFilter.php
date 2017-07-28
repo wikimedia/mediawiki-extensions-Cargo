@@ -108,6 +108,17 @@ class CargoAppliedFilter {
 					$sql .= " OR " . $paf->checkSQL();
 				}
 				$sql .= "))";
+			} elseif ( $this->filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $fv->text ) ) {
+				$matches = array();
+				if ( preg_match( "/^~within (.+)/", $fv->text, $matches ) ) {
+					$value = $matches[1];
+					$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
+					$hierarchyTableName = $cdb->tableName( $hierarchyTableName );
+					$leftCond = " $hierarchyTableName._left >= ( SELECT _left FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
+					$rightCond = " $hierarchyTableName._right <= ( SELECT _right FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
+					$sql .= "( (" . $leftCond . ") AND (" . $rightCond . ") )";
+					$fv->text = wfMessage( 'cargo-drilldown-hierarchy-within', $value )->parse();
+				}
 			} elseif ( $fv->is_none ) {
 				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR ") .
 					"$value_field IS NULL";
@@ -147,13 +158,23 @@ class CargoAppliedFilter {
 		$tableNames = array();
 		$conds = array();
 		$joinConds = array();
+		$fieldTableName = $mainTableName;
+		$fieldName = $this->filter->name;
 
 		$conds[] = $this->checkSQL();
 
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$fieldTableName = $mainTableName . '__' . $this->filter->name;
+			$fieldName = '_value';
 			$tableNames[] = $fieldTableName;
 			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $mainTableName, $fieldTableName );
+		}
+
+		if ( $this->filter->fieldDescription->mIsHierarchy ) {
+			$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
+			$tableNames[] = $hierarchyTableName;
+			$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+				$fieldTableName, $fieldName, $hierarchyTableName );
 		}
 
 		return array( $tableNames, $conds, $joinConds );

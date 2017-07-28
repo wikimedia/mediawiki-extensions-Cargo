@@ -908,6 +908,15 @@ class CargoUtils {
 		);
 	}
 
+	public static function joinOfSingleFieldAndHierarchyTable( $cdb, $singleFieldTableName, $fieldColumnName, $hierarchyTableName ) {
+		return array(
+			'LEFT OUTER JOIN',
+			self::escapedFieldName( $cdb, $singleFieldTableName, $fieldColumnName ) .
+				' = ' .
+				self::escapedFieldName( $cdb, $hierarchyTableName, '_value' )
+		);
+	}
+
 	public static function escapedInsert( $db, $tableName, $fieldValues ) {
 		// Put quotes around the field names - needed for Postgres,
 		// which otherwise lowercases all field names.

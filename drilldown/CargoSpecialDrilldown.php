@@ -483,11 +483,74 @@ END;
 	}
 
 	function printUnappliedFilterValues( $cur_url, $f, $filter_values ) {
-		global $wgCargoDrilldownSmallestFontSize, $wgCargoDrilldownLargestFontSize;
-
 		$results_line = "";
-		// set font-size values for filter "tag cloud", if the
+		// now print the values
+		$num_printed_values = 0;
+		foreach ( $filter_values as $value_str => $num_results ) {
+			if ( $num_printed_values++ > 0 ) {
+				$results_line .= " · ";
+			}
+			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+				urlencode( str_replace( ' ', '_', $value_str ) );
+			$results_line .= $this->printFilterValueLink( $f, $value_str, $num_results, $filter_url, $filter_values );
+		}
+		return $results_line;
+	}
+
+	function printUnappliedFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters ) {
+		$results_line = "";
+		// construct the tree of CargoHierarchy
+		$drilldownHierarchyTreeRoot = CargoDrilldownHierarchy::newFromWikiText( $f->fieldDescription->mHierarchyStructure );
+		// compute counts
+		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyTreeRoot,
+			$f, $fullTextSearchTerm, $applied_filters );
+		$num_printed_values = 0;
+		$stack = new SplStack();
+		// preorder traversal of the tree
+		$stack->push( $drilldownHierarchyTreeRoot );
+		while ( !$stack->isEmpty() ) {
+			$node = $stack->pop();
+			if ( $node != ")" ) {
+				if ( $node->mLeft !== 1 ) {
+					// check if its not __pseudo_root__ node, then only print
+					if ( $num_printed_values++ > 0 ) {
+						$results_line .= " · ";
+					}
+					// generate a url to encode WITHIN search information by a "~within_" prefix in value_str
+					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+						urlencode( str_replace( ' ', '_', "~within_" . $node->mTitle ) );
+					// generate respective <a> tag with value and its count
+					$results_line .= $this->printFilterValueLink( $f, $node->mTitle,
+						$node->mWithinTreeMatchCount, $filter_url, $filter_values );
+				}
+				if ( count( $node->mChildren ) > 0 ) {
+					if ( $node->mLeft !== 1 ) {
+						$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+							urlencode( str_replace( ' ', '_', $node->mTitle ) );
+						$results_line .= " · ";
+						$results_line .= "(" . $this->printFilterValueLink( $f,
+							wfMessage( 'cargo-drilldown-hierarchy-only', $node->mTitle )->parse() ,
+							$node->mExactRootMatchCount, $filter_url, $filter_values );
+						$stack->push( ")" );
+					}
+					$i = count( $node->mChildren ) - 1;
+					while ( $i >= 0 ) {
+						$stack->push( $node->mChildren[$i] );
+						$i = $i - 1;
+					}
+				}
+			} else {
+				$results_line .= " ) ";
+			}
+		}
+		return $results_line;
+	}
+
+	function printFilterValueLink( $f, $value_str, $num_results, $filter_url, $filter_values ) {
+		global $wgCargoDrilldownSmallestFontSize, $wgCargoDrilldownLargestFontSize;
+		// set font-size values for filter_values filter "tag cloud", if the
 		// appropriate global variables are set
+		$scale_factor = 1;
 		if ( $wgCargoDrilldownSmallestFontSize > 0 && $wgCargoDrilldownLargestFontSize > 0 ) {
 			$lowest_num_results = min( $filter_values );
 			$highest_num_results = max( $filter_values );
@@ -496,36 +559,28 @@ END;
 					( log( $highest_num_results ) - log( $lowest_num_results ) );
 			}
 		}
-		// now print the values
-		$num_printed_values = 0;
-		foreach ( $filter_values as $value_str => $num_results ) {
-			if ( $num_printed_values++ > 0 ) {
-				$results_line .= " · ";
-			}
-			$filter_text = $this->printFilterValue( $f, $value_str );
-			$filter_text .= " ($num_results)";
-			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
-				urlencode( str_replace( ' ', '_', $value_str ) );
-			if ( $wgCargoDrilldownSmallestFontSize > 0 && $wgCargoDrilldownLargestFontSize > 0 ) {
-				if ( $lowest_num_results != $highest_num_results ) {
-					$font_size = round( ((log( $num_results ) - log( $lowest_num_results )) * $scale_factor ) +
-						$wgCargoDrilldownSmallestFontSize );
-				} else {
-					$font_size = ( $wgCargoDrilldownSmallestFontSize + $wgCargoDrilldownLargestFontSize ) / 2;
-				}
-				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
-					array( 'href' => $filter_url,
-						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text(),
-						'style' => "font-size: {$font_size}px"
-					 ), $filter_text );
+		$result_line_part = "";
+		$filter_text = $this->printFilterValue( $f, $value_str );
+		$filter_text .= " ($num_results)";
+		if ( $wgCargoDrilldownSmallestFontSize > 0 && $wgCargoDrilldownLargestFontSize > 0 ) {
+			if ( $lowest_num_results != $highest_num_results ) {
+				$font_size = round( ((log( $num_results ) - log( $lowest_num_results )) * $scale_factor ) +
+					$wgCargoDrilldownSmallestFontSize );
 			} else {
-				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
-					array( 'href' => $filter_url,
-						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text()
-					), $filter_text );
+				$font_size = ( $wgCargoDrilldownSmallestFontSize + $wgCargoDrilldownLargestFontSize ) / 2;
 			}
+			$result_line_part .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
+				array( 'href' => $filter_url,
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text(),
+					'style' => "font-size: {$font_size}px"
+					), $filter_text );
+		} else {
+			$result_line_part .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
+				array( 'href' => $filter_url,
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text()
+				), $filter_text );
 		}
-		return $results_line;
+		return $result_line_part;
 	}
 
 	/**
@@ -936,7 +991,18 @@ END;
 		global $wgCargoDrilldownMinValuesForComboBox;
 
 		$fieldType = $f->fieldDescription->mType;
-		if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+		$isHierarchy = $f->fieldDescription->mIsHierarchy;
+		if( $cur_url === null ) {
+			// If $cur_url wasn't passed in, we have to create it.
+			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters, $f->name );
+			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
+		}
+
+		if( $isHierarchy ) {
+			$results_line = $this->printUnappliedFilterValuesForHierarchy( $cur_url, $f,
+				$this->fullTextSearchTerm, $this->applied_filters );
+			return $this->printFilterLine( $f->name, false, true, $results_line );
+		} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 			$filter_values = $f->getTimePeriodValues( $this->fullTextSearchTerm, $this->applied_filters );
 		} else {
 			$filter_values = $f->getAllValues( $this->fullTextSearchTerm, $this->applied_filters );
@@ -959,9 +1025,6 @@ END;
 			$results_line = $this->printComboBoxInput( $filter_name, 0, $filter_values );
 			$normal_filter = false;
 		} else {
-			// If $cur_url wasn't passed in, we have to create it.
-			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters, $f->name );
-			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $filter_values );
 		}
 

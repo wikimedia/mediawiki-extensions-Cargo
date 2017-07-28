@@ -106,6 +106,7 @@
 		"CargoFilter": "drilldown/CargoFilter.php",
 		"CargoFilterValue": "drilldown/CargoFilterValue.php",
 		"CargoDrilldownUtils": "drilldown/CargoDrilldownUtils.php",
+		"CargoDrilldownHierarchy": "drilldown/CargoDrilldownHierarchy.php",
 		"CargoDrilldown": "drilldown/CargoSpecialDrilldown.php",
 		"CargoDrilldownPage": "drilldown/CargoSpecialDrilldown.php"
 	},
