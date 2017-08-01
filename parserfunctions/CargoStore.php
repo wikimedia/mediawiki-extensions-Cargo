@@ -286,7 +286,7 @@ class CargoStore {
 		// For each field that holds a list of values, also add its
 		// values to its own table; and rename the actual field.
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-			if ( ! isset($tableFieldValues[$fieldName]) ) {
+			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
 				continue;
 			}
 			$fieldType = $fieldDescription->mType;
