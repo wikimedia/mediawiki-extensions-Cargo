@@ -155,6 +155,7 @@ $wgAutoloadClasses['CargoFilterValue'] = $dir . '/drilldown/CargoFilterValue.php
 $wgAutoloadClasses['CargoDrilldownUtils'] = $dir . '/drilldown/CargoDrilldownUtils.php';
 $wgAutoloadClasses['CargoDrilldown'] = $dir . '/drilldown/CargoSpecialDrilldown.php';
 $wgAutoloadClasses['CargoDrilldownPage'] = $dir . '/drilldown/CargoSpecialDrilldown.php';
+$wgAutoloadClasses['CargoDrilldownHierarchy'] = $dir . '/drilldown/CargoDrilldownHierarchy.php';
 $wgSpecialPages['Drilldown'] = 'CargoDrilldown';
 
 // User rights
