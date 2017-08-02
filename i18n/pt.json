@@ -80,6 +80,8 @@
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Remover este filtro",
 	"cargo-drilldown-resetfilters": "Repor filtros",
+	"cargo-drilldown-hierarchy-within": "dentro de $1",
+	"cargo-drilldown-hierarchy-only": "exatamente \"$1\"",
 	"cargo-drilldown-addanothervalue": "Clique a seta para acrescentar outro valor",
 	"cargo-drilldown-novalues": "Não há valores para este filtro",
 	"cargo-drilldown-fulltext": "Texto completo",
