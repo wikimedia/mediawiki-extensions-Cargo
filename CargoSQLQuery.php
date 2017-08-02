@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * CargoSQLQuery - a wrapper class around SQL queries, that also handles
  * the special Cargo keywords like "HOLDS" and "NEAR".

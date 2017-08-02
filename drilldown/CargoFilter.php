@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * Defines a class, CargoFilter, that holds the information in a filter.
  *
