@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"HakanIST"
+			"HakanIST",
+			"Botansahin"
 		]
 	},
+	"cargo-drilldown-hierarchy-within": "Bir dolar ile",
+	"cargo-drilldown-hierarchy-only": "sadece $1",
 	"cargo-pageschemas-tablename": "Tablo adı:"
 }

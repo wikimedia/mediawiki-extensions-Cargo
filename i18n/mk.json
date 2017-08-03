@@ -78,6 +78,8 @@
 	"cargo-drilldown-or": "или",
 	"cargo-drilldown-removefilter": "Отстрани го филтеров",
 	"cargo-drilldown-resetfilters": "Врати ги филтрите по основно",
+	"cargo-drilldown-hierarchy-within": "во рамките на $1",
+	"cargo-drilldown-hierarchy-only": "само „$1“",
 	"cargo-drilldown-addanothervalue": "Стиснете на стрелката за да додадете друга вредност",
 	"cargo-drilldown-novalues": "Нема зададено вредности за овој филтер",
 	"cargo-drilldown-fulltext": "Цел текст",
