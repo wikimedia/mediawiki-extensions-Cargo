@@ -9,6 +9,7 @@
 	"apihelp-cargoautocomplete-param-substr": "সাবস্ট্রিং অনুসন্ধান",
 	"cargo-drilldown-allpages": "সব পাতা",
 	"cargo-drilldown-allfiles": "সব ফাইল",
+	"cargo-drilldown-hierarchy-only": "\"$1\" শুধুমাত্র",
 	"cargo-drilldown-fulltext": "সম্পূর্ণ লেখা",
 	"cargo-drilldown-pagetext": "পাতার লেখা",
 	"cargo-drilldown-filename": "ফাইলের নাম",
