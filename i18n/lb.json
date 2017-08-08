@@ -29,6 +29,7 @@
 	"cargo-drilldown-or": "oder",
 	"cargo-drilldown-removefilter": "Dëse Filter ewechhuelen",
 	"cargo-drilldown-resetfilters": "Filteren zrécksetzen",
+	"cargo-drilldown-hierarchy-only": "\"nëmmen\" $1",
 	"cargo-drilldown-fulltext": "Integralen Text",
 	"cargo-drilldown-pagetext": "Text vun der Säit",
 	"cargo-drilldown-filename": "Numm vum Fichier",
