@@ -6,7 +6,7 @@
  * @ingroup Cargo
  */
 
-class CargoDrilldownHierarchy extends CargoHierarchy {
+class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	public $mWithinTreeMatchCount = 0;
 	public $mExactRootMatchCount = 0;
 
@@ -67,11 +67,11 @@ class CargoDrilldownHierarchy extends CargoHierarchy {
 			if ( $node->mLeft !== 1 ) {
 				// check if its not __pseudo_root__ node, then only add count
 				CargoDrilldownHierarchy::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
-				$filter_values[$node->mTitle] = $node->mWithinTreeMatchCount;
+				$filter_values[$node->mRootValue] = $node->mWithinTreeMatchCount;
 			}
 			if ( count( $node->mChildren ) > 0 ) {
 				if ( $node->mLeft !== 1 ) {
-					$filter_values[$node->mTitle . " only"] = $node->mWithinTreeMatchCount;
+					$filter_values[$node->mRootValue . " only"] = $node->mWithinTreeMatchCount;
 				}
 				for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
 					$stack->push( $node->mChildren[$i] );

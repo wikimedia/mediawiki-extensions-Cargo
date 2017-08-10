@@ -732,7 +732,7 @@ class CargoUtils {
 				$cdb->query( $createIndexSQL );
 				$fieldHelperTableNames[] = $fieldHelperTableName;
 				// Insert hierarchy information in the __hierarchy table
-				$hierarchyTree = CargoHierarchy::newFromWikiText( $fieldDescription->mHierarchyStructure );
+				$hierarchyTree = CargoHierarchyTree::newFromWikiText( $fieldDescription->mHierarchyStructure );
 				$hierarchyStructureTableData = $hierarchyTree->generateHierarchyStructureTableData();
 				foreach( $hierarchyStructureTableData as $entry ) {
 					$cdb->insert( $fieldHelperTableName, $entry );

@@ -499,7 +499,7 @@ END;
 
 	function printUnappliedFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters ) {
 		$results_line = "";
-		// construct the tree of CargoHierarchy
+		// construct the tree of CargoDrilldownHierarchy
 		$drilldownHierarchyTreeRoot = CargoDrilldownHierarchy::newFromWikiText( $f->fieldDescription->mHierarchyStructure );
 		// compute counts
 		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyTreeRoot,
@@ -518,18 +518,18 @@ END;
 					}
 					// generate a url to encode WITHIN search information by a "~within_" prefix in value_str
 					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
-						urlencode( str_replace( ' ', '_', "~within_" . $node->mTitle ) );
+						urlencode( str_replace( ' ', '_', "~within_" . $node->mRootValue ) );
 					// generate respective <a> tag with value and its count
-					$results_line .= $this->printFilterValueLink( $f, $node->mTitle,
+					$results_line .= $this->printFilterValueLink( $f, $node->mRootValue,
 						$node->mWithinTreeMatchCount, $filter_url, $filter_values );
 				}
 				if ( count( $node->mChildren ) > 0 ) {
 					if ( $node->mLeft !== 1 ) {
 						$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
-							urlencode( str_replace( ' ', '_', $node->mTitle ) );
+							urlencode( str_replace( ' ', '_', $node->mRootValue ) );
 						$results_line .= " · ";
 						$results_line .= "(" . $this->printFilterValueLink( $f,
-							wfMessage( 'cargo-drilldown-hierarchy-only', $node->mTitle )->parse() ,
+							wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() ,
 							$node->mExactRootMatchCount, $filter_url, $filter_values );
 						$stack->push( ")" );
 					}

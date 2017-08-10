@@ -45,7 +45,7 @@
 		"CargoUtils": "CargoUtils.php",
 		"CargoFieldDescription": "CargoFieldDescription.php",
 		"CargoTableSchema": "CargoTableSchema.php",
-		"CargoHierarchy": "CargoHierarchy.php",
+		"CargoHierarchyTree": "CargoHierarchyTree.php",
 		"CargoDeclare": "parserfunctions/CargoDeclare.php",
 		"CargoAttach": "parserfunctions/CargoAttach.php",
 		"CargoStore": "parserfunctions/CargoStore.php",

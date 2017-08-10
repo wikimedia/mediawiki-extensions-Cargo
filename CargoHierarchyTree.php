@@ -1,20 +1,20 @@
 <?php
 /**
-* CargoHierarchy - holds the tree for hierarchy inorder to implement Nested Set model for
+* CargoHierarchyTree - holds the tree for hierarchy inorder to implement Nested Set model for
 * efficient storage and query of hierarchy fields.
 *
 * @author Feroz Ahmad
 * @ingroup Cargo
 */
 
-class CargoHierarchy {
-	public $mTitle;
+class CargoHierarchyTree {
+	public $mRootValue;
 	public $mChildren;
 	public $mLeft = 0;
 	public $mRight = 0;
 
 	function __construct( $curTitle = '__pseudo_root__' ) {
-		$this->mTitle = $curTitle;
+		$this->mRootValue = $curTitle;
 		$this->mChildren = array();
 	}
 
@@ -62,7 +62,7 @@ class CargoHierarchy {
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
 			$row = array();
-			$row['_value'] = $node->mTitle;
+			$row['_value'] = $node->mRootValue;
 			$row['_left'] = $node->mLeft;
 			$row['_right'] = $node->mRight;
 			$tableData[] = $row;
