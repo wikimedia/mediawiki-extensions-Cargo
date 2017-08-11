@@ -69,13 +69,13 @@ class CargoFieldDescription {
 						// already used to separate
 						// "extra parameters", so just
 						// hardcode it to a semicolon.
+						$allowedValuesArray = array();
 						if( $fieldDescription->mIsHierarchy == true ) {
 							// $paramValue contains "*" hierarchy structure
 							$fieldDescription->mHierarchyStructure = trim( $paramValue );
 							// now make the allowed values param similar to the syntax
 							// used by other fields
 							$hierarchyNodesArray = explode( "\n", $paramValue );
-							$allowedValuesArray = array();
 							foreach ( $hierarchyNodesArray as $node ) {
 								// Remove prefix of multiple "*"
 								$allowedValuesArray[] = preg_replace( '/^[*]*/', '', $node );
@@ -83,14 +83,15 @@ class CargoFieldDescription {
 						} else {
 							$delimiter = ',';
 							$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
-							$allowedValuesArray = explode( $delimiter, $allowedValuesStr );
+							$allowedValuesTempArray = explode( $delimiter, $allowedValuesStr );
+							foreach ( $allowedValuesTempArray as $i => $value ) {
+								if ( $value == '' ) continue;
+								// Replace beep back with delimiter, trim.
+								$value = str_replace( "\a", $delimiter, trim( $value ) );
+								$allowedValuesArray[] = $value;
+							}
 						}
-						foreach ( $allowedValuesArray as $i => $value ) {
-							if ( $value == '' ) continue;
-							// Replace beep back with delimiter, trim.
-							$value = str_replace( "\a", $delimiter, trim( $value ) );
-							$fieldDescription->mAllowedValues[] = $value;
-						}
+						$fieldDescription->mAllowedValues = $allowedValuesArray;
 					} elseif ( $paramKey == 'size' ) {
 						$fieldDescription->mSize = $paramValue;
 					} else {
