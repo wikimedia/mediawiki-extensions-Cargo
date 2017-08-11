@@ -79,6 +79,8 @@
 	"cargo-drilldown-or": "ou",
 	"cargo-drilldown-removefilter": "Eliminar este filtro",
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
+	"cargo-drilldown-hierarchy-within": "dentro de $1",
+	"cargo-drilldown-hierarchy-only": "\"$1\" unicamente",
 	"cargo-drilldown-addanothervalue": "Prema na frecha para engadir outro valor",
 	"cargo-drilldown-novalues": "Non hai valores para este filtro",
 	"cargo-drilldown-fulltext": "Texto completo",
