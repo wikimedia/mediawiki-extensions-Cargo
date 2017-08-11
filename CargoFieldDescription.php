@@ -80,11 +80,11 @@ class CargoFieldDescription {
 								// Remove prefix of multiple "*"
 								$allowedValuesArray[] = preg_replace( '/^[*]*/', '', $node );
 							}
-							$paramValue = implode( ',', $allowedValuesArray );
+						} else {
+							$delimiter = ',';
+							$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
+							$allowedValuesArray = explode( $delimiter, $allowedValuesStr );
 						}
-						$delimiter = ',';
-						$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
-						$allowedValuesArray = explode( $delimiter, $allowedValuesStr );
 						foreach ( $allowedValuesArray as $i => $value ) {
 							if ( $value == '' ) continue;
 							// Replace beep back with delimiter, trim.
