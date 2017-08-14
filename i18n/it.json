@@ -3,7 +3,8 @@
 		"authors": [
 			"Beta16",
 			"Macofe",
-			"JackLantern"
+			"JackLantern",
+			"Greis"
 		]
 	},
 	"cargo-definestable": "Questo template definisce la tabella \"$1\".",
@@ -37,6 +38,7 @@
 	"cargo-drilldown-or": "o",
 	"cargo-drilldown-removefilter": "Rimuovi questo filtro",
 	"cargo-drilldown-resetfilters": "Azzera filtri",
+	"cargo-drilldown-hierarchy-only": "solo $1",
 	"cargo-drilldown-addanothervalue": "Clicca la freccia per aggiungere un altro valore",
 	"cargo-drilldown-novalues": "Non ci sono valori per questo filtro",
 	"cargo-drilldown-fulltext": "Testo completo",

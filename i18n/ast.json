@@ -78,6 +78,8 @@
 	"cargo-drilldown-or": "o",
 	"cargo-drilldown-removefilter": "Desaniciar esti filtru",
 	"cargo-drilldown-resetfilters": "Reestablecer filtros",
+	"cargo-drilldown-hierarchy-within": "dientro de $1",
+	"cargo-drilldown-hierarchy-only": "\"$1\" únicamente",
 	"cargo-drilldown-addanothervalue": "Calca na flecha p'amestar otru valor",
 	"cargo-drilldown-novalues": "Nun hai valores pa esti filtru",
 	"cargo-drilldown-fulltext": "Testu completu",
