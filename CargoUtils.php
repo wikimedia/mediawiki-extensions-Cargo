@@ -942,4 +942,35 @@ class CargoUtils {
 		}
 	}
 
+	public static function validateHierarchyStructure( $hierarchyStructure ) {
+		$hierarchyNodesArray = explode( "\n", $hierarchyStructure );
+		$matches = array();
+		preg_match( '/^([*]*)[^*]*/i', $hierarchyNodesArray[0], $matches );
+		if ( strlen( $matches[1] ) != 1 ) {
+			throw new MWException( "Error: First entry of hierarchy values should start with exact one '*', the entry \"" .
+				$hierarchyNodesArray[0] . "\" has " . strlen( $matches[1] ) . " '*'" );
+		}
+		$level = 0;
+		foreach( $hierarchyNodesArray as $node ) {
+			if ( !preg_match( '/^([*]*)( *)(.*)/i', $node, $matches ) ) {
+				throw new MWException( "Error: The \"" . $node . "\" entry of hierarchy values does not follow syntax. " .
+					"The entry should be of the form : * entry" );
+			}
+			if ( strlen( $matches[1] ) < 1 ) {
+				throw new MWException( "Error: Each entry of hierarchy values should start with atleast one '*', the entry \"" .
+					$node . "\" has " . strlen( $matches[1] ) . " '*'" );
+			}
+			if ( strlen( $matches[1] ) - $level > 1 ) {
+				throw new MWException( "Error: Level or count of '*' in hierarchy values should be increased only by count of 1, the entry \"" .
+					$node . "\" should have " . ( $level + 1 ) . " or less '*'" );
+			}
+			$level = strlen( $matches[1] );
+			if ( strlen( $matches[3] ) == 0 ) {
+				throw new MWException( "Error: The entry of hierarchy values cannot be empty." );
+			}
+			if ( strlen( $matches[2] ) > 1 ) {
+				throw new MWException( "Error: Single or no space should follow after '*'. \"" . $node . "\" needs correction." );
+			}
+		}
+	}
 }

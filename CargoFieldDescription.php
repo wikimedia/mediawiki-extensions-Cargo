@@ -72,13 +72,14 @@ class CargoFieldDescription {
 						$allowedValuesArray = array();
 						if( $fieldDescription->mIsHierarchy == true ) {
 							// $paramValue contains "*" hierarchy structure
+							CargoUtils::validateHierarchyStructure( trim( $paramValue ) );
 							$fieldDescription->mHierarchyStructure = trim( $paramValue );
 							// now make the allowed values param similar to the syntax
 							// used by other fields
 							$hierarchyNodesArray = explode( "\n", $paramValue );
 							foreach ( $hierarchyNodesArray as $node ) {
 								// Remove prefix of multiple "*"
-								$allowedValuesArray[] = preg_replace( '/^[*]*/', '', $node );
+								$allowedValuesArray[] = preg_replace( '/^[*]* ?/', '', $node );
 							}
 						} else {
 							$delimiter = ',';

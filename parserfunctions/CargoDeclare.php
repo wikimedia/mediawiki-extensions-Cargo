@@ -68,8 +68,11 @@ class CargoDeclare {
 					array( 'holds', 'near' ) ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is already a Cargo keyword." );
 				}
-
-				$fieldDescription = CargoFieldDescription::newFromString( $fieldDescriptionStr );
+				try {
+					$fieldDescription = CargoFieldDescription::newFromString( $fieldDescriptionStr );
+				} catch ( Exception $e ) {
+					return CargoUtils::formatError( $e->getMessage() );
+				}
 				if ( $fieldDescription == null ) {
 					return CargoUtils::formatError( "Error: could not parse type for field \"$fieldName\"." );
 				}
