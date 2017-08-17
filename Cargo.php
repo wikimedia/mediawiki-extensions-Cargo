@@ -339,6 +339,7 @@ $wgCargoDrilldownSmallestFontSize = -1;
 $wgCargoDrilldownLargestFontSize = -1;
 $wgCargoDrilldownMinValuesForComboBox = 40;
 $wgCargoDrilldownNumRangesForNumbers = 5;
+$wgCargoMaxVisibleHierarchyDrilldownValues = 30;
 
 $wgCargoPageDataColumns = array();
 $wgCargoFileDataColumns = array();

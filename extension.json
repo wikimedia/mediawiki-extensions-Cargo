@@ -305,6 +305,7 @@
 		"CargoDrilldownLargestFontSize": -1,
 		"CargoDrilldownMinValuesForComboBox": 40,
 		"CargoDrilldownNumRangesForNumbers": 5,
+		"CargoMaxVisibleHierarchyDrilldownValues": 30,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [6],
