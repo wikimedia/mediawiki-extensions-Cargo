@@ -399,6 +399,10 @@ END;
 			} else {
 				return $this->msg( 'htmlform-no' )->text();
 			}
+		} elseif ( $filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $value ) ) {
+			$matches = array();
+			preg_match( "/^~within (.+)/", $value, $matches );
+			return wfMessage( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
 		} else {
 			return $value;
 		}

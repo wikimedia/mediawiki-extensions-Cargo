@@ -117,7 +117,6 @@ class CargoAppliedFilter {
 					$leftCond = " $hierarchyTableName._left >= ( SELECT _left FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
 					$rightCond = " $hierarchyTableName._right <= ( SELECT _right FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
 					$sql .= "( (" . $leftCond . ") AND (" . $rightCond . ") )";
-					$fv->text = wfMessage( 'cargo-drilldown-hierarchy-within', $value )->parse();
 				}
 			} elseif ( $fv->is_none ) {
 				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR ") .
