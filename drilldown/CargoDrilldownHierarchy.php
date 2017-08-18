@@ -16,9 +16,13 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		if ( $f->fieldDescription->mIsList ) {
 			$countArg = "_rowID";
 			$fieldTableName = $f->tableName . '__' . $f->name;
-			$tableNames[] = $fieldTableName;
+			if ( !in_array( $fieldTableName, $tableNames ) ) {
+				$tableNames[] = $fieldTableName;
+			}
 			$fieldName = '_value';
-			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $f->tableName, $fieldTableName );
+			if ( !array_key_exists( $fieldTableName, $joinConds ) ) {
+				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $f->tableName, $fieldTableName );
+			}
 		} else {
 			$countArg = "_ID";
 			$fieldName = $f->name;
@@ -28,17 +32,19 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		$countClause = "COUNT(DISTINCT($countArg)) AS total";
 
 		$hierarchyTableName = $f->tableName . '__' . $f->name . '__hierarchy';
-		$tableNames[] = $hierarchyTableName;
+		if ( !in_array( $hierarchyTableName, $tableNames ) ) {
+			$tableNames[] = $hierarchyTableName;
+		}
 
-		$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-			$fieldTableName, $fieldName, $hierarchyTableName );
-
+		if ( !array_key_exists( $hierarchyTableName, $joinConds ) ) {
+			$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+				$fieldTableName, $fieldName, $hierarchyTableName );
+		}
 		$withinTreeHierarchyConds = array();
 		$exactRootHierarchyConds = array();
 		$withinTreeHierarchyConds[] = "_left >= $node->mLeft";
 		$withinTreeHierarchyConds[] = "_right <= $node->mRight";
 		$exactRootHierarchyConds[] = "_left = $node->mLeft";
-
 		// within hierarchy tree value count
 		$res = $cdb->select( $tableNames, array( $countClause ), array_merge( $conds, $withinTreeHierarchyConds ),
 			null, null, $joinConds );

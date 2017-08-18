@@ -113,10 +113,19 @@ class CargoFilter {
 
 		foreach ( $appliedFilters as $af ) {
 			$conds[] = $af->checkSQL();
+			$fieldTableName = $this->tableName;
+			$columnName = $af->filter->name;
 			if ( $af->filter->fieldDescription->mIsList ) {
 				$fieldTableName = $this->tableName . '__' . $af->filter->name;
 				$tableNames[] = $fieldTableName;
 				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
+				$columnName = '_value';
+			}
+			if ( $af->filter->fieldDescription->mIsHierarchy ) {
+				$hierarchyTableName = $this->tableName . '__' . $af->filter->name . '__hierarchy';
+				$tableNames[] = $hierarchyTableName;
+				$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+					$fieldTableName, $columnName, $hierarchyTableName );
 			}
 		}
 		return array( $tableNames, $conds, $joinConds );

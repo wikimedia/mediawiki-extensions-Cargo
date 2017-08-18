@@ -413,6 +413,9 @@ END;
 	 * at least one value set
 	 */
 	function printAppliedFilterLine( $af ) {
+		if ( $af->filter->fieldDescription->mIsHierarchy ) {
+			return $this->printAppliedFilterLineForHierarchy( $af );
+		}
 		$results_line = "";
 		$current_filter_values = array();
 		foreach ( $this->applied_filters as $af2 ) {
@@ -486,6 +489,48 @@ END;
 		return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 	}
 
+	function printAppliedFilterLineForHierarchy( $af ) {
+		$applied_filters = $this->applied_filters;
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, array() );
+		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
+		// Drilldown for hierarchy is designed for literal 'drilldown'
+		// Therefore it has single filter value applied at anytime
+		$filter_value = "";
+		$isFilterValueNotWithin = false;
+		if ( count ( $af->values ) > 0 ) {
+			$filter_value = $af->values[0]->text;
+			$matches = array();
+			preg_match( "/^~within (.+)/", $filter_value, $matches );
+			if ( count( $matches ) > 0 ) {
+				$filter_value = $matches[1];
+			} else {
+				$isFilterValueNotWithin = true;
+			}
+		}
+		$drilldownHierarchyRoot = CargoDrilldownHierarchy::newFromWikiText( $af->filter->fieldDescription->mHierarchyStructure );
+		$stack = new SplStack();
+		// preorder traversal of the tree
+		$stack->push( $drilldownHierarchyRoot );
+		while ( !$stack->isEmpty() ) {
+			$node = $stack->pop();
+			if ( $node->mRootValue === $filter_value ) {
+				$drilldownHierarchyRoot = $node;
+				break;
+			}
+			for( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
+				$stack->push( $node->mChildren[$i] );
+			}
+		}
+		if ( $isFilterValueNotWithin === true ) {
+			CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $node,
+				$af->filter, null, $applied_filters );
+			$results_line = wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() . " ($node->mExactRootMatchCount)";
+		} else {
+			$results_line = $this->printFilterValuesForHierarchy( $cur_url, $af->filter, null, $applied_filters, $drilldownHierarchyRoot );
+		}
+		return $this->printFilterLine( $af->filter->name, false, true, $results_line );
+	}
+
 	function printUnappliedFilterValues( $cur_url, $f, $filter_values ) {
 		$results_line = "";
 		// now print the values
@@ -502,16 +547,20 @@ END;
 	}
 
 	function printUnappliedFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters ) {
-		$results_line = "";
 		// construct the tree of CargoDrilldownHierarchy
-		$drilldownHierarchyTreeRoot = CargoDrilldownHierarchy::newFromWikiText( $f->fieldDescription->mHierarchyStructure );
+		$drilldownHierarchyRoot = CargoDrilldownHierarchy::newFromWikiText( $f->fieldDescription->mHierarchyStructure );
+		return $this->printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot );
+	}
+
+	function printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot ) {
 		// compute counts
-		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyTreeRoot,
+		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyRoot,
 			$f, $fullTextSearchTerm, $applied_filters );
+		$results_line = "";
 		$num_printed_values = 0;
 		$stack = new SplStack();
 		// preorder traversal of the tree
-		$stack->push( $drilldownHierarchyTreeRoot );
+		$stack->push( $drilldownHierarchyRoot );
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
 			if ( $node != ")" ) {
@@ -524,8 +573,8 @@ END;
 					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
 						urlencode( str_replace( ' ', '_', "~within_" . $node->mRootValue ) );
 					// generate respective <a> tag with value and its count
-					$results_line .= $this->printFilterValueLink( $f, $node->mRootValue,
-						$node->mWithinTreeMatchCount, $filter_url, $filter_values );
+					$results_line .= ( $node === $drilldownHierarchyRoot )?$node->mRootValue . " ($node->mWithinTreeMatchCount)":
+						$this->printFilterValueLink( $f, $node->mRootValue, $node->mWithinTreeMatchCount, $filter_url, $filter_values );
 				}
 				if ( count( $node->mChildren ) > 0 ) {
 					if ( $node->mLeft !== 1 ) {
