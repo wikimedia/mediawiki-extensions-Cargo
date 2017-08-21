@@ -31,15 +31,17 @@ class CargoDeleteCargoTable extends SpecialPage {
 	 * Also, records need to be removed from the cargo_tables and
 	 * cargo_pages tables.
 	 */
-	public static function deleteTable( $mainTable, $fieldTables, $fieldHelperTables = array() ) {
+	public static function deleteTable( $mainTable, $fieldTables, $fieldHelperTables ) {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->dropTable( $mainTable );
 			foreach ( $fieldTables as $fieldTable ) {
 				$cdb->dropTable( $fieldTable );
 			}
-			foreach ( $fieldHelperTables as $fieldHelperTable ) {
-				$cdb->dropTable( $fieldHelperTable );
+			if ( is_array( $fieldHelperTables ) ) {
+				foreach ( $fieldHelperTables as $fieldHelperTable ) {
+					$cdb->dropTable( $fieldHelperTable );
+				}
 			}
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
