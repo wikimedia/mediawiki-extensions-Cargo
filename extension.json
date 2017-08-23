@@ -227,6 +227,10 @@
 		"localBasePath": "",
 		"remoteExtPath": "Cargo"
 	},
+	"Actions": {
+		"recreatedata": "CargoRecreateDataAction",
+		"pagevalues": "CargoPageValuesAction"
+	},
 	"Hooks": {
 		"ParserFirstCallInit": [
 			"CargoHooks::registerParserFunctions"
@@ -259,10 +263,6 @@
 		"SkinTemplateNavigation": [
 			"CargoRecreateDataAction::displayTab2",
 			"CargoHooks::addPurgeCacheTab"
-		],
-		"UnknownAction": [
-			"CargoRecreateDataAction::show",
-			"CargoPageValuesAction::show"
 		],
 		"BaseTemplateToolbox": [
 			"CargoPageValuesAction::addLink"

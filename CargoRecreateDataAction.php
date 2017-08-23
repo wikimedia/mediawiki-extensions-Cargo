@@ -16,16 +16,12 @@ class CargoRecreateDataAction {
 	}
 
 	/**
-	 * The main action entry point. Do all output for display and send it to the context
-	 * output.
+	 * The main action entry point. Do all output for display and send it
+	 * to the context output.
 	 * $this->getOutput(), etc.
-	 *
-	 * @param string $action
-	 * @param Article $article
-	 * @return boolean
 	 */
-	public static function show( $action, Article $article ) {
-		$title = $article->getTitle();
+	public function show() {
+		$title = $this->page->getTitle();
 
 		// These tabs should only exist for template pages, that
 		// either call (or called) #cargo_declare, or call
@@ -33,16 +29,12 @@ class CargoRecreateDataAction {
 		list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $title );
 
 		if ( $tableName == '' ) {
-			return true;
+			// @TODO - display an error message here.
+			return;
 		}
 
-		if ( $action == 'recreatedata' ) {
-			$recreateDataPage = new CargoRecreateData( $title, $tableName, $isDeclared );
-			$recreateDataPage->execute();
-			return false;
-		}
-
-		return true;
+		$recreateDataPage = new CargoRecreateData( $title, $tableName, $isDeclared );
+		$recreateDataPage->execute();
 	}
 
 	/**

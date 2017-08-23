@@ -6,7 +6,7 @@
  * @ingroup Cargo
  */
 
-class CargoPageValuesAction {
+class CargoPageValuesAction extends Action {
 	/**
 	 * Return the name of the action this object responds to
 	 * @return String lowercase
@@ -20,16 +20,10 @@ class CargoPageValuesAction {
 	 * to the context output.
 	 * $this->getOutput(), etc.
 	 */
-	public static function show( $action, Article $article ) {
-		$title = $article->getTitle();
-
-		if ( $action == 'pagevalues' ) {
-			$pageValuesPage = new CargoPageValues( $title );
-			$pageValuesPage->execute();
-			return false;
-		}
-
-		return true;
+	public function show() {
+		$title = $this->page->getTitle();
+		$pageValuesPage = new CargoPageValues( $title );
+		$pageValuesPage->execute();
 	}
 
 	/**
