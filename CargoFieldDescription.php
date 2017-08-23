@@ -42,6 +42,7 @@ class CargoFieldDescription {
 		// There may be additional parameters, in/ parentheses.
 		$matches = array();
 		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/s', $fieldDescriptionStr, $matches );
+		$allowedValuesParam = "";
 		if ( $foundMatch2 ) {
 			$fieldDescriptionStr = trim( $matches[1] );
 			$extraParamsString = $matches[2];
@@ -58,41 +59,9 @@ class CargoFieldDescription {
 					$paramKey = trim( $extraParamParts[0] );
 					$paramValue = trim( $extraParamParts[1] );
 					if ( $paramKey == 'allowed values' ) {
-						// Replace the comma/delimiter
-						// substitution with a character
-						// that has no chance of being
-						// included in the values list -
-						// namely, the ASCII beep.
-
-						// The delimiter can't be a
-						// semicolon, because that's
-						// already used to separate
-						// "extra parameters", so just
-						// hardcode it to a semicolon.
-						$allowedValuesArray = array();
-						if( $fieldDescription->mIsHierarchy == true ) {
-							// $paramValue contains "*" hierarchy structure
-							CargoUtils::validateHierarchyStructure( trim( $paramValue ) );
-							$fieldDescription->mHierarchyStructure = trim( $paramValue );
-							// now make the allowed values param similar to the syntax
-							// used by other fields
-							$hierarchyNodesArray = explode( "\n", $paramValue );
-							foreach ( $hierarchyNodesArray as $node ) {
-								// Remove prefix of multiple "*"
-								$allowedValuesArray[] = preg_replace( '/^[*]* ?/', '', $node );
-							}
-						} else {
-							$delimiter = ',';
-							$allowedValuesStr = str_replace( "\\$delimiter", "\a", $paramValue );
-							$allowedValuesTempArray = explode( $delimiter, $allowedValuesStr );
-							foreach ( $allowedValuesTempArray as $i => $value ) {
-								if ( $value == '' ) continue;
-								// Replace beep back with delimiter, trim.
-								$value = str_replace( "\a", $delimiter, trim( $value ) );
-								$allowedValuesArray[] = $value;
-							}
-						}
-						$fieldDescription->mAllowedValues = $allowedValuesArray;
+						// we do not assign allowed values to fieldDescription here,
+						// because we don't know yet if it's a hierarchy or an enumeration
+						$allowedValuesParam = $paramValue;
 					} elseif ( $paramKey == 'size' ) {
 						$fieldDescription->mSize = $paramValue;
 					} else {
@@ -100,6 +69,44 @@ class CargoFieldDescription {
 					}
 				}
 			}
+			if ( $allowedValuesParam !== "" ) {
+				$allowedValuesArray = array();
+				if( $fieldDescription->mIsHierarchy == true ) {
+					// $paramValue contains "*" hierarchy structure
+					CargoUtils::validateHierarchyStructure( trim( $allowedValuesParam ) );
+					$fieldDescription->mHierarchyStructure = trim( $allowedValuesParam );
+					// now make the allowed values param similar to the syntax
+					// used by other fields
+					$hierarchyNodesArray = explode( "\n", $allowedValuesParam );
+					foreach ( $hierarchyNodesArray as $node ) {
+						// Remove prefix of multiple "*"
+						$allowedValuesArray[] = preg_replace( '/^[*]* ?/', '', $node );
+					}
+				} else {
+					// Replace the comma/delimiter
+					// substitution with a character
+					// that has no chance of being
+					// included in the values list -
+					// namely, the ASCII beep.
+
+					// The delimiter can't be a
+					// semicolon, because that's
+					// already used to separate
+					// "extra parameters", so just
+					// hardcode it to a semicolon.
+					$delimiter = ',';
+					$allowedValuesStr = str_replace( "\\$delimiter", "\a", $allowedValuesParam );
+					$allowedValuesTempArray = explode( $delimiter, $allowedValuesStr );
+					foreach ( $allowedValuesTempArray as $i => $value ) {
+						if ( $value == '' ) continue;
+						// Replace beep back with delimiter, trim.
+						$value = str_replace( "\a", $delimiter, trim( $value ) );
+						$allowedValuesArray[] = $value;
+					}
+				}
+				$fieldDescription->mAllowedValues = $allowedValuesArray;
+			}
+
 		}
 
 		// What's left will be the type, hopefully.
