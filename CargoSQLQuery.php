@@ -709,25 +709,29 @@ class CargoSQLQuery {
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT\s+LIKE' . $patternSuffix,
 						"$replacementFieldName NOT LIKE ",
-						$fieldReplaced);
+						$fieldReplaced
+					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+LIKE' . $patternSuffix,
 						"$replacementFieldName LIKE ",
-						$fieldReplaced);
+						$fieldReplaced
+					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT' . $patternSuffix,
 						"$replacementFieldName!=",
-						$fieldReplaced);
+						$fieldReplaced
+					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS' . $patternSuffix,
 						"$replacementFieldName=",
-						$fieldReplaced);
+						$fieldReplaced
+					);
 
 					if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
 						if ( $isHierarchy ) {
@@ -1120,7 +1124,7 @@ class CargoSQLQuery {
 					throw new MWException( "Error: Please specify a value for \"HOLDS WITHIN\"");
 				}
 				$withinValue = $matches[3];
-				$subquery =  "( SELECT _value FROM $hierarchyTable WHERE " .
+				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .
 					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
 					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
 					")";
@@ -1138,7 +1142,7 @@ class CargoSQLQuery {
 					throw new MWException( "Error: Please specify a value for \"WITHIN\"");
 				}
 				$withinValue = $matches[3];
-				$subquery =  "( SELECT _value FROM $hierarchyTable WHERE " .
+				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .
 					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
 					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
 					")";

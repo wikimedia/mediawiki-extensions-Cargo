@@ -103,13 +103,13 @@ class CargoQuery {
 			// fields in the query, making the first 'Query
 			// necessary. There has to be some better way, though.
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-					$groupByStr, $havingStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
 			return $parser->insertStripItem( $text, $parser->mStripState );
 		}
 
 		// If the query limit was set to 0, no need to run the query -
-		// all we need to do is show  the "more results" link, then exit.
+		// all we need to do is show the "more results" link, then exit.
 		if ( $sqlQuery->mQueryLimit == 0 ) {
 			$text = $queryDisplayer->viewMoreResultsLink( true );
 			return $parser->insertStripItem( $text, $parser->mStripState );

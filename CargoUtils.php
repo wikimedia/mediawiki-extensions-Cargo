@@ -684,8 +684,8 @@ class CargoUtils {
 
 		// Now also create tables for each of the 'list' fields,
 		// if there are any.
-		$fieldTableNames = array();  // Store table names of tables that store data regarding pages
-		$fieldHelperTableNames = array();  // Store table names of tables that store meta data regarding template or fields
+		$fieldTableNames = array(); // Names of tables that store data regarding pages
+		$fieldHelperTableNames = array(); // Names of tables that store metadata regarding template or fields
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsList ) {
 				// The double underscore in this table name should

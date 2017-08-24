@@ -288,7 +288,7 @@ class CargoHooks {
 				array( '_pageID' => $oldid )
 			);
 		}
-          
+
 		// Update the page title in the "general data" tables.
 		$generalTables = array( '_pageData', '_fileData' );
 		foreach ( $generalTables as $generalTable ) {
