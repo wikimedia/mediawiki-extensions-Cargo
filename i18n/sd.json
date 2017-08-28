@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Aursani"
+			"Aursani",
+			"Mehtab ahmed"
 		]
 	},
+	"cargo-viewdata-format": "فارميٽ:",
 	"cargo-pageschemas-tablename": "جدول نانءُ"
 }
