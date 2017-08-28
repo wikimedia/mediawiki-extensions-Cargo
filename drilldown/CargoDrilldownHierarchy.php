@@ -70,9 +70,9 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		$stack->push( $node );
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
+			CargoDrilldownHierarchy::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
 			if ( $node->mLeft !== 1 ) {
 				// check if its not __pseudo_root__ node, then only add count
-				CargoDrilldownHierarchy::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
 				$filter_values[$node->mRootValue] = $node->mWithinTreeMatchCount;
 			}
 			if ( count( $node->mChildren ) > 0 ) {
@@ -85,5 +85,45 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 			}
 		}
 		return $filter_values;
+	}
+
+	/*
+	* Finds maximum permissible depth for listing values in Drilldown filter line such that total values appearing on the Filter line
+	* is less than or equal to $wgCargoMaxVisibleHierarchyDrilldownValues
+	*/
+	static function findMaxDrilldownDepth( $node ) {
+		global $wgCargoMaxVisibleHierarchyDrilldownValues;
+		if ( !isset( $wgCargoMaxVisibleHierarchyDrilldownValues ) || !is_int( $wgCargoMaxVisibleHierarchyDrilldownValues ) || $wgCargoMaxVisibleHierarchyDrilldownValues < 0 ) {
+			return PHP_INT_MAX;
+		}
+		$maxDepth = 0;
+		$nodeCount = 0;
+		$queue = new SplQueue();
+		$queue->enqueue( $node );
+		$queue->enqueue( null );
+		while ( !$queue->isEmpty() ) {
+			$node = $queue->dequeue();
+			if ( $node === null ) {
+				if ( !$queue->isEmpty() ) {
+					$maxDepth++;
+					$queue->enqueue( null );
+				}
+			} else {
+				if ( count( $node->mChildren ) > 0 && $node->mExactRootMatchCount > 0 ) {
+					// we will go one level deeper and print "nodevalue_only (x)" in filter line - so count it
+					$nodeCount++;
+				}
+				foreach ( $node->mChildren as $child ) {
+					if ( $child->mWithinTreeMatchCount > 0 ) {
+						if ( $nodeCount >= $wgCargoMaxVisibleHierarchyDrilldownValues ) {
+							break(2);
+						}
+						$queue->enqueue( $child );
+						$nodeCount++;
+					}
+				}
+			}
+		}
+		return max(1, $maxDepth);
 	}
 }

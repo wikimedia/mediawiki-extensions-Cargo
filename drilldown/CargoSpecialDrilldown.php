@@ -553,20 +553,22 @@ END;
 	}
 
 	function printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot ) {
+		$results_line = "";
 		// compute counts
 		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyRoot,
 			$f, $fullTextSearchTerm, $applied_filters );
-		$results_line = "";
-		$num_printed_values = 0;
+		$maxDepth = CargoDrilldownHierarchy::findMaxDrilldownDepth( $drilldownHierarchyRoot );
+		$depth = 0;
+		$num_printed_values_level = 0;
 		$stack = new SplStack();
 		// preorder traversal of the tree
 		$stack->push( $drilldownHierarchyRoot );
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
 			if ( $node != ")" ) {
-				if ( $node->mLeft !== 1 ) {
+				if ( $node->mLeft !== 1 && $node->mWithinTreeMatchCount > 0 ) {
 					// check if its not __pseudo_root__ node, then only print
-					if ( $num_printed_values++ > 0 ) {
+					if ( $num_printed_values_level++ > 0 ) {
 						$results_line .= " · ";
 					}
 					// generate a url to encode WITHIN search information by a "~within_" prefix in value_str
@@ -576,24 +578,28 @@ END;
 					$results_line .= ( $node === $drilldownHierarchyRoot )?$node->mRootValue . " ($node->mWithinTreeMatchCount)":
 						$this->printFilterValueLink( $f, $node->mRootValue, $node->mWithinTreeMatchCount, $filter_url, $filter_values );
 				}
-				if ( count( $node->mChildren ) > 0 ) {
+				if ( count( $node->mChildren ) > 0 && $node->mWithinTreeMatchCount > 0 && $depth < $maxDepth ) {
+					$depth++;
 					if ( $node->mLeft !== 1 ) {
-						$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
-							urlencode( str_replace( ' ', '_', $node->mRootValue ) );
-						$results_line .= " · ";
-						$results_line .= "(" . $this->printFilterValueLink( $f,
-							wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() ,
-							$node->mExactRootMatchCount, $filter_url, $filter_values );
+						$results_line .= " · (";
+						$num_printed_values_level = 0;
+						if ( $node->mExactRootMatchCount > 0 ) {
+							$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+								urlencode( str_replace( ' ', '_', $node->mRootValue ) );
+							$results_line .= $this->printFilterValueLink( $f,
+								wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() ,
+								$node->mExactRootMatchCount, $filter_url, $filter_values );
+							$num_printed_values_level++;
+						}
 						$stack->push( ")" );
 					}
-					$i = count( $node->mChildren ) - 1;
-					while ( $i >= 0 ) {
+					for( $i = count( $node->mChildren ) - 1; $i >= 0; $i--) {
 						$stack->push( $node->mChildren[$i] );
-						$i = $i - 1;
 					}
 				}
 			} else {
 				$results_line .= " ) ";
+				$depth--;
 			}
 		}
 		return $results_line;
