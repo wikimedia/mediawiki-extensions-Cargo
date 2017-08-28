@@ -80,7 +80,7 @@ class CargoFieldDescription {
 					$hierarchyNodesArray = explode( "\n", $allowedValuesParam );
 					foreach ( $hierarchyNodesArray as $node ) {
 						// Remove prefix of multiple "*"
-						$allowedValuesArray[] = preg_replace( '/^[*]* ?/', '', $node );
+						$allowedValuesArray[] = trim( preg_replace( '/^[*]*/', '', $node ) );
 					}
 				} else {
 					// Replace the comma/delimiter

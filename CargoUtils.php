@@ -968,9 +968,6 @@ class CargoUtils {
 			if ( strlen( $matches[3] ) == 0 ) {
 				throw new MWException( "Error: The entry of hierarchy values cannot be empty." );
 			}
-			if ( strlen( $matches[2] ) > 1 ) {
-				throw new MWException( "Error: Single or no space should follow after '*'. \"" . $node . "\" needs correction." );
-			}
 		}
 	}
 }
