@@ -374,10 +374,16 @@ class CargoSQLQuery {
 			} else {
 				$cargoTable2 = $table2;
 			}
-			$this->mJoinConds[$table2] = array(
-				$cargoJoinCond['joinType'],
+			$joinCondConds = array(
 				$cargoTable1 . '.' . $cargoJoinCond['field1'] . '=' .
 				$cargoTable2 . '.' . $cargoJoinCond['field2']
+			);
+			if ( array_key_exists( 'extraCond', $cargoJoinCond ) ) {
+				$joinCondConds[] = $cargoJoinCond['extraCond'];
+			}
+			$this->mJoinConds[$table2] = array(
+				$cargoJoinCond['joinType'],
+				$joinCondConds
 			);
 		}
 	}
@@ -633,11 +639,15 @@ class CargoSQLQuery {
 	 * the regex beginning from a non-valid identifier character to word
 	 * boundary.
 	 */
-	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found ) {
+	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found, &$fullExpression ) {
 		if ( preg_match( $pattern, $subject ) ) {
 			$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern);
 			$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern);
 			$subject = preg_replace( $pattern, $replacement, $subject );
+			$pattern2 = '/' . $replacement . '\s*([\'"]?[^\'"]*[\'"]?)/i'; // To capture string in quotes or a number
+			if ( preg_match( $pattern2, $subject, $matches ) ) {
+				$fullExpression = $matches[0];
+			}
 			$found = true;
 		}
 	}
@@ -680,6 +690,7 @@ class CargoSQLQuery {
 
 		// "where"
 		$matches = array();
+		$numHoldsExpressions = 0;
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
 			$tableAlias = $virtualField['tableAlias'];
@@ -702,6 +713,7 @@ class CargoSQLQuery {
 				CargoUtils::getSQLFieldPattern( $fieldName, false ) . '\s+'
 				);
 
+			$fullExpression = null;
 			for ( $i = 0 ; $i < 2 ; $i++ ) {
 				if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
 
@@ -709,28 +721,32 @@ class CargoSQLQuery {
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT\s+LIKE' . $patternSuffix,
 						"$replacementFieldName NOT LIKE ",
-						$fieldReplaced
+						$fieldReplaced,
+						$fullExpression
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+LIKE' . $patternSuffix,
 						"$replacementFieldName LIKE ",
-						$fieldReplaced
+						$fieldReplaced,
+						$fullExpression
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT' . $patternSuffix,
 						"$replacementFieldName!=",
-						$fieldReplaced
+						$fieldReplaced,
+						$fullExpression
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS' . $patternSuffix,
 						"$replacementFieldName=",
-						$fieldReplaced
+						$fieldReplaced,
+						$fullExpression
 					);
 
 					if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
@@ -749,13 +765,35 @@ class CargoSQLQuery {
 
 			if ( $fieldReplaced ) {
 				$this->addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias );
-				$this->mCargoJoinConds[] = array(
+				$cargoJoinConds = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableAlias,
 					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
 					'table2' => $fieldTableAlias,
 					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
 				);
+				// We store this in order to add it to the
+				// JOIN clause, because it's necessary, for
+				// somewhat complex reasons, if there are
+				// multiple HOLDS checks in the query and
+				// they're connected via OR.
+				if ( $fullExpression != null ) {
+					global $wgDBprefix;
+					$cargoJoinConds['extraCond'] = $wgDBprefix . 'cargo__' . $fullExpression;
+					$numHoldsExpressions++;
+				}
+				$this->mCargoJoinConds[] = $cargoJoinConds;
+
+			}
+		}
+
+		// We only need the extre JOIN clauses if there are two or more
+		// HOLDS expressions, but these extra clauses have already been
+		// added. So remove them if there are less then two. This is
+		// somewhat of a @HACK, but it seemed like the easiest way to do it.
+		if ( $numHoldsExpressions < 2 ) {
+			for ( $i = 0; $i < count( $this->mCargoJoinConds ); $i++ ) {
+				unset( $this->mCargoJoinConds[$i]['extraCond'] );
 			}
 		}
 
