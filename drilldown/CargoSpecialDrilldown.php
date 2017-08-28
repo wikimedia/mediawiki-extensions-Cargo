@@ -491,7 +491,13 @@ END;
 
 	function printAppliedFilterLineForHierarchy( $af ) {
 		$applied_filters = $this->applied_filters;
-		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, array() );
+		$applied_filters_no_hierarchy = array();
+		foreach( $applied_filters as $key => $af2 ) {
+			if ( !$af2->filter->fieldDescription->mIsHierarchy ) {
+				$applied_filters_no_hierarchy[] = $af2;
+			}
+		}
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $applied_filters_no_hierarchy );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		// Drilldown for hierarchy is designed for literal 'drilldown'
 		// Therefore it has single filter value applied at anytime
@@ -581,7 +587,7 @@ END;
 				if ( count( $node->mChildren ) > 0 && $node->mWithinTreeMatchCount > 0 && $depth < $maxDepth ) {
 					$depth++;
 					if ( $node->mLeft !== 1 ) {
-						$results_line .= " · (";
+						$results_line .= " (";
 						$num_printed_values_level = 0;
 						if ( $node->mExactRootMatchCount > 0 ) {
 							$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
