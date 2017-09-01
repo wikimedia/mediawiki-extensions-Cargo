@@ -1283,6 +1283,7 @@ END;
 		$tableNames = array( $this->tableName );
 		$conds = array();
 		$joinConds = array();
+		$queryOptions = array();
 
 		if ( $this->fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
@@ -1297,6 +1298,11 @@ END;
 			$tableNames = array_merge( $tableNames, $curTableNames );
 			$conds = array_merge( $conds, $curConds );
 			$joinConds = array_merge( $joinConds, $curJoinConds );
+			if ( $af->filter->fieldDescription->mIsHierarchy && $af->filter->fieldDescription->mIsList ) {
+				$hierarchyFieldTable = $this->tableName . "__" . $af->filter->name;
+				$queryOptions = array_merge( $queryOptions, array( "GROUP BY" =>
+					CargoUtils::escapedFieldName( $cdb, $hierarchyFieldTable, '_rowID' ) ) );
+			}
 		}
 
 		$aliasedFieldNames = array(
@@ -1333,7 +1339,7 @@ END;
 			'fields' => $aliasedFieldNames,
 			'conds' => $conds,
 			'join_conds' => $joinConds,
-			'options' => array()
+			'options' => $queryOptions
 		);
 
 		return $queryInfo;
