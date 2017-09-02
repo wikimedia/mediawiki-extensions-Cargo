@@ -104,7 +104,7 @@ class CargoPageData {
 		if ( in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			$pageCategories = array();
 			if ( !$setToBlank ) {
-				$dbr = wfGetDB( DB_SLAVE );
+				$dbr = wfGetDB( DB_REPLICA );
 				$res = $dbr->select(
 					'categorylinks',
 					'cl_to',
@@ -120,7 +120,7 @@ class CargoPageData {
 			$pageDataValues['_categories'] = $pageCategoriesString;
 		}
 		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
-			$dbr = wfGetDB( DB_SLAVE );
+			$dbr = wfGetDB( DB_REPLICA );
 			$res = $dbr->select(
 				'revision',
 				'COUNT(*) as total',
