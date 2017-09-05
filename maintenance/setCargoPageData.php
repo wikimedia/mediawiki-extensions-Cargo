@@ -50,7 +50,7 @@ class SetCargoPageData extends Maintenance {
 	public function execute() {
 		global $wgCargoPageDataColumns;
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => '_pageData' ) );
 
