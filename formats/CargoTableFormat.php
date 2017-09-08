@@ -21,7 +21,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
 
-		$text = '<table class="cargoTable">';
+		$text = '<table class="cargoTable sortable">';
 		$text .= '<tr>';
 		foreach ( array_keys( $fieldDescriptions ) as $field ) {
 			if ( strpos( $field, 'Blank value ' ) === false ) {
