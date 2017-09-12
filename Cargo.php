@@ -25,7 +25,7 @@ if ( version_compare( $GLOBALS['wgVersion'], '1.27', '>=' ) ) {
 
 // All the rest is for backward compatibility, for MW 1.26 and lower.
 
-define( 'CARGO_VERSION', '1.3.1' );
+define( 'CARGO_VERSION', '1.4' );
 
 $wgExtensionCredits['parserhook'][] = array(
 	'path' => __FILE__,

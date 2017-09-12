@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 1.3.1
+        Version 1.4
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -40,7 +40,7 @@ https://www.mediawiki.org/wiki/Extension:Cargo
 
 == Requirements ==
 
-This version of the Cargo extension requires MediaWiki 1.22 or higher.
+This version of the Cargo extension requires MediaWiki 1.23 or higher.
 
 == Installation ==
 
@@ -55,6 +55,9 @@ your 'LocalSettings.php' file:
 Cargo was created, and mostly written by, Yaron Koren.
 
 Query formats were also added by Cindy Cicalese, Luis Morillas and StasR.
+
+Support for hierarchy fields was added by Feroz Ahmed as a project for
+the 2017 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
 Duncan Crane, Ed Hoo, Namit Ohri, Paladox, Vivek Ghaisas and others.
