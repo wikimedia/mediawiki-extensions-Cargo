@@ -81,6 +81,8 @@
 	"cargo-drilldown-or": "або",
 	"cargo-drilldown-removefilter": "Усунути цей фільтр",
 	"cargo-drilldown-resetfilters": "Скинути фільтри",
+	"cargo-drilldown-hierarchy-within": "у межах $1",
+	"cargo-drilldown-hierarchy-only": "лише «$1»",
 	"cargo-drilldown-addanothervalue": "Клацніть на стрілочку, аби додати інше значення",
 	"cargo-drilldown-novalues": "Немає значень для цього фільтра",
 	"cargo-drilldown-fulltext": "Повний текст",
