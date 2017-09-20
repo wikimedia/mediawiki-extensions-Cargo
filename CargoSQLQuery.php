@@ -1187,8 +1187,10 @@ class CargoSQLQuery {
 				$newWhere = " " . $fieldName . " IN " . $subquery;
 			}
 
+			$fullExpression = null;
 			if ( $completeMatch ) {
-				$this->substVirtualFieldName( $this->mWhereStr, $completeSearchPattern, $newWhere, $fieldReplaced);
+				$this->substVirtualFieldName( $this->mWhereStr, $completeSearchPattern, $newWhere, $fieldReplaced,
+					$fullExpression );
 				$this->mWhereStr = preg_replace( $completeSearchPattern, $newWhere, $this->mWhereStr );
 			}
 
