@@ -6,8 +6,7 @@
 	"homepage": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"license": "GPL-2.0+",
 	"authors": [
-		{ "name": "Yaron Koren" },
-		{ "name": "paladox" }
+		{ "name": "Yaron Koren" }
 	],
 	"support": {
 		"issues": "https://phabricator.wikimedia.org/tag/mediawiki-extensions-cargo/",
