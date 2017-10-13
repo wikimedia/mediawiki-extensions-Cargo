@@ -183,7 +183,7 @@ class CargoStore {
 					// this, so: we'll just look for the
 					// total number of spaces, slashes and
 					// dashes, and if there's exactly one
-					// altogether, we'll/ guess that it's a
+					// altogether, we'll guess that it's a
 					// month only.
 					$numSpecialChars = substr_count( $curValue, ' ' ) +
 						substr_count( $curValue, '/' ) + substr_count( $curValue, '-' );
@@ -276,6 +276,24 @@ class CargoStore {
 		$tableFieldValues['_pageID'] = $pageID;
 
 		$cdb = CargoUtils::getDB();
+
+		// Somewhat of a @HACK - recreating a Cargo table from the web
+		// interface can lead to duplicate rows, due to the use of jobs.
+		// So before we store this data, check if a row with this
+		// exact set of data is already in the database. If it is, just
+		// ignore this #cargo_store call.
+		// This is not ideal, because there can be valid duplicate
+		// data - a page can have multiple calls to the same template,
+		// with identical data, for various reasons. However, that's
+		// a very rare case, while unwanted code duplication is
+		// unfortunately a common case. So until there's a real
+		// solution, this workaround will be helpful.
+		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValues );
+		$row = $cdb->fetchRow( $res );
+		if ( $row[0] > 0 ) {
+			$cdb->close();
+			return;
+		}
 
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
