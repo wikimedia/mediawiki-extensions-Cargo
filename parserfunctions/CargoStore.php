@@ -288,7 +288,18 @@ class CargoStore {
 		// a very rare case, while unwanted code duplication is
 		// unfortunately a common case. So until there's a real
 		// solution, this workaround will be helpful.
-		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValues );
+		$tableFieldValuesForCheck = array();
+		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
+				continue;
+			}
+			if ( $fieldDescription->mIsList || $fieldDescription->mType == 'Coordinates' ) {
+				$tableFieldValuesForCheck[$fieldName . '__full'] = $tableFieldValues[$fieldName];
+			} else {
+				$tableFieldValuesForCheck[$fieldName] = $tableFieldValues[$fieldName];
+			}
+		}
+		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
 		$row = $cdb->fetchRow( $res );
 		if ( $row[0] > 0 ) {
 			$cdb->close();
