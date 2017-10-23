@@ -288,7 +288,7 @@ class CargoStore {
 		// a very rare case, while unwanted code duplication is
 		// unfortunately a common case. So until there's a real
 		// solution, this workaround will be helpful.
-		$tableFieldValuesForCheck = array();
+		$tableFieldValuesForCheck = array( '_pageID' => $pageID );
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
 				continue;
