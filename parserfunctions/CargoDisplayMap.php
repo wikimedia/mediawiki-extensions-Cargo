@@ -90,7 +90,7 @@ class CargoDisplayMap {
 		$text = $mappingFormat->display( $valuesTable, $formattedValuesTable, $fieldDescriptions,
 			$displayParams );
 
-		return $parser->insertStripItem( $text, $parser->mStripState );
+		return array( $text, 'noparse' => true, 'isHTML' => true );
 	}
 
 }

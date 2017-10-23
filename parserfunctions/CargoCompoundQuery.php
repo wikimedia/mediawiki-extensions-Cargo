@@ -125,7 +125,7 @@ class CargoCompoundQuery {
 		$formatter = $queryDisplayer->getFormatter( $parser->getOutput() );
 		if ( $formatter->isDeferred() ) {
 			$text = $formatter->queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams );
-			return $parser->insertStripItem( $text, $parser->mStripState );
+			return array( $text, 'noparse' => true, 'isHTML' => true );
 		}
 
 		$allQueryResults = array();
@@ -188,7 +188,7 @@ class CargoCompoundQuery {
 		// especially if there's a limit set for each query?
 
 		if ( $displayHTML ) {
-			return $parser->insertStripItem( $text, $parser->mStripState );
+			return array( $text, 'noparse' => true, 'isHTML' => true );
 		} else {
 			return array( $text, 'noparse' => false );
 		}

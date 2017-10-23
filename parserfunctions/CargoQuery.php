@@ -105,14 +105,14 @@ class CargoQuery {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
-			return $parser->insertStripItem( $text, $parser->mStripState );
+			return array( $text, 'noparse' => true, 'isHTML' => true );
 		}
 
 		// If the query limit was set to 0, no need to run the query -
 		// all we need to do is show the "more results" link, then exit.
 		if ( $sqlQuery->mQueryLimit == 0 ) {
 			$text = $queryDisplayer->viewMoreResultsLink( true );
-			return $parser->insertStripItem( $text, $parser->mStripState );
+			return array( $text, 'noparse' => true, 'isHTML' => true );
 		}
 
 		try {
@@ -144,7 +144,7 @@ class CargoQuery {
 		}
 
 		if ( $displayHTML ) {
-			return $parser->insertStripItem( $text, $parser->mStripState );
+			return array( $text, 'noparse' => true, 'isHTML' => true );
 		} else {
 			return array( $text, 'noparse' => false );
 		}
