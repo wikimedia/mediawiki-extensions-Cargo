@@ -25,3 +25,10 @@ span.searchresult {
 span.searchmatch {
 	font-weight: bold;
 }
+
+div.cargoReplacementTableInfo {
+	background: #ddd;
+	border: 1px solid #bbb;
+	padding: 6px;
+	margin-bottom: 10px;
+}

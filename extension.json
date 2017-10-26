@@ -17,6 +17,7 @@
 	"SpecialPages": {
 		"CargoTables": "CargoTables",
 		"DeleteCargoTable": "CargoDeleteCargoTable",
+		"SwitchCargoTable": "CargoSwitchCargoTable",
 		"ViewData": "CargoViewData",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
@@ -62,6 +63,7 @@
 		"CargoRecreateData": "specials/CargoRecreateData.php",
 		"CargoTables": "specials/CargoTables.php",
 		"CargoDeleteCargoTable": "specials/CargoDeleteTable.php",
+		"CargoSwitchCargoTable": "specials/CargoSwitchTable.php",
 		"CargoViewData": "specials/CargoViewData.php",
 		"ViewDataPage": "specials/CargoViewData.php",
 		"CargoExport": "specials/CargoExport.php",
@@ -123,8 +125,10 @@
 			"dependencies": "mediawiki.jqueryMsg",
 			"messages": [
 				"cargo-recreatedata-tablecreated",
+				"cargo-recreatedata-replacementcreated",
 				"cargo-recreatedata-success",
-				"cargo-cargotables-viewtablelink"
+				"cargo-cargotables-viewtablelink",
+				"cargo-cargotables-viewreplacementlink"
 			],
 			"position": "bottom"
 		},

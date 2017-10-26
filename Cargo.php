@@ -99,6 +99,8 @@ $wgSpecialPages['CargoTables'] = 'CargoTables';
 $wgAutoloadClasses['CargoTables'] = $dir . '/specials/CargoTables.php';
 $wgSpecialPages['DeleteCargoTable'] = 'CargoDeleteCargoTable';
 $wgAutoloadClasses['CargoDeleteCargoTable'] = $dir . '/specials/CargoDeleteTable.php';
+$wgSpecialPages['SwitchCargoTable'] = 'CargoSwitchCargoTable';
+$wgAutoloadClasses['CargoSwitchCargoTable'] = $dir . '/specials/CargoSwitchTable.php';
 $wgSpecialPages['ViewData'] = 'CargoViewData';
 $wgAutoloadClasses['CargoViewData'] = $dir . '/specials/CargoViewData.php';
 $wgAutoloadClasses['ViewDataPage'] = $dir . '/specials/CargoViewData.php';
@@ -182,8 +184,10 @@ $wgResourceModules += array(
 		'dependencies' => 'mediawiki.jqueryMsg',
 		'messages' => array(
 			'cargo-recreatedata-tablecreated',
+			'cargo-recreatedata-replacementcreated',
 			'cargo-recreatedata-success',
-			'cargo-cargotables-viewtablelink'
+			'cargo-cargotables-viewtablelink',
+			'cargo-cargotables-viewreplacementlink'
 		),
 		'position' => 'bottom',
 		'localBasePath' => __DIR__,

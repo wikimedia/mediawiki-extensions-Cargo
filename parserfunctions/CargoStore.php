@@ -88,6 +88,13 @@ class CargoStore {
 				return;
 			}
 		}
+          
+		// Always store data in the replacement table if it exists.
+		$cdb = CargoUtils::getDB();
+		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
+			$tableName .=  '__NEXT';
+		}
+		$cdb->close();
 
 		// Get the declaration of the table.
 		$dbw = wfGetDB( DB_MASTER );

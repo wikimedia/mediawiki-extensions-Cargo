@@ -99,6 +99,10 @@ class CargoRecreateData extends UnlistedSpecialPage {
 
 		// Simple form.
 		$text .= '<div id="recreateDataCanvas">' . "\n";
+		if ( $tableExists ) {
+			$text .= Html::rawElement( 'p', null, Html::check( 'createReplacement', true, array( 'id' => 'createReplacement' ) ) .
+				' ' . "Recreate data into a replacement table, keeping the old one for querying" );
+		}
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
 		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
 		$text .= Html::element( 'button', array( 'id' => 'cargoSubmit' ), $this->msg( 'ok' )->parse() );

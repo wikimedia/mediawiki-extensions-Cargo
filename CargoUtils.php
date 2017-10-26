@@ -145,7 +145,8 @@ class CargoUtils {
 	static function getTableSchemas( $tableNames ) {
 		$mainTableNames = array();
 		foreach ( $tableNames as $tableName ) {
-			if ( strpos( $tableName, '__' ) !== false ) {
+			if ( strpos( $tableName, '__' ) !== false &&
+				strpos( $tableName, '__NEXT' ) === false ) {
 				// We just want the first part of it.
 				$tableNameParts = explode( '__', $tableName );
 				$tableName = $tableNameParts[0];
@@ -440,7 +441,7 @@ class CargoUtils {
 	 * @return boolean
 	 * @throws MWException
 	 */
-	public static function recreateDBTablesForTemplate( $templatePageID, $tableName = null ) {
+	public static function recreateDBTablesForTemplate( $templatePageID, $createReplacement, $tableName = null ) {
 		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
 		// First, see if there even is DB storage for this template -
 		// if not, exit.
@@ -456,29 +457,39 @@ class CargoUtils {
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = self::getDB();
 
-		$tableNames = array();
-		$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
-		while ( $row = $dbw->fetchRow( $res ) ) {
-			$tableNames[] = $row['main_table'];
+		// Cannot run any recreate if a replacement table exists.
+		$possibleReplacementTable = $tableName . '__NEXT';
+		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+			throw new MWException( "Cannot currently recreate the table $tableName; the replacement table $possibleReplacementTable still exists." );
 		}
 
-		// For whatever reason, that DB query might have failed -
-		// if so, just add the table name here.
-		if ( $tableName != null && !in_array( $tableName, $tableNames ) ) {
-			$tableNames[] = $tableName;
-		}
-
-		foreach( $tableNames as $curTable ) {
-			try {
-				$cdb->dropTable( $curTable );
-			} catch ( Exception $e ) {
-				throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
-				. "Please make sure that your database user account has the DROP permission." );
+		if ( $createReplacement ) {
+			$tableName .= '__NEXT';
+		} else {
+			$tableNames = array();
+			$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
+			while ( $row = $dbw->fetchRow( $res ) ) {
+				$tableNames[] = $row['main_table'];
 			}
-			$dbw->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
-		}
 
-		$dbw->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
+			// For whatever reason, that DB query might have failed -
+			// if so, just add the table name here.
+			if ( $tableName != null && !in_array( $tableName, $tableNames ) ) {
+				$tableNames[] = $tableName;
+			}
+
+			foreach( $tableNames as $curTable ) {
+				try {
+					$cdb->dropTable( $curTable );
+				} catch ( Exception $e ) {
+					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
+					. "Please make sure that your database user account has the DROP permission." );
+				}
+				$dbw->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
+			}
+
+			$dbw->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
+		}
 
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
 

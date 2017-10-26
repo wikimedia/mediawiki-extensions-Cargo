@@ -45,6 +45,7 @@ class CargoRecreateData extends Maintenance {
 		}
 		$this->mDescription = "Recreate the data for one or more Cargo database tables.";
 		$this->addOption( 'table', 'The Cargo table to recreate', false, true );
+		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
 	}
 
 	public function execute() {
@@ -53,6 +54,8 @@ class CargoRecreateData extends Maintenance {
 		$this->templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 
 		$tableName = $this->getOption( 'table' );
+		$createReplacement = $this->hasOption( 'replacement' );
+
 		if ( $tableName == null ) {
 			$tableNames = CargoUtils::getTables();
 			foreach ( $tableNames as $i => $tableName ) {
@@ -63,14 +66,14 @@ class CargoRecreateData extends Maintenance {
 				if ( $i > 0 && !$quiet ) {
 					print "\n";
 				}
-				$this->recreateAllDataForTable( $tableName );
+				$this->recreateAllDataForTable( $tableName, $createReplacement );
 			}
 		} else {
-			$this->recreateAllDataForTable( $tableName );
+			$this->recreateAllDataForTable( $tableName, $createReplacement );
 		}
 	}
 
-	function recreateAllDataForTable( $tableName ) {
+	function recreateAllDataForTable( $tableName, $createReplacement ) {
 		$quiet = $this->getOption( 'quiet' );
 
 		// Quick retrieval and check before we do anything else.
@@ -80,9 +83,11 @@ class CargoRecreateData extends Maintenance {
 			return;
 		}
 
-
 		if ( !$quiet ) {
 			print "Recreating data for Cargo table $tableName in 5 seconds... hit [Ctrl]-C to escape.\n";
+			if ( $createReplacement ) {
+				print "(Data will be placed in a separate, replacement table.)\n";
+			}
 			// No point waiting if the user doesn't know about it
 			// anyway, right?
 			sleep( 5 );
@@ -91,7 +96,13 @@ class CargoRecreateData extends Maintenance {
 		if ( !$quiet ) {
 			print "Deleting and recreating table...\n";
 		}
-		CargoUtils::recreateDBTablesForTemplate( $templatePageID, $tableName );
+
+		try {
+			CargoUtils::recreateDBTablesForTemplate( $templatePageID, $createReplacement, $tableName );
+		} catch ( MWException $e ) {
+			print "Error: " . $e->getMessage() . "\n";
+			return;
+		}
 
 		// These arrays are poorly named. @TODO - fix names
 		if ( array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {

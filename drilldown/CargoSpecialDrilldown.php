@@ -54,6 +54,10 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$tableName = $tableNames[0];
 		}
 
+		if ( $request->getCheck( '_replacement' ) ) {
+			$tableName .= '__NEXT';
+		}
+
 		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$all_filters = array();
 		$fullTextSearchTerm = null;
@@ -173,7 +177,8 @@ class CargoDrilldownPage extends QueryPage {
 	public $fullTextSearchTerm;
 	public $searchablePages;
 	public $searchableFiles;
-	public $showSingleTable = false;
+	private $showSingleTable = false;
+	private $isReplacementTable = false;
 
 	/**
 	 * Initialize the variables of this page
@@ -214,6 +219,10 @@ class CargoDrilldownPage extends QueryPage {
 		if ( $this->showSingleTable ) {
 			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 			$url .= "_single";
+		}
+		if ( $this->isReplacementTable ) {
+			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
+			$url .= "_replacement";
 		}
 
 		if ( $searchTerm != null ) {
@@ -453,7 +462,7 @@ END;
 		$or_values[] = '_none';
 		foreach ( $or_values as $i => $value ) {
 			if ( $i > 0 ) {
-				$results_line .= " · ";
+				$results_line .= " Â· ";
 			}
 			$filter_text = $this->printFilterValue( $af->filter, $value );
 			$applied_filters = $this->applied_filters;
@@ -543,7 +552,7 @@ END;
 		$num_printed_values = 0;
 		foreach ( $filter_values as $value_str => $num_results ) {
 			if ( $num_printed_values++ > 0 ) {
-				$results_line .= " · ";
+				$results_line .= " Â· ";
 			}
 			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
 				urlencode( str_replace( ' ', '_', $value_str ) );
@@ -575,7 +584,7 @@ END;
 				if ( $node->mLeft !== 1 && $node->mWithinTreeMatchCount > 0 ) {
 					// check if its not __pseudo_root__ node, then only print
 					if ( $num_printed_values_level++ > 0 ) {
-						$results_line .= " · ";
+						$results_line .= " Â· ";
 					}
 					// generate a url to encode WITHIN search information by a "~within_" prefix in value_str
 					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
@@ -1108,9 +1117,15 @@ END;
 		}
 
 		$header = "";
-		$this->showSingleTable = $wgRequest->getCheck( '_single' );
+		$this->isReplacementTable = $wgRequest->getCheck( '_replacement' );
+		$this->showSingleTable = $this->isReplacementTable || $wgRequest->getCheck( '_single' );
 		if ( !$this->showSingleTable ) {
 			$header .= $this->printTablesList( $tables );
+		}
+		if ( $this->isReplacementTable ) {
+			$this->tableName = str_replace( '__NEXT', '', $this->tableName );
+			$text = "This table is a possible replacement for the {$this->tableName} table. It is not yet being used for querying.";
+			$header .= Html::rawElement( 'div', array( 'class' => 'warningbox' ), $text );
 		}
 
 		$displaySearchInput = ( $this->tableName == '_fileData' &&
@@ -1254,6 +1269,9 @@ END;
 		if ( $this->showSingleTable ) {
 			$params['_single'] = null;
 		}
+		if ( $this->isReplacementTable ) {
+			$params['_replacement'] = null;
+		}
 		$params['_table'] = $this->tableName;
 		if ( $this->fullTextSearchTerm != '' ) {
 			$params['_search'] = $this->fullTextSearchTerm;
@@ -1384,7 +1402,7 @@ END;
 				'LEFT OUTER JOIN',
 				CargoUtils::escapedFieldName( $cdb, $mainTableName, '_pageID' ) .
 				' = ' .
-				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_pageID' )	
+				CargoUtils::escapedFieldName( $cdb, $fileTableName, '_pageID' )
 			);
 			$tableNames[] = '_fileData';
 			$joinConds['_fileData'] = array(

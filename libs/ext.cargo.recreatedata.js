@@ -18,6 +18,7 @@
 	var tableName = dataDiv.attr("tablename");
 	var isDeclared = dataDiv.attr("isdeclared");
 	var viewTableURL = dataDiv.attr("viewtableurl");
+	var createReplacement = false;
 	var templateData = jQuery.parseJSON( dataDiv.html() );
 
 	var numTotalPages = 0;
@@ -67,25 +68,33 @@
 					recreateData.createJobs( templateNum + 1, 0, replaceOldRows );
 				} else {
 					// We're done.
-					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p><p><a href=\"" + viewTableURL + "\">" + mw.msg( 'cargo-cargotables-viewtablelink' ) + "</a>.</p>" );
+					if ( createReplacement ) {
+						viewTableURL += "?_replacement";
+					}
+					var linkMsg = createReplacement ? 'cargo-cargotables-viewreplacementlink' : 'cargo-cargotables-viewtablelink';
+					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p><p><a href=\"" + viewTableURL + "\">" + mw.msg( linkMsg ) + "</a>.</p>" );
 				}
 			}
 		});
 	}
 
 	jQuery( "#cargoSubmit" ).click( function() {
+		createReplacement = $("#createReplacement").is( ":checked" );
 		recreateData.replaceForm();
 
 		if ( isDeclared ) {
 			$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/skins/loading.gif\" />" );
-			$.get(
-				apiURL, {
-					action: "cargorecreatetables",
-					template: templateData[0].name
-				}
-			)
+			var queryStringData = {
+				action: "cargorecreatetables",
+				template: templateData[0].name,
+			};
+			if ( createReplacement ) {
+				queryStringData.createReplacement = true;
+			}
+			$.get( apiURL, queryStringData )
 			.done(function( msg ) {
-				$("#recreateTableProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-tablecreated', tableName ) + "</p>" );
+				var displayMsg = createReplacement ? 'cargo-recreatedata-replacementcreated' : 'cargo-recreatedata-tablecreated';
+				$("#recreateTableProgress").html( "<p>" + mw.msg( displayMsg, tableName ) + "</p>" );
 				recreateData.createJobs( 0, 0, false );
 			});
 		} else {

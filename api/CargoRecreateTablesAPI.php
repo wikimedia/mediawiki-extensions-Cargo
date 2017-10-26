@@ -24,10 +24,11 @@ class CargoRecreateTablesAPI extends ApiBase {
 		if ( $templateStr == '' ) {
 			$this->dieUsage( 'The template must be specified', 'param_substr' );
 		}
+		$createReplacement = $params['createReplacement'];
 
 		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
 		$templatePageID = $templateTitle->getArticleID();
-		$success = CargoUtils::recreateDBTablesForTemplate( $templatePageID );
+		$success = CargoUtils::recreateDBTablesForTemplate( $templatePageID, $createReplacement );
 
 		// Set top-level elements.
 		$result = $this->getResult();
@@ -39,12 +40,16 @@ class CargoRecreateTablesAPI extends ApiBase {
 			'template' => array(
 				ApiBase::PARAM_TYPE => 'string',
 			),
+			'createReplacement' => array(
+				ApiBase::PARAM_TYPE => 'boolean',
+			),
 		);
 	}
 
 	protected function getParamDescription() {
 		return array(
 			'template' => 'The template whose declared Cargo table(s) should be recreated',
+			'createReplacement' => 'Whether to put data into a replacement table',
 		);
 	}
 
