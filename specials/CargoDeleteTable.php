@@ -7,14 +7,11 @@
  * CargoDeleteTable.php, and the wiki page is Special:DeleteCargoTable...
  * sorry for the confusion!
  *
- *
  * @author Yaron Koren
  * @ingroup Cargo
- * @todo This should really inherit from UnlistedSpecialPage and there should be a link from
- * Special:CargoTables to delete that table.
  */
 
-class CargoDeleteCargoTable extends SpecialPage {
+class CargoDeleteCargoTable extends UnlistedSpecialPage {
 
 	function __construct() {
 		parent::__construct( 'DeleteCargoTable', 'deletecargodata' );
@@ -101,14 +98,5 @@ class CargoDeleteCargoTable extends SpecialPage {
 		$out->addHTML( $text );
 
 		return true;
-	}
-
-	/**
-	 * @todo Should be unlisted
-	 *
-	 * @return string
-	 */
-	protected function getGroupName() {
-		return 'cargo';
 	}
 }
