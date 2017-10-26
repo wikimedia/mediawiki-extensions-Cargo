@@ -2,15 +2,18 @@
 /**
  * @author Yaron Koren
  * @ingroup Cargo
+ *
+ * Defines the 'gallery' format, which matches the output of MediaWiki's
+ * <gallery> tag.
  */
 
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'mode','show bytes','show filename','per row','image width','image height' );
+		return array( 'mode', 'show bytes', 'show filename', 'per row', 'image width', 'image height' );
 	}
 
-	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {		
+	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {
@@ -39,12 +42,12 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 					'caption' => $caption,
 					'alt' => $alt,
 					'link' => $link
-				);				
+				);
 			}
 		}
 
 		$files = array();
-		foreach( $fileNames as $f ) {
+		foreach ( $fileNames as $f ) {
 			if ( $usingPageName ) {
 				$title = Title::newFromText( $f['title'] );
 				if ( $title == null || $title->getNamespace() != NS_FILE ) {
