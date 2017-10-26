@@ -462,7 +462,7 @@ END;
 		$or_values[] = '_none';
 		foreach ( $or_values as $i => $value ) {
 			if ( $i > 0 ) {
-				$results_line .= " Â· ";
+				$results_line .= " &middot; ";
 			}
 			$filter_text = $this->printFilterValue( $af->filter, $value );
 			$applied_filters = $this->applied_filters;
@@ -552,7 +552,7 @@ END;
 		$num_printed_values = 0;
 		foreach ( $filter_values as $value_str => $num_results ) {
 			if ( $num_printed_values++ > 0 ) {
-				$results_line .= " Â· ";
+				$results_line .= " &middot; ";
 			}
 			$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
 				urlencode( str_replace( ' ', '_', $value_str ) );
@@ -584,7 +584,7 @@ END;
 				if ( $node->mLeft !== 1 && $node->mWithinTreeMatchCount > 0 ) {
 					// check if its not __pseudo_root__ node, then only print
 					if ( $num_printed_values_level++ > 0 ) {
-						$results_line .= " Â· ";
+						$results_line .= " &middot; ";
 					}
 					// generate a url to encode WITHIN search information by a "~within_" prefix in value_str
 					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
