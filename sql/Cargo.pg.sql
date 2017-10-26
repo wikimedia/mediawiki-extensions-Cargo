@@ -11,7 +11,6 @@ CREATE TABLE cargo_tables (
   table_schema             TEXT     NOT NULL
 );
 
-CREATE UNIQUE INDEX cargo_tables_template_id ON cargo_tables (template_id);
 CREATE UNIQUE INDEX cargo_tables_main_table ON cargo_tables (main_table);
 
 CREATE SEQUENCE cargo_pages_page_id_seq;

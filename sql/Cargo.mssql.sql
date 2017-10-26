@@ -8,7 +8,6 @@ CREATE TABLE /*_*/cargo_tables (
 	table_schema varchar(max) NOT NULL
 ) /*$wgDBTableOptions*/;
 
-CREATE UNIQUE INDEX cargo_tables_template_id ON /*_*/cargo_tables (template_id);
 CREATE UNIQUE INDEX cargo_tables_main_table ON /*_*/cargo_tables (main_table);
 
 CREATE TABLE /*_*/cargo_pages (
