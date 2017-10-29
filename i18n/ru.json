@@ -5,10 +5,12 @@
 			"Дмитрий",
 			"Okras",
 			"Irus",
-			"Sunpriat"
+			"Sunpriat",
+			"Smigles"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
+	"cargo-cargotables-viewreplacementlink": "Просмотреть таблицу замен",
 	"cargo-drilldown-allpages": "Все страницы",
 	"cargo-drilldown-allfiles": "Все файлы",
 	"cargo-drilldown-docu": "Используйте фильтры ниже, чтобы сузить результаты.",
