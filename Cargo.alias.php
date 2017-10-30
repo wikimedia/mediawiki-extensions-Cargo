@@ -17,4 +17,5 @@ $specialPageAliases['en'] = array(
 	'Drilldown' => array( 'Drilldown' ),
 	'PageValues' => array( 'PageValues' ),
 	'ViewData' => array( 'ViewData' ),
+	'SwitchCargoTable' => array( 'SwitchCargoTable' ),
 );
