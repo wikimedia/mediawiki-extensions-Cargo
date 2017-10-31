@@ -38,7 +38,7 @@ class CargoAttach {
 
 		// Validate table name.
 		if ( $tableName == '' ) {
-			return CargoUtils::formatError( "Error: Table name must be specified." );
+			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
 		}
 
 		$dbw = wfGetDB( DB_MASTER );

@@ -77,8 +77,7 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		if ( $tableName == '' ) {
-			/** @todo i18n for these error messages */
-			$out->addHTML( CargoUtils::formatError( "Error: table name must be set." ) );
+			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() ) );
 			return true;
 		}
 
@@ -87,13 +86,13 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$tableName\"." ) );
+			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
 			return true;
 		}
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName . '__NEXT' ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$tableName" . "__NEXT\"." ) );
+			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName . "__NEXT" )->parse() ) );
 			return true;
 		}
 

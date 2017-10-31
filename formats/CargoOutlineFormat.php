@@ -42,8 +42,7 @@ class CargoOutlineRow {
 
 	function getOutlineFieldValues( $fieldName ) {
 		if ( !array_key_exists( $fieldName, $this->mOutlineFields ) ) {
-			throw new MWException( "Error: the outline field '$fieldName' must be among this "
-			. "query's fields." );
+			throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $fieldName, "outline fields" )->parse() );
 		}
 		return $this->mOutlineFields[$fieldName]['unformatted'];
 	}
@@ -153,7 +152,7 @@ class CargoOutlineFormat extends CargoListFormat {
 
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'outline fields', $displayParams ) ) {
-			throw new MWException( "Error: 'outline fields' parameter must be set for 'outline' format." );
+			throw new MWException( wfMessage( "cargo-query-missingparam", "outline fields", "outline" )->parse() );
 		}
 		$outlineFields = explode( ',', str_replace( '_', ' ', $displayParams['outline fields'] ) );
 		$this->mOutlineFields = array_map( 'trim', $outlineFields );

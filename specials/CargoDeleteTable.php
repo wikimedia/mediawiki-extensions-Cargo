@@ -57,8 +57,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		if ( $subpage == '' ) {
-			/** @todo i18n for these error messages */
-			$out->addHTML( CargoUtils::formatError( "Error: table name must be set." ) );
+			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() ) );
 			return true;
 		}
 
@@ -75,7 +74,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( "Error: no table found named \"$tableName\"." ) );
+			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
 			return true;
 		}
 

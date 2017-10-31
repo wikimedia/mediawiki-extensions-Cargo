@@ -101,15 +101,14 @@ class CargoTreeFormat extends CargoListFormat {
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'parent field', $displayParams ) ) {
-			throw new MWException( "Error: 'parent field' parameter must be set for 'tree' format." );
+			throw new MWException( wfMessage( "cargo-query-missingparam", "parent field", "tree" )->parse() );
 		}
 		$this->mParentField = str_replace( '_', ' ', trim( $displayParams['parent field'] ) );
 		$this->mFieldDescriptions = $fieldDescriptions;
 
 		// Early error-checking.
 		if ( !array_key_exists( $this->mParentField, $fieldDescriptions ) ) {
-			throw new MWException( "Error: 'parent field' value, \"" . $this->mParentField .
-			"\", must be one of the queried fields." );
+			throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $this->mParentField, "parent field" )->parse() );
 		}
 		if ( array_key_exists( 'isList', $fieldDescriptions[$this->mParentField] ) ) {
 			throw new MWException( "Error: 'parent field' is declared to hold a list of values; "

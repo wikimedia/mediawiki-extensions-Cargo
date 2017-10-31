@@ -75,7 +75,7 @@ class CargoExport extends UnlistedSpecialPage {
 		} elseif ( $format == 'json' ) {
 			$this->displayJSONData( $sqlQueries );
 		} else {
-			print "Error: format must be set.";
+			print wfMessage( "cargo-query-missingformat" )->parse();
 		}
 	}
 

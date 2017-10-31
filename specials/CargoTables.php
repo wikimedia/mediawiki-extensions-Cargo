@@ -264,8 +264,7 @@ class CargoTables extends IncludableSpecialPage {
 		foreach ( $tableNames as $tableName ) {
 			if ( !$cdb->tableExists( $tableName ) ) {
 				$tableText = "$tableName - ";
-				// @TODO - this should probably be an i18n message.
-				$tableText .= "<span class=\"error\">Table is registered, but does not exist!</span>";
+				$tableText .= '<span class="error">' . wfMessage( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
 				$text .= Html::rawElement( 'li', null, $tableText );
 				continue;
 			}

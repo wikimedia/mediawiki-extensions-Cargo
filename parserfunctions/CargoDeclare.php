@@ -85,7 +85,7 @@ class CargoDeclare {
 
 		// Validate table name.
 		if ( $tableName == '' ) {
-			return CargoUtils::formatError( "Error: Table name must be specified." );
+			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
 		} elseif ( strpos( $tableName, ' ' ) !== false ) {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains spaces. "
 					. "Spaces are not allowed; consider using underscores(\"_\") instead." );

@@ -424,7 +424,7 @@ class CargoSQLQuery {
 				continue;
 			}
 			if ( !in_array( $sqlFunction, $allowedFunctions ) ) {
-				throw new MWException( "Error: the SQL function \"$sqlFunction()\" is not allowed." );
+				throw new MWException( wfMessage( "cargo-query-badsqlfunction", "$sqlFunction()" )->parse() );
 			}
 		}
 
@@ -532,13 +532,13 @@ class CargoSQLQuery {
 				}
 				if ( $tableName != null ) {
 					if ( !array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
-						throw new MWException( "Error: invalid table alias \"$tableName\"." );
+						throw new MWException( wfMessage( "cargo-query-badalias", $tableName )->parse() );
 					}
 					$actualTableName = $this->mAliasedTableNames[$tableName];
 					if ( !array_key_exists( $actualTableName, $this->mTableSchemas ) ) {
-						throw new MWException( "Error: no database table exists named \"$actualTableName\"." );
+						throw new MWException( wfMessage( "cargo-query-unknowndbtable", $actualTableName )->parse() );
 					} elseif ( !array_key_exists( $fieldName, $this->mTableSchemas[$actualTableName]->mFieldDescriptions ) ) {
-						throw new MWException( "Error: no field named \"$fieldName\" found for the database table \"$actualTableName\"." );
+						throw new MWException( wfMessage( "cargo-query-unknownfieldfortable", $fieldName, $actualTableName )->parse() );
 					} else {
 						$description = $this->mTableSchemas[$actualTableName]->mFieldDescriptions[$fieldName];
 					}
@@ -569,7 +569,7 @@ class CargoSQLQuery {
 					// If we couldn't find a table name,
 					// throw an error.
 					if ( $tableName == '' ) {
-						throw new MWException( "Error: no field named \"$fieldName\" found for any of the specified database tables." );
+						throw new MWException( wfMessage( "cargo-query-unknownfield", $fieldName )->parse() );
 					}
 				}
 			}

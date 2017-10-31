@@ -37,7 +37,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'template', $displayParams ) ) {
-			throw new MWException( "Error: 'template' parameter must be set." );
+			throw new MWException( wfMessage( "cargo-query-missingparam", "template", "template" )->parse() );
 		}
 
 		$templateName = $displayParams['template'];

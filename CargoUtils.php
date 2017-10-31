@@ -169,7 +169,7 @@ class CargoUtils {
 		if ( count( $tableSchemas ) < count( $mainTableNames ) ) {
 			foreach ( $mainTableNames as $tableName ) {
 				if ( !array_key_exists( $tableName, $tableSchemas ) ) {
-					throw new MWException( "Error: table \"$tableName\" not found." );
+					throw new MWException( wfMessage( "cargo-unknowntable", $tableName )->parse() );
 				}
 			}
 		}

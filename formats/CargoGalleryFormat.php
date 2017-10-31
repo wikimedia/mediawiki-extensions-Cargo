@@ -90,7 +90,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 				$captionField[0] = '_';
 			}
 			if ( count( $valuesTable ) > 0 && !array_key_exists( $captionField, $valuesTable[0] ) ) {
-				throw new MWException( "Error: the caption field \"$captionField\" must be among this query's fields." );
+				throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $captionField, "caption field" )->parse() );
 			}
 			$this->undisplayedFields[] = $captionField;
 		} else {
@@ -102,7 +102,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 				$altField[0] = '_';
 			}
 			if ( count( $valuesTable ) > 0 && !array_key_exists( $altField, $valuesTable[0] ) ) {
-				throw new MWException( "Error: the alt field \"$altField\" must be among this query's fields." );
+				throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $altField, "alt field" )->parse() );
 			}
 			$this->undisplayedFields[] = $altField;
 		} else {
@@ -114,7 +114,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 				$linkField[0] = '_';
 			}
 			if ( count( $valuesTable ) > 0 && !array_key_exists( $linkField, $valuesTable[0] ) ) {
-				throw new MWException( "Error: the link field \"$linkField\" must be among this query's fields." );
+				throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $linkField, "link field" )->parse() );
 			}
 			$this->undisplayedFields[] = $linkField;
 		} else {
