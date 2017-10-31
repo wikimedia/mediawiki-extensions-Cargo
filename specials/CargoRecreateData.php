@@ -103,7 +103,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			// Possibly disable checkbox, to avoid problems if the
 			// DB hasn't been updated for version 1.5.
 			$indexExists = $dbw->indexExists( 'cargo_tables', 'cargo_tables_template_id' );
-			if ( !$indexExists ) {
+			if ( $indexExists ) {
 				$text .= '<p><em>The checkbox intended to go here is temporarily disabled; please run <tt>update.php</tt> to see it.</em></p>';
 			} else {
 				$text .= Html::rawElement( 'p', null, Html::check( 'createReplacement', true, array( 'id' => 'createReplacement' ) ) .
