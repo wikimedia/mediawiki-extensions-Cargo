@@ -11,6 +11,8 @@
 	"cargo-definestable": "Este modelo define a táboa \"$1\".",
 	"cargo-tablenotcreated": "A táboa non foi creada todavía.",
 	"cargo-addsrows": "Este modelo engade filas á táboa \"$1\".",
+	"cargo-notable": "Erro: debe especificarse o nome da táboa.",
+	"cargo-unknowntable": "Erro: no se atopou a táboa $1.",
 	"recreatedata": "Recrear datos",
 	"action-recreatecargodata": "volver crear os datos de Cargo",
 	"action-deletecargodata": "eliminar datos de Cargo",

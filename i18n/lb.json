@@ -5,6 +5,7 @@
 		]
 	},
 	"cargo-extensionname": "Cargo",
+	"cargo-notable": "Feeler: Numm vun der Tabell muss spezifizéiert sinn.",
 	"cargo-unknowntable": "Feeler: Tabell $1 gouf net fonnt.",
 	"apihelp-cargoquery-param-limit": "Eng Limit fir d'Zuel vun de Resultater déi zréckgi gëtt",
 	"apihelp-cargorecreatedata-param-template": "D'Schabloun där hir Donnéeë benotzt ginn",
@@ -16,6 +17,9 @@
 	"cargo-viewdata-orderby": "Zortéieren no:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
+	"cargo-query-missingformat": "Feeler: Format muss festgeluecht sinn.",
+	"cargo-query-badsqlfunction": "Feeler: D'SQL-Funktioun \"$1\" ass net erlaabt.",
+	"cargo-query-unknowndbtable": "Feeler: Et gëtt keng Tabell mam Numm \"$1\" an der Datebank.",
 	"cargo-cargotables-viewtable": "Tabell weisen: $1",
 	"cargo-cargotables-viewtablelink": "Tabell weisen",
 	"cargo-cargotables-notdeclared": "vu kenger Schabloun definéiert",
