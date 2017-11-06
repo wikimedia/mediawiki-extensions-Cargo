@@ -58,6 +58,7 @@
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
+	"cargo-query-missingformat": "Erro: debe establecerse o formato.",
 	"cargotables": "Táboas do Cargo",
 	"cargo-cargotables-tablelist": "Defínense {{PLURAL:$1|A seguinte táboa está definida:|As seguintes táboas están definidas:}}:",
 	"cargo-cargotables-viewtable": "Ver táboa: $1",
