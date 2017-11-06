@@ -88,6 +88,7 @@
 	"cargo-recreatedata-createreplacement": "A label for a checkbox in [[Special:CargoRecreateData]].",
 	"cargo-recreatedata-replacementexists": "A warning message. Parameters:\n* $1 - a database table name\n* $2 - another database table name",
 	"cargo-cargotables-replacementtable": "Information shown in [[Special:CargoTables]]. Parameters:\n* $1 - the name of a database table",
+	"cargo-cargotables-deletereplacement": "An alternate option for the user. Parameters:\n* $1 - a link to a subpage of [[Special:DeleteCargoTable]]",
 	"cargo-cargotables-hasreplacement": "A warning message.",
 	"deletecargotable": "{{doc-special|DeleteCargoTable}}\n{{doc-cargo}}",
 	"cargo-deletetable-confirm": "Asks for confirmation to delete a database table. Parameters:\n* $1 - the table name",

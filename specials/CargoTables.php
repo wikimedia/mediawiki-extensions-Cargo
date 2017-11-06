@@ -34,7 +34,6 @@ class CargoTables extends IncludableSpecialPage {
 		$viewURL = "$ctURL/$tableName";
 
 		if ( $req->getCheck( '_replacement' ) ) {
-			global $wgScriptPath;
 			$pageTitle = $this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
 			$tableLink = Html::element( 'a', array( 'href' => $viewURL ), $tableName );
 			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
@@ -43,6 +42,14 @@ class CargoTables extends IncludableSpecialPage {
 				$switchURL = $sctPage->getTitle()->getFullURL() . "/$tableName";
 				$text .= ' ' . Html::element( 'a', array( 'href' => $switchURL ),
 					$this->msg( "cargo-cargotables-switch" )->parse() );
+
+				if ( $user->isAllowed( 'deletecargodata' ) ) {
+					$dctPage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
+					$deleteURL = $dctPage->getTitle()->getFullURL() . "/$tableName";
+					$deleteURL .= strpos( $deleteURL, '?' ) ? '&' : '?';
+					$deleteURL .= "_replacement";
+					$text .= ' ' . $this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
+				}
 			}
 			$out->addHtml( Html::rawElement( 'div', array( 'class' => 'warningbox plainlinks' ), $text ) );
 			$tableName .= '__NEXT';

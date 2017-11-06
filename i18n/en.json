@@ -82,6 +82,7 @@
 	"cargo-recreatedata-createreplacement": "Recreate data into a replacement table, keeping the old one for querying",
 	"cargo-recreatedata-replacementexists": "Cannot currently recreate the table \"$1\"; the replacement table \"$2\" still exists.",
 	"cargo-cargotables-replacementtable": "This table is intended to replace the $1 table. It is not yet being used for querying.",
+	"cargo-cargotables-deletereplacement": "Or, if you do not want to ever use this replacement table, you can [$1 delete it].",
 	"cargo-cargotables-hasreplacement": "This table is currently read-only, while a replacement table for it is generated.",
 	"deletecargotable": "Delete Cargo table",
 	"cargo-deletetable-confirm": "Delete the Cargo table $1?",
