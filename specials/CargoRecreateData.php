@@ -38,6 +38,22 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			$out->setPageTitle( $this->msg( 'cargo-createdatatable' )->parse() );
 		}
 
+		// Disable page if "replacement table" exists.
+		$possibleReplacementTable = $this->mTableName . '__NEXT';
+		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+			$text = $this->msg( 'cargo-recreatedata-replacementexists', $this->mTableName, $possibleReplacementTable )->parse();
+			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctURL = $ctPage->getTitle()->getFullURL();
+			$viewURL = $ctURL . '/' . $this->mTableName;
+			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
+			$viewURL .= "_replacement";
+			$viewReplacementText = $this->msg( 'cargo-cargotables-viewreplacementlink' )->parse();
+
+			$text .= ' (' . Xml::element( 'a', array( 'href' => $viewURL ), $viewReplacementText ) . ')';
+			$out->addHTML( $text );
+			return true;
+		}
+
 		if ( empty( $this->mTemplateTitle ) ) {
 			// No template.
 			// TODO - show an error message.
