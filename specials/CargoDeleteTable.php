@@ -57,7 +57,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		if ( $subpage == '' ) {
-			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-notable" )->parse() ) );
 			return true;
 		}
 
@@ -74,7 +74,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $tableName )->parse() ) );
 			return true;
 		}
 
@@ -85,7 +85,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 
 		if ( $this->getRequest()->getCheck( 'delete' ) ) {
 			self::deleteTable( $tableName, $fieldTables, $fieldHelperTables );
-			$text = Html::element( 'p', null, "The table \"$tableName\" has been deleted." ) . "\n";
+			$text = Html::element( 'p', null, $this->msg( 'cargo-deletetable-success', $tableName )->parse() ) . "\n";
 			if ( method_exists( $this, 'getLinkRenderer' ) ) {
 				$linkRenderer = $this->getLinkRenderer();
 			} else {
@@ -97,17 +97,22 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 			return true;
 		}
 
-		$ctURL = $ctPage->getTitle()->getLocalURL();
-		$tableLink = Html::element( 'a', array( 'href' => "$ctURL/$origTableName", ), $origTableName );
+		$ctURL = $ctPage->getTitle()->getFullURL();
+		$tableLink = "[$ctURL/$origTableName $origTableName]";
 
 		if ( $replacementTable ) {
 			$replacementTableURL = "$ctURL/$origTableName";
 			$replacementTableURL .= ( strpos( $replacementTableURL, '?' ) ) ? '&' : '?';
 			$replacementTableURL .= '_replacement';
-			$replacementTableLink = Html::element( 'a', array( 'href' => $replacementTableURL, ), 'replacement table' );
-			$text = Html::rawElement( 'p', null, "Delete the $replacementTableLink for Cargo table \"$tableLink\"?" );
+			$text = Html::rawElement( 'p',
+				array( 'class' => 'plainlinks' ),
+				$this->msg( 'cargo-deletetable-replacementconfirm', $replacementTableURL, $tableLink )->parse()
+			);
 		} else {
-			$text = Html::rawElement( 'p', null, "Delete the Cargo table \"$tableLink\"?" );
+			$text = Html::rawElement( 'p',
+				array( 'class' => 'plainlinks' ),
+				$this->msg( 'cargo-deletetable-confirm', $tableLink )->parse()
+			);
 		}
 		$formText = Xml::submitButton( $this->msg( 'delete' ), array( 'name' => 'delete' ) );
 		$text .= Html::rawElement( 'form', array( 'method' => 'post' ), $formText );

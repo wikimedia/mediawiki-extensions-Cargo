@@ -37,21 +37,23 @@ class CargoTables extends IncludableSpecialPage {
 			global $wgScriptPath;
 			$pageTitle = $this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
 			$tableLink = Html::element( 'a', array( 'href' => $viewURL ), $tableName );
-			$text = "This table is a possible replacement for the $tableLink table. It is not yet being used for querying.";
+			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
 			if ( $user->isAllowed( 'recreatecargodata' ) ) {
 				$sctPage = SpecialPageFactory::getPage( 'SwitchCargoTable' );
 				$switchURL = $sctPage->getTitle()->getFullURL() . "/$tableName";
 				$text .= ' ' . Html::element( 'a', array( 'href' => $switchURL ),
 					$this->msg( "cargo-cargotables-switch" )->parse() );
 			}
-			$out->addHtml( Html::rawElement( 'div', array( 'class' => 'warningbox' ), $text ) );
+			$out->addHtml( Html::rawElement( 'div', array( 'class' => 'warningbox plainlinks' ), $text ) );
 			$tableName .= '__NEXT';
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 			if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
-				global $wgScriptPath;
-				$text = "This table is currently read-only, while a replacement table for it is generated.";
-				$out->addHtml( Html::rawElement( 'div', array( 'class' => 'warningbox' ), $text ) );
+				Html::rawElement( 'div',
+					array( 'class' => 'warningbox' ),
+					$this->msg( 'cargo-cargotables-hasreplacement' )->parse()
+				);
+				$out->addHtml( $text );
 			}
 		}
 
@@ -177,7 +179,7 @@ class CargoTables extends IncludableSpecialPage {
 		$ctURL = $ctPage->getTitle()->getFullURL();
 		$viewURL = "$ctURL/$tableName";
 		if ( $isReplacementTable ) {
-			$viewURL .= ( strpos( $viewURL, '?' ) ) ? '&' : '?';
+			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
 		}
 		$actionLinks = Html::element( 'a', array( 'href' => $viewURL ),
@@ -193,7 +195,7 @@ class CargoTables extends IncludableSpecialPage {
 		// Special:ListUsers.
 		$drilldownPage = SpecialPageFactory::getPage( 'Drilldown' );
 		$drilldownURL = $drilldownPage->getTitle()->getLocalURL() . '/' . $tableName;
-		$drilldownURL .= ( strpos( $drilldownURL, '?' ) ) ? '&' : '?';
+		$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
 		if ( $isReplacementTable ) {
 			$drilldownURL .= "_replacement";
 		} else {
@@ -216,8 +218,8 @@ class CargoTables extends IncludableSpecialPage {
 		if ( $wgUser->isAllowed( 'deletecargodata' ) ) {
 			$deleteTablePage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
 			$deleteTableURL = $deleteTablePage->getTitle()->getLocalURL() . '/' . $tableName;
-			$deleteTableURL .= ( strpos( $deleteTableURL, '?' ) ) ? '&' : '?';
 			if ( $isReplacementTable ) {
+				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
 				$deleteTableURL .= "_replacement";
 			}
 			$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $deleteTableURL ),
@@ -264,7 +266,7 @@ class CargoTables extends IncludableSpecialPage {
 		foreach ( $tableNames as $tableName ) {
 			if ( !$cdb->tableExists( $tableName ) ) {
 				$tableText = "$tableName - ";
-				$tableText .= '<span class="error">' . wfMessage( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
+				$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
 				$text .= Html::rawElement( 'li', null, $tableText );
 				continue;
 			}

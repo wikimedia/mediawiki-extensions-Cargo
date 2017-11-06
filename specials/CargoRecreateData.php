@@ -107,7 +107,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 				$text .= '<p><em>The checkbox intended to go here is temporarily disabled; please run <tt>update.php</tt> to see it.</em></p>';
 			} else {
 				$text .= Html::rawElement( 'p', null, Html::check( 'createReplacement', true, array( 'id' => 'createReplacement' ) ) .
-					' ' . "Recreate data into a replacement table, keeping the old one for querying" );
+					' ' . $this->msg( 'cargo-recreatedata-createreplacement' )->parse() );
 			}
 		}
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';

@@ -77,7 +77,7 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		if ( $tableName == '' ) {
-			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-notable" )->parse() ) );
 			return true;
 		}
 
@@ -86,13 +86,13 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $tableName )->parse() ) );
 			return true;
 		}
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName . '__NEXT' ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( wfMessage( "cargo-unknowntable", $tableName . "__NEXT" )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $tableName . "__NEXT" )->parse() ) );
 			return true;
 		}
 
@@ -118,8 +118,8 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$ctURL = $ctPage->getTitle()->getLocalURL();
 		$tableLink = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ), $tableName );
 
-		$text = Html::rawElement( 'p', null, "Switch in the replacement for the Cargo table \"$tableLink\"?" );
-		$formText = Xml::submitButton( 'Switch', array( 'name' => 'switch' ) );
+		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-switchtables-confirm', $tableLink )->text() );
+		$formText = Xml::submitButton( $this->msg( 'cargo-switchtables-switch' )->parse(), array( 'name' => 'switch' ) );
 		$text .= Html::rawElement( 'form', array( 'method' => 'post' ), $formText );
 		$out->addHTML( $text );
 

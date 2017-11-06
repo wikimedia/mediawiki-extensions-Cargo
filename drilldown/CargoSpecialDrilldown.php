@@ -1124,8 +1124,14 @@ END;
 		}
 		if ( $this->isReplacementTable ) {
 			$this->tableName = str_replace( '__NEXT', '', $this->tableName );
-			$text = "This table is a possible replacement for the {$this->tableName} table. It is not yet being used for querying.";
-			$header .= Html::rawElement( 'div', array( 'class' => 'warningbox' ), $text );
+			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctURL = $ctPage->getTitle()->getFullText();
+			$viewURL = "$ctURL/" . $this->tableName;
+			$viewLink = "[[$viewURL|{$this->tableName}]]";
+			$header .= Html::rawElement( 'div',
+				array( 'class' => 'warningbox' ),
+				$this->msg( 'cargo-cargotables-replacementtable', $viewLink )->parse()
+			);
 		}
 
 		$displaySearchInput = ( $this->tableName == '_fileData' &&

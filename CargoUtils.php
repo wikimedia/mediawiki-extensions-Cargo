@@ -460,7 +460,7 @@ class CargoUtils {
 		// Cannot run any recreate if a replacement table exists.
 		$possibleReplacementTable = $tableName . '__NEXT';
 		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
-			throw new MWException( "Cannot currently recreate the table $tableName; the replacement table $possibleReplacementTable still exists." );
+			throw new MWException( wfMessage( 'cargo-recreatedata-replacementexists', $tableName, $possibleReplacementTable )->parse() );
 		}
 
 		if ( $createReplacement ) {
