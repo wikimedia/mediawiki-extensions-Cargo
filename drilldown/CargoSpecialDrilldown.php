@@ -58,7 +58,14 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$tableName .= '__NEXT';
 		}
 
-		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
+		try {
+			$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
+		} catch ( MWException $e ) {
+			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ),
+				$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
+			return;
+		}
+
 		$all_filters = array();
 		$fullTextSearchTerm = null;
 		$searchablePages = in_array( 'fullText', $wgCargoPageDataColumns );
