@@ -77,23 +77,23 @@ $wgAPIModules['cargoautocomplete'] = 'CargoAutocompleteAPI';
 
 // Register classes and special pages.
 $wgAutoloadClasses['CargoHooks'] = $dir . '/Cargo.hooks.php';
-$wgAutoloadClasses['CargoUtils'] = $dir . '/CargoUtils.php';
-$wgAutoloadClasses['CargoFieldDescription'] = $dir . '/CargoFieldDescription.php';
-$wgAutoloadClasses['CargoTableSchema'] = $dir . '/CargoTableSchema.php';
-$wgAutoloadClasses['CargoHierarchyTree'] = $dir . '/CargoHierarchyTree.php';
+$wgAutoloadClasses['CargoUtils'] = $dir . '/includes/CargoUtils.php';
+$wgAutoloadClasses['CargoFieldDescription'] = $dir . '/includes/CargoFieldDescription.php';
+$wgAutoloadClasses['CargoTableSchema'] = $dir . '/includes/CargoTableSchema.php';
+$wgAutoloadClasses['CargoHierarchyTree'] = $dir . '/includes/CargoHierarchyTree.php';
 $wgAutoloadClasses['CargoDeclare'] = $dir . '/parserfunctions/CargoDeclare.php';
 $wgAutoloadClasses['CargoAttach'] = $dir . '/parserfunctions/CargoAttach.php';
 $wgAutoloadClasses['CargoStore'] = $dir . '/parserfunctions/CargoStore.php';
 $wgAutoloadClasses['CargoQuery'] = $dir . '/parserfunctions/CargoQuery.php';
 $wgAutoloadClasses['CargoCompoundQuery'] = $dir . '/parserfunctions/CargoCompoundQuery.php';
-$wgAutoloadClasses['CargoSQLQuery'] = $dir . '/CargoSQLQuery.php';
-$wgAutoloadClasses['CargoQueryDisplayer'] = $dir . '/CargoQueryDisplayer.php';
-$wgAutoloadClasses['CargoPageData'] = $dir . '/CargoPageData.php';
-$wgAutoloadClasses['CargoFileData'] = $dir . '/CargoFileData.php';
+$wgAutoloadClasses['CargoSQLQuery'] = $dir . '/includes/CargoSQLQuery.php';
+$wgAutoloadClasses['CargoQueryDisplayer'] = $dir . '/includes/CargoQueryDisplayer.php';
+$wgAutoloadClasses['CargoPageData'] = $dir . '/includes/CargoPageData.php';
+$wgAutoloadClasses['CargoFileData'] = $dir . '/includes/CargoFileData.php';
 $wgAutoloadClasses['CargoRecurringEvent'] = $dir . '/parserfunctions/CargoRecurringEvent.php';
 $wgAutoloadClasses['CargoDisplayMap'] = $dir . '/parserfunctions/CargoDisplayMap.php';
-$wgAutoloadClasses['CargoPopulateTableJob'] = $dir . '/CargoPopulateTableJob.php';
-$wgAutoloadClasses['CargoRecreateDataAction'] = $dir . '/CargoRecreateDataAction.php';
+$wgAutoloadClasses['CargoPopulateTableJob'] = $dir . '/includes/CargoPopulateTableJob.php';
+$wgAutoloadClasses['CargoRecreateDataAction'] = $dir . '/includes/CargoRecreateDataAction.php';
 $wgAutoloadClasses['CargoRecreateData'] = $dir . '/specials/CargoRecreateData.php';
 $wgSpecialPages['CargoTables'] = 'CargoTables';
 $wgAutoloadClasses['CargoTables'] = $dir . '/specials/CargoTables.php';
@@ -106,7 +106,7 @@ $wgAutoloadClasses['CargoViewData'] = $dir . '/specials/CargoViewData.php';
 $wgAutoloadClasses['ViewDataPage'] = $dir . '/specials/CargoViewData.php';
 $wgSpecialPages['CargoExport'] = 'CargoExport';
 $wgAutoloadClasses['CargoExport'] = $dir . '/specials/CargoExport.php';
-$wgAutoloadClasses['CargoPageValuesAction'] = $dir . '/CargoPageValuesAction.php';
+$wgAutoloadClasses['CargoPageValuesAction'] = $dir . '/includes/CargoPageValuesAction.php';
 $wgSpecialPages['PageValues'] = 'CargoPageValues';
 $wgAutoloadClasses['CargoPageValues'] = $dir . '/specials/CargoPageValues.php';
 $wgAutoloadClasses['CargoQueryAPI'] = $dir . '/api/CargoQueryAPI.php';
@@ -146,7 +146,7 @@ $wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat
 $wgAutoloadClasses['CargoExhibitFormat'] = $dir . '/formats/CargoExhibitFormat.php';
 $wgAutoloadClasses['CargoSearchMySQL'] = $dir . '/search/CargoSearchMySQL.php';
 
-$wgAutoloadClasses['CargoPageSchemas'] = $dir . '/CargoPageSchemas.php';
+$wgAutoloadClasses['CargoPageSchemas'] = $dir . '/includes/CargoPageSchemas.php';
 
 // Drilldown
 $wgAutoloadClasses['CargoAppliedFilter'] = $dir . '/drilldown/CargoAppliedFilter.php';
