@@ -29,6 +29,8 @@
 	"cargo-cargotables-totalrows": "Dës Tabell huet am Ganzen {{PLURAL:$1|'''eng''' Zeil|'''$1''' Zeilen}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|Rei|Reien}}",
 	"cargo-cargotables-nonexistenttable": "Dës Tabell ass registréiert, awer et gëtt se net!",
+	"cargo-deletetable-success": "D'Tabell \"$1\" gouf geläscht.",
+	"cargo-switchtables-switch": "Ëmschalten",
 	"cargo-pagevalues-tablevalues": "\"$1\"-Wäerter",
 	"cargo-drilldown-choosetable": "Eng Tabell eraussichen",
 	"cargo-drilldown-allpages": "All Säiten",

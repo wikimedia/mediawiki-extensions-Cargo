@@ -7,7 +7,8 @@
 			"Fitoschido",
 			"Ryo567",
 			"Irus",
-			"Dgstranz"
+			"Dgstranz",
+			"KATRINE1992"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -62,7 +63,17 @@
 	"cargo-cargotables-totalrows": "Esta tabla tiene '''$1''' {{PLURAL:$1|fila|filas}} en total.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|fila|filas}}",
 	"cargo-cargotables-nonexistenttable": "La tabla está registrada pero no existe.",
+	"cargo-recreatedata-createreplacement": "Recrear dados en una table de reemplazo, manteniendo la tabla previa para demandas",
+	"cargo-recreatedata-replacementexists": "Por ahora no se puede recrear la tabla «$1»; la tabla sustituta «$2» todavía existe.",
+	"cargo-cargotables-replacementtable": "Esta tabla está destinada a sustituir la tabla $1. Aún no se utiliza para realizar consultas.",
+	"cargo-cargotables-deletereplacement": "O bien, si no quieres utilizar esta tabla sustituta, puedes [$1 eliminarla].",
+	"cargo-cargotables-hasreplacement": "Esta tabla es de solo lectura mientras se genera una tabla sustituta para ella.",
 	"deletecargotable": "Eliminar tabla de Cargo",
+	"cargo-deletetable-confirm": "Eliminar la table de Cargo $1?",
+	"cargo-deletetable-replacementconfirm": "¿Quieres eliminar la [$1 tabla sustituta] de la tabla de Cargo $2?",
+	"cargo-deletetable-success": "Se eliminó la tabla «$1».",
+	"cargo-switchtables-confirm": "Cambiar en el reemplazo por la tabla de Cargo $1?",
+	"cargo-switchtables-switch": "Torcer",
 	"pagevalues": "Valores de la página",
 	"cargo-pagevaluesfor": "Valores de la página «$1»",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",

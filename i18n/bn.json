@@ -2,11 +2,19 @@
 	"@metadata": {
 		"authors": [
 			"Aftabuzzaman",
-			"Elias Ahmmad"
+			"Elias Ahmmad",
+			"Rasal Lia"
 		]
 	},
 	"apihelp-cargoautocomplete-description": "স্বয়ংসম্পূর্ণ কল Cargo এক্সটেনশন দ্বারা ব্যবহৃত।",
 	"apihelp-cargoautocomplete-param-substr": "সাবস্ট্রিং অনুসন্ধান",
+	"cargo-recreatedata-createreplacement": "পুন:স্থাপন ছকে পুনরায় তথ্যাদি দিন, পুরাতনটি অনুসন্ধানের স্বার্থে রাখুন।",
+	"cargo-recreatedata-replacementexists": "\"$1\" ছকটি এই মুহুর্তে পুনরায় তৈরি করা যাচ্ছে না, পুন:স্থাপন ছক \"$2\" এখনো বিদ্যমান আছে।",
+	"cargo-cargotables-replacementtable": "এই ছকটি $1 ছক প্রতিস্থাপন করার উদ্দেশ্যে করা হয়েছে। এটা এখনো অনুসন্ধানের কাজেও ব্যবহার হয়নি।",
+	"cargo-cargotables-deletereplacement": "অথবা, আপনি যদি এই পুন:স্থাপন টেবিল কখনো ব্যবহার করতে না চান তাহলে [$1 এটি অপসারণ করতে পারেন]।",
+	"cargo-cargotables-hasreplacement": "এটির জন্য একটি পুনঃস্থাপন ছক তৈরি না হওয়া পর্যন্ত, এই ছকটি বর্তমানে শুধু পাঠযোগ্য।",
+	"cargo-deletetable-success": "\"$1\" ছকটি অপসারণ করা হয়েছে।",
+	"cargo-switchtables-switch": "পরিবর্তন করুন",
 	"cargo-drilldown-allpages": "সব পাতা",
 	"cargo-drilldown-allfiles": "সব ফাইল",
 	"cargo-drilldown-hierarchy-only": "\"$1\" শুধুমাত্র",
