@@ -155,12 +155,12 @@
 		},
 		"ext.cargo.calendar": {
 			"styles": [
-				"libs/fullcalendar.css",
+				"libs/FullCalendar/fullcalendar.css",
 				"libs/ext.cargo.calendar.css"
 			],
 			"scripts": [
-				"libs/fullcalendar.js",
-				"libs/locale-all.js",
+				"libs/FullCalendar/fullcalendar.js",
+				"libs/FullCalendar/locale-all.js",
 				"libs/ext.cargo.calendar.js"
 			],
 			"dependencies": [

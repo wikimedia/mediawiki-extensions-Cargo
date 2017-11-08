@@ -220,12 +220,12 @@ $wgResourceModules += array(
 	),
 	'ext.cargo.calendar' => array(
 		'styles' => array(
-			'libs/fullcalendar.css',
-			'libs/locale-all.js',
+			'libs/FullCalendar/fullcalendar.css',
+			'libs/FullCalendar/locale-all.js',
 			'libs/ext.cargo.calendar.css',
 		),
 		'scripts' => array(
-			'libs/fullcalendar.js',
+			'libs/FullCalendar/fullcalendar.js',
 			'libs/ext.cargo.calendar.js',
 		),
 		'dependencies' => array(
