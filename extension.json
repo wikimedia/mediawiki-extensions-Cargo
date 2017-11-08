@@ -160,6 +160,7 @@
 			],
 			"scripts": [
 				"libs/fullcalendar.js",
+				"libs/locale-all.js",
 				"libs/ext.cargo.calendar.js"
 			],
 			"dependencies": [

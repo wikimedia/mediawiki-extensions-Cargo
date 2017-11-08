@@ -1,8 +1,7 @@
 /* global moment */
 
 $(document).ready(function() {
-
-	// page is now ready, initialize the calendar...
+	// Page is now ready; initialize the calendar...
 	$('.cargoCalendar').each( function() {
 		var dataURL = decodeURI( $(this).attr('dataurl') );
 		var startView = $(this).attr('startview');
@@ -16,6 +15,14 @@ $(document).ready(function() {
 			},
 			defaultView: startView,
 			defaultDate: startDate,
+			// Ideally, the translations should all move into
+			// the Cargo extension, instead of staying in
+			// FullCalendar, in order to support more languages -
+			// but that's difficult, because FC's localization
+			// also includes behavior, like which day a week
+			// starts on. For now, it's much easier to just let
+			// FC's locale file do all the work.
+			locale: mw.config.get("wgUserLanguage"),
 			// Add event description to 'title' attribute, for
 			// mouseover.
 			eventMouseover: function(event, jsEvent, view) {
