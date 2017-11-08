@@ -56,7 +56,7 @@ class CargoTables extends IncludableSpecialPage {
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 			if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
-				Html::rawElement( 'div',
+				$text = Html::rawElement( 'div',
 					array( 'class' => 'warningbox' ),
 					$this->msg( 'cargo-cargotables-hasreplacement' )->parse()
 				);
