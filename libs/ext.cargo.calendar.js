@@ -11,10 +11,11 @@ $(document).ready(function() {
 			header: {
 				left: 'today prev,next',
 				center: 'title',
-				right: 'month,basicWeek,basicDay'
+				right: 'month,agendaWeek,agendaDay,listWeek'
 			},
 			defaultView: startView,
 			defaultDate: startDate,
+			displayEventEnd: true,
 			// Ideally, the translations should all move into
 			// the Cargo extension, instead of staying in
 			// FullCalendar, in order to support more languages -
