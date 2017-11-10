@@ -76,9 +76,9 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			$view = $displayParams['view'];
 			// Enable simpler view names.
 			if ( $view == 'day' ) {
-				$view = 'basicDay';
+				$view = 'agendaDay';
 			} elseif ( $view == 'week' ) {
-				$view = 'basicWeek';
+				$view = 'agendaWeek';
 			}
 			$attrs['startview'] = $view;
 		} else {
