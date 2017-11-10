@@ -105,6 +105,8 @@ class CargoQueryDisplayer {
 					// There's probably an easier way to do
 					// this, using array_map().
 					$delimiter = $fieldDescription->getDelimiter();
+					// We need to decode it in case the delimiter is ;
+					$value = html_entity_decode( $value );
 					$fieldValues = explode( $delimiter, $value );
 					foreach ( $fieldValues as $i => $fieldValue ) {
 						if ( trim( $fieldValue ) == '' ) {
