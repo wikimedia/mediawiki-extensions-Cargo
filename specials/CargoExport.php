@@ -157,7 +157,16 @@ class CargoExport extends UnlistedSpecialPage {
 				$startDateField = $dateFieldAliases[0];
 				$startDate = $queryResult[$startDateField];
 				$startDatePrecisionField = $startDateField . '__precision';
-				$startDatePrecision = $queryResult[$startDatePrecisionField];
+				// There might not be a precision field, if,
+				// for instance, the date field is an SQL
+				// function. Ideally we would figure out
+				// the right precision, but for now just
+				// go with "DATE_ONLY" - seems safe.
+				if ( array_key_exists( $startDatePrecisionField, $queryResult ) ) {
+					$startDatePrecision = $queryResult[$startDatePrecisionField];
+				} else {
+					$startDatePrecision = CargoStore::DATE_ONLY;
+				}
 				$curEvent = array(
 					// Get first field for the title - not
 					// necessarily the page name.
