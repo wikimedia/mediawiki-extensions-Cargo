@@ -218,14 +218,31 @@ $wgResourceModules += array(
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
-	'ext.cargo.calendar' => array(
+	'ext.cargo.calendar.jquery1' => array(
 		'styles' => array(
-			'libs/FullCalendar/fullcalendar.css',
-			'libs/FullCalendar/locale-all.js',
+			'libs/FullCalendar/2.9.1/fullcalendar.css',
+			'libs/FullCalendar/2.9.1/lang-all.js',
 			'libs/ext.cargo.calendar.css',
 		),
 		'scripts' => array(
-			'libs/FullCalendar/fullcalendar.js',
+			'libs/FullCalendar/2.9.1/fullcalendar.js',
+			'libs/ext.cargo.calendar.js',
+		),
+		'dependencies' => array(
+			'moment',
+		),
+		'position' => 'top',
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Cargo'
+	),
+	'ext.cargo.calendar.jquery3' => array(
+		'styles' => array(
+			'libs/FullCalendar/3.6.2/fullcalendar.css',
+			'libs/FullCalendar/3.6.2/locale-all.js',
+			'libs/ext.cargo.calendar.css',
+		),
+		'scripts' => array(
+			'libs/FullCalendar/3.6.2/fullcalendar.js',
 			'libs/ext.cargo.calendar.js',
 		),
 		'dependencies' => array(

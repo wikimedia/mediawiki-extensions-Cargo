@@ -24,6 +24,9 @@ $(document).ready(function() {
 			// starts on. For now, it's much easier to just let
 			// FC's locale file do all the work.
 			locale: mw.config.get("wgUserLanguage"),
+			// For backward compatibility, in case FC 2.9.1 is
+			// being used.
+			lang: mw.config.get("wgUserLanguage"),
 			// Add event description to 'title' attribute, for
 			// mouseover.
 			eventMouseover: function(event, jsEvent, view) {

@@ -1,0 +1,12 @@
+In later releases of version 1.29 (really, version 1.30), MediaWiki switched
+from including jQuery 1.11.3 to jQuery 3. (Though it kept jQuery 1 for
+backward compatibility purposes, using the $wgUsejQueryThree global variable,
+which has already been deprecated.)
+
+The FullCalendar JS library started supporting jQuery 3 in version 2.8.0, and
+removed support for jQuery 1 in version 3.0.0.
+
+For that reason, for as long as Page Forms still supports MW 1.29, it is
+keeping two versions of the FullCalendar library: 2.9.1, for MW versions 1.29
+and earlier, and a more recent FC version (currently 3.6.2) for all more
+recent MW versions.

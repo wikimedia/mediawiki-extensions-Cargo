@@ -17,7 +17,14 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 	 * @return string
 	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
-		$this->mOutput->addModules( 'ext.cargo.calendar' );
+		global $wgVersion, $wgUsejQueryThree;
+
+		// This check will probably be necessary as long as MW <= 1.29 is supported.
+		if ( version_compare( $wgVersion, '1.30', '<' ) || $wgUsejQueryThree === false ) {
+			$this->mOutput->addModules( 'ext.cargo.calendar.jquery1' );
+		} else {
+			$this->mOutput->addModules( 'ext.cargo.calendar.jquery3' );
+		}
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'fullcalendar';
