@@ -301,10 +301,11 @@ class CargoStore {
 				continue;
 			}
 			if ( $fieldDescription->mIsList || $fieldDescription->mType == 'Coordinates' ) {
-				$tableFieldValuesForCheck[$fieldName . '__full'] = $tableFieldValues[$fieldName];
+				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName . '__full' );
 			} else {
-				$tableFieldValuesForCheck[$fieldName] = $tableFieldValues[$fieldName];
+				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 			}
+			$tableFieldValuesForCheck[$quotedFieldName] = $tableFieldValues[$fieldName];
 		}
 		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
 		$row = $cdb->fetchRow( $res );
