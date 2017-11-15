@@ -21,8 +21,14 @@ class CargoFileData {
 		if ( in_array( 'path', $wgCargoFileDataColumns ) ) {
 			$fieldTypes['_path'] = array( 'String', false );
 		}
+		if ( in_array( 'lastUploadDate', $wgCargoFileDataColumns ) ) {
+			$fieldTypes['_lastUploadDate'] = array( 'Date', false );
+		}
 		if ( in_array( 'fullText', $wgCargoFileDataColumns ) ) {
 			$fieldTypes['_fullText'] = array( 'Searchtext', false );
+		}
+		if ( in_array( 'numPages', $wgCargoFileDataColumns ) ) {
+			$fieldTypes['_numPages'] = array( 'Integer', false );
 		}
 
 		$tableSchema = new CargoTableSchema();
@@ -75,11 +81,15 @@ class CargoFileData {
 			$fileDataValues['_path'] = $file->getLocalRefPath();
 		}
 
+		if ( in_array( 'lastUploadDate', $wgCargoFileDataColumns ) ) {
+			$fileDataValues['_lastUploadDate'] = $file->getTimestamp();
+		}
+
 		if ( in_array( 'fullText', $wgCargoFileDataColumns ) ) {
 			global $wgCargoPDFToText;
 
 			if ( $wgCargoPDFToText == '' ) {
-				// Display an error message/
+				// Display an error message?
 			} elseif ( $file->getMimeType() != 'application/pdf' ) {
 				// We only handle PDF files.
 			} else {
@@ -92,6 +102,27 @@ class CargoFileData {
 					$txt = str_replace( "\r\n", "\n", $txt );
 					$txt = str_replace( "\f", "\n\n", $txt );
 					$fileDataValues['_fullText'] = $txt;
+				}
+			}
+		}
+
+		if ( in_array( 'numPages', $wgCargoFileDataColumns ) ) {
+			global $wgCargoPDFInfo;
+			if ( $wgCargoPDFInfo == '' ) {
+				// Display an error message?
+			} elseif ( $file->getMimeType() != 'application/pdf' ) {
+				// We only handle PDF files.
+			} else {
+				$filePath = $file->getLocalRefPath();
+				$cmd = wfEscapeShellArg( $wgCargoPDFInfo ) . ' '. wfEscapeShellArg( $filePath );
+				$retval = '';
+				$txt = wfShellExec( $cmd, $retval );
+				if ( $retval == 0 ) {
+					$lines = explode( PHP_EOL, $txt );
+					$matched = preg_grep( '/^Pages\:/', $lines );
+					foreach ( $matched as $line ) {
+						$fileDataValues['_numPages'] = intval( trim( substr( $line, 7 ) ) );
+					}
 				}
 			}
 		}
