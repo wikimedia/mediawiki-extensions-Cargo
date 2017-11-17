@@ -232,7 +232,7 @@ class CargoFilter {
 			$fieldName = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
 			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
 		} else {
-			$fieldName = $this->name;
+			$fieldName = $cdb->addIdentifierQuotes( $this->name );
 		}
 
 		if ( $this->searchableFiles ) {

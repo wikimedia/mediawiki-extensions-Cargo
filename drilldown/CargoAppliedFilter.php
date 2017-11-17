@@ -59,7 +59,7 @@ class CargoAppliedFilter {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
 			$value_field = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
 		} else {
-			$value_field = $this->filter->name;
+			$value_field = $cdb->addIdentifierQuotes( $this->filter->name );
 		}
 		$sql = "(";
 		if ( $this->search_terms != null ) {
@@ -193,7 +193,7 @@ class CargoAppliedFilter {
 		}
 
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableName, "DISTINCT " . $value_field );
+		$res = $cdb->select( $tableName, "DISTINCT " . $cdb->addIdentifierQuotes( $value_field ) );
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$possible_values[] = $row[$value_field];
 		}
