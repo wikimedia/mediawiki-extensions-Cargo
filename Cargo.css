@@ -6,11 +6,11 @@ table.cargoTable {
 	border-collapse: collapse;
 }
 
-table.cargoTable tr:nth-child(odd) {
+table.cargoTable td.odd {
 	background: #fff;
 }
 
-table.cargoTable tr:nth-child(even) {
+table.cargoTable td.even {
 	background: #eee;
 }
 
