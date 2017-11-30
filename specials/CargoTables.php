@@ -81,7 +81,26 @@ class CargoTables extends IncludableSpecialPage {
 		);
 		$out->setSubtitle( '< '. $mainPageLink );
 
-		// First, display a count.
+		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
+		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
+
+		// Display the table structure.
+		$structureDesc = '<p>' . $this->msg( 'cargo-cargotables-tablestructure' )->parse() . '</p>';
+		$structureDesc .= '<ul>';
+		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+			$fieldDesc = '<strong>' . $fieldName . '</strong> - ';
+			$typeDesc = '<tt>' . $fieldDescription->mType . '</tt>';
+			if ( $fieldDescription->mIsList ) {
+				$fieldDesc .= $this->msg( 'cargo-cargotables-listof', $typeDesc )->parse();
+			} else {
+				$fieldDesc .= $typeDesc;
+			}
+			$structureDesc .= Html::rawElement( 'li', null, $fieldDesc ) . "\n";
+		}
+		$structureDesc .= '</ul>';
+		$out->addHTML( $structureDesc );
+
+		// Then, display a count.
 		try {
 			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		} catch ( Exception $e ) {
@@ -92,15 +111,15 @@ class CargoTables extends IncludableSpecialPage {
 		$row = $cdb->fetchRow( $res );
 		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval($row['total']) )->text() . "\n" );
 
+		// Then, show the actual table, via a query.
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
 		$sqlQuery->mAliasedTableNames = array( $tableName => $tableName );
 
-		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
 		$aliasedFieldNames = array( $this->msg( 'nstab-main' )->parse() => '_pageName' );
-		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( array_key_exists( 'hidden', $fieldDescription ) ) {
 				continue;
