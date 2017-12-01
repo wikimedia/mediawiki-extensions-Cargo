@@ -201,6 +201,9 @@ class CargoQueryDisplayer {
 			// namespace; they are displayed as thumbnails within
 			// queries.
 			$title = Title::newFromText( $value, NS_FILE );
+			if ( $title == null ) {
+				return $value;
+			}
 			// makeThumbLinkObj() is still not deprecated in MW 1.28,
 			// but presumably it will be at some point.
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );

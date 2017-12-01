@@ -300,6 +300,9 @@ class CargoUtils {
 	 */
 	public static function removeNamespaceFromFileName( $fileName ) {
 		$fileTitle = Title::newFromText( $fileName, NS_FILE );
+		if ( $fileTitle == null ) {
+			return null;
+		}
 		return $fileTitle->getText();
 	}
 
