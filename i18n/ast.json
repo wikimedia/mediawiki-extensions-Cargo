@@ -77,6 +77,8 @@
 	"cargo-cargotables-declaredby": "Declaráu por $1",
 	"cargo-cargotables-attachedby": "axuntáu por $1",
 	"cargo-cargotables-tablenotfound": "Nun s'alcontró la tabla \"$1\" na base de datos de Cargo.",
+	"cargo-cargotables-tablestructure": "Estructura de la tabla:",
+	"cargo-cargotables-listof": "Llista de $1",
 	"cargo-cargotables-totalrows": "Esta tabla tien '''$1''' {{PLURAL:$1|filera|fileres}} en total.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|filera|fileres}}",
 	"cargo-cargotables-switch": "Cambiar a usar esta tabla.",
