@@ -26,6 +26,7 @@
 	"cargo-cargotables-notdeclared": "vu kenger Schabloun definéiert",
 	"cargo-cargotables-declaredby": "Deklaréiert vum $1",
 	"cargo-cargotables-attachedby": "drugehaang vum $1",
+	"cargo-cargotables-tablestructure": "Struktur vun der Tabell:",
 	"cargo-cargotables-listof": "Lëscht vu(n) $1",
 	"cargo-cargotables-totalrows": "Dës Tabell huet am Ganzen {{PLURAL:$1|'''eng''' Zeil|'''$1''' Zeilen}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|Rei|Reien}}",
