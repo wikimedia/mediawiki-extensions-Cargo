@@ -77,6 +77,8 @@
 	"cargo-cargotables-declaredby": "Изјаснето од $1",
 	"cargo-cargotables-attachedby": "приложено од $1",
 	"cargo-cargotables-tablenotfound": "Табелата „$1“ не е пронајдена во базата на „Карго“.",
+	"cargo-cargotables-tablestructure": "Структура на табелата:",
+	"cargo-cargotables-listof": "Список на $1",
 	"cargo-cargotables-totalrows": "Оваа табела има вкупно '''$1''' {{PLURAL:$1|ред|реда}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|ред|реда}}",
 	"cargo-cargotables-switch": "Префрли на употреба на табелава.",
