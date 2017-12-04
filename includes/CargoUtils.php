@@ -383,6 +383,14 @@ class CargoUtils {
 		// Of course, String and Page fields could be set using
 		// {{PAGENAME}} as well, but those seem less likely.
 		$value = htmlspecialchars_decode( $value );
+
+		// Add a newline at the beginning if it looks like the value
+		// starts with a bulleted or numbered list, to make sure that
+		// the first line gets formatted correctly.
+		if ( strpos( $value, '*' ) === 0 || strpos( $value, '*' ) === 0 ) {
+			$value = "\n" . $value;
+		}
+
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
 		global $wgRequest;
