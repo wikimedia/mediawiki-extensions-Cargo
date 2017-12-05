@@ -18,7 +18,18 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( array_key_exists( $fieldName, $row ) ) {
 				$paramName = $namedArgs ? $fieldName : $fieldNum;
-				$wikiText .= '|' . $paramName . '=' . $row[$fieldName];
+				// HTML-decode the Wikitext values, which were
+				// encoded in CargoSQLQuery::run().
+				// We do this only for the "template" format
+				// because it's the only one that uses the
+				// unformatted values - the formatted values
+				// do this HTML-encoding on their own.
+				if ( $fieldDescription->mType == 'Wikitext' ) {
+					$value = htmlspecialchars_decode( $row[$fieldName] );
+				} else {
+					$value = $row[$fieldName];
+				}
+				$wikiText .= '|' . $paramName . '=' . $value;
 				$fieldNum++;
 			}
 		}
