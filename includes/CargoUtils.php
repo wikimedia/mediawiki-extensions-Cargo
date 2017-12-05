@@ -387,7 +387,7 @@ class CargoUtils {
 		// Add a newline at the beginning if it looks like the value
 		// starts with a bulleted or numbered list, to make sure that
 		// the first line gets formatted correctly.
-		if ( strpos( $value, '*' ) === 0 || strpos( $value, '*' ) === 0 ) {
+		if ( strpos( $value, '*' ) === 0 || strpos( $value, '#' ) === 0 ) {
 			$value = "\n" . $value;
 		}
 
