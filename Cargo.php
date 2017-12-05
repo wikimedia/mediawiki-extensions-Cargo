@@ -171,7 +171,12 @@ $wgGroupPermissions['sysop']['deletecargodata'] = true;
 // ResourceLoader modules
 $wgResourceModules += array(
 	'ext.cargo.main' => array(
+		'scripts' => 'libs/Cargo.js',
 		'styles' => 'Cargo.css',
+		'messages' => array(
+			'show',
+			'hide'
+		),
 		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'

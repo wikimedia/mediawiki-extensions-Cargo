@@ -114,7 +114,12 @@
 	},
 	"ResourceModules": {
 		"ext.cargo.main": {
+			"scripts": "libs/Cargo.js",
 			"styles": "Cargo.css",
+			"messages": [
+				"show",
+				"hide"
+			],
 			"position": "top"
 		},
 		"ext.cargo.recreatedata": {

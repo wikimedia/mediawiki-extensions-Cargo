@@ -22,6 +22,8 @@ class CargoTables extends IncludableSpecialPage {
 		$user = $this->getUser();
 		$this->setHeaders();
 
+		$out->addModules( 'ext.cargo.main' );
+
 		if ( $tableName == '' ) {
 			$out->addHTML( $this->displayListOfTables() );
 			return;
@@ -177,6 +179,18 @@ class CargoTables extends IncludableSpecialPage {
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
 
+		// Modify values to minimize cells that have more than a
+		// certain number of characters, to make the table more
+		// readable.
+		$maxChars = 300;
+		foreach ( $formattedQueryResults as $rowNum => $row ) {
+			foreach ( $row as $colNum => $value ) {
+				if ( strlen( $value ) > $maxChars && strlen( strip_tags( $value ) ) > $maxChars ) {
+					$formattedQueryResults[$rowNum][$colNum] = '<span class="cargoMinimizedText">' . $value . '</span>';
+				}
+			}
+		}
+
 		$displayParams = array();
 
 		$tableFormat = new CargoTableFormat( $this->getOutput() );
@@ -260,8 +274,6 @@ class CargoTables extends IncludableSpecialPage {
 	 * links and information for each one.
 	 */
 	function displayListOfTables() {
-		$this->getOutput()->addModules( 'ext.cargo.main' );
-
 		$text = '';
 
 		// Show a note if there are currently Cargo populate-data jobs
