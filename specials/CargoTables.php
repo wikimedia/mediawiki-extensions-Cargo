@@ -176,22 +176,13 @@ class CargoTables extends IncludableSpecialPage {
 
 		$queryResults = $sqlQuery->run();
 
-		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
-		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
-
-		// Modify values to minimize cells that have more than a
-		// certain number of characters, to make the table more
-		// readable.
-		$maxChars = 300;
-		foreach ( $formattedQueryResults as $rowNum => $row ) {
-			foreach ( $row as $colNum => $value ) {
-				if ( strlen( $value ) > $maxChars && strlen( strip_tags( $value ) ) > $maxChars ) {
-					$formattedQueryResults[$rowNum][$colNum] = '<span class="cargoMinimizedText">' . $value . '</span>';
-				}
-			}
-		}
-
 		$displayParams = array();
+		$displayParams['max display chars'] = 300;
+
+
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
+		$queryDisplayer->mDisplayParams = $displayParams;
+		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
 
 		$tableFormat = new CargoTableFormat( $this->getOutput() );
 		$text = $tableFormat->display( $queryResults, $formattedQueryResults,

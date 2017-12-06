@@ -155,6 +155,14 @@ class CargoQueryDisplayer {
 				} else {
 					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
 				}
+
+				if ( array_key_exists( 'max display chars', $this->mDisplayParams ) && ( $fieldType == 'Text' || $fieldType == 'Wikitext' ) ) {
+					$maxDisplayChars = $this->mDisplayParams['max display chars'];
+					if ( strlen( $text ) > $maxDisplayChars && strlen( strip_tags( $text ) ) > $maxDisplayChars ) {
+						$text = '<span class="cargoMinimizedText">' . $text . '</span>';
+					}
+				}
+
 				if ( $text != '' ) {
 					$formattedQueryResults[$rowNum][$fieldName] = $text;
 				}
