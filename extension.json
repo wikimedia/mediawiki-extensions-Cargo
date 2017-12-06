@@ -119,8 +119,7 @@
 			"messages": [
 				"show",
 				"hide"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.recreatedata": {
 			"scripts": [

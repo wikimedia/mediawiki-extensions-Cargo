@@ -59,7 +59,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
+		$this->mOutput->addModules( 'ext.cargo.main' );
 
 		$mergeSimilarCells = false;
 		if ( array_key_exists( 'merge similar cells', $displayParams ) ) {

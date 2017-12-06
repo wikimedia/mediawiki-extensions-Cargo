@@ -177,7 +177,6 @@ $wgResourceModules += array(
 			'show',
 			'hide'
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
