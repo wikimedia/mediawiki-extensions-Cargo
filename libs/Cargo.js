@@ -13,11 +13,11 @@ var hideText = '[' + mw.msg( 'hide' ) + ']';
 
 $('span.cargoMinimizedText')
 	.hide()
-	.parent().append('<a class="cargoToggle">' + showText + '</a>');
+	.parent().prepend('<a class="cargoToggle">' + showText + '</a> ');
 
 $('a.cargoToggle').click( function() {
 	if ( $(this).text() == showText ) {
-		$(this).siblings('.cargoMinimizedText').show(400);
+		$(this).siblings('.cargoMinimizedText').show(400).css('display', 'inline');
 		$(this).text(hideText);
 	} else {
 		$(this).siblings('.cargoMinimizedText').hide(400);
