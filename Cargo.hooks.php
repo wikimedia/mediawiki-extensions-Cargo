@@ -186,7 +186,8 @@ class CargoHooks {
 	 * the page ID to have been set already for newly-created pages.
 	 *
 	 * @global Parser $wgParser
-	 * @param WikiPage $article
+	 *
+	 * @param WikiPage $wikiPage
 	 * @param User $user Unused
 	 * @param Content $content
 	 * @param string $summary Unused
@@ -195,12 +196,14 @@ class CargoHooks {
 	 * @param null $section Unused
 	 * @param int $flags Unused
 	 * @param Status $status Unused
+	 *
 	 * @return boolean
 	 */
-	public static function onPageContentSaveComplete( $article, $user, $content, $summary, $isMinor,
+	public static function onPageContentSaveComplete(
+		WikiPage $wikiPage, $user, $content, $summary, $isMinor,
 		$isWatch, $section, $flags, $status ) {
 		// First, delete the existing data.
-		$pageID = $article->getID();
+		$pageID = $wikiPage->getID();
 		self::deletePageFromSystem( $pageID );
 
 		// Now parse the page again, so that #cargo_store will be
@@ -209,11 +212,11 @@ class CargoHooks {
 		// we need to parse it here anyway, for the settings we
 		// added to remain set.
 		CargoStore::$settings['origin'] = 'page save';
-		CargoUtils::parsePageForStorage( $article->getTitle(), $content->getNativeData() );
+		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getNativeData() );
 
 		// Also, save the "page data" and (if appropriate) "file data".
-		CargoPageData::storeValuesForPage( $article->getTitle() );
-		CargoFileData::storeValuesForFile( $article->getTitle() );
+		CargoPageData::storeValuesForPage( $wikiPage->getTitle() );
+		CargoFileData::storeValuesForFile( $wikiPage->getTitle() );
 
 		return true;
 	}
