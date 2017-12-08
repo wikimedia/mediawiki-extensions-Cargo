@@ -137,7 +137,12 @@ class CargoUtils {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_tables', 'main_table' );
 		while ( $row = $dbw->fetchRow( $res ) ) {
-			$tableNames[] = $row['main_table'];
+			$tableName = $row['main_table'];
+			// Skip "replacement" tables.
+			if ( substr( $tableName, -6 ) == '__NEXT' ) {
+				continue;
+			}
+			$tableNames[] = $tableName;
 		}
 		return $tableNames;
 	}

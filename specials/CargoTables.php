@@ -300,17 +300,12 @@ class CargoTables extends IncludableSpecialPage {
 				continue;
 			}
 
-			// Special handling for "replacement" tables.
-			if ( substr( $tableName, -6 ) == '__NEXT' ) {
-				continue;
-			}
-			$hasReplacementTable = in_array( $tableName . '__NEXT', $tableNames );
-
-			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
-
+			$possibleReplacementTable = $tableName . '__NEXT';
+			$hasReplacementTable = $cdb->tableExists( $possibleReplacementTable );
 			$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $templatesThatDeclareTables );
 			$firstTemplateID = $canBeRecreated ? $templatesThatDeclareTables[$tableName][0] : null;
 			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $canBeRecreated, $firstTemplateID );
+			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
 
 			// "Declared by" text
 			if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
