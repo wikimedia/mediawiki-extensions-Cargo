@@ -28,7 +28,7 @@ class CargoQueryAPI extends ApiBase {
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$havingStr, $groupByStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr );
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
