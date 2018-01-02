@@ -191,7 +191,7 @@ class CargoSQLQuery {
 		// displayed.
 		$blankAliasCount = 0;
 		foreach ( $fieldStrings as $i => $fieldString ) {
-			$fieldStringParts = CargoUtils::smartSplit( '=', $fieldString );
+			$fieldStringParts = CargoUtils::smartSplit( '=', $fieldString, true );
 			if ( count( $fieldStringParts ) == 2 ) {
 				$fieldName = trim( $fieldStringParts[0] );
 				$alias = trim( $fieldStringParts[1] );

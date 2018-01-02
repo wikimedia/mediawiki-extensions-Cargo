@@ -204,10 +204,11 @@ class CargoUtils {
 	 * lexically.
 	 * @param string $delimiter The delimiter to split by.
 	 * @param string $string The string to split.
-	 * @return string[] Array of substrings (with no empty values).
+	 * @param boolean $includeBlankValues Whether to include blank values in the returned array.
+	 * @return string[] Array of substrings (with or without blank values).
 	 * @throws MWException On unmatched quotes or incomplete escape sequences.
 	 */
-	static function smartSplit( $delimiter, $string ) {
+	static function smartSplit( $delimiter, $string, $includeBlankValues = false ) {
 		if ( $string == '' ) {
 			return array();
 		}
@@ -252,6 +253,10 @@ class CargoUtils {
 
 		if ( $ignoreNextChar ) {
 			throw new MWException( "Error: incomplete escape sequence." );
+		}
+
+		if ( $includeBlankValues ) {
+			return $returnValues;
 		}
 
 		// Remove empty strings (but not other quasi-empty values, like '0') and re-key the array.
