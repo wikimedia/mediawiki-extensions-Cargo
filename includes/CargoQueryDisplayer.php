@@ -113,7 +113,7 @@ class CargoQueryDisplayer {
 							continue;
 						}
 						if ( $i > 0 ) {
-							// Use a "middle dot" as
+							// Use a bullet point as
 							// the list delimiter -
 							// it's better than using
 							// a comma, or the
@@ -122,7 +122,7 @@ class CargoQueryDisplayer {
 							// consistent and makes
 							// it clearer whether
 							// list parsing worked.
-							$text .= " &middot; ";
+							$text .= ' <span class="CargoDelimiter">&bull;</span> ';
 						}
 						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
 					}
