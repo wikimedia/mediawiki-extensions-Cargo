@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eduardo Addad de Oliveira"
+		]
+	},
+	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",
+	"cargo-definestable": "Esta predefinição define a tabela \"$1\".",
+	"cargo-tablenotcreated": "Esta tabela ainda não foi criada.",
+	"cargo-addsrows": "Esta predefinição adiciona linhas à tabela \"$1\"."
+}
