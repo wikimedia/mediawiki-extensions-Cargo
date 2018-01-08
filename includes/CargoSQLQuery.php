@@ -392,13 +392,25 @@ class CargoSQLQuery {
 		if ( $orderByStr != '' ) {
 			$this->mOrderByStr = $orderByStr;
 		} else {
-			// By default, sort on the first field.
-			reset( $this->mAliasedFieldNames );
-			$firstField = current( $this->mAliasedFieldNames );
-			if ( strpos( $firstField, '(' ) === false && strpos( $firstField, '.' ) === false ) {
-				$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $firstField );
-			} else {
-				$this->mOrderByStr = $firstField;
+			// By default, sort on up to the first five fields, in
+			// the order in which they're defined. Five seems like
+			// enough to make sure everything is in the right order,
+			// no? Or should it always be all the fields?
+			$this->mOrderByStr = '';
+			$fieldNum = 1;
+			foreach ( $this->mAliasedFieldNames as $fieldName ) {
+				if ( $fieldNum > 1 ) {
+					$this->mOrderByStr .= ', ';
+				}
+				if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false ) {
+					$this->mOrderByStr .= $this->mCargoDB->addIdentifierQuotes( $fieldName );
+				} else {
+					$this->mOrderByStr .= $fieldName;
+				}
+				$fieldNum++;
+				if ( $fieldNum > 5 ) {
+					break;
+				}
 			}
 		}
 	}
