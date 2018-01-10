@@ -7,7 +7,7 @@
 class CargoTemplateFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'template', 'named args' );
+		return array( 'template', 'named args', 'delimiter' );
 	}
 
 	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
@@ -56,8 +56,13 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		if ( array_key_exists( 'named args', $displayParams ) ) {
 			$namedArgs = strtolower( $displayParams['named args'] ) == 'yes';
 		}
+		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ?
+			$displayParams['delimiter'] : '';
 		$text = '';
-		foreach ( $valuesTable as $row ) {
+		foreach ( $valuesTable as $i => $row ) {
+			if ( $i > 0 ) {
+				$text .= $delimiter;
+			}
 			$text .= $this->displayRow( $templateName, $row, $fieldDescriptions, $namedArgs );
 		}
 		global $wgTitle;
