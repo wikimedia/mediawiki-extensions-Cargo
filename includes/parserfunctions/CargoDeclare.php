@@ -56,6 +56,8 @@ class CargoDeclare {
 					// Some of these are more likely as
 					// field names than others...
 					array( 'create', 'table', 'update', 'insert', 'delete',
+						'unique', 'char', 'varchar', 'text', 'blob',
+						'enum', 'set', 'int', 'float', 'double', 'decimal',
 						'select', 'distinct', 'from', 'join', 'on',
 						'where', 'order', 'by', 'asc', 'desc', 'limit',
 						'group', 'having', 'like', 'is', 'null',
