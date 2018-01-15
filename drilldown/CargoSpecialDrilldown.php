@@ -34,14 +34,8 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$out->addScript( '<!--[if IE]><link rel="stylesheet" href="' . $cgScriptPath .
 			'/drilldown/resources/CargoDrilldownIEFixes.css" media="screen" /><![endif]-->' );
 
-		// Get information on current table and the filters
-		// that have already been applied from the query string.
-		$tableName = str_replace( '_', ' ', $request->getVal( '_table' ) );
-		// if query string did not contain this variable, try the URL
-		if ( !$tableName ) {
-			$queryparts = explode( '/', $query, 1 );
-			$tableName = isset( $queryparts[0] ) ? $queryparts[0] : '';
-		}
+		$queryparts = explode( '/', $query, 1 );
+		$tableName = isset( $queryparts[0] ) ? $queryparts[0] : '';
 
 		// If no table was specified, go with the first table,
 		// alphabetically.
@@ -1285,7 +1279,6 @@ END;
 		if ( $this->isReplacementTable ) {
 			$params['_replacement'] = null;
 		}
-		$params['_table'] = $this->tableName;
 		if ( $this->fullTextSearchTerm != '' ) {
 			$params['_search'] = $this->fullTextSearchTerm;
 		}
