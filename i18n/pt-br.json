@@ -7,5 +7,16 @@
 	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",
 	"cargo-definestable": "Esta predefinição define a tabela \"$1\".",
 	"cargo-tablenotcreated": "Esta tabela ainda não foi criada.",
-	"cargo-addsrows": "Esta predefinição adiciona linhas à tabela \"$1\"."
+	"cargo-addsrows": "Esta predefinição adiciona linhas à tabela \"$1\".",
+	"cargo-notable": "Erro: o nome da tabela tem de ser especificado.",
+	"cargo-unknowntable": "Erro: a tabela $1 não foi encontrada.",
+	"recreatedata": "Recriar dados",
+	"action-recreatecargodata": "recriar dados Cargo",
+	"action-deletecargodata": "eliminar dados Cargo",
+	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
+	"apihelp-cargoquery-summary": "Executa uma consulta nos dados Cargo.",
+	"apihelp-cargoquery-param-tables": "A base de dados ou a tabela Cargo a consultar",
+	"apihelp-cargoquery-param-fields": "O campo, ou campos, a obter",
+	"apihelp-cargoquery-param-where": "As condições para a consulta, correspondentes a uma cláusula WHERE de SQL",
+	"apihelp-cargoquery-param-join_on": "Condições para fazer o <i>join</i> de várias tabelas, correspondentes a uma cláusula JOIN ON de SQL"
 }
