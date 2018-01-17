@@ -347,6 +347,14 @@ class CargoTables extends IncludableSpecialPage {
 			$tableText .= ')';
 
 			if ( $hasReplacementTable ) {
+				if ( !$cdb->tableExists( $tableName . '__NEXT' ) ) {
+					$tableText .= "\n<div class=\"cargoReplacementTableInfo\">";
+					$tableText .= $tableName . '__NEXT - ';
+					$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
+					$tableText .= "</div>";
+					$text .= Html::rawElement( 'li', null, $tableText );
+					continue;
+				}
 				global $wgUser;
 				$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
 				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false, null );
