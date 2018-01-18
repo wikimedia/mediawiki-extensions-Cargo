@@ -260,6 +260,49 @@ class CargoTables extends IncludableSpecialPage {
 		return $actionLinks;
 	}
 
+	function tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables ) {
+		if ( method_exists( $this, 'getLinkRenderer' ) ) {
+			$linkRenderer = $this->getLinkRenderer();
+		} else {
+			$linkRenderer = null;
+		}
+
+		// "Declared by" text
+		if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
+			$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
+		} else {
+			$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
+			$templateLinks = array();
+			foreach ( $templatesThatDeclareThisTable as $templateID ) {
+				$templateTitle = Title::newFromID( $templateID );
+				$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
+			}
+			$declaringTemplatesText = $this->msg(
+				'cargo-cargotables-declaredby', implode( $templateLinks ) )->text();
+		}
+
+		// "Attached by" text
+		if ( array_key_exists( $tableName, $templatesThatAttachToTables ) ) {
+			$templatesThatAttachToThisTable = $templatesThatAttachToTables[$tableName];
+		} else {
+			$templatesThatAttachToThisTable = array();
+		}
+
+		if ( count( $templatesThatAttachToThisTable ) == 0 ) {
+			return $declaringTemplatesText;
+		}
+
+		$templateLinks = array();
+		foreach ( $templatesThatAttachToThisTable as $templateID ) {
+			$templateTitle = Title::newFromID( $templateID );
+			$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
+		}
+		$attachingTemplatesText = $this->msg(
+			'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();
+
+		return "$declaringTemplatesText, $attachingTemplatesText";
+	}
+
 	/**
 	 * Returns HTML for a bulleted list of Cargo tables, with various
 	 * links and information for each one.
@@ -296,6 +339,7 @@ class CargoTables extends IncludableSpecialPage {
 			if ( !$cdb->tableExists( $tableName ) ) {
 				$tableText = "$tableName - ";
 				$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
+				$tableText .= ' (' . $this->tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables ) . ')';
 				$text .= Html::rawElement( 'li', null, $tableText );
 				continue;
 			}
@@ -306,45 +350,9 @@ class CargoTables extends IncludableSpecialPage {
 			$firstTemplateID = $canBeRecreated ? $templatesThatDeclareTables[$tableName][0] : null;
 			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $canBeRecreated, $firstTemplateID );
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
+			$templatesText = $this->tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables );
 
-			// "Declared by" text
-			if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
-				$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
-			} else {
-				$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
-				$templateLinks = array();
-				foreach ( $templatesThatDeclareThisTable as $templateID ) {
-					$templateTitle = Title::newFromID( $templateID );
-					$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
-				}
-				$declaringTemplatesText = $this->msg(
-						'cargo-cargotables-declaredby', implode( ', ', $templateLinks ) )->text();
-			}
-
-			// "Attached by" text
-			if ( array_key_exists( $tableName, $templatesThatAttachToTables ) ) {
-				$templatesThatAttachToThisTable = $templatesThatAttachToTables[$tableName];
-			} else {
-				$templatesThatAttachToThisTable = array();
-			}
-
-			if ( count( $templatesThatAttachToThisTable ) == 0 ) {
-				$attachingTemplatesText = '';
-			} else {
-				$templateLinks = array();
-				foreach ( $templatesThatAttachToThisTable as $templateID ) {
-					$templateTitle = Title::newFromID( $templateID );
-					$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
-				}
-				$attachingTemplatesText = $this->msg(
-						'cargo-cargotables-attachedby', implode( ', ', $templateLinks ) )->text();
-			}
-
-			$tableText = "$tableName ($actionLinks) - $numRowsText ($declaringTemplatesText";
-			if ( $attachingTemplatesText != '' ) {
-				$tableText .= ", $attachingTemplatesText";
-			}
-			$tableText .= ')';
+			$tableText = "$tableName ($actionLinks) - $numRowsText ($templatesText)";
 
 			if ( $hasReplacementTable ) {
 				if ( !$cdb->tableExists( $tableName . '__NEXT' ) ) {
