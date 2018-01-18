@@ -66,14 +66,13 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$dbw = wfGetDB( DB_MASTER );
 		$dbw->delete( 'cargo_tables', array( 'main_table' => $mainTable ) );
 		$dbw->delete( 'cargo_pages', array( 'table_name' => $mainTable ) );
-		$dbw->query( 'UPDATE cargo_tables SET main_table = \'' . $mainTable . '\' WHERE main_table = \'' . $mainTable . '__NEXT\'' );
+		$dbw->update( 'cargo_tables', array( 'main_table' => $mainTable ), array( 'main_table' => $mainTable . '__NEXT' ) );
 		$origFieldTableNames = array();
 		foreach ( $fieldTables as $fieldTable ) {
 			$origFieldTableNames[] = str_replace( '__NEXT', '', $fieldTable );
 		}
-		$dbw->query( 'UPDATE cargo_tables SET field_tables = \'' . serialize( $origFieldTableNames ) . '\' WHERE main_table = \'' .
-			$mainTable . '\'' );
-		$dbw->query( 'UPDATE cargo_pages SET table_name = \'' . $mainTable . '\' WHERE table_name = \'' . $mainTable . '__NEXT\'' );
+		$dbw->update( 'cargo_tables', array( 'field_tables' => serialize( $origFieldTableNames ) ), array( 'main_table' => $mainTable ) );
+		$dbw->update( 'cargo_pages', array( 'table_name' => $mainTable ), array( 'table_name' => $mainTable . '__NEXT' ) );
 	}
 
 	function execute( $subpage = false ) {
