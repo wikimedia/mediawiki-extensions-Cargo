@@ -119,6 +119,7 @@ class CargoDeclare {
 			$text .= " [[$pageName|$viewTableMsg]].";
 		} else {
 			$text .= ' ' . wfMessage( 'cargo-tablenotcreated' )->text();
+			$text .= "\n\n[".$parser->getTitle()->getFullURL( [ 'action' => 'recreatedata' ] )." ".wfMessage( 'cargo-createdatatable' )->parse()."]";
 		}
 
 		return $text;
