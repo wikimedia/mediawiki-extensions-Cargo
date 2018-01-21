@@ -122,7 +122,9 @@ class CargoHooks {
 	}
 
 	/**
-	 * Delete a page
+	 * Deletes all Cargo data for a specific page - *except* data
+	 * contained in Cargo tables which are read-only because their
+	 * "replacement table" exists.
 	 *
 	 * @param int $pageID
 	 * @TODO - move this to a different class, like CargoUtils?
@@ -141,6 +143,11 @@ class CargoHooks {
 		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
 		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
+
+			if ( $cdb->tableExists( $curMainTable . '__NEXT' ) ) {
+				// It's a "read-only" table - ignore.
+				continue;
+			}
 
 			// First, delete from the "field" tables.
 			$res2 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => $curMainTable ) );
