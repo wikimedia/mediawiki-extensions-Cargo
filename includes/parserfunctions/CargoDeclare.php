@@ -67,7 +67,7 @@ class CargoDeclare {
 				} elseif ( in_array( strtolower( $fieldName ),
 					// Similarly, handle the Cargo
 					// pseudo-SQL keywords.
-					array( 'holds', 'near' ) ) ) {
+					array( 'holds', 'matches', 'near', 'within' ) ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is already a Cargo keyword." );
 				}
 				try {
