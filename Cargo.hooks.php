@@ -11,7 +11,7 @@ class CargoHooks {
 	public static function registerExtension() {
 		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgGroupPermissions;
 
-		define( 'CARGO_VERSION', '1.5' );
+		define( 'CARGO_VERSION', '1.6' );
 
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
@@ -58,7 +58,7 @@ class CargoHooks {
 		$vars['wgCargoMonthNames'] = $out->getLanguage()->getMonthNamesArray();
 		/**
 		 * @TODO - all these arrays should perhaps be switched to start
-		 * keys from 1, in order to match built-in arrys, such as
+		 * keys from 1, in order to match built-in arrays, such as
 		 * $wgMonthNames.
 		 */
 		array_shift( $vars['wgCargoMonthNames'] ); //start keys from 0
