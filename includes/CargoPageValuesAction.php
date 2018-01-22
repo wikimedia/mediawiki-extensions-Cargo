@@ -8,7 +8,7 @@
 
 class CargoPageValuesAction extends Action {
 	/**
-	 * Return the name of the action this object responds to
+	 * Return the name of the action this object responds to.
 	 * @return String lowercase
 	 */
 	public function getName() {
@@ -27,7 +27,7 @@ class CargoPageValuesAction extends Action {
 	}
 
 	/**
-	 * Add the "Page values" link to the toolbox
+	 * Add the "Page values" link to the toolbox.
 	 *
 	 * @param BaseTemplate $skinTemplate
 	 * @param array $toolbox
@@ -50,4 +50,11 @@ class CargoPageValuesAction extends Action {
 
 		return true;
 	}
+
+	/**
+	 * Implement this to support MW 1.23, which has it as an abstract
+	 * function.
+	 */
+	public function execute() { }
+
 }
