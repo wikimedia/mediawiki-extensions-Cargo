@@ -32,7 +32,7 @@ class CargoQueryAPI extends ApiBase {
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
-			$this->dieUsage( $e );
+			$this->dieUsage( $e, 'db_error' );
 		}
 
 		// Format data as the API requires it.
