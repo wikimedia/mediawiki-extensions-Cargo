@@ -10,6 +10,72 @@
 class CargoDeclare {
 
 	/**
+	 * "Reserved words" - terms that should not be used as table or field
+	 * names, because they are reserved for SQL.
+	 * (Some words here are much more likely to be used than others.)
+	 * @TODO - currently this list only includes reserved words from
+	 * MySQL; other DB systems' additional words (if any) should be added
+	 * as well.
+	 */
+	private static $sqlReservedWords = array(
+		'accessible', 'add', 'all', 'alter', 'analyze',
+		'and', 'as', 'asc', 'asensitive', 'before',
+		'between', 'bigint', 'binary', 'blob', 'both',
+		'by', 'call', 'cascade', 'case', 'change',
+		'char', 'character', 'check', 'collate', 'column',
+		'condition', 'constraint', 'continue', 'convert', 'create',
+		'cross', 'current_date', 'current_time', 'current_timestamp', 'current_user',
+		'cursor', 'database', 'databases', 'day_hour', 'day_microsecond',
+		'day_minute', 'day_second', 'dec', 'decimal', 'declare',
+		'default', 'delayed', 'delete', 'desc', 'describe',
+		'deterministic', 'distinct', 'distinctrow', 'div', 'double',
+		'drop', 'dual', 'each', 'else', 'elseif',
+		'enclosed', 'escaped', 'exists', 'exit', 'explain',
+		'false', 'fetch', 'float', 'float4', 'float8',
+		'for', 'force', 'foreign', 'from', 'fulltext',
+		'generated', 'get', 'grant', 'group', 'having',
+		'high_priority', 'hour_microsecond', 'hour_minute', 'hour_second', 'if',
+		'ignore', 'in', 'index', 'infile', 'inner',
+		'inout', 'insensitive', 'insert', 'int', 'int1',
+		'int2', 'int3', 'int4', 'int8', 'integer',
+		'interval', 'into', 'io_after_gtids', 'io_before_gtids', 'is',
+		'iterate', 'join', 'key', 'keys', 'kill',
+		'leading', 'leave', 'left', 'like', 'limit',
+		'linear', 'lines', 'load', 'localtime', 'localtimestamp',
+		'lock', 'long', 'longblob', 'longtext', 'loop',
+		'low_priority', 'master_bind', 'master_ssl_verify_server_cert', 'match', 'maxvalue',
+		'mediumblob', 'mediumint', 'mediumtext', 'middleint', 'minute_microsecond',
+		'minute_second', 'mod', 'modifies', 'natural', 'no_write_to_binlog',
+		'not', 'null', 'numeric', 'on', 'optimize',
+		'optimizer_costs', 'option', 'optionally', 'or', 'order',
+		'out', 'outer', 'outfile', 'partition', 'precision',
+		'primary', 'procedure', 'purge', 'range', 'read',
+		'read_write', 'reads', 'real', 'references', 'regexp',
+		'release', 'rename', 'repeat', 'replace', 'require',
+		'resignal', 'restrict', 'return', 'revoke', 'right',
+		'rlike', 'schema', 'schemas', 'second_microsecond', 'select',
+		'sensitive', 'separator', 'set', 'show', 'signal',
+		'smallint', 'spatial', 'specific', 'sql', 'sql_big_result',
+		'sql_calc_found_rows', 'sql_small_result', 'sqlexception', 'sqlstate', 'sqlwarning',
+		'ssl', 'starting', 'stored', 'straight_join', 'table',
+		'terminated', 'then', 'tinyblob', 'tinyint', 'tinytext',
+		'to', 'trailing', 'trigger', 'true', 'undo',
+		'union', 'unique', 'unlock', 'unsigned', 'update',
+		'usage', 'use', 'using', 'utc_date', 'utc_time',
+		'utc_timestamp', 'values', 'varbinary', 'varchar', 'varcharacter',
+		'varying', 'virtual', 'when', 'where', 'while',
+		'with', 'write', 'xor', 'year_month', 'zerofill'
+	);
+
+	/**
+	 * Words that are similarly reserved for Cargo - thankfully, a much
+	 * shorter list.
+	 */
+	private static $cargoReservedWords = array(
+		'holds', 'matches', 'near', 'within'
+	);
+
+	/**
 	 * Handles the #cargo_declare parser function.
 	 *
 	 * @todo Internationalize error messages
@@ -36,6 +102,11 @@ class CargoDeclare {
 			$value = trim( $parts[1] );
 			if ( $key == '_table' ) {
 				$tableName = $value;
+				if ( in_array( strtolower( $tableName ), self::$sqlReservedWords ) ) {
+					return CargoUtils::formatError( "Error: \"$tableName\" cannot be used as a Cargo table name, because it is an SQL keyword." );
+				} elseif ( in_array( strtolower( $tableName ), self::$cargoReservedWords ) ) {
+					return CargoUtils::formatError( "Error: \"$tableName\" cannot be used as a Cargo table name, because it is already a Cargo keyword." );
+				}
 			} else {
 				$fieldName = $key;
 				$fieldDescriptionStr = $value;
@@ -52,22 +123,9 @@ class CargoDeclare {
 				} elseif ( strpos( $fieldName, ',' ) !== false ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; "
 							. "this is not allowed." );
-				} elseif ( in_array( strtolower( $fieldName ),
-					// Some of these are more likely as
-					// field names than others...
-					array( 'create', 'table', 'update', 'insert', 'delete',
-						'unique', 'char', 'varchar', 'text', 'blob',
-						'enum', 'set', 'int', 'float', 'double', 'decimal',
-						'select', 'distinct', 'from', 'join', 'on',
-						'where', 'order', 'by', 'asc', 'desc', 'limit',
-						'group', 'having', 'like', 'is', 'null',
-						'not', 'and', 'or', 'between', 'merge',
-						'union', 'intersect', 'except', 'case', 'if' ) ) ) {
+				} elseif ( in_array( strtolower( $fieldName ), self::$sqlReservedWords ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is an SQL keyword." );
-				} elseif ( in_array( strtolower( $fieldName ),
-					// Similarly, handle the Cargo
-					// pseudo-SQL keywords.
-					array( 'holds', 'matches', 'near', 'within' ) ) ) {
+				} elseif ( in_array( strtolower( $fieldName ), self::$cargoReservedWords ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is already a Cargo keyword." );
 				}
 				try {
@@ -119,7 +177,6 @@ class CargoDeclare {
 			$text .= " [[$pageName|$viewTableMsg]].";
 		} else {
 			$text .= ' ' . wfMessage( 'cargo-tablenotcreated' )->text();
-			$text .= "\n\n[".$parser->getTitle()->getFullURL( [ 'action' => 'recreatedata' ] )." ".wfMessage( 'cargo-createdatatable' )->parse()."]";
 		}
 
 		return $text;
