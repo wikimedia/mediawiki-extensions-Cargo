@@ -581,6 +581,11 @@ class CargoSQLQuery {
 					// If we couldn't find a table name,
 					// throw an error.
 					if ( $tableName == '' ) {
+						// There's a good chance that
+						// $fieldName is blank too.
+						if ( $fieldName == '' ) {
+							$fieldName = $origFieldName;
+						}
 						throw new MWException( wfMessage( "cargo-query-unknownfield", $fieldName )->parse() );
 					}
 				}
