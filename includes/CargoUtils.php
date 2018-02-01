@@ -964,7 +964,9 @@ class CargoUtils {
 	 * Helper function for backward compatibility.
 	 */
 	public static function makeLink( $linkRenderer, $title, $msg = null, $attrs = array(), $params = array() ) {
-		if ( !is_null( $linkRenderer ) ) {
+		if ( is_null( $title ) ) {
+			return null;
+		} elseif ( !is_null( $linkRenderer ) ) {
 			// MW 1.28+
 			// Is there a makeLinkKnown() method? We'll just add the
 			// 'known' manually.
