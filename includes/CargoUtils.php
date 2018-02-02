@@ -26,7 +26,7 @@ class CargoUtils {
 			return self::$CargoDB;
 		}
 
-		global $wgDBuser, $wgDBpassword, $wgDBprefix;
+		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBtype;
 		$dbw = wfGetDB( DB_MASTER );
 		$server = $dbw->getServer();
@@ -38,9 +38,31 @@ class CargoUtils {
 			$wgCargoDBtype = $type;
 		}
 		$dbServer = is_null( $wgCargoDBserver ) ? $server : $wgCargoDBserver;
-		$dbUsername = is_null( $wgCargoDBuser ) ? $wgDBuser : $wgCargoDBuser;
-		$dbPassword = is_null( $wgCargoDBpassword ) ? $wgDBpassword : $wgCargoDBpassword;
 		$dbName = is_null( $wgCargoDBname ) ? $name : $wgCargoDBname;
+
+		// server (host), db name, and db type can be retrieved from $dbw via
+		// public methods. Database user and password cannot. If those values
+		// were defined in LocalSettings.php using the $wgDBservers array, then
+		// $wgDBuser and $wgDBpassword will be empty or have erroneous defaults
+		if ( ! is_null( $wgCargoDBuser ) ) {
+			$dbUsername = $wgCargoDBuser;
+		}
+		else if ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
+			$dbUsername = $wgDBservers[0]['user'];
+		}
+		else {
+			$dbUsername = $wgDBuser;
+		}
+		if ( ! is_null( $wgCargoDBpassword ) ) {
+			$dbPassword = $wgCargoDBpassword;
+		}
+		else if ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
+			$dbPassword = $wgDBservers[0]['password'];
+		}
+		else {
+			$dbPassword = $wgDBpassword;
+		}
+
 		$dbFlags = DBO_DEFAULT;
 		$dbTablePrefix = $wgDBprefix . 'cargo__';
 
