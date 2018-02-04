@@ -133,8 +133,7 @@
 				"cargo-recreatedata-success",
 				"cargo-cargotables-viewtablelink",
 				"cargo-cargotables-viewreplacementlink"
-			],
-			"position": "bottom"
+			]
 		},
 		"ext.cargo.drilldown": {
 			"styles": [
@@ -147,15 +146,13 @@
 			"dependencies": [
 				"jquery.ui.autocomplete",
 				"jquery.ui.button"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.maps": {
 			"scripts": [
 				"libs/ext.cargo.maps.js",
 				"libs/markerclusterer.js"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.calendar.jquery1": {
 			"styles": [
@@ -169,8 +166,7 @@
 			],
 			"dependencies": [
 				"moment"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.calendar.jquery3": {
 			"styles": [
@@ -184,8 +180,7 @@
 			],
 			"dependencies": [
 				"moment"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.timelinebase": {
 			"scripts": [
@@ -219,8 +214,7 @@
 			],
 			"dependencies": [
 				"ext.cargo.timelinebase"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.datatables": {
 			"styles": [
@@ -229,22 +223,19 @@
 			"scripts": [
 				"libs/DataTables/js/jquery.dataTables.js",
 				"libs/ext.cargo.datatables.js"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.nvd3": {
 			"scripts": [
 				"libs/d3.js",
 				"libs/nv.d3.js",
 				"libs/ext.cargo.nvd3.js"
-			],
-			"position": "top"
+			]
 		},
 		"ext.cargo.exhibit": {
 			"scripts": [
 				"libs/ext.cargo.exhibit.js"
-			],
-			"position": "top"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {

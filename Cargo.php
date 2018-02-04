@@ -193,7 +193,6 @@ $wgResourceModules += array(
 			'cargo-cargotables-viewtablelink',
 			'cargo-cargotables-viewreplacementlink'
 		),
-		'position' => 'bottom',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -209,7 +208,6 @@ $wgResourceModules += array(
 			'jquery.ui.autocomplete',
 			'jquery.ui.button',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -218,7 +216,6 @@ $wgResourceModules += array(
 			'libs/ext.cargo.maps.js',
 			'libs/markerclusterer.js',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -235,7 +232,6 @@ $wgResourceModules += array(
 		'dependencies' => array(
 			'moment',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -252,7 +248,6 @@ $wgResourceModules += array(
 		'dependencies' => array(
 			'moment',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -289,7 +284,6 @@ $wgResourceModules += array(
 			'libs/SimileTimeline/scripts/decorators.js',
 		),
 		'dependencies' => 'ext.cargo.timelinebase',
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -301,7 +295,6 @@ $wgResourceModules += array(
 			'libs/DataTables/js/jquery.dataTables.js',
 			'libs/ext.cargo.datatables.js',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -311,7 +304,6 @@ $wgResourceModules += array(
 			'libs/nv.d3.js',
 			'libs/ext.cargo.nvd3.js',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
@@ -319,7 +311,6 @@ $wgResourceModules += array(
 		'scripts' => array(
 			'libs/ext.cargo.exhibit.js',
 		),
-		'position' => 'top',
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'
 	),
