@@ -314,11 +314,16 @@ class CargoStore {
 			return;
 		}
 
+		// We put the retrieval of the row ID, and the saving of the new row, into a
+		// single DB transaction, to avoid "collisions".
+		$cdb->begin();
+
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
 		$row = $cdb->fetchRow( $res );
 		$curRowID = $row['ID'] + 1;
 		$tableFieldValues['_ID'] = $curRowID;
+		$fieldTableFieldValues = array();
 
 		// For each field that holds a list of values, also add its
 		// values to its own table; and rename the actual field.
@@ -348,7 +353,10 @@ class CargoStore {
 						$fieldValues['_lat'] = $latitude;
 						$fieldValues['_lon'] = $longitude;
 					}
-					CargoUtils::escapedInsert( $cdb, $fieldTableName, $fieldValues );
+					// We could store these values in the DB
+					// now, but we'll do it later, to keep
+					// the transaction as short as possible.
+					$fieldTableFieldValues[] = array( $fieldTableName, $fieldValues );
 				}
 
 				// Now rename the field.
@@ -366,6 +374,14 @@ class CargoStore {
 
 		// Insert the current data into the main table.
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
+
+		// End the transaction.
+		$cdb->commit();
+
+		// Now, store the data for all the "field tables".
+		foreach ( $fieldTableFieldValues as list( $fieldTableName, $fieldValues ) ) {
+			CargoUtils::escapedInsert( $cdb, $fieldTableName, $fieldValues );
+		}
 
 		// Also insert the names of any "attached" files into the
 		// "files" helper table.
