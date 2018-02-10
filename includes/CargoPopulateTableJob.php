@@ -24,11 +24,8 @@ class CargoPopulateTableJob extends Job {
 	 * @return boolean success
 	 */
 	function run() {
-		wfProfileIn( __METHOD__ );
-
 		if ( is_null( $this->title ) ) {
 			$this->error = "cargoPopulateTable: Invalid title";
-			wfProfileOut( __METHOD__ );
 			return false;
 		}
 
@@ -54,7 +51,6 @@ class CargoPopulateTableJob extends Job {
 		// refreshes.
 		unset( CargoStore::$settings['origin'] );
 
-		wfProfileOut( __METHOD__ );
 		return true;
 	}
 }
