@@ -91,7 +91,8 @@ END;
 </tr>
 </tbody>
 </table>
-<input type="submit" value="$submitLabel" />
+<br>
+<input type="submit" value="$submitLabel" class="mw-ui-button mw-ui-progressive" />
 </form>
 
 END;
