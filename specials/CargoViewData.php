@@ -68,6 +68,7 @@ END;
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 20 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
 		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
+		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->text();
 		$text .= <<<END
 <tr class="mw-htmlform-field-HTMLTextField">
 <td class="mw-label">
@@ -75,7 +76,7 @@ $formatLabel
 </td>
 <td class="mw-input">
 <select name="format">
-<option value="">(Default)</option>
+<option value="">($formatOptionDefault)</option>
 
 END;
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();

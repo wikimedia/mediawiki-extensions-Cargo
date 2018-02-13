@@ -62,6 +62,7 @@
 	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
 	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
+	"cargo-viewdata-defaultformat": "Option in form dropdown.\n{{Identical|Default}}",
 	"cargo-query-missingformat": "An error message.",
 	"cargo-query-badsqlfunction": "An error message. Parameters:\n* $1 - form name (with link)",
 	"cargo-query-badalias": "An error message. Parameters:\n* $1 - an SQL table alias",
