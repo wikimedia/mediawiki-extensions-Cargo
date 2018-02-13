@@ -50,6 +50,7 @@
 	"cargo-viewdata-orderby": "Sortieren nach:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
+	"cargo-viewdata-defaultformat": "Standard",
 	"cargo-query-missingformat": "Fehler: Es muss ein Format festgelegt werden.",
 	"cargo-query-badsqlfunction": "Fehler: Die SQL-Funktion „$1“ ist nicht erlaubt.",
 	"cargo-query-badalias": "Fehler: Ungültiger Tabellenalias „$1“.",
