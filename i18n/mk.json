@@ -58,6 +58,7 @@
 	"cargo-viewdata-orderby": "Подреди по:",
 	"cargo-viewdata-limit": "Ограничување:",
 	"cargo-viewdata-format": "Формат:",
+	"cargo-viewdata-defaultformat": "По основно",
 	"cargo-query-missingformat": "Грешка: Мора да се зададе формат.",
 	"cargo-query-badsqlfunction": "Грешка: SQL-функцијата „$1“ не е дозволена.",
 	"cargo-query-badalias": "Грешка: Неважечки истозначник „$1“ на табелата.",

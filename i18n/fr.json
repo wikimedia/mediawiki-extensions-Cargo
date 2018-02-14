@@ -70,6 +70,7 @@
 	"cargo-viewdata-orderby": "Trier par:",
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Format :",
+	"cargo-viewdata-defaultformat": "Par défaut",
 	"cargo-query-missingformat": "Erreur : le format doit être fixé.",
 	"cargo-query-badsqlfunction": "Erreur : la fonction SQL « $1 » n'est pas autorisée.",
 	"cargo-query-badalias": "Erreur : l'alias de table « $1 » n'est pas valide.",

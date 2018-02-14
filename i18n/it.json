@@ -21,6 +21,7 @@
 	"cargo-viewdata-where": "Dove:",
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Formato:",
+	"cargo-viewdata-defaultformat": "Predefinito",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",
 	"cargo-cargotables-declaredby": "Dichiarato da $1",
 	"cargo-cargotables-tablenotfound": "La tabella \"$1\" non è stata trovata nel database Cargo.",

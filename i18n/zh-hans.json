@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
-			"Yfdyh000"
+			"Yfdyh000",
+			"Fanjiayi"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -59,6 +60,7 @@
 	"cargo-viewdata-orderby": "排序方式：",
 	"cargo-viewdata-limit": "限制：",
 	"cargo-viewdata-format": "格式：",
+	"cargo-viewdata-defaultformat": "默认",
 	"cargo-query-missingformat": "错误：必须设置格式。",
 	"cargo-query-badsqlfunction": "错误：SQL函数“$1”不允许。",
 	"cargo-query-badalias": "错误：无效表别名“$1”。",

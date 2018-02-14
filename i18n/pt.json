@@ -62,6 +62,7 @@
 	"cargo-viewdata-orderby": "Order by:",
 	"cargo-viewdata-limit": "Limite:",
 	"cargo-viewdata-format": "Formato:",
+	"cargo-viewdata-defaultformat": "Padrão",
 	"cargo-query-missingformat": "Erro: o formato tem de ser definido.",
 	"cargo-query-badsqlfunction": "Erro: a função SQL \"$1\" não é permitida.",
 	"cargo-query-badalias": "Erro: nome alternativo de tabela \"$1\" inválido.",
