@@ -1030,4 +1030,25 @@ class CargoUtils {
 			}
 		}
 	}
+
+	/**
+	 *check if dieWithError exist in $object and use instead of deprecated functions
+	 *else use deprecated functions
+	 *@param Object $object
+	 *@param string|array|Message $msg
+	 *@param string|null $errcode
+	 *@throws ApiUsageException
+	 */
+	public static function dieWithError( $object, $msg, $errcode = null ) {
+		if ( method_exists( $object, "dieWithError" ) ) {
+			// Abort execution with an error, since 1.29
+			$object->dieWithError( $msg, $errcode );
+		} else if ( $errcode !== null ) {
+			// deprecated since 1.29, error handler and die with an error message.
+			$object->dieUsage( $msg, $errcode );
+		} else if ( $errcode == null ) {
+			// deprecated since 1.29, Output the error message related to a certain array
+			$object->dieUsageMsg( $msg );
+		}
+	}
 }
