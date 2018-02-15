@@ -17,6 +17,7 @@
 	"cargo-viewdata-orderby": "Zortéieren no:",
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
+	"cargo-viewdata-defaultformat": "Standard",
 	"cargo-query-missingformat": "Feeler: Format muss festgeluecht sinn.",
 	"cargo-query-badsqlfunction": "Feeler: D'SQL-Funktioun \"$1\" ass net erlaabt.",
 	"cargo-query-unknowndbtable": "Feeler: Et gëtt keng Tabell mam Numm \"$1\" an der Datebank.",

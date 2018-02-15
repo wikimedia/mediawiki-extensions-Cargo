@@ -47,6 +47,7 @@
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
+	"cargo-viewdata-defaultformat": "Predeterminado",
 	"cargo-query-missingformat": "Error: debe establecerse el formato.",
 	"cargo-query-badsqlfunction": "Error: no se permite la función de SQL «$1».",
 	"cargo-query-badalias": "Error: el alias de la tabla «$1» no es válido.",

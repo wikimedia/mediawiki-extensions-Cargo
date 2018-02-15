@@ -58,6 +58,7 @@
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Llende:",
 	"cargo-viewdata-format": "Formatu:",
+	"cargo-viewdata-defaultformat": "Predetermináu",
 	"cargo-query-missingformat": "Error: tien d'establecese'l formatu.",
 	"cargo-query-badsqlfunction": "Error: nun se permite la función SQL «$1».",
 	"cargo-query-badalias": "Error: l'alcuñu de la tabla «$1» nun ye válidu.",

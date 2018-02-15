@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Esraa Ismail"
+			"Esraa Ismail",
+			"محمد أحمد عبد الفتاح"
 		]
 	},
+	"cargo-viewdata-defaultformat": "افتراضي",
 	"cargo-cargotables-viewreplacementlink": "اظهر المنضدة البديلة"
 }
