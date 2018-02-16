@@ -316,7 +316,7 @@ class CargoStore {
 
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
-		$cdb->begin();
+		$cdb->startAtomic(__METHOD__);
 
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
@@ -376,7 +376,7 @@ class CargoStore {
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
 		// End the transaction.
-		$cdb->commit();
+		$cdb->endAtomic(__METHOD__);
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as list( $fieldTableName, $fieldValues ) ) {
