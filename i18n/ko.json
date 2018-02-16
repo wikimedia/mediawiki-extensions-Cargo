@@ -25,6 +25,7 @@
 	"cargo-viewdata-tables": "테이블:",
 	"cargo-viewdata-limit": "제한:",
 	"cargo-viewdata-format": "형식:",
+	"cargo-viewdata-defaultformat": "기본값",
 	"cargo-query-missingformat": "오류: 포맷을 설정해야 합니다.",
 	"cargo-query-badsqlfunction": "오류: \"$1\" SQL 함수는 허용되지 않습니다.",
 	"cargo-query-badalias": "오류: 유효하지 않은 테이블 별칭 \"$1\".",
