@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Cvanca",
-			"Dvorapa"
+			"Dvorapa",
+			"Ilimanaq29"
 		]
 	},
 	"cargo-viewdata-where": "WHERE:",
@@ -11,6 +12,7 @@
 	"cargo-viewdata-orderby": "ORDER BY:",
 	"cargo-viewdata-limit": "LIMIT:",
 	"cargo-viewdata-format": "Formát:",
+	"cargo-viewdata-defaultformat": "Výchozí",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
 	"cargo-pageschemas-tablename": "Název tabulky:"
 }
