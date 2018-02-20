@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Liuxinyu970226",
-			"Cwlin0416"
+			"Cwlin0416",
+			"A2093064"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
@@ -14,6 +15,7 @@
 	"cargo-viewdata-tables": "表格：",
 	"cargo-viewdata-fields": "欄位：",
 	"cargo-viewdata-format": "格式：",
+	"cargo-viewdata-defaultformat": "預設",
 	"cargo-drilldown-allpages": "所有頁面",
 	"cargo-drilldown-allfiles": "所有檔案",
 	"cargo-drilldown-filename": "檔案名稱",
