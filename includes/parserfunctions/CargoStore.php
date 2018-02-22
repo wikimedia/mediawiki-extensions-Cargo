@@ -29,10 +29,10 @@ class CargoStore {
 		// if this is called via either a page save or a "recreate
 		// data" action for a template that this page calls.
 		if ( count( self::$settings ) == 0 ) {
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping.\n" );
+			wfDebugLog( 'cargo', "CargoStore::run(); no settings defined.\n" );
 			return;
 		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping 2.\n" );
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no origin defined.\n" );
 			return;
 		}
 
@@ -43,7 +43,7 @@ class CargoStore {
 		if ( $pageID <= 0 ) {
 			// This will most likely happen if the title is a
 			// "special" page.
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping 3.\n" );
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; not called from a wiki page.\n" );
 			return;
 		}
 
@@ -84,7 +84,7 @@ class CargoStore {
 			// It came from a template "recreate data" action -
 			// make sure it passes various criteria.
 			if ( self::$settings['dbTableName'] != $tableName ) {
-				wfDebugLog( 'cargo', "CargoStore::run() - skipping 4.\n" );
+				wfDebugLog( 'cargo', "CargoStore::run() - skipping; dbTableName not set.\n" );
 				return;
 			}
 		}
@@ -103,7 +103,7 @@ class CargoStore {
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping 5.\n" );
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; Cargo table ($tableName) does not exist.\n" );
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
