@@ -192,7 +192,7 @@ class CargoQueryDisplayer {
 			if ( $title == null ) {
 				return null;
 			}
-			if ( function_exists( 'MediaWiki\MediaWikiServices::getLinkRenderer' ) ) {
+			if ( method_exists( 'MediaWiki\MediaWikiServices', 'getLinkRenderer' ) ) {
 				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 			} else {
 				$linkRenderer = null;
