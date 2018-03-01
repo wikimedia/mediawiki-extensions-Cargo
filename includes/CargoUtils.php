@@ -655,13 +655,13 @@ class CargoUtils {
 
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
+		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
 		$dbType = $cdb->getType();
 		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
 		$stringTypeString = self::fieldTypeToSQLType( 'String', $dbType );
 		$textTypeString = self::fieldTypeToSQLType( 'Text', $dbType );
 
-		$createSQL = "CREATE TABLE " .
-			$cdb->tableName( $tableName ) . ' ( ' .
+		$createSQL = "CREATE TABLE $cdbTableName ( " .
 			$cdb->addIdentifierQuotes( '_ID' ) . " $intTypeString NOT NULL UNIQUE, " .
 			$cdb->addIdentifierQuotes( '_pageName' ) . " $stringTypeString NOT NULL, " .
 			$cdb->addIdentifierQuotes( '_pageTitle' ) . " $stringTypeString NOT NULL, " .

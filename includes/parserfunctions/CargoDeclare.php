@@ -111,18 +111,18 @@ class CargoDeclare {
 				$fieldName = $key;
 				$fieldDescriptionStr = $value;
 				// Validate field name.
-				if ( strpos( $fieldName, ' ' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains spaces. "
-							. "Spaces are not allowed; consider using underscores(\"_\") instead." );
+				if ( preg_match('/\s/', $fieldName ) ) {
+					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains whitespaces. "
+						. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
 				} elseif ( strpos( $fieldName, '_' ) === 0 ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" begins with an "
-							. "underscore; this is not allowed." );
+						. "underscore; this is not allowed." );
 				} elseif ( strpos( $fieldName, '__' ) !== false ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains more "
-							. "than one underscore in a row; this is not allowed." );
+						. "than one underscore in a row; this is not allowed." );
 				} elseif ( strpos( $fieldName, ',' ) !== false ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; "
-							. "this is not allowed." );
+						. "this is not allowed." );
 				} elseif ( in_array( strtolower( $fieldName ), self::$sqlReservedWords ) ) {
 					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is an SQL keyword." );
 				} elseif ( in_array( strtolower( $fieldName ), self::$cargoReservedWords ) ) {
@@ -146,18 +146,18 @@ class CargoDeclare {
 		// Validate table name.
 		if ( $tableName == '' ) {
 			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
-		} elseif ( strpos( $tableName, ' ' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains spaces. "
-					. "Spaces are not allowed; consider using underscores(\"_\") instead." );
+		} elseif ( preg_match('/\s/', $tableName ) ) {
+			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains whitespaces. "
+				. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
 		} elseif ( strpos( $tableName, '_' ) === 0 ) {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" begins with an "
-					. "underscore; this is not allowed." );
+				. "underscore; this is not allowed." );
 		} elseif ( strpos( $tableName, '__' ) !== false ) {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains more than one "
-					. "underscore in a row; this is not allowed." );
+				. "underscore in a row; this is not allowed." );
 		} elseif ( strpos( $tableName, ',' ) !== false ) {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains a comma; "
-					. "this is not allowed." );
+				. "this is not allowed." );
 		}
 
 		$parserOutput = $parser->getOutput();
