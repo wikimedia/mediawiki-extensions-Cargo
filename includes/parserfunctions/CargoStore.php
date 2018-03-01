@@ -295,21 +295,8 @@ class CargoStore {
 		// a very rare case, while unwanted code duplication is
 		// unfortunately a common case. So until there's a real
 		// solution, this workaround will be helpful.
-		$tableFieldValuesForCheck = array( '_pageID' => $pageID );
-		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
-				continue;
-			}
-			if ( $fieldDescription->mIsList || $fieldDescription->mType == 'Coordinates' ) {
-				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName . '__full' );
-			} else {
-				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
-			}
-			$tableFieldValuesForCheck[$quotedFieldName] = $tableFieldValues[$fieldName];
-		}
-		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
-		$row = $cdb->fetchRow( $res );
-		if ( $row[0] > 0 ) {
+		$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
+		if ( $rowAlreadyExists ) {
 			$cdb->close();
 			return;
 		}
@@ -429,5 +416,28 @@ class CargoStore {
 		// subsequent SQL to be called correctly, when jobs are run
 		// in the standard way.
 		$cdb->close();
+	}
+
+	/**
+	 * Determines whether a row with the specified set of values already exists in the
+	 * specified Cargo table.
+	 */
+	public static function doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema ) {
+		$pageID = $title->getArticleID();
+		$tableFieldValuesForCheck = array( '_pageID' => $pageID );
+		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
+				continue;
+			}
+			if ( $fieldDescription->mIsList || $fieldDescription->mType == 'Coordinates' ) {
+				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName . '__full' );
+			} else {
+				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
+			}
+			$tableFieldValuesForCheck[$quotedFieldName] = $tableFieldValues[$fieldName];
+		}
+		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
+		$row = $cdb->fetchRow( $res );
+		return ( $row[0] > 0 );
 	}
 }
