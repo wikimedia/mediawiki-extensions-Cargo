@@ -25,17 +25,6 @@ class CargoStore {
 	 * @throws MWException
 	 */
 	public static function run( &$parser ) {
-		// This function does actual DB modifications - so only proceed
-		// if this is called via either a page save or a "recreate
-		// data" action for a template that this page calls.
-		if ( count( self::$settings ) == 0 ) {
-			wfDebugLog( 'cargo', "CargoStore::run(); no settings defined.\n" );
-			return;
-		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no origin defined.\n" );
-			return;
-		}
-
 		// Get page-related information early on, so we can exit
 		// quickly if there's a problem.
 		$title = $parser->getTitle();
@@ -80,21 +69,13 @@ class CargoStore {
 			return;
 		}
 
-		if ( self::$settings['origin'] == 'template' ) {
-			// It came from a template "recreate data" action -
-			// make sure it passes various criteria.
-			if ( self::$settings['dbTableName'] != $tableName ) {
-				wfDebugLog( 'cargo', "CargoStore::run() - skipping; dbTableName not set.\n" );
-				return;
-			}
-		}
-          
+		$origTableName = $tableName;
+
 		// Always store data in the replacement table if it exists.
 		$cdb = CargoUtils::getDB();
 		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
 			$tableName .=  '__NEXT';
 		}
-		$cdb->close();
 
 		// Get the declaration of the table.
 		$dbw = wfGetDB( DB_MASTER );
@@ -108,6 +89,36 @@ class CargoStore {
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
+		$errors = self::validateData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
+		$cdb->close();
+
+		if ( $errors ) {
+			$parserOutput = $parser->getOutput();
+			$parserOutput->setProperty( 'CargoStorageError', $errors );
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; storage error encountered.\n" );
+			return;
+		}
+
+		// This function does actual DB modifications - so only proceed
+		// if this is called via either a page save or a "recreate
+		// data" action for a template that this page calls.
+		if ( count( self::$settings ) == 0 ) {
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no settings defined.\n" );
+			return;
+		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no origin defined.\n" );
+			return;
+		}
+
+		if ( self::$settings['origin'] == 'template' ) {
+			// It came from a template "recreate data" action -
+			// make sure it passes various criteria.
+			if ( self::$settings['dbTableName'] != $origTableName ) {
+				wfDebugLog( 'cargo', "CargoStore::run() - skipping; dbTableName not set.\n" );
+				return;
+			}
+		}
+
 		self::storeAllData( $title, $tableName, $tableFieldValues, $tableSchema );
 
 		// Finally, add a record of this to the cargo_pages table, if
@@ -120,13 +131,40 @@ class CargoStore {
 		}
 	}
 
-	public static function storeAllData( $title, $tableName, $tableFieldValues, $tableSchema ) {
+	public static function validateData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema ) {
 		foreach ( $tableFieldValues as $fieldName => $fieldValue ) {
 			if ( !array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
-				throw new MWException( "Error: Unknown Cargo field, \"$fieldName\"." );
+				return "Unknown Cargo field, \"$fieldName\".";
 			}
 		}
 
+		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
+				continue;
+			}
+			$fieldValue = $tableFieldValues[$fieldName];
+			if ( $fieldDescription->mIsMandatory && $fieldValue == '' ) {
+				return "Mandatory field, \"$fieldName\", cannot have a blank value.";
+			}
+			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
+				$res = $cdb->select( $tableName, 'COUNT(*)', array( $fieldName => $fieldValue ) );
+				$row = $cdb->fetchRow( $res );
+				$numExistingValues = $row[0];
+				if ( $numExistingValues == 1 ) {
+					$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
+					if ( $rowAlreadyExists ) {
+						$numExistingValues = 0;
+					}
+				}
+				if ( $numExistingValues > 0 ) {
+					return "Field \"$fieldName\" must have a unique value.";
+				}
+			}
+		}
+
+	}
+
+	public static function storeAllData( $title, $tableName, $tableFieldValues, $tableSchema ) {
 		$pageID = $title->getArticleID();
 		$pageName = $title->getPrefixedText();
 		$pageTitle = $title->getText();

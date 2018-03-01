@@ -1,4 +1,4 @@
-<?php
+	<?php
 /**
  * CargoUtils - utility functions for the Cargo extension.
  *
@@ -87,10 +87,10 @@ class CargoUtils {
 	public static function getPageProp( $pageID, $pageProp ) {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'page_props', array(
-			'pp_value'
+				'pp_value'
 			), array(
-			'pp_page' => $pageID,
-			'pp_propname' => $pageProp,
+				'pp_page' => $pageID,
+					'pp_propname' => $pageProp,
 			)
 		);
 
@@ -687,6 +687,13 @@ class CargoUtils {
 			} else {
 				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName ) . ' ';
 				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
+			}
+
+			if ( $fieldDescription->mIsMandatory ) {
+				$createSQL .= ' NOT NULL';
+			}
+			if ( $fieldDescription->mIsUnique ) {
+				$createSQL .= ' UNIQUE';
 			}
 
 			if ( !$isList && $fieldType == 'Coordinates' ) {

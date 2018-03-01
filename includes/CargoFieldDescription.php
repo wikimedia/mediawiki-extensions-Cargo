@@ -13,6 +13,9 @@ class CargoFieldDescription {
 	public $mIsList = false;
 	private $mDelimiter;
 	public $mAllowedValues = null;
+	public $mIsMandatory = false;
+	public $mIsUnique = false;
+	public $mRegex = false;
 	public $mIsHidden = false;
 	public $mIsHierarchy = false;
 	public $mHierarchyStructure = null;
@@ -133,6 +136,12 @@ class CargoFieldDescription {
 				$fieldDescription->mDelimiter = $value;
 			} elseif ( $param == 'allowedValues' ) {
 				$fieldDescription->mAllowedValues = $value;
+			} elseif ( $param == 'mandatory' ) {
+				$fieldDescription->mIsMandatory = true;
+			} elseif ( $param == 'unique' ) {
+				$fieldDescription->mIsUnique = true;
+			} elseif ( $param == 'regex' ) {
+				$fieldDescription->mRegex = $value;
 			} elseif ( $param == 'hidden' ) {
 				$fieldDescription->mIsHidden = true;
 			} elseif ( $param == 'hierarchy' ) {
@@ -171,6 +180,15 @@ class CargoFieldDescription {
 		}
 		if ( $this->mAllowedValues != null ) {
 			$descriptionData['allowedValues'] = $this->mAllowedValues;
+		}
+		if ( $this->mIsMandatory ) {
+			$descriptionData['mandatory'] = true;
+		}
+		if ( $this->mIsUnique ) {
+			$descriptionData['unique'] = true;
+		}
+		if ( $this->mRegex != null ) {
+			$descriptionData['regex'] = $this->mRegex;
 		}
 		if ( $this->mIsHidden ) {
 			$descriptionData['hidden'] = true;
