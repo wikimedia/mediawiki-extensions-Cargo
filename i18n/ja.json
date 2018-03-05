@@ -3,10 +3,32 @@
 		"authors": [
 			"Surgical21",
 			"Sujiniku",
-			"Otokoume"
+			"Otokoume",
+			"Yusuke1109"
 		]
 	},
+	"cargo-desc": "テンプレートデータの保存とクエリ",
+	"cargo-definestable": "このテンプレートはテーブル「$1」を定義します。",
+	"cargo-tablenotcreated": "このテーブルはまだ作成されていません。",
+	"cargo-addsrows": "このテンプレートは、テーブル「$1」に行を追加します。",
+	"cargo-notable": "エラー: テーブル名を指定する必要があります。",
+	"cargo-unknowntable": "エラー: テーブル$1が見つかりません。",
+	"recreatedata": "データを再作成する",
+	"apihelp-cargoquery-param-fields": "取得するテーブルフィールド",
+	"apihelp-cargorecreatedata-param-template": "データを使用するテンプレート",
+	"apihelp-cargorecreatedata-param-offset": "このテンプレートを呼び出すページのうち、クエリを開始するときの番号",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "テーブルの再作成中に各ページの古い行を置換するかどうか",
+	"apihelp-cargoautocomplete-param-field_is_array": "フィールドに値のリストが保持されているかどうか",
+	"cargo-recreatedata-success": "データが再作成されています。",
+	"cargo-viewdata-tables": "テーブル:",
 	"cargo-viewdata-limit": "制限",
+	"cargo-viewdata-format": "形式:",
+	"cargo-viewdata-defaultformat": "既定",
+	"cargo-query-missingformat": "エラー: フォーマットを設定する必要があります。",
+	"cargo-query-badsqlfunction": "エラー: SQL関数「$1」は使用できません。",
+	"cargo-query-badalias": "エラー: テーブルの別名「$1」が無効です。",
+	"cargo-query-unknowndbtable": "エラー: 「$1」という名前のデータベーステーブルは存在しません。",
+	"cargo-query-unknownfieldfortable": "エラー: データベーステーブル「$2」に「$1」という名前のフィールドが見つかりませんでした。",
 	"cargo-cargotables-tablelist": "次の{{PLURAL:$1|テーブル}}が定義されています:",
 	"cargo-drilldown-allpages": "すべてのページ",
 	"cargo-drilldown-allfiles": "すべてのファイル"
