@@ -957,6 +957,9 @@ class CargoSQLQuery {
 				} else {
 					$replacement = $tableName . '.' . $fieldName . '__full';
 				}
+				if ( isset( $matches[2] ) && ($matches[2] == ',') ) {
+					$replacement .= ',';
+				}
 				if ( $foundMatch1 ) {
 					$this->mOrderByStr = preg_replace( $pattern1, $replacement, $this->mOrderByStr );
 				} elseif ( $foundMatch2 ) {
