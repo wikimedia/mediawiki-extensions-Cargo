@@ -15,7 +15,7 @@ class CargoFieldDescription {
 	public $mAllowedValues = null;
 	public $mIsMandatory = false;
 	public $mIsUnique = false;
-	public $mRegex = false;
+	public $mRegex = null;
 	public $mIsHidden = false;
 	public $mIsHierarchy = false;
 	public $mHierarchyStructure = null;

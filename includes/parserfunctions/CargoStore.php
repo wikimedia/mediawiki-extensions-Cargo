@@ -166,6 +166,9 @@ class CargoStore {
 					$tableFieldValues[$fieldName] = null;
 				}
 			}
+			if ( $fieldDescription->mRegex != null && !preg_match( '/^' . $fieldDescription->mRegex . '$/', $fieldValue ) ) {
+				$tableFieldValues[$fieldName] = null;
+			}
 		}
 
 	}
