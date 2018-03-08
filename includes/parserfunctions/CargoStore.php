@@ -89,7 +89,7 @@ class CargoStore {
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
-		$errors = self::validateData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
+		$errors = self::blankOrRejectBadData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
 		$cdb->close();
 
 		if ( $errors ) {
@@ -131,10 +131,16 @@ class CargoStore {
 		}
 	}
 
-	public static function validateData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema ) {
+	/**
+	 * Deal with data that is considered invalid, for one reason or
+	 * another. For the most part we simply ignore the data (if it's an
+	 * invalid field) or blank it (if it's an invalid value), but if it's
+	 * a mandatory value, we have no choice but to reject the whole row.
+	 */
+	public static function blankOrRejectBadData( $cdb, $title, $tableName, &$tableFieldValues, $tableSchema ) {
 		foreach ( $tableFieldValues as $fieldName => $fieldValue ) {
 			if ( !array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
-				return "Unknown Cargo field, \"$fieldName\".";
+				unset( $tableFieldValues[$fieldName] );
 			}
 		}
 
@@ -157,7 +163,7 @@ class CargoStore {
 					}
 				}
 				if ( $numExistingValues > 0 ) {
-					return "Field \"$fieldName\" must have a unique value.";
+					$tableFieldValues[$fieldName] = null;
 				}
 			}
 		}
