@@ -24,7 +24,7 @@ class CargoQueryAPI extends ApiBase {
 		$limitStr = $params['limit'];
 
 		if ( $tablesStr == '' ) {
-			CargoUtils::dieWithError( $this, 'The tables must be specified', 'dieUsage', 'param_substr' );
+			CargoUtils::dieWithError( $this, 'The tables must be specified', 'param_substr' );
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
@@ -39,7 +39,7 @@ class CargoQueryAPI extends ApiBase {
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
-			CargoUtils::dieWithError( $this, $e, 'dieUsage', 'db_error' );
+			CargoUtils::dieWithError( $this, $e, 'db_error' );
 		}
 
 		// Format data as the API requires it.
