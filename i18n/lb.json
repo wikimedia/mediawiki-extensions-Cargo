@@ -16,6 +16,7 @@
 	"cargo-viewdata-where": "Wou:",
 	"cargo-viewdata-orderby": "Zortéieren no:",
 	"cargo-viewdata-limit": "Limit:",
+	"cargo-viewdata-offset": "Offset:",
 	"cargo-viewdata-format": "Format:",
 	"cargo-viewdata-defaultformat": "Standard",
 	"cargo-query-missingformat": "Feeler: Format muss festgeluecht sinn.",
