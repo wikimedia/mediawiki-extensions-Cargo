@@ -28,6 +28,7 @@ class CargoSQLQuery {
 	public $mHavingStr;
 	public $mOrderByStr;
 	public $mQueryLimit;
+	public $mOffset;
 	public $mSearchTerms = array();
 
 	function __construct() {
@@ -39,11 +40,11 @@ class CargoSQLQuery {
 	 * object can be created without any values.
 	 */
 	public static function newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$havingStr, $orderByStr, $limitStr ) {
+		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-			$havingStr, $orderByStr, $limitStr );
+			$havingStr, $orderByStr, $limitStr, $offsetStr );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mCargoDB = CargoUtils::getDB();
@@ -74,6 +75,7 @@ class CargoSQLQuery {
 		if ( $limitStr != '' ) {
 			$sqlQuery->mQueryLimit = min( $limitStr, $wgCargoMaxQueryLimit );
 		}
+		$sqlQuery->mOffset = $offsetStr;
 		$sqlQuery->addTablePrefixesToAll();
 
 		return $sqlQuery;
@@ -94,7 +96,7 @@ class CargoSQLQuery {
 	 * parameter.
 	 */
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$havingStr, $orderByStr, $limitStr ) {
+		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
 
 		// Remove quoted strings from "where" parameter, to avoid
 		// unnecessary false positives from words like "from"
@@ -143,7 +145,8 @@ class CargoSQLQuery {
 				preg_match( $regexp, $noQuotesGroupByStr ) ||
 				preg_match( $regexp, $noQuotesHavingStr ) ||
 				preg_match( $regexp, $noQuotesOrderByStr ) ||
-				preg_match( $regexp, $limitStr ) ) {
+				preg_match( $regexp, $limitStr ) ||
+				preg_match( $regexp, $offsetStr ) ) {
 				throw new MWException( "Error: the string \"$displayString\" cannot be used within #cargo_query." );
 			}
 		}
@@ -154,6 +157,7 @@ class CargoSQLQuery {
 		self::getAndValidateSQLFunctions( $noQuotesHavingStr );
 		self::getAndValidateSQLFunctions( $noQuotesOrderByStr );
 		self::getAndValidateSQLFunctions( $limitStr );
+		self::getAndValidateSQLFunctions( $offsetStr );
 	}
 
 	/**
@@ -1381,6 +1385,7 @@ class CargoSQLQuery {
 		// specifically.
 		$selectOptions['ORDER BY'] = $this->mOrderByStr;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
+		$selectOptions['OFFSET'] = $this->mOffset;
 
 		// Aliases need to be surrounded by quotes when we actually
 		// call the DB query.

@@ -22,13 +22,14 @@ class CargoQueryAPI extends ApiBase {
 		$groupByStr = $params['group_by'];
 		$havingStr = $params['having'];
 		$limitStr = $params['limit'];
+		$offsetStr = $params['offset'];
 
 		if ( $tablesStr == '' ) {
 			CargoUtils::dieWithError( $this, 'The tables must be specified', 'param_substr' );
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 
 		foreach ( $sqlQuery->mFieldStringAliases as $fieldStr => $fieldStrAlias ) {
 			if ( $fieldStrAlias[0] == '_' ) {
@@ -70,6 +71,11 @@ class CargoQueryAPI extends ApiBase {
 			'group_by' => null,
 			'having' => null,
 			'order_by' => null,
+			'offset' => array(
+				ApiBase::PARAM_TYPE => 'integer',
+				ApiBase::PARAM_DFLT => 0,
+				ApiBase::PARAM_MIN => 0,
+			),
 		);
 	}
 
@@ -83,6 +89,7 @@ class CargoQueryAPI extends ApiBase {
 			'group_by' => 'Field(s) on which to group results, corresponding to an SQL GROUP BY clause',
 			'having' => 'Conditions for grouped values, corresponding to an SQL HAVING clause',
 			'limit' => 'A limit on the number of results returned',
+			'offset' => 'The query offset number',
 		);
 	}
 

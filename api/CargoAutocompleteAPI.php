@@ -117,7 +117,8 @@ class CargoAutocompleteAPI extends ApiBase {
 			$field,
 			$having = null,
 			$field,
-			20
+			20,
+			$offset = null
 		);
 		if ( $field[0] != '_' ) {
 			$fieldAlias = str_replace( '_', ' ', $field );

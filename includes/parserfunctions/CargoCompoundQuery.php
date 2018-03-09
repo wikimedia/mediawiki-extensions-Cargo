@@ -77,12 +77,14 @@ class CargoCompoundQuery {
 					$orderByStr = $value;
 				} elseif ( $key == 'limit' ) {
 					$limitStr = $value;
+				} elseif ( $key == 'offset' ) {
+					$offsetStr = $value;
 				} else {
 					$displayParamsForThisQuery[$key] = $value;
 				}
 			}
 			$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-					$havingStr, $groupByStr, $orderByStr, $limitStr );
+					$havingStr, $groupByStr, $orderByStr, $limitStr, $offsetStr );
 			$querySpecificParams[] = $displayParamsForThisQuery;
 		}
 

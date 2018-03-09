@@ -44,9 +44,14 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		} else {
 			$limit = null;
 		}
+		if ( isset( $args['offset'] ) ) {
+			$offset = $args['offset'];
+		} else {
+			$offset = null;
+		}
 
 		$query = CargoSQLQuery::newFromValues( $tables, $fields, $where, $join,
-			$groupBy, $having, $orderBy, $limit);
+			$groupBy, $having, $orderBy, $limit, $offset );
 		$rows = $query->run();
 
 		$result = array();

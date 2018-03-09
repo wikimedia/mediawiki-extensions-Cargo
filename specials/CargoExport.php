@@ -38,12 +38,13 @@ class CargoExport extends UnlistedSpecialPage {
 		$havingArray = $req->getArray( 'having' );
 		$orderByArray = $req->getArray( 'order_by' );
 		$limitArray = $req->getArray( 'limit' );
+		$offsetArray = $req->getArray( 'offset' );
 
 		$sqlQueries = array();
 		foreach ( $tableArray as $i => $table ) {
 			$sqlQueries[] = CargoSQLQuery::newFromValues(
 					$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
-					$havingArray[$i], $orderByArray[$i], $limitArray[$i] );
+					$havingArray[$i], $orderByArray[$i], $limitArray[$i], $offsetArray[$i] );
 		}
 
 		$format = $req->getVal( 'format' );

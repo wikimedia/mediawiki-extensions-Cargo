@@ -67,6 +67,7 @@ END;
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-having' )->text(), 'having', 20 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 20 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->text(), 'offset', 3 );
 		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
 		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->text();
 		$text .= <<<END
@@ -114,9 +115,10 @@ class ViewDataPage extends QueryPage {
 		$havingStr = $req->getVal( 'having' );
 		$orderByStr = $req->getVal( 'order_by' );
 		$limitStr = $req->getVal( 'limit' );
+		$offsetStr = $req->getVal( 'offset' );
 
 		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 
 		$formatStr = $req->getVal( 'format' );
 		$this->format = $formatStr;

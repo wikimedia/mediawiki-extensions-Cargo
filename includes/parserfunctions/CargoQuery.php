@@ -27,6 +27,7 @@ class CargoQuery {
 		$havingStr = null;
 		$orderByStr = null;
 		$limitStr = null;
+		$offsetStr = null;
 		$noHTML = false;
 		$format = 'auto'; // default
 		$displayParams = array();
@@ -61,6 +62,8 @@ class CargoQuery {
 				$orderByStr = $value;
 			} elseif ( $key == 'limit' ) {
 				$limitStr = $value;
+			} elseif ( $key == 'offset' ) {
+				$offsetStr = $value;
 			} elseif ( $key == 'format' ) {
 				$format = $value;
 			} else {
@@ -75,7 +78,7 @@ class CargoQuery {
 
 		try {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
@@ -103,7 +106,7 @@ class CargoQuery {
 			// fields in the query, making the first 'Query
 			// necessary. There has to be some better way, though.
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
 			return array( $text, 'noparse' => true, 'isHTML' => true );
 		}
