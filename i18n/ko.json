@@ -26,6 +26,7 @@
 	"viewdata": "데이터 보기",
 	"cargo-viewdata-tables": "테이블:",
 	"cargo-viewdata-limit": "제한:",
+	"cargo-viewdata-offset": "오프셋:",
 	"cargo-viewdata-format": "형식:",
 	"cargo-viewdata-defaultformat": "기본값",
 	"cargo-query-missingformat": "오류: 포맷을 설정해야 합니다.",
