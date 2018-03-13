@@ -1,6 +1,6 @@
-	<?php
+<?php
 /**
- * CargoUtils - utility functions for the Cargo extension.
+ * Utility functions for the Cargo extension.
  *
  * @author Yaron Koren
  * @ingroup Cargo
