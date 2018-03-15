@@ -6,11 +6,13 @@
 			"Ilimanaq29"
 		]
 	},
+	"apihelp-cargoquery-param-offset": "Ofset požadavku",
 	"cargo-viewdata-where": "WHERE:",
 	"cargo-viewdata-joinon": "JOIN ON:",
 	"cargo-viewdata-groupby": "GROUP BY:",
 	"cargo-viewdata-orderby": "ORDER BY:",
 	"cargo-viewdata-limit": "LIMIT:",
+	"cargo-viewdata-offset": "Ofset:",
 	"cargo-viewdata-format": "Formát:",
 	"cargo-viewdata-defaultformat": "Výchozí",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
