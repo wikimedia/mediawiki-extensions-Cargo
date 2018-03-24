@@ -62,7 +62,7 @@
 	"cargo-viewdata-having": "Label in a form to set the equivalent of an SQL 'HAVING' clause.",
 	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
-	"cargo-viewdata-offset": "Label in a form to set the equivalent of an SQL 'OFFSET' clause.",
+	"cargo-viewdata-offset": "Label in a form to set the equivalent of an SQL 'OFFSET' clause.\n{{Identical|Offset}}",
 	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
 	"cargo-viewdata-defaultformat": "Option in form dropdown.\n{{Identical|Default}}",
 	"cargo-query-missingformat": "An error message.",
