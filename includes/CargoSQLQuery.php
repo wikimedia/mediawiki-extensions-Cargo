@@ -1300,7 +1300,7 @@ class CargoSQLQuery {
 				if ( $fieldDescription->mType == 'Searchtext' ) {
 					$fieldAlias = array_search( $fieldName, $this->mAliasedFieldNames );
 					if ( $fieldAlias === false ) {
-						continue;
+						$fieldAlias = $fieldName;
 					}
 					$searchTextFields[] = array(
 						'fieldName' => $fieldName,
