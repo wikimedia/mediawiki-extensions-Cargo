@@ -308,6 +308,8 @@ class CargoQueryDisplayer {
 			$terms[$i] = $term;
 		}
 
+		// Replace newlines, etc. with spaces for better readability.
+		$text = preg_replace( '/\s+/', ' ', $text );
 		$h = new SearchHighlighter();
 		if ( count( $terms ) > 0 ) {
 			if ( $wgAdvancedSearchHighlighting ) {
