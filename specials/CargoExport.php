@@ -277,6 +277,24 @@ class CargoExport extends UnlistedSpecialPage {
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
 
+		// Handle date precision fields, which come alongside date fields.
+		foreach ( $queryResults as $i => $curRow ) {
+			foreach ( $curRow as $fieldName => $value ) {
+				if ( strpos( $fieldName, '__precision' ) == false ) {
+					continue;
+				}
+				$dateField = str_replace( '__precision', '', $fieldName );
+				if ( !array_key_exists( $dateField, $curRow ) ) {
+					continue;
+				}
+				$origDateValue = $curRow[$dateField];
+				// Years by themselves lead to a display
+				// problem, for some reason, so add a space.
+				$queryResults[$i][$dateField] = CargoQueryDisplayer::formatDateFieldValue( $origDateValue, $value, 'Date' ) . ' ';
+				unset( $queryResults[$i][$fieldName] );
+			}
+		}
+
 		// @TODO - this array needs to be longer.
 		$colorsArray = array( '#60BD68', '#FAA43A', '#5DA6DA', '#CC333F' );
 
