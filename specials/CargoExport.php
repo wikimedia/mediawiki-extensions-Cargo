@@ -322,6 +322,10 @@ class CargoExport extends UnlistedSpecialPage {
 			foreach ( $queryResult as $fieldName => $value ) {
 				if ( $fieldNum == 0 ) {
 					$labelName = $value;
+					if ( trim( $value ) == '' ) {
+						// Display blank labels as "None".
+						$labelName =  $this->msg( 'powersearch-togglenone' )->text();
+					}
 				} else {
 					$displayedArray[$fieldNum - 1]['values'][] = array(
 						'label' => $labelName,
