@@ -243,6 +243,11 @@ class CargoQueryDisplayer {
 	}
 
 	static function formatDateFieldValue( $dateValue, $datePrecision, $type ) {
+		// Quick escape.
+		if ( $dateValue == '' ) {
+			return '';
+		}
+
 		$seconds = strtotime( $dateValue );
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
 			// 'o' is better than 'Y' because it does not add
