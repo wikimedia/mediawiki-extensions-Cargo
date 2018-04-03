@@ -148,7 +148,16 @@ CargoMap.toOpenLayersLonLat = function( map, lat, lon ) {
 
 CargoMap.prototype.displayWithOpenLayers = function() {
 	var map = new OpenLayers.Map( this.divID );
-	map.addLayer( new OpenLayers.Layer.OSM() );
+	map.addLayer( new OpenLayers.Layer.OSM(
+		'OpenStreetMap',
+		// Use relative-protocol URLs because the OSM layer defaults to HTTP only.
+		[
+			'//a.tile.openstreetmap.org/${z}/${x}/${y}.png',
+			'//b.tile.openstreetmap.org/${z}/${x}/${y}.png',
+			'//c.tile.openstreetmap.org/${z}/${x}/${y}.png'
+		],
+		null
+	) );
 
 	// Center coordinates are not used by OpenLayers.
 	var southWestLonLat = CargoMap.toOpenLayersLonLat( map, this.southLatitude, this.westLongitude );

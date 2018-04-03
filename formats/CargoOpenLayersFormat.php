@@ -12,7 +12,7 @@ class CargoOpenLayersFormat extends CargoMapsFormat {
 	}
 
 	public function getScripts() {
-		return array( "http://www.openlayers.org/api/OpenLayers.js" );
+		return array( "//openlayers.org/api/OpenLayers.js" );
 	}
 
 }
