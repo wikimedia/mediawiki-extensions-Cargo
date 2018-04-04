@@ -12,6 +12,8 @@ $(document).ready(function() {
 		var innerSVG = $(this).find('svg');
 
 		d3.json( dataURL, function(data) {
+			// Quick exit.
+			if ( data == null ) return;
 
 			var maxLabelSize = 0;
 			var numbersIncludeDecimalPoints = false;
