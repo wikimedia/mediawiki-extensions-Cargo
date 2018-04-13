@@ -413,7 +413,8 @@ class CargoStore {
 		$cdb->endAtomic(__METHOD__);
 
 		// Now, store the data for all the "field tables".
-		foreach ( $fieldTableFieldValues as list( $fieldTableName, $fieldValues ) ) {
+		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {
+			list( $fieldTableName, $fieldValues ) = $tableNameAndValues;
 			CargoUtils::escapedInsert( $cdb, $fieldTableName, $fieldValues );
 		}
 

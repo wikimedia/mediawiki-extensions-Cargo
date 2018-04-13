@@ -165,7 +165,7 @@ class CargoFilter {
 
 		// We call array_values(), and not array_keys(), because
 		// SQL Server can't group by aliases.
-		$selectOptions = [ 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) ];
+		$selectOptions = array( 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) );
 		if ( $this->searchableFiles ) {
 			$fields['total'] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
 		} else {
@@ -184,7 +184,8 @@ class CargoFilter {
 		);
 
 		while ( $row = $cdb->fetchRow( $res ) ) {
-			if ( empty( current( $row ) ) ) {
+			$firstVal = current( $row ); // separate variable needed for PHP 5.3
+			if ( empty( $firstVal ) ) {
 				$possible_dates['_none'] = $row['total'];
 			} elseif ( $timePeriod == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row['month_field'] ) . ' ' . $row['day_of_month_field'] . ', ' . $row['year_field'];
