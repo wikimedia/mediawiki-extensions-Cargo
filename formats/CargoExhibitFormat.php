@@ -14,18 +14,18 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	/**
 	 * @param string $p
 	 * @return string
-	 **/
+	 */
 	function prependDot( $p ) {
-		return '.' . trim($p);
+		return '.' . trim( $p );
 	}
 
-	function createMap( $sqlQueries ){
+	function createMap( $sqlQueries ) {
 		$maps_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/map/map-extension.js"/>';
 		$this->mOutput->addHeadItem( $maps_script, $maps_script );
 
 		if ( ! array_key_exists( "latlng", $this->displayParams ) ) {
 			$coordFields = $this->getCoordinatesFields( $sqlQueries );
-			if ( count( $coordFields ) > 0 ){
+			if ( count( $coordFields ) > 0 ) {
 				$this->displayParams['latlng'] = $coordFields[0];
 			}
 		}
@@ -38,13 +38,13 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		);
 
 		if ( array_key_exists( "color", $this->displayParams ) ) {
-			$attrs["data-ex-color-key"] = $this->prependDot($this->displayParams['color']);
+			$attrs["data-ex-color-key"] = $this->prependDot( $this->displayParams['color'] );
 		}
 
 		return Html::element( 'div', $attrs );
 	}
 
-	function createTimeline( $sqlQueries ){
+	function createTimeline( $sqlQueries ) {
 		$timeline_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/time/time-extension.js"/>';
 		$this->mOutput->addHeadItem( $timeline_script, $timeline_script );
 
@@ -81,9 +81,9 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	* @param $fields_list array
-	*
-	*/
+	 * @param $fields_list array
+	 *
+	 */
 	function createTabular( $fieldList ) {
 		$columnsList = array();
 		foreach ( $fieldList as $field ) {
@@ -98,7 +98,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 			'data-ex-paginate' => "true",
 			'data-ex-table-styler' => "tableStyler",
 
-			'data-ex-columns' => implode(',',
+			'data-ex-columns' => implode( ',',
 				array_map( "CargoExhibitFormat::prependDot", $columnsList ) ),
 
 			'data-ex-column-labels' => implode( ',', array_map( "ucfirst", $columnsList ) )
@@ -107,7 +107,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		return Html::element( 'div', $attrs );
 	}
 
-	function createFacets( $facets ){
+	function createFacets( $facets ) {
 		// Explode facets and create the div for each of them.
 		$text = $this->createSearch();
 		foreach ( $facets as $f ) {
@@ -125,10 +125,10 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	* @param string $title
-	* @return string
-	*/
-	function createSearch( ) {
+	 * @param string $title
+	 * @return string
+	 */
+	function createSearch() {
 		$attrs = array(
 			'data-ex-role' => "exhibit-facet",
 			'data-ex-facet-class' => "TextSearch",
@@ -140,9 +140,9 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 
 	function createLens( $fieldList ) {
 		$lensBody = '<caption><strong data-ex-content=".label"></strong></caption>';
-		foreach( $fieldList as $field ) {
+		foreach ( $fieldList as $field ) {
 			if ( $field != "label" && strpos( $field, '__' ) === false &&
-			strpos( $field, '  ' ) === false) {
+			strpos( $field, '  ' ) === false ) {
 				$th = "<strong>" . ucfirst( $field ) . "</strong>";
 				$lensBody .= "<tr data-ex-if-exists=\".$field\"><td>$th</td><td data-ex-content=\".$field\"></td></tr>";
 			}
@@ -207,7 +207,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 
 		// Facets
 		if ( array_key_exists( 'facets', $displayParams ) ) {
-			$facets = array_map('trim', explode( ',' , $displayParams['facets'] ) );
+			$facets = array_map( 'trim', explode( ',', $displayParams['facets'] ) );
 			$preViewsText .= $this->createFacets( $facets );
 		} else {
 			$preViewsText .= $this->createFacets( array_slice( $field_list, 0, 3 ) );
@@ -243,33 +243,33 @@ EOLABEL;
 					$viewsText .= $this->createMap( $sqlQueries );
 					break;
 				case "Tabular":
-					$viewsText .= $this->createTabular($field_list);
-				}
+					$viewsText .= $this->createTabular( $field_list );
 			}
+		}
 
-		if ( count( $this->views ) > 1 ){
+		if ( count( $this->views ) > 1 ) {
 			$viewsText = Html::rawElement( 'div',
 				array( 'data-ex-role' => "viewPanel" ),
 				$viewsText );
 		}
 
-		return $preViewsText . '<div id="cargoExhibit">' . $viewsText . '</div>' ;
+		return $preViewsText . '<div id="cargoExhibit">' . $viewsText . '</div>';
 	}
 
 	/**
-	* Initializes $this->views[]
-	*/
-	function automateViews( $sqlQueries ){
+	 * Initializes $this->views[]
+	 */
+	function automateViews( $sqlQueries ) {
 		// map ?
 		$coordFields = $this->getCoordinatesFields( $sqlQueries );
-		if ( count( $coordFields ) > 0 ){
+		if ( count( $coordFields ) > 0 ) {
 			$this->views[] = 'Map';
 			$this->displayParams['latlng'] = $coordFields[0];
 		}
 
 		// timeline ?
 		$dateFields = $this->getDateFields( $sqlQueries );
-		if ( count( $dateFields ) > 0 ){
+		if ( count( $dateFields ) > 0 ) {
 			$this->views[] = 'Timeline';
 			$this->displayParams['start'] = $dateFields[0];
 		}
@@ -277,10 +277,10 @@ EOLABEL;
 		$this->views[] = 'Tabular';
 	}
 
-	function getCoordinatesFields( $sqlQueries ){
+	function getCoordinatesFields( $sqlQueries ) {
 		$coordinatesFields = array();
 
-		foreach ( $sqlQueries as $query){
+		foreach ( $sqlQueries as $query ) {
 			$fieldDescriptions = $query->mFieldDescriptions;
 			foreach ( $fieldDescriptions as $field => $description ) {
 				if ( $description->mType == 'Coordinates' ) {
@@ -291,10 +291,10 @@ EOLABEL;
 		return $coordinatesFields;
 	}
 
-	function getDateFields( $sqlQueries ){
+	function getDateFields( $sqlQueries ) {
 		$dateFields = array();
 
-		foreach ( $sqlQueries as $query){
+		foreach ( $sqlQueries as $query ) {
 			$fieldDescriptions = $query->mFieldDescriptions;
 			foreach ( $fieldDescriptions as $field => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {

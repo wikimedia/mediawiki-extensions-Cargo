@@ -26,10 +26,10 @@
  * @ingroup Maintenance
  */
 
-if ( getenv('MW_INSTALL_PATH') ) {
-	require_once( getenv('MW_INSTALL_PATH') . '/maintenance/Maintenance.php' );
+if ( getenv( 'MW_INSTALL_PATH' ) ) {
+	require_once getenv( 'MW_INSTALL_PATH' ) . '/maintenance/Maintenance.php';
 } else {
-	require_once( dirname( __FILE__ ) . '/../../../maintenance/Maintenance.php' );
+	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
 $maintClass = "CargoRecreateData";
@@ -121,9 +121,9 @@ class CargoRecreateData extends Maintenance {
 		}
 		$templatesForThisTable = array_merge( $templatesThatDeclareThisTable, $templatesThatAttachToThisTable );
 
-		foreach( $templatesForThisTable as $templatePageID ) {
+		foreach ( $templatesForThisTable as $templatePageID ) {
 			$templateTitle = Title::newFromID( $templatePageID );
-			if( $templateTitle == null ) {
+			if ( $templateTitle == null ) {
 				// It is possible that the Template to which the table is associated, is now deleted by the user
 				print "Template (Template Page ID = $templatePageID) does not exist, cannot recreate data corresponding to this template\n";
 				continue;
@@ -140,7 +140,7 @@ class CargoRecreateData extends Maintenance {
 					print "Saving data for pages " . ( $offset + 1 ) . " to " . ( $offset + count( $titlesWithThisTemplate ) ) . " that call this template...\n";
 				}
 
-				foreach( $titlesWithThisTemplate as $title ) {
+				foreach ( $titlesWithThisTemplate as $title ) {
 					// All we need to do here is set some global variables based
 					// on the parameters of this job, then parse the page -
 					// the #cargo_store function will take care of the rest.

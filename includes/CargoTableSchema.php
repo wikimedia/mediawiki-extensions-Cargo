@@ -20,7 +20,7 @@ class CargoTableSchema {
 		}
 		foreach ( $tableSchemaDBArray as $fieldName => $fieldDBArray ) {
 			$tableSchema->mFieldDescriptions[$fieldName] = CargoFieldDescription::newFromDBArray(
-					$fieldDBArray );
+				$fieldDBArray );
 		}
 		return $tableSchema;
 	}

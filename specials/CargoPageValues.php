@@ -93,12 +93,12 @@ class CargoPageValues extends IncludableSpecialPage {
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
 		$aliasedFieldNames = array();
-		foreach( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsHidden ) {
 				// @TODO - do some custom formatting
 			}
 
-			//$fieldAlias = str_replace( '_', ' ', $fieldName );
+			// $fieldAlias = str_replace( '_', ' ', $fieldName );
 			$fieldAlias = $fieldName;
 
 			if ( $fieldDescription->mIsList ) {

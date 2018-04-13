@@ -23,10 +23,10 @@ class CargoHierarchyTree {
 	}
 
 	/**
-	* Turn a manually-created "structure", defined as a bulleted list
-	* in wikitext, into a tree. This code has been borrowed from PFTree class
-	* of Page Forms Extension
-	*/
+	 * Turn a manually-created "structure", defined as a bulleted list
+	 * in wikitext, into a tree. This code has been borrowed from PFTree class
+	 * of Page Forms Extension
+	 */
 	public static function newFromWikiText( $wikitext ) {
 		// A dummy node (__pseudo_root__ is added so that
 		// multiple nodes can be added in the first level
@@ -37,7 +37,9 @@ class CargoHierarchyTree {
 			for ( $i = 0; $i < strlen( $line ) && $line[$i] == '*'; $i++ ) {
 				$numBullets++;
 			}
-			if ( $numBullets == 0 ) continue;
+			if ( $numBullets == 0 ) {
+				continue;
+			}
 			$lineText = trim( substr( $line, $numBullets ) );
 			$curParentNode = $fullTree->getLastNodeForLevel( $numBullets );
 			$curParentNode->addChild( new static( $lineText ) );
@@ -56,7 +58,7 @@ class CargoHierarchyTree {
 
 	function generateHierarchyStructureTableData() {
 		$tableData = array();
-		//  Preorder traversal using Stack data structure
+		// Preorder traversal using Stack data structure
 		$stack = new SplStack();
 		$stack->push( $this );
 		while ( !$stack->isEmpty() ) {
@@ -76,7 +78,7 @@ class CargoHierarchyTree {
 	private function computeLeftRight( &$counter = 1 ) {
 		$this->mLeft = $counter;
 		$counter += 1;
-		//  Visit mChildren of the current node
+		// Visit mChildren of the current node
 		foreach ( $this->mChildren as $child ) {
 			$child->computeLeftRight( $counter );
 		}

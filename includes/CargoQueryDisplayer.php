@@ -335,7 +335,7 @@ class CargoQueryDisplayer {
 			if ( array_key_exists( 'default', $this->mDisplayParams ) ) {
 				return $this->mDisplayParams['default'];
 			} else {
-				return '<em>' . wfMessage( 'table_pager_empty' )->text() . '</em>'; //default
+				return '<em>' . wfMessage( 'table_pager_empty' )->text() . '</em>'; // default
 			}
 		}
 

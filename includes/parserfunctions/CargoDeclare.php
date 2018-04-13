@@ -111,7 +111,7 @@ class CargoDeclare {
 				$fieldName = $key;
 				$fieldDescriptionStr = $value;
 				// Validate field name.
-				if ( preg_match('/\s/', $fieldName ) ) {
+				if ( preg_match( '/\s/', $fieldName ) ) {
 					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains whitespaces. "
 						. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
 				} elseif ( strpos( $fieldName, '_' ) === 0 ) {
@@ -146,7 +146,7 @@ class CargoDeclare {
 		// Validate table name.
 		if ( $tableName == '' ) {
 			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
-		} elseif ( preg_match('/\s/', $tableName ) ) {
+		} elseif ( preg_match( '/\s/', $tableName ) ) {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains whitespaces. "
 				. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
 		} elseif ( strpos( $tableName, '_' ) === 0 ) {

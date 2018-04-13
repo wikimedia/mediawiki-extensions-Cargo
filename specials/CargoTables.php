@@ -111,7 +111,7 @@ class CargoTables extends IncludableSpecialPage {
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval($row['total']) )->text() . "\n" );
+		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) )->text() . "\n" );
 
 		// Then, show the actual table, via a query.
 		$sqlQuery = new CargoSQLQuery();
@@ -179,7 +179,6 @@ class CargoTables extends IncludableSpecialPage {
 		$displayParams = array();
 		$displayParams['max display chars'] = 300;
 
-
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mDisplayParams = $displayParams;
 		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
@@ -200,7 +199,7 @@ class CargoTables extends IncludableSpecialPage {
 	function displayNumRowsForTable( $cdb, $tableName ) {
 		$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		$row = $cdb->fetchRow( $res );
-		return $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( intval($row['total']) )->parse();
+		return $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( intval( $row['total'] ) )->parse();
 	}
 
 	function displayActionLinksForTable( $tableName, $isReplacementTable, $canBeRecreated, $templateID ) {
@@ -316,7 +315,7 @@ class CargoTables extends IncludableSpecialPage {
 		// The following line would have made more sense to call, but
 		// it seems to return true if there are *any* jobs in the
 		// queue - a bug in MediaWiki?
-		//if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
+		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
 		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
 			$text .= '<div class="warningbox">' . $this->msg( 'cargo-cargotables-beingpopulated' )->text() . "</div>\n";
 		}

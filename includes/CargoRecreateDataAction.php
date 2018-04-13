@@ -42,7 +42,7 @@ class CargoRecreateDataAction extends Action {
 	 *
 	 * @param SkinTemplate $obj
 	 * @param array $content_actions
-	 * @return boolean
+	 * @return bool
 	 */
 	static function displayTab( SkinTemplate $obj, array &$content_actions ) {
 		$title = $obj->getTitle();
@@ -85,7 +85,7 @@ class CargoRecreateDataAction extends Action {
 	 *
 	 * @param SkinTemplate $obj
 	 * @param array $links
-	 * @return boolean
+	 * @return bool
 	 */
 	static function displayTab2( SkinTemplate $obj, array &$links ) {
 		// The old '$content_actions' array is thankfully just a
@@ -95,11 +95,12 @@ class CargoRecreateDataAction extends Action {
 		$links['actions'] = $views_links;
 		return true;
 	}
-  
+
 	/**
 	 * Implement this to support MW 1.23, which has it as an abstract
 	 * function.
 	 */
-	public function execute() { }
+	public function execute() {
+	}
 
 }

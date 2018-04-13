@@ -41,7 +41,7 @@ class CargoPageData {
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
-			list ( $type, $isList ) = $fieldVals;
+			list( $type, $isList ) = $fieldVals;
 			$fieldDesc = new CargoFieldDescription();
 			$fieldDesc->mType = $type;
 			if ( $isList ) {
@@ -128,7 +128,7 @@ class CargoPageData {
 				__METHOD__
 			);
 			$row = $dbr->fetchRow( $res );
-			$pageDataValues['_numRevisions'] = intval($row['total']);
+			$pageDataValues['_numRevisions'] = intval( $row['total'] );
 		}
 
 		CargoStore::storeAllData( $title, '_pageData', $pageDataValues, $tableSchemas['_pageData'] );

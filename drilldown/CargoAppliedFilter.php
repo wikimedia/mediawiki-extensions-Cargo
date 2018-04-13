@@ -63,7 +63,7 @@ class CargoAppliedFilter {
 		}
 		$sql = "(";
 		if ( $this->search_terms != null ) {
-			$quoteReplace = ( $cdb->getType() == 'postgres' ? "''" : "\'");
+			$quoteReplace = ( $cdb->getType() == 'postgres' ? "''" : "\'" );
 			foreach ( $this->search_terms as $i => $search_term ) {
 				$search_term = str_replace( "'", $quoteReplace, $search_term );
 				if ( $i > 0 ) {
@@ -73,11 +73,11 @@ class CargoAppliedFilter {
 					// FIXME: 'LIKE' is supposed to be
 					// case-insensitive, but it's not acting
 					// that way here.
-					//$search_term = strtolower( $search_term );
+					// $search_term = strtolower( $search_term );
 					$search_term = str_replace( ' ', '\_', $search_term );
 					$sql .= "$value_field LIKE '%{$search_term}%'";
 				} else {
-					//$search_term = strtolower( $search_term );
+					// $search_term = strtolower( $search_term );
 					$sql .= "$value_field LIKE '%{$search_term}%'";
 				}
 			}
@@ -101,7 +101,7 @@ class CargoAppliedFilter {
 			}
 			if ( $fv->is_other ) {
 				$checkNullOrEmptySql = "$value_field IS NULL " . ( $cdb->getType() == 'postgres' ? '' :
-						"OR $value_field = '' ");
+						"OR $value_field = '' " );
 				$notOperatorSql = ( $cdb->getType() == 'postgres' ? "not" : "!" );
 				$sql .= "($notOperatorSql ($checkNullOrEmptySql ";
 				foreach ( $this->filter->possible_applied_filters as $paf ) {
@@ -119,7 +119,7 @@ class CargoAppliedFilter {
 					$sql .= "( (" . $leftCond . ") AND (" . $rightCond . ") )";
 				}
 			} elseif ( $fv->is_none ) {
-				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR ") .
+				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR " ) .
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {

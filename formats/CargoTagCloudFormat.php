@@ -23,7 +23,6 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	function display( $valuesTagCloud, $formattedValuesTagCloud, $fieldDescriptions, $displayParams ) {
-
 		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
 
 		if ( count( $fieldDescriptions ) < 2 ) {
@@ -81,7 +80,7 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 			$sizes = array();
 		}
 
-		$attrs = array (
+		$attrs = array(
 			'class' => 'cargoTagCloud',
 			'align' => 'justify'
 		);
@@ -107,7 +106,7 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 				$size = $sizes[$countstr];
 			}
 			$text .= Html::rawElement( 'span',
-				array (
+				array(
 					'style' => 'font-size:' . $size .'%;white-space:nowrap;'
 				),
 				$tagstring );

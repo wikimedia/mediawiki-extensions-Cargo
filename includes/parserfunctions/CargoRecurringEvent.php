@@ -133,7 +133,7 @@ class CargoRecurringEvent {
 					$displayMonth = $curMonth;
 				} else { // $unit === 'month'
 					$curMonth += $period;
-					$curYear += (int) ( ( $curMonth - 1 ) / 12 );
+					$curYear += (int)( ( $curMonth - 1 ) / 12 );
 					$curMonth %= 12;
 					$displayMonth = ( $curMonth == 0 ) ? 12 : $curMonth;
 				}
@@ -201,7 +201,7 @@ class CargoRecurringEvent {
 
 			// Should we stop?
 			$reachedEndDate = ( $instanceNum > $wgCargoRecurringEventMaxInstances ||
-				(!is_null( $endDate ) && ( $curDateJD > $endDateJD ) ) );
+				( !is_null( $endDate ) && ( $curDateJD > $endDateJD ) ) );
 		} while ( !$reachedEndDate );
 
 		// Add in the 'include' dates as well.

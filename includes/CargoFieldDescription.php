@@ -74,7 +74,7 @@ class CargoFieldDescription {
 			}
 			if ( $allowedValuesParam !== "" ) {
 				$allowedValuesArray = array();
-				if( $fieldDescription->mIsHierarchy == true ) {
+				if ( $fieldDescription->mIsHierarchy == true ) {
 					// $paramValue contains "*" hierarchy structure
 					CargoUtils::validateHierarchyStructure( trim( $allowedValuesParam ) );
 					$fieldDescription->mHierarchyStructure = trim( $allowedValuesParam );
@@ -101,7 +101,9 @@ class CargoFieldDescription {
 					$allowedValuesStr = str_replace( "\\$delimiter", "\a", $allowedValuesParam );
 					$allowedValuesTempArray = explode( $delimiter, $allowedValuesStr );
 					foreach ( $allowedValuesTempArray as $i => $value ) {
-						if ( $value == '' ) continue;
+						if ( $value == '' ) {
+							continue;
+						}
 						// Replace beep back with delimiter, trim.
 						$value = str_replace( "\a", $delimiter, trim( $value ) );
 						$allowedValuesArray[] = $value;

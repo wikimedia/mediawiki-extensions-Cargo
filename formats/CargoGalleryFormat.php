@@ -59,7 +59,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 					continue;
 				}
 			}
-			
+
 			$files[] = array(
 				'title' => $title,
 				'caption' => CargoUtils::smartParse( $f['caption'], null ),
@@ -120,7 +120,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		} else {
 			$linkField = null;
 		}
-		
+
 		$files = self::getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField );
 		// Display mode - can be 'traditional'/null, 'nolines',
 		// 'packed', 'packed-overlay' or 'packed-hover'; see
@@ -149,7 +149,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 			$gallery->setWidths( $displayParams['image width'] );
 		}
 		if ( array_key_exists( 'image height', $displayParams ) ) {
-			$gallery->setHeights( $displayParams['image height']);
+			$gallery->setHeights( $displayParams['image height'] );
 		}
 
 		foreach ( $files as $file ) {

@@ -96,7 +96,7 @@ class CargoExport extends UnlistedSpecialPage {
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFieldRealNames = array();
 			$dateFieldAliases = array();
-			foreach( $sqlQuery->mFieldDescriptions as $alias => $description ) {
+			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
 					$dateFieldAliases[] = $alias;
 					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
@@ -206,7 +206,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFields = array();
-			foreach( $sqlQuery->mFieldDescriptions as $field => $description ) {
+			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
 					$dateFields[] = $field;
 				}
@@ -303,7 +303,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray = array();
 		$labelNames = array();
 		$fieldNum = 0;
-		foreach( $firstRow as $fieldName => $value ) {
+		foreach ( $firstRow as $fieldName => $value ) {
 			if ( $fieldNum == 0 ) {
 				$labelNames[] = $value;
 			} else {
@@ -324,7 +324,7 @@ class CargoExport extends UnlistedSpecialPage {
 					$labelName = $value;
 					if ( trim( $value ) == '' ) {
 						// Display blank labels as "None".
-						$labelName =  $this->msg( 'powersearch-togglenone' )->text();
+						$labelName = $this->msg( 'powersearch-togglenone' )->text();
 					}
 				} else {
 					$displayedArray[$fieldNum - 1]['values'][] = array(
@@ -345,7 +345,7 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$queryResultsArray = array();
 		$allHeaders = array();
-		foreach( $sqlQueries as $sqlQuery ) {
+		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
 			$allHeaders = array_merge( $allHeaders, array_keys( reset( $queryResults ) ) );
 			$queryResultsArray[] = $queryResults;
@@ -354,7 +354,7 @@ class CargoExport extends UnlistedSpecialPage {
 		// Remove duplicates from headers array.
 		$allHeaders = array_unique( $allHeaders );
 
-		$out = fopen('php://output', 'w');
+		$out = fopen( 'php://output', 'w' );
 
 		// Display header row.
 		fputcsv( $out, $allHeaders, $delimiter );
@@ -380,26 +380,25 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayExcelData( $sqlQueries, $filename ) {
-
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
 
 		$file = new PHPExcel();
-		$file->setActiveSheetIndex(0);
+		$file->setActiveSheetIndex( 0 );
 
 		// Create array with header row and query results.
 		$header[] = array_keys( reset( $queryResults ) );
-		$rows = array_merge($header, $queryResults);
+		$rows = array_merge( $header, $queryResults );
 
-		$file->getActiveSheet()->fromArray($rows, null, 'A1');
-		header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		header("Content-Disposition: attachment;filename=$filename");
-		header("Cache-Control: max-age=0");
+		$file->getActiveSheet()->fromArray( $rows, null, 'A1' );
+		header( "Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" );
+		header( "Content-Disposition: attachment;filename=$filename" );
+		header( "Cache-Control: max-age=0" );
 
-		$writer = PHPExcel_IOFactory::createWriter($file, 'Excel5');
+		$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel5' );
 
-		$writer->save('php://output');
+		$writer->save( 'php://output' );
 	}
 
 	function displayJSONData( $sqlQueries ) {

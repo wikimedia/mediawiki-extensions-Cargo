@@ -31,7 +31,7 @@ class CargoAutocompleteAPI extends ApiBase {
 		if ( !is_array( $data ) ) {
 			if ( is_callable( array( $this, 'dieWithError' ) ) ) {
 				if ( !$data instanceof Message ) {
-					$data = ApiMessage::create( new RawMessage( '$1', [ $data ] ), 'unknownerror' );
+					$data = ApiMessage::create( new RawMessage( '$1', array( $data ) ), 'unknownerror' );
 				}
 				$this->dieWithError( $data );
 			} else {
@@ -51,8 +51,8 @@ class CargoAutocompleteAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array (
-			'limit' => array (
+		return array(
+			'limit' => array(
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_MIN => 1,
@@ -102,11 +102,11 @@ class CargoAutocompleteAPI extends ApiBase {
 			$operator = ( $fieldIsArray ) ? "HOLDS LIKE" : "LIKE";
 			// There's no such global variable at the moment -
 			// perhaps there will be in the future.
-			//if ( $wgCargoDrilldownAutocompleteOnAllChars ) {
-			//	$where .= "($field $operator \"%$substr%\")";
-			//} else {
+			// if ( $wgCargoDrilldownAutocompleteOnAllChars ) {
+			// $where .= "($field $operator \"%$substr%\")";
+			// } else {
 				$where .= "($field $operator \"$substr%\" OR $field $operator \"% $substr%\")";
-			//}
+			// }
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues(

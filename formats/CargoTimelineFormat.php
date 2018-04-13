@@ -21,7 +21,7 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'timeline';
-		//$queryParams['color'] = array();
+		// $queryParams['color'] = array();
 		/* foreach ( $sqlQueries as $i => $sqlQuery ) {
 		  if ( $querySpecificParams != null ) {
 		  // Add any handling here.

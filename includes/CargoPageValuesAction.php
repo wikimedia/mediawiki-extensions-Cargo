@@ -31,11 +31,11 @@ class CargoPageValuesAction extends Action {
 	 *
 	 * @param BaseTemplate $skinTemplate
 	 * @param array $toolbox
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function addLink( BaseTemplate $skinTemplate, array &$toolbox ) {
 		$title = $skinTemplate->getSkin()->getTitle();
-		// This function doesn't usually get called for special pages, 
+		// This function doesn't usually get called for special pages,
 		// but sometimes it is.
 		if ( $title->isSpecialPage() ) {
 			return true;
@@ -55,6 +55,7 @@ class CargoPageValuesAction extends Action {
 	 * Implement this to support MW 1.23, which has it as an abstract
 	 * function.
 	 */
-	public function execute() { }
+	public function execute() {
+	}
 
 }

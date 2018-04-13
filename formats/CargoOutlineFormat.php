@@ -111,7 +111,7 @@ class CargoOutlineFormat extends CargoListFormat {
 			$text .= "<ul>\n";
 			foreach ( $outlineTree->mUnsortedRows as $row ) {
 				$text .= Html::rawElement( 'li', null,
-						$this->displayRow( $row->mDisplayFields, $this->mFieldDescriptions ) ) . "\n";
+					$this->displayRow( $row->mDisplayFields, $this->mFieldDescriptions ) ) . "\n";
 			}
 			$text .= "</ul>\n";
 		}
@@ -140,8 +140,8 @@ class CargoOutlineFormat extends CargoListFormat {
 		}
 		foreach ( $outlineTree->mTree as $node ) {
 			$text .= Html::rawElement( 'p',
-					array( 'style' =>
-					"font-size: $fontSize; font-weight: $fontWeight;" ), $node->mFormattedValue ) . "\n";
+				array( 'style' =>
+				"font-size: $fontSize; font-weight: $fontWeight;" ), $node->mFormattedValue ) . "\n";
 			$text .= $this->printTree( $node, $level + 1 );
 		}
 		if ( $level > 0 ) {

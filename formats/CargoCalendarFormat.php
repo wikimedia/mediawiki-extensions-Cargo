@@ -65,7 +65,7 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			$height = $displayParams['height'];
 			// The height should be either a number or "auto".
 			if ( !is_numeric( $height ) ) {
-				if ( $height != "auto") {
+				if ( $height != "auto" ) {
 					$height = null;
 				}
 			}

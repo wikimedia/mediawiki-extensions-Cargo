@@ -121,7 +121,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				$filter_used[$i] = true;
 			} elseif ( $lower_date != null || $upper_date != null ) {
 				$applied_filters[] = CargoAppliedFilter::create( $filter, array(), null, $lower_date,
-						$upper_date );
+					$upper_date );
 				$filter_used[$i] = true;
 			}
 		}
@@ -142,7 +142,9 @@ class CargoDrilldown extends IncludableSpecialPage {
 				}
 			}
 			if ( $matched_all_required_filters ) {
-				if ( !$filter_used[$i] ) $remaining_filters[] = $filter;
+				if ( !$filter_used[$i] ) {
+					$remaining_filters[] = $filter;
+				}
 			}
 		}
 
@@ -158,7 +160,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$tableTitle = $this->msg( 'drilldown' )->text();
 		} else {
 			$tableTitle = $this->msg( 'drilldown' )->text() . html_entity_decode(
-					$this->msg( 'colon-separator' )->text() ) . $rep->displayTableName( $tableName );
+				$this->msg( 'colon-separator' )->text() ) . $rep->displayTableName( $tableName );
 		}
 		$out->setPageTitle( $tableTitle );
 
@@ -188,8 +190,8 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param array $applied_filters
 	 * @param array $remaining_filters
 	 * @param string $fullTextSearchTerm
-	 * @param boolean $searchablePages
-	 * @param boolean $searchableFiles
+	 * @param bool $searchablePages
+	 * @param bool $searchableFiles
 	 * @param int $offset
 	 * @param int $limit
 	 */
@@ -253,7 +255,7 @@ class CargoDrilldownPage extends QueryPage {
 				foreach ( $af->search_terms as $j => $search_term ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 					$url .= '_search_' . urlencode( str_replace( ' ', '_', $af->filter->name ) .
-							'[' . $j . ']' ) . "=" . urlencode( str_replace( ' ', '_', $search_term ) );
+						'[' . $j . ']' ) . "=" . urlencode( str_replace( ' ', '_', $search_term ) );
 				}
 			}
 		}
@@ -304,7 +306,7 @@ END;
 		}
 		$cdb = CargoUtils::getDB();
 		foreach ( $tables as $table ) {
-			if( $cdb->tableExists( $table ) == false ) {
+			if ( $cdb->tableExists( $table ) == false ) {
 				$text .= '<li class="tableName error">' . $table . "</li>";
 				continue;
 			}
@@ -319,7 +321,7 @@ END;
 				$text .= '						<li class="tableName">';
 				$tableURL = $this->makeBrowseURL( $table );
 				$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
-						$tableStr );
+					$tableStr );
 			}
 			$text .= "</li>\n";
 		}
@@ -451,7 +453,7 @@ END;
 				}
 				$results_line = $this->printComboBoxInput(
 					$af->filter->name, $curSearchTermNum, $filter_values );
-				}
+			}
 			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 		}
 		// Add 'Other' and 'None', regardless of whether either has
@@ -487,8 +489,8 @@ END;
 			} else {
 				$filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $applied_filters );
 				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
-						array( 'href' => $filter_url,
-						'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
+					array( 'href' => $filter_url,
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
 			}
 			foreach ( $applied_filters as $af2 ) {
 				if ( $af->filter->name == $af2->filter->name ) {
@@ -502,7 +504,7 @@ END;
 	function printAppliedFilterLineForHierarchy( $af ) {
 		$applied_filters = $this->applied_filters;
 		$applied_filters_no_hierarchy = array();
-		foreach( $applied_filters as $key => $af2 ) {
+		foreach ( $applied_filters as $key => $af2 ) {
 			if ( !$af2->filter->fieldDescription->mIsHierarchy ) {
 				$applied_filters_no_hierarchy[] = $af2;
 			}
@@ -513,7 +515,7 @@ END;
 		// Therefore it has single filter value applied at anytime
 		$filter_value = "";
 		$isFilterValueNotWithin = false;
-		if ( count ( $af->values ) > 0 ) {
+		if ( count( $af->values ) > 0 ) {
 			$filter_value = $af->values[0]->text;
 			$matches = array();
 			preg_match( "/^~within (.+)/", $filter_value, $matches );
@@ -533,7 +535,7 @@ END;
 				$drilldownHierarchyRoot = $node;
 				break;
 			}
-			for( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
+			for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
 				$stack->push( $node->mChildren[$i] );
 			}
 		}
@@ -591,7 +593,7 @@ END;
 					$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
 						urlencode( str_replace( ' ', '_', "~within_" . $node->mRootValue ) );
 					// generate respective <a> tag with value and its count
-					$results_line .= ( $node === $drilldownHierarchyRoot )?$node->mRootValue . " ($node->mWithinTreeMatchCount)":
+					$results_line .= ( $node === $drilldownHierarchyRoot ) ? $node->mRootValue . " ($node->mWithinTreeMatchCount)" :
 						$this->printFilterValueLink( $f, $node->mRootValue, $node->mWithinTreeMatchCount, $filter_url, $filter_values );
 				}
 				if ( count( $node->mChildren ) > 0 && $node->mWithinTreeMatchCount > 0 && $depth < $maxDepth ) {
@@ -603,13 +605,13 @@ END;
 							$filter_url = $cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
 								urlencode( str_replace( ' ', '_', $node->mRootValue ) );
 							$results_line .= $this->printFilterValueLink( $f,
-								wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() ,
+								wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse(),
 								$node->mExactRootMatchCount, $filter_url, $filter_values );
 							$num_printed_values_level++;
 						}
 						$stack->push( ")" );
 					}
-					for( $i = count( $node->mChildren ) - 1; $i >= 0; $i--) {
+					for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
 						$stack->push( $node->mChildren[$i] );
 					}
 				}
@@ -639,7 +641,7 @@ END;
 		$filter_text .= " ($num_results)";
 		if ( $wgCargoDrilldownSmallestFontSize > 0 && $wgCargoDrilldownLargestFontSize > 0 ) {
 			if ( $lowest_num_results != $highest_num_results ) {
-				$font_size = round( ((log( $num_results ) - log( $lowest_num_results )) * $scale_factor ) +
+				$font_size = round( ( ( log( $num_results ) - log( $lowest_num_results ) ) * $scale_factor ) +
 					$wgCargoDrilldownSmallestFontSize );
 			} else {
 				$font_size = ( $wgCargoDrilldownSmallestFontSize + $wgCargoDrilldownLargestFontSize ) / 2;
@@ -926,7 +928,7 @@ END;
 		if ( $is_full_text_search ) {
 			// Make this input narrower than the standard MediaWiki search
 			// input, to accomodate the list of tables on the side.
-			$text .=<<< END
+			$text .= <<< END
 <div class="oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="max-width: 40em;" data-ooui>
 	<input type="text" name="$inputName" value="$cur_value" />
 <span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
@@ -996,7 +998,7 @@ END;
 			}
 		}
 
-		$text .=<<< END
+		$text .= <<< END
 	<div class="ui-widget">
 		<select class="cargoDrilldownComboBox" name="$cur_value">
 			<option value="$inputName"></option>;
@@ -1010,7 +1012,7 @@ END;
 			}
 		}
 
-		$text .=<<<END
+		$text .= <<<END
 		</select>
 	</div>
 
@@ -1067,13 +1069,13 @@ END;
 
 		$fieldType = $f->fieldDescription->mType;
 		$isHierarchy = $f->fieldDescription->mIsHierarchy;
-		if( $cur_url === null ) {
+		if ( $cur_url === null ) {
 			// If $cur_url wasn't passed in, we have to create it.
 			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters, $f->name );
 			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		}
 
-		if( $isHierarchy ) {
+		if ( $isHierarchy ) {
 			$results_line = $this->printUnappliedFilterValuesForHierarchy( $cur_url, $f,
 				$this->fullTextSearchTerm, $this->applied_filters );
 			return $this->printFilterLine( $f->name, false, true, $results_line );
@@ -1531,7 +1533,6 @@ END;
 	}
 
 	function openList( $offset ) {
-
 	}
 
 	function closeList() {

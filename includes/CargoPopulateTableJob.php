@@ -21,7 +21,7 @@ class CargoPopulateTableJob extends Job {
 	/**
 	 * Run a CargoPopulateTable job.
 	 *
-	 * @return boolean success
+	 * @return bool success
 	 */
 	function run() {
 		if ( is_null( $this->title ) ) {

@@ -97,7 +97,6 @@ class CargoSQLQuery {
 	 */
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
-
 		// Remove quoted strings from "where" parameter, to avoid
 		// unnecessary false positives from words like "from"
 		// being included in string comparisons.
@@ -670,8 +669,8 @@ class CargoSQLQuery {
 	 */
 	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found, &$fullExpression ) {
 		if ( preg_match( $pattern, $subject ) ) {
-			$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern);
-			$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern);
+			$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern );
+			$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern );
 			$subject = preg_replace( $pattern, $replacement, $subject );
 			$pattern2 = '/' . $replacement . '\s*([\'"]?[^\'"]*[\'"]?)/i'; // To capture string in quotes or a number
 			if ( preg_match( $pattern2, $subject, $matches ) ) {
@@ -685,15 +684,15 @@ class CargoSQLQuery {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
 		// "where" - make sure that "HOLDS" or "HOlDS LIKE" is
-		//     specified. If it is, "translate" it, and add the values
-		//     table to "tables" and "join on".
+		// specified. If it is, "translate" it, and add the values
+		// table to "tables" and "join on".
 		// "join on" - make sure that "HOLDS" is specified, If it is,
-		//     "translate" it, and add the values table to "tables".
+		// "translate" it, and add the values table to "tables".
 		// "group by" - always "translate" it into the single value.
 		// "having" - same as "group by".
 		// "fields" - "translate" it, where the translation (i.e.
-		//     the true field) depends on whether or not the values
-		//     table is included.
+		// the true field) depends on whether or not the values
+		// table is included.
 		// "order by" - same as "fields".
 
 		// First, create an array of the virtual fields in the current
@@ -743,7 +742,7 @@ class CargoSQLQuery {
 				);
 
 			$fullExpression = null;
-			for ( $i = 0 ; $i < 2 ; $i++ ) {
+			for ( $i = 0; $i < 2; $i++ ) {
 				if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
 
 					$this->substVirtualFieldName(
@@ -831,7 +830,7 @@ class CargoSQLQuery {
 		foreach ( $this->mCargoJoinConds as $i => $joinCond ) {
 			// We only handle 'HOLDS' here - no joining on
 			// 'HOLDS LIKE'.
-			 if ( !array_key_exists( 'joinOperator', $joinCond ) || $joinCond['joinOperator'] != ' HOLDS ' ) {
+			if ( !array_key_exists( 'joinOperator', $joinCond ) || $joinCond['joinOperator'] != ' HOLDS ' ) {
 				continue;
 			}
 
@@ -969,7 +968,7 @@ class CargoSQLQuery {
 				} else {
 					$replacement = $tableName . '.' . $fieldName . '__full';
 				}
-				if ( isset( $matches[2] ) && ($matches[2] == ',') ) {
+				if ( isset( $matches[2] ) && ( $matches[2] == ',' ) ) {
 					$replacement .= ',';
 				}
 				if ( $foundMatch1 ) {
@@ -989,10 +988,10 @@ class CargoSQLQuery {
 		// Coordinate fields can be found in the "fields" and "where"
 		// clauses. The following handling is done:
 		// "fields" - "translate" it, where the translation (i.e.
-		//     the true field) depends on whether or not the values
-		//     table is included.
+		// the true field) depends on whether or not the values
+		// table is included.
 		// "where" - make sure that "NEAR" is specified. If it is,
-		//     translate the clause accordingly.
+		// translate the clause accordingly.
 
 		// First, create an array of the coordinate fields in the
 		// current set of tables.
@@ -1119,8 +1118,8 @@ class CargoSQLQuery {
 	 */
 	function handleHierarchyFields() {
 		// "where" - make sure that if
-		//		"WITHIN" (if not list) or "HOLDS WITHIN" (if list)
-		//		is specified, then translate the clause accordingly.
+		// "WITHIN" (if not list) or "HOLDS WITHIN" (if list)
+		// is specified, then translate the clause accordingly.
 		// other translations in case of List fields,
 		// are handled by handleVirtualFields().
 
@@ -1138,7 +1137,7 @@ class CargoSQLQuery {
 							'fieldName' => $fieldName,
 							'tableAlias' => $tableAlias,
 							'tableName' => $tableName,
-							'isList'=> $fieldDescription->mIsList
+							'isList' => $fieldDescription->mIsList
 						);
 					}
 				}
@@ -1191,7 +1190,7 @@ class CargoSQLQuery {
 				$completeMatch = true;
 				$completeSearchPattern = $patternRoot . '(\s+HOLDS WITHIN\s+)' . $patternSuffix;
 				if ( count( $matches ) != 4 || $matches[3] === "" ) {
-					throw new MWException( "Error: Please specify a value for \"HOLDS WITHIN\"");
+					throw new MWException( "Error: Please specify a value for \"HOLDS WITHIN\"" );
 				}
 				$withinValue = $matches[3];
 				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .
@@ -1209,7 +1208,7 @@ class CargoSQLQuery {
 				$completeMatch = true;
 				$completeSearchPattern = $patternRoot . '(\s+WITHIN\s+)' . $patternSuffix;
 				if ( count( $matches ) != 4 || $matches[3] === "" ) {
-					throw new MWException( "Error: Please specify a value for \"WITHIN\"");
+					throw new MWException( "Error: Please specify a value for \"WITHIN\"" );
 				}
 				$withinValue = $matches[3];
 				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .

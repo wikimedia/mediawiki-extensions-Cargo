@@ -141,7 +141,7 @@ class CargoCompoundQuery {
 			$queryDisplayer->mFieldDescriptions = $sqlQuery->mFieldDescriptions;
 			$formattedQueryResults = array_merge( $formattedQueryResults,
 				$queryDisplayer->getFormattedQueryResults( $queryResults ) );
-			//$formattedQueryResultsArray[] = $formattedQueryResults;
+			// $formattedQueryResultsArray[] = $formattedQueryResults;
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				$allFieldDescriptions[$alias] = $description;
 			}

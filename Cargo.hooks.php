@@ -43,7 +43,7 @@ class CargoHooks {
 	 * @global int $wgCargoMapClusteringMinimum
 	 * @param array $vars Global JS vars
 	 * @param OutputPage $out
-	 * @return boolean
+	 * @return bool
 	 */
 	static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
 		global $wgCargoMapClusteringMinimum;
@@ -61,10 +61,10 @@ class CargoHooks {
 		 * keys from 1, in order to match built-in arrays, such as
 		 * $wgMonthNames.
 		 */
-		array_shift( $vars['wgCargoMonthNames'] ); //start keys from 0
+		array_shift( $vars['wgCargoMonthNames'] ); // start keys from 0
 
 		$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
-		array_shift( $vars['wgCargoMonthNamesShort'] ); //start keys from 0
+		array_shift( $vars['wgCargoMonthNamesShort'] ); // start keys from 0
 
 		$vars['wgCargoWeekDays'] = array();
 		$vars['wgCargoWeekDaysShort'] = array();
@@ -81,7 +81,7 @@ class CargoHooks {
 	 *
 	 * @param SkinTemplate $skinTemplate
 	 * @param array $links
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function addPurgeCacheTab( SkinTemplate &$skinTemplate, array &$links ) {
 		// Only add this tab if Semantic MediaWiki (which has its
@@ -198,13 +198,13 @@ class CargoHooks {
 	 * @param User $user Unused
 	 * @param Content $content
 	 * @param string $summary Unused
-	 * @param boolean $isMinor Unused
+	 * @param bool $isMinor Unused
 	 * @param null $isWatch Unused
 	 * @param null $section Unused
 	 * @param int $flags Unused
 	 * @param Status $status Unused
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function onPageContentSaveComplete(
 		WikiPage $wikiPage, $user, $content, $summary, $isMinor,
@@ -269,7 +269,7 @@ class CargoHooks {
 	 * @param int $oldid
 	 * @param int $newid Unused
 	 * @param string $reason Unused
-	 * @return boolean
+	 * @return bool
 	 *
 	 * It's $user here and not &$user due to a bug in MW 1.27 - this declaration works
 	 * across all versions, thankfully.
@@ -350,7 +350,7 @@ class CargoHooks {
 	 * Called by a hook in the Admin Links extension.
 	 *
 	 * @param ALTree $adminLinksTree
-	 * @return boolean
+	 * @return bool
 	 */
 	public static function addToAdminLinks( &$adminLinksTree ) {
 		$browseSearchSection = $adminLinksTree->getSection(
@@ -367,7 +367,7 @@ class CargoHooks {
 	 * Called by MediaWiki's ResourceLoaderStartUpModule::getConfig()
 	 * to set static (not request-specific) configuration variables
 	 * @param array $vars
-	*/
+	 */
 	public static function onResourceLoaderGetConfigVars( array &$vars ) {
 		global $cgScriptPath;
 

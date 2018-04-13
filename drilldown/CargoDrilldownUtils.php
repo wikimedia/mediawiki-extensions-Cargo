@@ -14,7 +14,7 @@ class CargoDrilldownUtils {
 	 *
 	 * @global string $cgScriptPath
 	 * @param array $vars
-	 * @return boolean
+	 * @return bool
 	 */
 	static function setGlobalJSVariables( &$vars ) {
 		global $cgScriptPath;
@@ -48,7 +48,7 @@ class CargoDrilldownUtils {
 	 * @global Language $wgLang
 	 * @param string $str
 	 * @param Language $language
-	 * @return int|boolean
+	 * @return int|bool
 	 */
 	static function stringToMonth( $str, Language $language = null ) {
 		if ( $language === null ) {

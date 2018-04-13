@@ -34,8 +34,8 @@ class CargoPageSchemas extends PSExtensionHandler {
 					continue;
 				}
 				$allowedValues = array();
-				foreach ( $child->children() as $prop => $value) {
-					if ( $prop == "AllowedValue" ){
+				foreach ( $child->children() as $prop => $value ) {
+					if ( $prop == "AllowedValue" ) {
 						$allowedValues[] = (string)$value;
 					} else {
 						$cargoArray[$prop] = (string)$value;
@@ -121,7 +121,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 	 * Returns the HTML for setting the options for the Cargo section
 	 * in Page Schemas' "edit schema" page.
 	 */
-	public static function getFieldEditingHTML( $psField ){
+	public static function getFieldEditingHTML( $psField ) {
 		global $wgCargoFieldTypes;
 
 		$cargoArray = array();
@@ -204,7 +204,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 				if ( !empty( $val ) ) {
 					$xml .= "<Type>$val</Type>";
 				}
-			} elseif ( substr( $var, 0, 27 ) == 'cargo_field_allowed_values_') {
+			} elseif ( substr( $var, 0, 27 ) == 'cargo_field_allowed_values_' ) {
 				if ( !empty( $val ) ) {
 					// Replace the comma substitution character that has no chance of
 					// being included in the values list - namely, the ASCII beep.
@@ -234,7 +234,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 			if ( $tag == "cargo_Field" ) {
 				$values = array();
 				$allowedValues = array();
-				foreach ( $child->children() as $prop => $value) {
+				foreach ( $child->children() as $prop => $value ) {
 					if ( $prop == "AllowedValue" ) {
 						$allowedValues[] = $value;
 					} else {

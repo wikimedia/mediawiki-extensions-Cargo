@@ -148,7 +148,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			array()
 		);
 		$row = $dbw->fetchRow( $res );
-		return intval($row['total']);
+		return intval( $row['total'] );
 	}
 
 }

@@ -223,7 +223,7 @@ class CargoUtils {
 	 * lexically.
 	 * @param string $delimiter The delimiter to split by.
 	 * @param string $string The string to split.
-	 * @param boolean $includeBlankValues Whether to include blank values in the returned array.
+	 * @param bool $includeBlankValues Whether to include blank values in the returned array.
 	 * @return string[] Array of substrings (with or without blank values).
 	 * @throws MWException On unmatched quotes or incomplete escape sequences.
 	 */
@@ -251,7 +251,7 @@ class CargoUtils {
 			} elseif ( $curChar == ')' ) {
 				$numOpenParentheses--;
 			} elseif ( $curChar == '\'' || $curChar == '"' ) {
-				$pos = CargoUtils::findQuotedStringEnd( $string, $curChar, $i + 1 );
+				$pos = self::findQuotedStringEnd( $string, $curChar, $i + 1 );
 				if ( $pos === false ) {
 					throw new MWException( "Error: unmatched quote in SQL string constant." );
 				}
@@ -279,7 +279,7 @@ class CargoUtils {
 		}
 
 		// Remove empty strings (but not other quasi-empty values, like '0') and re-key the array.
-		$noEmptyStrings = function($s) {
+		$noEmptyStrings = function ( $s ) {
 			return $s !== '';
 		};
 		return array_values( array_filter( $returnValues, $noEmptyStrings ) );
@@ -290,12 +290,12 @@ class CargoUtils {
 	 */
 	public static function findQuotedStringEnd( $string, $quoteChar, $pos ) {
 		$ignoreNextChar = false;
-		for ( $i = $pos ; $i < strlen($string) ; $i++ ) {
+		for ( $i = $pos; $i < strlen( $string ); $i++ ) {
 			$curChar = $string{$i};
 			if ( $ignoreNextChar ) {
 				$ignoreNextChar = false;
 			} elseif ( $curChar == $quoteChar ) {
-				if ( $i + 1 < strlen($string) && $string{$i + 1} == $quoteChar ) {
+				if ( $i + 1 < strlen( $string ) && $string{$i + 1} == $quoteChar ) {
 					$i++;
 				} else {
 					return $i;
@@ -317,7 +317,7 @@ class CargoUtils {
 	public static function removeQuotedStrings( $string ) {
 		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
 		$string = preg_replace( $noQuotesPattern, '', $string );
-		if ( strpos($string,'"') !== false || strpos($string,"'") !== false ) {
+		if ( strpos( $string, '"' ) !== false || strpos( $string, "'" ) !== false ) {
 			throw new MWException( "Error: unclosed string literal." );
 		}
 		return $string;
@@ -478,7 +478,7 @@ class CargoUtils {
 	 * its own helper table.
 	 *
 	 * @param int $templatePageID
-	 * @return boolean
+	 * @return bool
 	 * @throws MWException
 	 */
 	public static function recreateDBTablesForTemplate( $templatePageID, $createReplacement, $tableName = null ) {
@@ -518,7 +518,7 @@ class CargoUtils {
 				$tableNames[] = $tableName;
 			}
 
-			foreach( $tableNames as $curTable ) {
+			foreach ( $tableNames as $curTable ) {
 				try {
 					$cdb->dropTable( $curTable );
 				} catch ( Exception $e ) {
@@ -720,9 +720,9 @@ class CargoUtils {
 			$createSQL .= ' ENGINE=MyISAM';
 		}
 
-		//$cdb->ignoreErrors( true );
+		// $cdb->ignoreErrors( true );
 		$cdb->query( $createSQL );
-		//$cdb->ignoreErrors( false );
+		// $cdb->ignoreErrors( false );
 
 		$createIndexSQL = "CREATE INDEX page_id_$tableName ON " . $cdb->tableName( $tableName ) .
 			' (' . $cdb->addIdentifierQuotes( '_pageID' ) . ')';
@@ -776,14 +776,14 @@ class CargoUtils {
 				$fieldHelperTableName = $tableName . '__' . $fieldName . '__hierarchy';
 				$cdb->dropTable( $fieldHelperTableName );
 				$fieldType = $fieldDescription->mType;
-				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldHelperTableName ) . ' ( ' ;
+				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldHelperTableName ) . ' ( ';
 				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size ) . ", ";
 				$createSQL .= $cdb->addIdentifierQuotes( '_left' ) . " $intTypeString, ";
 				$createSQL .= $cdb->addIdentifierQuotes( '_right' ) . " $intTypeString ";
 				$createSQL .= ' )';
 				$cdb->query( $createSQL );
-				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldHelperTableName" ) . ' ON ' ;
-				$createIndexSQL .= $cdb->tableName( $fieldHelperTableName ) . ' (' ;
+				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldHelperTableName" ) . ' ON ';
+				$createIndexSQL .= $cdb->tableName( $fieldHelperTableName ) . ' (';
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_value' ) . ', ';
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_left' ) . ', ';
 				$createIndexSQL .= $cdb->addIdentifierQuotes( '_right' ) . ')';
@@ -792,7 +792,7 @@ class CargoUtils {
 				// Insert hierarchy information in the __hierarchy table
 				$hierarchyTree = CargoHierarchyTree::newFromWikiText( $fieldDescription->mHierarchyStructure );
 				$hierarchyStructureTableData = $hierarchyTree->generateHierarchyStructureTableData();
-				foreach( $hierarchyStructureTableData as $entry ) {
+				foreach ( $hierarchyStructureTableData as $entry ) {
 					$cdb->insert( $fieldHelperTableName, $entry );
 				}
 			}
@@ -979,7 +979,7 @@ class CargoUtils {
 		// Put quotes around the field names - needed for Postgres,
 		// which otherwise lowercases all field names.
 		$quotedFieldValues = array();
-		foreach( $fieldValues as $fieldName => $fieldValue ) {
+		foreach ( $fieldValues as $fieldName => $fieldValue ) {
 			$quotedFieldName = $db->addIdentifierQuotes( $fieldName );
 			$quotedFieldValues[$quotedFieldName] = $fieldValue;
 		}
@@ -1011,7 +1011,7 @@ class CargoUtils {
 				$hierarchyNodesArray[0] . "\" has " . strlen( $matches[1] ) . " '*'" );
 		}
 		$level = 0;
-		foreach( $hierarchyNodesArray as $node ) {
+		foreach ( $hierarchyNodesArray as $node ) {
 			if ( !preg_match( '/^([*]*)( *)(.*)/i', $node, $matches ) ) {
 				throw new MWException( "Error: The \"" . $node . "\" entry of hierarchy values does not follow syntax. " .
 					"The entry should be of the form : * entry" );
@@ -1045,7 +1045,7 @@ class CargoUtils {
 		} elseif ( $errcode !== null ) {
 			// Deprecated since MW 1.29.
 			$object->dieUsage( $msg, $errcode );
-		} else  {
+		} else {
 			// Deprecated since MW 1.29.
 			$object->dieUsageMsg( $msg );
 		}

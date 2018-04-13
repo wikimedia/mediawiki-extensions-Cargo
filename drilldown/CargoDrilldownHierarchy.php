@@ -56,7 +56,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		$res = $cdb->select( $tableNames, array( $countClause ), array_merge( $conds, $exactRootHierarchyConds ),
 			null, null, $joinConds );
 		$row = $cdb->fetchRow( $res );
-		$node->mExactRootMatchCount = $row['total'];;
+		$node->mExactRootMatchCount = $row['total'];
 		$cdb->freeResult( $res );
 	}
 
@@ -71,7 +71,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		$stack->push( $node );
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
-			CargoDrilldownHierarchy::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
+			self::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
 			if ( $node->mLeft !== 1 ) {
 				// check if its not __pseudo_root__ node, then only add count
 				$filter_values[$node->mRootValue] = $node->mWithinTreeMatchCount;
@@ -117,7 +117,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 				foreach ( $node->mChildren as $child ) {
 					if ( $child->mWithinTreeMatchCount > 0 ) {
 						if ( $nodeCount >= $wgCargoMaxVisibleHierarchyDrilldownValues ) {
-							break(2);
+							break 2;
 						}
 						$queue->enqueue( $child );
 						$nodeCount++;
@@ -125,6 +125,6 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 				}
 			}
 		}
-		return max(1, $maxDepth);
+		return max( 1, $maxDepth );
 	}
 }

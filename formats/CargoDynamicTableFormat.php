@@ -73,13 +73,12 @@ END;
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
 				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
-			}
-			else {
+			} else {
 				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
 			}
 		}
 
-		$text .=<<<END
+		$text .= <<<END
 			</tr>
 		</thead>
 
@@ -91,13 +90,12 @@ END;
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
 				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
-			}
-			else {
+			} else {
 				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
 			}
 		}
 
-		$text .=<<<END
+		$text .= <<<END
 			</tr>
 		</tfoot>
 
@@ -113,12 +111,12 @@ END;
 				} else {
 					$value = null;
 				}
-				$text .= "\t\t\t\t" . Html::rawElement( 'td', null, $value ); 
+				$text .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
 			}
 			$text .= "\t\t\t</tr>\n";
 		}
 
-		$text .=<<<END
+		$text .= <<<END
 		</tbody>
 	</table>
 

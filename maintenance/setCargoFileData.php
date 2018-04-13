@@ -26,10 +26,10 @@
  * @ingroup Maintenance
  */
 
-if ( getenv('MW_INSTALL_PATH') ) {
-	require_once( getenv('MW_INSTALL_PATH') . '/maintenance/Maintenance.php' );
+if ( getenv( 'MW_INSTALL_PATH' ) ) {
+	require_once getenv( 'MW_INSTALL_PATH' ) . '/maintenance/Maintenance.php';
 } else {
-	require_once( dirname( __FILE__ ) . '/../../../maintenance/Maintenance.php' );
+	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
 $maintClass = "SetCargoFileData";

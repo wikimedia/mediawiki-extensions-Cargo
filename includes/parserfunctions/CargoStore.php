@@ -74,7 +74,7 @@ class CargoStore {
 		// Always store data in the replacement table if it exists.
 		$cdb = CargoUtils::getDB();
 		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
-			$tableName .=  '__NEXT';
+			$tableName .= '__NEXT';
 		}
 
 		// Get the declaration of the table.
@@ -170,7 +170,6 @@ class CargoStore {
 				$tableFieldValues[$fieldName] = null;
 			}
 		}
-
 	}
 
 	public static function storeAllData( $title, $tableName, $tableFieldValues, $tableSchema ) {
@@ -314,8 +313,7 @@ class CargoStore {
 				} elseif ( $curValue === 0
 					|| $curValue === '0'
 					|| strtolower( $curValue ) === 'no'
-					|| strtolower( $curValue ) == strtolower( $msgForNo ) )
-				{
+					|| strtolower( $curValue ) == strtolower( $msgForNo ) ) {
 					$tableFieldValues[$fieldName] = '0';
 				} else {
 					$tableFieldValues[$fieldName] = '1';
@@ -350,7 +348,7 @@ class CargoStore {
 
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
-		$cdb->startAtomic(__METHOD__);
+		$cdb->startAtomic( __METHOD__ );
 
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
@@ -383,7 +381,7 @@ class CargoStore {
 					// For coordinates, there are two more
 					// fields, for latitude and longitude.
 					if ( $fieldType == 'Coordinates' ) {
-						list( $latitude, $longitude) = CargoUtils::parseCoordinatesString( $individualValue );
+						list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $individualValue );
 						$fieldValues['_lat'] = $latitude;
 						$fieldValues['_lon'] = $longitude;
 					}
@@ -397,7 +395,7 @@ class CargoStore {
 				$tableFieldValues[$fieldName . '__full'] = $tableFieldValues[$fieldName];
 				unset( $tableFieldValues[$fieldName] );
 			} elseif ( $fieldType == 'Coordinates' ) {
-				list( $latitude, $longitude) = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
+				list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
 				// Rename the field.
 				$tableFieldValues[$fieldName . '__full'] = $tableFieldValues[$fieldName];
 				unset( $tableFieldValues[$fieldName] );
@@ -410,7 +408,7 @@ class CargoStore {
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
 		// End the transaction.
-		$cdb->endAtomic(__METHOD__);
+		$cdb->endAtomic( __METHOD__ );
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {
