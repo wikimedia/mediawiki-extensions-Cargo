@@ -4,7 +4,8 @@
 			"Protnet",
 			"Geraki",
 			"Xaris333",
-			"KATRINE1992"
+			"KATRINE1992",
+			"Nikosgranturismogt"
 		]
 	},
 	"cargo-desc": "Αποθήκευση και ερωτήματα για δεδομένα προτύπων",
@@ -65,7 +66,7 @@
 	"cargo-recreatedata-createreplacement": "Δημιουργείστε πάλι τα δεδομένα σε έναν πίνακα αντικατάστασης, διατηρώντας τον πρώτον για ερωτήματα.",
 	"cargo-recreatedata-replacementexists": "Δεν μπορεί προς το παρόν να δημιουργήσει ξανά τον πίνακα ''$1'', ο πίνακας αντικατάστασης ''$2'' υπάρχει ακόμη.",
 	"cargo-cargotables-replacementtable": "Αυτός ο πίνακας θα αντικαταστήσει τον πίνακα $1.Δεν χρησιμοποιείται ακόμα για ερωτήματα.",
-	"cargo-cargotables-deletereplacement": "O, si no quiere nunca usar esta tabla de reemplazo, puede {$! delete it}.",
+	"cargo-cargotables-deletereplacement": "Ή, εάν δεν θέλετε να χρησιμοποιήσετε τον πίνακα αντικατάστασης, μπορείτε να {$1 τον διαγράψετε}.",
 	"cargo-cargotables-hasreplacement": "Αυτός ο πίνακας είναι προς το παρόν έτοιμος, ενώ παράγεται ένας πίνακας αντικατάστασης γι'αυτόν.",
 	"deletecargotable": "Διαγραφή πίνακα Cargo",
 	"cargo-deletetable-confirm": "Θέλετε να διαγράψετε την λίστα Εμπορευμάτων $1;",
