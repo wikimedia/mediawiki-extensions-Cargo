@@ -472,7 +472,7 @@ class CargoStore {
 	 */
 	public static function doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema ) {
 		$pageID = $title->getArticleID();
-		$tableFieldValuesForCheck = array( '_pageID' => $pageID );
+		$tableFieldValuesForCheck = array( $cdb->addIdentifierQuotes( '_pageID' ) => $pageID );
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( ! array_key_exists( $fieldName, $tableFieldValues ) ) {
 				continue;
