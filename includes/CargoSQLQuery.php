@@ -269,20 +269,26 @@ class CargoSQLQuery {
 		}
 
 		$joinStrings = explode( ',', $joinOnStr );
+		// 'HOLDS' must be all-caps for now.
+		$allowedJoinOperators = array( '=', ' HOLDS ', '<=', '>=', '<', '>' );
+		$joinOperator = null;
+
 		foreach ( $joinStrings as $joinString ) {
-			$containsEquals = strpos( $joinString, '=' );
-			// Must be all-caps for now.
-			$containsHolds = strpos( $joinString, ' HOLDS ' );
-			$containsHoldsLike = strpos( $joinString, ' HOLDS LIKE ' );
-			if ( $containsEquals ) {
-				$joinParts = explode( '=', $joinString );
-			} elseif ( $containsHoldsLike ) {
-				$joinParts = explode( ' HOLDS LIKE ', $joinString );
-			} elseif ( $containsHolds ) {
-				$joinParts = explode( ' HOLDS ', $joinString );
-			} else {
-				throw new MWException( "Missing '=' in join condition ($joinString)." );
+			$foundValidOperator = false;
+			foreach ( $allowedJoinOperators as $allowedOperator ) {
+				if ( strpos( $joinString, $allowedOperator ) === false ) {
+					continue;
+				}
+				$foundValidOperator = true;
+				$joinOperator = $allowedOperator;
+				break;
 			}
+
+			if ( !$foundValidOperator ) {
+				throw new MWException( "No valid operator found in join condition ($joinString)." );
+			}
+
+			$joinParts = explode( $joinOperator, $joinString );
 			$joinPart1 = trim( $joinParts[0] );
 			$tableAndField1 = explode( '.', $joinPart1 );
 			if ( count( $tableAndField1 ) != 2 ) {
@@ -300,13 +306,9 @@ class CargoSQLQuery {
 				'table1' => $table1,
 				'field1' => $field1,
 				'table2' => $table2,
-				'field2' => $field2
+				'field2' => $field2,
+				'joinOperator' => $joinOperator
 			);
-			if ( $containsHoldsLike ) {
-				$joinCond['holds like'] = true;
-			} elseif ( $containsHolds ) {
-				$joinCond['holds'] = true;
-			}
 			$this->mCargoJoinConds[] = $joinCond;
 		}
 
@@ -378,8 +380,14 @@ class CargoSQLQuery {
 			} else {
 				$cargoTable2 = $table2;
 			}
+			if ( array_key_exists( 'joinOperator', $cargoJoinCond ) ) {
+				$joinOperator = $cargoJoinCond['joinOperator'];
+			} else {
+				$joinOperator = '=';
+			}
+
 			$joinCondConds = array(
-				$cargoTable1 . '.' . $cargoJoinCond['field1'] . '=' .
+				$cargoTable1 . '.' . $cargoJoinCond['field1'] . $joinOperator .
 				$cargoTable2 . '.' . $cargoJoinCond['field2']
 			);
 			if ( array_key_exists( 'extraCond', $cargoJoinCond ) ) {
@@ -823,7 +831,7 @@ class CargoSQLQuery {
 		foreach ( $this->mCargoJoinConds as $i => $joinCond ) {
 			// We only handle 'HOLDS' here - no joining on
 			// 'HOLDS LIKE'.
-			if ( !array_key_exists( 'holds', $joinCond ) ) {
+			 if ( !array_key_exists( 'joinOperator', $joinCond ) || $joinCond['joinOperator'] != ' HOLDS ' ) {
 				continue;
 			}
 
