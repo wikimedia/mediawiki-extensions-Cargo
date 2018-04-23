@@ -79,7 +79,7 @@ class CargoRecreateDataAPI extends ApiBase {
 
 	protected function getDescription() {
 		return 'An API module to recreate data for the Cargo extension '
-			. '(http://www.mediawiki.org/Extension:Cargo)';
+			. '(https://www.mediawiki.org/Extension:Cargo)';
 	}
 
 	protected function getExamples() {

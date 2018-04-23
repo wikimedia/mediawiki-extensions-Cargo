@@ -95,7 +95,7 @@ class CargoQueryAPI extends ApiBase {
 
 	protected function getDescription() {
 		return 'An SQL-style query used for data tables, provided by the Cargo extension '
-			. '(http://www.mediawiki.org/Extension:Cargo)';
+			. '(https://www.mediawiki.org/Extension:Cargo)';
 	}
 
 	protected function getExamples() {
