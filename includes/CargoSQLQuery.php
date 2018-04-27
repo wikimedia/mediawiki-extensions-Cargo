@@ -437,9 +437,9 @@ class CargoSQLQuery {
 		$sqlFunctions = array_map( 'trim', $sqlFunctions );
 		// Throw an error if any of these functions
 		// are not in our "whitelist" of SQL functions.
-		// Also add to this whitelist the SQL keywords AND, OR and
-		// NOT, because the parsing can mistake these for functions.
-		$logicalOperators = array( 'AND', 'OR', 'NOT' );
+		// Also add to this whitelist SQL operators like AND, OR, NOT,
+		// etc., because the parsing can mistake these for functions.
+		$logicalOperators = array( 'AND', 'OR', 'NOT', 'IN' );
 		$allowedFunctions = array_merge( $wgCargoAllowedSQLFunctions, $logicalOperators );
 		foreach ( $sqlFunctions as $sqlFunction ) {
 			// @TODO - fix the original regexp to avoid blank
