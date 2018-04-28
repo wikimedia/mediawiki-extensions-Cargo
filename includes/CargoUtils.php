@@ -713,7 +713,7 @@ class CargoUtils {
 			}
 		}
 		$createSQL .= ' )';
-		$createSQL .= '  ROW_FORMAT=DYNAMIC'; //prevent 1709 Error in use UTF-8 MySQL
+		$createSQL .= '  ROW_FORMAT=DYNAMIC'; //prevent 1709 Error in MySQL used UTF-8 charset
 
 		// For MySQL 5.6 and earlier, only MyISAM supports 'FULLTEXT'
 		// indexes; InnoDB does not.
