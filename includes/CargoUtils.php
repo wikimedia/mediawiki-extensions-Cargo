@@ -829,8 +829,8 @@ class CargoUtils {
 
 	public static function fullTextMatchSQL( $cdb, $tableName, $fieldName, $searchTerm ) {
 		$fullFieldName = self::escapedFieldName( $cdb, $tableName, $fieldName );
-		$searchTerm = str_replace( "'", "\'", $searchTerm );
-		return " MATCH($fullFieldName) AGAINST ('$searchTerm' IN BOOLEAN MODE) ";
+		$searchTerm = $cdb->addQuotes( $searchTerm );
+		return " MATCH($fullFieldName) AGAINST ($searchTerm IN BOOLEAN MODE) ";
 	}
 
 	/**

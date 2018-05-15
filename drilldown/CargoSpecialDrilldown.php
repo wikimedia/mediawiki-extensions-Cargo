@@ -1503,8 +1503,9 @@ END;
 		$fieldDescription->mType = 'Page';
 		$queryDisplayer->mFieldDescriptions = array( 'title' => $fieldDescription );
 
-		if ( $this->fullTextSearchTerm != null ) {
-			$searchTerms = CargoUtils::smartSplit( ' ', $this->fullTextSearchTerm );
+		if ( $this->fullTextSearchTerm != null ) {;
+			$escapedSearchTerm = str_replace( "'", "\'", $this->fullTextSearchTerm );
+			$searchTerms = CargoUtils::smartSplit( ' ', $escapedSearchTerm );
 			$dummySQLQuery = new CargoSQLQuery();
 			$dummySQLQuery->mSearchTerms = array(
 				$pageTextStr => $searchTerms,

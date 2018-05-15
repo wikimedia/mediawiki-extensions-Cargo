@@ -74,11 +74,11 @@ class CargoAppliedFilter {
 					// case-insensitive, but it's not acting
 					// that way here.
 					// $search_term = strtolower( $search_term );
-					$search_term = str_replace( ' ', '\_', $search_term );
-					$sql .= "$value_field LIKE '%{$search_term}%'";
+					// $search_term = str_replace( ' ', '\_', $search_term );
+					$sql .= $value_field . ' ' . $cdb->buildLike( $cdb->anyString(), $search_term, $cdb->anyString() );
 				} else {
 					// $search_term = strtolower( $search_term );
-					$sql .= "$value_field LIKE '%{$search_term}%'";
+					$sql .= $value_field . ' ' . $cdb->buildLike( $cdb->anyString(), $search_term, $cdb->anyString() );
 				}
 			}
 		}
