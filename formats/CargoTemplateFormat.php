@@ -29,11 +29,14 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 				} else {
 					$value = $row[$fieldName];
 				}
+				// Escape pipes within the values so that they
+				// aren't interpreted as template pipes.
+				$value = str_replace( '|', '{{!}}', $value );
 				$wikiText .= '|' . $paramName . '=' . $value;
 				$fieldNum++;
 			}
 		}
-		$wikiText .= '}}';
+		$wikiText .= "\n}}";
 		return $wikiText;
 	}
 
