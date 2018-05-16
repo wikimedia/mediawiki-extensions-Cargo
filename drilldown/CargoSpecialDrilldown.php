@@ -907,7 +907,12 @@ END;
 			$cur_value = htmlentities( $cur_value );
 		}
 
-		$text = <<< END
+		if ( $is_full_text_search ) {
+			$text = "";
+		} else {
+			$text = $this->printExtraOptions( $filter_name, $instance_num );
+		}
+		$text .= <<< END
 <form method="get">
 
 END;
@@ -969,18 +974,19 @@ END;
 	function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
 		global $wgRequest;
 
-		$filter_name = str_replace( ' ', '_', $filter_name );
+		$filter_str = str_replace( ' ', '_', $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
-		$filter_name = urldecode( $filter_name );
+		$filter_str = urldecode( $filter_str );
 
 		// Add on the instance number, since it can be one of a string
 		// of values.
-		$filter_name .= '[' . $instance_num . ']';
+		$filter_str .= '[' . $instance_num . ']';
 
-		$inputName = "_search_$filter_name";
+		$inputName = "_search_$filter_str";
 
-		$text = <<< END
+	  	$text = $this->printExtraOptions($filter_name, $instance_num, $filter_values);
+		$text .= <<< END
 <form method="get">
 
 END;
@@ -1021,6 +1027,92 @@ END;
 		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
 				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
 		$text .= "</form>\n";
+		return $text;
+	}
+
+	/**
+	 * Print some(20) of the most popular filter values in case of ComboBoxInput and TextInput
+	 */
+	function printExtraOptions( $filter_name, $instance_num, $filter_values = null ) {
+		$all_filters = $this->all_filters;
+		foreach ( $all_filters as $filter ) {
+			if ( $filter->name == $filter_name) {
+				$f = $filter;
+			}
+		}
+		foreach ( $this->applied_filters as $applied_filter ) {
+			if ( $applied_filter->filter->name == $filter_name ) {
+				$af = $applied_filter;
+			}
+		}
+		if ( $filter_values == null ) {
+			if ( $instance_num > 0 ) {
+				$or_values = $af->getAllOrValues();
+				foreach ( $or_values as $or_value ) {
+					$filter_values[$or_value] = '';
+				}
+			} else {
+				$filter_values = $f->getAllValues( $this->fullTextSearchTerm,
+					$this->applied_filters );
+			}
+		}
+		$inputName = str_replace( ' ', '_', $filter_name );
+		$inputName = urldecode( $inputName );
+		$inputName .= '[' . $instance_num . ']';
+
+		$inputName = "_search_$inputName";
+		$text = "";
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+			$this->applied_filters );
+		$num_printed_values = 0;
+		if ( $instance_num == 0 ) {
+			// sort the filter_values to get the most popular values for the filter
+			$sorted_filter_values = $filter_values;
+			arsort( $sorted_filter_values );
+			foreach ( $sorted_filter_values as $value => $num_instances ) {
+				// print 20 filter values
+				if ( $num_printed_values < 20 ) {
+					if ( $num_printed_values++ > 0 ) {
+						$text .= " &middot; ";
+					}
+					$filter_url = $cur_url;
+					$filter_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
+					$filter_url .= urlencode( $inputName ) . '=' .
+								   urlencode( str_replace( ' ', '_', $value ) );
+					$text .= $this->printFilterValueLink( $f, $value, $num_instances,
+						$filter_url, $sorted_filter_values );
+				}
+			}
+		} else {
+			$applied_values = $af->search_terms;
+			foreach ( $filter_values as $value => $num_instances ) {
+				if( $num_printed_values < 20 ) {
+					if ( $num_printed_values++ > 0 ) {
+						$text .= " &middot; ";
+					}
+					$match_found = false;
+					foreach ( $applied_values as $applied_value ) {
+						if ( $value == $applied_value ) {
+							$match_found = true;
+							break;
+						}
+					}
+					// Don't create a link for a value which has been applied
+					if ( $match_found ) {
+						$text .= "\n\t\t\t\t$value";
+					} else {
+						$filter_url = $cur_url;
+						$filter_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
+						$filter_url .= urlencode( $inputName ) . '=' .
+									   urlencode( str_replace( ' ', '_', $value ) );
+						$text .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a', array(
+								'href' => $filter_url,
+								'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text(),
+							), $value );
+					}
+				}
+			}
+		}
 		return $text;
 	}
 
