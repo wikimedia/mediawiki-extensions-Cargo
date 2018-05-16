@@ -223,25 +223,32 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getAllValues( $fullTextSearchTerm, $appliedFilters ) {
+	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false ) {
 		$cdb = CargoUtils::getDB();
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
-			$tableNames[] = $fieldTableName;
+			if ( !$isApplied ) {
+				$tableNames[] = $fieldTableName;
+			}
 			$fieldName = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
 			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
 		} else {
 			$fieldName = $cdb->addIdentifierQuotes( $this->name );
+			if ( $isApplied ) {
+				$tableNames = $this->tableName;
+				$joinConds = null;
+			}
 		}
-
+		if ( $isApplied ) {
+			$conds = null;
+		}
 		if ( $this->searchableFiles ) {
 			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID) AS total";
 		} else {
 			$countClause = "COUNT(*) AS total";
 		}
-
 		$res = $cdb->select( $tableNames, array( "$fieldName AS value", $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();

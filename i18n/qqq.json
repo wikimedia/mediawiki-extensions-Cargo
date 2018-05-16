@@ -117,6 +117,7 @@
 	"cargo-drilldown-hierarchy-within": "The label for applied filter to indicate a search within the tree from the node specified\n{{Identical|Within}}",
 	"cargo-drilldown-hierarchy-only": "The label for filter values to indicate an exact search\n{{Identical|Only}}",
 	"cargo-drilldown-addanothervalue": "This is an informational message providing help for the usage of [[Special:Drilldown]].",
+	"cargo-drilldown-othervalues": "The label for ComboBoxInput and TextBoxInput",
 	"cargo-drilldown-novalues": "This is an informational message on [[Special:Drildown]].",
 	"cargo-drilldown-fulltext": "The label for searching on all the text within a page or file.",
 	"cargo-drilldown-pagetext": "The label for searching on all the text within a page.",

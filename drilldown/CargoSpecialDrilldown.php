@@ -114,8 +114,15 @@ class CargoDrilldown extends IncludableSpecialPage {
 				foreach ( $vals_array as $j => $val ) {
 					$vals_array[$j] = str_replace( '_', ' ', $val );
 				}
-				$applied_filters[] = CargoAppliedFilter::create( $filter, $vals_array );
-				$filter_used[$i] = true;
+				// If it has both search_terms and normal filter values
+				if ( $search_terms != null ) {
+					$applied_filters[] =
+						CargoAppliedFilter::create( $filter, $vals_array, $search_terms );
+					$filter_used[$i] = true;
+				} else {
+					$applied_filters[] = CargoAppliedFilter::create( $filter, $vals_array );
+					$filter_used[$i] = true;
+				}
 			} elseif ( $search_terms != null ) {
 				$applied_filters[] = CargoAppliedFilter::create( $filter, array(), $search_terms );
 				$filter_used[$i] = true;
@@ -423,8 +430,12 @@ END;
 	/**
 	 * Print the line showing 'OR' values for a filter that already has
 	 * at least one value set
+	 *
+	 * If $printAllFilterValues is false, then it prints the most popular filter values for a filter
+	 * Used to print the most popular filter values before ComboBoxInput or TextInput
 	 */
-	function printAppliedFilterLine( $af ) {
+	function printAppliedFilterLine( $af, $printAllFilterValues = true ) {
+		global $wgCargoDrilldownMinValuesForComboBox;
 		if ( $af->filter->fieldDescription->mIsHierarchy ) {
 			return $this->printAppliedFilterLineForHierarchy( $af );
 		}
@@ -438,33 +449,52 @@ END;
 		if ( $af->filter->allowed_values != null ) {
 			$or_values = $af->filter->allowed_values;
 		} else {
-			$or_values = $af->getAllOrValues();
+			$or_values = $af->filter->getAllValues( $this->fullTextSearchTerm,
+				$this->applied_filters, true );
+			arsort( $or_values );
 		}
-		if ( $af->search_terms != null ) {
-			$curSearchTermNum = count( $af->search_terms );
-			if ( count( $or_values ) >= 300 ) {
-				$results_line = $this->printTextInput( $af->filter->name, $curSearchTermNum );
-			} else {
-				// HACK - printComboBoxInput() needs values as
-				// the *keys* of the array
-				$filter_values = array();
-				foreach ( $or_values as $or_value ) {
-					$filter_values[$or_value] = '';
+		if ( $printAllFilterValues ) {
+			if ( count( $or_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
+				// Print filter values before ComboBoxInput or TextInput
+				$results_line .= $this->printAppliedFilterLine( $af, false );
+				// $printed_filter_values contains the filter values for a filter which have been
+				// printed before ComboBoxInput or TextBoxInput
+				$printed_filter_values = array_slice( $or_values, 0, 20, true );
+				// $filter_values contains the remaining filter values(which have not been printed)
+				$filter_values = array_splice( $or_values, 20 );
+				ksort( $filter_values );
+				if ( $af->search_terms != null ) {
+					$instance_num = count( $af->search_terms );
+				} else {
+					$instance_num = count( $af->values );
 				}
-				$results_line = $this->printComboBoxInput(
-					$af->filter->name, $curSearchTermNum, $filter_values );
+				if ( count( $or_values ) >= 250 ) {
+					$results_line .= $this->printTextInput( $af->filter->name, $instance_num,
+						false, null, true, $af->filter->fieldDescription->mIsList,
+						$printed_filter_values, $af->filter );
+				} else {
+					$results_line .= $this->printComboBoxInput( $af->filter->name,
+						$instance_num, $filter_values );
+				}
+				return $this->printFilterLine( $af->filter->name, true, true, $results_line );
 			}
-			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
+			// Add 'Other' and 'None', regardless of whether either has
+			// any results - add 'Other' only if it's not a date field.
+			$fieldType = $af->filter->fieldDescription->mType;
+			if ( $fieldType != 'Date' && $fieldType != 'Datetime' ) {
+				$or_values['_other'] = '';
+			}
+			$or_values['_none'] = '';
 		}
-		// Add 'Other' and 'None', regardless of whether either has
-		// any results - add 'Other' only if it's not a date field.
-		$fieldType = $af->filter->fieldDescription->mType;
-		if ( $fieldType != 'Date' && $fieldType != 'Datetime' ) {
-			$or_values[] = '_other';
-		}
-		$or_values[] = '_none';
-		foreach ( $or_values as $i => $value ) {
-			if ( $i > 0 ) {
+		$num_printed_values = 0;
+		foreach ( $or_values as $value => $num_instances ) {
+			// print only 20 filter values in case of ComboBoxInput or TextInput
+			if ( !$printAllFilterValues ) {
+				if ( $num_printed_values >= 20 ) {
+					break;
+				}
+			}
+			if ( $num_printed_values++ > 0 ) {
 				$results_line .= " &middot; ";
 			}
 			$filter_text = $this->printFilterValue( $af->filter, $value );
@@ -484,6 +514,16 @@ END;
 					break;
 				}
 			}
+			// Also check the applied search_terms for match
+			if ( $af->search_terms != null ) {
+				$current_search_terms = $af->search_terms;
+				foreach ( $current_search_terms as $fv ) {
+					if ( $value == $fv ) {
+						$found_match = true;
+						break;
+					}
+				}
+			}
 			if ( $found_match ) {
 				$results_line .= "\n\t\t\t\t$filter_text";
 			} else {
@@ -498,7 +538,11 @@ END;
 				}
 			}
 		}
-		return $this->printFilterLine( $af->filter->name, true, true, $results_line );
+		if ( $printAllFilterValues ) {
+			return $this->printFilterLine( $af->filter->name, true, true, $results_line );
+		} else {
+			return $results_line;
+		}
 	}
 
 	function printAppliedFilterLineForHierarchy( $af ) {
@@ -885,7 +929,9 @@ END;
 		return $text;
 	}
 
-	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false, $cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false ) {
+	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false,
+			$cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false,
+			$filter_values = null, $f = null ) {
 		global $wgRequest;
 
 		$filterStr = str_replace( ' ', '_', $filter_name );
@@ -948,14 +994,34 @@ END;
 				$inputAttrs['size'] = 30;
 				$inputAttrs['style'] = 'padding-left: 3px;';
 				$whereSQL = '';
+				// In the WHERE statement, first add all the filters which have been applied and
+				// then remove all the filter values for this filter which have been printed
+				// before the text box
 				foreach ( $this->applied_filters as $i => $af ) {
 					if ( $i > 0 ) {
 						$whereSQL .= ' AND ';
 					}
+					if ( $af->filter->name == $filter_name ) {
+						$whereSQL .= ' NOT ';
+					}
+					$whereSQL .= $af->checkSQL();
+				}
+				if ( $filter_values ) {
+					if ( $this->applied_filters ) {
+						$whereSQL .= ' AND ';
+					}
+					$whereSQL .= ' NOT ';
+					$cur_filter_value = array();
+					foreach ( $filter_values as $value => $num_instances ) {
+						$cur_filter_value = array_merge( $cur_filter_value, array( $value ) );
+					}
+					$af = CargoAppliedFilter::create( $f, $cur_filter_value );
 					$whereSQL .= $af->checkSQL();
 				}
 				$inputAttrs['data-cargo-where'] = $whereSQL;
 			}
+			$text .= "\n\t\t\t\t\t<span>" .
+					 $this->msg( 'cargo-drilldown-othervalues' )->text() . "</span>";
 			$text .= Html::input( $inputName, $cur_value, 'text', $inputAttrs ) . "\n";
 			$text .= "<br />\n\n";
 		}
@@ -997,9 +1063,10 @@ END;
 				}
 			}
 		}
-
+		$msg = $this->msg( 'cargo-drilldown-othervalues' )->text();
 		$text .= <<< END
 	<div class="ui-widget">
+		<span>$msg</span>
 		<select class="cargoDrilldownComboBox" name="$cur_value">
 			<option value="$inputName"></option>;
 
@@ -1083,6 +1150,9 @@ END;
 			$filter_values = $f->getTimePeriodValues( $this->fullTextSearchTerm, $this->applied_filters );
 		} else {
 			$filter_values = $f->getAllValues( $this->fullTextSearchTerm, $this->applied_filters );
+			$sorted_filter_values = $filter_values;
+			arsort( $sorted_filter_values );
+			$sorted_filter_values = array_slice( $sorted_filter_values, 0, 20, true );
 		}
 		if ( !is_array( $filter_values ) ) {
 			return $this->printFilterLine( $f->name, false, false, $filter_values );
@@ -1095,11 +1165,20 @@ END;
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
+			// Remove all the filter values from $filter_values array which are present in
+			// $sorted_filter_values array
+			$filter_values = array_diff_key( $filter_values, $sorted_filter_values );
+			$results_line = $this->printUnappliedFilterValues( $cur_url, $f,
+				$sorted_filter_values );
 			// Lots of values - switch to remote autocompletion.
-			$results_line = $this->printTextInput( $filter_name, 0, false, null, true, $f->fieldDescription->mIsList );
+			$results_line .= $this->printTextInput( $filter_name, 0, false, null, true,
+				$f->fieldDescription->mIsList, $sorted_filter_values, $f );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
-			$results_line = $this->printComboBoxInput( $filter_name, 0, $filter_values );
+			$filter_values = array_diff_key( $filter_values, $sorted_filter_values );
+			$results_line = $this->printUnappliedFilterValues( $cur_url, $f,
+				$sorted_filter_values );
+			$results_line .= $this->printComboBoxInput( $filter_name, 0, $filter_values );
 			$normal_filter = false;
 		} else {
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $filter_values );
@@ -1205,6 +1284,10 @@ END;
 			}
 
 			if ( $af->search_terms != null ) {
+				if ( count( $af->values ) > 0 ) {
+					$appliedFiltersHTML .= ' <span class="drilldown-or">' .
+						$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+				}
 				foreach ( $af->search_terms as $j => $search_term ) {
 					if ( $j > 0 ) {
 						$appliedFiltersHTML .= ' <span class="drilldown-or">' .

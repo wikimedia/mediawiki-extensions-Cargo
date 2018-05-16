@@ -96,6 +96,10 @@ class CargoAppliedFilter {
 			$sql .= "date($value_field) <= date('$date_string') ";
 		}
 		foreach ( $this->values as $i => $fv ) {
+			// Add an OR if filter also has search terms in addition to normal filter values
+			if ( $this->search_terms != null && $i == 0 ) {
+				$sql .= " OR ";
+			}
 			if ( $i > 0 ) {
 				$sql .= " OR ";
 			}
