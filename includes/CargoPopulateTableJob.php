@@ -36,7 +36,9 @@ class CargoPopulateTableJob extends Job {
 		// if the table wasn't just dropped and recreated.
 		if ( $this->params['replaceOldRows'] == true ) {
 			$cdb = CargoUtils::getDB();
+			$cdb->begin();
 			$cdb->delete( $this->params['dbTableName'], array( '_pageID' => $page->getID() ) );
+			$cdb->commit();
 		}
 
 		// All we need to do here is set some global variables based

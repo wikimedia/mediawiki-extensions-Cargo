@@ -138,6 +138,7 @@ class CargoHooks {
 		// Get all the "main" tables that this page is contained in.
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
+		$cdb->begin();
 		$cdbPageIDCheck = array( $cdb->addIdentifierQuotes( '_pageID' ) => $pageID );
 
 		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
@@ -182,8 +183,8 @@ class CargoHooks {
 		// Finally, delete from cargo_pages.
 		$dbw->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
 
-		// This call is needed to get deletions to actually happen.
-		$cdb->close();
+		// End transaction and apply DB changes.
+		$cdb->commit();
 	}
 
 	/**
@@ -283,6 +284,7 @@ class CargoHooks {
 		$newPageNamespace = $newtitle->getNamespace();
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
+		$cdb->begin();
 		// We use $oldid, because that's the page ID - $newid is the
 		// ID of the redirect page.
 		// @TODO - do anything with the redirect?
@@ -314,8 +316,8 @@ class CargoHooks {
 			}
 		}
 
-		// This call is needed to get the update to occur.
-		$cdb->close();
+		// End transaction and apply DB changes.
+		$cdb->commit();
 
 		return true;
 	}

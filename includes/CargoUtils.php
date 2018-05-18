@@ -60,7 +60,6 @@ class CargoUtils {
 			$dbPassword = $wgDBpassword;
 		}
 
-		$dbFlags = DBO_DEFAULT;
 		$dbTablePrefix = $wgDBprefix . 'cargo__';
 
 		$params = array(
@@ -68,7 +67,6 @@ class CargoUtils {
 			'user' => $dbUsername,
 			'password' => $dbPassword,
 			'dbname' => $dbName,
-			'flags' => $dbFlags,
 			'tablePrefix' => $dbTablePrefix,
 		);
 
@@ -520,7 +518,9 @@ class CargoUtils {
 
 			foreach ( $tableNames as $curTable ) {
 				try {
+					$cdb->begin();
 					$cdb->dropTable( $curTable );
+					$cdb->commit();
 				} catch ( Exception $e ) {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
@@ -655,6 +655,7 @@ class CargoUtils {
 
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
+		$cdb->begin();
 		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
 		$dbType = $cdb->getType();
 		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
@@ -814,8 +815,8 @@ class CargoUtils {
 			$cdb->query( $createSQL );
 		}
 
-		// Necessary in some cases.
-		$cdb->close();
+		// End transaction and apply DB changes.
+		$cdb->commit();
 
 		// Finally, store all the info in the cargo_tables table.
 		$dbw->insert( 'cargo_tables', array(

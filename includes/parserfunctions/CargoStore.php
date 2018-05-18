@@ -73,6 +73,7 @@ class CargoStore {
 
 		// Always store data in the replacement table if it exists.
 		$cdb = CargoUtils::getDB();
+		$cdb->begin();
 		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
 			$tableName .= '__NEXT';
 		}
@@ -85,12 +86,13 @@ class CargoStore {
 			// This table probably has not been created yet -
 			// just exit silently.
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; Cargo table ($tableName) does not exist.\n" );
+			$cdb->rollback();
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
 		$errors = self::blankOrRejectBadData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
-		$cdb->close();
+		$cdb->commit();
 
 		if ( $errors ) {
 			$parserOutput = $parser->getOutput();
@@ -342,13 +344,12 @@ class CargoStore {
 		// solution, this workaround will be helpful.
 		$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
 		if ( $rowAlreadyExists ) {
-			$cdb->close();
 			return;
 		}
 
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
-		$cdb->startAtomic( __METHOD__ );
+		$cdb->begin();
 
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
@@ -407,8 +408,8 @@ class CargoStore {
 		// Insert the current data into the main table.
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
-		// End the transaction.
-		$cdb->endAtomic( __METHOD__ );
+		// End transaction and apply DB changes.
+		$cdb->commit();
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {
@@ -457,11 +458,6 @@ class CargoStore {
 				CargoUtils::escapedInsert( $cdb, $fileTableName, $fieldValues );
 			}
 		}
-
-		// This close() call, for some reason, is necessary for the
-		// subsequent SQL to be called correctly, when jobs are run
-		// in the standard way.
-		$cdb->close();
 	}
 
 	/**
