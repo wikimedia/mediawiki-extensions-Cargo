@@ -537,6 +537,8 @@ class CargoUtils {
 	}
 
 	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
+		global $wgCargoDefaultStringBytes;
+
 		// Possible values for $dbType: "mssql", "mysql", "oracle",
 		// "postgres", "sqlite"
 		// @TODO - make sure it's one of these.
@@ -624,7 +626,7 @@ class CargoUtils {
 			return 'Mediumtext';
 		} else { // 'String', 'Page', etc.
 			if ( $size == null ) {
-				$size = 300;
+				$size = $wgCargoDefaultStringBytes;
 			}
 			switch ( $dbType ) {
 				case "mssql":
