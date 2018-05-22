@@ -87,6 +87,7 @@
 	"cargo-drilldown-removefilter": "להסיר את המסנן הזה",
 	"cargo-drilldown-resetfilters": "לאתחל מסננים",
 	"cargo-drilldown-addanothervalue": "יש ללחוץ על חץ כדי להוסיף ערך אחר",
+	"cargo-drilldown-othervalues": "ערכים אחרים:",
 	"cargo-drilldown-novalues": "אין ערכים למסנן הזה",
 	"cargo-drilldown-fulltext": "הטקסט המלא",
 	"cargo-drilldown-pagetext": "טקסט הדף",
