@@ -113,6 +113,7 @@
 	"cargo-drilldown-hierarchy-within": "во рамките на $1",
 	"cargo-drilldown-hierarchy-only": "само „$1“",
 	"cargo-drilldown-addanothervalue": "Стиснете на стрелката за да додадете друга вредност",
+	"cargo-drilldown-othervalues": "Други вредности:",
 	"cargo-drilldown-novalues": "Нема зададено вредности за овој филтер",
 	"cargo-drilldown-fulltext": "Цел текст",
 	"cargo-drilldown-pagetext": "Текст на страницата",

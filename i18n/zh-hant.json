@@ -115,6 +115,7 @@
 	"cargo-drilldown-hierarchy-within": "在 $1 之內",
 	"cargo-drilldown-hierarchy-only": "僅「$1」",
 	"cargo-drilldown-addanothervalue": "單擊箭頭來添加別的值",
+	"cargo-drilldown-othervalues": "其它值：",
 	"cargo-drilldown-novalues": "此篩選沒有任何值",
 	"cargo-drilldown-fulltext": "全文",
 	"cargo-drilldown-pagetext": "頁面文字",

@@ -125,6 +125,7 @@
 	"cargo-drilldown-hierarchy-within": "dans $1",
 	"cargo-drilldown-hierarchy-only": "« $1 » uniquement",
 	"cargo-drilldown-addanothervalue": "Cliquez sur la flèche pour ajouter une autre valeur",
+	"cargo-drilldown-othervalues": "Autres valeurs :",
 	"cargo-drilldown-novalues": "Il n’y a pas de valeur pour ce filtre",
 	"cargo-drilldown-fulltext": "Texte complet",
 	"cargo-drilldown-pagetext": "Texte de la page",

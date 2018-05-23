@@ -15,6 +15,7 @@
 	"cargo-drilldown-docu": "Użyj poniższych filtrów, aby zawęzić wyniki.",
 	"cargo-drilldown-or": "lub",
 	"cargo-drilldown-removefilter": "Usuń ten filtr",
+	"cargo-drilldown-othervalues": "Inne wartości:",
 	"cargo-drilldown-novalues": "Brak wartości dla tego filtra",
 	"cargo-drilldown-filename": "Nazwa pliku",
 	"cargo-viewcsv": "Zobacz CSV",

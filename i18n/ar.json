@@ -3,7 +3,8 @@
 		"authors": [
 			"Esraa Ismail",
 			"محمد أحمد عبد الفتاح",
-			"ديفيد"
+			"ديفيد",
+			"Sonic N800"
 		]
 	},
 	"cargo-desc": "تخزين واستعلام بيانات القالب",
@@ -114,6 +115,7 @@
 	"cargo-drilldown-hierarchy-within": "ضمن $1",
 	"cargo-drilldown-hierarchy-only": "\"$1\" فقط",
 	"cargo-drilldown-addanothervalue": "انقر على السهم لإضافة قيمة أخرى",
+	"cargo-drilldown-othervalues": "قِيَم أُخرى",
 	"cargo-drilldown-novalues": "لا توجد قيم لهذا المرشح",
 	"cargo-drilldown-fulltext": "النص الكامل",
 	"cargo-drilldown-pagetext": "نص الصفحة",

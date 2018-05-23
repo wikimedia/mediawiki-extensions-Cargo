@@ -17,5 +17,6 @@
 	"cargo-viewdata-format": "Formát:",
 	"cargo-viewdata-defaultformat": "Výchozí",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
+	"cargo-drilldown-othervalues": "Další hodnoty:",
 	"cargo-pageschemas-tablename": "Název tabulky:"
 }

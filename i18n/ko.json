@@ -56,6 +56,7 @@
 	"cargo-drilldown-allfiles": "모든 파일",
 	"cargo-drilldown-docu": "결과를 줄이려면 아래의 필터를 사용하십시오.",
 	"cargo-drilldown-hierarchy-only": "\"$1\"만",
+	"cargo-drilldown-othervalues": "다른 값:",
 	"cargo-drilldown-fulltext": "전문",
 	"cargo-drilldown-pagetext": "문서 텍스트",
 	"cargo-drilldown-filename": "파일 이름",
