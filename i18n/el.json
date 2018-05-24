@@ -94,6 +94,7 @@
 	"cargo-drilldown-hierarchy-within": "εντός του $1",
 	"cargo-drilldown-hierarchy-only": "\"$1\" μόνο",
 	"cargo-drilldown-addanothervalue": "Κάντε κλικ στο βέλος για να προσθέσετε κι άλλη τιμή",
+	"cargo-drilldown-othervalues": "Άλλες τιμές:",
 	"cargo-drilldown-novalues": "Δεν υπάρχουν τιμές για αυτό το φίλτρο",
 	"cargo-drilldown-fulltext": "Πλήρες κείμενο",
 	"cargo-drilldown-pagetext": "Κείμενο σελίδας",

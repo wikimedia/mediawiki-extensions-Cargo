@@ -102,6 +102,7 @@
 	"cargo-drilldown-removefilter": "Quitar este filtro",
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
 	"cargo-drilldown-addanothervalue": "Haz clic en la flecha para agregar otro valor",
+	"cargo-drilldown-othervalues": "Otros valores:",
 	"cargo-drilldown-novalues": "No hay valores para este filtro",
 	"cargo-drilldown-fulltext": "Texto completo",
 	"cargo-drilldown-pagetext": "Texto de la página",
