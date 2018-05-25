@@ -23,6 +23,7 @@
 	"cargo-drilldown-docu": "Använd filtren nedan för att begränsa dina resultat.",
 	"cargo-drilldown-hierarchy-within": "inom $1",
 	"cargo-drilldown-hierarchy-only": "endast \"$1\"",
+	"cargo-drilldown-othervalues": "Andra värden:",
 	"cargo-drilldown-filename": "Filnamn",
 	"cargo-drilldown-filetext": "Filtext",
 	"cargo-viewxls": "Visa XLS",
