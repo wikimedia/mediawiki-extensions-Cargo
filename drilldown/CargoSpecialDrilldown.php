@@ -85,6 +85,8 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 		list( $limit, $offset ) = $request->getLimitOffset( $numResultsPerPage, 'limit' );
 
+		$coordsFields = array();
+		$dateFields = array();
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( $fieldDescription->mIsHidden ) {
@@ -93,9 +95,15 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 			// Some field types shouldn't get a filter at all.
 			if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
+				if ( $fieldDescription->mType == 'Coordinates' ) {
+					$coordsFields[] = $fieldName;
+				}
 				continue;
 			}
 
+			if ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ) {
+				$dateFields[] = $fieldName;
+			}
 			$all_filters[] = new CargoFilter( $fieldName, $tableName, $fieldDescription, $searchablePages, $searchableFiles );
 		}
 
@@ -154,10 +162,18 @@ class CargoDrilldown extends IncludableSpecialPage {
 				}
 			}
 		}
+		$formatBy = $request->getVal( 'formatBy' );
+		$format = $request->getVal( 'format' );
+		if ( !$format || !$formatBy ) {
+			$format = '';
+			$formatBy = '';
+		}
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
-		$rep = new CargoDrilldownPage(
-			$tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchablePages, $searchableFiles, $offset, $limit );
+		$rep =
+			new CargoDrilldownPage( $tableName, $all_filters, $applied_filters, $remaining_filters,
+				$fullTextSearchTerm, $coordsFields, $dateFields, $searchablePages,
+				$searchableFiles, $offset, $limit, $format, $formatBy );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -185,8 +201,13 @@ class CargoDrilldownPage extends QueryPage {
 	public $applied_filters = array();
 	public $remaining_filters = array();
 	public $fullTextSearchTerm;
+	public $coordsFields;
+	public $dateFields;
+	public $sqlQuery;
 	public $searchablePages;
 	public $searchableFiles;
+	public $format;
+	public $formatBy;
 	private $showSingleTable = false;
 	private $isReplacementTable = false;
 
@@ -202,7 +223,9 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters, $fullTextSearchTerm, $searchablePages, $searchableFiles, $offset, $limit ) {
+	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters,
+			$fullTextSearchTerm, $coordsFields, $dateFields, $searchablePages,
+			$searchableFiles, $offset, $limit, $format, $formatBy ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -210,10 +233,14 @@ class CargoDrilldownPage extends QueryPage {
 		$this->applied_filters = $applied_filters;
 		$this->remaining_filters = $remaining_filters;
 		$this->fullTextSearchTerm = $fullTextSearchTerm;
+		$this->coordsFields = $coordsFields;
+		$this->dateFields = $dateFields;
 		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
 		$this->offset = $offset;
 		$this->limit = $limit;
+		$this->format = $format;
+		$this->formatBy = $formatBy;
 	}
 
 	/**
@@ -223,7 +250,8 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param string $filter_to_remove
 	 * @return string
 	 */
-	function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = array(), $filter_to_remove = null ) {
+	function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = array(),
+			$filter_to_remove = null, $attributes = array() ) {
 		$dd = SpecialPage::getTitleFor( 'Drilldown' );
 		$url = $dd->getLocalURL() . '/' . $tableName;
 		if ( $this->showSingleTable ) {
@@ -266,6 +294,14 @@ class CargoDrilldownPage extends QueryPage {
 				}
 			}
 		}
+		if ( $attributes ) {
+			foreach ( $attributes as $attribute => $value ) {
+				if ( $value !== '' ) {
+					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
+					$url .= $attribute . '=' . $value;
+				}
+			}
+		}
 		return $url;
 	}
 
@@ -301,7 +337,7 @@ END;
 		if ( $wgCargoDrilldownUseTabs ) {
 			$text .= <<<END
 					<p id="tableNamesHeader">$chooseTableText</p>
-					<ul id="$cats_list_class">
+					<ul id="$cats_list_class" class="drilldown-tabs">
 
 END;
 		} else {
@@ -323,18 +359,19 @@ END;
 			$tableStr = $this->displayTableName( $table ) . " ($tableRows)";
 			if ( $this->tableName == $table ) {
 				$text .= '						<li class="tableName selected">';
-				$text .= $tableStr;
 			} else {
 				$text .= '						<li class="tableName">';
-				$tableURL = $this->makeBrowseURL( $table );
-				$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
-					$tableStr );
 			}
+			$tableURL = $this->makeBrowseURL( $table );
+			$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
+				$tableStr );
 			$text .= "</li>\n";
 		}
+		$closeList = $this->closeList();
 		$text .= <<<END
 					</li>
 				</ul>
+				$closeList
 			</div>
 
 END;
@@ -527,7 +564,9 @@ END;
 			if ( $found_match ) {
 				$results_line .= "\n\t\t\t\t$filter_text";
 			} else {
-				$filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $applied_filters );
+				$filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+					$applied_filters, null,
+					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 					array( 'href' => $filter_url,
 					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ), $filter_text );
@@ -553,7 +592,9 @@ END;
 				$applied_filters_no_hierarchy[] = $af2;
 			}
 		}
-		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $applied_filters_no_hierarchy );
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+			$applied_filters_no_hierarchy, null,
+			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		// Drilldown for hierarchy is designed for literal 'drilldown'
 		// Therefore it has single filter value applied at anytime
@@ -876,7 +917,9 @@ END;
 		// We generate $cur_url here, instead of passing it in, because
 		// if there's a previous value for this filter it may be
 		// removed.
-		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters, $filter_name );
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+			$this->applied_filters, $filter_name,
+			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
 		$numberArray = array();
@@ -1138,7 +1181,9 @@ END;
 		$isHierarchy = $f->fieldDescription->mIsHierarchy;
 		if ( $cur_url === null ) {
 			// If $cur_url wasn't passed in, we have to create it.
-			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters, $f->name );
+			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+				$this->applied_filters, $f->name,
+				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		}
 
@@ -1230,10 +1275,12 @@ END;
 
 		$appliedFiltersHTML = '				<div id="drilldown-header">' . "\n";
 		if ( count( $this->applied_filters ) > 0 || $this->fullTextSearchTerm != null ) {
-			$tableURL = $this->makeBrowseURL( $this->tableName );
+			$tableURL =
+				$this->makeBrowseURL( $this->tableName, null, array(), null,
+					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
-				$this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
-				$this->displayTableName() . '</a>';
+								   $this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
+								   $this->displayTableName() . '</a>';
 		} else {
 			$appliedFiltersHTML .= $this->displayTableName();
 		}
@@ -1242,7 +1289,9 @@ END;
 			$appliedFiltersHTML .= " > ";
 			$appliedFiltersHTML .= $this->msg( 'cargo-drilldown-fulltext' )->text() . ': ';
 
-			$remove_filter_url = $this->makeBrowseURL( $this->tableName, null, $this->applied_filters );
+			$remove_filter_url = $this->makeBrowseURL( $this->tableName, null,
+				$this->applied_filters, null,
+				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' .
 				$this->fullTextSearchTerm .
 				'\'</span> <a href="' . $remove_filter_url . '" title="' .
@@ -1259,7 +1308,9 @@ END;
 			if ( count( $this->applied_filters[$i]->values ) > 1 ) {
 				$temp_filters_array = $this->applied_filters;
 				array_splice( $temp_filters_array, $i, 1 );
-				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $temp_filters_array );
+				$remove_filter_url = $this->makeBrowseURL( $this->tableName,
+					$this->fullTextSearchTerm, $temp_filters_array, null,
+					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				array_splice( $temp_filters_array, $i, 0 );
 				$appliedFiltersHTML .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
 					$this->msg( 'cargo-drilldown-removefilter' )->text() .
@@ -1275,7 +1326,9 @@ END;
 				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
 				$temp_filters_array = $this->applied_filters;
 				$removed_values = array_splice( $temp_filters_array[$i]->values, $j, 1 );
-				$remove_filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $temp_filters_array );
+				$remove_filter_url = $this->makeBrowseURL( $this->tableName,
+					$this->fullTextSearchTerm, $temp_filters_array, null,
+					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
 				$appliedFiltersHTML .= "\n	" . '				<span class="drilldown-header-value">' .
 					$filter_text . '</span> <a href="' . $remove_filter_url . '" title="' .
@@ -1295,7 +1348,9 @@ END;
 					}
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
-					$remove_filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $temp_filters_array );
+					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
+						$this->fullTextSearchTerm, $temp_filters_array, null,
+						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
 					$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
 						'\'</span> <a href="' . $remove_filter_url . '" title="' .
@@ -1310,6 +1365,7 @@ END;
 
 		$appliedFiltersHTML .= "</div>\n";
 		$header .= $appliedFiltersHTML;
+		$header .= "<div class='drilldown-filters-wrapper'>\n";
 		$drilldown_description = $this->msg( 'cargo-drilldown-docu' )->text();
 		$header .= "				<p>$drilldown_description</p>\n";
 
@@ -1317,7 +1373,9 @@ END;
 		// contain the possible values, and, in parentheses, the
 		// number of pages that match that value.
 		$filtersHTML = "				<div class=\"drilldown-filters\">\n";
-		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm, $this->applied_filters );
+		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+			$this->applied_filters, null,
+			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
 		if ( $displaySearchInput ) {
@@ -1349,6 +1407,7 @@ END;
 		}
 
 		$header .= $filtersHTML;
+		$header .= "</div> <!-- drilldown-filters-wrapper -->\n";
 
 		return $header;
 	}
@@ -1366,6 +1425,10 @@ END;
 		}
 		if ( $this->fullTextSearchTerm != '' ) {
 			$params['_search'] = $this->fullTextSearchTerm;
+		}
+		if ( $this->format ) {
+			$params['format'] = $this->format;
+			$params['formatBy'] = $this->formatBy;
 		}
 		foreach ( $this->applied_filters as $i => $af ) {
 			if ( count( $af->values ) == 1 ) {
@@ -1399,24 +1462,30 @@ END;
 		$conds = array();
 		$joinConds = array();
 		$queryOptions = array();
-
+		// $fieldStr, $whereStr, $groupByStr are required for CargoSQLQuery object
+		$fieldsStr = array( "$this->tableName._pageName" );
+		$whereStr = array();
+		$groupByStr = array();
 		if ( $this->fullTextSearchTerm != null ) {
-			list( $curTableNames, $curConds, $curJoinConds ) =
+			list( $curTableNames, $curConds, $curJoinConds, $whereConds ) =
 				self::getFullTextSearchQueryParts( $this->fullTextSearchTerm, $this->tableName, $this->searchablePages, $this->searchableFiles );
 			$tableNames = array_merge( $tableNames, $curTableNames );
 			$conds = array_merge( $conds, $curConds );
 			$joinConds = array_merge( $joinConds, $curJoinConds );
+			$whereStr = array_merge( $whereStr, $whereConds );
 		}
 
 		foreach ( $this->applied_filters as $i => $af ) {
 			list( $curTableNames, $curConds, $curJoinConds ) = $af->getQueryParts( $this->tableName );
 			$tableNames = array_merge( $tableNames, $curTableNames );
 			$conds = array_merge( $conds, $curConds );
+			$whereStr = array_merge( $whereStr, $curConds );
 			$joinConds = array_merge( $joinConds, $curJoinConds );
 			if ( $af->filter->fieldDescription->mIsHierarchy && $af->filter->fieldDescription->mIsList ) {
 				$hierarchyFieldTable = $this->tableName . "__" . $af->filter->name;
 				$queryOptions = array_merge( $queryOptions, array( "GROUP BY" =>
 					CargoUtils::escapedFieldName( $cdb, $hierarchyFieldTable, '_rowID' ) ) );
+				$groupByStr[] = $queryOptions['GROUP BY'];
 			}
 		}
 
@@ -1426,17 +1495,29 @@ END;
 			'namespace' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageNamespace' ),
 			'ID' => CargoUtils::escapedFieldName( $cdb, $this->tableName, '_pageID' )
 		);
+		if ( $this->format == 'map' ) {
+			$aliasedFieldNames['coordinates'] = CargoUtils::escapedFieldName( $cdb,
+				$this->tableName, $this->formatBy . '__full' );
+			$aliasedFieldNames['coordinates_lat'] = CargoUtils::escapedFieldName( $cdb,
+				$this->tableName, $this->formatBy . '__lat' );
+			$aliasedFieldNames['coordinates_lon'] = CargoUtils::escapedFieldName( $cdb,
+				$this->tableName, $this->formatBy . '__lon' );
+		}
 
 		if ( $this->fullTextSearchTerm != null ) {
 			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
 				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_fullText' );
 				$aliasedFieldNames['foundFileMatch'] = '1';
+				$fieldsStr[] = "_fileData._fullText=fileText";
 			} else {
 				$aliasedFieldNames['pageText'] = CargoUtils::escapedFieldName( $cdb, '_pageData', '_fullText' );
+				$fieldsStr[] = "_pageData._fullText=Page Text";
 			}
 			if ( $this->searchableFiles ) {
 				$aliasedFieldNames['fileName'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_pageName' );
+				$fieldsStr[] = "_fileData._pageName=fileName";
 				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, '_fileData', '_fullText' );
+				$fieldsStr[] = "_fileData._fullText=fileText";
 				// @HACK - the result set may contain both
 				// pages and files that match the search term.
 				// So how do we know, for each result row,
@@ -1456,7 +1537,27 @@ END;
 			'join_conds' => $joinConds,
 			'options' => $queryOptions
 		);
-
+		if ( $this->format == 'timeline' ) {
+			$tablesStr = implode( ', ', $tableNames );
+			$fieldsStr[] = $this->formatBy;
+			$fieldsStr = implode( ', ', $fieldsStr );
+			$whereStr = implode( ' AND ', $whereStr );
+			$whereStr = str_replace( 'DAY', 'DAYOFMONTH', $whereStr );
+			$joinOnStr = array();
+			foreach ( $queryInfo['join_conds'] as $table => $joinCond ) {
+				$joinCondStr = str_replace( '`', '', $joinCond[1] );
+				$joinCondStr = str_replace( 'cargo__', '', $joinCondStr );
+				$joinOnStr[] = $joinCondStr;
+			}
+			$joinOnStr = implode( ', ', $joinOnStr );
+			$groupByStr = implode( ', ', $groupByStr );
+			$havingStr = null;
+			$orderByStr = null;
+			$limitStr = $this->limit;
+			$offsetStr = $this->offset;
+			$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
+		}
 		return $queryInfo;
 	}
 
@@ -1466,14 +1567,17 @@ END;
 		$tableNames = array();
 		$conds = array();
 		$joinConds = array();
+		$whereConds = array();
 
 		// Special quick handling for the "data" tables.
 		if ( $mainTableName == '_fileData' ) {
 			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm );
-			return array( $tableNames, $conds, $joinConds );
+			$whereConds[] = "_fileData._fullText MATCHES '$searchTerm'";
+			return array( $tableNames, $conds, $joinConds, $whereConds );
 		} elseif ( $mainTableName == '_pageData' ) {
 			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
-			return array( $tableNames, $conds, $joinConds );
+			$whereConds[] = "_pageData._fullText MATCHES '$searchTerm'";
+			return array( $tableNames, $conds, $joinConds, $whereConds );
 		}
 
 		if ( $searchablePages ) {
@@ -1505,14 +1609,17 @@ END;
 			if ( $searchablePages ) {
 				$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm ) . ' OR ' .
 					CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+				$whereConds[] = "_fileData._fullText MATCHES '$searchTerm' OR _pageData._fullText MATCHES '$searchTerm'";
 			} else {
 				$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_fileData', '_fullText', $searchTerm );
+				$whereConds[] = "_fileData._fullText MATCHES '$searchTerm'";
 			}
 		} else {
 			$conds[] = CargoUtils::fullTextMatchSQL( $cdb, '_pageData', '_fullText', $searchTerm );
+			$whereConds[] = "_pageData._fullText MATCHES '$searchTerm'";
 		}
 
-		return array( $tableNames, $conds, $joinConds );
+		return array( $tableNames, $conds, $joinConds, $whereConds );
 	}
 
 	function getOrderFields() {
@@ -1546,6 +1653,50 @@ END;
 	 * @param int $offset Paging offset - Unused
 	 */
 	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
+		$url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
+			$this->applied_filters, null,
+			array( 'limit' => $this->limit, 'offset' => $this->offset ) );
+		// Add tabs for displaying results in map or timleine format
+		$tabs = '';
+		$tabs .= Html::rawElement( 'li', array(
+			'role' => 'presentation',
+			'class' => ( $this->format == '' ) ? 'selected' : null,
+		), Html::rawElement( 'a', array(
+			'role' => 'tab',
+			'href' => $url,
+		), 'Main' ) );
+		if ( count( $this->coordsFields ) > 0 || count( $this->dateFields ) > 0 ) {
+			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
+			foreach ( $this->coordsFields as $i => $coordsField ) {
+				$tabs .= Html::rawElement( 'li', array(
+					'role' => 'presentation',
+					'class' => ( $this->format == 'map' &&
+						$coordsField == $this->formatBy ) ? 'selected' : null,
+				), Html::rawElement( 'a', array(
+					'role' => 'tab',
+					'href' => $url . 'format=map&formatBy=' . $coordsField,
+				), $this->msg( 'cargo-drilldown-mapformat' )->text() .
+					': ' . str_replace( '_', ' ', $coordsField ) ) );
+			}
+			foreach ( $this->dateFields as $i => $dateField ) {
+				$tabs .= Html::rawElement( 'li', array(
+					'role' => 'presentation',
+					'class' => ( $this->format == 'timeline' &&
+						$dateField == $this->formatBy ) ? 'selected' : null,
+				), Html::rawElement( 'a', array(
+					'role' => 'tab',
+					'href' => $url . 'format=timeline&formatBy=' . $dateField,
+				), $this->msg( 'cargo-drilldown-timelineformat' )->text() .
+					': ' . str_replace( '_',	' ', $dateField ) ) );
+			}
+		}
+		$out->addHTML( Html::rawElement( 'div', array(
+			'id' => 'drilldown-format-tabs-wrapper',
+		), Html::rawElement( 'ul', array(
+			'class' => 'drilldown-tabs',
+			'id' => 'drilldown-format-tabs',
+			'role' => 'tablist',
+		), $tabs ) . $this->closeList() ) );
 		$valuesTable = array();
 		$cdb = CargoUtils::getDB();
 		$pageTextStr = $this->msg( 'cargo-drilldown-pagetext' )->text();
@@ -1559,6 +1710,11 @@ END;
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$pageName = $row['title'];
 			$curValue = array( 'title' => $pageName );
+			if ( $this->format == 'map' ) {
+				$curValue[$this->formatBy] = $row['coordinates'];
+				$curValue[$this->formatBy . '  lat'] = $row['coordinates_lat'];
+				$curValue[$this->formatBy. '  lon'] = $row['coordinates_lon'];
+			}
 			$pageNamespace = $this->getLanguage()->getFormattedNsText( $row['namespace'] );
 			if ( $pageNamespace != '' ) {
 				$curValue['namespace'] = $pageNamespace;
@@ -1585,6 +1741,22 @@ END;
 		$fieldDescription = new CargoFieldDescription();
 		$fieldDescription->mType = 'Page';
 		$queryDisplayer->mFieldDescriptions = array( 'title' => $fieldDescription );
+		if ( $this->format == 'map' ) {
+			$coordsFieldDescription = new CargoFieldDescription();
+			$coordsFieldDescription->mType = 'Coordinates';
+			$queryDisplayer->mFieldDescriptions[$this->formatBy] = $coordsFieldDescription;
+		}
+		// Display the result in timeline format
+		if ( $this->format == 'timeline' ) {
+			$timelineQueryDisplayer = new CargoQueryDisplayer();
+			$timelineQueryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
+			$timelineQueryDisplayer->mFormat = $this->format;
+			$formatter = $timelineQueryDisplayer->getFormatter( $out );
+			$displayParams = array();
+			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $displayParams );
+			$out->addHTML( $text );
+			return;
+		}
 
 		if ( $this->fullTextSearchTerm != null ) {;
 			$escapedSearchTerm = str_replace( "'", "\'", $this->fullTextSearchTerm );
@@ -1606,9 +1778,13 @@ END;
 			$queryDisplayer->mFieldDescriptions[$fileTextStr] = $fullTextFieldDescription;
 		}
 
-		$queryDisplayer->mFormat = 'category';
+		if ( $this->format ) {
+			$queryDisplayer->mFormat = $this->format;
+		} else {
+			$queryDisplayer->mFormat = 'category';
+		}
 		// Make display wider if we're also showing file information.
-		if ( $this->searchableFiles && $this->fullTextSearchTerm != '' ) {
+		if ( $this->format == '' && $this->searchableFiles && $this->fullTextSearchTerm != '' ) {
 			$queryDisplayer->mDisplayParams['columns'] = 2;
 		}
 		$formatter = $queryDisplayer->getFormatter( $out );
