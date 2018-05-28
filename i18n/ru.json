@@ -6,7 +6,8 @@
 			"Okras",
 			"Irus",
 			"Sunpriat",
-			"Smigles"
+			"Smigles",
+			"Redredsonia"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
@@ -14,6 +15,7 @@
 	"cargo-drilldown-allpages": "Все страницы",
 	"cargo-drilldown-allfiles": "Все файлы",
 	"cargo-drilldown-docu": "Используйте фильтры ниже, чтобы сузить результаты.",
+	"cargo-drilldown-othervalues": "Другие значения:",
 	"cargo-drilldown-fulltext": "Полнотекстовый",
 	"cargo-drilldown-pagetext": "Текст страницы",
 	"cargo-drilldown-filename": "Имя файла",
