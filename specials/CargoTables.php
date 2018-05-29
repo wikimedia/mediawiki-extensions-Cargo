@@ -277,7 +277,7 @@ class CargoTables extends IncludableSpecialPage {
 				$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 			}
 			$declaringTemplatesText = $this->msg(
-				'cargo-cargotables-declaredby', implode( $templateLinks ) )->text();
+				'cargo-cargotables-declaredby', implode( ', ', $templateLinks ) )->text();
 		}
 
 		// "Attached by" text
@@ -297,7 +297,7 @@ class CargoTables extends IncludableSpecialPage {
 			$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 		}
 		$attachingTemplatesText = $this->msg(
-			'cargo-cargotables-attachedby', implode( $templateLinks ) )->text();
+			'cargo-cargotables-attachedby', implode( ', ', $templateLinks ) )->text();
 
 		return "$declaringTemplatesText, $attachingTemplatesText";
 	}
