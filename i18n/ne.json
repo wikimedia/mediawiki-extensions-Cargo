@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Nirjal stha"
+			"Nirjal stha",
+			"Nirajan pant"
 		]
 	},
-	"cargo-viewdata-having": "भएकोः"
+	"cargo-viewdata-having": "भएकोः",
+	"cargo-drilldown-othervalues": "अन्य मानहरू:"
 }
