@@ -51,8 +51,13 @@ class CargoAttach {
 		$parserOutput = $parser->getOutput();
 		$parserOutput->setProperty( 'CargoAttachedTable', $tableName );
 
-		// Link to the Special:ViewTable page for this table.
-		$text = wfMessage( 'cargo-addsrows', $tableName )->text();
+		// Link to the Special:ViewTable page for this table, and to the template that
+		// declares it.
+		$declaringTemplateID = CargoUtils::getTemplateIDForDBTable( $tableName );
+		$declaringTemplateTitle = Title::newFromID( $declaringTemplateID );
+		$declaringTemplateLink = '[[' . $declaringTemplateTitle->getFullText() . '|' .
+			$declaringTemplateTitle->getText() . ']]';
+		$text = wfMessage( 'cargo-addsrows', $tableName, $declaringTemplateLink )->text();
 		$ct = SpecialPage::getTitleFor( 'CargoTables' );
 		$pageName = $ct->getPrefixedText() . "/$tableName";
 		$viewTableMsg = wfMessage( 'cargo-cargotables-viewtablelink' )->parse();
