@@ -10,7 +10,7 @@
 	"cargo-desc": "Ermöglicht das Speichern und Abfragen von Vorlagendaten",
 	"cargo-definestable": "Diese Vorlage definiert die Tabelle „$1“.",
 	"cargo-tablenotcreated": "Diese Tabelle wurde noch nicht erstellt.",
-	"cargo-addsrows": "Diese Vorlage fügt Zeilen zur Tabelle „$1“ hinzu.",
+	"cargo-addsrows": "Diese Vorlage fügt Zeilen zur Tabelle „$1“ hinzu, die von der Vorlage $2 erklärt wird.",
 	"cargo-notable": "Fehler: Es muss ein Tabellenname angegeben werden.",
 	"cargo-unknowntable": "Fehler: Die Tabelle „$1“ wurde nicht gefunden.",
 	"recreatedata": "Daten erneut erstellen",
