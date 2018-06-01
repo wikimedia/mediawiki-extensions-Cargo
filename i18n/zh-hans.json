@@ -10,7 +10,7 @@
 	"cargo-desc": "模板数据的存储和查询",
 	"cargo-definestable": "此模板定义表格“$1”。",
 	"cargo-tablenotcreated": "此表格尚未创建。",
-	"cargo-addsrows": "此模板为表格“$1”添加行。",
+	"cargo-addsrows": "此模板为表格“$1”添加行，它声明自模板$2。",
 	"cargo-notable": "错误：表格名称必须指定。",
 	"cargo-unknowntable": "错误：找不到表格$1。",
 	"recreatedata": "重新创建数据",
