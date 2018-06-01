@@ -1021,7 +1021,7 @@ END;
 				$inputAttrs['data-cargo-where'] = $whereSQL;
 			}
 			$text .= "\n\t\t\t\t\t<span>" .
-					 $this->msg( 'cargo-drilldown-othervalues' )->text() . "</span>";
+					 $this->msg( 'cargo-drilldown-othervalues' )->text() . " </span>";
 			$text .= Html::input( $inputName, $cur_value, 'text', $inputAttrs ) . "\n";
 			$text .= "<br />\n\n";
 		}
