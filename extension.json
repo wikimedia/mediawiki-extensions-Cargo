@@ -314,6 +314,7 @@
 		"CargoDefaultQueryLimit": 100,
 		"CargoMaxQueryLimit": 5000,
 		"Cargo24HourTime": false,
+		"CargoDefaultMapService": "OpenLayers",
 		"CargoGoogleMapsKey": null,
 		"CargoMapClusteringMinimum": 80,
 		"CargoDrilldownUseTabs": false,

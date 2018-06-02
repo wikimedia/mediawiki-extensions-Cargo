@@ -348,6 +348,7 @@ $wgCargoDefaultQueryLimit = 100;
 $wgCargoMaxQueryLimit = 5000;
 $wgCargo24HourTime = false;
 
+$wgCargoDefaultMapService = 'OpenLayers';
 $wgCargoGoogleMapsKey = null;
 $wgCargoMapClusteringMinimum = 80;
 

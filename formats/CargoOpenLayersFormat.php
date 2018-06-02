@@ -11,7 +11,7 @@ class CargoOpenLayersFormat extends CargoMapsFormat {
 		self::$mappingService = "OpenLayers";
 	}
 
-	public function getScripts() {
+	public static function getScripts() {
 		return array( "//openlayers.org/api/OpenLayers.js" );
 	}
 

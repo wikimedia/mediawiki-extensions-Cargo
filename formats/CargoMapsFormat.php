@@ -9,15 +9,25 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	public static $mappingService = "OpenLayers";
 	public static $mapNumber = 1;
 
+	function __construct( $output ) {
+		global $wgCargoDefaultMapService;
+		parent::__construct( $output );
+		self::$mappingService = $wgCargoDefaultMapService;
+	}
+
 	function allowedParameters() {
 		return array( 'height', 'width', 'icon', 'zoom' );
 	}
 
-	/**
-	 * Meant to be overloaded.
-	 */
-	public function getScripts() {
-		return array();
+	public static function getScripts() {
+		global $wgCargoDefaultMapService;
+		if ( $wgCargoDefaultMapService == 'Google Maps' ) {
+			return CargoGoogleMapsFormat::getScripts();
+		} elseif ( $wgCargoDefaultMapService == 'OpenLayers' ) {
+			return CargoOpenLayersFormat::getScripts();
+		} else {
+			return array();
+		}
 	}
 
 	/**

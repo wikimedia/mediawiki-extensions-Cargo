@@ -40,6 +40,7 @@ class CargoQueryDisplayer {
 			'tree' => 'CargoTreeFormat',
 			'table' => 'CargoTableFormat',
 			'dynamic table' => 'CargoDynamicTableFormat',
+			'map' => 'CargoMapsFormat',
 			'googlemaps' => 'CargoGoogleMapsFormat',
 			'openlayers' => 'CargoOpenLayersFormat',
 			'calendar' => 'CargoCalendarFormat',

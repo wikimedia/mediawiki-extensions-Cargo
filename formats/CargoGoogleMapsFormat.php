@@ -11,7 +11,7 @@ class CargoGoogleMapsFormat extends CargoMapsFormat {
 		self::$mappingService = "Google Maps";
 	}
 
-	public function getScripts() {
+	public static function getScripts() {
 		global $wgCargoGoogleMapsKey;
 
 		return array(
