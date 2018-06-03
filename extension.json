@@ -99,6 +99,7 @@
 		"CargoTimelineFormat": "formats/CargoTimelineFormat.php",
 		"CargoCategoryFormat": "formats/CargoCategoryFormat.php",
 		"CargoBarChartFormat": "formats/CargoBarChartFormat.php",
+		"CargoPieChartFormat": "formats/CargoPieChartFormat.php",
 		"CargoGalleryFormat": "formats/CargoGalleryFormat.php",
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",

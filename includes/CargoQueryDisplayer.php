@@ -47,6 +47,7 @@ class CargoQueryDisplayer {
 			'timeline' => 'CargoTimelineFormat',
 			'category' => 'CargoCategoryFormat',
 			'bar chart' => 'CargoBarChartFormat',
+			'pie chart' => 'CargoPieChartFormat',
 			'gallery' => 'CargoGalleryFormat',
 			'tag cloud' => 'CargoTagCloudFormat',
 			'exhibit' => 'CargoExhibitFormat',

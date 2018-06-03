@@ -66,4 +66,53 @@ $(document).ready(function() {
 
 	});
 
+	$('.cargoPieChart').each( function() {
+
+		var dataURL = decodeURI( $(this).attr('dataurl') );
+		var innerSVG = $(this).find('svg');
+
+		d3.json( dataURL, function(data) {
+			// Pie chart format uses only a
+			// single array of key-value pairs
+			data = data[0].values;
+			// Quick exit.
+			if ( data == null ) return;
+
+			var maxLabelSize = 0;
+			var numbersIncludeDecimalPoints = false;
+			for ( var i in data ) {
+				for ( var j in data[i]['values'] ) {
+					var curLabel = data[i]['values'][j]['label'];
+					maxLabelSize = Math.max( maxLabelSize, curLabel.length );
+					if ( !numbersIncludeDecimalPoints ) {
+						var curValue = data[i]['values'][j]['value'];
+						if ( curValue.toString().indexOf( '.' ) >= 0 ) {
+							numbersIncludeDecimalPoints = true;
+						}
+					}
+				}
+			}
+
+			nv.addGraph(function() {
+				if ( innerSVG.height() == 1 ) {
+					var numLabels = data.length * data[0]['values'].length;
+					var graphHeight = ( numLabels + 2 ) * 22;
+					innerSVG.height( graphHeight );
+				}
+
+				var chart = nv.models.pieChart()
+					.x(function(d) { return d.label })
+					.y(function(d) { return d.value })
+					.showLabels(true)           //Show chart value next to each section.
+
+				d3.selectAll(innerSVG)
+					.datum(data)
+					.transition().duration(350)
+					.call(chart);
+
+				return chart;
+			});
+		});
+
+	});
 });
