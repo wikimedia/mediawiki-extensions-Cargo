@@ -352,7 +352,7 @@ $wgCargoDefaultMapService = 'OpenLayers';
 $wgCargoGoogleMapsKey = null;
 $wgCargoMapClusteringMinimum = 80;
 
-$wgCargoDrilldownUseTabs = false;
+$wgCargoDrilldownUseTabs = true;
 // Set these to a positive number for cloud-style display.
 $wgCargoDrilldownSmallestFontSize = -1;
 $wgCargoDrilldownLargestFontSize = -1;

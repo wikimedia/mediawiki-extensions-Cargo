@@ -117,6 +117,8 @@
 	"cargo-drilldown-pagetext": "Page text",
 	"cargo-drilldown-filename": "File name",
 	"cargo-drilldown-filetext": "File text",
+	"cargo-drilldown-mapformat": "Map",
+	"cargo-drilldown-timelineformat": "Timeline",
 	"cargo-viewcsv": "View CSV",
 	"cargo-viewxls": "View XLS",
 	"cargo-viewjson": "View JSON",

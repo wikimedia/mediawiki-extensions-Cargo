@@ -317,7 +317,7 @@
 		"CargoDefaultMapService": "OpenLayers",
 		"CargoGoogleMapsKey": null,
 		"CargoMapClusteringMinimum": 80,
-		"CargoDrilldownUseTabs": false,
+		"CargoDrilldownUseTabs": true,
 		"CargoDrilldownSmallestFontSize": -1,
 		"CargoDrilldownLargestFontSize": -1,
 		"CargoDrilldownMinValuesForComboBox": 40,
