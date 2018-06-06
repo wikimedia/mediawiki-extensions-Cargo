@@ -123,7 +123,7 @@
 	"cargo-drilldown-pagetext": "The label for searching on all the text within a page.",
 	"cargo-drilldown-filename": "The label for displaying the name of a file uploaded to the wiki.\n{{Identical|Filename}}",
 	"cargo-drilldown-filetext": "The label for searching on all the text within a file.",
-	"cargo-drilldown-mapformat": "Tab value for map format",
+	"cargo-drilldown-mapformat": "Tab value for map format\n{{Identical|Map}}",
 	"cargo-drilldown-timelineformat": "Tab value for timeline format",
 	"cargo-viewcsv": "The text of a link.",
 	"cargo-viewxls": "The text of a link.",

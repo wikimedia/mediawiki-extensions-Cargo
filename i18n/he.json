@@ -93,6 +93,8 @@
 	"cargo-drilldown-pagetext": "טקסט הדף",
 	"cargo-drilldown-filename": "שם הקובץ",
 	"cargo-drilldown-filetext": "טקסט הקובץ",
+	"cargo-drilldown-mapformat": "מפה",
+	"cargo-drilldown-timelineformat": "ציר זמן",
 	"cargo-viewcsv": "הצגת CSV",
 	"cargo-viewxls": "הצגת XLS",
 	"cargo-viewjson": "הצגת JSON",

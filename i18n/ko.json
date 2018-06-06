@@ -62,5 +62,7 @@
 	"cargo-drilldown-pagetext": "문서 텍스트",
 	"cargo-drilldown-filename": "파일 이름",
 	"cargo-drilldown-filetext": "파일 텍스트",
+	"cargo-drilldown-mapformat": "지도",
+	"cargo-drilldown-timelineformat": "타임라인",
 	"cargo-viewxls": "XLS 보기"
 }

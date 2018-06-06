@@ -48,6 +48,8 @@
 	"cargo-drilldown-pagetext": "Text vun der Säit",
 	"cargo-drilldown-filename": "Numm vum Fichier",
 	"cargo-drilldown-filetext": "Text vum Fichier",
+	"cargo-drilldown-mapformat": "Kaart",
+	"cargo-drilldown-timelineformat": "Chronologie",
 	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
 	"cargo-viewjson": "JSON weisen",
