@@ -10,7 +10,7 @@
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'mode', 'show bytes', 'show filename', 'per row', 'image width', 'image height' );
+		return array( 'mode', 'show bytes', 'show filename', 'show dimensions', 'per row', 'image width', 'image height' );
 	}
 
 	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
@@ -138,6 +138,9 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		}
 		if ( array_key_exists( 'show bytes', $displayParams ) ) {
 			$gallery->setShowBytes( $displayParams['show bytes'] );
+		}
+		if ( array_key_exists( 'show dimensions', $displayParams ) ) {
+			$gallery->setShowDimensions( $displayParams['show dimensions'] );
 		}
 		if ( array_key_exists( 'show filename', $displayParams ) ) {
 			$gallery->setShowFilename( $displayParams['show filename'] );

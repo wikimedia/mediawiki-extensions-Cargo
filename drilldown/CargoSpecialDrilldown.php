@@ -87,6 +87,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 		$coordsFields = array();
 		$dateFields = array();
+		$fileFields = array();
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( $fieldDescription->mIsHidden ) {
@@ -97,6 +98,9 @@ class CargoDrilldown extends IncludableSpecialPage {
 			if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
 				if ( $fieldDescription->mType == 'Coordinates' ) {
 					$coordsFields[] = $fieldName;
+				}
+				if ( $fieldDescription->mType == 'File' ) {
+					$fileFields = array_merge( $fileFields, array( $fieldName => $fieldDescription ) );
 				}
 				continue;
 			}
@@ -172,7 +176,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
 		$rep =
 			new CargoDrilldownPage( $tableName, $all_filters, $applied_filters, $remaining_filters,
-				$fullTextSearchTerm, $coordsFields, $dateFields, $searchablePages,
+				$fullTextSearchTerm, $coordsFields, $dateFields, $fileFields, $searchablePages,
 				$searchableFiles, $offset, $limit, $format, $formatBy );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
@@ -203,6 +207,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $fullTextSearchTerm;
 	public $coordsFields;
 	public $dateFields;
+	public $fileFields;
 	public $sqlQuery;
 	public $searchablePages;
 	public $searchableFiles;
@@ -224,7 +229,7 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $limit
 	 */
 	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters,
-			$fullTextSearchTerm, $coordsFields, $dateFields, $searchablePages,
+			$fullTextSearchTerm, $coordsFields, $dateFields, $fileFields, $searchablePages,
 			$searchableFiles, $offset, $limit, $format, $formatBy ) {
 		parent::__construct( 'Drilldown' );
 
@@ -235,6 +240,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->fullTextSearchTerm = $fullTextSearchTerm;
 		$this->coordsFields = $coordsFields;
 		$this->dateFields = $dateFields;
+		$this->fileFields = $fileFields;
 		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
 		$this->offset = $offset;
@@ -1503,6 +1509,24 @@ END;
 			$aliasedFieldNames['coordinates_lon'] = CargoUtils::escapedFieldName( $cdb,
 				$this->tableName, $this->formatBy . '__lon' );
 		}
+		if ( $this->format == 'gallery' ) {
+			foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
+				if ( $this->formatBy == $fieldName ) {
+					if ( $fieldDescription->mIsList ) {
+						$fieldTableName = $this->tableName . '__' . $fieldName;
+						$curJoinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb,
+							$this->tableName, $fieldTableName );
+						$tableNames[] = $fieldTableName;
+						$aliasedFieldNames['file'] = CargoUtils::escapedFieldName( $cdb,
+							$fieldTableName, '_value' );
+						$joinConds = array_merge( $joinConds, $curJoinConds );
+					} else {
+						$aliasedFieldNames['file'] = CargoUtils::escapedFieldName( $cdb, $this->tableName,
+							$this->formatBy );
+					}
+				}
+			}
+		}
 
 		if ( $this->fullTextSearchTerm != null ) {
 			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
@@ -1689,6 +1713,17 @@ END;
 				), $this->msg( 'cargo-drilldown-timelineformat' )->text() .
 					': ' . str_replace( '_',	' ', $dateField ) ) );
 			}
+			foreach ( $this->fileFields as $fileField => $fieldDescription ) {
+				$tabs .= Html::rawElement( 'li', array(
+					'role' => 'presentation',
+					'class' => ( $this->format == 'gallery' &&
+								 $fileField == $this->formatBy ) ? 'selected' : null,
+				), Html::rawElement( 'a', array(
+					'role' => 'tab',
+					'href' => $url . 'format=gallery&formatBy=' . $fileField,
+				), $this->msg( 'cargo-drilldown-galleryformat' )->text() .
+				   ': ' . str_replace( '_',	' ', $fileField ) ) );
+			}
 		}
 		$out->addHTML( Html::rawElement( 'div', array(
 			'id' => 'drilldown-format-tabs-wrapper',
@@ -1714,6 +1749,10 @@ END;
 				$curValue[$this->formatBy] = $row['coordinates'];
 				$curValue[$this->formatBy . '  lat'] = $row['coordinates_lat'];
 				$curValue[$this->formatBy. '  lon'] = $row['coordinates_lon'];
+			}
+			if ( $this->format == 'gallery' ) {
+				$curValue[$this->formatBy] = $row['file'];
+				$curValue['caption'] = $this->msg( 'cargo-drilldown-gallerycaption', $pageName )->text();
 			}
 			$pageNamespace = $this->getLanguage()->getFormattedNsText( $row['namespace'] );
 			if ( $pageNamespace != '' ) {
@@ -1745,6 +1784,18 @@ END;
 			$coordsFieldDescription = new CargoFieldDescription();
 			$coordsFieldDescription->mType = 'Coordinates';
 			$queryDisplayer->mFieldDescriptions[$this->formatBy] = $coordsFieldDescription;
+		}
+		if ( $this->format == 'gallery' ) {
+			$fileFieldDescription = new CargoFieldDescription();
+			$fileFieldDescription->mType = 'File';
+			$queryDisplayer->mFieldDescriptions[$this->formatBy] = $fileFieldDescription;
+			if ( !$this->fileFields[$this->formatBy]->mIsList ) {
+				$queryDisplayer->mDisplayParams['show filename'] = false;
+			}
+			$queryDisplayer->mDisplayParams['mode'] = 'packed';
+			$queryDisplayer->mDisplayParams['caption field'] = 'caption';
+			$queryDisplayer->mDisplayParams['show bytes'] = false;
+			$queryDisplayer->mDisplayParams['show dimensions'] = false;
 		}
 		// Display the result in timeline format
 		if ( $this->format == 'timeline' ) {
