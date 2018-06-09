@@ -26,6 +26,8 @@
 	"cargo-drilldown-othervalues": "Andra värden:",
 	"cargo-drilldown-filename": "Filnamn",
 	"cargo-drilldown-filetext": "Filtext",
+	"cargo-drilldown-mapformat": "Karta",
+	"cargo-drilldown-timelineformat": "Tidslinje",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
 	"cargo-pageschemas-tablename": "Tabellnamn:"

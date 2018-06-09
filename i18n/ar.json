@@ -121,6 +121,7 @@
 	"cargo-drilldown-pagetext": "نص الصفحة",
 	"cargo-drilldown-filename": "اسم الملف",
 	"cargo-drilldown-filetext": "نص الملف",
+	"cargo-drilldown-mapformat": "خريطة",
 	"cargo-drilldown-timelineformat": "الجدول الزمني",
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",

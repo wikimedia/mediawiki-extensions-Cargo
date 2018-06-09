@@ -23,5 +23,7 @@
 	"cargo-drilldown-fulltext": "সম্পূর্ণ লেখা",
 	"cargo-drilldown-pagetext": "পাতার লেখা",
 	"cargo-drilldown-filename": "ফাইলের নাম",
-	"cargo-drilldown-filetext": "ফাইলের লেখা"
+	"cargo-drilldown-filetext": "ফাইলের লেখা",
+	"cargo-drilldown-mapformat": "মানচিত্র",
+	"cargo-drilldown-timelineformat": "সময়ক্রম"
 }

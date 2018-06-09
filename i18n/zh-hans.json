@@ -121,6 +121,8 @@
 	"cargo-drilldown-pagetext": "页面文本",
 	"cargo-drilldown-filename": "文件名",
 	"cargo-drilldown-filetext": "文件文本",
+	"cargo-drilldown-mapformat": "地图",
+	"cargo-drilldown-timelineformat": "时间线",
 	"cargo-viewcsv": "查看CSV",
 	"cargo-viewxls": "查看XLS",
 	"cargo-viewjson": "查看JSON",
