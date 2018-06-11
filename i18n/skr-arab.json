@@ -5,5 +5,7 @@
 		]
 	},
 	"cargo-viewdata-defaultformat": "پہلے کنوں طے تھیا ہویا",
-	"cargo-drilldown-mapformat": "نقشہ"
+	"cargo-drilldown-mapformat": "نقشہ",
+	"cargo-drilldown-galleryformat": "گیلری",
+	"cargo-drilldown-gallerycaption": "\n[[$1]]"
 }

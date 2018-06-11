@@ -31,5 +31,7 @@
 	"cargo-query-unknownfieldfortable": "エラー: データベーステーブル「$2」に「$1」という名前のフィールドが見つかりませんでした。",
 	"cargo-cargotables-tablelist": "次の{{PLURAL:$1|テーブル}}が定義されています:",
 	"cargo-drilldown-allpages": "すべてのページ",
-	"cargo-drilldown-allfiles": "すべてのファイル"
+	"cargo-drilldown-allfiles": "すべてのファイル",
+	"cargo-drilldown-galleryformat": "ギャラリー",
+	"cargo-drilldown-gallerycaption": "[[$1]]"
 }

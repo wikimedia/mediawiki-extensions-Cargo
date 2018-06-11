@@ -110,6 +110,7 @@
 	"cargo-drilldown-filetext": "Texto del archivo",
 	"cargo-drilldown-mapformat": "Mapa",
 	"cargo-drilldown-timelineformat": "Cronograma",
+	"cargo-drilldown-galleryformat": "Galería",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",

@@ -28,6 +28,8 @@
 	"cargo-drilldown-filetext": "Filtext",
 	"cargo-drilldown-mapformat": "Karta",
 	"cargo-drilldown-timelineformat": "Tidslinje",
+	"cargo-drilldown-galleryformat": "Galleri",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
 	"cargo-pageschemas-tablename": "Tabellnamn:"

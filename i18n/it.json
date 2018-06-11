@@ -51,6 +51,7 @@
 	"cargo-drilldown-filetext": "Testo del file",
 	"cargo-drilldown-mapformat": "Mappa",
 	"cargo-drilldown-timelineformat": "Linea temporale",
+	"cargo-drilldown-galleryformat": "Galleria",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
 	"cargo-pageschemas-tablename": "Nome tabella:"

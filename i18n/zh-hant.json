@@ -123,6 +123,8 @@
 	"cargo-drilldown-filetext": "檔案文本",
 	"cargo-drilldown-mapformat": "地圖",
 	"cargo-drilldown-timelineformat": "時間軸",
+	"cargo-drilldown-galleryformat": "圖庫",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "檢視 CSV",
 	"cargo-viewxls": "檢視 XLS",
 	"cargo-viewjson": "檢視 JSON",
