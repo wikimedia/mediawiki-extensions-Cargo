@@ -43,6 +43,11 @@ class CargoSQLQuery {
 		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
+		// "table(s)" is the only mandatory value.
+		if ( $tablesStr == '' ) {
+			throw new MWException( "At least one table must be specified." );
+		}
+
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$havingStr, $orderByStr, $limitStr, $offsetStr );
 
