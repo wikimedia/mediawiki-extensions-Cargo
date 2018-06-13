@@ -20,7 +20,7 @@
 	"cargo-desc": "Stockage et interrogation de données de modèle",
 	"cargo-definestable": "Ce modèle définit le tableau « $1 ».",
 	"cargo-tablenotcreated": "Ce tableau n'a pas encore été créé.",
-	"cargo-addsrows": "Ce modèle ajoute des lignes dans le tableau \"$1\".",
+	"cargo-addsrows": "Ce modèle ajoute des lignes dans le tableau « $1 », qui est déclaré par le modèle $2.",
 	"cargo-notable": "Erreur : un nom de table doit être spécifié.",
 	"cargo-unknowntable": "Erreur : table $1 non trouvée.",
 	"recreatedata": "Recréer les données",

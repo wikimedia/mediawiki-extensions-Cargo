@@ -7,5 +7,7 @@
 	"cargo-drilldown-allpages": "Visas lapas",
 	"cargo-drilldown-allfiles": "Visi faili",
 	"cargo-drilldown-filename": "Faila nosaukums",
-	"cargo-drilldown-filetext": "Faila tekstā"
+	"cargo-drilldown-filetext": "Faila tekstā",
+	"cargo-drilldown-mapformat": "Karte",
+	"cargo-drilldown-galleryformat": "Galerija"
 }

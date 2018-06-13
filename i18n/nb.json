@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Emilbk",
-			"Kingu"
+			"Kingu",
+			"Citadell"
 		]
 	},
 	"cargo-desc": "Lagring og visning av data i maler",
@@ -43,6 +44,9 @@
 	"cargo-drilldown-resetfilters": "Nullstill filtre",
 	"cargo-drilldown-addanothervalue": "Klikk på pilen for å legge til flere verdier",
 	"cargo-drilldown-novalues": "Det finnes ingen verdier for dette filteret",
+	"cargo-drilldown-mapformat": "Kart",
+	"cargo-drilldown-galleryformat": "Galleri",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Vis CSV",
 	"cargo-viewxls": "Se XLS",
 	"cargo-viewjson": "Vis JSON",

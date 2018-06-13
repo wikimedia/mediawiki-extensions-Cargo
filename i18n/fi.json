@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Valtlait"
+			"Valtlait",
+			"Nike"
 		]
 	},
 	"cargo-drilldown-allpages": "Kaikki sivut",
-	"cargo-drilldown-allfiles": "Kaikki tiedostot"
+	"cargo-drilldown-allfiles": "Kaikki tiedostot",
+	"cargo-drilldown-galleryformat": "Galleria"
 }

@@ -4,13 +4,14 @@
 			"Surgical21",
 			"Sujiniku",
 			"Otokoume",
-			"Yusuke1109"
+			"Yusuke1109",
+			"Omotecho"
 		]
 	},
 	"cargo-desc": "テンプレートデータの保存とクエリ",
 	"cargo-definestable": "このテンプレートはテーブル「$1」を定義します。",
 	"cargo-tablenotcreated": "このテーブルはまだ作成されていません。",
-	"cargo-addsrows": "このテンプレートは、テーブル「$1」に行を追加します。",
+	"cargo-addsrows": "このテンプレートは、テンプレート$2が宣言するテーブル「$1」に列を追加します。",
 	"cargo-notable": "エラー: テーブル名を指定する必要があります。",
 	"cargo-unknowntable": "エラー: テーブル$1が見つかりません。",
 	"recreatedata": "データを再作成する",
