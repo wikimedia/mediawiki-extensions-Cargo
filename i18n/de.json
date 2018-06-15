@@ -114,7 +114,6 @@
 	"cargo-drilldown-mapformat": "Karte",
 	"cargo-drilldown-timelineformat": "Zeitleiste",
 	"cargo-drilldown-galleryformat": "Galerie",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV ansehen",
 	"cargo-viewxls": "XLS ansehen",
 	"cargo-viewjson": "JSON ansehen",

@@ -20,7 +20,6 @@
 	"cargo-drilldown-filename": "Nazwa pliku",
 	"cargo-drilldown-mapformat": "Mapa",
 	"cargo-drilldown-galleryformat": "Galeria",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
 	"cargo-viewjson": "Zobacz JSON",

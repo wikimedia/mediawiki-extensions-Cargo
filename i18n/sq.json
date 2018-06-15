@@ -6,6 +6,5 @@
 	},
 	"cargo-drilldown-mapformat": "Harta",
 	"cargo-drilldown-timelineformat": "Nje pershkrim i ngjarrjeve ne menyre kronologjike",
-	"cargo-drilldown-galleryformat": "Galeri",
-	"cargo-drilldown-gallerycaption": "[[$1]]"
+	"cargo-drilldown-galleryformat": "Galeri"
 }
