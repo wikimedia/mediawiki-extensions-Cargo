@@ -11,7 +11,7 @@
 class CargoDynamicTableFormat extends CargoDisplayFormat {
 
 	function allowedParameters() {
-		return array( 'rows per page' );
+		return array( 'rows per page', 'hidden fields' );
 	}
 
 	/**
@@ -63,8 +63,30 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		} else {
 			$pageLengthString = '';
 		}
+		$text = '';
+		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
+			$hiddenFields = array_map( 'trim', explode( ',', $displayParams['hidden fields'] ) );
+			$text .= wfMessage( 'cargo-dynamictables-togglecolumns' )->text() . ' ';
+			$matchFound = 0;
+			foreach ( $hiddenFields as $hiddenField ) {
+				$fieldNum = 0;
+				foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+					if ( $hiddenField == $fieldName ) {
+						if ( $matchFound++ > 0 ) {
+							$text .= ' - ';
+						}
+						$text .= Html::element( 'a', array(
+							'class' => 'toggle-vis',
+							'data-column' => $fieldNum,
+						), $hiddenField );
+						break;
+					}
+					$fieldNum++;
+				}
+			}
+		}
 
-		$text = <<<END
+		$text .= <<<END
 	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $dataOrderString $pageLengthString>
 		<thead>
 			<tr>

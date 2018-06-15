@@ -17,4 +17,16 @@ $(document).ready(function() {
 		$(this).DataTable( params );
 	});
 
+	var table = $( '.cargoDynamicTable' ).DataTable();
+
+	$( 'a.toggle-vis' ).each( function () {
+		var column = table.column( $( this ).attr( 'data-column' ) );
+		column.visible( false );
+	} );
+
+	$( 'a.toggle-vis' ).on( 'click', function ( e ) {
+		e.preventDefault();
+		var column = table.column( $( this ).attr( 'data-column' ) );
+		column.visible( ! column.visible() );
+	} );
 } );
