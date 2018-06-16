@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"George Animal"
+			"George Animal",
+			"Kur"
 		]
 	},
 	"cargo-viewdata-where": "Li ku:",
 	"cargo-drilldown-allpages": "Hemû rûpel",
-	"cargo-drilldown-allfiles": "Hemû dosye"
+	"cargo-drilldown-allfiles": "Hemû dosye",
+	"cargo-drilldown-mapformat": "Nexşe"
 }
