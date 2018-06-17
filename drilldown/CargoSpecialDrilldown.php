@@ -71,6 +71,19 @@ class CargoDrilldown extends IncludableSpecialPage {
 		if ( $vals_array != null ) {
 			$fullTextSearchTerm = $vals_array[0];
 		}
+		$dependentFieldsArray = array();
+		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			$dependentFields = array();
+			foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName1 => $fieldDescription1 ) {
+				$fieldDescriptionArray1 = $fieldDescription1->toDBArray();
+				if ( array_key_exists( 'dependent on', $fieldDescriptionArray1 ) ) {
+					if ( in_array( $fieldName, $fieldDescriptionArray1['dependent on'] ) ) {
+						$dependentFields[] = $fieldName1;
+					}
+				}
+			}
+			$dependentFieldsArray[$fieldName] = $dependentFields;
+		}
 
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( !$fieldDescription->mIsHidden && $fieldDescription->mType == 'File' && in_array( 'fullText', $wgCargoFileDataColumns ) ) {
@@ -177,7 +190,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$rep =
 			new CargoDrilldownPage( $tableName, $all_filters, $applied_filters, $remaining_filters,
 				$fullTextSearchTerm, $coordsFields, $dateFields, $fileFields, $searchablePages,
-				$searchableFiles, $offset, $limit, $format, $formatBy );
+				$searchableFiles, $dependentFieldsArray, $offset, $limit, $format, $formatBy );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -211,6 +224,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $sqlQuery;
 	public $searchablePages;
 	public $searchableFiles;
+	public $dependentFieldsArray = array();
 	public $format;
 	public $formatBy;
 	private $showSingleTable = false;
@@ -230,7 +244,7 @@ class CargoDrilldownPage extends QueryPage {
 	 */
 	function __construct( $tableName, $all_filters, $applied_filters, $remaining_filters,
 			$fullTextSearchTerm, $coordsFields, $dateFields, $fileFields, $searchablePages,
-			$searchableFiles, $offset, $limit, $format, $formatBy ) {
+			$searchableFiles, $dependentFieldsArray, $offset, $limit, $format, $formatBy ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -243,6 +257,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->fileFields = $fileFields;
 		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
+		$this->dependentFieldsArray = $dependentFieldsArray;
 		$this->offset = $offset;
 		$this->limit = $limit;
 		$this->format = $format;
@@ -257,7 +272,7 @@ class CargoDrilldownPage extends QueryPage {
 	 * @return string
 	 */
 	function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = array(),
-			$filter_to_remove = null, $attributes = array() ) {
+			$filters_to_remove = array(), $attributes = array() ) {
 		$dd = SpecialPage::getTitleFor( 'Drilldown' );
 		$url = $dd->getLocalURL() . '/' . $tableName;
 		if ( $this->showSingleTable ) {
@@ -275,7 +290,7 @@ class CargoDrilldownPage extends QueryPage {
 		}
 
 		foreach ( $applied_filters as $af ) {
-			if ( $af->filter->name == $filter_to_remove ) {
+			if ( in_array( $af->filter->name, $filters_to_remove ) ) {
 				continue;
 			}
 			if ( count( $af->values ) == 0 ) {
@@ -571,7 +586,7 @@ END;
 				$results_line .= "\n\t\t\t\t$filter_text";
 			} else {
 				$filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-					$applied_filters, null,
+					$applied_filters, array(),
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 					array( 'href' => $filter_url,
@@ -599,7 +614,7 @@ END;
 			}
 		}
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-			$applied_filters_no_hierarchy, null,
+			$applied_filters_no_hierarchy, array(),
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		// Drilldown for hierarchy is designed for literal 'drilldown'
@@ -924,7 +939,7 @@ END;
 		// if there's a previous value for this filter it may be
 		// removed.
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-			$this->applied_filters, $filter_name,
+			$this->applied_filters, array( $filter_name ),
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
@@ -1188,7 +1203,7 @@ END;
 		if ( $cur_url === null ) {
 			// If $cur_url wasn't passed in, we have to create it.
 			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-				$this->applied_filters, $f->name,
+				$this->applied_filters, array( $f->name ),
 				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		}
@@ -1282,7 +1297,7 @@ END;
 		$appliedFiltersHTML = '				<div id="drilldown-header">' . "\n";
 		if ( count( $this->applied_filters ) > 0 || $this->fullTextSearchTerm != null ) {
 			$tableURL =
-				$this->makeBrowseURL( $this->tableName, null, array(), null,
+				$this->makeBrowseURL( $this->tableName, null, array(), array(),
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
 								   $this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
@@ -1296,7 +1311,7 @@ END;
 			$appliedFiltersHTML .= $this->msg( 'cargo-drilldown-fulltext' )->text() . ': ';
 
 			$remove_filter_url = $this->makeBrowseURL( $this->tableName, null,
-				$this->applied_filters, null,
+				$this->applied_filters, array(),
 				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' .
 				$this->fullTextSearchTerm .
@@ -1315,7 +1330,8 @@ END;
 				$temp_filters_array = $this->applied_filters;
 				array_splice( $temp_filters_array, $i, 1 );
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName,
-					$this->fullTextSearchTerm, $temp_filters_array, null,
+					$this->fullTextSearchTerm, $temp_filters_array,
+					$this->dependentFieldsArray[$af->filter->name],
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				array_splice( $temp_filters_array, $i, 0 );
 				$appliedFiltersHTML .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
@@ -1324,6 +1340,7 @@ END;
 			} else {
 				$appliedFiltersHTML .= "$filter_label: ";
 			}
+			$num_applied_values = count( $af->values );
 			foreach ( $af->values as $j => $fv ) {
 				if ( $j > 0 ) {
 					$appliedFiltersHTML .= ' <span class="drilldown-or">' .
@@ -1332,9 +1349,16 @@ END;
 				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
 				$temp_filters_array = $this->applied_filters;
 				$removed_values = array_splice( $temp_filters_array[$i]->values, $j, 1 );
-				$remove_filter_url = $this->makeBrowseURL( $this->tableName,
-					$this->fullTextSearchTerm, $temp_filters_array, null,
-					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
+				if ( $num_applied_values == 1 ) {
+					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
+						$this->fullTextSearchTerm, $temp_filters_array,
+						$this->dependentFieldsArray[$af->filter->name],
+						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
+				} else {
+					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
+						$this->fullTextSearchTerm, $temp_filters_array, array(),
+						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
+				}
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
 				$appliedFiltersHTML .= "\n	" . '				<span class="drilldown-header-value">' .
 					$filter_text . '</span> <a href="' . $remove_filter_url . '" title="' .
@@ -1355,7 +1379,7 @@ END;
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
-						$this->fullTextSearchTerm, $temp_filters_array, null,
+						$this->fullTextSearchTerm, $temp_filters_array, array(),
 						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
 					$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' . $search_term .
@@ -1380,7 +1404,7 @@ END;
 		// number of pages that match that value.
 		$filtersHTML = "				<div class=\"drilldown-filters\">\n";
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-			$this->applied_filters, null,
+			$this->applied_filters, array(),
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
@@ -1388,21 +1412,41 @@ END;
 			$fullTextSearchInput = $this->printTextInput( '_search', 0, true, $this->fullTextSearchTerm );
 			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
 		}
-
+		// For each filter check if it has been applied or not. If it hasn't been applied, then
+		// don't show the filters which depends(i.e. "dependent fields" parameter values) on it.
+		$fieldsNotToBeShown = array();
 		foreach ( $this->all_filters as $f ) {
+			$dependentFields = $this->dependentFieldsArray[$f->name];
+			$filterApplied = false;
 			foreach ( $this->applied_filters as $af ) {
 				if ( $af->filter->name == $f->name ) {
-					$fieldType = $f->fieldDescription->mType;
-					if ( in_array( $fieldType, array( 'Date', 'Datetime', 'Integer', 'Float' ) ) ) {
-						$filtersHTML .= $this->printUnappliedFilterLine( $f );
-					} else {
-						$filtersHTML .= $this->printAppliedFilterLine( $af );
-					}
+					$filterApplied = true;
+					break;
 				}
 			}
-			foreach ( $this->remaining_filters as $rf ) {
-				if ( $rf->name == $f->name ) {
-					$filtersHTML .= $this->printUnappliedFilterLine( $rf, $cur_url );
+			if ( !$filterApplied ) {
+				if ( $dependentFields ) {
+					$fieldsNotToBeShown = array_merge( $fieldsNotToBeShown, $dependentFields );
+				}
+			}
+		}
+		foreach ( $this->all_filters as $f ) {
+			if ( !in_array( $f->name, $fieldsNotToBeShown ) ) {
+				foreach ( $this->applied_filters as $af ) {
+					if ( $af->filter->name == $f->name ) {
+						$fieldType = $f->fieldDescription->mType;
+						if ( in_array( $fieldType,
+							array( 'Date', 'Datetime', 'Integer', 'Float' ) ) ) {
+							$filtersHTML .= $this->printUnappliedFilterLine( $f );
+						} else {
+							$filtersHTML .= $this->printAppliedFilterLine( $af );
+						}
+					}
+				}
+				foreach ( $this->remaining_filters as $rf ) {
+					if ( $rf->name == $f->name ) {
+						$filtersHTML .= $this->printUnappliedFilterLine( $rf, $cur_url );
+					}
 				}
 			}
 		}
@@ -1678,7 +1722,7 @@ END;
 	 */
 	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
-			$this->applied_filters, null,
+			$this->applied_filters, array(),
 			array( 'limit' => $this->limit, 'offset' => $this->offset ) );
 		// Add tabs for displaying results in map or timleine format
 		$tabs = '';

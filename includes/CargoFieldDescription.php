@@ -10,6 +10,7 @@
 class CargoFieldDescription {
 	public $mType;
 	public $mSize;
+	public $mDependentOn = array();
 	public $mIsList = false;
 	private $mDelimiter;
 	public $mAllowedValues = null;
@@ -67,6 +68,8 @@ class CargoFieldDescription {
 						$allowedValuesParam = $paramValue;
 					} elseif ( $paramKey == 'size' ) {
 						$fieldDescription->mSize = $paramValue;
+					} elseif ( $paramKey == 'dependent on' ) {
+						$fieldDescription->mDependentOn = array_map( 'trim', explode( ',', $paramValue ) );
 					} else {
 						$fieldDescription->mOtherParams[$paramKey] = $paramValue;
 					}
@@ -132,6 +135,8 @@ class CargoFieldDescription {
 				$fieldDescription->mType = $value;
 			} elseif ( $param == 'size' ) {
 				$fieldDescription->mSize = $value;
+			} elseif ( $param == 'dependent on' ) {
+				$fieldDescription->mDependentOn = $value;
 			} elseif ( $param == 'isList' ) {
 				$fieldDescription->mIsList = true;
 			} elseif ( $param == 'delimiter' ) {
@@ -173,6 +178,9 @@ class CargoFieldDescription {
 		$descriptionData['type'] = $this->mType;
 		if ( $this->mSize != null ) {
 			$descriptionData['size'] = $this->mSize;
+		}
+		if ( $this->mDependentOn != null ) {
+			$descriptionData['dependent on'] = $this->mDependentOn;
 		}
 		if ( $this->mIsList ) {
 			$descriptionData['isList'] = true;
