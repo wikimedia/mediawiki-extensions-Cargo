@@ -57,6 +57,9 @@ class CargoPageValues extends IncludableSpecialPage {
 			$tableNames[] = $row['table_name'];
 		}
 
+		$toc = Linker::tocIndent();
+		$tocLength = 0;
+
 		foreach ( $tableNames as $tableName ) {
 			try {
 				$queryResults = $this->getRowsForPageInTable( $tableName );
@@ -65,8 +68,28 @@ class CargoPageValues extends IncludableSpecialPage {
 				// table doesn't exist.
 				continue;
 			}
-			$text .= Html::element( 'h2', null,
-					$this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text() ) . "\n";
+
+			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
+			$tableSectionAnchor = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->escaped();
+			$tableSectionAnchor = Sanitizer::escapeId( $tableSectionAnchor, 'noninitial' );
+
+			// We construct the table of contents at the same time
+			// as the main text.
+			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionHeader,
+				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
+
+			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
+			$tableSectionAnchor = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->escaped();
+			$tableSectionAnchor = Sanitizer::escapeId( $tableSectionAnchor, 'noninitial' );
+
+			// We construct the table of contents at the same time
+			// as the main text.
+			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionHeader,
+				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
+
+			$text .= Html::rawElement( 'h2', null,
+				Html::element( 'span', array( 'class' => 'mw-headline', 'id' => $tableSectionAnchor ), $tableSectionHeader ) ) . "\n";
+
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
 				foreach ( $rowValues as $field => $value ) {
@@ -80,6 +103,14 @@ class CargoPageValues extends IncludableSpecialPage {
 				$text .= $this->printTable( $tableContents );
 			}
 		}
+
+		// Show table of contents only if there are enough sections.
+		if ( count( $tableNames ) >= 3 ) {
+			$toc = Linker::tocList( $toc );
+			$out->addHTML( $toc );
+			$out->addModules( 'mediawiki.toc' );
+		}
+
 		$out->addHTML( $text );
 
 		return true;
