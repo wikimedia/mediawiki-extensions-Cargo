@@ -120,6 +120,11 @@ class CargoFieldDescription {
 		// What's left will be the type, hopefully.
 		$fieldDescription->mType = $fieldDescriptionStr;
 
+		// Validation.
+		if ( $fieldDescription->mType == 'Text' && array_key_exists( 'unique', $fieldDescription->mOtherParams ) ) {
+			throw new MWException( "'unique' is not allowed for fields of type 'Text'." );
+		}
+
 		return $fieldDescription;
 	}
 
