@@ -123,6 +123,7 @@
 	"cargo-drilldown-filetext": "نص الملف",
 	"cargo-drilldown-mapformat": "خريطة",
 	"cargo-drilldown-timelineformat": "الجدول الزمني",
+	"cargo-drilldown-galleryformat": "المعرض",
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-viewjson": "عرض جسون",
