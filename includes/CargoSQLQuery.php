@@ -523,7 +523,11 @@ class CargoSQLQuery {
 			} elseif ( $hasFunctionCall ) {
 				$sqlFunctions = self::getAndValidateSQLFunctions( $noQuotesOrigFieldName );
 				$firstFunction = $sqlFunctions[0];
-				if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL', 'ROUND' ) ) ) {
+				// 'ROUND' is in neither the Integer nor Float
+				// lists because it sometimes returns an
+				// integer, sometimes a float - for formatting
+				// purposes, we'll just treat it as a string.
+				if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL' ) ) ) {
 					$description->mType = 'Integer';
 				} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
 					$description->mType = 'Float';
