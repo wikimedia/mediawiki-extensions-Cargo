@@ -91,6 +91,7 @@ class CargoDeclare {
 		array_shift( $params ); // we already know the $parser...
 
 		$tableName = null;
+		$parentTables = array();
 		$tableSchema = new CargoTableSchema();
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -106,6 +107,85 @@ class CargoDeclare {
 					return CargoUtils::formatError( "Error: \"$tableName\" cannot be used as a Cargo table name, because it is an SQL keyword." );
 				} elseif ( in_array( strtolower( $tableName ), self::$cargoReservedWords ) ) {
 					return CargoUtils::formatError( "Error: \"$tableName\" cannot be used as a Cargo table name, because it is already a Cargo keyword." );
+				}
+			} elseif ( $key == '_parentTables' ) {
+				$tables = explode( ';', $value );
+				foreach ( $tables as $table ) {
+					$parentTable = array();
+					$parentTableAlias = '';
+					$foundMatch = preg_match( '/([^(]*)\s*\((.*)\)/s', $table, $matches );
+					if ( $foundMatch ) {
+						$parentTableName = trim( $matches[1] );
+						if ( count( $matches ) >= 2 ) {
+							$extraParams = explode( ',', $matches[2] );
+							foreach ( $extraParams as $extraParam ) {
+								if ( $extraParam ) {
+									$extraParamParts = explode( '=', $extraParam, 2 );
+									$extraParamKey = trim( $extraParamParts[0] );
+									$extraParamValue = trim( $extraParamParts[1] );
+									if ( $extraParamKey == '_localField' ) {
+										$parentTable['_localField'] = $extraParamValue;
+									} elseif ( $extraParamKey == '_remoteField' ) {
+										$parentTable['_remoteField'] = $extraParamValue;
+									} elseif ( $extraParamKey == '_alias' ) {
+										$parentTableAlias = strtolower( $extraParamValue );
+									}
+								}
+							}
+						}
+					} else {
+						$parentTableName = trim( $table );
+					}
+					if ( $parentTableName ) {
+						if ( !$parentTableAlias ) {
+							if ( array_key_exists( '_localField', $parentTable ) &&
+								 $parentTable['_localField'] != '_pageName' ) {
+								$parentTableAlias = strtolower( $parentTable['_localField'] );
+								if ( array_key_exists( $parentTableAlias, $parentTables ) ) {
+									$count =
+										substr_count( implode( ',', array_keys( $parentTables ) ),
+											$parentTableAlias );
+									$parentTableAlias .= $parentTableAlias . "_$count";
+								}
+							} else {
+								$parentTableAlias = strtolower( $parentTableName );
+								if ( array_key_exists( $parentTableAlias, $parentTables ) ) {
+									$count =
+										substr_count( implode( ',', array_keys( $parentTables ) ),
+											$parentTableAlias );
+									$parentTableAlias .= "_$count";
+								}
+							}
+						}
+						if ( !array_key_exists( '_localField', $parentTable ) ) {
+							$parentTable['_localField'] = '_pageName';
+						}
+						if ( !array_key_exists( '_remoteField', $parentTable ) ) {
+							$parentTable['_remoteField'] = '_pageName';
+						}
+						$parentTable['Name'] = $parentTableName;
+						$parentTables[$parentTableAlias] = $parentTable;
+						// validate parent tables name
+						if ( preg_match( '/\s/', $parentTableName ) ) {
+							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains whitespaces. " .
+															"Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
+						} elseif ( strpos( $parentTableName, '_' ) === 0 ) {
+							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" begins with an " .
+															"underscore; this is not allowed." );
+						} elseif ( strpos( $parentTableName, '__' ) !== false ) {
+							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains more than one " .
+															"underscore in a row; this is not allowed." );
+						} elseif ( strpos( $parentTableName, ',' ) !== false ) {
+							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains a comma; " .
+															"this is not allowed." );
+						} elseif ( in_array( strtolower( $parentTableName ),
+							self::$sqlReservedWords ) ) {
+							return CargoUtils::formatError( "Error: \"$parentTableName\" cannot be used as a Cargo table name, because it is an SQL keyword." );
+						} elseif ( in_array( strtolower( $parentTableName ),
+							self::$cargoReservedWords ) ) {
+							return CargoUtils::formatError( "Error: \"$parentTableName\" cannot be used as a Cargo table name, because it is already a Cargo keyword." );
+						}
+					}
 				}
 			} else {
 				$fieldName = $key;
@@ -159,10 +239,16 @@ class CargoDeclare {
 			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains a comma; "
 				. "this is not allowed." );
 		}
-
+		$cdb = CargoUtils::getDB();
+		foreach ( $parentTables as $parentTableAlias => $extraParams ) {
+			if ( !$cdb->tableExists( $extraParams['Name'] ) ) {
+				return CargoUtils::formatError( "Error: Parent Table \"$parentTable\" doesn't exist." );
+			}
+		}
 		$parserOutput = $parser->getOutput();
 
 		$parserOutput->setProperty( 'CargoTableName', $tableName );
+		$parserOutput->setProperty( 'CargoParentTables', serialize( $parentTables ) );
 		$parserOutput->setProperty( 'CargoFields', $tableSchema->toDBString() );
 
 		// Link to the Special:CargoTables page for this table, if it

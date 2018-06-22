@@ -1332,6 +1332,7 @@ class CargoSQLQuery {
 			$fieldName = $searchTextField['fieldName'];
 			$fieldAlias = $searchTextField['fieldAlias'];
 			$tableName = $searchTextField['tableName'];
+			$tableAlias = strtolower( $tableName );
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;
@@ -1344,7 +1345,7 @@ class CargoSQLQuery {
 			}
 			if ( $foundMatch1 || $foundMatch2 ) {
 				$searchString = $matches[3];
-				$newWhere = " MATCH($tableName.$fieldName) AGAINST ($searchString IN BOOLEAN MODE) ";
+				$newWhere = " MATCH($tableAlias.$fieldName) AGAINST ($searchString IN BOOLEAN MODE) ";
 
 				if ( $foundMatch1 ) {
 					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
@@ -1467,9 +1468,19 @@ class CargoSQLQuery {
 		$beforeText = $matches[1];
 		$tableName = $matches[2];
 		$fieldName = $matches[3];
-		return $beforeText .
-			$this->mCargoDB->tableName( $tableName ) . "." .
-			$this->mCargoDB->addIdentifierQuotes( $fieldName );
+		$isTableAlias = false;
+		if ( array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
+			if ( !in_array( $tableName, $this->mAliasedTableNames ) ) {
+				$isTableAlias = true;
+			}
+		}
+		if ( $isTableAlias ) {
+			return $beforeText . $this->mCargoDB->addIdentifierQuotes( $tableName ) . "." .
+				   $this->mCargoDB->addIdentifierQuotes( $fieldName );
+		} else {
+			return $beforeText . $this->mCargoDB->tableName( $tableName ) . "." .
+				   $this->mCargoDB->addIdentifierQuotes( $fieldName );
+		}
 	}
 
 }

@@ -10,42 +10,49 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	public $mWithinTreeMatchCount = 0;
 	public $mExactRootMatchCount = 0;
 
-	static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters ) {
+	static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
+			$mainTableAlias = null, $tableNames = array(), $joinConds = array() ) {
 		$cdb = CargoUtils::getDB();
-		list( $tableNames, $conds, $joinConds ) = $f->getQueryParts( $fullTextSearchTerm, $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $f->getQueryParts( $fullTextSearchTerm,
+			$appliedFilters, $tableNames, $joinConds );
 		if ( $f->fieldDescription->mIsList ) {
 			$fieldTableName = $f->tableName . '__' . $f->name;
-			$countColumnName = $cdb->tableName( $fieldTableName ) . "._rowID";
-			if ( !in_array( $fieldTableName, $tableNames ) ) {
-				$tableNames[] = $fieldTableName;
+			$fieldTableAlias = $f->tableAlias . '__' . $f->name;
+			$countColumnName = $mainTableAlias . "._pageID";
+			if ( !array_key_exists( $fieldTableAlias, $tableNames ) ) {
+				$tableNames[$fieldTableAlias] = $fieldTableName;
 			}
 			$fieldColumnName = '_value';
-			if ( !array_key_exists( $fieldTableName, $joinConds ) ) {
-				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $f->tableName, $fieldTableName );
+			if ( !array_key_exists( $fieldTableAlias, $joinConds ) ) {
+				$joinConds[$fieldTableAlias] = CargoUtils::joinOfMainAndFieldTable( $cdb,
+					array( $f->tableAlias => $f->tableName ), $fieldTableName );
 			}
 		} else {
 			$fieldColumnName = $f->name;
 			$fieldTableName = $f->tableName;
-			$countColumnName = $cdb->tableName( $fieldTableName ) . "._ID";
+			$fieldTableAlias = $f->tableAlias;
+			$countColumnName = $mainTableAlias . "._pageID";
 		}
 
 		$countClause = "COUNT(DISTINCT($countColumnName)) AS total";
 
 		$hierarchyTableName = $f->tableName . '__' . $f->name . '__hierarchy';
-		$cargoHierarchyTableName = $cdb->tableName( $hierarchyTableName );
-		if ( !in_array( $hierarchyTableName, $tableNames ) ) {
-			$tableNames[] = $hierarchyTableName;
+		$hierarchyTableAlias = $f->tableAlias . '__' . $f->name . '__hierarchy';
+		if ( !array_key_exists( $hierarchyTableAlias, $tableNames ) ) {
+			$tableNames[$hierarchyTableAlias] = $hierarchyTableName;
 		}
 
-		if ( !array_key_exists( $hierarchyTableName, $joinConds ) ) {
-			$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-				$fieldTableName, $fieldColumnName, $hierarchyTableName );
+		if ( !array_key_exists( $hierarchyTableAlias, $joinConds ) ) {
+			$joinConds[$hierarchyTableAlias] =
+				CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+					array( $fieldTableAlias => $fieldTableName ), $fieldColumnName,
+					array( $hierarchyTableAlias => $hierarchyTableName ) );
 		}
 		$withinTreeHierarchyConds = array();
 		$exactRootHierarchyConds = array();
-		$withinTreeHierarchyConds[] = "$cargoHierarchyTableName._left >= $node->mLeft";
-		$withinTreeHierarchyConds[] = "$cargoHierarchyTableName._right <= $node->mRight";
-		$exactRootHierarchyConds[] = "$cargoHierarchyTableName._left = $node->mLeft";
+		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._left >= $node->mLeft";
+		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._right <= $node->mRight";
+		$exactRootHierarchyConds[] = "$hierarchyTableAlias._left = $node->mLeft";
 		// within hierarchy tree value count
 		$res = $cdb->select( $tableNames, array( $countClause ), array_merge( $conds, $withinTreeHierarchyConds ),
 			null, null, $joinConds );
@@ -64,14 +71,16 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	 * Fill up (set the value) the count data members of nodes of the tree represented by node used
 	 * for calling this function. Also return an array of distinct values of the field and their counts.
 	 */
-	static function computeNodeCountForTreeByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters ) {
+	static function computeNodeCountForTreeByFilter( $node, $f, $fullTextSearchTerm,
+			$appliedFilters, $mainTableName = null, $tableNames = array(), $joinConds = array() ) {
 		$filter_values = array();
 		$stack = new SplStack();
 		// preorder traversal of the tree
 		$stack->push( $node );
 		while ( !$stack->isEmpty() ) {
 			$node = $stack->pop();
-			self::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters );
+			self::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
+				$mainTableName, $tableNames, $joinConds );
 			if ( $node->mLeft !== 1 ) {
 				// check if its not __pseudo_root__ node, then only add count
 				$filter_values[$node->mRootValue] = $node->mWithinTreeMatchCount;

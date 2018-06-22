@@ -63,12 +63,34 @@ div.drilldown-filters-wrapper {
 	margin-top: 1em;
 }
 
+.drilldown-parent-filters-wrapper {
+	border: 1px solid #a2a9b1;
+	border-radius: 2px;
+	margin: 0.5em 0 0;
+	padding: 0.6em;
+}
+
+span.drilldown-parent-tables-value {
+	border: 1px solid #a2a9b1;
+	border-radius: 2px;
+	padding: 0.1em 0.3em;
+}
+
 span.drilldown-or {
 	color: gray;
 	font-weight: normal;
 }
 
 div.drilldown-filter-label {
+	font-weight: bold;
+}
+
+legend {
+	border: 1px solid #a2a9b1;
+	border-radius: 2px;
+	padding: 0 0.5em;
+	background: white;
+	font-size: large;
 	font-weight: bold;
 }
 

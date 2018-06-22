@@ -164,6 +164,20 @@ class CargoUtils {
 		return $tableNames;
 	}
 
+	static function getParentTables( $tableName ) {
+		$parentTables = array();
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		while ( $row = $dbw->fetchRow( $res ) ) {
+			if ( $tableName == $row['main_table'] ) {
+				$parentTables = self::getPageProp( $row['template_id'], 'CargoParentTables' );
+			}
+		}
+		if ( $parentTables ) {
+			return unserialize( $parentTables );
+		}
+	}
+
 	static function getTableSchemas( $tableNames ) {
 		$mainTableNames = array();
 		foreach ( $tableNames as $tableName ) {
@@ -340,7 +354,7 @@ class CargoUtils {
 	public static function getSQLFieldPattern( $fieldName, $closePattern = true ) {
 		$fieldName = str_replace( '$', '\$', $fieldName );
 		$pattern = '/([^\w$.,]|^)' . $fieldName;
-		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
+		return $pattern . ( $closePattern ? '([^\w$]|$)/' : '' );
 	}
 
 	/**
@@ -956,6 +970,11 @@ class CargoUtils {
 	}
 
 	public static function escapedFieldName( $cdb, $tableName, $fieldName ) {
+		if ( is_array( $tableName ) ) {
+			$tableAlias = key( $tableName );
+			return $cdb->addIdentifierQuotes( $tableAlias ) . '.' .
+				   $cdb->addIdentifierQuotes( $fieldName );
+		}
 		return $cdb->tableName( $tableName ) . '.' .
 			$cdb->addIdentifierQuotes( $fieldName );
 	}
@@ -967,6 +986,33 @@ class CargoUtils {
 				' = ' .
 				self::escapedFieldName( $cdb, $fieldTableName, '_rowID' )
 		);
+	}
+
+	public static function joinOfMainAndParentTable( $cdb, $mainTable, $mainTableField,
+			$parentTable, $parentTableField ) {
+		return array(
+			'LEFT OUTER JOIN',
+			self::escapedFieldName( $cdb, $mainTable, $mainTableField ) .
+			' = ' .
+			self::escapedFieldName( $cdb, $parentTable, $parentTableField )
+		);
+	}
+
+	public static function joinOfFieldAndMainTable( $cdb, $fieldTable, $mainTable,
+			$isHierarchy = false, $hierarchyFieldName = null ) {
+		if ( $isHierarchy ) {
+			return array(
+				'LEFT OUTER JOIN',
+				self::escapedFieldName( $cdb, $fieldTable, '_value' ) . ' = ' .
+				self::escapedFieldName( $cdb, $mainTable, $hierarchyFieldName ),
+			);
+		} else {
+			return array(
+				'LEFT OUTER JOIN',
+				self::escapedFieldName( $cdb, $fieldTable, '_rowID' ) . ' = ' .
+				self::escapedFieldName( $cdb, $mainTable, '_ID' ),
+			);
+		}
 	}
 
 	public static function joinOfSingleFieldAndHierarchyTable( $cdb, $singleFieldTableName, $fieldColumnName, $hierarchyTableName ) {

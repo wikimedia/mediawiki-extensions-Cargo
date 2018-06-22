@@ -57,9 +57,15 @@ class CargoAppliedFilter {
 
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
-			$value_field = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
+			$fieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
+			$value_field =
+				CargoUtils::escapedFieldName( $cdb, array( $fieldTableAlias => $fieldTableName ),
+					'_value' );
 		} else {
-			$value_field = $cdb->addIdentifierQuotes( $this->filter->name );
+			$value_field =
+				CargoUtils::escapedFieldName( $cdb,
+					array( $this->filter->tableAlias => $this->filter->tableName ),
+					$this->filter->name );
 		}
 		$sql = "(";
 		if ( $this->search_terms != null ) {
@@ -117,9 +123,24 @@ class CargoAppliedFilter {
 				if ( preg_match( "/^~within (.+)/", $fv->text, $matches ) ) {
 					$value = $matches[1];
 					$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
-					$hierarchyTableName = $cdb->tableName( $hierarchyTableName );
-					$leftCond = " $hierarchyTableName._left >= ( SELECT _left FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
-					$rightCond = " $hierarchyTableName._right <= ( SELECT _right FROM " . $hierarchyTableName . " WHERE _value = '{$cdb->strencode( $value )}' ) ";
+					$hierarchyTableAlias = $this->filter->tableAlias . '__' . $this->filter->name . '__hierarchy';
+					$drilldownHierarchyRoot =
+						CargoDrilldownHierarchy::newFromWikiText( $this->filter->fieldDescription->mHierarchyStructure );
+					$stack = new SplStack();
+					// preorder traversal of the tree
+					$stack->push( $drilldownHierarchyRoot );
+					while ( !$stack->isEmpty() ) {
+						$node = $stack->pop();
+						if ( $node->mRootValue === $value ) {
+							$drilldownHierarchyRoot = $node;
+							break;
+						}
+						for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i -- ) {
+							$stack->push( $node->mChildren[$i] );
+						}
+					}
+					$leftCond = " $hierarchyTableAlias._left >= $node->mLeft";
+					$rightCond = " $hierarchyTableAlias._right <= $node->mRight";
 					$sql .= "( (" . $leftCond . ") AND (" . $rightCond . ") )";
 				}
 			} elseif ( $fv->is_none ) {
@@ -127,7 +148,7 @@ class CargoAppliedFilter {
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
-				$date_field = $this->filter->name;
+				$date_field = $this->filter->tableAlias . '.' . $this->filter->name;
 				list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
 				if ( $fv->time_period == 'day' ) {
 					$sql .= "$yearValue = {$fv->year} AND $monthValue = {$fv->month} AND $dayValue = {$fv->day} ";
@@ -161,23 +182,32 @@ class CargoAppliedFilter {
 		$tableNames = array();
 		$conds = array();
 		$joinConds = array();
-		$fieldTableName = $mainTableName;
+		$fieldTableName = $this->filter->tableName;
+		$fieldTableAlias = $this->filter->tableAlias;
 		$fieldName = $this->filter->name;
 
 		$conds[] = $this->checkSQL();
 
 		if ( $this->filter->fieldDescription->mIsList ) {
-			$fieldTableName = $mainTableName . '__' . $this->filter->name;
+			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
+			$fieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
 			$fieldName = '_value';
-			$tableNames[] = $fieldTableName;
-			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $mainTableName, $fieldTableName );
+			$tableNames[$fieldTableAlias] = $fieldTableName;
+			$joinConds[$fieldTableAlias] =
+				CargoUtils::joinOfMainAndFieldTable( $cdb,
+					array( $this->filter->tableAlias => $this->filter->tableName ),
+					array( $fieldTableAlias => $fieldTableName ) );
 		}
 
 		if ( $this->filter->fieldDescription->mIsHierarchy ) {
 			$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
-			$tableNames[] = $hierarchyTableName;
-			$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-				$fieldTableName, $fieldName, $hierarchyTableName );
+			$hierarchyTableAlias = $this->filter->tableAlias . '__' . $this->filter->name . '__hierarchy';
+			$tableNames[$hierarchyTableAlias] = $hierarchyTableName;
+			$joinConds[$hierarchyTableAlias] =
+				CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+					array( $fieldTableAlias => $fieldTableName ), $fieldName, array(
+						$hierarchyTableAlias => $hierarchyTableName,
+					) );
 		}
 
 		return array( $tableNames, $conds, $joinConds );
@@ -190,14 +220,17 @@ class CargoAppliedFilter {
 		$possible_values = array();
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$tableName = $this->filter->tableName . '__' . $this->filter->name;
+			$tableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
 			$value_field = '_value';
 		} else {
 			$tableName = $this->filter->tableName;
+			$tableAlias = $this->filter->tableAlias;
 			$value_field = $this->filter->name;
 		}
+		$table = array( $tableAlias => $tableName );
 
 		$cdb = CargoUtils::getDB();
-		$res = $cdb->select( $tableName, "DISTINCT " . $cdb->addIdentifierQuotes( $value_field ) );
+		$res = $cdb->select( $table, "DISTINCT " . $cdb->addIdentifierQuotes( $value_field ) );
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$possible_values[] = $row[$value_field];
 		}

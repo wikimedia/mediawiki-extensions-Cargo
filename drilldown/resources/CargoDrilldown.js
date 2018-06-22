@@ -146,8 +146,19 @@ jQuery.fn.toggleCDValuesDisplay = function() {
 	/* jshint ignore:end */
 };
 
+jQuery.fn.showDifferentColors = function () {
+	$(this).each(function () {
+		if ($(this).attr('id') % 2 === 0) {
+			$(this).attr('style', 'background-color:#faf1f1;');
+		} else if ($(this).attr('id') % 2 === 1) {
+			$(this).attr('style', 'background-color:#f0f9f1;');
+		}
+	});
+};
+
 jQuery(document).ready(function() {
 	jQuery(".cargoDrilldownComboBox").CDComboBox();
 	jQuery(".cargoDrilldownRemoteAutocomplete").CDRemoteAutocomplete();
 	jQuery(".drilldown-values-toggle").click( function() {jQuery(this).toggleCDValuesDisplay();} );
+	jQuery(".drilldown-parent-tables-value, .drilldown-parent-filters-wrapper").showDifferentColors();
 });

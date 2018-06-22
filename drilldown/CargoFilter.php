@@ -10,6 +10,7 @@
 
 class CargoFilter {
 	public $name;
+	public $tableAlias;
 	public $tableName;
 	public $fieldType;
 	public $fieldDescription;
@@ -19,8 +20,10 @@ class CargoFilter {
 	public $required_filters = array();
 	public $possible_applied_filters = array();
 
-	function __construct( $name, $tableName, $fieldDescription, $searchablePages, $searchableFiles ) {
+	function __construct( $name, $tableAlias, $tableName, $fieldDescription, $searchablePages,
+			$searchableFiles ) {
 		$this->name = $name;
+		$this->tableAlias = $tableAlias;
 		$this->tableName = $tableName;
 		$this->fieldDescription = $fieldDescription;
 		$this->searchablePages = $searchablePages;
@@ -59,15 +62,17 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return string
 	 */
-	function getTimePeriod( $fullTextSearchTerm, $appliedFilters ) {
+	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
+			$joinConds = array() ) {
 		// If it's not a date field, return null.
 		if ( !in_array( $this->fieldDescription->mType, array( 'Date', 'Datetime' ) ) ) {
 			return null;
 		}
 
 		$cdb = CargoUtils::getDB();
-		$date_field = $this->name;
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
+		$date_field = $this->tableAlias . '.' . $this->name;
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+			$appliedFilters, $tableNames, $joinConds );
 		$res = $cdb->select( $tableNames, array( "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ), $conds, null,
 			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
@@ -96,36 +101,58 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getQueryParts( $fullTextSearchTerm, $appliedFilters ) {
+	function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
+			$joinConds = array() ) {
 		$cdb = CargoUtils::getDB();
 
-		$tableNames = array( $this->tableName );
+		if ( !$tableNames ) {
+			$tableNames = array( $this->tableName => $this->tableAlias );
+		}
 		$conds = array();
-		$joinConds = array();
 
 		if ( $fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
-				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm, $this->tableName, $this->searchablePages, $this->searchableFiles );
-			$tableNames = array_merge( $tableNames, $curTableNames );
+				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm,
+					$this->tableName, $this->tableAlias, $this->searchablePages,
+					$this->searchableFiles );
 			$conds = array_merge( $conds, $curConds );
-			$joinConds = array_merge( $joinConds, $curJoinConds );
+			foreach ( $curJoinConds as $tableAlias => $curJoinCond ) {
+				if ( !array_key_exists( $tableAlias, $joinConds ) ) {
+					$tableName = $curTableNames[$tableAlias];
+					$joinConds = array_merge( $joinConds, array( $tableAlias => $curJoinCond ) );
+					$tableNames[$tableAlias] = $tableName;
+				}
+			}
 		}
 
 		foreach ( $appliedFilters as $af ) {
 			$conds[] = $af->checkSQL();
-			$fieldTableName = $this->tableName;
+			$fieldTableName = $af->filter->tableName;
+			$fieldTableAlias = strtolower( $fieldTableName );
 			$columnName = $af->filter->name;
 			if ( $af->filter->fieldDescription->mIsList ) {
-				$fieldTableName = $this->tableName . '__' . $af->filter->name;
-				$tableNames[] = $fieldTableName;
-				$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
+				$fieldTableName = $af->filter->tableName . '__' . $af->filter->name;
+				$fieldTableAlias = $af->filter->tableAlias . '__' . $af->filter->name;
+				if ( !array_key_exists( $fieldTableAlias, $joinConds ) ) {
+					$tableNames[$fieldTableAlias] = $fieldTableName;
+					$joinConds[$fieldTableAlias] =
+						CargoUtils::joinOfMainAndFieldTable( $cdb,
+							array( $af->filter->tableAlias => $af->filter->tableName ),
+							array( $fieldTableAlias => $fieldTableName ) );
+				}
 				$columnName = '_value';
 			}
 			if ( $af->filter->fieldDescription->mIsHierarchy ) {
-				$hierarchyTableName = $this->tableName . '__' . $af->filter->name . '__hierarchy';
-				$tableNames[] = $hierarchyTableName;
-				$joinConds[$hierarchyTableName] = CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-					$fieldTableName, $columnName, $hierarchyTableName );
+				$hierarchyTableName = $af->filter->tableName . '__' . $af->filter->name . '__hierarchy';
+				$hierarchyTableAlias = $af->filter->tableAlias . '__' . $af->filter->name . '__hierarchy';
+				if ( !array_key_exists( $hierarchyTableAlias, $joinConds ) ) {
+					$tableNames[$hierarchyTableAlias] = $hierarchyTableName;
+					$joinConds[$hierarchyTableAlias] =
+						CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
+							array( $fieldTableAlias => $fieldTableName ), $columnName, array(
+								$hierarchyTableAlias => $hierarchyTableName,
+							) );
+				}
 			}
 		}
 		return array( $tableNames, $conds, $joinConds );
@@ -139,11 +166,13 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters ) {
+	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
+			$tableNames = array(), $joinConds = array() ) {
 		$possible_dates = array();
-		$date_field = $this->name;
+		$date_field = $this->tableAlias . '.' . $this->name;
 		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
-		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters );
+		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames,
+			$joinConds );
 
 		$fields = array();
 		$fields['year_field'] = $yearValue;
@@ -154,7 +183,8 @@ class CargoFilter {
 			$fields['day_of_month_field'] = $dayValue;
 		}
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+			$appliedFilters, $tableNames, $joinConds );
 
 		// Don't include imprecise date values in further filtering.
 		if ( $timePeriod == 'month' ) {
@@ -166,11 +196,7 @@ class CargoFilter {
 		// We call array_values(), and not array_keys(), because
 		// SQL Server can't group by aliases.
 		$selectOptions = array( 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) );
-		if ( $this->searchableFiles ) {
-			$fields['total'] = "COUNT(DISTINCT cargo__{$this->tableName}._pageID)";
-		} else {
-			$fields['total'] = "COUNT(*)";
-		}
+		$fields['total'] = "COUNT(DISTINCT {$mainTableAlias}._pageID)";
 
 		$cdb = CargoUtils::getDB();
 
@@ -223,32 +249,37 @@ class CargoFilter {
 	 * @param array $appliedFilters
 	 * @return array
 	 */
-	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false ) {
+	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false,
+			$mainTableAlias = null, $tableNames = array(), $join_conds = array() ) {
 		$cdb = CargoUtils::getDB();
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm, $appliedFilters );
+		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+			$appliedFilters, $tableNames, $join_conds );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
-			if ( !$isApplied ) {
-				$tableNames[] = $fieldTableName;
+			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
+			if ( !array_key_exists( $fieldTableAlias, $joinConds ) ) {
+				if ( !$isApplied ) {
+					$tableNames[$fieldTableAlias] = $fieldTableName;
+				}
+				$joinConds[$fieldTableAlias] =
+					CargoUtils::joinOfMainAndFieldTable( $cdb,
+						array( $this->tableAlias => $this->tableName ), array(
+							$fieldTableAlias => $fieldTableName,
+						) );
 			}
-			$fieldName = CargoUtils::escapedFieldName( $cdb, $fieldTableName, '_value' );
-			$joinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb, $this->tableName, $fieldTableName );
+			$fieldName =
+				CargoUtils::escapedFieldName( $cdb, array( $fieldTableAlias => $fieldTableName ),
+					'_value' );
 		} else {
-			$fieldName = $cdb->addIdentifierQuotes( $this->name );
-			if ( $isApplied ) {
-				$tableNames = $this->tableName;
-				$joinConds = null;
-			}
+			$fieldName =
+				CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ),
+					$this->name );
 		}
 		if ( $isApplied ) {
 			$conds = null;
 		}
-		if ( $this->searchableFiles ) {
-			$countClause = "COUNT(DISTINCT cargo__{$this->tableName}._pageID) AS total";
-		} else {
-			$countClause = "COUNT(*) AS total";
-		}
+		$countClause = "COUNT(DISTINCT {$mainTableAlias}._pageID) AS total";
 		$res = $cdb->select( $tableNames, array( "$fieldName AS value", $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();
