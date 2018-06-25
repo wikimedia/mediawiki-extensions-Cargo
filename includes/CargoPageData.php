@@ -38,6 +38,9 @@ class CargoPageData {
 		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_numRevisions'] = array( 'Integer', false );
 		}
+		if ( in_array( 'isRedirect', $wgCargoPageDataColumns ) ) {
+			$fieldTypes['_isRedirect'] = array( 'Boolean', false );
+		}
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
@@ -129,6 +132,9 @@ class CargoPageData {
 			);
 			$row = $dbr->fetchRow( $res );
 			$pageDataValues['_numRevisions'] = intval( $row['total'] );
+		}
+		if ( in_array( 'isRedirect', $wgCargoPageDataColumns ) ) {
+			$pageDataValues['_isRedirect'] = ( $title->isRedirect() ? 1 : 0 );
 		}
 
 		CargoStore::storeAllData( $title, '_pageData', $pageDataValues, $tableSchemas['_pageData'] );
