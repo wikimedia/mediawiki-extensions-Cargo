@@ -50,9 +50,14 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			$offset = null;
 		}
 
-		$query = CargoSQLQuery::newFromValues( $tables, $fields, $where, $join,
-			$groupBy, $having, $orderBy, $limit, $offset );
-		$rows = $query->run();
+		try {
+			$query = CargoSQLQuery::newFromValues( $tables, $fields, $where, $join,
+				$groupBy, $having, $orderBy, $limit, $offset );
+			$rows = $query->run();
+		} catch ( Exception $e ) {
+			// Allow for error handling within Lua.
+			throw new Scribunto_LuaError( $e->getMessage() );
+		}
 
 		$result = array();
 
