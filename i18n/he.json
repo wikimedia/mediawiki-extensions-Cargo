@@ -99,6 +99,7 @@
 	"cargo-viewcsv": "הצגת CSV",
 	"cargo-viewxls": "הצגת XLS",
 	"cargo-viewjson": "הצגת JSON",
+	"cargo-dynamictables-togglecolumns": "החלפת העמודות:",
 	"cargo-purgecache": "ניקוי המטמון",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "שדה Cargo",

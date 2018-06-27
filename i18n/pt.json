@@ -129,6 +129,7 @@
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
+	"cargo-dynamictables-togglecolumns": "Alternar colunas:",
 	"cargo-purgecache": "Limpar a cache",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
