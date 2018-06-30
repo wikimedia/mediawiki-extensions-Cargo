@@ -127,6 +127,7 @@
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-viewjson": "عرض جسون",
+	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-purgecache": "إفراغ الكاش",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
