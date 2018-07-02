@@ -251,6 +251,14 @@ class CargoQueryDisplayer {
 		}
 
 		$seconds = strtotime( $dateValue );
+		// 'o' is better than 'Y' because it does not add leading
+		// zeroes to years with fewer than four digits.
+		// For some reason, though, this fails for some years -
+		// returning one year lower than it's supposed to - unless you
+		// add the equivalent of 3 days or more to the number of
+		// seconds. Is that a leap day thing? Weird PHP bug? Who knows.
+		// Anyway, it's easy to get around.
+		$yearString = date( 'o', $seconds + 300000 );
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
 			// 'o' is better than 'Y' because it does not add
 			// leading zeroes to years with fewer than four digits.
@@ -260,12 +268,10 @@ class CargoQueryDisplayer {
 			// to the number of seconds. Is that a leap day thing?
 			// Weird PHP bug? Who knows. Anyway, it's easy to get
 			// around.
-			return date( 'o', $seconds + 300000 );
+			return $yearString;
 		} elseif ( $datePrecision == CargoStore::MONTH_ONLY ) {
-			// Same issue as above.
-			$seconds += 300000;
 			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ) ) .
-				' ' . date( 'o', $seconds );
+				" $yearString";
 		} else {
 			// CargoStore::DATE_AND_TIME or
 			// CargoStore::DATE_ONLY
@@ -275,9 +281,9 @@ class CargoQueryDisplayer {
 				// names, instead of PHP's, because its i18n
 				// support is of course far superior.
 				$dateText = CargoDrilldownUtils::monthToString( date( 'm', $seconds ) );
-				$dateText .= ' ' . date( 'j, o', $seconds );
+				$dateText .= ' ' . date( 'j', $seconds ) . ", $yearString";
 			} else {
-				$dateText = date( 'o-m-d', $seconds );
+				$dateText = "$yearString-" . date( 'm-d', $seconds );
 			}
 			// @TODO - remove the redundant 'Date' check at some
 			// point. It's here because the "precision" constants
