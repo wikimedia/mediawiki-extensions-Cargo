@@ -2037,15 +2037,14 @@ END;
 			$this->applied_filters, array(),
 			array( 'limit' => $this->limit, 'offset' => $this->offset ) );
 		// Add tabs for displaying results in map or timleine format
-		$tabs = '';
-		$tabs .= Html::rawElement( 'li', array(
-			'role' => 'presentation',
-			'class' => ( $this->format == '' ) ? 'selected' : null,
-		), Html::rawElement( 'a', array(
-			'role' => 'tab',
-			'href' => $url,
-		), 'Main' ) );
 		if ( count( $this->coordsFields ) > 0 || count( $this->dateFields ) > 0 ) {
+			$tabs = Html::rawElement( 'li', array(
+				'role' => 'presentation',
+				'class' => ( $this->format == '' ) ? 'selected' : null,
+			), Html::rawElement( 'a', array(
+				'role' => 'tab',
+				'href' => $url,
+			), 'Main' ) );
 			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 			foreach ( $this->coordsFields as $i => $coordsField ) {
 				$tabs .= Html::rawElement( 'li', array(
@@ -2080,14 +2079,14 @@ END;
 				), $this->msg( 'cargo-drilldown-galleryformat' )->text() .
 				   ': ' . str_replace( '_',	' ', $fileField ) ) );
 			}
+			$out->addHTML( Html::rawElement( 'div', array(
+				'id' => 'drilldown-format-tabs-wrapper',
+			), Html::rawElement( 'ul', array(
+				'class' => 'drilldown-tabs',
+				'id' => 'drilldown-format-tabs',
+				'role' => 'tablist',
+			), $tabs ) . $this->closeList() ) );
 		}
-		$out->addHTML( Html::rawElement( 'div', array(
-			'id' => 'drilldown-format-tabs-wrapper',
-		), Html::rawElement( 'ul', array(
-			'class' => 'drilldown-tabs',
-			'id' => 'drilldown-format-tabs',
-			'role' => 'tablist',
-		), $tabs ) . $this->closeList() ) );
 		$valuesTable = array();
 		$cdb = CargoUtils::getDB();
 		$pageTextStr = $this->msg( 'cargo-drilldown-pagetext' )->text();
