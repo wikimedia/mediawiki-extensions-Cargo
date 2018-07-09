@@ -1008,10 +1008,16 @@ class CargoSQLQuery {
 		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
 			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 				if ( $fieldDescription->mType == 'Coordinates' ) {
-					$coordinateFields[] = array(
-						'fieldName' => $fieldName,
-						'tableName' => $tableName
-					);
+					foreach ( $this->mAliasedTableNames as $tableAlias => $tableName2 ) {
+						if ( $tableName == $tableName2 ) {
+							$coordinateFields[] = array(
+								'fieldName' => $fieldName,
+								'tableName' => $tableName,
+								'tableAlias' => $tableAlias,
+							);
+							break;
+						}
+					}
 				}
 			}
 		}
@@ -1023,7 +1029,7 @@ class CargoSQLQuery {
 			if ( strpos( $fieldName, '.' ) !== false ) {
 				// This could probably be done better with
 				// regexps.
-				list( $tableName, $fieldName ) = explode( '.', $fieldName, 2 );
+				list( $tableAlias, $fieldName ) = explode( '.', $fieldName, 2 );
 			} else {
 				$tableAlias = $this->mFieldTables[$alias];
 			}
@@ -1035,7 +1041,7 @@ class CargoSQLQuery {
 			$isCoordinateField = false;
 			foreach ( $coordinateFields as $coordinateField ) {
 				if ( $fieldName == $coordinateField['fieldName'] &&
-					$tableName == $coordinateField['tableName'] ) {
+					$tableAlias == $coordinateField['tableAlias'] ) {
 					$isCoordinateField = true;
 					break;
 				}
@@ -1060,10 +1066,10 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $coordinateFields as $coordinateField ) {
 			$fieldName = $coordinateField['fieldName'];
-			$tableName = $coordinateField['tableName'];
+			$tableAlias = $coordinateField['tableAlias'];
 			$patternSuffix = '(\s+NEAR\s*)\(([^)]*)\)/i';
 
-			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix;
 			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
 			if ( !$foundMatch1 ) {
 				$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix;
@@ -1073,7 +1079,7 @@ class CargoSQLQuery {
 				// If no "NEAR", throw an error.
 				if ( count( $matches ) != 4 ) {
 					throw new MWException( "Error: operator for the virtual coordinates field "
-					. "'$tableName.$fieldName' must be 'NEAR'." );
+					. "'$tableAlias.$fieldName' must be 'NEAR'." );
 				}
 				$coordinatesAndDistance = explode( ',', $matches[3] );
 				if ( count( $coordinatesAndDistance ) != 3 ) {
@@ -1094,10 +1100,10 @@ class CargoSQLQuery {
 				// There are much better ways to do this, but
 				// for now, just make a "bounding box" instead
 				// of a bounding circle.
-				$newWhere = " $tableName.{$fieldName}__lat >= " . max( $latitude - $latDistance, -90 ) .
-					" AND $tableName.{$fieldName}__lat <= " . min( $latitude + $latDistance, 90 ) .
-					" AND $tableName.{$fieldName}__lon >= " . max( $longitude - $longDistance, -180 ) .
-					" AND $tableName.{$fieldName}__lon <= " . min( $longitude + $longDistance, 180 ) . ' ';
+				$newWhere = " $tableAlias.{$fieldName}__lat >= " . max( $latitude - $latDistance, -90 ) .
+					" AND $tableAlias.{$fieldName}__lat <= " . min( $latitude + $latDistance, 90 ) .
+					" AND $tableAlias.{$fieldName}__lon >= " . max( $longitude - $longDistance, -180 ) .
+					" AND $tableAlias.{$fieldName}__lon <= " . min( $longitude + $longDistance, 180 ) . ' ';
 
 				if ( $foundMatch1 ) {
 					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
@@ -1113,10 +1119,10 @@ class CargoSQLQuery {
 		$matches = array();
 		foreach ( $coordinateFields as $coordinateField ) {
 			$fieldName = $coordinateField['fieldName'];
-			$tableName = $coordinateField['tableName'];
+			$tableAlias = $coordinateField['tableAlias'];
 
-			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, true );
-			$this->mOrderByStr = preg_replace( $pattern1, '$1' . "$tableName.$fieldName" . '__full$2', $this->mOrderByStr );
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, true );
+			$this->mOrderByStr = preg_replace( $pattern1, '$1' . "$tableAlias.$fieldName" . '__full$2', $this->mOrderByStr );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, true );
 			$this->mOrderByStr = preg_replace( $pattern2, '$1' . $fieldName . '__full$2', $this->mOrderByStr );
 		}

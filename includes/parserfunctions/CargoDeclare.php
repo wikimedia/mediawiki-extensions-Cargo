@@ -92,6 +92,7 @@ class CargoDeclare {
 
 		$tableName = null;
 		$parentTables = array();
+		$drilldownTabsParams = array();
 		$tableSchema = new CargoTableSchema();
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -187,6 +188,50 @@ class CargoDeclare {
 						}
 					}
 				}
+			} elseif ( $key == '_drilldownTabs' ) {
+				$value = CargoUtils::smartSplit( ',', $value );
+				foreach ( $value as $tabValues ) {
+					$foundMatch = preg_match_all( '/([^(]*)\s*\(?([^)]*)\)?/s', $tabValues, $matches );
+					if ( $foundMatch == false ) {
+						continue;
+					}
+					$tabName = $matches[1][0];
+					$tabName = trim( $tabName );
+					if ( !$tabName ) {
+						continue;
+					}
+					$extraParams = $matches[2][0];
+					$params = preg_split( '~(?<!\\\)' . preg_quote( ';', '~' ) . '~', $extraParams );
+					$tabParams = array();
+					foreach ( $params as $param ) {
+						if ( !$param ) {
+							continue;
+						}
+						$param = array_map( 'trim', explode( '=', $param, 2 ) );
+						if ( $param[0] == 'fields' ) {
+							$fields = array_map( 'trim', explode( ',', $param[1] ) );
+							$drilldownFields = array();
+							foreach ( $fields as $field ) {
+								$field = array_map( 'trim', explode( '=', $field ) );
+								if ( count( $field ) == 2 ) {
+									$drilldownFields[$field[1]] = $field[0];
+								} else {
+									$drilldownFields[] = $field[0];
+								}
+							}
+							$tabParams[$param[0]] = $drilldownFields;
+						} else {
+							$tabParams[$param[0]] = $param[1];
+						}
+					}
+					if ( !array_key_exists( 'format', $tabParams ) ) {
+						$tabParams['format'] = 'category';
+					}
+					if ( !array_key_exists( 'fields', $tabParams ) ) {
+						$tabParams['fields'] = array( 'Title' => '_pageName' );
+					}
+					$drilldownTabsParams[$tabName] = $tabParams;
+				}
 			} else {
 				$fieldName = $key;
 				$fieldDescriptionStr = $value;
@@ -249,6 +294,7 @@ class CargoDeclare {
 
 		$parserOutput->setProperty( 'CargoTableName', $tableName );
 		$parserOutput->setProperty( 'CargoParentTables', serialize( $parentTables ) );
+		$parserOutput->setProperty( 'CargoDrilldownTabsParams', serialize( $drilldownTabsParams ) );
 		$parserOutput->setProperty( 'CargoFields', $tableSchema->toDBString() );
 
 		// Link to the Special:CargoTables page for this table, if it

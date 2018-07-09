@@ -178,6 +178,20 @@ class CargoUtils {
 		}
 	}
 
+	static function getDrilldownTabsParams( $tableName ) {
+		$drilldownTabs = array();
+		$dbw = wfGetDB( DB_MASTER );
+		$res = $dbw->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		while ( $row = $dbw->fetchRow( $res ) ) {
+			if ( $tableName == $row['main_table'] ) {
+				$drilldownTabs = self::getPageProp( $row['template_id'], 'CargoDrilldownTabsParams' );
+			}
+		}
+		if ( $drilldownTabs ) {
+			return unserialize( $drilldownTabs );
+		}
+	}
+
 	static function getTableSchemas( $tableNames ) {
 		$mainTableNames = array();
 		foreach ( $tableNames as $tableName ) {

@@ -15,7 +15,7 @@ class CargoDisplayFormat {
 		return array();
 	}
 
-	function isDeferred() {
+	static function isDeferred() {
 		return false;
 	}
 

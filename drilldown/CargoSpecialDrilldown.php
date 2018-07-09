@@ -49,6 +49,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 		$parentTables = array();
 		$parentTables = CargoUtils::getParentTables( $mainTable );
+		$drilldownTabsParams = CargoUtils::getDrilldownTabsParams( $mainTable );
 		if ( $parentTables ) {
 			$parentTablesNames =
 				array_map( function ( $table ) {
@@ -123,16 +124,16 @@ class CargoDrilldown extends IncludableSpecialPage {
 
 				// Some field types shouldn't get a filter at all.
 				if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
-					if ( $tableName == $mainTable && $fieldDescription->mType == 'Coordinates' ) {
-						$coordsFields[] = $fieldName;
+					if ( ( $tableName == $mainTable || $drilldownTabsParams ) && $fieldDescription->mType == 'Coordinates' ) {
+						$coordsFields[$tableAlias] = $fieldName;
 					}
-					if ( $tableName == $mainTable && $fieldDescription->mType == 'File' ) {
+					if ( ( $tableName == $mainTable || $drilldownTabsParams ) && $fieldDescription->mType == 'File' ) {
 						$fileFields = array_merge( $fileFields, array( $fieldName => $fieldDescription ) );
 					}
 					continue;
 				}
 
-				if ( $tableName == $mainTable && ( $fieldDescription->mType == 'Date' ||
+				if ( ( $tableName == $mainTable || $drilldownTabsParams ) && ( $fieldDescription->mType == 'Date' ||
 						$fieldDescription->mType == 'Datetime' ) ) {
 					$dateFields[] = $fieldName;
 				}
@@ -214,12 +215,19 @@ class CargoDrilldown extends IncludableSpecialPage {
 			$format = '';
 			$formatBy = '';
 		}
+		$curTabName = $request->getVal( 'tab' );
+		if ( $drilldownTabsParams ) {
+			if ( !$curTabName ) {
+				$curTabName = key( $drilldownTabsParams );
+			}
+		}
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
 		$rep =
-			new CargoDrilldownPage( $mainTable, $parentTables, $all_filters, $applied_filters,
-				$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $fileFields,
-				$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format, $formatBy );
+			new CargoDrilldownPage( $mainTable, $parentTables, $drilldownTabsParams, $all_filters,
+				$applied_filters, $remaining_filters, $fullTextSearchTerm, $coordsFields,
+				$dateFields, $fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray,
+				$offset, $limit, $format, $formatBy, $curTabName );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -245,6 +253,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
 	public $tableAlias = "";
 	public $parentTables = array();
+	public $drilldownTabsParams = array();
 	public $all_filters = array();
 	public $applied_filters = array();
 	public $remaining_filters = array();
@@ -258,6 +267,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $dependentFieldsArray = array();
 	public $format;
 	public $formatBy;
+	public $curTabName;
 	private $showSingleTable = false;
 	private $isReplacementTable = false;
 
@@ -273,14 +283,16 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $parentTables, $all_filters, $applied_filters,
+	function __construct( $tableName, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
 			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $fileFields,
-			$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format, $formatBy ) {
+			$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format,
+			$formatBy, $curTabName ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
 		$this->tableAlias = strtolower( $tableName );
 		$this->parentTables = (array)$parentTables;
+		$this->drilldownTabsParams = (array)$drilldownTabsParams;
 		$this->all_filters = $all_filters;
 		$this->applied_filters = $applied_filters;
 		$this->remaining_filters = $remaining_filters;
@@ -295,6 +307,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->limit = $limit;
 		$this->format = $format;
 		$this->formatBy = $formatBy;
+		$this->curTabName = $curTabName;
 	}
 
 	/**
@@ -371,6 +384,16 @@ class CargoDrilldownPage extends QueryPage {
 		}
 		if ( $attributes ) {
 			foreach ( $attributes as $attribute => $value ) {
+				if ( $attribute == 'limit' ) {
+					if ( $value == 250 ) {
+						continue;
+					}
+				}
+				if ( $attribute == 'offset' ) {
+					if ( $value == 0 ) {
+						continue;
+					}
+				}
 				if ( $value !== '' ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 					$url .= $attribute . '=' . $value;
@@ -1607,9 +1630,15 @@ END;
 		if ( $this->fullTextSearchTerm != '' ) {
 			$params['_search'] = $this->fullTextSearchTerm;
 		}
-		if ( $this->format ) {
-			$params['format'] = $this->format;
-			$params['formatBy'] = $this->formatBy;
+		if ( !$this->drilldownTabsParams ) {
+			if ( $this->format ) {
+				$params['format'] = $this->format;
+				$params['formatBy'] = $this->formatBy;
+			}
+		} else {
+			if ( $this->curTabName != key( $this->drilldownTabsParams ) ) {
+				$params['tab'] = $this->curTabName;
+			}
 		}
 		foreach ( $this->applied_filters as $i => $af ) {
 			if ( count( $af->values ) == 1 ) {
@@ -1791,7 +1820,11 @@ END;
 		$queryOptions = array();
 		$queryOptions['GROUP BY'] = array();
 		// $fieldStr, $whereStr, $groupByStr are required for CargoSQLQuery object
-		$fieldsStr = array( "$this->tableAlias._pageName" );
+		if ( !$this->drilldownTabsParams ) {
+			$fieldsStr = array( "$this->tableAlias._pageName" );
+		} else {
+			$fieldsStr = array();
+		}
 		$whereStr = array();
 		$groupByStr = array();
 		if ( $this->fullTextSearchTerm != null ) {
@@ -1828,41 +1861,16 @@ END;
 			}
 		}
 
-		$aliasedFieldNames = array(
-			'title' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageName' ),
-			'value' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageName' ),
-			'namespace' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageNamespace' ),
-			'ID' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageID' )
-		);
-		if ( $this->format == 'map' ) {
-			$aliasedFieldNames['coordinates'] = CargoUtils::escapedFieldName( $cdb,
-				array( $this->tableAlias => $this->tableName ), $this->formatBy . '__full' );
-			$aliasedFieldNames['coordinates_lat'] = CargoUtils::escapedFieldName( $cdb,
-				array( $this->tableAlias => $this->tableName ), $this->formatBy . '__lat' );
-			$aliasedFieldNames['coordinates_lon'] = CargoUtils::escapedFieldName( $cdb,
-				array( $this->tableAlias => $this->tableName ), $this->formatBy . '__lon' );
+		if ( !$this->drilldownTabsParams ) {
+			$aliasedFieldNames = array(
+				'title' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageName' ),
+				'value' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageName' ),
+				'namespace' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageNamespace' ),
+				'ID' => CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ), '_pageID' )
+			);
+		} else {
+			$aliasedFieldNames = array();
 		}
-		if ( $this->format == 'gallery' ) {
-			foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
-				if ( $this->formatBy == $fieldName ) {
-					if ( $fieldDescription->mIsList ) {
-						$fieldTableName = $this->tableName . '__' . $fieldName;
-						$fieldTableAlias = $this->tableAlias . '__' . $fieldName;
-						$curJoinConds[$fieldTableName] = CargoUtils::joinOfMainAndFieldTable( $cdb,
-							array( $this->tableAlias => $this->tableName ), $fieldTableName );
-						$tableNames[] = $fieldTableName;
-						$aliasedFieldNames['file'] = CargoUtils::escapedFieldName( $cdb,
-							array( $fieldTableAlias => $fieldTableName ), '_value' );
-						$joinConds = array_merge( $joinConds, $curJoinConds );
-					} else {
-						$aliasedFieldNames['file'] = CargoUtils::escapedFieldName( $cdb,
-							array( $this->tableAlias => $this->tableName ),
-							$this->formatBy );
-					}
-				}
-			}
-		}
-
 		if ( $this->fullTextSearchTerm != null ) {
 			$fileDataTableName = '_fileData';
 			$fileDataTableAlias = strtolower( $fileDataTableName );
@@ -1893,10 +1901,168 @@ END;
 				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
 			}
 		}
-
+		$havingStr = null;
+		$limitStr = $this->limit;
+		$offsetStr = $this->offset;
+		if ( $this->drilldownTabsParams ) {
+			if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
+				$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
+				$this->format = strtolower( $currentTabParams['format'] );
+				$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
+				if ( array_key_exists( $this->format, $formatClasses ) ) {
+					$formatClass = $formatClasses[$this->format];
+				} else {
+					$formatClass = $formatClasses['category'];
+				}
+				$isDeferred = $formatClass::isDeferred();
+				$fields = $currentTabParams['fields'];
+				foreach ( $fields as $fieldAlias => $field ) {
+					$fieldPartTableAlias = $this->tableAlias;
+					$fieldPartTableName = $this->tableName;
+					if ( strpos( $field, '.' ) ) {
+						$fieldParts = explode( '.', $field );
+						if ( count( $fieldParts ) == 2 ) {
+							foreach ( $tableNames as $tableAlias => $tableName ) {
+								if ( $fieldParts[0] == $tableAlias || $fieldParts[0] == $tableName ) {
+									$fieldPartTableName = $tableName;
+									$fieldPartTableAlias = $tableAlias;
+									break;
+								}
+							}
+							$field = $fieldParts[1];
+						}
+					}
+					if ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) {
+						foreach ( $this->coordsFields as $tableAlias => $coordsField ) {
+							if ( $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
+								$coordsFieldTableName = $fieldPartTableName;
+								$coordsFieldTableAlias = $fieldPartTableAlias;
+								$coordsFieldName = $field;
+								$coordsFieldAlias = $fieldAlias;
+							}
+						}
+					} elseif ( $this->format == 'gallery' ) {
+						foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
+							if ( $field == $fieldName ) {
+								$fileFieldTableName = $fieldPartTableName;
+								$fileFieldTableAlias = $fieldPartTableAlias;
+								$fileFieldName = $field;
+								$fileFieldAlias = $fieldAlias;
+							}
+						}
+					} else {
+						if ( is_string( $fieldAlias ) ) {
+							$aliasedFieldNames[$fieldAlias] =
+								CargoUtils::escapedFieldName( $cdb,
+									array( $fieldPartTableAlias => $fieldPartTableName ), $field );
+							$fieldsStr[] = $fieldPartTableAlias . '.' . $field . '=' . $fieldAlias;
+						} else {
+							$aliasedFieldNames[$field] =
+								CargoUtils::escapedFieldName( $cdb,
+									array( $fieldPartTableAlias => $fieldPartTableName ), $field );
+							$fieldsStr[] = $fieldPartTableAlias . '.' . $field;
+						}
+					}
+				}
+			}
+		}
+		if ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) {
+			if ( !$this->drilldownTabsParams ) {
+				$coordsFieldTableName = $this->tableName;
+				$coordsFieldTableAlias = $this->tableAlias;
+				$coordsFieldName = $this->formatBy;
+				$coordsFieldAlias = $coordsFieldName;
+			}
+			$aliasedFieldNames['coordinates'] =
+				CargoUtils::escapedFieldName( $cdb,
+					array( $coordsFieldTableAlias => $coordsFieldTableName ), $coordsFieldName . '__full' );
+			$aliasedFieldNames['coordinates_lat'] =
+				CargoUtils::escapedFieldName( $cdb,
+					array( $coordsFieldTableAlias => $coordsFieldTableName ), $coordsFieldName . '__lat' );
+			$aliasedFieldNames['coordinates_lon'] =
+				CargoUtils::escapedFieldName( $cdb,
+					array( $coordsFieldTableAlias => $coordsFieldTableName ), $coordsFieldName . '__lon' );
+			if ( is_string( $coordsFieldAlias ) ) {
+				$fieldsStr[] = $coordsFieldTableAlias . '.' . $coordsFieldName . '=' . $coordsFieldAlias;
+			} else {
+				$fieldsStr[] = $coordsFieldTableAlias . '.' . $coordsFieldName;
+			}
+		} elseif ( $this->format == 'gallery' ) {
+			if ( !$this->drilldownTabsParams ) {
+				$fileFieldTableName = $this->tableName;
+				$fileFieldTableAlias = $this->tableAlias;
+				$fileFieldName = $this->formatBy;
+				$fileFieldAlias = null;
+			}
+			foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
+				if ( $fileFieldName != $fieldName ) {
+					continue;
+				}
+				if ( $fieldDescription->mIsList ) {
+					$fieldTableName = $fileFieldTableName . '__' . $fileFieldName;
+					$fieldTableAlias = $fileFieldTableAlias . '__' . $fileFieldName;
+					$curJoinConds[$fieldTableAlias] =
+						CargoUtils::joinOfMainAndFieldTable( $cdb,
+							array( $fileFieldTableAlias => $fileFieldTableName ),
+							array( $fieldTableAlias => $fieldTableName ) );
+					$tableNames[$fieldTableAlias] = $fieldTableName;
+					$aliasedFieldNames['file'] =
+						CargoUtils::escapedFieldName( $cdb,
+							array( $fieldTableAlias => $fieldTableName ), '_value' );
+					if ( is_string( $fileFieldAlias ) ) {
+						$fieldsStr[] = $fieldTableAlias . '._value=' . $fileFieldAlias;
+					} else {
+						$fieldsStr[] = $fieldTableAlias . '._value';
+					}
+					$joinConds = array_merge( $joinConds, $curJoinConds );
+				} else {
+					$aliasedFieldNames['file'] =
+						CargoUtils::escapedFieldName( $cdb,
+							array( $fileFieldTableAlias => $fileFieldTableName ),
+							$fileFieldName );
+					if ( is_string( $fileFieldAlias ) ) {
+						$fieldsStr[] = $fileFieldTableAlias . '.' . $fileFieldName . '=' . $fileFieldAlias;
+					} else {
+						$fieldsStr[] = $fileFieldTableAlias . '.' . $fileFieldName;
+					}
+				}
+			}
+		}
 		$queryOptions['GROUP BY'] =
 			array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+		$tablesStr = '';
+		$i = 0;
+		foreach ( $tableNames as $tableAlias => $tableName ) {
+			if ( $i ++ > 0 ) {
+				$tablesStr .= ',';
+			}
+			if ( $tableAlias ) {
+				$tablesStr .= $tableName . '=' . $tableAlias;
+			} else {
+				$tablesStr .= $tableName;
+			}
+		}
+		if ( !$this->drilldownTabsParams ) {
+			if ( $this->formatBy && $this->format != 'map' && $this->format != 'gallery' ) {
+				$fieldsStr[] = $this->tableAlias . '.' . $this->formatBy;
+			}
+		}
+		$fieldsStr = implode( ',', $fieldsStr );
+		$whereStr = implode( ' AND ', $whereStr );
+		$whereStr = str_replace( 'DAY', 'DAYOFMONTH', $whereStr );
+		$joinOnStr = array();
+		foreach ( $joinConds as $table => $joinCond ) {
+			$joinCondStr = str_replace( '`', '', $joinCond[1] );
+			$joinCondStr = str_replace( 'cargo__', '', $joinCondStr );
+			$joinOnStr[] = $joinCondStr;
+		}
+		$joinOnStr = implode( ',', $joinOnStr );
 		$groupByStr = $queryOptions['GROUP BY'];
+		$groupByStr = implode( ',', $groupByStr );
+		$orderByStr = $groupByStr;
+		$this->sqlQuery =
+			CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 		$queryInfo = array(
 			'tables' => $tableNames,
 			'fields' => $aliasedFieldNames,
@@ -1904,38 +2070,7 @@ END;
 			'join_conds' => $joinConds,
 			'options' => $queryOptions
 		);
-		if ( $this->format == 'timeline' ) {
-			$tablesStr = '';
-			$i = 0;
-			foreach ( $tableNames as $tableAlias => $tableName ) {
-				if ( $i++ > 0 ) {
-					$tablesStr .= ',';
-				}
-				if ( $tableAlias ) {
-					$tablesStr .= $tableName . '=' . $tableAlias;
-				} else {
-					$tablesStr .= $tableName;
-				}
-			}
-			$fieldsStr[] = $this->formatBy;
-			$fieldsStr = implode( ',', $fieldsStr );
-			$whereStr = implode( ' AND ', $whereStr );
-			$whereStr = str_replace( 'DAY', 'DAYOFMONTH', $whereStr );
-			$joinOnStr = array();
-			foreach ( $queryInfo['join_conds'] as $table => $joinCond ) {
-				$joinCondStr = str_replace( '`', '', $joinCond[1] );
-				$joinCondStr = str_replace( 'cargo__', '', $joinCondStr );
-				$joinOnStr[] = $joinCondStr;
-			}
-			$joinOnStr = implode( ',', $joinOnStr );
-			$groupByStr = implode( ',', $groupByStr );
-			$havingStr = null;
-			$orderByStr = $groupByStr;
-			$limitStr = $this->limit;
-			$offsetStr = $this->offset;
-			$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
-		}
+
 		return $queryInfo;
 	}
 
@@ -2037,165 +2172,151 @@ END;
 			$this->applied_filters, array(),
 			array( 'limit' => $this->limit, 'offset' => $this->offset ) );
 		// Add tabs for displaying results in map or timleine format
-		if ( count( $this->coordsFields ) > 0 || count( $this->dateFields ) > 0 ) {
-			$tabs = Html::rawElement( 'li', array(
-				'role' => 'presentation',
-				'class' => ( $this->format == '' ) ? 'selected' : null,
-			), Html::rawElement( 'a', array(
-				'role' => 'tab',
-				'href' => $url,
-			), 'Main' ) );
-			$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
-			foreach ( $this->coordsFields as $i => $coordsField ) {
+		if ( $this->drilldownTabsParams ) {
+			$tabs = '';
+			$i = 0;
+			foreach ( $this->drilldownTabsParams as $drilldownTabName => $params ) {
+				if ( $i++ == 1 ) {
+					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
+				}
+				if ( $i > 1 ) {
+					$tabUrl = $url . 'tab=' . $drilldownTabName;
+				} else {
+					$tabUrl = $url;
+				}
 				$tabs .= Html::rawElement( 'li', array(
 					'role' => 'presentation',
-					'class' => ( $this->format == 'map' &&
-						$coordsField == $this->formatBy ) ? 'selected' : null,
+					'class' => ( $this->curTabName == $drilldownTabName )
+						? 'selected' : null,
 				), Html::rawElement( 'a', array(
 					'role' => 'tab',
-					'href' => $url . 'format=map&formatBy=' . $coordsField,
-				), $this->msg( 'cargo-drilldown-mapformat' )->text() .
-					': ' . str_replace( '_', ' ', $coordsField ) ) );
-			}
-			foreach ( $this->dateFields as $i => $dateField ) {
-				$tabs .= Html::rawElement( 'li', array(
-					'role' => 'presentation',
-					'class' => ( $this->format == 'timeline' &&
-						$dateField == $this->formatBy ) ? 'selected' : null,
-				), Html::rawElement( 'a', array(
-					'role' => 'tab',
-					'href' => $url . 'format=timeline&formatBy=' . $dateField,
-				), $this->msg( 'cargo-drilldown-timelineformat' )->text() .
-					': ' . str_replace( '_',	' ', $dateField ) ) );
-			}
-			foreach ( $this->fileFields as $fileField => $fieldDescription ) {
-				$tabs .= Html::rawElement( 'li', array(
-					'role' => 'presentation',
-					'class' => ( $this->format == 'gallery' &&
-								 $fileField == $this->formatBy ) ? 'selected' : null,
-				), Html::rawElement( 'a', array(
-					'role' => 'tab',
-					'href' => $url . 'format=gallery&formatBy=' . $fileField,
-				), $this->msg( 'cargo-drilldown-galleryformat' )->text() .
-				   ': ' . str_replace( '_',	' ', $fileField ) ) );
+					'href' => $tabUrl,
+				), ucfirst( str_replace( '_', ' ', $drilldownTabName ) ) ) );
 			}
 			$out->addHTML( Html::rawElement( 'div', array(
 				'id' => 'drilldown-format-tabs-wrapper',
 			), Html::rawElement( 'ul', array(
-				'class' => 'drilldown-tabs',
-				'id' => 'drilldown-format-tabs',
-				'role' => 'tablist',
-			), $tabs ) . $this->closeList() ) );
-		}
-		$valuesTable = array();
-		$cdb = CargoUtils::getDB();
-		$pageTextStr = $this->msg( 'cargo-drilldown-pagetext' )->text();
-		$fileNameStr = $this->msg( 'cargo-drilldown-filename' )->text();
-		$fileTextStr = $this->msg( 'cargo-drilldown-filetext' )->text();
-
-		// @HACK - the current SQL query may return the same page as a
-		// result more than once. So keep an array of pages that have
-		// been returned so that we show each page only once.
-		$matchingPages = array();
-		while ( $row = $cdb->fetchRow( $res ) ) {
-			$pageName = $row['title'];
-			$curValue = array( 'title' => $pageName );
-			if ( $this->format == 'map' ) {
-				$curValue[$this->formatBy] = $row['coordinates'];
-				$curValue[$this->formatBy . '  lat'] = $row['coordinates_lat'];
-				$curValue[$this->formatBy. '  lon'] = $row['coordinates_lon'];
-			}
-			if ( $this->format == 'gallery' ) {
-				$curValue[$this->formatBy] = $row['file'];
-				$curValue['caption'] = $this->msg( 'cargo-drilldown-gallerycaption', $pageName )->text();
-			}
-			$pageNamespace = $this->getLanguage()->getFormattedNsText( $row['namespace'] );
-			if ( $pageNamespace != '' ) {
-				$curValue['namespace'] = $pageNamespace;
-			}
-			if ( array_key_exists( 'foundFileMatch', $row ) && $row['foundFileMatch'] ) {
-				if ( array_key_exists( 'fileName', $row ) ) {
-					// Not used for _fileData drilldown.
-					$curValue[$fileNameStr] = $row['fileName'];
+					'class' => 'drilldown-tabs',
+					'id' => 'drilldown-format-tabs',
+					'role' => 'tablist',
+				), $tabs ) . $this->closeList() ) );
+		} else {
+			if ( count( $this->coordsFields ) > 0 || count( $this->dateFields ) > 0 ) {
+				$tabs = Html::rawElement( 'li', array(
+					'role' => 'presentation',
+					'class' => ( $this->format == '' ) ? 'selected' : null,
+				), Html::rawElement( 'a', array(
+					'role' => 'tab',
+					'href' => $url,
+				), 'Main' ) );
+				$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
+				foreach ( $this->coordsFields as $coordsField ) {
+					$tabs .= Html::rawElement( 'li', array(
+						'role' => 'presentation',
+						'class' => ( $this->format == 'map' && $coordsField == $this->formatBy )
+							? 'selected' : null,
+					), Html::rawElement( 'a', array(
+						'role' => 'tab',
+						'href' => $url . 'format=map&formatBy=' . $coordsField,
+					), $this->msg( 'cargo-drilldown-mapformat' )->text() . ': ' .
+					   str_replace( '_', ' ', $coordsField ) ) );
 				}
-				$curValue[$fileTextStr] = $row['fileText'];
-				$valuesTable[] = $curValue;
-			} elseif ( array_key_exists( 'pageText', $row ) ) {
-				if ( !in_array( $pageName, $matchingPages ) ) {
-					$curValue[$pageTextStr] = $row['pageText'];
-					$valuesTable[] = $curValue;
-					$matchingPages[] = $pageName;
+				foreach ( $this->dateFields as $i => $dateField ) {
+					$tabs .= Html::rawElement( 'li', array(
+						'role' => 'presentation',
+						'class' => ( $this->format == 'timeline' && $dateField == $this->formatBy )
+							? 'selected' : null,
+					), Html::rawElement( 'a', array(
+						'role' => 'tab',
+						'href' => $url . 'format=timeline&formatBy=' . $dateField,
+					), $this->msg( 'cargo-drilldown-timelineformat' )->text() . ': ' .
+					   str_replace( '_', ' ', $dateField ) ) );
 				}
-			} else {
-				$valuesTable[] = $curValue;
+				foreach ( $this->fileFields as $fileField => $fieldDescription ) {
+					$tabs .= Html::rawElement( 'li', array(
+						'role' => 'presentation',
+						'class' => ( $this->format == 'gallery' && $fileField == $this->formatBy )
+							? 'selected' : null,
+					), Html::rawElement( 'a', array(
+						'role' => 'tab',
+						'href' => $url . 'format=gallery&formatBy=' . $fileField,
+					), $this->msg( 'cargo-drilldown-galleryformat' )->text() . ': ' .
+					   str_replace( '_', ' ', $fileField ) ) );
+				}
+				$out->addHTML( Html::rawElement( 'div', array(
+					'id' => 'drilldown-format-tabs-wrapper',
+				), Html::rawElement( 'ul', array(
+						'class' => 'drilldown-tabs',
+						'id' => 'drilldown-format-tabs',
+						'role' => 'tablist',
+					), $tabs ) . $this->closeList() ) );
 			}
 		}
 
+		if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
+			$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
+			$this->format = strtolower( $currentTabParams['format'] );
+		}
+		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
+		if ( array_key_exists( $this->format, $formatClasses ) ) {
+			$formatClass = $formatClasses[$this->format];
+		} else {
+			$formatClass = $formatClasses['category'];
+		}
+		$isDeferred = $formatClass::isDeferred();
 		$queryDisplayer = new CargoQueryDisplayer();
-		$fieldDescription = new CargoFieldDescription();
-		$fieldDescription->mType = 'Page';
-		$queryDisplayer->mFieldDescriptions = array( 'title' => $fieldDescription );
-		if ( $this->format == 'map' ) {
-			$coordsFieldDescription = new CargoFieldDescription();
-			$coordsFieldDescription->mType = 'Coordinates';
-			$queryDisplayer->mFieldDescriptions[$this->formatBy] = $coordsFieldDescription;
-		}
-		if ( $this->format == 'gallery' ) {
-			$fileFieldDescription = new CargoFieldDescription();
-			$fileFieldDescription->mType = 'File';
-			$queryDisplayer->mFieldDescriptions[$this->formatBy] = $fileFieldDescription;
-			if ( !$this->fileFields[$this->formatBy]->mIsList ) {
-				$queryDisplayer->mDisplayParams['show filename'] = false;
-			}
-			$queryDisplayer->mDisplayParams['mode'] = 'packed';
-			$queryDisplayer->mDisplayParams['caption field'] = 'caption';
-			$queryDisplayer->mDisplayParams['show bytes'] = false;
-			$queryDisplayer->mDisplayParams['show dimensions'] = false;
-		}
-		// Display the result in timeline format
-		if ( $this->format == 'timeline' ) {
-			$timelineQueryDisplayer = new CargoQueryDisplayer();
-			$timelineQueryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
-			$timelineQueryDisplayer->mFormat = $this->format;
-			$formatter = $timelineQueryDisplayer->getFormatter( $out );
-			$displayParams = array();
-			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $displayParams );
-			$out->addHTML( $text );
-			return;
-		}
-
-		if ( $this->fullTextSearchTerm != null ) {;
-			$escapedSearchTerm = str_replace( "'", "\'", $this->fullTextSearchTerm );
-			$searchTerms = CargoUtils::smartSplit( ' ', $escapedSearchTerm );
-			$dummySQLQuery = new CargoSQLQuery();
-			$dummySQLQuery->mSearchTerms = array(
-				$pageTextStr => $searchTerms,
-				$fileTextStr => $searchTerms
-			);
-			$queryDisplayer->mSQLQuery = $dummySQLQuery;
-			$fullTextFieldDescription = new CargoFieldDescription();
-			$fullTextFieldDescription->mType = 'Searchtext';
-			$fileFieldDescription = new CargoFieldDescription();
-			$fileFieldDescription->mType = 'Page';
-			$stringFieldDescription = new CargoFieldDescription();
-			$stringFieldDescription->mType = 'String';
-			$queryDisplayer->mFieldDescriptions[$pageTextStr] = $fullTextFieldDescription;
-			$queryDisplayer->mFieldDescriptions[$fileNameStr] = $fileFieldDescription;
-			$queryDisplayer->mFieldDescriptions[$fileTextStr] = $fullTextFieldDescription;
-		}
-
+		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		if ( $this->format ) {
 			$queryDisplayer->mFormat = $this->format;
 		} else {
 			$queryDisplayer->mFormat = 'category';
 		}
-		// Make display wider if we're also showing file information.
-		if ( $this->format == '' && $this->searchableFiles && $this->fullTextSearchTerm != '' ) {
-			$queryDisplayer->mDisplayParams['columns'] = 2;
-		}
+
 		$formatter = $queryDisplayer->getFormatter( $out );
-		$html = $queryDisplayer->displayQueryResults( $formatter, $valuesTable );
-		$out->addHTML( $html );
+		if ( !$isDeferred ) {
+			try {
+				$queryResults = $this->sqlQuery->run();
+			} catch ( Exception $e ) {
+				return CargoUtils::formatError( $e->getMessage() );
+			}
+			if ( $this->drilldownTabsParams ) {
+				foreach ( $currentTabParams as $parameter => $value ) {
+					if ( is_string( $value ) ) {
+						$value = stripslashes( $value );
+					}
+					$queryDisplayer->mDisplayParams[$parameter] = $value;
+				}
+			}
+			if ( $this->format == 'gallery' ) {
+				if ( !array_key_exists( 'mode', $currentTabParams ) ) {
+					$queryDisplayer->mDisplayParams['mode'] = 'packed';
+				}
+				if ( !array_key_exists( 'show bytes', $currentTabParams ) ) {
+					$queryDisplayer->mDisplayParams['show bytes'] = false;
+				}
+				if ( !array_key_exists( 'show dimensions', $currentTabParams ) ) {
+					$queryDisplayer->mDisplayParams['show dimensions'] = false;
+				}
+			}
+			$html = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
+			$out->addHTML( $html );
+
+			return;
+		} else {
+			$displayParams = array();
+			if ( $this->drilldownTabsParams ) {
+				foreach ( $currentTabParams as $parameter => $value ) {
+					if ( is_string( $value ) ) {
+						$value = stripslashes( $value );
+					}
+					$displayParams[$parameter] = $value;
+				}
+			}
+			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $displayParams );
+			$out->addHTML( $text );
+
+			return;
+		}
 	}
 
 	function openList( $offset ) {

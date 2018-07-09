@@ -8,7 +8,7 @@
  */
 
 abstract class CargoDeferredFormat extends CargoDisplayFormat {
-	function isDeferred() {
+	static function isDeferred() {
 		return true;
 	}
 
