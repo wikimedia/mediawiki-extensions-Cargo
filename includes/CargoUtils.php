@@ -457,7 +457,11 @@ class CargoUtils {
 		} elseif ( ( $title != null && $title->isSpecialPage() && !$wgRequest->getCheck( 'wpRunQuery' ) ) ||
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
-			$parserOutput = $parser->parse( $value, $title, new ParserOptions(), false );
+			$parserOptions = new ParserOptions();
+			// Remove '<div class="mw-parser-output">' from around
+			// the value, if it was parsed.
+			$parserOptions->setWrapOutputClass( false );
+			$parserOutput = $parser->parse( $value, $title, $parserOptions, false );
 			$value = $parserOutput->getText();
 		} else {
 			$value = $parser->internalParse( $value );
