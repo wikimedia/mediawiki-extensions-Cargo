@@ -127,6 +127,7 @@
 	"cargo-viewcsv": "查看CSV",
 	"cargo-viewxls": "查看XLS",
 	"cargo-viewjson": "查看JSON",
+	"cargo-dynamictables-togglecolumns": "切换列：",
 	"cargo-purgecache": "刷新缓存",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo字段",
