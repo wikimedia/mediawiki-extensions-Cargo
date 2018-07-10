@@ -6,6 +6,10 @@
 
 class CargoJSONFormat extends CargoDeferredFormat {
 
+	function allowedParameters() {
+		return array( 'parse values' );
+	}
+
 	/**
 	 *
 	 * @param array $sqlQueries
@@ -17,6 +21,9 @@ class CargoJSONFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'json';
+		if ( array_key_exists( 'parse values', $displayParams ) ) {
+			$queryParams['parse values'] = $displayParams['parse values'];
+		}
 
 		$linkAttrs = array(
 			'href' => $ce->getFullURL( $queryParams ),

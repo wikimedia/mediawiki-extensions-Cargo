@@ -7,7 +7,7 @@
 class CargoExcelFormat extends CargoDeferredFormat {
 
 	function allowedParameters() {
-		return array( 'filename' );
+		return array( 'filename', 'parse values' );
 	}
 
 	/**
@@ -23,6 +23,9 @@ class CargoExcelFormat extends CargoDeferredFormat {
 		$queryParams['format'] = 'excel';
 		if ( array_key_exists( 'filename', $displayParams ) ) {
 			$queryParams['filename'] = $displayParams['filename'];
+		}
+		if ( array_key_exists( 'parse values', $displayParams ) ) {
+			$queryParams['parse values'] = $displayParams['parse values'];
 		}
 		if ( array_key_exists( 'link text', $displayParams ) ) {
 			$linkText = $displayParams['link text'];

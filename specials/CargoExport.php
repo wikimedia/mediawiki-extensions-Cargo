@@ -66,15 +66,18 @@ class CargoExport extends UnlistedSpecialPage {
 			if ( $filename == '' ) {
 				$filename = 'results.csv';
 			}
-			$this->displayCSVData( $sqlQueries, $delimiter, $filename );
+			$parseValues = $req->getCheck( 'parse_values' );
+			$this->displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues );
 		} elseif ( $format == 'excel' ) {
 			$filename = $req->getVal( 'filename' );
 			if ( $filename == '' ) {
 				$filename = 'results.xls';
 			}
-			$this->displayExcelData( $sqlQueries, $filename );
+			$parseValues = $req->getCheck( 'parse_values' );
+			$this->displayExcelData( $sqlQueries, $filename, $parseValues );
 		} elseif ( $format == 'json' ) {
-			$this->displayJSONData( $sqlQueries );
+			$parseValues = $req->getCheck( 'parse_values' );
+			$this->displayJSONData( $sqlQueries, $parseValues );
 		} else {
 			print wfMessage( "cargo-query-missingformat" )->parse();
 		}
@@ -339,7 +342,21 @@ class CargoExport extends UnlistedSpecialPage {
 		print json_encode( $displayedArray, JSON_NUMERIC_CHECK | JSON_HEX_TAG );
 	}
 
-	function displayCSVData( $sqlQueries, $delimiter, $filename ) {
+	/**
+	 * Turn all wikitext into HTML in a set of query results.
+	 */
+	function parseWikitextInQueryResults( $queryResults ) {
+		$parsedQueryResults = array();
+		foreach ( $queryResults as $rowNum => $rowValues ) {
+			$parsedQueryResults[$rowNum] = array();
+			foreach ( $rowValues as $colName => $value ) {
+				$parsedQueryResults[$rowNum][$colName] = CargoUtils::smartParse( $value, null );
+			}
+		}
+		return $parsedQueryResults;
+	}
+
+	function displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues ) {
 		header( "Content-Type: text/csv" );
 		header( "Content-Disposition: attachment; filename=$filename" );
 
@@ -347,6 +364,9 @@ class CargoExport extends UnlistedSpecialPage {
 		$allHeaders = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
+			if ( $parseValues ) {
+				$queryResults = $this->parseWikitextInQueryResults( $queryResults );
+			}
 			$allHeaders = array_merge( $allHeaders, array_keys( reset( $queryResults ) ) );
 			$queryResultsArray[] = $queryResults;
 		}
@@ -379,10 +399,13 @@ class CargoExport extends UnlistedSpecialPage {
 		fclose( $out );
 	}
 
-	function displayExcelData( $sqlQueries, $filename ) {
+	function displayExcelData( $sqlQueries, $filename, $parseValues ) {
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
+		if ( $parseValues ) {
+			$queryResults = $this->parseWikitextInQueryResults( $queryResults );
+		}
 
 		$file = new PHPExcel();
 		$file->setActiveSheetIndex( 0 );
@@ -401,12 +424,15 @@ class CargoExport extends UnlistedSpecialPage {
 		$writer->save( 'php://output' );
 	}
 
-	function displayJSONData( $sqlQueries ) {
+	function displayJSONData( $sqlQueries, $parseValues ) {
 		header( "Content-Type: application/json" );
 
 		$allQueryResults = array();
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
+			if ( $parseValues ) {
+				$queryResults = $this->parseWikitextInQueryResults( $queryResults );
+			}
 
 			// Turn "List" fields into arrays.
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $fieldDescription ) {
@@ -423,6 +449,12 @@ class CargoExport extends UnlistedSpecialPage {
 
 			$allQueryResults = array_merge( $allQueryResults, $queryResults );
 		}
-		print json_encode( $allQueryResults, JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT );
+
+		if ( $parseValues ) {
+			$jsonOptions = JSON_PRETTY_PRINT;
+		} else {
+			$jsonOptions = JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT;
+		}
+		print json_encode( $allQueryResults, $jsonOptions );
 	}
 }
