@@ -155,7 +155,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			$width = "700px";
 		}
 
-		// The 'map data' div does double duty: it holds the full
+		// The 'map data' element does double duty: it holds the full
 		// set of map data, as well as, in the tag attributes,
 		// settings related to the display, including the mapping
 		// service to use.
@@ -167,15 +167,15 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		if ( array_key_exists( 'zoom', $displayParams ) ) {
 			$mapDataAttrs['zoom'] = $displayParams['zoom'];
 		}
-		$mapDataDiv = Html::element( 'div', $mapDataAttrs, $jsonData );
+		$mapData = Html::element( 'span', $mapDataAttrs, $jsonData );
 
-		$text = <<<END
-	<div style="height: $height; width: $width" class="mapCanvas" id="$divID">
-		$mapDataDiv
-	</div>
-
-END;
-		return $text;
+		$mapCanvasAttrs = array(
+			'class' => 'mapCanvas',
+			'style' => "height: $height; width: $width;",
+			'id' => $divID,
+		);
+		$mapCanvas = Html::rawElement( 'div', $mapCanvasAttrs, $mapData );
+		return $mapCanvas;
 	}
 
 }
