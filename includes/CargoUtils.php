@@ -685,23 +685,16 @@ class CargoUtils {
 	}
 
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
-		global $wgCargoDBtype;
-
-		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
-		// in the MediaWiki DB API, so we have to call SQL directly.
 		$cdb->begin();
 		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
 		$dbType = $cdb->getType();
-		$intTypeString = self::fieldTypeToSQLType( 'Integer', $dbType );
-		$stringTypeString = self::fieldTypeToSQLType( 'String', $dbType );
-		$textTypeString = self::fieldTypeToSQLType( 'Text', $dbType );
-
-		$createSQL = "CREATE TABLE $cdbTableName ( " .
-			$cdb->addIdentifierQuotes( '_ID' ) . " $intTypeString NOT NULL UNIQUE, " .
-			$cdb->addIdentifierQuotes( '_pageName' ) . " $stringTypeString NOT NULL, " .
-			$cdb->addIdentifierQuotes( '_pageTitle' ) . " $stringTypeString NOT NULL, " .
-			$cdb->addIdentifierQuotes( '_pageNamespace' ) . " $intTypeString NOT NULL, " .
-			$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString NOT NULL";
+		$fieldsInMainTable = array(
+			'_ID' => 'Integer',
+			'_pageName' => 'String',
+			'_pageTitle' => 'String',
+			'_pageNamespace' => 'Integer',
+			'_pageID' => 'Integer',
+		);
 
 		$containsSearchTextType = false;
 		$containsFileType = false;
@@ -715,65 +708,26 @@ class CargoUtils {
 				// instead, we'll have one called
 				// fieldName + '__full', and a separate table
 				// for holding each value.
-				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__full' ) . ' ';
 				// The field holding the full list will always
 				// just be text - and it could be long.
-				$createSQL .= $textTypeString;
+				$fieldsInMainTable[$fieldName . '__full'] = 'Text';
 			} else {
-				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName ) . ' ';
-				$createSQL .= self::fieldTypeToSQLType( $fieldType, $dbType, $size );
-			}
-
-			if ( $fieldDescription->mIsMandatory ) {
-				$createSQL .= ' NOT NULL';
-			}
-			if ( $fieldDescription->mIsUnique ) {
-				$createSQL .= ' UNIQUE';
+				$fieldsInMainTable[$fieldName] = $fieldDescription;
 			}
 
 			if ( !$isList && $fieldType == 'Coordinates' ) {
-				$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
-				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__lat' ) . ' ';
-				$createSQL .= $floatTypeString;
-				$createSQL .= ', ' . $cdb->addIdentifierQuotes( $fieldName . '__lon' ) . ' ';
-				$createSQL .= $floatTypeString;
+				$fieldsInMainTable[$fieldName . '__lat'] = 'Float';
+				$fieldsInMainTable[$fieldName . '__lon'] = 'Float';
 			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
-				$createSQL .= ", " . $cdb->addIdentifierQuotes( $fieldName . '__precision' ) . ' ';
-				$createSQL .= $intTypeString;
+				$fieldsInMainTable[$fieldName . '__precision'] = 'Integer';
 			} elseif ( $fieldType == 'Searchtext' ) {
-				$createSQL .= ", FULLTEXT KEY $fieldName (" . $cdb->addIdentifierQuotes( $fieldName ) . ')';
 				$containsSearchTextType = true;
 			} elseif ( $fieldType == 'File' ) {
 				$containsFileType = true;
 			}
 		}
-		$createSQL .= ' )';
 
-		// For MySQL 5.6 and earlier, only MyISAM supports 'FULLTEXT'
-		// indexes; InnoDB does not.
-		if ( $containsSearchTextType && $wgCargoDBtype == 'mysql' ) {
-			$createSQL .= ' ENGINE=MyISAM';
-		}
-
-		// $cdb->ignoreErrors( true );
-		$cdb->query( $createSQL );
-		// $cdb->ignoreErrors( false );
-
-		$createIndexSQL = "CREATE INDEX page_id_$tableName ON " . $cdb->tableName( $tableName ) .
-			' (' . $cdb->addIdentifierQuotes( '_pageID' ) . ')';
-		$cdb->query( $createIndexSQL );
-		$createIndexSQL2 = "CREATE INDEX page_name_$tableName ON " . $cdb->tableName( $tableName ) .
-			' (' . $cdb->addIdentifierQuotes( '_pageName' ) . ')';
-		$cdb->query( $createIndexSQL2 );
-		$createIndexSQL3 = "CREATE INDEX page_title_$tableName ON " . $cdb->tableName( $tableName ) .
-			' (' . $cdb->addIdentifierQuotes( '_pageTitle' ) . ')';
-		$cdb->query( $createIndexSQL3 );
-		$createIndexSQL4 = "CREATE INDEX page_namespace_$tableName ON " . $cdb->tableName( $tableName )
-			. ' (' . $cdb->addIdentifierQuotes( '_pageNamespace' ) . ')';
-		$cdb->query( $createIndexSQL4 );
-		$createIndexSQL5 = "CREATE UNIQUE INDEX id_$tableName ON " . $cdb->tableName( $tableName ) .
-			' (' . $cdb->addIdentifierQuotes( '_ID' ) . ')';
-		$cdb->query( $createIndexSQL5 );
+		self::createTable( $cdb, $tableName, $fieldsInMainTable );
 
 		// Now also create tables for each of the 'list' fields,
 		// if there are any.
@@ -781,48 +735,34 @@ class CargoUtils {
 		$fieldHelperTableNames = array(); // Names of tables that store metadata regarding template or fields
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsList ) {
-				// The double underscore in this table name should
-				// prevent anyone from giving this name to a "real"
-				// table.
+				// The double underscore in this table name
+				// should prevent anyone from giving this name
+				// to a "real" table.
 				$fieldTableName = $tableName . '__' . $fieldName;
 				$cdb->dropTable( $fieldTableName );
+
+				$fieldsInTable = array( '_rowID' => 'Integer' );
 				$fieldType = $fieldDescription->mType;
-				$createSQL = "CREATE TABLE " .
-					$cdb->tableName( $fieldTableName ) . ' ( ' .
-					$cdb->addIdentifierQuotes( '_rowID' ) . " $intTypeString, ";
 				if ( $fieldType == 'Coordinates' ) {
-					$floatTypeString = self::fieldTypeToSQLType( 'Float', $dbType );
-					$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . " $floatTypeString, ";
-					$createSQL .= $cdb->addIdentifierQuotes( '_lat' ) . " $floatTypeString, ";
-					$createSQL .= $cdb->addIdentifierQuotes( '_lon' ) . " $floatTypeString";
+					$fieldsInTable['_lat'] = 'Float';
+					$fieldsInTable['_lon'] = 'Float';
 				} else {
-					$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size );
+					$fieldsInTable['_value'] = $fieldType;
 				}
-				$createSQL .= ' )';
-				$cdb->query( $createSQL );
-				$createIndexSQL = 'CREATE INDEX ' .
-					$cdb->addIdentifierQuotes( "row_id_$fieldTableName" ) . ' ON ' .
-					$cdb->tableName( $fieldTableName ) .
-					' (' . $cdb->addIdentifierQuotes( '_rowID' ) . ')';
-				$cdb->query( $createIndexSQL );
-				$fieldTableNames[] = $tableName . '__' . $fieldName;
+				self::createTable( $cdb, $fieldTableName, $fieldsInTable );
+				$fieldTableNames[] = $fieldTableName;
 			}
 			if ( $fieldDescription->mIsHierarchy ) {
 				$fieldHelperTableName = $tableName . '__' . $fieldName . '__hierarchy';
 				$cdb->dropTable( $fieldHelperTableName );
 				$fieldType = $fieldDescription->mType;
-				$createSQL = "CREATE TABLE " . $cdb->tableName( $fieldHelperTableName ) . ' ( ';
-				$createSQL .= $cdb->addIdentifierQuotes( '_value' ) . ' ' . self::fieldTypeToSQLType( $fieldType, $dbType, $size ) . ", ";
-				$createSQL .= $cdb->addIdentifierQuotes( '_left' ) . " $intTypeString, ";
-				$createSQL .= $cdb->addIdentifierQuotes( '_right' ) . " $intTypeString ";
-				$createSQL .= ' )';
-				$cdb->query( $createSQL );
-				$createIndexSQL = 'CREATE INDEX ' . $cdb->addIdentifierQuotes( "nested_set_$fieldHelperTableName" ) . ' ON ';
-				$createIndexSQL .= $cdb->tableName( $fieldHelperTableName ) . ' (';
-				$createIndexSQL .= $cdb->addIdentifierQuotes( '_value' ) . ', ';
-				$createIndexSQL .= $cdb->addIdentifierQuotes( '_left' ) . ', ';
-				$createIndexSQL .= $cdb->addIdentifierQuotes( '_right' ) . ')';
-				$cdb->query( $createIndexSQL );
+				$fieldsInTable = array(
+					'_value' => $fieldType,
+					'_left' => 'Integer',
+					'_right' => 'Integer',
+				);
+				self::createTable( $cdb, $fieldHelperTableName, $fieldsInTable, true );
+
 				$fieldHelperTableNames[] = $fieldHelperTableName;
 				// Insert hierarchy information in the __hierarchy table
 				$hierarchyTree = CargoHierarchyTree::newFromWikiText( $fieldDescription->mHierarchyStructure );
@@ -838,15 +778,13 @@ class CargoUtils {
 		if ( $containsFileType ) {
 			$fileTableName = $tableName . '___files';
 			$cdb->dropTable( $fileTableName );
-			$fieldType = $fieldDescription->mType;
-			$createSQL = "CREATE TABLE " .
-				$cdb->tableName( $fileTableName ) . ' ( ' .
-				$cdb->addIdentifierQuotes( '_pageName' ) . " $stringTypeString, " .
-				$cdb->addIdentifierQuotes( '_pageID' ) . " $intTypeString, " .
-				$cdb->addIdentifierQuotes( '_fieldName' ) . " $stringTypeString, " .
-				$cdb->addIdentifierQuotes( '_fileName' ) . " $stringTypeString";
-			$createSQL .= ' )';
-			$cdb->query( $createSQL );
+			$fieldsInTable = array(
+				'_pageName' => 'String',
+				'_pageID' => 'Integer',
+				'_fieldName' => 'String',
+				'_fileName' => 'String'
+			);
+			self::createTable( $cdb, $fileTableName, $fieldsInTable );
 		}
 
 		// End transaction and apply DB changes.
@@ -860,6 +798,91 @@ class CargoUtils {
 			'field_helper_tables' => serialize( $fieldHelperTableNames ),
 			'table_schema' => $tableSchemaString
 		) );
+	}
+
+	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
+		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
+		// in the MediaWiki DB API, so we have to call SQL directly.
+		$dbType = $cdb->getType();
+		$sqlTableName = $cdb->tableName( $tableName );
+		$createSQL = "CREATE TABLE $sqlTableName ( ";
+		$containsSearchTextType = false;
+		$firstField = true;
+		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
+			$fieldOptionsText = '';
+			if ( is_object( $fieldDescOrType ) ) {
+				$fieldType = $fieldDescOrType->mType;
+				$fieldSize = $fieldDescOrType->mSize;
+				$sqlType = self::fieldTypeToSQLType( $fieldType, $dbType, $fieldSize );
+
+				if ( $fieldDescOrType->mIsMandatory ) {
+					$fieldOptionsText .= ' NOT NULL';
+				}
+				if ( $fieldDescOrType->mIsUnique ) {
+					$fieldOptionsText .= ' UNIQUE';
+				}
+			} else {
+				$fieldType = $fieldDescOrType;
+				$sqlType = self::fieldTypeToSQLType( $fieldType, $dbType );
+				if ( $fieldName == '_ID' ) {
+					$fieldOptionsText .= ' NOT NULL';
+					$fieldOptionsText .= ' UNIQUE';
+				}
+			}
+			if ( $firstField ) {
+				$firstField = false;
+			} else {
+				$createSQL .= ', ';
+			}
+			$sqlFieldName = $cdb->addIdentifierQuotes( $fieldName );
+			$createSQL .= "$sqlFieldName $sqlType $fieldOptionsText";
+			if ( $fieldType == 'Searchtext' ) {
+				$containsSearchTextType = true;
+				$createSQL .= ", FULLTEXT KEY $fieldName ( $sqlFieldName )";
+			}
+		}
+		$createSQL .= ' )';
+		// For MySQL 5.6 and earlier, only MyISAM supports 'FULLTEXT'
+		// indexes; InnoDB does not.
+		if ( $containsSearchTextType && $dbType == 'mysql' ) {
+			$createSQL .= ' ENGINE=MyISAM';
+		}
+		$cdb->query( $createSQL );
+
+		// Add an index for any field that's not of type Text,
+		// Searchtext or Wikitext.
+		$indexedFields = array();
+		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
+			if ( is_object( $fieldDescOrType ) ) {
+				$fieldType = $fieldDescOrType->mType;
+			} else {
+				$fieldType = $fieldDescOrType;
+			}
+			if ( in_array( $fieldType, array( 'Text', 'Searchtext', 'Wikitext' ) ) ) {
+				continue;
+			}
+			$indexedFields[] = $fieldName;
+		}
+
+		if ( $multipleColumnIndex ) {
+			$indexName = "nested_set_$tableName";
+			$sqlFieldNames = array_map(
+				array( $cdb, 'addIdentifierQuotes' ),
+				$indexedFields
+			);
+			$sqlFieldNamesStr = implode( ', ', $sqlFieldNames );
+			$createIndexSQL = "CREATE INDEX $indexName ON " .
+				"$sqlTableName ($sqlFieldNamesStr)";
+			$cdb->query( $createIndexSQL );
+		} else {
+			foreach ( $indexedFields as $fieldName ) {
+				$indexName = $fieldName . '_' . $tableName;
+				$sqlFieldName = $cdb->addIdentifierQuotes( $fieldName );
+				$createIndexSQL = "CREATE INDEX $indexName ON " .
+					"$sqlTableName ($sqlFieldName)";
+				$cdb->query( $createIndexSQL );
+			}
+		}
 	}
 
 	public static function fullTextMatchSQL( $cdb, $tableName, $fieldName, $searchTerm ) {
