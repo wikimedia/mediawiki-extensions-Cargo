@@ -120,6 +120,7 @@
 	"cargo-drilldown-mapformat": "Map",
 	"cargo-drilldown-timelineformat": "Timeline",
 	"cargo-drilldown-galleryformat": "Gallery",
+	"cargo-drilldown-calendarformat": "Calendar",
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "View CSV",
 	"cargo-viewxls": "View XLS",

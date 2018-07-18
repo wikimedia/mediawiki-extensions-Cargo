@@ -86,6 +86,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 		$coordsFields = array();
 		$dateFields = array();
+		$calendarFields = array();
 		$fileFields = array();
 		$dependentFieldsArray = array();
 		foreach ( $tableSchemas[$mainTable]->mFieldDescriptions as $fieldName => $fieldDescription ) {
@@ -136,6 +137,18 @@ class CargoDrilldown extends IncludableSpecialPage {
 				if ( ( $tableName == $mainTable || $drilldownTabsParams ) && ( $fieldDescription->mType == 'Date' ||
 						$fieldDescription->mType == 'Datetime' ) ) {
 					$dateFields[] = $fieldName;
+					$cdb = CargoUtils::getDB();
+					// if no of events is more than 4 per month (i.e average days per event < 8),
+					// then calendar format is displayed for that field's result.
+					if ( $cdb->tableExists( $tableName ) ) {
+						$res =
+							$cdb->select( $tableName,
+								"DATEDIFF(MAX($fieldName), MIN($fieldName))/ count(*) as avgDaysPerEvent" );
+						$row = $cdb->fetchRow( $res );
+						if ( $row['avgDaysPerEvent'] < 8 ) {
+							$calendarFields[$fieldName] = '';
+						}
+					}
 				}
 				$all_filters[] =
 					new CargoFilter( $fieldName, $tableAlias, $tableName, $fieldDescription,
@@ -226,8 +239,8 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$rep =
 			new CargoDrilldownPage( $mainTable, $parentTables, $drilldownTabsParams, $all_filters,
 				$applied_filters, $remaining_filters, $fullTextSearchTerm, $coordsFields,
-				$dateFields, $fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray,
-				$offset, $limit, $format, $formatBy, $curTabName );
+				$dateFields, $calendarFields, $fileFields, $searchablePages, $searchableFiles,
+				$dependentFieldsArray, $offset, $limit, $format, $formatBy, $curTabName );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -260,6 +273,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $fullTextSearchTerm;
 	public $coordsFields;
 	public $dateFields;
+	public $calendarFields;
 	public $fileFields;
 	public $sqlQuery;
 	public $searchablePages;
@@ -284,9 +298,9 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $limit
 	 */
 	function __construct( $tableName, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
-			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $fileFields,
-			$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format,
-			$formatBy, $curTabName ) {
+			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields,
+			$fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit,
+			$format, $formatBy, $curTabName ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -299,6 +313,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->fullTextSearchTerm = $fullTextSearchTerm;
 		$this->coordsFields = $coordsFields;
 		$this->dateFields = $dateFields;
+		$this->calendarFields = $calendarFields;
 		$this->fileFields = $fileFields;
 		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
@@ -384,6 +399,11 @@ class CargoDrilldownPage extends QueryPage {
 		}
 		if ( $attributes ) {
 			foreach ( $attributes as $attribute => $value ) {
+				if ( $attribute == 'tab' ) {
+					if ( $value == key( $this->drilldownTabsParams ) ) {
+						continue;
+					}
+				}
 				if ( $attribute == 'limit' ) {
 					if ( $value == 250 ) {
 						continue;
@@ -669,6 +689,7 @@ END;
 			} else {
 				$filter_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 					$applied_filters, array(),
+					( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 					array( 'href' => $filter_url,
@@ -699,6 +720,7 @@ END;
 		}
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 			$applied_filters_no_hierarchy, array(),
+			( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		// Drilldown for hierarchy is designed for literal 'drilldown'
@@ -1052,6 +1074,7 @@ END;
 		// removed.
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 			$this->applied_filters, array( $filter_name ),
+			( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
@@ -1316,6 +1339,7 @@ END;
 			// If $cur_url wasn't passed in, we have to create it.
 			$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 				$this->applied_filters, array( $f->name ),
+				( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		}
@@ -1413,6 +1437,7 @@ END;
 		if ( count( $this->applied_filters ) > 0 || $this->fullTextSearchTerm != null ) {
 			$tableURL =
 				$this->makeBrowseURL( $this->tableName, null, array(), array(),
+					( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
 								   $this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
@@ -1427,7 +1452,8 @@ END;
 
 			$remove_filter_url = $this->makeBrowseURL( $this->tableName, null,
 				$this->applied_filters, array(),
-				array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
+					( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
+					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 			$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' .
 				$this->fullTextSearchTerm .
 				'\'</span> <a href="' . $remove_filter_url . '" title="' .
@@ -1455,6 +1481,7 @@ END;
 				$remove_filter_url = $this->makeBrowseURL( $this->tableName,
 					$this->fullTextSearchTerm, $temp_filters_array,
 					$this->dependentFieldsArray[$af->filter->tableName . '.' . $af->filter->name],
+					( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 					array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				array_splice( $temp_filters_array, $i, 0 );
 				if ( $af->filter->tableAlias == $this->tableAlias ) {
@@ -1489,10 +1516,12 @@ END;
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
 						$this->fullTextSearchTerm, $temp_filters_array,
 						$this->dependentFieldsArray[$af->filter->tableName . '.' . $af->filter->name],
+						( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				} else {
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
 						$this->fullTextSearchTerm, $temp_filters_array, array(),
+						( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 				}
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
@@ -1516,6 +1545,7 @@ END;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
 					$remove_filter_url = $this->makeBrowseURL( $this->tableName,
 						$this->fullTextSearchTerm, $temp_filters_array, array(),
+						( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 						array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
 					$appliedFiltersHTML .= "\n\t" . "<span class=\"drilldown-header-value\">~ '" .
@@ -1545,6 +1575,7 @@ END;
 		$filtersHTML = "				<div class=\"drilldown-filters\">\n";
 		$cur_url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 			$this->applied_filters, array(),
+			( $this->drilldownTabsParams ) ? array( 'tab' => $this->curTabName ) :
 			array( 'format' => $this->format, 'formatBy' => $this->formatBy ) );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
@@ -1916,6 +1947,9 @@ END;
 				}
 				$isDeferred = $formatClass::isDeferred();
 				$fields = $currentTabParams['fields'];
+				$calendarFieldFound = false;
+				$coordsFieldFound = false;
+				$fileFieldFound = false;
 				foreach ( $fields as $fieldAlias => $field ) {
 					$fieldPartTableAlias = $this->tableAlias;
 					$fieldPartTableName = $this->tableName;
@@ -1934,7 +1968,8 @@ END;
 					}
 					if ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) {
 						foreach ( $this->coordsFields as $tableAlias => $coordsField ) {
-							if ( $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
+							if ( !$coordsFieldFound && $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
+								$coordsFieldFound = true;
 								$coordsFieldTableName = $fieldPartTableName;
 								$coordsFieldTableAlias = $fieldPartTableAlias;
 								$coordsFieldName = $field;
@@ -1943,7 +1978,8 @@ END;
 						}
 					} elseif ( $this->format == 'gallery' ) {
 						foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
-							if ( $field == $fieldName ) {
+							if ( !$fileFieldFound && $field == $fieldName ) {
+								$fileFieldFound = true;
 								$fileFieldTableName = $fieldPartTableName;
 								$fileFieldTableAlias = $fieldPartTableAlias;
 								$fileFieldName = $field;
@@ -1961,6 +1997,15 @@ END;
 								CargoUtils::escapedFieldName( $cdb,
 									array( $fieldPartTableAlias => $fieldPartTableName ), $field );
 							$fieldsStr[] = $fieldPartTableAlias . '.' . $field;
+						}
+					}
+					if ( $this->format == 'calendar' ) {
+						foreach ( $this->dateFields as $dateField ) {
+							if ( !$calendarFieldFound && $dateField == $field ) {
+								$calendarFieldFound = true;
+								$calendarFieldName = $field;
+								$calendarFieldTableAlias = $fieldPartTableAlias;
+							}
 						}
 					}
 				}
@@ -2025,6 +2070,27 @@ END;
 					} else {
 						$fieldsStr[] = $fileFieldTableAlias . '.' . $fileFieldName;
 					}
+				}
+			}
+		}
+		if ( $this->format == 'calendar' ) {
+			if ( !$this->drilldownTabsParams ) {
+				$calendarFieldName = $this->formatBy;
+				$calendarFieldTableAlias = $this->tableAlias;
+			}
+			$res =
+				$cdb->select( $tableNames,
+					"MAX( $calendarFieldTableAlias.$calendarFieldName ) as start_date", $conds,
+					null, array(), $joinConds );
+			$row = $cdb->fetchRow( $res );
+			if ( $row['start_date'] ) {
+				if ( $this->drilldownTabsParams ) {
+					if ( !array_key_exists( 'start date', $currentTabParams ) ) {
+						$currentTabParams['start_date'] = $row['start_date'];
+						$this->drilldownTabsParams[$this->curTabName] = $currentTabParams;
+					}
+				} else {
+					$this->calendarFields[$this->formatBy] = $row['start_date'];
 				}
 			}
 		}
@@ -2232,6 +2298,17 @@ END;
 					), $this->msg( 'cargo-drilldown-timelineformat' )->text() . ': ' .
 					   str_replace( '_', ' ', $dateField ) ) );
 				}
+				foreach ( $this->calendarFields as $calendarField => $startDate ) {
+					$tabs .= Html::rawElement( 'li', array(
+						'role' => 'presentation',
+						'class' => ( $this->format == 'calendar' && $calendarField == $this->formatBy )
+							? 'selected' : null,
+					), Html::rawElement( 'a', array(
+						'role' => 'tab',
+						'href' => $url . 'format=calendar&formatBy=' . $calendarField,
+					), $this->msg( 'cargo-drilldown-calendarformat' )->text() . ': ' .
+					   str_replace( '_', ' ', $calendarField ) ) );
+				}
 				foreach ( $this->fileFields as $fileField => $fieldDescription ) {
 					$tabs .= Html::rawElement( 'li', array(
 						'role' => 'presentation',
@@ -2304,6 +2381,13 @@ END;
 			return;
 		} else {
 			$displayParams = array();
+			if ( $this->format == 'calendar' ) {
+				if ( $this->drilldownTabsParams ) {
+					$displayParams['start date'] = $currentTabParams['start_date'];
+				} else {
+					$displayParams['start date'] = $this->calendarFields[$this->formatBy];
+				}
+			}
 			if ( $this->drilldownTabsParams ) {
 				foreach ( $currentTabParams as $parameter => $value ) {
 					if ( is_string( $value ) ) {

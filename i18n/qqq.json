@@ -126,6 +126,7 @@
 	"cargo-drilldown-mapformat": "Tab value for map format\n{{Identical|Map}}",
 	"cargo-drilldown-timelineformat": "Tab value for timeline format",
 	"cargo-drilldown-galleryformat": "Tab value for gallery format\n{{Identical|Gallery}}",
+	"cargo-drilldown-calendarformat": "Tab value for calendar format",
 	"cargo-drilldown-gallerycaption": "Caption for the images. Parameters:\n* $1 - page Name",
 	"cargo-viewcsv": "The text of a link.",
 	"cargo-viewxls": "The text of a link.",
