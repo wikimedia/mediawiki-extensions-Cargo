@@ -117,6 +117,7 @@ class CargoHooks {
 		}
 
 		if ( $skinTemplate->getUser()->isAllowed( 'purge' ) ) {
+			$skinTemplate->getOutput()->addModules( 'ext.cargo.purge' );
 			$links['actions']['cargo-purge'] = array(
 				'class' => false,
 				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),

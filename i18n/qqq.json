@@ -144,6 +144,7 @@
 	"cargo-dynamictables-togglecolumns": "Label for toggle columns in dynamic tables",
 	"cargo-dynamictables-searchcolumn": "Placeholder for searchable columns. Parameters:\n* $1 - field Name",
 	"cargo-purgecache": "The name of a tab; the \"cache\" is the MediaWiki page cache.",
+	"cargo-purgecache-failed": "Message displayed if the cache was unable to be purged for any reason.",
 	"specialpages-group-cargo": "{{Doc-special-group|that=are related to the extension Cargo}}\n{{doc-cargo}}",
 	"cargo-pageschemas-cargofield": "The label for the input field of the database column.",
 	"cargo-pageschemas-tablename": "The label for the input field of the database table name."

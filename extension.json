@@ -139,6 +139,10 @@
 				"hide"
 			]
 		},
+		"ext.cargo.purge": {
+			"scripts": "libs/ext.cargo.purge.js",
+			"messages": "cargo-purgecache-failed"
+		},
 		"ext.cargo.recreatedata": {
 			"scripts": [
 				"libs/ext.cargo.js",
