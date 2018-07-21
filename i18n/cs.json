@@ -4,7 +4,8 @@
 			"Cvanca",
 			"Dvorapa",
 			"Ilimanaq29",
-			"Matěj Suchánek"
+			"Matěj Suchánek",
+			"DoubyCz"
 		]
 	},
 	"apihelp-cargoquery-param-offset": "Posun požadavku",
@@ -18,5 +19,6 @@
 	"cargo-viewdata-defaultformat": "Výchozí",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
 	"cargo-drilldown-othervalues": "Další hodnoty:",
+	"cargo-drilldown-calendarformat": "Kalendář",
 	"cargo-pageschemas-tablename": "Název tabulky:"
 }

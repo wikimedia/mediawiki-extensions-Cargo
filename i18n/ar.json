@@ -4,7 +4,8 @@
 			"Esraa Ismail",
 			"محمد أحمد عبد الفتاح",
 			"ديفيد",
-			"Sonic N800"
+			"Sonic N800",
+			"Meno25"
 		]
 	},
 	"cargo-desc": "تخزين واستعلام بيانات القالب",
@@ -124,6 +125,7 @@
 	"cargo-drilldown-mapformat": "خريطة",
 	"cargo-drilldown-timelineformat": "الجدول الزمني",
 	"cargo-drilldown-galleryformat": "المعرض",
+	"cargo-drilldown-calendarformat": "نتيجة",
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-viewjson": "عرض جسون",

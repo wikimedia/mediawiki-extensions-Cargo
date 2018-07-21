@@ -121,6 +121,7 @@
 	"cargo-drilldown-mapformat": "Mapa",
 	"cargo-drilldown-timelineformat": "Linha do tempo",
 	"cargo-drilldown-galleryformat": "Galeria",
+	"cargo-drilldown-calendarformat": "Calendário",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",

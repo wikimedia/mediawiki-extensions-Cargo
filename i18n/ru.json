@@ -7,7 +7,8 @@
 			"Irus",
 			"Sunpriat",
 			"Smigles",
-			"Redredsonia"
+			"Redredsonia",
+			"Vlad5250"
 		]
 	},
 	"cargo-viewdata-having": "Имеющие:",
@@ -20,6 +21,7 @@
 	"cargo-drilldown-pagetext": "Текст страницы",
 	"cargo-drilldown-filename": "Имя файла",
 	"cargo-drilldown-filetext": "Текстовый файл",
+	"cargo-drilldown-calendarformat": "Календарь",
 	"cargo-pageschemas-cargofield": "Поле груза",
 	"cargo-pageschemas-tablename": "Имя таблицы:"
 }
