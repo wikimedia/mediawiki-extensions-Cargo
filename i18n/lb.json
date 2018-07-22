@@ -51,6 +51,7 @@
 	"cargo-drilldown-mapformat": "Kaart",
 	"cargo-drilldown-timelineformat": "Chronologie",
 	"cargo-drilldown-galleryformat": "Galerie",
+	"cargo-drilldown-calendarformat": "Kalenner",
 	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
 	"cargo-viewjson": "JSON weisen",

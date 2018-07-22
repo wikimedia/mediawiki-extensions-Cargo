@@ -7,5 +7,6 @@
 	"cargo-viewdata-defaultformat": "پہلے کنوں طے تھیا ہویا",
 	"cargo-drilldown-mapformat": "نقشہ",
 	"cargo-drilldown-timelineformat": "ٹائم لائن",
-	"cargo-drilldown-galleryformat": "گیلری"
+	"cargo-drilldown-galleryformat": "گیلری",
+	"cargo-drilldown-calendarformat": "کیلنڈر"
 }
