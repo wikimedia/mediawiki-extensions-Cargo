@@ -25,7 +25,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 			$fieldColumnName = '_value';
 			if ( !array_key_exists( $fieldTableAlias, $joinConds ) ) {
 				$joinConds[$fieldTableAlias] = CargoUtils::joinOfMainAndFieldTable( $cdb,
-					array( $f->tableAlias => $f->tableName ), $fieldTableName );
+					array( $f->tableAlias => $f->tableName ), array( $fieldTableAlias => $fieldTableName ) );
 			}
 		} else {
 			$fieldColumnName = $f->name;

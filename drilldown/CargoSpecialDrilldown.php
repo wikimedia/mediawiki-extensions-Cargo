@@ -1902,39 +1902,6 @@ END;
 		} else {
 			$aliasedFieldNames = array();
 		}
-		if ( $this->fullTextSearchTerm != null ) {
-			$fileDataTableName = '_fileData';
-			$fileDataTableAlias = strtolower( $fileDataTableName );
-			$pageDataTableName = '_pageData';
-			$pageDataTableAlias = strtolower( $pageDataTableName );
-			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
-				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, array( $fileDataTableAlias => $fileDataTableName ),
-					'_fullText' );
-				$aliasedFieldNames['foundFileMatch'] = '1';
-				$fieldsStr[] = "$fileDataTableAlias._fullText=fileText";
-			} else {
-				$aliasedFieldNames['pageText'] = CargoUtils::escapedFieldName( $cdb, array( $pageDataTableAlias => $pageDataTableName ), '_fullText' );
-				$fieldsStr[] = "$pageDataTableAlias._fullText=Page Text";
-			}
-			if ( $this->searchableFiles ) {
-				$aliasedFieldNames['fileName'] = CargoUtils::escapedFieldName( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_pageName' );
-				$fieldsStr[] = "$fileDataTableAlias._pageName=fileName";
-				$aliasedFieldNames['fileText'] = CargoUtils::escapedFieldName( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText' );
-				$fieldsStr[] = "$fileDataTableAlias._fullText=fileText";
-				// @HACK - the result set may contain both
-				// pages and files that match the search term.
-				// So how do we know, for each result row,
-				// whether it's for a page or a file? We add
-				// the "match on file" clause as a (boolean)
-				// query field. There may be a more efficient
-				// way to do this, using SQL variables or
-				// something.
-				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
-			}
-		}
-		$havingStr = null;
-		$limitStr = $this->limit;
-		$offsetStr = $this->offset;
 		if ( $this->drilldownTabsParams ) {
 			if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
 				$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
@@ -2094,6 +2061,44 @@ END;
 				}
 			}
 		}
+		if ( $this->fullTextSearchTerm != null ) {
+			$fileDataTableName = '_fileData';
+			$fileDataTableAlias = strtolower( $fileDataTableName );
+			$pageDataTableName = '_pageData';
+			$pageDataTableAlias = strtolower( $pageDataTableName );
+			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
+				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->text();
+				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
+					$fileDataTableAlias => $fileDataTableName ),
+					'_fullText' );
+				$aliasedFieldNames['foundFileMatch'] = '1';
+				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
+			} else {
+				$pageTextAlias = $this->msg( 'cargo-drilldown-pagetext' )->text();
+				$aliasedFieldNames[$pageTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
+					$pageDataTableAlias => $pageDataTableName ), '_fullText' );
+				$fieldsStr[] = "$pageDataTableAlias._fullText=$pageTextAlias";
+			}
+			if ( $this->searchableFiles ) {
+				$fileNameAlias = $this->msg( 'cargo-drilldown-filename' )->text();
+				$aliasedFieldNames[$fileNameAlias] = CargoUtils::escapedFieldName( $cdb, array(
+					$fileDataTableAlias => $fileDataTableName ), '_pageName' );
+				$fieldsStr[] = "$fileDataTableAlias._pageName=$fileNameAlias";
+				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->text();
+				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
+					$fileDataTableAlias => $fileDataTableName ), '_fullText' );
+				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
+				// @HACK - the result set may contain both
+				// pages and files that match the search term.
+				// So how do we know, for each result row,
+				// whether it's for a page or a file? We add
+				// the "match on file" clause as a (boolean)
+				// query field. There may be a more efficient
+				// way to do this, using SQL variables or
+				// something.
+				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
+			}
+		}
 		$queryOptions['GROUP BY'] =
 			array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
 		$tablesStr = '';
@@ -2126,6 +2131,9 @@ END;
 		$groupByStr = $queryOptions['GROUP BY'];
 		$groupByStr = implode( ',', $groupByStr );
 		$orderByStr = $groupByStr;
+		$havingStr = null;
+		$limitStr = $this->limit;
+		$offsetStr = $this->offset;
 		$this->sqlQuery =
 			CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
