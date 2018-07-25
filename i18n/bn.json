@@ -27,5 +27,6 @@
 	"cargo-drilldown-filetext": "ফাইলের লেখা",
 	"cargo-drilldown-mapformat": "মানচিত্র",
 	"cargo-drilldown-timelineformat": "সময়ক্রম",
-	"cargo-drilldown-galleryformat": "চিত্রশালা"
+	"cargo-drilldown-galleryformat": "চিত্রশালা",
+	"cargo-drilldown-calendarformat": "পঞ্জিকা"
 }
