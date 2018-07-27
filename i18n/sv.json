@@ -29,6 +29,7 @@
 	"cargo-drilldown-mapformat": "Karta",
 	"cargo-drilldown-timelineformat": "Tidslinje",
 	"cargo-drilldown-galleryformat": "Galleri",
+	"cargo-drilldown-calendarformat": "Kalender",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
 	"cargo-pageschemas-cargofield": "Fraktområdet",

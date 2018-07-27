@@ -96,6 +96,7 @@
 	"cargo-drilldown-mapformat": "מפה",
 	"cargo-drilldown-timelineformat": "ציר זמן",
 	"cargo-drilldown-galleryformat": "גלריה",
+	"cargo-drilldown-calendarformat": "לוח שנה",
 	"cargo-viewcsv": "הצגת CSV",
 	"cargo-viewxls": "הצגת XLS",
 	"cargo-viewjson": "הצגת JSON",
