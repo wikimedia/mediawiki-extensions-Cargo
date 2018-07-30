@@ -472,9 +472,12 @@ class CargoUtils {
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
 			$parserOptions = new ParserOptions();
-			// Remove '<div class="mw-parser-output">' from around
-			// the value, if it was parsed.
-			$parserOptions->setWrapOutputClass( false );
+			if ( method_exists( $parserOptions, 'setWrapOutputClass' ) ) {
+				// Remove '<div class="mw-parser-output">' from around
+				// the value, if it was parsed - this class, and method,
+				// were both added in MW 1.30.
+				$parserOptions->setWrapOutputClass( false );
+			}
 			$parserOutput = $parser->parse( $value, $title, $parserOptions, false );
 			$value = $parserOutput->getText();
 		} else {
