@@ -291,6 +291,7 @@ $wgResourceModules += array(
 	'ext.cargo.datatables' => array(
 		'styles' => array(
 			'libs/DataTables/css/jquery.dataTables.css',
+			'libs/ext.cargo.datatables.css'
 		),
 		'scripts' => array(
 			'libs/DataTables/js/jquery.dataTables.js',

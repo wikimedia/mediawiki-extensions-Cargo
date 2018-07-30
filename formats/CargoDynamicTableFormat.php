@@ -63,14 +63,27 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		} else {
 			$pageLengthString = '';
 		}
+		$detailsFields = array();
+		$detailsFieldsString = '';
+		if ( array_key_exists( 'details fields', $displayParams ) ) {
+			$detailsFields = array_map( 'trim', explode( ',', $displayParams['details fields'] ) );
+			$detailsFieldsString = "data-details-fields=1";
+		}
 		$text = '';
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
 			$hiddenFields = array_map( 'trim', explode( ',', $displayParams['hidden fields'] ) );
 			$text .= wfMessage( 'cargo-dynamictables-togglecolumns' )->text() . ' ';
 			$matchFound = 0;
 			foreach ( $hiddenFields as $hiddenField ) {
-				$fieldNum = 0;
+				if ( $detailsFields ) {
+					$fieldNum = 1;
+				} else {
+					$fieldNum = 0;
+				}
 				foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+					if ( in_array( $fieldName, $detailsFields ) ) {
+						continue;
+					}
 					if ( $hiddenField == $fieldName ) {
 						if ( $matchFound++ > 0 ) {
 							$text .= ' - ';
@@ -85,14 +98,24 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 				}
 			}
 		}
+		$searchableColumns = false;
+		if ( array_key_exists( 'searchable columns', $displayParams ) ) {
+			$searchableColumns = strtolower( $displayParams['searchable columns'] ) == 'yes';
+		}
 
 		$text .= <<<END
-	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $dataOrderString $pageLengthString>
+	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $detailsFieldsString $dataOrderString $pageLengthString>
 		<thead>
 			<tr>
 
 END;
+		if ( $detailsFields ) {
+			$text .= Html::rawElement( 'th', array( 'class' => 'details-control' ), null );
+		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( in_array( $fieldName, $detailsFields ) ) {
+				continue;
+			}
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
 				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
 			} else {
@@ -109,11 +132,23 @@ END;
 
 END;
 
+		if ( $detailsFields ) {
+			$text .= Html::rawElement( 'th', array( 'class' => 'details-control' ), null );
+		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
-				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+			if ( in_array( $fieldName, $detailsFields ) ) {
+				continue;
+			}
+			if ( $searchableColumns ) {
+				$placeholder = wfMessage( 'cargo-dynamictables-searchcolumn', $fieldName )->parse();
+				$attribs = array( 'data-placeholder' => $placeholder );
 			} else {
-				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
+				$attribs = null;
+			}
+			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
+				$text .= "\t\t\t\t" . Html::element( 'th', $attribs, $fieldName );
+			} else {
+				$text .= "\t\t\t\t" . Html::element( 'th', $attribs, null );
 			}
 		}
 
@@ -126,16 +161,32 @@ END;
 END;
 
 		foreach ( $formattedValuesTable as $row ) {
-			$text .= "\t\t\t<tr>\n";
+			if ( $detailsFields ) {
+				$tableData = Html::rawElement( 'td', array( 'class' => 'details-control' ), null );
+			} else {
+				$tableData = '';
+			}
+			$details = '';
 			foreach ( array_keys( $fieldDescriptions ) as $field ) {
 				if ( array_key_exists( $field, $row ) ) {
 					$value = $row[$field];
 				} else {
 					$value = null;
 				}
-				$text .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
+				if ( in_array( $field, $detailsFields ) ) {
+					$detailsText = "\t\t\t\t" . Html::rawElement( 'td', null, "<strong>$field: </strong>" );
+					$detailsText .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
+					$details .= "\t\t\t" . Html::rawElement( 'tr', null,  $detailsText );
+				} else {
+					$tableData .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
+				}
 			}
-			$text .= "\t\t\t</tr>\n";
+			$detailsTable =
+				Html::rawElement( 'table', array( 'border' => '0', 'cellspacing' => '0' ),
+					Html::rawElement( 'tbody', null, $details ) );
+
+			$text .= Html::rawElement( 'tr', array( 'data-details' => $detailsTable ),
+				$tableData );
 		}
 
 		$text .= <<<END

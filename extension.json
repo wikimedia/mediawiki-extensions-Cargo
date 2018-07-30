@@ -219,7 +219,8 @@
 		},
 		"ext.cargo.datatables": {
 			"styles": [
-				"libs/DataTables/css/jquery.dataTables.css"
+				"libs/DataTables/css/jquery.dataTables.css",
+				"libs/ext.cargo.datatables.css"
 			],
 			"scripts": [
 				"libs/DataTables/js/jquery.dataTables.js",

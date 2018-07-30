@@ -14,19 +14,57 @@ $(document).ready(function() {
 				params['lengthMenu'] = lengthOptions;
 			}
 		}
-		$(this).DataTable( params );
-	});
+		var detailsFields = $(this).attr( 'data-details-fields' );
+		if ( detailsFields ) {
+			params['order'] = [1, 'asc'];
+			params['columnDefs'] = [{ "orderable":false, "targets": 0 }];
+		}
+		var table = $(this).DataTable( params );
 
-	var table = $( '.cargoDynamicTable' ).DataTable();
+		// searchable columns
+		var tfoot = $(this).find('tfoot');
+		$(this).find('tfoot th').each( function () {
+			var placeholder = $(this).data('placeholder');
+			if ( placeholder ) {
+				$(this).html( '<input type="text" placeholder="'+placeholder+'"/>' );
+				tfoot.find('th').css('border-top', 'none');
+				tfoot.css('display', 'table-header-group');
+			}
+		} );
+		table.columns().every( function () {
+			var that = this;
+			$( 'input', this.footer() ).on( 'keyup change', function () {
+				if ( that.search() !== this.value ) {
+					that.search( this.value )
+						.draw();
+				}
+			} );
+		} );
 
-	$( 'a.toggle-vis' ).each( function () {
-		var column = table.column( $( this ).attr( 'data-column' ) );
-		column.visible( false );
+		// hidden fields
+		$( 'a.toggle-vis' ).each( function () {
+			var column = table.column( $(this).data( 'column' ) );
+			column.visible( false );
+			$( this ).on( 'click', function ( e ) {
+				e.preventDefault();
+				column.visible( ! column.visible() );
+			} );
+		} );
+
+		// Add event listener for opening and closing details
+		$(this).find('tbody').on('click', 'td.details-control', function () {
+			var tr = $(this).closest('tr');
+			var row = table.row( tr );
+			if ( row.child.isShown() ) {
+				// This row is already open - close it
+				row.child.hide();
+				tr.removeClass('shown');
+			} else {
+				// Open this row
+				row.child( tr.data('details') ).show();
+				tr.addClass('shown');
+			}
+		} );
 	} );
 
-	$( 'a.toggle-vis' ).on( 'click', function ( e ) {
-		e.preventDefault();
-		var column = table.column( $( this ).attr( 'data-column' ) );
-		column.visible( ! column.visible() );
-	} );
 } );
