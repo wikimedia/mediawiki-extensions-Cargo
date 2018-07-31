@@ -14,6 +14,8 @@
 	"cargo-notable": "Fehler: Es muss ein Tabellenname angegeben werden.",
 	"cargo-unknowntable": "Fehler: Die Tabelle „$1“ wurde nicht gefunden.",
 	"recreatedata": "Daten erneut erstellen",
+	"right-recreatecargodata": "Daten neu erstellen, die in Cargo-Tabellen enthalten sind.",
+	"right-deletecargodata": "Eine Cargo-Tabelle löschen",
 	"action-recreatecargodata": "Cargo-Daten erneut zu erstellen",
 	"action-deletecargodata": "Cargo-Daten zu löschen",
 	"apihelp-cargoquery-description": "Führt eine Abfrage zu den Cargo-Daten aus.",

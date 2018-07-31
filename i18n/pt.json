@@ -16,6 +16,8 @@
 	"cargo-notable": "Erro: o nome da tabela tem de ser especificado.",
 	"cargo-unknowntable": "Erro: a tabela $1 não foi encontrada.",
 	"recreatedata": "Recriar dados",
+	"right-recreatecargodata": "Recriar dados contidos nas tabelas Cargo",
+	"right-deletecargodata": "Eliminar uma tabela Cargo",
 	"action-recreatecargodata": "recriar dados Cargo",
 	"action-deletecargodata": "eliminar dados Cargo",
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
