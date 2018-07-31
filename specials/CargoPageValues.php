@@ -23,18 +23,19 @@ class CargoPageValues extends IncludableSpecialPage {
 			// Allow inclusion with e.g. {{Special:PageValues/Book}}
 			$this->mTitle = Title::newFromText( $subpage );
 		}
+
+		// If no title, or a nonexistent title, was set, just exit out.
+		// @TODO - display an error message.
+		if ( $this->mTitle == null || !$this->mTitle->exists() ) {
+			return true;
+		}
+
 		$out = $this->getOutput();
 
 		$this->setHeaders();
 
 		$pageName = $this->mTitle->getPrefixedText();
 		$out->setPageTitle( $this->msg( 'cargo-pagevaluesfor', $pageName )->text() );
-
-		// Exit if this page does not exist.
-		// @TODO - display some message?
-		if ( !$this->mTitle->exists() ) {
-			return;
-		}
 
 		$text = '';
 

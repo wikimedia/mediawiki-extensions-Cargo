@@ -16,6 +16,8 @@
 	"cargo-notable": "An error message.",
 	"cargo-unknowntable": "An error message. Parameters:\n* $1 - a database table name",
 	"recreatedata": "{{doc-special|RecreateData}}",
+	"right-recreatecargodata": "{{doc-right|recreatecargodata}}",
+	"right-deletecargodata": "{{doc-right|deletecargodata}}",
 	"action-recreatecargodata": "{{doc-action|recreatecargodata}}\n{{doc-cargo}}",
 	"action-deletecargodata": "{{doc-action|deletecargodata}}\n{{doc-cargo}}",
 	"apihelp-cargoquery-description": "{{doc-apihelp-description|cargoquery}}",

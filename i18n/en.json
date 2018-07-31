@@ -10,6 +10,8 @@
 	"cargo-notable": "Error: Table name must be specified.",
 	"cargo-unknowntable": "Error: Table $1 not found.",
 	"recreatedata": "Recreate data",
+	"right-recreatecargodata": "Recreate data contained in Cargo tables",
+	"right-deletecargodata": "Delete a Cargo table",
 	"action-recreatecargodata": "recreate Cargo data",
 	"action-deletecargodata": "delete Cargo data",
 	"apihelp-cargoquery-description": "Runs a query on the Cargo data.",
