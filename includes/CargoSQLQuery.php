@@ -1338,7 +1338,7 @@ class CargoSQLQuery {
 			$fieldName = $searchTextField['fieldName'];
 			$fieldAlias = $searchTextField['fieldAlias'];
 			$tableName = $searchTextField['tableName'];
-			$tableAlias = strtolower( $tableName );
+			$tableAlias = CargoUtils::makeDifferentAlias( $tableName );
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;

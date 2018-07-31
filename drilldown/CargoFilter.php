@@ -128,7 +128,7 @@ class CargoFilter {
 		foreach ( $appliedFilters as $af ) {
 			$conds[] = $af->checkSQL();
 			$fieldTableName = $af->filter->tableName;
-			$fieldTableAlias = strtolower( $fieldTableName );
+			$fieldTableAlias = CargoUtils::makeDifferentAlias( $fieldTableName );
 			$columnName = $af->filter->name;
 			if ( $af->filter->fieldDescription->mIsList ) {
 				$fieldTableName = $af->filter->tableName . '__' . $af->filter->name;

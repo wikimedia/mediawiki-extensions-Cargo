@@ -60,7 +60,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		if ( $request->getCheck( '_replacement' ) ) {
 			$mainTable .= '__NEXT';
 		}
-		$mainTableAlias = strtolower( $mainTable );
+		$mainTableAlias = CargoUtils::makeDifferentAlias( $mainTable );
 		try {
 			if ( $parentTables ) {
 				$tableSchemas = CargoUtils::getTableSchemas( array_merge( array( $mainTable ),
@@ -170,7 +170,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$remaining_filters = array();
 		foreach ( $all_filters as $i => $filter ) {
 			if ( $parentTables && $filter->tableAlias != $mainTableAlias ) {
-				$filter_name = str_replace( array( ' ', "'" ), array( '_', "\'" ),
+				$filter_name = str_replace( array( '_alias', ' ', "'" ), array( '', '_', "\'" ),
 					ucfirst( $filter->tableAlias ) . '.' . $filter->name );
 			} else {
 				$filter_name = str_replace( array( ' ', "'" ), array( '_', "\'" ), $filter->name );
@@ -304,7 +304,7 @@ class CargoDrilldownPage extends QueryPage {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
-		$this->tableAlias = strtolower( $tableName );
+		$this->tableAlias = CargoUtils::makeDifferentAlias( $tableName );
 		$this->parentTables = (array)$parentTables;
 		$this->drilldownTabsParams = (array)$drilldownTabsParams;
 		$this->all_filters = $all_filters;
@@ -359,7 +359,7 @@ class CargoDrilldownPage extends QueryPage {
 			} elseif ( count( $af->values ) == 1 ) {
 				$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 				if ( $this->parentTables && $af->filter->tableName != $this->tableName ) {
-					$url .= urlencode( str_replace( ' ', '_',
+					$url .= urlencode( str_replace( array( '_alias', ' ' ), array( '', '_' ),
 						ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) ) . "=" .
 						urlencode( str_replace( ' ', '_', $af->values[0]->text ) );
 				} else {
@@ -371,7 +371,7 @@ class CargoDrilldownPage extends QueryPage {
 				foreach ( $af->values as $j => $fv ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 					if ( $this->parentTables && $af->filter->tableName != $this->tableName ) {
-						$url .= urlencode( str_replace( ' ', '_',
+						$url .= urlencode( str_replace( array( '_alias', ' ' ), array( '', '_' ),
 								ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) ) .
 								"[$j]=" . urlencode( str_replace( ' ', '_', $fv->text ) );
 					} else {
@@ -384,7 +384,7 @@ class CargoDrilldownPage extends QueryPage {
 				foreach ( $af->search_terms as $j => $search_term ) {
 					$url .= ( strpos( $url, '?' ) ) ? '&' : '?';
 					if ( $this->parentTables != null && $af->filter->tableName != $this->tableName ) {
-						$url .= '_search_' . urlencode( str_replace( ' ', '_',
+						$url .= '_search_' . urlencode( str_replace( array( '_alias', ' ' ), array( '', '_' ),
 									ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) .
 														'[' . $j . ']' ) . "=" .
 								urlencode( str_replace( ' ', '_', $search_term ) );
@@ -773,7 +773,7 @@ END;
 			}
 			if ( $this->parentTables && $f->tableName != $this->tableName ) {
 				$filter_url =
-					$cur_url . urlencode( str_replace( ' ', '_',
+					$cur_url . urlencode( str_replace( array( '_alias', ' ' ), array( '', '_' ),
 						ucfirst( $f->tableAlias ) . '.' . $f->name ) ) . '=' .
 					urlencode( str_replace( ' ', '_', $value_str ) );
 			} else {
@@ -1470,7 +1470,7 @@ END;
 			} else {
 				$id = array_search( $af->filter->tableAlias, array_keys( $this->parentTables ) );
 				$filter_label =
-					str_replace( '_', ' ',
+					str_replace( array( '_alias', '_' ), array( '', ' ' ),
 						ucfirst( $af->filter->tableAlias ) . " &rarr; " . $af->filter->name );
 			}
 			// Add an "x" to remove this filter, if it has more
@@ -1606,7 +1606,7 @@ END;
 		foreach ( $this->all_filters as $f ) {
 			if ( $f->tableAlias != $currentTable ) {
 				$id = array_search( $f->tableAlias, array_keys( $this->parentTables ) );
-				$tableAlias = str_replace( '_', ' ', ucfirst( $f->tableAlias ) );
+				$tableAlias = str_replace( array( '_alias', '_' ), array( '', ' ' ), ucfirst( $f->tableAlias ) );
 				if ( $i++ > 0 ) {
 					$filtersHTML .= "\t</fieldset>";
 				}
@@ -1713,7 +1713,7 @@ END;
 		} else {
 			$mainTableName = $this->tableName;
 		}
-		$mainTableAlias = strtolower( $mainTableName );
+		$mainTableAlias = CargoUtils::makeDifferentAlias( $mainTableName );
 		$mainTable = array( $mainTableAlias => $mainTableName );
 		$tableNames = $mainTable;
 		$joinConds = array();
@@ -2063,9 +2063,9 @@ END;
 		}
 		if ( $this->fullTextSearchTerm != null ) {
 			$fileDataTableName = '_fileData';
-			$fileDataTableAlias = strtolower( $fileDataTableName );
+			$fileDataTableAlias = CargoUtils::makeDifferentAlias( $fileDataTableName );
 			$pageDataTableName = '_pageData';
-			$pageDataTableAlias = strtolower( $pageDataTableName );
+			$pageDataTableAlias = CargoUtils::makeDifferentAlias( $pageDataTableName );
 			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
 				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->text();
 				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
@@ -2166,7 +2166,7 @@ END;
 
 		if ( $searchablePages ) {
 			$pageDataTableName = '_pageData';
-			$pageDataTableAlias = strtolower( $pageDataTableName );
+			$pageDataTableAlias = CargoUtils::makeDifferentAlias( $pageDataTableName );
 			$tableNames[$pageDataTableAlias] = $pageDataTableName;
 			$joinConds[$pageDataTableAlias] = array(
 				'LEFT OUTER JOIN',
@@ -2186,7 +2186,7 @@ END;
 				CargoUtils::escapedFieldName( $cdb, array( $fileTableAlias => $fileTableName ), '_pageID' ),
 			);
 			$fileDataTableName = '_fileData';
-			$fileDataTableAlias = strtolower( $fileDataTableName );
+			$fileDataTableAlias = CargoUtils::makeDifferentAlias( $fileDataTableName );
 			$tableNames[$fileDataTableAlias] = $fileDataTableName;
 			$joinConds[$fileDataTableAlias] = array(
 				'JOIN',

@@ -243,6 +243,19 @@ class CargoUtils {
 	}
 
 	/**
+	 * Make the alias different from table name to avoid removal of aliases (when passed
+	 * in to Mediawiki's select() call) if the alias and table name are the same.
+	 * Aliases are needed because sometimes the same table can be joined more than once, if
+	 * it serves as two different parent tables
+	 * @param string $tableName
+	 * @return string
+	 */
+	static function makeDifferentAlias( $tableName ) {
+		$tableAlias = $tableName . "_alias";
+		return $tableAlias;
+	}
+
+	/**
 	 * Splits a string by the delimiter, but ensures that parenthesis, separators
 	 * and "the other quote" (single quote in a double quoted string or double
 	 * quote in a single quoted string) inside a quoted string are not considered

@@ -129,7 +129,7 @@ class CargoDeclare {
 									} elseif ( $extraParamKey == '_remoteField' ) {
 										$parentTable['_remoteField'] = $extraParamValue;
 									} elseif ( $extraParamKey == '_alias' ) {
-										$parentTableAlias = strtolower( $extraParamValue );
+										$parentTableAlias = $extraParamValue;
 									}
 								}
 							}
@@ -146,10 +146,10 @@ class CargoDeclare {
 									$count =
 										substr_count( implode( ',', array_keys( $parentTables ) ),
 											$parentTableAlias );
-									$parentTableAlias .= $parentTableAlias . "_$count";
+									$parentTableAlias .= "_$count";
 								}
 							} else {
-								$parentTableAlias = strtolower( $parentTableName );
+								$parentTableAlias = CargoUtils::makeDifferentAlias( $parentTableName );
 								if ( array_key_exists( $parentTableAlias, $parentTables ) ) {
 									$count =
 										substr_count( implode( ',', array_keys( $parentTables ) ),
