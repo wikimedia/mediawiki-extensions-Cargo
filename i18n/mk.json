@@ -12,6 +12,8 @@
 	"cargo-notable": "Грешка: Мора да се укаже назив на табелата.",
 	"cargo-unknowntable": "Грешка: Не ја најдов табелата $1.",
 	"recreatedata": "Пресоздај податоци",
+	"right-recreatecargodata": "Пресоздавање податоци во табелите на „Карго“",
+	"right-deletecargodata": "Бришење на табела во „Карго“",
 	"action-recreatecargodata": "пресоздаваање на податоци на „Карго“",
 	"action-deletecargodata": "бришење на податоци од „Карго“",
 	"apihelp-cargoquery-description": "Пушта барање за податоци од „Карго“.",

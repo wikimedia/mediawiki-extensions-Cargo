@@ -14,6 +14,8 @@
 	"cargo-notable": "错误：表格名称必须指定。",
 	"cargo-unknowntable": "错误：找不到表格$1。",
 	"recreatedata": "重新创建数据",
+	"right-recreatecargodata": "在Cargo表格中重建数据",
+	"right-deletecargodata": "删除Cargo表格",
 	"action-recreatecargodata": "重新创建Cargo数据",
 	"action-deletecargodata": "删除Cargo数据",
 	"apihelp-cargoquery-description": "在Cargo数据上运行一次查询。",

@@ -11,6 +11,8 @@
 			"Vlad5250"
 		]
 	},
+	"right-recreatecargodata": "восстановление данных, содержавшихся в таблицах Cargo",
+	"right-deletecargodata": "удаление таблицы Cargo",
 	"cargo-viewdata-having": "Имеющие:",
 	"cargo-cargotables-viewreplacementlink": "Просмотреть таблицу замен",
 	"cargo-drilldown-allpages": "Все страницы",
