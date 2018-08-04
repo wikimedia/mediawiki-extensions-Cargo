@@ -26,6 +26,10 @@ p#tables-header {
 	font-weight: bold;
 }
 
+p {
+	font-size: initial;
+}
+
 ul#drilldown-tables li.tableName {
 	border-top: 1px #aaaaaa solid;
 	background: #e9e9e9;
@@ -37,12 +41,6 @@ ul#drilldown-tables li.selected {
 
 ul#drilldown-tables li.selected a {
 	color: #222;
-}
-
-div#drilldown-format-tabs-wrapper,
-#drilldown-tables-tabs-wrapper {
-	border-bottom: 1px solid #c8ccd1;
-	margin-bottom: 1em;
 }
 
 div#drilldown-header {
@@ -111,47 +109,55 @@ button.ui-button-icon-only {
 }
 
 /* Tabs */
-.drilldown-tabs {
-	width: 100%;
-	float: left;
-	clear: both;
-	margin: 0;
-	padding: 0;
-	background: url(break.png) no-repeat bottom left;
-}
+@media screen and (min-width: 550px) {
+	.drilldown-tabs {
+		width: 100%;
+		float: left;
+		clear: both;
+		margin: 0;
+		padding: 0;
+		background: url(break.png) no-repeat bottom left;
+	}
 
-.drilldown-tabs li {
-	float: left;
-	margin: 0;
-	padding: 0 1px 0 0;
-	height: 2.25em;
-	white-space: nowrap;
-	list-style: none none;
-	background: url(break.png) no-repeat bottom right, url(fade.png) repeat-x bottom;
-}
+	.drilldown-tabs li {
+		float: left;
+		margin: 0;
+		padding: 0 1px 0 0;
+		height: 2.25em;
+		white-space: nowrap;
+		list-style: none none;
+		background: url(break.png) no-repeat bottom right, url(fade.png) repeat-x bottom;
+	}
 
-.drilldown-tabs li:first-child {
-	margin-left: 1px;
-}
+	.drilldown-tabs li:first-child {
+		margin-left: 1px;
+	}
 
-.drilldown-tabs li.selected a {
-	background-color: white;
-	color: #222;
-}
+	.drilldown-tabs li.selected a {
+		background-color: white;
+		color: #222;
+	}
 
-.drilldown-tabs a,
-.drilldown-tabs a:active {
-	display: inline-block;
-	position: relative;
-	color: #0645ad;
-	text-decoration: none;
-	font-size: 0.9em;
-	padding: 0.5em;
-}
+	.drilldown-tabs a,
+	.drilldown-tabs a:active {
+		display: inline-block;
+		position: relative;
+		color: #0645ad;
+		text-decoration: none;
+		font-size: 0.9em;
+		padding: 0.5em;
+	}
 
-.drilldown-tabs a:hover,
-.drilldown-tabs a:focus {
-	text-decoration: underline;
+	.drilldown-tabs a:hover,
+	.drilldown-tabs a:focus {
+		text-decoration: underline;
+	}
+
+	div#drilldown-format-tabs-wrapper,
+	#drilldown-tables-tabs-wrapper {
+		border-bottom: 1px solid #c8ccd1;
+		margin-bottom: 1em;
+	}
 }
 
 /* override gallery css(resources/src/mediawiki.page.gallery.styles/gallery.css) */
@@ -171,4 +177,129 @@ li.gallerybox div.thumb {
 
 li.gallerybox div.thumb img {
 	width: 100%;
+}
+
+@media screen and (max-width: 549px) {
+	html, body {
+		height: 100%;
+	}
+
+	div#mw-panel {
+		position: relative;
+	}
+
+	div#right-navigation, div#left-navigation {
+		margin-top: 0;
+	}
+
+	div#left-navigation {
+		margin-left: 0;
+		margin-top: 1.8px;
+	}
+
+	.mw-body .firstHeading {
+		border-bottom: none;
+		display: inline-block;
+		margin-bottom: 0;
+	}
+
+	div#left-navigation span {
+		border-bottom: 1px solid #ffffff;
+	}
+
+	div#mw-page-base, div#mw-head-base {
+		height: 2.55em;
+		margin-top: -2.55em;
+	}
+
+	a.menu_header {
+		float: right;
+	}
+
+	a.menu_header svg {
+		width: 35px;
+		fill: gray;
+	}
+
+	div#header {
+		position: -webkit-sticky; /* Safari */
+		position: sticky;
+		top: -1px;
+		z-index: 1;
+		background: white;
+		padding-top: 0.5em;
+		border: 1px solid #FFFFFF;
+		border-bottom: 1px solid #a2a9b1;
+		margin-bottom: 0.5em;
+	}
+
+	div.drilldown-filters-wrapper {
+		margin-top: 0.5em;
+	}
+
+	#drilldown-tables-tabs-wrapper {
+		z-index: 2;
+		background-color: #f4f5f7;
+		width: 275px;
+		top: 0;
+		position: fixed;
+		height: 100%;
+		overflow-y: auto;
+		-webkit-transform: translate(-275px, 0);
+		transform: translate(-275px, 0);
+		transition: transform 0.3s ease;
+	}
+
+	#drilldown-tables-tabs-wrapper.open {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+	#drilldown-tables-tabs-wrapper ul {
+		list-style: none;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+
+	#tableTabsHeader, #formatTabsHeader {
+		padding: 0.5em 0.5em 0.5em 1em;
+	}
+
+	#drilldown-tables-tabs-wrapper li {
+		display: list-item;
+		border-top: 1px solid #E0E0E0;
+		width: 100%;
+		margin: 0;
+		text-align: left;
+		padding: 1em 1em 1em 2.5em;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		line-height: 18px;
+	}
+
+	#drilldown-tables-tabs-wrapper li:last-child {
+		border-bottom: 1px solid #E0E0E0;
+	}
+
+	#drilldown-tables-tabs-wrapper li.selected {
+		background-color: #fff;
+	}
+
+	.mw-body {
+		margin-left: 0;
+		margin-top: 2.55em;
+		padding-top: 0;
+	}
+
+	div.mapCanvas {
+		width: 100% !important;
+		/*width: 100%;*/
+		/*zoom: calc(1- calc(360/700));*/
+	}
+
+	div#p-logo, div#p-personal, #contentSub, br, .hide {
+		display: none;
+	}
 }
