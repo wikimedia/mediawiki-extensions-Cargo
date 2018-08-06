@@ -15,6 +15,8 @@
 	"cargo-notable": "오류: 테이블 이름을 지정해야 합니다.",
 	"cargo-unknowntable": "오류: $1 테이블을 찾을 수 없습니다.",
 	"recreatedata": "데이터 재생성",
+	"right-recreatecargodata": "카고 테이블에 포함된 데이터를 다시 만듭니다",
+	"right-deletecargodata": "카고 테이블을 삭제합니다",
 	"action-recreatecargodata": "카고 데이터 재생성",
 	"action-deletecargodata": "카고 데이터 삭제",
 	"apihelp-cargoquery-param-offset": "쿼리 오프셋",

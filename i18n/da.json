@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Joedalton"
+			"Joedalton",
+			"Saederup92"
 		]
 	},
 	"apihelp-cargoquery-param-offset": "Forskydning for forespørgsler",
-	"cargo-viewdata-offset": "Forskydning:"
+	"cargo-viewdata-offset": "Forskydning:",
+	"cargo-drilldown-calendarformat": "Kalender"
 }

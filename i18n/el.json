@@ -103,6 +103,7 @@
 	"cargo-drilldown-mapformat": "Χάρτης",
 	"cargo-drilldown-timelineformat": "Χρονολόγιο",
 	"cargo-drilldown-galleryformat": "Γκαλερί",
+	"cargo-drilldown-calendarformat": "Ημερολόγιο",
 	"cargo-viewcsv": "Προβολή CSV",
 	"cargo-viewxls": "Προβολή XLS",
 	"cargo-viewjson": "Προβολή JSON",

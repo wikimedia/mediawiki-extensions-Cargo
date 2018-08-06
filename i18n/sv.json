@@ -8,6 +8,8 @@
 		]
 	},
 	"recreatedata": "Återskapa data",
+	"right-recreatecargodata": "Återskapa data som finns i Cargo-tabeller",
+	"right-deletecargodata": "Radera en Cargo-tabell",
 	"apihelp-cargoquery-param-offset": "Förfrågans offset",
 	"cargo-createdatatable": "Skapa datatabell",
 	"viewdata": "Visa data",
