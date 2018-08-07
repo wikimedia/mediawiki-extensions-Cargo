@@ -869,6 +869,15 @@ class CargoUtils {
 		// Searchtext or Wikitext.
 		$indexedFields = array();
 		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
+			// @HACK - MySQL does not allow more than 64 keys/
+			// indexes per table. We are indexing most fields -
+			// so if a table has more than 64 fields, there's a
+			// good chance that it will overrun this limit.
+			// So we just stop indexing after the first 60.
+			if ( count( $indexedFields ) >= 60 ) {
+				break;
+			}
+
 			if ( is_object( $fieldDescOrType ) ) {
 				$fieldType = $fieldDescOrType->mType;
 			} else {
