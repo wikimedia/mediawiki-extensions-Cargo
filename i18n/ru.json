@@ -91,7 +91,7 @@
 	"cargo-cargotables-tablenotfound": "Таблица «$1» не найдена в базе данных Cargo.",
 	"cargo-cargotables-tablestructure": "Структура таблицы:",
 	"cargo-cargotables-listof": "Список $1",
-	"cargo-cargotables-totalrows": "Эта таблица имеет в целом '''$1''' {{PLURAL:$1|строку|строки| строк}}.",
+	"cargo-cargotables-totalrows": "Эта таблица имеет в целом '''$1''' {{PLURAL:$1|строку|строки|строк}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|строка|строки|строк}}",
 	"cargo-cargotables-switch": "Перейти к использованию этой таблицы.",
 	"cargo-cargotables-nonexistenttable": "Эта таблица объявлена, но не существует!",
