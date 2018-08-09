@@ -454,14 +454,14 @@ class CargoDrilldownPage extends QueryPage {
 END;
 		if ( $wgCargoDrilldownUseTabs ) {
 			$text .= <<<END
-					<p id="tableNamesHeader">$chooseTableText</p>
+					<p id="tableTabsHeader">$chooseTableText</p>
 					<ul id="$cats_list_class" class="drilldown-tabs">
 
 END;
 		} else {
 			$text .= <<<END
 					<ul id="$cats_list_class">
-					<li id="tableNamesHeader">$chooseTableText</li>
+					<li id="tableTabsHeader">$chooseTableText</li>
 
 END;
 		}
