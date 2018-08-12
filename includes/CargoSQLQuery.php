@@ -1341,7 +1341,7 @@ class CargoSQLQuery {
 			$tableAlias = CargoUtils::makeDifferentAlias( $tableName );
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
-			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableName, $fieldName, false ) . $patternSuffix;
+			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix;
 			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix;
 			$foundMatch2 = false;
