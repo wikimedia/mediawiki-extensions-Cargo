@@ -133,6 +133,7 @@
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
 	"cargo-dynamictables-togglecolumns": "Alternar colunas:",
+	"cargo-dynamictables-searchcolumn": "Pesquisar em $1",
 	"cargo-purgecache": "Limpar a cache",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",

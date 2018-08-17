@@ -55,6 +55,7 @@
 	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
 	"cargo-viewjson": "JSON weisen",
+	"cargo-dynamictables-searchcolumn": "Sichen a(n) $1",
 	"cargo-purgecache": "Tëschespäicher (Cache) eidelmaachen",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-tablename": "Numm vun der Tabell:"
