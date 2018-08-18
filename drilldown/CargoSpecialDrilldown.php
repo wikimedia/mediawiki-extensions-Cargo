@@ -1185,7 +1185,7 @@ END;
 			$inputAttrs = array();
 			if ( $has_remote_autocompletion ) {
 				$inputAttrs['class'] = "cargoDrilldownRemoteAutocomplete";
-				$inputAttrs['data-cargo-table'] = $this->tableName;
+				$inputAttrs['data-cargo-table'] = $this->tableName . '=' . $this->tableAlias;
 				$inputAttrs['data-cargo-field'] = $filter_name;
 				if ( $filter_is_list ) {
 					$inputAttrs['data-cargo-field-is-list'] = true;

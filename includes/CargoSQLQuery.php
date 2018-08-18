@@ -593,7 +593,12 @@ class CargoSQLQuery {
 					foreach ( $this->mTableSchemas as $curTableName => $tableSchema ) {
 						if ( array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
 							$description = $tableSchema->mFieldDescriptions[$fieldName];
-							$tableName = $curTableName;
+							foreach ( $this->mAliasedTableNames as $tableAlias => $tableName1 ) {
+								if ( $tableName1 == $curTableName ) {
+									$tableName = $tableAlias;
+									break;
+								}
+							}
 							break;
 						}
 					}
