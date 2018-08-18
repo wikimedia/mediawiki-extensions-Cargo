@@ -135,6 +135,7 @@
 	"cargo-viewxls": "Просмотр XLS",
 	"cargo-viewjson": "Просмотр JSON",
 	"cargo-dynamictables-togglecolumns": "Переключить столбцы:",
+	"cargo-dynamictables-searchcolumn": "Поиск в $1",
 	"cargo-purgecache": "Очистить кэш",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",

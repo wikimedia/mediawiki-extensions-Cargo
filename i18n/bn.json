@@ -28,5 +28,6 @@
 	"cargo-drilldown-mapformat": "মানচিত্র",
 	"cargo-drilldown-timelineformat": "সময়ক্রম",
 	"cargo-drilldown-galleryformat": "চিত্রশালা",
-	"cargo-drilldown-calendarformat": "পঞ্জিকা"
+	"cargo-drilldown-calendarformat": "পঞ্জিকা",
+	"cargo-dynamictables-searchcolumn": "$1 অনুসন্ধান করুন"
 }
