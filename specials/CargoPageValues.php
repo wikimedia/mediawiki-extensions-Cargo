@@ -79,15 +79,6 @@ class CargoPageValues extends IncludableSpecialPage {
 			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionHeader,
 				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
 
-			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
-			$tableSectionAnchor = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->escaped();
-			$tableSectionAnchor = Sanitizer::escapeId( $tableSectionAnchor, 'noninitial' );
-
-			// We construct the table of contents at the same time
-			// as the main text.
-			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionHeader,
-				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
-
 			$text .= Html::rawElement( 'h2', null,
 				Html::element( 'span', array( 'class' => 'mw-headline', 'id' => $tableSectionAnchor ), $tableSectionHeader ) ) . "\n";
 
