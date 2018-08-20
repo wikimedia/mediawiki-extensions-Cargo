@@ -9,11 +9,16 @@
 
 class CargoTables extends IncludableSpecialPage {
 
+	private $templatesThatDeclareTables;
+	private $templatesThatAttachToTables;
+
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		parent::__construct( 'CargoTables' );
+		$this->templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
+		$this->templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 	}
 
 	function execute( $tableName ) {
@@ -259,7 +264,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $actionLinks;
 	}
 
-	function tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables ) {
+	function tableTemplatesText( $tableName ) {
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
 			$linkRenderer = $this->getLinkRenderer();
 		} else {
@@ -267,10 +272,10 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		// "Declared by" text
-		if ( !array_key_exists( $tableName, $templatesThatDeclareTables ) ) {
+		if ( !array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {
 			$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
 		} else {
-			$templatesThatDeclareThisTable = $templatesThatDeclareTables[$tableName];
+			$templatesThatDeclareThisTable = $this->templatesThatDeclareTables[$tableName];
 			$templateLinks = array();
 			foreach ( $templatesThatDeclareThisTable as $templateID ) {
 				$templateTitle = Title::newFromID( $templateID );
@@ -281,8 +286,8 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		// "Attached by" text
-		if ( array_key_exists( $tableName, $templatesThatAttachToTables ) ) {
-			$templatesThatAttachToThisTable = $templatesThatAttachToTables[$tableName];
+		if ( array_key_exists( $tableName, $this->templatesThatAttachToTables ) ) {
+			$templatesThatAttachToThisTable = $this->templatesThatAttachToTables[$tableName];
 		} else {
 			$templatesThatAttachToThisTable = array();
 		}
@@ -322,8 +327,6 @@ class CargoTables extends IncludableSpecialPage {
 
 		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();
-		$templatesThatDeclareTables = CargoUtils::getAllPageProps( 'CargoTableName' );
-		$templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
 			$linkRenderer = $this->getLinkRenderer();
@@ -338,18 +341,18 @@ class CargoTables extends IncludableSpecialPage {
 			if ( !$cdb->tableExists( $tableName ) ) {
 				$tableText = "$tableName - ";
 				$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
-				$tableText .= ' (' . $this->tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables ) . ')';
+				$tableText .= ' (' . $this->tableTemplatesText( $tableName ) . ')';
 				$text .= Html::rawElement( 'li', null, $tableText );
 				continue;
 			}
 
 			$possibleReplacementTable = $tableName . '__NEXT';
 			$hasReplacementTable = $cdb->tableExists( $possibleReplacementTable );
-			$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $templatesThatDeclareTables );
-			$firstTemplateID = $canBeRecreated ? $templatesThatDeclareTables[$tableName][0] : null;
+			$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
+			$firstTemplateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
 			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $canBeRecreated, $firstTemplateID );
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
-			$templatesText = $this->tableTemplatesText( $tableName, $templatesThatDeclareTables, $templatesThatAttachToTables );
+			$templatesText = $this->tableTemplatesText( $tableName );
 
 			$tableText = "$tableName ($actionLinks) - $numRowsText ($templatesText)";
 
