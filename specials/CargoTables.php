@@ -217,8 +217,9 @@ class CargoTables extends IncludableSpecialPage {
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
 		}
-		$actionLinks = Html::element( 'a', array( 'href' => $viewURL ),
-				$this->msg( 'view' )->text() );
+		$actionLinks = array();
+		$actionLinks['view'] = Html::element( 'a', array( 'href' => $viewURL ),
+			$this->msg( 'view' )->text() );
 
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
 			$linkRenderer = $this->getLinkRenderer();
@@ -236,8 +237,8 @@ class CargoTables extends IncludableSpecialPage {
 		} else {
 			$drilldownURL .= "_single";
 		}
-		$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $drilldownURL ),
-				$drilldownPage->getDescription() );
+		$actionLinks['drilldown'] = Html::element( 'a', array( 'href' => $drilldownURL ),
+			$drilldownPage->getDescription() );
 
 		// It's a bit odd to include the "Recreate data" link, since
 		// it's an action for the template and not the table (if a
@@ -246,7 +247,7 @@ class CargoTables extends IncludableSpecialPage {
 		// convenient.
 		if ( $canBeRecreated && $wgUser->isAllowed( 'recreatecargodata' ) ) {
 			$templateTitle = Title::newFromID( $templateID );
-			$actionLinks .= ' | ' . CargoUtils::makeLink( $linkRenderer, $templateTitle,
+			$actionLinks['recreate'] = CargoUtils::makeLink( $linkRenderer, $templateTitle,
 				$this->msg( 'recreatedata' )->text(), array(), array( 'action' => 'recreatedata' ) );
 		}
 
@@ -257,11 +258,12 @@ class CargoTables extends IncludableSpecialPage {
 				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
 				$deleteTableURL .= "_replacement";
 			}
-			$actionLinks .= ' | ' . Html::element( 'a', array( 'href' => $deleteTableURL ),
-					$this->msg( 'delete' )->text() );
+			$actionLinks['delete'] = Html::element( 'a', array( 'href' => $deleteTableURL ),
+				$this->msg( 'delete' )->text() );
 		}
 
-		return $actionLinks;
+		Hooks::run( 'CargoTablesActionLinks', array( &$actionLinks, $tableName, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ) );
+		return implode( ' | ', $actionLinks );
 	}
 
 	function tableTemplatesText( $tableName ) {
