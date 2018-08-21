@@ -368,9 +368,10 @@ class CargoTables extends IncludableSpecialPage {
 					continue;
 				}
 				global $wgUser;
+				$replacementGeneratedMsg = $this->msg( "cargo-cargotables-replacementgenerated" )->parse();
 				$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
 				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false, null );
-				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">" . "A replacement table has been generated for this table ($actionLinks) - $numRowsText";
+				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
 				if ( $wgUser->isAllowed( 'recreatecargodata' ) ) {
 					$sctPage = SpecialPageFactory::getPage( 'SwitchCargoTable' );
 					$switchURL = $sctPage->getTitle()->getFullURL() . "/$tableName";

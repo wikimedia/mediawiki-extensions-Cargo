@@ -90,6 +90,7 @@
 	"cargo-cargotables-listof": "An informational message",
 	"cargo-cargotables-totalrows": "Parameters:\n* $1 - number of rows in a database table.",
 	"cargo-cargotables-totalrowsshort": "Parameters:\n* $1 - number of rows in a database table.\n{{identical|Row}}",
+	"cargo-cargotables-replacementgenerated": "An informational message",
 	"cargo-cargotables-switch": "The text of a link to a subpage of [[Special:SwitchCargoTable]].",
 	"cargo-cargotables-nonexistenttable": "An error message.",
 	"cargo-recreatedata-createreplacement": "A label for a checkbox in [[Special:CargoRecreateData]].",

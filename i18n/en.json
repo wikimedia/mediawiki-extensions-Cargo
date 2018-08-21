@@ -84,6 +84,7 @@
 	"cargo-cargotables-listof": "List of $1",
 	"cargo-cargotables-totalrows": "This table has '''$1''' {{PLURAL:$1|row|rows}} altogether.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|row|rows}}",
+	"cargo-cargotables-replacementgenerated": "A replacement table has been generated for this table",
 	"cargo-cargotables-switch": "Switch to using this table.",
 	"cargo-cargotables-nonexistenttable": "This table is registered, but does not exist!",
 	"cargo-recreatedata-createreplacement": "Recreate data into a replacement table, keeping the old one for querying",
