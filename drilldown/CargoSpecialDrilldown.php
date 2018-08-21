@@ -1327,6 +1327,35 @@ END;
 	}
 
 	/**
+	 * Split the filter values into the set displayed on the screen and those
+	 * that will simply be autocompleted on, if not all of them will be displayed.
+	 */
+	function splitIntoDisplayedAndUndisplayedFilterValues( $filterValues ) {
+		$maxDisplayedValues = 20;
+		if ( count( $filterValues ) <= $maxDisplayedValues ) {
+			// We shouldn't be here - exit out.
+			return array( $filterValues, array() );
+		}
+		$sortedValues = $filterValues;
+		arsort( $sortedValues );
+		// Make sure that all of the displayed values have a higher popularity
+		// than any of the undisplayed values - avoid having a situation where
+		// some values with, say, two instances each end up in one group and
+		// other values with two instances each end up in the other.
+		$numDisplayedValues = $maxDisplayedValues;
+		$sortedValueInstances = array_values( $sortedValues );
+		while ( $numDisplayedValues > 0 ) {
+			if ( $sortedValueInstances[$numDisplayedValues - 1] != $sortedValueInstances[$numDisplayedValues] ) {
+				break;
+			}
+			$numDisplayedValues--;
+		}
+		$displayedValues = array_slice( $sortedValues, 0, $numDisplayedValues, true );
+		$undisplayedValues = array_diff_key( $filterValues, $displayedValues );
+		return array( $displayedValues, $undisplayedValues );
+	}
+
+	/**
 	 * Print the line showing 'AND' values for a filter that has not
 	 * been applied to the drilldown
 	 */
@@ -1355,9 +1384,6 @@ END;
 		} else {
 			$filter_values = $f->getAllValues( $this->fullTextSearchTerm, $this->applied_filters,
 				false, $mainTableAlias, $tableNames, $joinConds );
-			$sorted_filter_values = $filter_values;
-			arsort( $sorted_filter_values );
-			$sorted_filter_values = array_slice( $sorted_filter_values, 0, 20, true );
 		}
 		if ( !is_array( $filter_values ) ) {
 			return $this->printFilterLine( $f->name, false, false, $filter_values, $f->tableAlias );
@@ -1370,20 +1396,16 @@ END;
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
-			// Remove all the filter values from $filter_values array which are present in
-			// $sorted_filter_values array
-			$filter_values = array_diff_key( $filter_values, $sorted_filter_values );
-			$results_line = $this->printUnappliedFilterValues( $cur_url, $f,
-				$sorted_filter_values );
+			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
+			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
 			// Lots of values - switch to remote autocompletion.
 			$results_line .= $this->printTextInput( $filter_name, 0, false, null, true,
-				$f->fieldDescription->mIsList, $sorted_filter_values, $f );
+				$f->fieldDescription->mIsList, $displayedValues, $f );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
-			$filter_values = array_diff_key( $filter_values, $sorted_filter_values );
-			$results_line = $this->printUnappliedFilterValues( $cur_url, $f,
-				$sorted_filter_values );
-			$results_line .= $this->printComboBoxInput( $filter_name, 0, $filter_values );
+			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
+			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
+			$results_line .= $this->printComboBoxInput( $filter_name, 0, $undisplayedValues );
 			$normal_filter = false;
 		} else {
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $filter_values );
