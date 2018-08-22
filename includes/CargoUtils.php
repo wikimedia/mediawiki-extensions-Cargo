@@ -902,6 +902,8 @@ class CargoUtils {
 		} else {
 			foreach ( $indexedFields as $fieldName ) {
 				$indexName = $fieldName . '_' . $tableName;
+				// MySQL doesn't allow index names with more than 64 characters.
+				$indexName = substr( $indexName, 0, 64 );
 				$sqlFieldName = $cdb->addIdentifierQuotes( $fieldName );
 				$createIndexSQL = "CREATE INDEX $indexName ON " .
 					"$sqlTableName ($sqlFieldName)";
