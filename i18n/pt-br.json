@@ -85,6 +85,7 @@
 	"cargo-cargotables-listof": "Lista de $1",
 	"cargo-cargotables-totalrows": "Esta tabela tem um total de '''$1''' {{PLURAL:$1|linha|linhas}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|linha|linhas}}",
+	"cargo-cargotables-replacementgenerated": "Foi gerada uma tabela de substituição desta tabela",
 	"cargo-cargotables-switch": "Passar para utilizar esta tabela.",
 	"cargo-cargotables-nonexistenttable": "Esta tabela está registada, mas não existe!",
 	"cargo-recreatedata-createreplacement": "Recrear dados numa tabela de substituição, mantendo a tabela anterior para consultas",
