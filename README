@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 2.0-alpha
+        Version 2.0-rc1
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -54,10 +54,14 @@ your 'LocalSettings.php' file:
 
 Cargo was created, and mostly written by, Yaron Koren.
 
-Query formats were also added by Cindy Cicalese, Luis Morillas and StasR.
+Query formats were also added by Cindy Cicalese, Luis Morillas, StasR
+and Kris Field.
 
 Support for hierarchy fields was added by Feroz Ahmed as a project for
 the 2017 Google Summer of Code.
+
+Substantial improvements to the Special:Drilldown page were done by
+Nikhil Kumar as part of the 2018 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
 Duncan Crane, Ed Hoo, Namit Ohri, Paladox, Vivek Ghaisas and others.
