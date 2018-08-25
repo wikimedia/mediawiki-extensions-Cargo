@@ -69,7 +69,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				$tableSchemas = CargoUtils::getTableSchemas( array( $mainTable ) );
 			}
 		} catch ( MWException $e ) {
-			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ),
+			$out->addHTML( Html::rawElement( 'div', array( 'class' => 'error' ),
 				$this->msg( 'cargo-cargotables-tablenotfound', $mainTable )->parse() ) . "\n" );
 			return;
 		}
@@ -474,6 +474,7 @@ END;
 			$res = $cdb->select( $table, 'COUNT(*) AS total' );
 			$row = $cdb->fetchRow( $res );
 			$tableRows = $row['total'];
+			// FIXME: hardcoded ()
 			$tableStr = $this->displayTableName( $table ) . " ($tableRows)";
 			if ( $this->tableName == $table ) {
 				$text .= '						<li class="tableName selected">';
@@ -481,7 +482,7 @@ END;
 				$text .= '						<li class="tableName">';
 			}
 			$tableURL = $this->makeBrowseURL( $table );
-			$text .= Html::element( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
+			$text .= Html::rawElement( 'a', array( 'href' => $tableURL, 'title' => $chooseTableText ),
 				$tableStr );
 			$text .= "</li>\n";
 		}
@@ -502,11 +503,11 @@ END;
 		}
 
 		if ( $tableName == '_pageData' ) {
-			return $this->msg( 'cargo-drilldown-allpages' );
+			return $this->msg( 'cargo-drilldown-allpages' )->escaped();
 		} elseif ( $tableName == '_fileData' ) {
-			return $this->msg( 'cargo-drilldown-allfiles' );
+			return $this->msg( 'cargo-drilldown-allfiles' )->escaped();
 		} else {
-			return str_replace( '_', ' ', $tableName );
+			return htmlspecialchars( str_replace( '_', ' ', $tableName ) );
 		}
 	}
 
