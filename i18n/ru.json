@@ -93,6 +93,7 @@
 	"cargo-cargotables-listof": "Список $1",
 	"cargo-cargotables-totalrows": "Эта таблица имеет в целом '''$1''' {{PLURAL:$1|строку|строки|строк}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|строка|строки|строк}}",
+	"cargo-cargotables-replacementgenerated": "Создана замена для этой таблицы",
 	"cargo-cargotables-switch": "Перейти к использованию этой таблицы.",
 	"cargo-cargotables-nonexistenttable": "Эта таблица объявлена, но не существует!",
 	"cargo-recreatedata-createreplacement": "Воссоздать данные в таблицу замещения, сохранив старую для запросов",
