@@ -8,5 +8,6 @@
 	"cargo-drilldown-mapformat": "نقشہ",
 	"cargo-drilldown-timelineformat": "ٹائم لائن",
 	"cargo-drilldown-galleryformat": "گیلری",
-	"cargo-drilldown-calendarformat": "کیلنڈر"
+	"cargo-drilldown-calendarformat": "کیلنڈر",
+	"cargo-dynamictables-searchcolumn": "$1 ڳولو"
 }
