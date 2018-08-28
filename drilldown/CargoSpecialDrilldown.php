@@ -2,9 +2,10 @@
 /**
  * Displays an interface to let the user drill down through all Cargo data.
  *
- * Based heavily on SD_BrowseData.php in the Semantic Drilldown extension.
+ * Based in part on SD_BrowseData.php in the Semantic Drilldown extension.
  *
  * @author Yaron Koren
+ * @author Nikhil Kumar
  * @ingroup Cargo
  */
 
