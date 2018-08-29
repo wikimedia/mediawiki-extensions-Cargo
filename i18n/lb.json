@@ -32,6 +32,7 @@
 	"cargo-cargotables-listof": "Lëscht vu(n) $1",
 	"cargo-cargotables-totalrows": "Dës Tabell huet am Ganzen {{PLURAL:$1|'''eng''' Zeil|'''$1''' Zeilen}}.",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|Rei|Reien}}",
+	"cargo-cargotables-replacementgenerated": "Fir dës Tabell gouf eng Ersatztabell generéiert",
 	"cargo-cargotables-nonexistenttable": "Dës Tabell ass registréiert, awer et gëtt se net!",
 	"cargo-deletetable-success": "D'Tabell \"$1\" gouf geläscht.",
 	"cargo-switchtables-switch": "Ëmschalten",
