@@ -207,8 +207,11 @@ class CargoTables extends IncludableSpecialPage {
 		return $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( intval( $row['total'] ) )->parse();
 	}
 
-	function displayActionLinksForTable( $tableName, $isReplacementTable, $canBeRecreated, $templateID ) {
+	function displayActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
 		global $wgUser;
+
+		$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
+		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
 
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$ctURL = $ctPage->getTitle()->getFullURL();
@@ -262,7 +265,8 @@ class CargoTables extends IncludableSpecialPage {
 				$this->msg( 'delete' )->text() );
 		}
 
-		Hooks::run( 'CargoTablesActionLinks', array( &$actionLinks, $tableName, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ) );
+		Hooks::run( 'CargoTablesActionLinks', array( &$actionLinks, $tableName, $isReplacementTable,
+			$hasReplacementTable, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ) );
 		return implode( ' | ', $actionLinks );
 	}
 
@@ -350,9 +354,7 @@ class CargoTables extends IncludableSpecialPage {
 
 			$possibleReplacementTable = $tableName . '__NEXT';
 			$hasReplacementTable = $cdb->tableExists( $possibleReplacementTable );
-			$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
-			$firstTemplateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
-			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $canBeRecreated, $firstTemplateID );
+			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $hasReplacementTable );
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
 			$templatesText = $this->tableTemplatesText( $tableName );
 
@@ -370,7 +372,7 @@ class CargoTables extends IncludableSpecialPage {
 				global $wgUser;
 				$replacementGeneratedMsg = $this->msg( "cargo-cargotables-replacementgenerated" )->parse();
 				$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
-				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false, null );
+				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false );
 				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
 				if ( $wgUser->isAllowed( 'recreatecargodata' ) ) {
 					$sctPage = SpecialPageFactory::getPage( 'SwitchCargoTable' );
