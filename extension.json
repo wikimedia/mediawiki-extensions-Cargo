@@ -274,11 +274,8 @@
 			"CargoHooks::describeDBSchema",
 			"CargoHooks::cargoSchemaUpdates"
 		],
-		"SkinTemplateTabs": [
-			"CargoRecreateDataAction::displayTab"
-		],
 		"SkinTemplateNavigation": [
-			"CargoRecreateDataAction::displayTab2",
+			"CargoRecreateDataAction::displayTab",
 			"CargoHooks::addPurgeCacheTab"
 		],
 		"BaseTemplateToolbox": [

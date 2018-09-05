@@ -40,11 +40,11 @@ class CargoRecreateDataAction extends Action {
 	/**
 	 * Adds an "action" (i.e., a tab) to recreate the current article's data
 	 *
-	 * @param SkinTemplate $obj
-	 * @param array $content_actions
+	 * @param Title $obj
+	 * @param array &$links
 	 * @return bool
 	 */
-	static function displayTab( SkinTemplate $obj, array &$content_actions ) {
+	static function displayTab( $obj, &$links ) {
 		$title = $obj->getTitle();
 		if ( !$title || $title->getNamespace() !== NS_TEMPLATE ||
 			!$title->userCan( 'recreatecargodata' ) ) {
@@ -74,25 +74,8 @@ class CargoRecreateDataAction extends Action {
 			'href' => $title->getLocalURL( 'action=recreatedata' )
 		);
 
-		$content_actions['recreatedata'] = $recreateDataTab;
+		$links['views']['recreatedata'] = $recreateDataTab;
 
-		return true;
-	}
-
-	/**
-	 * Like displayTab(), but called with a different hook - this one is
-	 * called for the 'Vector' skin, and others.
-	 *
-	 * @param SkinTemplate $obj
-	 * @param array $links
-	 * @return bool
-	 */
-	static function displayTab2( SkinTemplate $obj, array &$links ) {
-		// The old '$content_actions' array is thankfully just a
-		// sub-array of this one.
-		$views_links = $links['actions'];
-		self::displayTab( $obj, $views_links );
-		$links['actions'] = $views_links;
 		return true;
 	}
 
