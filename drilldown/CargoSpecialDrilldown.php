@@ -2373,7 +2373,7 @@ END;
 			$formatClass = $formatClasses['category'];
 		}
 		$isDeferred = $formatClass::isDeferred();
-		$queryDisplayer = new CargoQueryDisplayer();
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery );
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		if ( $this->format ) {
 			$queryDisplayer->mFormat = $this->format;

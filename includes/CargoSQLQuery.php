@@ -1324,17 +1324,22 @@ class CargoSQLQuery {
 		$searchTextFields = array();
 		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
 			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-				if ( $fieldDescription->mType == 'Searchtext' ) {
-					$fieldAlias = array_search( $fieldName, $this->mAliasedFieldNames );
-					if ( $fieldAlias === false ) {
-						$fieldAlias = $fieldName;
-					}
-					$searchTextFields[] = array(
-						'fieldName' => $fieldName,
-						'fieldAlias' => $fieldAlias,
-						'tableName' => $tableName
-					);
+				if ( $fieldDescription->mType != 'Searchtext' ) {
+					continue;
 				}
+				$fieldAlias = array_search( $fieldName, $this->mAliasedFieldNames );
+				if ( $fieldAlias === false ) {
+					$tableAlias = CargoUtils::makeDifferentAlias( $tableName );
+					$fieldAlias = array_search( "$tableAlias.$fieldName", $this->mAliasedFieldNames );
+				}
+				if ( $fieldAlias === false ) {
+					$fieldAlias = $fieldName;
+				}
+				$searchTextFields[] = array(
+					'fieldName' => $fieldName,
+					'fieldAlias' => $fieldAlias,
+					'tableName' => $tableName
+				);
 			}
 		}
 
