@@ -206,6 +206,7 @@ $wgResourceModules += array(
 		'dependencies' => array(
 			'jquery.ui.autocomplete',
 			'jquery.ui.button',
+			'oojs-ui-core',
 		),
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'

@@ -35,6 +35,14 @@ ul.ui-menu {
 	-webkit-border-radius: 0;
 }
 
+button.ui-button-icon-only {
+	height: 2.35em;
+}
+
+input.ui-autocomplete-input {
+	padding: 0.57142857em 0.57142857em 0.5em;
+}
+
 /*
 button.ui-button-icon-only {
 	vertical-align: auto;

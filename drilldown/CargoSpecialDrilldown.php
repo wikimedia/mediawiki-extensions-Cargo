@@ -1176,14 +1176,15 @@ END;
 			// Make this input narrower than the standard MediaWiki search
 			// input, to accomodate the list of tables on the side.
 			$text .= <<< END
-<div class="oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="max-width: 40em;" data-ooui>
+<div class="oo-ui-actionFieldLayout-input oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="display: inline; float: left;" data-ooui>
 	<input type="text" name="$inputName" value="$cur_value" />
-<span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
-<span class='oo-ui-indicatorElement-indicator'></span>
+	<span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
+	<span class='oo-ui-indicatorElement-indicator'></span>
 </div>
 
 END;
 		} else {
+			$text .= '<div class="oo-ui-actionFieldLayout-input" style="display: inline; float: left;">';
 			$inputAttrs = array();
 			if ( $has_remote_autocompletion ) {
 				$inputAttrs['class'] = "cargoDrilldownRemoteAutocomplete";
@@ -1193,7 +1194,7 @@ END;
 					$inputAttrs['data-cargo-field-is-list'] = true;
 				}
 				$inputAttrs['size'] = 30;
-				$inputAttrs['style'] = 'padding-left: 3px;';
+				$inputAttrs['style'] = 'padding: 0.57142857em 0.57142857em 0.5em;'; // Copied from OOUI
 				$whereSQL = '';
 				// In the WHERE statement, first add all the filters which have been applied and
 				// then remove all the filter values for this filter which have been printed
@@ -1224,11 +1225,13 @@ END;
 			$text .= "\n\t\t\t\t\t<span>" .
 					 $this->msg( 'cargo-drilldown-othervalues' )->text() . " </span>";
 			$text .= Html::input( $inputName, $cur_value, 'text', $inputAttrs ) . "\n";
-			$text .= "<br />\n\n";
+			$text .= "</div>\n\n";
 		}
 
+		$text .= '<span class="oo-ui-actionFieldLayout-button">';
 		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
-				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
+				array( 'class' => 'mw-ui-button mw-ui-progressive' ) ) . "\n";
+		$text .= "</span>\n";
 		$text .= "</form>\n";
 		return $text;
 	}
@@ -1266,7 +1269,7 @@ END;
 		}
 		$msg = $this->msg( 'cargo-drilldown-othervalues' )->text();
 		$text .= <<< END
-	<div class="ui-widget">
+	<div class="oo-ui-actionFieldLayout-input ui-widget" style="display: inline; float: left;">
 		<span>$msg</span>
 		<select class="cargoDrilldownComboBox" name="$cur_value">
 			<option value="$inputName"></option>;
@@ -1286,9 +1289,11 @@ END;
 
 END;
 
+		$text .= '<span class="oo-ui-actionFieldLayout-button">';
 		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
-				array( 'style' => 'margin: 4px 0 8px 0;' ) ) . "\n";
+				array( 'class' => 'mw-ui-button mw-ui-progressive' ) ) . "\n";
 		$text .= "</form>\n";
+		$text .= "</span>\n";
 		return $text;
 	}
 

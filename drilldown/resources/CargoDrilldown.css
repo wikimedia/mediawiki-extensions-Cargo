@@ -79,6 +79,10 @@ span.drilldown-or {
 	font-weight: normal;
 }
 
+div.drilldown-filter {
+	margin-top: 12px;
+}
+
 div.drilldown-filter-label {
 	font-weight: bold;
 }

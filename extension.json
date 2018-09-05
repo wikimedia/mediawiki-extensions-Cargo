@@ -146,7 +146,8 @@
 			],
 			"dependencies": [
 				"jquery.ui.autocomplete",
-				"jquery.ui.button"
+				"jquery.ui.button",
+				"oojs-ui-core"
 			]
 		},
 		"ext.cargo.maps": {
