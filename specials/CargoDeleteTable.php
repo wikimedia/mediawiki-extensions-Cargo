@@ -56,6 +56,8 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 
+		$out->enableOOUI();
+
 		$this->setHeaders();
 		if ( $subpage == '' ) {
 			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-notable" )->parse() ) );
@@ -115,9 +117,16 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 				$this->msg( 'cargo-deletetable-confirm', $tableLink )->parse()
 			);
 		}
-		$formText = Xml::submitButton( $this->msg( 'delete' ), array( 'name' => 'delete' ) );
-		$text .= Html::rawElement( 'form', array( 'method' => 'post' ), $formText );
 		$out->addHTML( $text );
+
+		$htmlForm = HTMLForm::factory( 'ooui', array(), $this->getContext() );
+		$htmlForm
+			->setMethod( 'post' )
+			->setSubmitName( 'delete' )
+			->setSubmitTextMsg( 'delete' )
+			->setSubmitDestructive()
+			->prepareForm()
+			->displayForm( false );
 
 		return true;
 	}
