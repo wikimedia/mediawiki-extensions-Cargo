@@ -29,6 +29,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 		}
 
 		$out = $this->getOutput();
+		$out->enableOOUI();
 
 		$this->setHeaders();
 
@@ -122,13 +123,29 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			if ( $indexExists ) {
 				$text .= '<p><em>The checkbox intended to go here is temporarily disabled; please run <tt>update.php</tt> to see it.</em></p>';
 			} else {
-				$text .= Html::rawElement( 'p', null, Html::check( 'createReplacement', true, array( 'id' => 'createReplacement' ) ) .
-					' ' . $this->msg( 'cargo-recreatedata-createreplacement' )->parse() );
+				$checkBox = new OOUI\FieldLayout(
+					new OOUI\CheckboxInputWidget( array(
+						'name' => 'createReplacement',
+						'id' => 'createReplacement',
+						'selected' => true,
+						'value' => 1,
+					) ),
+					array(
+						'label' => $this->msg( 'cargo-recreatedata-createreplacement' )->parse(),
+						'align' => 'inline',
+						'infusable' => true,
+					)
+				);
+				$text .= Html::rawElement( 'p', null, $checkBox );
 			}
 		}
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
 		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
-		$text .= Html::element( 'button', array( 'id' => 'cargoSubmit' ), $this->msg( 'ok' )->parse() );
+		$text .= new OOUI\ButtonInputWidget( array(
+			'id' => 'cargoSubmit',
+			'label' => $this->msg( 'ok' )->parse(),
+			'flags' => array( 'primary', 'progressive' )
+		 ) );
 		$text .= "\n</div>";
 
 		$out->addHTML( $text );
