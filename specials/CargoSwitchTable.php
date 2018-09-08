@@ -80,6 +80,7 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 		$tableName = $subpage;
+		$out->enableOOUI();
 
 		$this->setHeaders();
 		if ( $tableName == '' ) {
@@ -125,9 +126,15 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$tableLink = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ), $tableName );
 
 		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-switchtables-confirm', $tableLink )->text() );
-		$formText = Xml::submitButton( $this->msg( 'cargo-switchtables-switch' )->parse(), array( 'name' => 'switch' ) );
-		$text .= Html::rawElement( 'form', array( 'method' => 'post' ), $formText );
 		$out->addHTML( $text );
+
+		$htmlForm = HTMLForm::factory( 'ooui', array(), $this->getContext() );
+		$htmlForm
+			->setMethod( 'post' )
+			->setSubmitName( 'switch' )
+			->setSubmitTextMsg( 'cargo-switchtables-switch' )
+			->prepareForm()
+			->displayForm( false );
 
 		return true;
 	}
