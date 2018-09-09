@@ -184,7 +184,10 @@ $wgResourceModules += array(
 			'libs/ext.cargo.js',
 			'libs/ext.cargo.recreatedata.js',
 		),
-		'dependencies' => 'mediawiki.jqueryMsg',
+		'dependencies' => array(
+			'mediawiki.jqueryMsg',
+			'oojs-ui-core'
+		),
 		'messages' => array(
 			'cargo-recreatedata-tablecreated',
 			'cargo-recreatedata-replacementcreated',
