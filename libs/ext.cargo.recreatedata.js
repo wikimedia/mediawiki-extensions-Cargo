@@ -79,7 +79,11 @@
 	}
 
 	jQuery( "#cargoSubmit" ).click( function() {
-		createReplacement = OO.ui.infuse( $("#createReplacement").closest( '.oo-ui-widget' ) ).getValue();
+		var getCreateReplacement = $("#createReplacement");
+		if ( getCreateReplacement.length ) {
+			createReplacement = OO.ui.infuse(getCreateReplacement).closest( '.oo-ui-widget' ).getValue();
+		}
+
 		recreateData.replaceForm();
 
 		if ( isDeclared ) {
