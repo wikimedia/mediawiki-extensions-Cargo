@@ -33,3 +33,10 @@ div.cargoReplacementTableInfo {
 	padding: 6px;
 	margin-bottom: 10px;
 }
+
+table.cargoViewDataTable td {
+	padding-bottom: 7px;
+}
+table.cargoViewDataTable input {
+	padding: 0.4em;
+}

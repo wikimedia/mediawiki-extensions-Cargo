@@ -18,7 +18,7 @@ class CargoViewData extends SpecialPage {
 	function execute( $query ) {
 		$this->setHeaders();
 		$out = $this->getOutput();
-		$out->addModuleStyles( 'ext.cargo.main' );
+		$out->addModules( 'ext.cargo.main' );
 
 		$req = $this->getRequest();
 		$tablesStr = $req->getVal( 'tables' );
@@ -42,8 +42,9 @@ class CargoViewData extends SpecialPage {
 	}
 
 	static function displayInputRow( $labelText, $fieldName, $size ) {
-		$row = Html::element( 'td', array( 'class' => 'mw-label' ), $labelText );
-		$input = Html::input( $fieldName, '', 'text', array( 'size' => $size ) );
+		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
+		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
+		$input = Html::input( $fieldName, '', 'text', array( 'size' => $size, 'id' => $fieldName ) );
 		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
 		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
 	}
@@ -55,17 +56,17 @@ class CargoViewData extends SpecialPage {
 		$text = <<<END
 <form>
 $hiddenTitleInput
-<table>
+<table class="cargoViewDataTable">
 <tbody>
 
 END;
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->text(), 'tables', 20 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->text(), 'fields', 40 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 60 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 40 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 20 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-having' )->text(), 'having', 20 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 20 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->text(), 'tables', 100 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->text(), 'fields', 100 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 100 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 100 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 50 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-having' )->text(), 'having', 50 );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 50 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->text(), 'offset', 3 );
 		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
