@@ -51,6 +51,7 @@ class CargoCompoundQuery {
 			$havingStr = null;
 			$orderByStr = null;
 			$limitStr = null;
+			$offsetStr = null;
 
 			$queryClauses = CargoUtils::smartSplit( ';', $param );
 			$displayParamsForThisQuery = array();
