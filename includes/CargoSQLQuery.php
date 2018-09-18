@@ -1329,7 +1329,7 @@ class CargoSQLQuery {
 				}
 				$fieldAlias = array_search( $fieldName, $this->mAliasedFieldNames );
 				if ( $fieldAlias === false ) {
-					$tableAlias = CargoUtils::makeDifferentAlias( $tableName );
+					$tableAlias = array_search( $tableName, $this->mAliasedTableNames );
 					$fieldAlias = array_search( "$tableAlias.$fieldName", $this->mAliasedFieldNames );
 				}
 				if ( $fieldAlias === false ) {
@@ -1348,7 +1348,7 @@ class CargoSQLQuery {
 			$fieldName = $searchTextField['fieldName'];
 			$fieldAlias = $searchTextField['fieldAlias'];
 			$tableName = $searchTextField['tableName'];
-			$tableAlias = CargoUtils::makeDifferentAlias( $tableName );
+			$tableAlias = array_search( $tableName, $this->mAliasedTableNames );
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
 
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix;
