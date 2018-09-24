@@ -329,6 +329,9 @@ class CargoStore {
 		$tableFieldValues['_pageNamespace'] = $pageNamespace;
 		$tableFieldValues['_pageID'] = $pageID;
 
+		// Allow other hooks to modify the values.
+		Hooks::run( 'CargoBeforeStoreData', array( $title, $tableName, &$tableSchema, &$tableFieldValues ) );
+
 		$cdb = CargoUtils::getDB();
 
 		// Somewhat of a @HACK - recreating a Cargo table from the web
