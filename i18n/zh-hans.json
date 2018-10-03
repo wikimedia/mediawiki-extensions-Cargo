@@ -3,7 +3,8 @@
 		"authors": [
 			"Liuxinyu970226",
 			"Yfdyh000",
-			"Fanjiayi"
+			"Fanjiayi",
+			"Phenolla"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -126,10 +127,12 @@
 	"cargo-drilldown-mapformat": "地图",
 	"cargo-drilldown-timelineformat": "时间线",
 	"cargo-drilldown-galleryformat": "图库",
+	"cargo-drilldown-calendarformat": "日历",
 	"cargo-viewcsv": "查看CSV",
 	"cargo-viewxls": "查看XLS",
 	"cargo-viewjson": "查看JSON",
 	"cargo-dynamictables-togglecolumns": "切换列：",
+	"cargo-dynamictables-searchcolumn": "在$1中搜索",
 	"cargo-purgecache": "刷新缓存",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo字段",
