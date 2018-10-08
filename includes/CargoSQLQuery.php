@@ -1314,6 +1314,10 @@ class CargoSQLQuery {
 			}
 		}
 		foreach ( $dateFields as $alias => $dateField ) {
+			// Handle fields that are a list of dates.
+			if ( substr( $dateField, -6 ) == '__full' ) {
+				$dateField = substr( $dateField, 0, -6 );
+			}
 			$precisionFieldName = $dateField . '__precision';
 			$precisionFieldAlias = $alias . '__precision';
 			$this->mAliasedFieldNames[$precisionFieldAlias] = $precisionFieldName;
