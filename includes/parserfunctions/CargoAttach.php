@@ -11,7 +11,7 @@ class CargoAttach {
 	/**
 	 * Handles the #cargo_attach parser function.
 	 *
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 * @return string Wikitext
 	 */
 	public static function run( &$parser ) {

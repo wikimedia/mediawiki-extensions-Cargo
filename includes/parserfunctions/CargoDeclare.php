@@ -79,7 +79,7 @@ class CargoDeclare {
 	 * Handles the #cargo_declare parser function.
 	 *
 	 * @todo Internationalize error messages
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 * @return string
 	 */
 	public static function run( &$parser ) {

@@ -304,13 +304,26 @@ class CargoDrilldownPage extends QueryPage {
 	 * Initialize the variables of this page
 	 *
 	 * @param string $tableName
+	 * @param string $tableSchema
+	 * @param mixed $parentTables
+	 * @param mixed $drilldownTabsParams
+	 * @param array $all_filters
 	 * @param array $applied_filters
 	 * @param array $remaining_filters
 	 * @param string $fullTextSearchTerm
+	 * @param mixed $coordsFields
+	 * @param mixed $dateFields
+	 * @param mixed $calendarFields
+	 * @param mixed $fileFields
 	 * @param bool $searchablePages
 	 * @param bool $searchableFiles
+	 * @param array $dependentFieldsArray
 	 * @param int $offset
 	 * @param int $limit
+	 * @param mixed $format
+	 * @param mixed $formatBy
+	 * @param bool $formatByFieldIsList
+	 * @param mixed $curTabName
 	 */
 	function __construct( $tableName, $tableSchema,  $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
 			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields,
@@ -343,10 +356,11 @@ class CargoDrilldownPage extends QueryPage {
 	}
 
 	/**
-	 *
 	 * @param string $tableName
+	 * @param string $searchTerm
 	 * @param array $applied_filters
-	 * @param string $filter_to_remove
+	 * @param array $filters_to_remove
+	 * @param array $attributes
 	 * @return string
 	 */
 	function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = array(),

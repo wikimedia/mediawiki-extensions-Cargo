@@ -13,7 +13,7 @@ class CargoDrilldownUtils {
 	 * Appears to be unused
 	 *
 	 * @global string $cgScriptPath
-	 * @param array $vars
+	 * @param array &$vars
 	 * @return bool
 	 */
 	static function setGlobalJSVariables( &$vars ) {

@@ -21,7 +21,7 @@ class CargoStore {
 	 *
 	 * @global string $wgCargoDigitGroupingCharacter
 	 * @global string $wgCargoDecimalMark
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 * @throws MWException
 	 */
 	public static function run( &$parser ) {

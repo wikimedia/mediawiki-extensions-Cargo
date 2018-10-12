@@ -156,11 +156,9 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 *
-	 * @param array $valuesTable
-	 * @param array $formattedValuesTable
-	 * @param array $fieldDescriptions
-	 * @param array $displayParams
+	 * @param $sqlQueries
+	 * @param $displayParams
+	 * @param array|null $querySpecificParams
 	 * @return string HTML
 	 * @throws MWException
 	 */

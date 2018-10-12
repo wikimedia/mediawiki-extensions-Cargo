@@ -46,7 +46,7 @@ class CargoHooks {
 	 * Add date-related messages to Global JS vars in user language
 	 *
 	 * @global int $wgCargoMapClusteringMinimum
-	 * @param array $vars Global JS vars
+	 * @param array &$vars Global JS vars
 	 * @param OutputPage $out
 	 * @return bool
 	 */
@@ -85,10 +85,10 @@ class CargoHooks {
 	 * Add the "purge cache" tab to actions
 	 *
 	 * @param SkinTemplate $skinTemplate
-	 * @param array $links
+	 * @param array &$links
 	 * @return bool
 	 */
-	public static function addPurgeCacheTab( SkinTemplate &$skinTemplate, array &$links ) {
+	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
 		// Only add this tab if Semantic MediaWiki (which has its
 		// identical "refresh" tab) is not installed.
 		if ( defined( 'SMW_VERSION' ) ) {
@@ -280,7 +280,7 @@ class CargoHooks {
 	 * It's $user here and not &$user due to a bug in MW 1.27 - this declaration works
 	 * across all versions, thankfully.
 	 */
-	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User $user, $oldid,
+	public static function onTitleMoveComplete( Title $title, Title $newtitle, User $user, $oldid,
 		$newid, $reason ) {
 		// For each main data table to which this page belongs, change
 		// the page name-related fields.
@@ -356,7 +356,7 @@ class CargoHooks {
 	/**
 	 * Called by a hook in the Admin Links extension.
 	 *
-	 * @param ALTree $adminLinksTree
+	 * @param ALTree &$adminLinksTree
 	 * @return bool
 	 */
 	public static function addToAdminLinks( &$adminLinksTree ) {
@@ -373,7 +373,7 @@ class CargoHooks {
 	/**
 	 * Called by MediaWiki's ResourceLoaderStartUpModule::getConfig()
 	 * to set static (not request-specific) configuration variables
-	 * @param array $vars
+	 * @param array &$vars
 	 */
 	public static function onResourceLoaderGetConfigVars( array &$vars ) {
 		global $cgScriptPath;

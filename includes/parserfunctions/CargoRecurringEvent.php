@@ -10,6 +10,9 @@ class CargoRecurringEvent {
 
 	/**
 	 * Gets the "Julian calendar days" of the specified date.
+	 *
+	 * @param string[] $date
+	 * @return int
 	 */
 	static function getJD( $date ) {
 		return gregorianToJD( $date['month'], $date['day'], $date['year'] );
@@ -20,7 +23,7 @@ class CargoRecurringEvent {
 	 * string that is a delimited list of recurring events.
 	 *
 	 * @global int $wgCargoRecurringEventMaxInstances
-	 * @param Parser $parser Unused
+	 * @param Parser &$parser Unused
 	 * @return string
 	 */
 	public static function run( &$parser ) {

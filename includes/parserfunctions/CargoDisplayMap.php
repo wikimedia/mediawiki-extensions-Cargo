@@ -15,7 +15,7 @@ class CargoDisplayMap {
 	 * This function is based conceptually on the #display_map
 	 * parser function defined by the Maps extension.
 	 *
-	 * @param Parser $parser
+	 * @param Parser &$parser
 	 * @return string
 	 */
 	public static function run( &$parser ) {

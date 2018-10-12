@@ -58,9 +58,11 @@ class CargoFilter {
 	}
 
 	/**
-	 *
+	 * @param string $fullTextSearchTerm
 	 * @param array $appliedFilters
-	 * @return string
+	 * @param array $tableNames
+	 * @param array $joinConds
+	 * @return string|null
 	 */
 	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
 			$joinConds = array() ) {
@@ -109,8 +111,10 @@ class CargoFilter {
 	}
 
 	/**
-	 *
+	 * @param string $fullTextSearchTerm
 	 * @param array $appliedFilters
+	 * @param array $tableNames
+	 * @param array $joinConds
 	 * @return array
 	 */
 	function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
@@ -175,7 +179,11 @@ class CargoFilter {
 	 * months) for this filter, and, for each one,
 	 * the number of pages that match that time period.
 	 *
+	 * @param $fullTextSearchTerm
 	 * @param array $appliedFilters
+	 * @param array|null $mainTableAlias
+	 * @param array $tableNames
+	 * @param array $joinConds
 	 * @return array
 	 */
 	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
@@ -273,7 +281,12 @@ class CargoFilter {
 	 * Gets an array of all values that this field has, and, for each
 	 * one, the number of pages that match that value.
 	 *
+	 * @param string $fullTextSearchTerm
 	 * @param array $appliedFilters
+	 * @param bool $isApplied
+	 * @param string|null $mainTableAlias
+	 * @param array $tableNames
+	 * @param array $join_conds
 	 * @return array
 	 */
 	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false,

@@ -30,7 +30,7 @@ class CargoPageValuesAction extends Action {
 	 * Add the "Page values" link to the toolbox.
 	 *
 	 * @param BaseTemplate $skinTemplate
-	 * @param array $toolbox
+	 * @param array &$toolbox
 	 * @return bool
 	 */
 	public static function addLink( BaseTemplate $skinTemplate, array &$toolbox ) {
