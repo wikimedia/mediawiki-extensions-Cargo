@@ -102,31 +102,6 @@ class CargoHooks {
 		return true;
 	}
 
-	/**
-	 * Add the "purge cache" tab to actions
-	 *
-	 * @param SkinTemplate $skinTemplate
-	 * @param array &$links
-	 * @return bool
-	 */
-	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
-		// Only add this tab if Semantic MediaWiki (which has its
-		// identical "refresh" tab) is not installed.
-		if ( defined( 'SMW_VERSION' ) ) {
-			return true;
-		}
-
-		if ( $skinTemplate->getUser()->isAllowed( 'purge' ) ) {
-			$links['actions']['cargo-purge'] = array(
-				'class' => false,
-				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),
-				'href' => $skinTemplate->getTitle()->getLocalUrl( array( 'action' => 'purge' ) )
-			);
-		}
-
-		return true;
-	}
-
 	public static function addTemplateFieldStart( $field, &$fieldStart ) {
 		// If a generated template contains a field of type
 		// 'Coordinates', add a #cargo_display_map call to the

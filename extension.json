@@ -309,8 +309,7 @@
 			"CargoHooks::cargoSchemaUpdates"
 		],
 		"SkinTemplateNavigation": [
-			"CargoRecreateDataAction::displayTab",
-			"CargoHooks::addPurgeCacheTab"
+			"CargoRecreateDataAction::displayTab"
 		],
 		"BaseTemplateToolbox": [
 			"CargoPageValuesAction::addLink"
