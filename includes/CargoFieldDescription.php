@@ -160,6 +160,8 @@ class CargoFieldDescription {
 				$fieldDescription->mIsHierarchy = true;
 			} elseif ( $param == 'hierarchyStructure' ) {
 				$fieldDescription->mHierarchyStructure = $value;
+			} else {
+				$fieldDescription->mOtherParams[$param] = $value;
 			}
 		}
 		return $fieldDescription;
