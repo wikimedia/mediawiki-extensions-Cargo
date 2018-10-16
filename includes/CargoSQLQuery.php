@@ -19,6 +19,7 @@ class CargoSQLQuery {
 	public $mCargoJoinConds;
 	public $mJoinConds;
 	public $mAliasedFieldNames;
+	public $mOrigAliasedFieldNames;
 	public $mFieldStringAliases;
 	public $mTableSchemas;
 	public $mFieldDescriptions;
@@ -227,6 +228,7 @@ class CargoSQLQuery {
 			$this->mAliasedFieldNames[$alias] = $fieldName;
 			$this->mFieldStringAliases[$fieldString] = $alias;
 		}
+		$this->mOrigAliasedFieldNames = $this->mAliasedFieldNames;
 	}
 
 	function setAliasedTableNames() {
@@ -723,6 +725,7 @@ class CargoSQLQuery {
 							'fieldName' => $fieldName,
 							'tableAlias' => $tableAlias,
 							'tableName' => $tableName,
+							'fieldType' => $fieldDescription->mType,
 							'isHierarchy' => $fieldDescription->mIsHierarchy
 						);
 					}
@@ -737,6 +740,7 @@ class CargoSQLQuery {
 			$fieldName = $virtualField['fieldName'];
 			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
+			$fieldType = $virtualField['fieldType'];
 			$isHierarchy = $virtualField['isHierarchy'];
 
 			$fieldTableName = $tableName . '__' . $fieldName;
@@ -803,6 +807,11 @@ class CargoSQLQuery {
 						}
 					}
 				}
+			}
+
+			// Always use the "field table" if it's a date field.
+			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+				$fieldReplaced = true;
 			}
 
 			if ( $fieldReplaced ) {
@@ -931,7 +940,7 @@ class CargoSQLQuery {
 			if ( strpos( $fieldName, '.' ) !== false ) {
 				// This could probably be done better with
 				// regexps.
-				list( $tableName, $fieldName ) = explode( '.', $fieldName, 2 );
+				list( $tableAlias, $fieldName ) = explode( '.', $fieldName, 2 );
 			} else {
 				$tableAlias = $this->mFieldTables[$alias];
 			}
@@ -939,7 +948,7 @@ class CargoSQLQuery {
 			// We're only interested in virtual list fields.
 			$isVirtualField = false;
 			foreach ( $virtualFields as $virtualField ) {
-				if ( $fieldName == $virtualField['fieldName'] && $tableName == $virtualField['tableName'] ) {
+				if ( $fieldName == $virtualField['fieldName'] && $tableAlias == $virtualField['tableAlias'] ) {
 					$isVirtualField = true;
 					break;
 				}
@@ -1299,7 +1308,7 @@ class CargoSQLQuery {
 	 */
 	function handleDateFields() {
 		$dateFields = array();
-		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
+		foreach ( $this->mOrigAliasedFieldNames as $alias => $fieldName ) {
 			if ( !array_key_exists( $alias, $this->mFieldDescriptions ) ) {
 				continue;
 			}

@@ -148,7 +148,12 @@ class CargoAppliedFilter {
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
-				$date_field = $this->filter->tableAlias . '.' . $this->filter->name;
+				if ( $this->filter->fieldDescription->mIsList ) {
+					$dateFieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
+					$date_field = $dateFieldTableAlias . '._value';
+				} else {
+					$date_field = $this->filter->tableAlias . '.' . $this->filter->name;
+				}
 				list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
 				if ( $fv->time_period == 'day' ) {
 					$sql .= "$yearValue = {$fv->year} AND $monthValue = {$fv->month} AND $dayValue = {$fv->day} ";

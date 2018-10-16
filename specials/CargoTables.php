@@ -165,6 +165,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		$sqlQuery->mAliasedFieldNames = $aliasedFieldNames;
+		$sqlQuery->mOrigAliasedFieldNames = $aliasedFieldNames;
 		// Set mFieldsStr in case we need to show a "More" link
 		// at the end.
 		$fieldsStr = '';

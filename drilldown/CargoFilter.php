@@ -70,7 +70,19 @@ class CargoFilter {
 		}
 
 		$cdb = CargoUtils::getDB();
-		$date_field = $this->tableAlias . '.' . $this->name;
+		if ( $this->fieldDescription->mIsList ) {
+			$fieldTableName = $this->tableName . '__' . $this->name;
+			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
+			$date_field = $fieldTableAlias . '._value';
+			$tableNames[$fieldTableAlias] = $fieldTableName;
+			$joinConds[$fieldTableAlias] =
+				CargoUtils::joinOfMainAndFieldTable( $cdb,
+					array( $this->tableAlias => $this->tableName ),
+					array( $fieldTableAlias => $fieldTableName )
+				);
+		} else {
+			$date_field = $this->tableAlias . '.' . $this->name;
+		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
 		$res = $cdb->select( $tableNames, array( "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ), $conds, null,
@@ -168,9 +180,18 @@ class CargoFilter {
 	 */
 	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
 			$tableNames = array(), $joinConds = array() ) {
+		$cdb = CargoUtils::getDB();
+
 		$possible_dates = array();
 		$date_field = $this->tableAlias . '.' . $this->name;
-		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
+		if ( $this->fieldDescription->mIsList ) {
+			$fieldTableName = $this->tableName . '__' . $this->name;
+			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
+			$queriedDateField = $fieldTableAlias . '._value';
+		} else {
+			$queriedDateField = $date_field;
+		}
+		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $queriedDateField );
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames,
 			$joinConds );
 
@@ -185,6 +206,14 @@ class CargoFilter {
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
+		if ( $this->fieldDescription->mIsList ) {
+			$tableNames[$fieldTableAlias] = $fieldTableName;
+			$joinConds[$fieldTableAlias] =
+				CargoUtils::joinOfMainAndFieldTable( $cdb,
+					array( $this->tableAlias => $this->tableName ),
+					array( $fieldTableAlias => $fieldTableName )
+				);
+		}
 
 		// Don't include imprecise date values in further filtering.
 		if ( $timePeriod == 'month' ) {
@@ -197,8 +226,6 @@ class CargoFilter {
 		// SQL Server can't group by aliases.
 		$selectOptions = array( 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) );
 		$fields['total'] = "COUNT(DISTINCT {$mainTableAlias}._pageID)";
-
-		$cdb = CargoUtils::getDB();
 
 		$res = $cdb->select(
 			$tableNames,

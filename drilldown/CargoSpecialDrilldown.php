@@ -79,6 +79,13 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$searchablePages = in_array( 'fullText', $wgCargoPageDataColumns );
 		$searchableFiles = false;
 
+		$formatBy = $request->getVal( 'formatBy' );
+		$format = $request->getVal( 'format' );
+		if ( !$format || !$formatBy ) {
+			$format = '';
+			$formatBy = '';
+		}
+
 		// Get this term, whether or not this is actually a searchable
 		// table; no point doing complex logic here to determine that.
 		$vals_array = $request->getArray( '_search' );
@@ -90,7 +97,11 @@ class CargoDrilldown extends IncludableSpecialPage {
 		$calendarFields = array();
 		$fileFields = array();
 		$dependentFieldsArray = array();
+		$formatByFieldIsList = false;
 		foreach ( $tableSchemas[$mainTable]->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( $fieldName == $formatBy && $fieldDescription->mIsList ) {
+				$formatByFieldIsList = true;
+			}
 			if ( !$fieldDescription->mIsHidden && $fieldDescription->mType == 'File' && in_array( 'fullText', $wgCargoFileDataColumns ) ) {
 				$searchableFiles = true;
 			}
@@ -139,12 +150,18 @@ class CargoDrilldown extends IncludableSpecialPage {
 						$fieldDescription->mType == 'Datetime' ) ) {
 					$dateFields[] = $fieldName;
 					$cdb = CargoUtils::getDB();
-					// if no of events is more than 4 per month (i.e average days per event < 8),
+					// If no. of events is more than 4 per month (i.e average days per event < 8),
 					// then calendar format is displayed for that field's result.
 					if ( $cdb->tableExists( $tableName ) ) {
-						$res =
-							$cdb->select( $tableName,
-								"DATEDIFF(MAX($fieldName), MIN($fieldName))/ count(*) as avgDaysPerEvent" );
+						if ( $fieldDescription->mIsList ) {
+							$queriedTableName = $tableName . '__' . $fieldName;
+							$queriedFieldName = '_value';
+						} else {
+							$queriedTableName = $tableName;
+							$queriedFieldName = $fieldName;
+						}
+						$res = $cdb->select( $queriedTableName,
+							"DATEDIFF(MAX($queriedFieldName), MIN($queriedFieldName))/ COUNT(*) as avgDaysPerEvent" );
 						$row = $cdb->fetchRow( $res );
 						if ( $row['avgDaysPerEvent'] < 8 ) {
 							$calendarFields[$fieldName] = '';
@@ -223,12 +240,6 @@ class CargoDrilldown extends IncludableSpecialPage {
 				}
 			}
 		}
-		$formatBy = $request->getVal( 'formatBy' );
-		$format = $request->getVal( 'format' );
-		if ( !$format || !$formatBy ) {
-			$format = '';
-			$formatBy = '';
-		}
 		$curTabName = $request->getVal( 'tab' );
 		if ( $drilldownTabsParams ) {
 			if ( !$curTabName ) {
@@ -237,11 +248,11 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
-		$rep =
-			new CargoDrilldownPage( $mainTable, $parentTables, $drilldownTabsParams, $all_filters,
-				$applied_filters, $remaining_filters, $fullTextSearchTerm, $coordsFields,
-				$dateFields, $calendarFields, $fileFields, $searchablePages, $searchableFiles,
-				$dependentFieldsArray, $offset, $limit, $format, $formatBy, $curTabName );
+		$rep = new CargoDrilldownPage( $mainTable, $parentTables, $drilldownTabsParams, $all_filters,
+			$applied_filters, $remaining_filters, $fullTextSearchTerm, $coordsFields,
+			$dateFields, $calendarFields, $fileFields, $searchablePages, $searchableFiles,
+			$dependentFieldsArray, $offset, $limit, $format, $formatBy, $formatByFieldIsList,
+			$curTabName );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -282,6 +293,7 @@ class CargoDrilldownPage extends QueryPage {
 	public $dependentFieldsArray = array();
 	public $format;
 	public $formatBy;
+	public $formatByFieldIsList;
 	public $curTabName;
 	private $showSingleTable = false;
 	private $isReplacementTable = false;
@@ -301,7 +313,7 @@ class CargoDrilldownPage extends QueryPage {
 	function __construct( $tableName, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
 			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields,
 			$fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit,
-			$format, $formatBy, $curTabName ) {
+			$format, $formatBy, $formatByFieldIsList, $curTabName ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
@@ -323,6 +335,7 @@ class CargoDrilldownPage extends QueryPage {
 		$this->limit = $limit;
 		$this->format = $format;
 		$this->formatBy = $formatBy;
+		$this->formatByFieldIsList = $formatByFieldIsList;
 		$this->curTabName = $curTabName;
 	}
 
@@ -2071,8 +2084,20 @@ END;
 		}
 		if ( $this->format == 'calendar' ) {
 			if ( !$this->drilldownTabsParams ) {
-				$calendarFieldName = $this->formatBy;
-				$calendarFieldTableAlias = $this->tableAlias;
+				if ( $this->formatByFieldIsList ) {
+					$calendarFieldName = '_value';
+					$calendarFieldTableAlias = $this->tableAlias . '__' . $this->formatBy;
+					$calendarFieldTableName = $this->tableName . '__' . $this->formatBy;
+					$tableNames[$calendarFieldTableAlias] = $calendarFieldTableName;
+					$joinConds[$calendarFieldTableAlias] =
+						CargoUtils::joinOfMainAndFieldTable( $cdb,
+							array( $this->tableAlias => $this->tableName ),
+							array( $calendarFieldTableAlias => $calendarFieldTableName )
+						);
+				} else {
+					$calendarFieldName = $this->formatBy;
+					$calendarFieldTableAlias = $this->tableAlias;
+				}
 			}
 			$res =
 				$cdb->select( $tableNames,
@@ -2128,8 +2153,12 @@ END;
 				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
 			}
 		}
-		$queryOptions['GROUP BY'] =
-			array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+		if ( !$this->formatByFieldIsList ) {
+			$queryOptions['GROUP BY'] =
+				array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+		} else {
+			$queryOptions['GROUP BY'] = null;
+		}
 		$tablesStr = '';
 		$i = 0;
 		foreach ( $tableNames as $tableAlias => $tableName ) {
@@ -2157,9 +2186,10 @@ END;
 			$joinOnStr[] = $joinCondStr;
 		}
 		$joinOnStr = implode( ',', $joinOnStr );
-		$groupByStr = $queryOptions['GROUP BY'];
-		$groupByStr = implode( ',', $groupByStr );
-		$orderByStr = $groupByStr;
+		$orderByStr = $groupByStr = '';
+		if ( $queryOptions['GROUP BY'] !== null ) {
+			$orderByStr = $groupByStr = implode( ',', $queryOptions['GROUP BY'] );
+		}
 		$havingStr = null;
 		$limitStr = $this->limit;
 		$offsetStr = $this->offset;
