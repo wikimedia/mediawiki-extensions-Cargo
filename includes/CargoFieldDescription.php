@@ -31,9 +31,9 @@ class CargoFieldDescription {
 	static function newFromString( $fieldDescriptionStr ) {
 		$fieldDescription = new CargoFieldDescription();
 
-		if ( strpos( $fieldDescriptionStr, 'List' ) === 0 ) {
+		if ( strpos( strtolower( $fieldDescriptionStr ), 'List' ) === 0 ) {
 			$matches = array();
-			$foundMatch = preg_match( '/List \((.*)\) of (.*)/s', $fieldDescriptionStr, $matches );
+			$foundMatch = preg_match( '/List \((.*)\) of (.*)/is', $fieldDescriptionStr, $matches );
 			if ( !$foundMatch ) {
 				// Return a true error message here?
 				return null;
@@ -54,13 +54,13 @@ class CargoFieldDescription {
 			foreach ( $extraParams as $extraParam ) {
 				$extraParamParts = explode( '=', $extraParam, 2 );
 				if ( count( $extraParamParts ) == 1 ) {
-					$paramKey = trim( $extraParamParts[0] );
+					$paramKey = strtolower( trim( $extraParamParts[0] ) );
 					if ( $paramKey == 'hierarchy' ) {
 						$fieldDescription->mIsHierarchy = true;
 					}
 					$fieldDescription->mOtherParams[$paramKey] = true;
 				} else {
-					$paramKey = trim( $extraParamParts[0] );
+					$paramKey = strtolower( trim( $extraParamParts[0] ) );
 					$paramValue = trim( $extraParamParts[1] );
 					if ( $paramKey == 'allowed values' ) {
 						// we do not assign allowed values to fieldDescription here,
@@ -118,7 +118,13 @@ class CargoFieldDescription {
 		}
 
 		// What's left will be the type, hopefully.
-		$fieldDescription->mType = $fieldDescriptionStr;
+		// Allow any capitalization of the type.
+		$type = ucfirst( strtolower( $fieldDescriptionStr ) );
+		// The 'URL' type has special capitalization.
+		if ( $type == 'Url' ) {
+			$type = 'URL';
+		}
+		$fieldDescription->mType = $type;
 
 		// Validation.
 		if ( $fieldDescription->mType == 'Text' && array_key_exists( 'unique', $fieldDescription->mOtherParams ) ) {
