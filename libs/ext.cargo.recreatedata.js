@@ -79,10 +79,7 @@
 	}
 
 	jQuery( "#cargoSubmit" ).click( function() {
-		var getCreateReplacement = $("#createReplacement");
-		if ( getCreateReplacement.length ) {
-			createReplacement = OO.ui.infuse(getCreateReplacement).closest( '.oo-ui-widget' ).getValue();
-		}
+		createReplacement = $("#createReplacement").is( ":checked" );
 
 		recreateData.replaceForm();
 
