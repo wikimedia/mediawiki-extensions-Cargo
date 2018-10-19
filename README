@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 2.0-rc1
+        Version 2.0
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -60,23 +60,19 @@ and Kris Field.
 Support for hierarchy fields was added by Feroz Ahmed as a project for
 the 2017 Google Summer of Code.
 
-Substantial improvements to the Special:Drilldown page were done by
-Nikhil Kumar as part of the 2018 Google Summer of Code.
+Substantial improvements to the Special:Drilldown page, including
+support for "parent tables", were done by Nikhil Kumar as part of the
+2018 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
 Duncan Crane, Ed Hoo, Namit Ohri, Paladox, Vivek Ghaisas and others.
 
 == Contact ==
 
-Comments, questions, suggestions and bug reports can be sent to either the
-MediaWiki or the Semantic MediaWiki mailing lists:
+Comments, questions, suggestions and bug reports can be sent to the
+MediaWiki mailing list:
 
  https://lists.wikimedia.org/mailman/listinfo/mediawiki-l
- https://lists.sourceforge.net/lists/listinfo/semediawiki-user
-
-Although the Cargo extension does not make use of Semantic MediaWiki, and
-in fact can be considered an alternative to it, it still fits within the
-same family of extensions that take a data-centric approach to MediaWiki.
 
 If possible, please add "[Cargo]" at the beginning of the subject line, to
 clarify the subject matter.
