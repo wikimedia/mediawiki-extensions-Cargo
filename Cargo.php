@@ -367,3 +367,8 @@ $wgCargoMaxVisibleHierarchyDrilldownValues = 30;
 $wgCargoPageDataColumns = array();
 $wgCargoFileDataColumns = array();
 $wgCargoHideNamespaceName = array( NS_FILE );
+
+// Backward compatibility for MW < 1.28.
+if ( !defined( 'DB_REPLICA' ) ) {
+	define( 'DB_REPLICA', DB_SLAVE );
+}

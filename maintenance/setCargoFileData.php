@@ -50,7 +50,7 @@ class SetCargoFileData extends Maintenance {
 	public function execute() {
 		global $wgCargoFileDataColumns;
 
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => '_fileData' ) );
 

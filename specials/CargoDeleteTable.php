@@ -73,7 +73,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		}
 
 		// Make sure that this table exists.
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
