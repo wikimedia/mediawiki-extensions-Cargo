@@ -31,7 +31,7 @@ class CargoViewData extends SpecialPage {
 		try {
 			$rep = new ViewDataPage();
 		} catch ( MWException $e ) {
-			$out->addWikiText( CargoUtils::formatError( $e->getMessage() ) );
+			$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
 			return;
 		}
 		return $rep->execute( $query );

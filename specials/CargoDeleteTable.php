@@ -60,7 +60,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 
 		$this->setHeaders();
 		if ( $subpage == '' ) {
-			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-notable" )->parse() ) );
+			CargoUtils::displayErrorMessage( $out, $this->msg( "cargo-notable" ) );
 			return true;
 		}
 
@@ -77,7 +77,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'field_tables', 'field_helper_tables' ),
 			array( 'main_table' => $tableName ) );
 		if ( $res->numRows() == 0 ) {
-			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $tableName )->parse() ) );
+			CargoUtils::displayErrorMessage( $out, $this->msg( "cargo-unknowntable", $tableName ) );
 			return true;
 		}
 

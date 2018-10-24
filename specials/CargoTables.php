@@ -116,7 +116,13 @@ class CargoTables extends IncludableSpecialPage {
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$out->addWikiText( $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) )->text() . "\n" );
+		$numRowsMessage = $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) );
+		if ( method_exists( $out, 'addWikiTextAsInterface' ) ) {
+			// MW 1.32+
+			$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
+		} else {
+			$out->addWikiText( $numRowsMessage->parse() . "\n" );
+		}
 
 		// Then, show the actual table, via a query.
 		$sqlQuery = new CargoSQLQuery();

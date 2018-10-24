@@ -149,6 +149,15 @@ class CargoUtils {
 		return '<div class="error">' . $errorString . '</div>';
 	}
 
+	public static function displayErrorMessage( OutputPage $out, Message $message ) {
+		if ( method_exists( $out, 'wrapWikiTextAsInterface' ) ) {
+			// MW 1.32+
+			$out->wrapWikiTextAsInterface( 'error', $message->plain() );
+		} else {
+			$out->addHTML( self::formatError( $message->parse() ) );
+		}
+	}
+
 	public static function getTables() {
 		$tableNames = array();
 		$dbw = wfGetDB( DB_MASTER );
