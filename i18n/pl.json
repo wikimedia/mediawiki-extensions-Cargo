@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Chrumps",
-			"Devwebtel"
+			"Devwebtel",
+			"Railfail536"
 		]
 	},
 	"cargo-recreatedata-success": "Dane są odtwarzane.",
@@ -24,5 +25,6 @@
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
 	"cargo-viewjson": "Zobacz JSON",
+	"cargo-purgecache": "Odśwież cache",
 	"cargo-pageschemas-tablename": "Nazwa tabeli:"
 }
