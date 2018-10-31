@@ -31,9 +31,9 @@ class CargoFieldDescription {
 	static function newFromString( $fieldDescriptionStr ) {
 		$fieldDescription = new CargoFieldDescription();
 
-		if ( strpos( strtolower( $fieldDescriptionStr ), 'List' ) === 0 ) {
+		if ( strpos( strtolower( $fieldDescriptionStr ), 'list' ) === 0 ) {
 			$matches = array();
-			$foundMatch = preg_match( '/List \((.*)\) of (.*)/is', $fieldDescriptionStr, $matches );
+			$foundMatch = preg_match( '/[Ll][Ii][Ss][Tt] \((.*)\) [Oo][Ff] (.*)/is', $fieldDescriptionStr, $matches );
 			if ( !$foundMatch ) {
 				// Return a true error message here?
 				return null;
