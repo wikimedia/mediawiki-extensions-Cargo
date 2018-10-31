@@ -126,7 +126,6 @@ class CargoRecreateData extends UnlistedSpecialPage {
 				$checkBox = new OOUI\FieldLayout(
 					new OOUI\CheckboxInputWidget( array(
 						'name' => 'createReplacement',
-						'id' => 'createReplacement',
 						'selected' => true,
 						'value' => 1,
 					) ),

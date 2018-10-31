@@ -79,7 +79,7 @@
 	}
 
 	jQuery( "#cargoSubmit" ).click( function() {
-		createReplacement = $("#createReplacement").is( ":checked" );
+		createReplacement = $("[name=createReplacement]").is( ":checked" );
 
 		recreateData.replaceForm();
 
