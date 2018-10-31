@@ -120,6 +120,11 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		$out->addHTML( $text );
 
 		$htmlForm = HTMLForm::factory( 'ooui', array(), $this->getContext() );
+
+		if ( $replacementTable ) {
+			$htmlForm = $htmlForm->addHiddenField( '_replacement', '' );
+		}
+
 		$htmlForm
 			->setMethod( 'post' )
 			->setSubmitName( 'delete' )
