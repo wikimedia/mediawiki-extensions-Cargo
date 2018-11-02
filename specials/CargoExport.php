@@ -98,12 +98,21 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFieldRealNames = array();
+			$startDateFieldAliases = array();
+			$endDateFieldAliases = array();
 			$dateFieldAliases = array();
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
-				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
+				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
+					 $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 					$dateFieldAliases[] = $alias;
 					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
 					$dateFieldRealNames[] = $realFieldName;
+					if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+						$startDateFieldAliases[] = $alias;
+					}
+				}
+				if ( $description->mType == 'End date' || $description->mType == 'End datetime' ) {
+					$endDateFieldAliases[] = $alias;
 				}
 			}
 
@@ -141,11 +150,15 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 				if ( array_key_exists( 'start', $queryResult ) ) {
 					$eventStart = $queryResult['start'];
+				} elseif ( !empty( $startDateFieldAliases ) ) {
+					$eventStart = $queryResult[$startDateFieldAliases[0]];
 				} else {
 					$eventStart = $queryResult[$dateFieldAliases[0]];
 				}
 				if ( array_key_exists( 'end', $queryResult ) ) {
 					$eventEnd = $queryResult['end'];
+				} elseif ( !empty( $endDateFieldAliases ) ) {
+					$eventEnd = $queryResult[$endDateFieldAliases[0]];
 				} elseif ( count( $dateFieldAliases ) > 1 && array_key_exists( $dateFieldAliases[1], $queryResult ) ) {
 					$eventEnd = $queryResult[$dateFieldAliases[1]];
 				} else {
@@ -157,7 +170,6 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventDescription = null;
 				}
 
-				$title = Title::newFromText( $queryResult['_pageName'] );
 				$startDateField = $dateFieldAliases[0];
 				$startDate = $queryResult[$startDateField];
 				$startDatePrecisionField = $startDateField . '__precision';
@@ -209,8 +221,16 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFields = array();
+			// First put the Start date/datetime type fields and only then the date/datetime and
+			// End date/datetime type fields in the dateFields array
 			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
-				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
+				if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+					$dateFields[] = $field;
+				}
+			}
+			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
+				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
+					 $description->mType == 'End date' || $description->mType == 'End datetime' ) {
 					$dateFields[] = $field;
 				}
 			}
@@ -220,7 +240,19 @@ class CargoExport extends UnlistedSpecialPage {
 			foreach ( $queryResults as $queryResult ) {
 				$eventDescription = '';
 				$firstField = true;
+				$end = null;
 				foreach ( $sqlQuery->mFieldDescriptions as $fieldName => $fieldDescription ) {
+					if ( $dateFields[0] == $fieldName ) {
+						if ( !( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) ) {
+							continue;
+						}
+						foreach ( $sqlQuery->mFieldDescriptions as $field => $mFieldDescription ) {
+							if ( $mFieldDescription->mType == "End date" || $mFieldDescription->mType == "End datetime" ) {
+								$end = $queryResult[$field];
+								break;
+							}
+						}
+					}
 					// Don't display the first field (it'll
 					// be the title), or date fields.
 					if ( $firstField ) {
@@ -251,6 +283,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$eventDisplayDetails = array(
 					'title' => $eventTitle,
 					'start' => $queryResult[$dateFields[0]],
+					'end' => $end,
 					'description' => $eventDescription,
 				);
 

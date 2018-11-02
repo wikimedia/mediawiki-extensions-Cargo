@@ -94,6 +94,8 @@ class CargoDeclare {
 		$parentTables = array();
 		$drilldownTabsParams = array();
 		$tableSchema = new CargoTableSchema();
+		$hasStartEvent = false;
+		$hasEndEvent = false;
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
 
@@ -263,6 +265,23 @@ class CargoDeclare {
 				}
 				if ( $fieldDescription->mIsHierarchy == true && $fieldDescription->mType == 'Coordinates' ) {
 					return CargoUtils::formatError( "Error: Hierarchy enumeration field cannot be created for $fieldDescription->mType type." );
+				}
+				if ( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) {
+					if ( !$hasStartEvent ) {
+						$hasStartEvent = true;
+					} else {
+						return CargoUtils::formatError( "Error: There can be only one Start date/datetime type field." );
+					}
+				}
+				if ( $fieldDescription->mType == "End date" || $fieldDescription->mType == "End datetime" ) {
+					if ( !$hasEndEvent && $hasStartEvent ) {
+						$hasEndEvent = true;
+					} elseif ( !$hasStartEvent ) {
+						// if End date/datetime is declared before Start date/datetime type field
+						return CargoUtils::formatError( "Error: End date/datetime type must be declared after declaring Start date/datetime type field." );
+					} else {
+						return CargoUtils::formatError( "Error: There can be only one End date/datetime type field." );
+					}
 				}
 				$tableSchema->mFieldDescriptions[$fieldName] = $fieldDescription;
 			}

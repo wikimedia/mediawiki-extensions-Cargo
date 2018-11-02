@@ -146,8 +146,9 @@ class CargoDrilldown extends IncludableSpecialPage {
 					continue;
 				}
 
-				if ( ( $tableName == $mainTable || $drilldownTabsParams ) && ( $fieldDescription->mType == 'Date' ||
-						$fieldDescription->mType == 'Datetime' ) ) {
+				if ( ( $tableName == $mainTable || $drilldownTabsParams ) &&
+					 ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ||
+					   $fieldDescription->mType == 'Start date' || $fieldDescription->mType == 'Start datetime' ) ) {
 					$dateFields[] = $fieldName;
 					$cdb = CargoUtils::getDB();
 					// If no. of events is more than 4 per month (i.e average days per event < 8),
@@ -248,11 +249,11 @@ class CargoDrilldown extends IncludableSpecialPage {
 		}
 
 		$out->addHTML( "\n\t\t\t\t<div class=\"drilldown-results\">\n" );
-		$rep = new CargoDrilldownPage( $mainTable, $parentTables, $drilldownTabsParams, $all_filters,
-			$applied_filters, $remaining_filters, $fullTextSearchTerm, $coordsFields,
-			$dateFields, $calendarFields, $fileFields, $searchablePages, $searchableFiles,
-			$dependentFieldsArray, $offset, $limit, $format, $formatBy, $formatByFieldIsList,
-			$curTabName );
+		$rep = new CargoDrilldownPage( $mainTable, $tableSchemas[$tableName], $parentTables,
+			$drilldownTabsParams, $all_filters, $applied_filters, $remaining_filters,
+			$fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields, $fileFields,
+			$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format,
+			$formatBy, $formatByFieldIsList, $curTabName );
 		$num = $rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
@@ -277,6 +278,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
 	public $tableAlias = "";
+	public $tableSchema;
 	public $parentTables = array();
 	public $drilldownTabsParams = array();
 	public $all_filters = array();
@@ -310,13 +312,14 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param int $offset
 	 * @param int $limit
 	 */
-	function __construct( $tableName, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
+	function __construct( $tableName, $tableSchema,  $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
 			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields,
 			$fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit,
 			$format, $formatBy, $formatByFieldIsList, $curTabName ) {
 		parent::__construct( 'Drilldown' );
 
 		$this->tableName = $tableName;
+		$this->tableSchema = $tableSchema;
 		$this->tableAlias = CargoUtils::makeDifferentAlias( $tableName );
 		$this->parentTables = (array)$parentTables;
 		$this->drilldownTabsParams = (array)$drilldownTabsParams;
@@ -2112,6 +2115,22 @@ END;
 					}
 				} else {
 					$this->calendarFields[$this->formatBy] = $row['start_date'];
+				}
+			}
+		}
+		// In case of "Start date/datetime", include "End date/datetime" field too in query for
+		// showing result in timeline or calendar format
+		if ( in_array( $this->formatBy, $this->dateFields ) ) {
+			foreach ( $this->tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+				if ( !( $fieldName == $this->formatBy &&
+					 ( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) ) ) {
+					continue;
+				}
+				foreach ( $this->tableSchema->mFieldDescriptions as $fieldName1 =>
+						  $fieldDescription1 ) {
+					if ( $fieldDescription1->mType == "End date" || $fieldDescription1->mType == "End datetime" ) {
+						$fieldsStr[] = $this->tableAlias . '.' . $fieldName1;
+					}
 				}
 			}
 		}

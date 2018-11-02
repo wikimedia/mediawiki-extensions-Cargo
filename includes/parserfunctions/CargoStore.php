@@ -278,7 +278,8 @@ class CargoStore {
 					}
 				}
 			}
-			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+			if ( $fieldType == 'Date' || $fieldType == 'Datetime' || $fieldType == 'Start date' ||
+				 $fieldType == 'Start datetime' || $fieldType == 'End date' || $fieldType == 'End datetime' ) {
 				if ( $curValue == '' ) {
 					continue;
 				}

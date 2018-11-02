@@ -1338,7 +1338,9 @@ class CargoSQLQuery {
 				continue;
 			}
 			$fieldDescription = $this->mFieldDescriptions[$alias];
-			if ( ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ) &&
+			if ( ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ||
+				   $fieldDescription->mType == 'Start date' || $fieldDescription->mType == 'Start datetime' ||
+				   $fieldDescription->mType == 'End date' || $fieldDescription->mType == 'End datetime' ) &&
 				// Make sure this is an actual field and not a call
 				// to a function, like DATE_FORMAT(), by checking for
 				// the presence of '(' and ')' - there's probably a

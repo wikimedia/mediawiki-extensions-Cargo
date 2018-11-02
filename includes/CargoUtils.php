@@ -758,7 +758,9 @@ class CargoUtils {
 			if ( !$isList && $fieldType == 'Coordinates' ) {
 				$fieldsInMainTable[$fieldName . '__lat'] = 'Float';
 				$fieldsInMainTable[$fieldName . '__lon'] = 'Float';
-			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ||
+					   $fieldType == 'Start date' || $fieldType == 'Start datetime' ||
+					   $fieldType == 'End date' || $fieldType == 'End datetime' ) {
 				$fieldsInMainTable[$fieldName . '__precision'] = 'Integer';
 			} elseif ( $fieldType == 'Searchtext' ) {
 				$containsSearchTextType = true;
