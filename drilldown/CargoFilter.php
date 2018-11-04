@@ -254,8 +254,7 @@ class CargoFilter {
 		);
 
 		foreach ( $res as $row ) {
-			$firstVal = current( (array)$row ); // separate variable needed for PHP 5.3
-			if ( empty( $firstVal ) ) {
+			if ( empty( current( (array)$row ) ) ) {
 				$possible_dates['_none'] = $row->total;
 			} elseif ( $timePeriod == 'day' ) {
 				$date_string = CargoDrilldownUtils::monthToString( $row->month_field ) . ' ' . $row->day_of_month_field . ', ' . $row->year_field;
