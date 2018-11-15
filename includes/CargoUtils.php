@@ -914,7 +914,8 @@ class CargoUtils {
 				// MySQL doesn't allow index names with more than 64 characters.
 				$indexName = substr( $indexName, 0, 64 );
 				$sqlFieldName = $cdb->addIdentifierQuotes( $fieldName );
-				$createIndexSQL = "CREATE INDEX $indexName ON " .
+				$sqlIndexName = $cdb->addIdentifierQuotes( $indexName );
+				$createIndexSQL = "CREATE INDEX $sqlIndexName ON " .
 					"$sqlTableName ($sqlFieldName)";
 				$cdb->query( $createIndexSQL );
 			}
