@@ -101,6 +101,7 @@
 		"CargoBarChartFormat": "formats/CargoBarChartFormat.php",
 		"CargoPieChartFormat": "formats/CargoPieChartFormat.php",
 		"CargoGalleryFormat": "formats/CargoGalleryFormat.php",
+		"CargoSlideshowFormat": "formats/CargoSlideshowFormat.php",
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",
 		"CargoSearchMySQL": "includes/search/CargoSearchMySQL.php",
@@ -241,6 +242,16 @@
 		"ext.cargo.exhibit": {
 			"scripts": [
 				"libs/ext.cargo.exhibit.js"
+			]
+		},
+		"ext.cargo.slick": {
+			"styles": [
+				"libs/slick/slick.css",
+				"libs/slick/slick-theme.css",
+				"libs/ext.cargo.slick.css"
+			],
+			"scripts": [
+				"libs/slick/slick.js"
 			]
 		}
 	},

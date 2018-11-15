@@ -141,6 +141,7 @@ $wgAutoloadClasses['CargoCategoryFormat'] = $dir . '/formats/CargoCategoryFormat
 $wgAutoloadClasses['CargoBarChartFormat'] = $dir . '/formats/CargoBarChartFormat.php';
 $wgAutoloadClasses['CargoPieChartFormat'] = $dir . '/formats/CargoPieChartFormat.php';
 $wgAutoloadClasses['CargoGalleryFormat'] = $dir . '/formats/CargoGalleryFormat.php';
+$wgAutoloadClasses['CargoSlideshowFormat'] = $dir . '/formats/CargoSlideshowFormat.php';
 $wgAutoloadClasses['CargoTagCloudFormat'] = $dir . '/formats/CargoTagCloudFormat.php';
 $wgAutoloadClasses['CargoExhibitFormat'] = $dir . '/formats/CargoExhibitFormat.php';
 $wgAutoloadClasses['CargoSearchMySQL'] = $dir . '/includes/search/CargoSearchMySQL.php';
@@ -314,6 +315,18 @@ $wgResourceModules += array(
 	'ext.cargo.exhibit' => array(
 		'scripts' => array(
 			'libs/ext.cargo.exhibit.js',
+		),
+		'localBasePath' => __DIR__,
+		'remoteExtPath' => 'Cargo'
+	),
+	'ext.cargo.slick' => array(
+		'styles' => array(
+			'libs/slick/slick.css',
+			'libs/slick/slick-theme.css',
+			'libs/ext.cargo.slick.css'
+		),
+		'scripts' => array(
+			'libs/slick/slick.js'
 		),
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'

@@ -85,6 +85,9 @@ available under the MIT License.
 * Cargo includes the FullCalendar JavaScript library (http://fullcalendar.io),
 available under the MIT License.
 
+* Cargo includes the Slick JS library (http://kenwheeler.github.io/slick/),
+available under the MIT License.
+
 * Cargo includes the markerclusterer.js file, available under the Apache
 License.
 
