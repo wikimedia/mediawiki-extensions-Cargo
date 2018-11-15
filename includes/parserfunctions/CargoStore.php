@@ -157,7 +157,7 @@ class CargoStore {
 			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
 				$res = $cdb->select( $tableName, 'COUNT(*)', array( $fieldName => $fieldValue ) );
 				$row = $cdb->fetchRow( $res );
-				$numExistingValues = $row[0];
+				$numExistingValues = $row['COUNT(*)'];
 				if ( $numExistingValues == 1 ) {
 					$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
 					if ( $rowAlreadyExists ) {
@@ -499,6 +499,6 @@ class CargoStore {
 		}
 		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
 		$row = $cdb->fetchRow( $res );
-		return ( $row[0] > 0 );
+		return ( $row['COUNT(*)'] > 0 );
 	}
 }
