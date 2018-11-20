@@ -70,7 +70,7 @@ class CargoSQLQuery {
 		$sqlQuery->mOrigGroupByStr = $groupByStr;
 		$sqlQuery->mGroupByStr = $sqlQuery->mOrigGroupByStr;
 		$sqlQuery->mHavingStr = $havingStr;
-		$sqlQuery->setDescriptionsForFields();
+		$sqlQuery->setDescriptionsAndTableNamesForFields();
 		$sqlQuery->handleHierarchyFields();
 		$sqlQuery->handleVirtualFields();
 		$sqlQuery->handleVirtualCoordinateFields();
@@ -98,8 +98,8 @@ class CargoSQLQuery {
 	 *
 	 * The function CargoUtils::getTableSchemas() also does specific
 	 * validation of the "tables" parameter, while this class's
-	 * setDescriptionsForFields() does validation of the "fields="
-	 * parameter.
+	 * setDescriptionsAndTableNameForFields() does validation of the
+	 * "fields=" parameter.
 	 */
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
@@ -462,161 +462,167 @@ class CargoSQLQuery {
 	}
 
 	/**
-	 * Attempts to get the "field description" (type, etc.) of each field
-	 * specified in a SELECT call (via a #cargo_query call), using the set
-	 * of schemas for all data tables.
+	 * Attempts to get the "field description" (type, etc.), as well as the
+	 * table name, of a single field specified in a SELECT call (via a
+	 * #cargo_query call), using the set of schemas for all data tables.
 	 *
 	 * Also does some validation of table names, field names, and any SQL
 	 * functions contained in this clause.
 	 */
-	function setDescriptionsForFields() {
-		$this->mFieldDescriptions = array();
-		$this->mFieldTables = array();
-		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
-			$tableName = null;
-			$fieldName = null;
-			$description = new CargoFieldDescription();
+	function getDescriptionAndTableNameForField( $origFieldName ) {
+		$tableName = null;
+		$fieldName = null;
+		$description = new CargoFieldDescription();
 
-			// We use "\p{L}0-9" instead of \w here in order to
-			// handle accented and other non-ASCII characters in
-			// table and field names.
-			$fieldPattern = '/^([-_\p{L}0-9$]+)([.]([-_\p{L}0-9$]+))?$/u';
-			$fieldPatternFound = preg_match( $fieldPattern, $origFieldName, $fieldPatternMatches );
-			$stringPatternFound = false;
-			$hasFunctionCall = false;
+		// We use "\p{L}0-9" instead of \w here in order to
+		// handle accented and other non-ASCII characters in
+		// table and field names.
+		$fieldPattern = '/^([-_\p{L}0-9$]+)([.]([-_\p{L}0-9$]+))?$/u';
+		$fieldPatternFound = preg_match( $fieldPattern, $origFieldName, $fieldPatternMatches );
+		$stringPatternFound = false;
+		$hasFunctionCall = false;
 
-			if ( $fieldPatternFound ) {
-				switch ( count( $fieldPatternMatches ) ) {
-					case 2:
-						$fieldName = $fieldPatternMatches[1];
-						break;
-					case 4:
-						$tableName = $fieldPatternMatches[1];
-						$fieldName = $fieldPatternMatches[3];
-						break;
-				}
-			} else {
-				$stringPattern = '/^(([\'"]).*?\2)(.+)?$/';
-				$stringPatternFound = preg_match( $stringPattern, $origFieldName, $stringPatternMatches );
-				if ( $stringPatternFound ) {
-					// If the count is 3 we have a single quoted string
-					// If the count is 4 we have stuff after it
-					$stringPatternFound = count( $stringPatternMatches ) == 3;
-				}
-
-				if ( ! $stringPatternFound ) {
-					$noQuotesOrigFieldName = CargoUtils::removeQuotedStrings( $origFieldName );
-
-					$functionCallPattern = '/\p{L}\s*\(/';
-					$hasFunctionCall = preg_match( $functionCallPattern, $noQuotesOrigFieldName );
-				}
+		if ( $fieldPatternFound ) {
+			switch ( count( $fieldPatternMatches ) ) {
+				case 2:
+					$fieldName = $fieldPatternMatches[1];
+					break;
+				case 4:
+					$tableName = $fieldPatternMatches[1];
+					$fieldName = $fieldPatternMatches[3];
+					break;
+			}
+		} else {
+			$stringPattern = '/^(([\'"]).*?\2)(.+)?$/';
+			$stringPatternFound = preg_match( $stringPattern, $origFieldName, $stringPatternMatches );
+			if ( $stringPatternFound ) {
+				// If the count is 3 we have a single quoted string
+				// If the count is 4 we have stuff after it
+				$stringPatternFound = count( $stringPatternMatches ) == 3;
 			}
 
-			// If it's a pre-defined field, we probably know its
-			// type.
-			if ( $fieldName == '_ID' || $fieldName == '_rowID' || $fieldName == '_pageID' || $fieldName == '_pageNamespace' ) {
+			if ( ! $stringPatternFound ) {
+				$noQuotesOrigFieldName = CargoUtils::removeQuotedStrings( $origFieldName );
+
+				$functionCallPattern = '/\p{L}\s*\(/';
+				$hasFunctionCall = preg_match( $functionCallPattern, $noQuotesOrigFieldName );
+			}
+		}
+		// If it's a pre-defined field, we probably know its type.
+		if ( $fieldName == '_ID' || $fieldName == '_rowID' || $fieldName == '_pageID' || $fieldName == '_pageNamespace' ) {
+			$description->mType = 'Integer';
+		} elseif ( $fieldName == '_pageTitle' ) {
+			// It's a string - do nothing.
+		} elseif ( $fieldName == '_pageName' ) {
+			$description->mType = 'Page';
+		} elseif ( $stringPatternFound ) {
+			// It's a quoted, literal string - do nothing.
+		} elseif ( $hasFunctionCall ) {
+			$sqlFunctions = self::getAndValidateSQLFunctions( $noQuotesOrigFieldName );
+			$firstFunction = $sqlFunctions[0];
+			// 'ROUND' is in neither the Integer nor Float
+			// lists because it sometimes returns an
+			// integer, sometimes a float - for formatting
+			// purposes, we'll just treat it as a string.
+			if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL' ) ) ) {
 				$description->mType = 'Integer';
-			} elseif ( $fieldName == '_pageTitle' ) {
-				// It's a string - do nothing.
-			} elseif ( $fieldName == '_pageName' ) {
-				$description->mType = 'Page';
-			} elseif ( $stringPatternFound ) {
-				// It's a quoted, literal string - do nothing.
-			} elseif ( $hasFunctionCall ) {
-				$sqlFunctions = self::getAndValidateSQLFunctions( $noQuotesOrigFieldName );
-				$firstFunction = $sqlFunctions[0];
-				// 'ROUND' is in neither the Integer nor Float
-				// lists because it sometimes returns an
-				// integer, sometimes a float - for formatting
-				// purposes, we'll just treat it as a string.
-				if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL' ) ) ) {
-					$description->mType = 'Integer';
-				} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
-					$description->mType = 'Float';
-				} elseif ( in_array( $firstFunction,
-						array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
-					$description->mType = 'Date';
-				}
-				// If it's anything else ('CONCAT', 'SUBSTRING',
-				// etc. etc.), we don't have to do anything.
-			} else {
-				// It's a standard field - though if it's
-				// '_value', or ends in '__full', it's actually
-				// the type of its corresponding field.
-				if ( $fieldName == '_value' ) {
-					if ( $tableName != null ) {
-						list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
-					} else {
-						// We'll assume that there's
-						// exactly one "field table" in
-						// the list of tables -
-						// otherwise a standalone call
-						// to "_value" will presumably
-						// crash the SQL call.
-						foreach ( $this->mAliasedTableNames as $curTable ) {
-							if ( strpos( $curTable, '__' ) !== false ) {
-								list( $tableName, $fieldName ) = explode( '__', $curTable );
-								break;
-							}
-						}
-					}
-				} elseif ( strlen( $fieldName ) > 6 &&
-					strpos( $fieldName, '__full', strlen( $fieldName ) - 6 ) !== false ) {
-					$fieldName = substr( $fieldName, 0, strlen( $fieldName ) - 6 );
-				}
+			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
+				$description->mType = 'Float';
+			} elseif ( in_array( $firstFunction,
+					array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
+				$description->mType = 'Date';
+			}
+			// If it's anything else ('CONCAT', 'SUBSTRING',
+			// etc. etc.), we don't have to do anything.
+		} else {
+			// It's a standard field - though if it's '_value',
+			// or ends in '__full', it's actually the type of its
+			// corresponding field.
+			if ( $fieldName == '_value' ) {
 				if ( $tableName != null ) {
-					if ( !array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
-						throw new MWException( wfMessage( "cargo-query-badalias", $tableName )->parse() );
-					}
-					$actualTableName = $this->mAliasedTableNames[$tableName];
-					if ( !array_key_exists( $actualTableName, $this->mTableSchemas ) ) {
-						throw new MWException( wfMessage( "cargo-query-unknowndbtable", $actualTableName )->parse() );
-					} elseif ( !array_key_exists( $fieldName, $this->mTableSchemas[$actualTableName]->mFieldDescriptions ) ) {
-						throw new MWException( wfMessage( "cargo-query-unknownfieldfortable", $fieldName, $actualTableName )->parse() );
-					} else {
-						$description = $this->mTableSchemas[$actualTableName]->mFieldDescriptions[$fieldName];
-					}
-				} elseif ( substr( $fieldName, -5 ) == '__lat' || substr( $fieldName, -5 ) == '__lon' ) {
-					// Special handling for lat/lon
-					// helper fields.
-					$description->mType = 'Coordinates part';
-					$tableName = '';
-				} elseif ( substr( $fieldName, -11 ) == '__precision' ) {
-					// Special handling for lat/lon
-					// helper fields.
-					// @TODO - we need validation on
-					// __lat, __lon and __precision fields,
-					// to make sure that they exist.
-					$description->mType = 'Date precision';
-					$tableName = '';
+					list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
 				} else {
-					// Go through all the fields, until we
-					// find the one matching this one.
-					foreach ( $this->mTableSchemas as $curTableName => $tableSchema ) {
-						if ( array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
-							$description = $tableSchema->mFieldDescriptions[$fieldName];
-							foreach ( $this->mAliasedTableNames as $tableAlias => $tableName1 ) {
-								if ( $tableName1 == $curTableName ) {
-									$tableName = $tableAlias;
-									break;
-								}
-							}
+					// We'll assume that there's exactly one
+					// "field table" in the list of tables -
+					// otherwise a standalone call to
+					// "_value" will presumably crash the
+					// SQL call.
+					foreach ( $this->mAliasedTableNames as $curTable ) {
+						if ( strpos( $curTable, '__' ) !== false ) {
+							list( $tableName, $fieldName ) = explode( '__', $curTable );
 							break;
 						}
 					}
-
-					// If we couldn't find a table name,
-					// throw an error.
-					if ( $tableName == '' ) {
-						// There's a good chance that
-						// $fieldName is blank too.
-						if ( $fieldName == '' ) {
-							$fieldName = $origFieldName;
+				}
+			} elseif ( strlen( $fieldName ) > 6 &&
+				strpos( $fieldName, '__full', strlen( $fieldName ) - 6 ) !== false ) {
+				$fieldName = substr( $fieldName, 0, strlen( $fieldName ) - 6 );
+			}
+			if ( $tableName != null ) {
+				if ( !array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
+					throw new MWException( wfMessage( "cargo-query-badalias", $tableName )->parse() );
+				}
+				$actualTableName = $this->mAliasedTableNames[$tableName];
+				if ( !array_key_exists( $actualTableName, $this->mTableSchemas ) ) {
+					throw new MWException( wfMessage( "cargo-query-unknowndbtable", $actualTableName )->parse() );
+				} elseif ( !array_key_exists( $fieldName, $this->mTableSchemas[$actualTableName]->mFieldDescriptions ) ) {
+					throw new MWException( wfMessage( "cargo-query-unknownfieldfortable", $fieldName, $actualTableName )->parse() );
+				} else {
+					$description = $this->mTableSchemas[$actualTableName]->mFieldDescriptions[$fieldName];
+				}
+			} elseif ( substr( $fieldName, -5 ) == '__lat' || substr( $fieldName, -5 ) == '__lon' ) {
+				// Special handling for lat/lon helper fields.
+				$description->mType = 'Coordinates part';
+				$tableName = '';
+			} elseif ( substr( $fieldName, -11 ) == '__precision' ) {
+				// Special handling for lat/lon helper fields.
+				// @TODO - we need validation on
+				// __lat, __lon and __precision fields,
+				// to make sure that they exist.
+				$description->mType = 'Date precision';
+				$tableName = '';
+			} else {
+				// Go through all the fields, until we find the
+				// one matching this one.
+				foreach ( $this->mTableSchemas as $curTableName => $tableSchema ) {
+					if ( array_key_exists( $fieldName, $tableSchema->mFieldDescriptions ) ) {
+						$description = $tableSchema->mFieldDescriptions[$fieldName];
+						foreach ( $this->mAliasedTableNames as $tableAlias => $tableName1 ) {
+							if ( $tableName1 == $curTableName ) {
+								$tableName = $tableAlias;
+								break;
+							}
 						}
-						throw new MWException( wfMessage( "cargo-query-unknownfield", $fieldName )->parse() );
+						break;
 					}
 				}
+
+				// If we couldn't find a table name, throw an error.
+				if ( $tableName == '' ) {
+					// There's a good chance that
+					// $fieldName is blank too.
+					if ( $fieldName == '' ) {
+						$fieldName = $origFieldName;
+					}
+					throw new MWException( wfMessage( "cargo-query-unknownfield", $fieldName )->parse() );
+				}
 			}
+		}
+
+		return array( $description, $tableName );
+	}
+
+	/**
+	 * Attempts to get the "field description" (type, etc.), as well as
+	 * the table name, of each field specified in a SELECT call (via a
+	 * #cargo_query call), using the set of schemas for all data tables.
+	 */
+	function setDescriptionsAndTableNamesForFields() {
+		$this->mFieldDescriptions = array();
+		$this->mFieldTables = array();
+		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
+			list( $description, $tableName ) = $this->getDescriptionAndTableNameForField( $origFieldName );
+
 			// Fix alias.
 			$alias = trim( $alias );
 			$this->mFieldDescriptions[$alias] = $description;
