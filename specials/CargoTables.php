@@ -181,7 +181,7 @@ class CargoTables extends IncludableSpecialPage {
 		// Remove the comma at the end.
 		$sqlQuery->mFieldsStr = trim( $fieldsStr, ',' );
 
-		$sqlQuery->setDescriptionsForFields();
+		$sqlQuery->setDescriptionsAndTableNamesForFields();
 		$sqlQuery->handleDateFields();
 		$sqlQuery->setOrderBy();
 		$sqlQuery->mQueryLimit = 100;
