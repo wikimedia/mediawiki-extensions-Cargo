@@ -36,8 +36,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$cdb = CargoUtils::getDB();
 
-		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
-		$ctURL = $ctPage->getTitle()->getFullURL();
+		$ctURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL();
 		$viewURL = "$ctURL/$tableName";
 
 		if ( $req->getCheck( '_replacement' ) ) {
@@ -45,14 +44,12 @@ class CargoTables extends IncludableSpecialPage {
 			$tableLink = Html::element( 'a', array( 'href' => $viewURL ), $tableName );
 			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
 			if ( $user->isAllowed( 'recreatecargodata' ) ) {
-				$sctPage = SpecialPageFactory::getPage( 'SwitchCargoTable' );
-				$switchURL = $sctPage->getTitle()->getFullURL() . "/$tableName";
+				$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 				$text .= ' ' . Html::element( 'a', array( 'href' => $switchURL ),
 					$this->msg( "cargo-cargotables-switch" )->parse() );
 
 				if ( $user->isAllowed( 'deletecargodata' ) ) {
-					$dctPage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
-					$deleteURL = $dctPage->getTitle()->getFullURL() . "/$tableName";
+					$deleteURL = SpecialPage::getTitleFor( 'DeleteCargoTable' )->getFullURL() . "/$tableName";
 					$deleteURL .= strpos( $deleteURL, '?' ) ? '&' : '?';
 					$deleteURL .= "_replacement";
 					$text .= ' ' . $this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
@@ -83,7 +80,7 @@ class CargoTables extends IncludableSpecialPage {
 		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 		$mainPageLink = CargoUtils::makeLink(
 			$linkRenderer,
-			$ctPage->getTitle(),
+			$ctPage->getPageTitle(),
 			htmlspecialchars( $ctPage->getDescription() )
 		);
 		$out->setSubtitle( '< '. $mainPageLink );
@@ -220,9 +217,7 @@ class CargoTables extends IncludableSpecialPage {
 		$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
 		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
 
-		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
-		$ctURL = $ctPage->getTitle()->getFullURL();
-		$viewURL = "$ctURL/$tableName";
+		$viewURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL() . "/$tableName";
 		if ( $isReplacementTable ) {
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
@@ -262,8 +257,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		if ( $wgUser->isAllowed( 'deletecargodata' ) ) {
-			$deleteTablePage = SpecialPageFactory::getPage( 'DeleteCargoTable' );
-			$deleteTableURL = $deleteTablePage->getTitle()->getLocalURL() . '/' . $tableName;
+			$deleteTableURL = SpecialPage::getTitleFor( 'DeleteCargoTable' )->getLocalURL() . "/$tableName";
 			if ( $isReplacementTable ) {
 				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
 				$deleteTableURL .= "_replacement";
@@ -382,8 +376,7 @@ class CargoTables extends IncludableSpecialPage {
 				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false );
 				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
 				if ( $wgUser->isAllowed( 'recreatecargodata' ) ) {
-					$sctPage = SpecialPageFactory::getPage( 'SwitchCargoTable' );
-					$switchURL = $sctPage->getTitle()->getFullURL() . "/$tableName";
+					$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 					$tableText .= "<br />\n" . Html::element( 'a', array( 'href' => $switchURL ),
 						$this->msg( "cargo-cargotables-switch" )->parse() );
 				}

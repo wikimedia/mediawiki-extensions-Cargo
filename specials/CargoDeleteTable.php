@@ -94,7 +94,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 			} else {
 				$linkRenderer = null;
 			}
-			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getTitle(), $ctPage->getDescription() );
+			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getPageTitle(), $ctPage->getDescription() );
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			if ( !$replacementTable ) {
@@ -103,7 +103,7 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 			return true;
 		}
 
-		$ctURL = $ctPage->getTitle()->getFullURL();
+		$ctURL = $ctPage->getPageTitle()->getFullURL();
 		$tableLink = "[$ctURL/$origTableName $origTableName]";
 
 		if ( $replacementTable ) {

@@ -118,13 +118,13 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 			} else {
 				$linkRenderer = null;
 			}
-			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getTitle(), $ctPage->getDescription() );
+			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getPageTitle(), $ctPage->getDescription() );
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			return true;
 		}
 
-		$ctURL = $ctPage->getTitle()->getLocalURL();
+		$ctURL = $ctPage->getPageTitle()->getLocalURL();
 		$tableLink = Html::element( 'a', array( 'href' => "$ctURL/$tableName", ), $tableName );
 
 		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-switchtables-confirm', $tableLink )->text() );

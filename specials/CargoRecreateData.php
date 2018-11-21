@@ -43,8 +43,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 		$possibleReplacementTable = $this->mTableName . '__NEXT';
 		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
 			$text = $this->msg( 'cargo-recreatedata-replacementexists', $this->mTableName, $possibleReplacementTable )->parse();
-			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
-			$ctURL = $ctPage->getTitle()->getFullURL();
+			$ctURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL();
 			$viewURL = $ctURL . '/' . $this->mTableName;
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
