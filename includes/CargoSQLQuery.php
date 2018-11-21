@@ -526,11 +526,21 @@ class CargoSQLQuery {
 			// purposes, we'll just treat it as a string.
 			if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL' ) ) ) {
 				$description->mType = 'Integer';
-			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
+			} elseif ( in_array( $firstFunction, array( 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
 				$description->mType = 'Float';
 			} elseif ( in_array( $firstFunction,
 					array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
 				$description->mType = 'Date';
+			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN' ) ) ) {
+				// These are special functions in that the type
+				// of their output is not fixed, but rather
+				// matches the type of their input. So we find
+				// what's inside the function call and call
+				// *this* function recursively on that.
+				$startParenPos = strpos( $origFieldName, '(' );
+				$lastParenPos = strrpos( $origFieldName, ')' );
+				$innerFieldName = substr( $origFieldName, $startParenPos + 1, ( $lastParenPos - $startParenPos - 1 ) );
+				return $this->getDescriptionAndTableNameForField( $innerFieldName );
 			}
 			// If it's anything else ('CONCAT', 'SUBSTRING',
 			// etc. etc.), we don't have to do anything.
