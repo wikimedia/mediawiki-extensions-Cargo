@@ -90,6 +90,12 @@ class SetCargoPageData extends Maintenance {
 		}
 
 		$this->output( "\n Finished populating page data table(s).\n" );
+
+		if ( $numRows >= 0 ) {
+			CargoUtils::logTableAction( 'recreatetable', '_pageData' );
+		} else {
+			CargoUtils::logTableAction( 'createtable', '_pageData' );
+		}
 	}
 
 }

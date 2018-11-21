@@ -90,6 +90,12 @@ class SetCargoFileData extends Maintenance {
 		}
 
 		$this->output( "\n Finished populating file data table(s).\n" );
+
+		if ( $numRows >= 0 ) {
+			CargoUtils::logTableAction( 'recreatetable', '_fileData' );
+		} else {
+			CargoUtils::logTableAction( 'createtable', '_fileData' );
+		}
 	}
 
 }

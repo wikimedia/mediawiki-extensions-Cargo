@@ -74,6 +74,8 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		}
 		$dbw->update( 'cargo_tables', array( 'field_tables' => serialize( $origFieldTableNames ) ), array( 'main_table' => $mainTable ) );
 		$dbw->update( 'cargo_pages', array( 'table_name' => $mainTable ), array( 'table_name' => $mainTable . '__NEXT' ) );
+
+		CargoUtils::logTableAction( 'replacetable', $mainTable );
 	}
 
 	function execute( $subpage = false ) {

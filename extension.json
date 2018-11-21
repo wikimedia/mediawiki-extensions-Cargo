@@ -32,6 +32,21 @@
 		"cargorecreatedata": "CargoRecreateDataAPI",
 		"cargoautocomplete": "CargoAutocompleteAPI"
 	},
+	"LogTypes": [
+		"cargo"
+	],
+	"LogNames": {
+		"cargo": "cargo-logname"
+	},
+	"LogHeaders": {
+		"cargo": "cargo-logdesc"
+	},
+	"LogActions": {
+		"cargo/createtable": "cargo-createtableaction",
+		"cargo/recreatetable": "cargo-recreatetableaction",
+		"cargo/replacetable": "cargo-replacetableaction",
+		"cargo/deletetable": "cargo-deletetableaction"
+	},
 	"MessagesDirs": {
 		"Cargo": [
 			"i18n"

@@ -73,6 +73,15 @@ $wgAPIModules['cargorecreatetables'] = 'CargoRecreateTablesAPI';
 $wgAPIModules['cargorecreatedata'] = 'CargoRecreateDataAPI';
 $wgAPIModules['cargoautocomplete'] = 'CargoAutocompleteAPI';
 
+// Logging
+$wgLogTypes['cargo'] = 'cargo';
+$wgLogNames['cargo'] = 'cargo-logname';
+$wgLogHeaders['cargo'] = 'cargo-logdesc';
+$wgLogActions['cargo/createtable'] = 'cargo-createtableaction';
+$wgLogActions['cargo/recreatetable'] = 'cargo-recreatetableaction';
+$wgLogActions['cargo/replacetable'] = 'cargo-replacetableaction';
+$wgLogActions['cargo/deletetable'] = 'cargo-deletetableaction';
+
 // Register classes and special pages.
 $wgAutoloadClasses['CargoHooks'] = $dir . '/Cargo.hooks.php';
 $wgAutoloadClasses['CargoUtils'] = $dir . '/includes/CargoUtils.php';

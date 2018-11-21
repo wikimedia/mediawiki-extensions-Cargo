@@ -561,6 +561,10 @@ class CargoUtils {
 		if ( $createReplacement ) {
 			$tableName .= '__NEXT';
 		} else {
+			// @TODO - is an array really necessary? Shouldn't it
+			// always be just one table name? Tied in with that,
+			// if a table name was already specified, do we need
+			// to do a lookup here?
 			$tableNames = array();
 			$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
 			while ( $row = $dbw->fetchRow( $res ) ) {
@@ -572,6 +576,8 @@ class CargoUtils {
 			if ( $tableName != null && !in_array( $tableName, $tableNames ) ) {
 				$tableNames[] = $tableName;
 			}
+
+			$mainTableAlreadyExists = $cdb->tableExists( $tableNames[0] );
 
 			foreach ( $tableNames as $curTable ) {
 				try {
@@ -589,6 +595,15 @@ class CargoUtils {
 		}
 
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
+
+		if ( !$createReplacement ) {
+			// Log this.
+			if ( $mainTableAlreadyExists ) {
+				self::logTableAction( 'recreatetable', $tableName );
+			} else {
+				self::logTableAction( 'createtable', $tableName );
+			}
+		}
 
 		return true;
 	}
@@ -1127,6 +1142,24 @@ class CargoUtils {
 		} else {
 			return Linker::linkKnown( $title, $msg, $attrs, $params );
 		}
+	}
+
+	public static function logTableAction( $actionName, $tableName ) {
+		$log = new LogPage( 'cargo' );
+		if ( $actionName == 'deletetable' ) {
+			$logParams = array( $tableName );
+		} else {
+			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctURL = $ctPage->getPageTitle()->getFullURL();
+			$tableURL = "$ctURL/$tableName";
+			$tableLink = Html::element(
+				'a',
+				array( 'href' => $tableURL ),
+				$tableName
+			);
+			$logParams = array( $tableLink );
+		}
+		$log->addEntry( $actionName, new Title(), '', $logParams );
 	}
 
 	public static function validateHierarchyStructure( $hierarchyStructure ) {
