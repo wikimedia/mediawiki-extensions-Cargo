@@ -4,5 +4,6 @@
 			"Joetaras"
 		]
 	},
-	"recreatedata": "Ccreje arrete le date"
+	"recreatedata": "Ccreje arrete le date",
+	"cargo-createtableaction": "ccrejate 'a tabbelle Cargo $2"
 }

@@ -5,7 +5,8 @@
 			"Geraki",
 			"Xaris333",
 			"KATRINE1992",
-			"Nikosgranturismogt"
+			"Nikosgranturismogt",
+			"KATRINE1993"
 		]
 	},
 	"cargo-desc": "Αποθήκευση και ερωτήματα για δεδομένα προτύπων",
@@ -28,6 +29,9 @@
 	"apihelp-cargorecreatetables-param-createReplacement": "Si va poner datos en una tabla sostituida",
 	"apihelp-cargorecreatedata-param-template": "Το πρότυπο του οποίου τα δεδομένα να χρησιμοποιηθούν",
 	"apihelp-cargorecreatedata-param-table": "Ο πίνακας της βάσης δεδομένων Cargo που να ανασυσταθεί",
+	"cargo-createtableaction": "δημιούργησε τον πίνακα στοιχείων Φόρτωσης $2",
+	"cargo-recreatetableaction": "δημιούργησε πάλι τον πίνακα Φόρτωσης $2",
+	"cargo-replacetableaction": "αντικατέστησε τον πίνακα στοιχείων Φόρτωσης $2 με μια νέα εκδοχή",
 	"cargo-createdatatable": "Δημιουργία πίνακα δεδομένων",
 	"cargo-recreatedata-desc": "Να γίνει αναδημιουργία δεδομένων Cargo για αυτό το πρότυπο;",
 	"cargo-recreatedata-createdata": "Να γίνει δημιουργία δεδομένων Cargo για αυτό το πρότυπο;",
