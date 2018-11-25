@@ -1,20 +1,21 @@
 {
 	"@metadata": {
 		"authors": [
-			"Bjankuloski06"
+			"Bjankuloski06",
+			"Vlad5250"
 		]
 	},
 	"cargo-extensionname": "Карго",
 	"cargo-desc": "Овозможува складирање и побарување на шаблонски податоци",
 	"cargo-definestable": "Шаблонов ја определува табелата „$1“.",
-	"cargo-tablenotcreated": "Табелава сè уште не е создаена.",
+	"cargo-tablenotcreated": "Табелава сè уште не е создадена.",
 	"cargo-addsrows": "Шаблонов додава редови во табелата „$1“, изјавена од шаблонот $2.",
 	"cargo-notable": "Грешка: Мора да се укаже назив на табелата.",
 	"cargo-unknowntable": "Грешка: Не ја најдов табелата $1.",
 	"recreatedata": "Пресоздај податоци",
 	"right-recreatecargodata": "Пресоздавање податоци во табелите на „Карго“",
 	"right-deletecargodata": "Бришење на табела во „Карго“",
-	"action-recreatecargodata": "пресоздаваање на податоци на „Карго“",
+	"action-recreatecargodata": "пресоздавање на податоци на „Карго“",
 	"action-deletecargodata": "бришење на податоци од „Карго“",
 	"apihelp-cargoquery-description": "Пушта барање за податоци од „Карго“.",
 	"apihelp-cargoquery-summary": "Пушта барање за податоци од „Карго“.",
