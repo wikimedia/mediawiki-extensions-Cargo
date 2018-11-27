@@ -14,6 +14,8 @@
 	"right-deletecargodata": "Изтриване на табела в „Карго“",
 	"action-recreatecargodata": "пресъздаване на данни на „Карго“",
 	"action-deletecargodata": "изтриване на данни от „Карго“",
+	"apihelp-cargoquery-param-tables": "Табелите в базата на „Карго“, по които ще се претърсва",
+	"apihelp-cargoquery-param-limit": "Граница на броя на резултати",
 	"apihelp-cargorecreatetables-description": "Пресъздава една или повече табели за „Карго“",
 	"apihelp-cargorecreatetables-summary": "Пресъздава една или повече табели за „Карго“",
 	"apihelp-cargoautocomplete-param-substr": "Подниза за претърсване",
