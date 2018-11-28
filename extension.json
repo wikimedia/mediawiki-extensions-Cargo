@@ -355,7 +355,7 @@
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [6],
-		"CargoAllowedSQLFunctions":["COUNT", "FLOOR", "CEIL", "ROUND","MAX", "MIN", "AVG", "SUM", "POWER", "LN", "LOG","CONCAT", "GROUP_CONCAT", "LOWER", "LCASE", "UPPER", "UCASE","SUBSTRING", "FORMAT","NOW", "DATE", "YEAR", "MONTH", "DAYOFMONTH", "DATE_FORMAT","DATE_ADD", "DATE_SUB", "DATEDIFF","NEAR"]
+		"CargoAllowedSQLFunctions":["COUNT", "FLOOR", "CEIL", "ROUND","MAX", "MIN", "AVG", "SUM", "POWER", "LN", "LOG","CONCAT", "GROUP_CONCAT", "LOWER", "LCASE", "UPPER", "UCASE", "SUBSTRING", "TRIM", "FORMAT", "NOW", "DATE", "YEAR", "MONTH", "DAYOFMONTH", "DATE_FORMAT", "DATE_ADD", "DATE_SUB", "DATEDIFF", "NEAR"]
 	},
 	"manifest_version": 1
 }

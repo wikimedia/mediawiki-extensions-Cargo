@@ -531,6 +531,15 @@ class CargoSQLQuery {
 			} elseif ( in_array( $firstFunction,
 					array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
 				$description->mType = 'Date';
+			} elseif ( in_array( $firstFunction,
+					array( 'TRIM' ) ) ) {
+				// @HACK - allow users one string function
+				// (TRIM()) that will return a String type, and
+				// thus won't have its value parsed as wikitext.
+				// Hopefully this won't cause problems for those
+				// just wanting to call TRIM(). (In that case,
+				// they can wrap the call in CONCAT().)
+				$description->mType = 'String';
 			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN' ) ) ) {
 				// These are special functions in that the type
 				// of their output is not fixed, but rather

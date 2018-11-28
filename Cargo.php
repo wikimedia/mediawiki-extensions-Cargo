@@ -353,7 +353,7 @@ $wgCargoAllowedSQLFunctions = array(
 	'MAX', 'MIN', 'AVG', 'SUM', 'POWER', 'LN', 'LOG',
 	// String functions
 	'CONCAT', 'GROUP_CONCAT', 'LOWER', 'LCASE', 'UPPER', 'UCASE',
-	'SUBSTRING', 'FORMAT',
+	'SUBSTRING', 'TRIM', 'FORMAT',
 	// Date functions
 	'NOW', 'DATE', 'YEAR', 'MONTH', 'DAYOFMONTH', 'DATE_FORMAT',
 	'DATE_ADD', 'DATE_SUB', 'DATEDIFF',
