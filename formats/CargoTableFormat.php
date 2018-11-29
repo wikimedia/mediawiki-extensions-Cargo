@@ -66,7 +66,14 @@ class CargoTableFormat extends CargoDisplayFormat {
 			$mergeSimilarCells = strtolower( $displayParams['merge similar cells'] ) == 'yes';
 		}
 
-		$text = '<table class="cargoTable sortable">';
+		$tableClass = 'cargoTable';
+		if ( $mergeSimilarCells ) {
+			$tableClass .= ' mergeSimilarCells';
+		} else {
+			$tableClass .= ' noMerge sortable';
+		}
+
+		$text = "<table class=\"$tableClass\">";
 		$text .= '<tr>';
 		foreach ( array_keys( $fieldDescriptions ) as $field ) {
 			if ( strpos( $field, 'Blank value ' ) === false ) {
@@ -105,19 +112,24 @@ class CargoTableFormat extends CargoDisplayFormat {
 					$value = null;
 				}
 
-				// We add a unique class to enable special CSS and/or
-				// JS handling, as well as a class to indicate whether
-				// this is an odd or even row - unfortunately, the
-				// possible presence of merged cells means that we
-				// can't use the standard "nth-child" CSS approach.
+				// Add a unique class to enable special CSS
+				// and/or JS handling.
 				$className = 'field_' . str_replace( ' ', '_', $field );
-				if ( $columnIsOdd[$field] ) {
-					$className .= ' odd';
-					$columnIsOdd[$field] = false;
-				} else {
-					$className .= ' even';
-					$columnIsOdd[$field] = true;
+
+				if ( $mergeSimilarCells ) {
+					// If there are merged cells, we can't
+					// use the standard "nth-child" CSS
+					// approach, so add a class to indicate
+					// whether this is an odd or even row.
+					if ( $columnIsOdd[$field] ) {
+						$className .= ' odd';
+						$columnIsOdd[$field] = false;
+					} else {
+						$className .= ' even';
+						$columnIsOdd[$field] = true;
+					}
 				}
+
 				$attrs = array( 'class' => $className );
 				if (
 					$mergeSimilarCells &&

@@ -6,11 +6,23 @@ table.cargoTable {
 	border-collapse: collapse;
 }
 
-table.cargoTable td.odd {
+/**
+ * Handling of "zebra striping" in tables is different based on
+ * whether or not the "merge similar cells" parameter was set.
+ */
+table.cargoTable.noMerge tr:nth-child(odd) {
 	background: #fff;
 }
 
-table.cargoTable td.even {
+table.cargoTable.noMerge tr:nth-child(even) {
+	background: #eee;
+}
+
+table.cargoTable.mergeSimilarCells td.odd {
+	background: #fff;
+}
+
+table.cargoTable.mergeSimilarCells td.even {
 	background: #eee;
 }
 
