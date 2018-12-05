@@ -4,7 +4,8 @@
 			"Liuxinyu970226",
 			"Yfdyh000",
 			"Fanjiayi",
-			"Phenolla"
+			"Phenolla",
+			"A Chinese Wikipedian"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -48,6 +49,7 @@
 	"apihelp-cargoautocomplete-param-field": "要搜索值的Cargo字段",
 	"apihelp-cargoautocomplete-param-field_is_array": "字段是否保留值的列表",
 	"apihelp-cargoautocomplete-param-where": "用于查询的“where”条款，基于其他指定的过滤器",
+	"cargo-logname": "货物记录",
 	"cargo-createdatatable": "创建数据表",
 	"cargo-recreatedata-desc": "为此模板重新创建Cargo数据么？",
 	"cargo-recreatedata-createdata": "为此模板创建Cargo数据么？",
