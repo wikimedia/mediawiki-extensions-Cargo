@@ -29,10 +29,10 @@ class CargoUtils {
 		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBtype;
 
-		$dbw = wfGetDB( DB_MASTER );
-		$server = $dbw->getServer();
-		$name = $dbw->getDBname();
-		$type = $dbw->getType();
+		$dbr = wfGetDB( DB_REPLICA );
+		$server = $dbr->getServer();
+		$name = $dbr->getDBname();
+		$type = $dbr->getType();
 
 		// We need $wgCargoDBtype for other functions.
 		if ( is_null( $wgCargoDBtype ) ) {
@@ -41,7 +41,7 @@ class CargoUtils {
 		$dbServer = is_null( $wgCargoDBserver ) ? $server : $wgCargoDBserver;
 		$dbName = is_null( $wgCargoDBname ) ? $name : $wgCargoDBname;
 
-		// Server (host), db name, and db type can be retrieved from $dbw via
+		// Server (host), db name, and db type can be retrieved from $dbr via
 		// public methods, but username and password cannot. If these values are
 		// not set for Cargo, get them from either $wgDBservers or wgDBuser and
 		// $wgDBpassword, depending on whether or not there are multiple DB servers.
@@ -83,8 +83,8 @@ class CargoUtils {
 	 * Gets a page property for the specified page ID and property name.
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'page_props', array(
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'page_props', array(
 				'pp_value'
 			), array(
 				'pp_page' => $pageID,
@@ -92,7 +92,7 @@ class CargoUtils {
 			)
 		);
 
-		if ( !$row = $dbw->fetchRow( $res ) ) {
+		if ( !$row = $dbr->fetchRow( $res ) ) {
 			return null;
 		}
 
@@ -103,8 +103,8 @@ class CargoUtils {
 	 * Similar to getPageProp().
 	 */
 	public static function getAllPageProps( $pageProp ) {
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'page_props', array(
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'page_props', array(
 			'pp_page',
 			'pp_value'
 			), array(
@@ -113,7 +113,7 @@ class CargoUtils {
 		);
 
 		$pagesPerValue = array();
-		while ( $row = $dbw->fetchRow( $res ) ) {
+		while ( $row = $dbr->fetchRow( $res ) ) {
 			$pageID = $row['pp_page'];
 			$pageValue = $row['pp_value'];
 			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
@@ -131,15 +131,15 @@ class CargoUtils {
 	 * hopefully there's exactly one of them.
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'page_props', array(
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'page_props', array(
 			'pp_page'
 			), array(
 			'pp_value' => $tableName,
 			'pp_propname' => 'CargoTableName'
 			)
 		);
-		if ( !$row = $dbw->fetchRow( $res ) ) {
+		if ( !$row = $dbr->fetchRow( $res ) ) {
 			return null;
 		}
 		return $row['pp_page'];
@@ -160,9 +160,9 @@ class CargoUtils {
 
 	public static function getTables() {
 		$tableNames = array();
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'cargo_tables', 'main_table' );
-		while ( $row = $dbw->fetchRow( $res ) ) {
+		$dbr = wfGetDB( DB_MASTER );
+		$res = $dbr->select( 'cargo_tables', 'main_table' );
+		while ( $row = $dbr->fetchRow( $res ) ) {
 			$tableName = $row['main_table'];
 			// Skip "replacement" tables.
 			if ( substr( $tableName, -6 ) == '__NEXT' ) {
@@ -175,9 +175,9 @@ class CargoUtils {
 
 	static function getParentTables( $tableName ) {
 		$parentTables = array();
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
-		while ( $row = $dbw->fetchRow( $res ) ) {
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		while ( $row = $dbr->fetchRow( $res ) ) {
 			if ( $tableName == $row['main_table'] ) {
 				$parentTables = self::getPageProp( $row['template_id'], 'CargoParentTables' );
 			}
@@ -189,9 +189,9 @@ class CargoUtils {
 
 	static function getDrilldownTabsParams( $tableName ) {
 		$drilldownTabs = array();
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
-		while ( $row = $dbw->fetchRow( $res ) ) {
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		while ( $row = $dbr->fetchRow( $res ) ) {
 			if ( $tableName == $row['main_table'] ) {
 				$drilldownTabs = self::getPageProp( $row['template_id'], 'CargoDrilldownTabsParams' );
 			}
@@ -215,10 +215,10 @@ class CargoUtils {
 			}
 		}
 		$tableSchemas = array();
-		$dbw = wfGetDB( DB_MASTER );
-		$res = $dbw->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
 			array( 'main_table' => $mainTableNames ) );
-		while ( $row = $dbw->fetchRow( $res ) ) {
+		while ( $row = $dbr->fetchRow( $res ) ) {
 			$tableName = $row['main_table'];
 			$tableSchemaString = $row['table_schema'];
 			$tableSchemas[$tableName] = CargoTableSchema::newFromDBString( $tableSchemaString );
