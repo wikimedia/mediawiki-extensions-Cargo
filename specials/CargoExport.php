@@ -43,8 +43,8 @@ class CargoExport extends UnlistedSpecialPage {
 		$sqlQueries = array();
 		foreach ( $tableArray as $i => $table ) {
 			$sqlQueries[] = CargoSQLQuery::newFromValues(
-					$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
-					$havingArray[$i], $orderByArray[$i], $limitArray[$i], $offsetArray[$i] );
+				$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
+				$havingArray[$i], $orderByArray[$i], $limitArray[$i], $offsetArray[$i] );
 		}
 
 		$format = $req->getVal( 'format' );
@@ -103,7 +103,7 @@ class CargoExport extends UnlistedSpecialPage {
 			$dateFieldAliases = array();
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
-					 $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 					$dateFieldAliases[] = $alias;
 					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
 					$dateFieldRealNames[] = $realFieldName;
@@ -221,8 +221,9 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray = array();
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFields = array();
-			// First put the Start date/datetime type fields and only then the date/datetime and
-			// End date/datetime type fields in the dateFields array
+			// Make sure the Start date/datetime type field, if any,
+			// shows up before the End date/datetime type field in
+			// the $dateFields array.
 			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
 				if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 					$dateFields[] = $field;
@@ -230,7 +231,7 @@ class CargoExport extends UnlistedSpecialPage {
 			}
 			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
-					 $description->mType == 'End date' || $description->mType == 'End datetime' ) {
+					$description->mType == 'End date' || $description->mType == 'End datetime' ) {
 					$dateFields[] = $field;
 				}
 			}
@@ -240,15 +241,17 @@ class CargoExport extends UnlistedSpecialPage {
 			foreach ( $queryResults as $queryResult ) {
 				$eventDescription = '';
 				$firstField = true;
-				$end = null;
+				$startDateValue = null;
+				$endDateValue = null;
 				foreach ( $sqlQuery->mFieldDescriptions as $fieldName => $fieldDescription ) {
 					if ( $dateFields[0] == $fieldName ) {
+						$startDateValue = $queryResult[$fieldName];
 						if ( !( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) ) {
 							continue;
 						}
-						foreach ( $sqlQuery->mFieldDescriptions as $field => $mFieldDescription ) {
-							if ( $mFieldDescription->mType == "End date" || $mFieldDescription->mType == "End datetime" ) {
-								$end = $queryResult[$field];
+						foreach ( $sqlQuery->mFieldDescriptions as $fieldName2 => $fieldDescription2 ) {
+							if ( $fieldDescription2->mType == "End date" || $fieldDescription2->mType == "End datetime" ) {
+								$endDateValue = $queryResult[$fieldName2];
 								break;
 							}
 						}
@@ -282,10 +285,12 @@ class CargoExport extends UnlistedSpecialPage {
 
 				$eventDisplayDetails = array(
 					'title' => $eventTitle,
-					'start' => $queryResult[$dateFields[0]],
-					'end' => $end,
 					'description' => $eventDescription,
+					'start' => $startDateValue,
 				);
+				if ( $endDateValue !== null ) {
+					$eventDisplayDetails['end'] = $endDateValue;
+				}
 
 				// If we have the name of the page on which
 				// the event is defined, link to that -
