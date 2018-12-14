@@ -2419,6 +2419,8 @@ END;
 		if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
 			$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
 			$this->format = strtolower( $currentTabParams['format'] );
+		} else {
+			$currentTabParams = array();
 		}
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
 		if ( array_key_exists( $this->format, $formatClasses ) ) {
