@@ -2442,7 +2442,8 @@ END;
 			try {
 				$queryResults = $this->sqlQuery->run();
 			} catch ( Exception $e ) {
-				return CargoUtils::formatError( $e->getMessage() );
+				$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
+				return;
 			}
 			if ( $this->drilldownTabsParams ) {
 				foreach ( $currentTabParams as $parameter => $value ) {
