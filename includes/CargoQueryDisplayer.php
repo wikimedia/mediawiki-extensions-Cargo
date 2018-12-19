@@ -255,8 +255,6 @@ class CargoQueryDisplayer {
 		// 'Y' adds leading zeroes to years with fewer than four digits,
 		// so remove them.
 		$yearString = ltrim( date( 'Y', $seconds ), '0' );
-		// Anyway, it's easy to get around.
-		$yearString = date( 'o', $seconds + 300000 );
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
 			return $yearString;
 		} elseif ( $datePrecision == CargoStore::MONTH_ONLY ) {
