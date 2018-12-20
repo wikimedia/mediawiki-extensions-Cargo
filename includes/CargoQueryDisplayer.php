@@ -230,7 +230,7 @@ class CargoQueryDisplayer {
 			// This should not get called - date fields
 			// have a separate formatting function.
 			return $value;
-		} elseif ( $type == 'Wikitext' || $type == '' ) {
+		} elseif ( $type == 'Wikitext' || $type == 'Wikitext string' || $type == '' ) {
 			return CargoUtils::smartParse( $value, $parser );
 		} elseif ( $type == 'Searchtext' ) {
 			if ( strlen( $value ) > 300 ) {

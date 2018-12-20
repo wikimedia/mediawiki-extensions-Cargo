@@ -680,7 +680,7 @@ class CargoUtils {
 					// accompanying handling.
 					return 'TEXT';
 			}
-		} elseif ( $fieldType == 'Text' ) {
+		} elseif ( $fieldType == 'Text' || $fieldType == 'Wikitext' ) {
 			switch ( $dbType ) {
 				case "mssql":
 					return 'Varchar(Max)';
@@ -696,7 +696,7 @@ class CargoUtils {
 				throw new MWException( "Error: a \"Searchtext\" field can currently only be defined for MySQL databases." );
 			}
 			return 'Mediumtext';
-		} else { // 'String', 'Page', etc.
+		} else { // 'String', 'Page', 'Wikitext string', etc.
 			if ( $size == null ) {
 				$size = $wgCargoDefaultStringBytes;
 			}

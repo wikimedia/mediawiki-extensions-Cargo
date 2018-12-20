@@ -136,7 +136,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 				}
 
 				// Some field types shouldn't get a filter at all.
-				if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Searchtext' ) ) ) {
+				if ( in_array( $fieldDescription->mType, array( 'Text', 'File', 'Coordinates', 'URL', 'Email', 'Wikitext', 'Wikitext string', 'Searchtext' ) ) ) {
 					if ( ( $tableName == $mainTable || $drilldownTabsParams ) && $fieldDescription->mType == 'Coordinates' ) {
 						$coordsFields[$tableAlias] = $fieldName;
 					}
