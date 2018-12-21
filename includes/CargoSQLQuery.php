@@ -378,13 +378,13 @@ class CargoSQLQuery {
 			if ( !array_key_exists( $table1, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table1] == $table1 ) {
 				$cargoTable1 = $this->mCargoDB->tableName( $table1 );
 			} else {
-				$cargoTable1 = $table1;
+				$cargoTable1 = $this->mCargoDB->addIdentifierQuotes( $table1 );
 			}
 			$table2 = $cargoJoinCond['table2'];
 			if ( !array_key_exists( $table2, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table2] == $table2 ) {
 				$cargoTable2 = $this->mCargoDB->tableName( $table2 );
 			} else {
-				$cargoTable2 = $table2;
+				$cargoTable2 = $this->mCargoDB->addIdentifierQuotes( $table2 );
 			}
 			if ( array_key_exists( 'joinOperator', $cargoJoinCond ) ) {
 				$joinOperator = $cargoJoinCond['joinOperator'];
@@ -392,9 +392,11 @@ class CargoSQLQuery {
 				$joinOperator = '=';
 			}
 
+			$field1 = $this->mCargoDB->addIdentifierQuotes( $cargoJoinCond['field1'] );
+			$field2 = $this->mCargoDB->addIdentifierQuotes( $cargoJoinCond['field2'] );
 			$joinCondConds = array(
-				$cargoTable1 . '.' . $cargoJoinCond['field1'] . $joinOperator .
-				$cargoTable2 . '.' . $cargoJoinCond['field2']
+				$cargoTable1 . '.' . $field1 . $joinOperator .
+				$cargoTable2 . '.' . $field2
 			);
 			if ( array_key_exists( 'extraCond', $cargoJoinCond ) ) {
 				$joinCondConds[] = $cargoJoinCond['extraCond'];
