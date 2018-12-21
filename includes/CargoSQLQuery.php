@@ -846,9 +846,9 @@ class CargoSQLQuery {
 				$cargoJoinConds = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableAlias,
-					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
+					'field1' => '_ID',
 					'table2' => $fieldTableAlias,
-					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
+					'field2' => '_rowID'
 				);
 				// We store this in order to add it to the
 				// JOIN clause, because it's necessary, for
@@ -897,9 +897,9 @@ class CargoSQLQuery {
 				$newJoinCond = array(
 					'joinType' => 'LEFT OUTER JOIN',
 					'table1' => $tableAlias,
-					'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
+					'field1' => '_ID',
 					'table2' => $fieldTableAlias,
-					'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
+					'field2' => '_rowID'
 				);
 				$newCargoJoinConds[] = $newJoinCond;
 				$newJoinCond2 = array(
@@ -943,9 +943,9 @@ class CargoSQLQuery {
 					$this->mCargoJoinConds[] = array(
 						'joinType' => 'LEFT OUTER JOIN',
 						'table1' => $tableAlias,
-						'field1' => $this->mCargoDB->addIdentifierQuotes( '_ID' ),
+						'field1' => '_ID',
 						'table2' => $fieldTableAlias,
-						'field2' => $this->mCargoDB->addIdentifierQuotes( '_rowID' )
+						'field2' => '_rowID'
 					);
 				}
 				$replacement = "$fieldTableAlias._value";
