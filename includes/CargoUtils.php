@@ -401,7 +401,7 @@ class CargoUtils {
 		$fieldName = str_replace( '$', '\$', $fieldName );
 		$tableName = str_replace( '$', '\$', $tableName );
 		$pattern = '/([^\w$,]|^)' . $tableName . '\.' . $fieldName;
-		return $pattern . ( $closePattern ? '([^\w$]|$)/i' : '' );
+		return $pattern . ( $closePattern ? '([^\w$]|$)/ui' : '' );
 	}
 
 	/**
@@ -411,7 +411,7 @@ class CargoUtils {
 	public static function getSQLTablePattern( $tableName, $closePattern = true ) {
 		$tableName = str_replace( '$', '\$', $tableName );
 		$pattern = '/([^\w$]|^)(' . $tableName . ')\.(\w*)';
-		return $pattern . ( $closePattern ? '/i' : '' );
+		return $pattern . ( $closePattern ? '/ui' : '' );
 	}
 
 	/**
