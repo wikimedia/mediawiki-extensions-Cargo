@@ -319,7 +319,7 @@ class CargoFilter {
 		if ( $isApplied ) {
 			$conds = null;
 		}
-		$countClause = "COUNT(DISTINCT {$mainTableAlias}._pageID) AS total";
+		$countClause = 'COUNT(DISTINCT ' . $cdb->addIdentifierQuotes( $mainTableAlias ) . '._pageID) AS total';
 		$res = $cdb->select( $tableNames, array( "$fieldName AS value", $countClause ), $conds, null,
 			array( 'GROUP BY' => $fieldName ), $joinConds );
 		$possible_values = array();

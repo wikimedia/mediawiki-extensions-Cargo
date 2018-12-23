@@ -1474,12 +1474,23 @@ class CargoSQLQuery {
 				$alias = $this->mCargoDB->addIdentifierQuotes( $alias );
 			}
 
-			// If it's really a field name, add quotes around it.
-			// (The quotes are mostly needed for Postgres, which
-			// lowercases all unquoted fields.)
-			if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false &&
-				!$this->mCargoDB->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
-				$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
+			// If it's either a field, or a table + field,
+			// add quotes around the name(s).
+			if ( strpos( $fieldName, '(' ) === false ) {
+				if ( strpos( $fieldName, '.' ) === false ) {
+					if ( !$this->mCargoDB->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
+						$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
+					}
+				} else {
+					list( $realTableName, $realFieldName ) = explode( '.', $fieldName, 2 );
+					if ( !$this->mCargoDB->isQuotedIdentifier( $realTableName ) && !CargoUtils::isSQLStringLiteral( $realTableName ) ) {
+						$realTableName = $this->mCargoDB->addIdentifierQuotes( $realTableName );
+					}
+					if ( !$this->mCargoDB->isQuotedIdentifier( $realFieldName ) && !CargoUtils::isSQLStringLiteral( $realFieldName ) ) {
+						$realFieldName = $this->mCargoDB->addIdentifierQuotes( $realFieldName );
+					}
+					$fieldName = "$realTableName.$realFieldName";
+				}
 			}
 			$realAliasedFieldNames[$alias] = $fieldName;
 		}
