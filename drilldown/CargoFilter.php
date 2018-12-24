@@ -191,15 +191,14 @@ class CargoFilter {
 		$cdb = CargoUtils::getDB();
 
 		$possible_dates = array();
-		$date_field = $this->tableAlias . '.' . $this->name;
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
-			$queriedDateField = $fieldTableAlias . '._value';
+			$dateField = $cdb->addIdentifierQuotes( $fieldTableAlias ) . '._value';
 		} else {
-			$queriedDateField = $date_field;
+			$dateField = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
-		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $queriedDateField );
+		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $dateField );
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames,
 			$joinConds );
 
@@ -224,10 +223,14 @@ class CargoFilter {
 		}
 
 		// Don't include imprecise date values in further filtering.
-		if ( $timePeriod == 'month' ) {
-			$conds[] = $date_field . '__precision <= ' . CargoStore::MONTH_ONLY;
-		} elseif ( $timePeriod == 'day' ) {
-			$conds[] = $date_field . '__precision <= ' . CargoStore::DATE_ONLY;
+		if ( $timePeriod == 'month' || $timePeriod == 'day' ) {
+			$precisionField = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' .
+				$cdb->addIdentifierQuotes( $this->name . '__precision' );
+			if ( $timePeriod == 'month' ) {
+				$conds[] = $precisionField . ' <= ' . CargoStore::MONTH_ONLY;
+			} elseif ( $timePeriod == 'day' ) {
+				$conds[] = $precisionField . ' <= ' . CargoStore::DATE_ONLY;
+			}
 		}
 
 		// We call array_values(), and not array_keys(), because
