@@ -38,7 +38,7 @@ class CargoFilterValue {
 			$fv->is_other = true;
 		}
 		// Set other fields, if it's a date or number range.
-		if ( $filter != null && in_array( $filter->fieldDescription->mType, array( 'Date', 'Datetime' ) ) ) {
+		if ( $filter != null && $filter->fieldDescription->isDateOrDatetime() ) {
 			// @TODO - this should ideally be handled via query
 			// string arrays - and this code merged in with
 			// date-range handling - instead of just doing string

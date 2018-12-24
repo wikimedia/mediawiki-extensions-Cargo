@@ -650,7 +650,7 @@ class CargoUtils {
 				case "oracle":
 					return 'Byte';
 			}
-		} elseif ( $fieldType == 'Date' ) {
+		} elseif ( $fieldType == 'Date' || $fieldType == 'Start date' || $fieldType == 'End date' ) {
 			switch ( $dbType ) {
 				case "mssql":
 				case "mysql":
@@ -662,7 +662,7 @@ class CargoUtils {
 					// accompanying handling.
 					return 'TEXT';
 			}
-		} elseif ( $fieldType == 'Datetime' ) {
+		} elseif ( $fieldType == 'Datetime' || $fieldType == 'Start datetime' || $fieldType == 'End datetime' ) {
 			// Some DB types have a datetime type that includes
 			// the time zone, but MySQL unfortunately doesn't,
 			// so the best solution for time zones is probably

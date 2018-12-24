@@ -182,6 +182,10 @@ class CargoFieldDescription {
 		$this->mDelimiter = $delimiter;
 	}
 
+	function isDateOrDatetime() {
+		return in_array( $this->mType, array( 'Date', 'Start date', 'End date', 'Datetime', 'Start datetime', 'End datetime' ) );
+	}
+
 	/**
 	 *
 	 * @return array

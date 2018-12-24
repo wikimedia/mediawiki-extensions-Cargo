@@ -671,8 +671,7 @@ END;
 			}
 			// Add 'Other' and 'None', regardless of whether either has
 			// any results - add 'Other' only if it's not a date field.
-			$fieldType = $af->filter->fieldDescription->mType;
-			if ( $fieldType != 'Date' && $fieldType != 'Datetime' ) {
+			if ( ! $af->filter->fieldDescription->isDateOrDatetime() ) {
 				$or_values['_other'] = '';
 			}
 			$or_values['_none'] = '';
@@ -1415,7 +1414,7 @@ END;
 			$results_line = $this->printUnappliedFilterValuesForHierarchy( $cur_url, $f,
 				$this->fullTextSearchTerm, $this->applied_filters );
 			return $this->printFilterLine( $f->name, false, true, $results_line, $f->tableAlias );
-		} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+		} elseif ( $f->fieldDescription->isDateOrDatetime() ) {
 			$filter_values = $f->getTimePeriodValues( $this->fullTextSearchTerm,
 				$this->applied_filters, $mainTableAlias, $tableNames, $joinConds );
 		} else {
@@ -1679,8 +1678,7 @@ END;
 				foreach ( $this->applied_filters as $af ) {
 					if ( $af->filter->tableAlias == $f->tableAlias && $af->filter->name == $f->name ) {
 						$fieldType = $f->fieldDescription->mType;
-						if ( in_array( $fieldType,
-							array( 'Date', 'Datetime', 'Integer', 'Float' ) ) ) {
+						if ( $f->fieldDescription->isDateOrDatetime() || in_array( $fieldType, array( 'Integer', 'Float' ) ) ) {
 							$filtersHTML .= $this->printUnappliedFilterLine( $f );
 						} else {
 							$filtersHTML .= $this->printAppliedFilterLine( $af );

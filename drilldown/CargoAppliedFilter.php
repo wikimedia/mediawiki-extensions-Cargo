@@ -147,7 +147,7 @@ class CargoAppliedFilter {
 				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "$value_field = '' OR " ) .
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
-			} elseif ( $this->filter->fieldDescription->mType == 'Date' || $this->filter->fieldDescription->mType == 'Datetime' ) {
+			} elseif ( $this->filter->fieldDescription->isDateOrDatetime() ) {
 				if ( $this->filter->fieldDescription->mIsList ) {
 					$dateFieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
 					$date_field = $dateFieldTableAlias . '._value';

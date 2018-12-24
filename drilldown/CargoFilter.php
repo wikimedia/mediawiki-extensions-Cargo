@@ -66,8 +66,8 @@ class CargoFilter {
 	 */
 	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
 			$joinConds = array() ) {
-		// If it's not a date field, return null.
-		if ( !in_array( $this->fieldDescription->mType, array( 'Date', 'Datetime' ) ) ) {
+		// If it's not a date/datetime field, return null.
+		if ( ! $this->fieldDescription->isDateOrDatetime() ) {
 			return null;
 		}
 
