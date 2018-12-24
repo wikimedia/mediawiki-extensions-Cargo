@@ -75,7 +75,7 @@ class CargoFilter {
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
-			$date_field = $fieldTableAlias . '._value';
+			$date_field = $cdb->addIdentifierQuotes( $fieldTableAlias ) . '._value';
 			$tableNames[$fieldTableAlias] = $fieldTableName;
 			$joinConds[$fieldTableAlias] =
 				CargoUtils::joinOfMainAndFieldTable( $cdb,
@@ -83,7 +83,7 @@ class CargoFilter {
 					array( $fieldTableAlias => $fieldTableName )
 				);
 		} else {
-			$date_field = $this->tableAlias . '.' . $this->name;
+			$date_field = $cdb->addIdentifierQuotes( $fieldTableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
