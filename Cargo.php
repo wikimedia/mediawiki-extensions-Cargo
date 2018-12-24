@@ -369,6 +369,7 @@ $wgCargoDBserver = null;
 $wgCargoDBname = null;
 $wgCargoDBuser = null;
 $wgCargoDBpassword = null;
+$wgCargoDBRowFormat = null;
 $wgCargoDefaultStringBytes = 300;
 $wgCargoDefaultQueryLimit = 100;
 $wgCargoMaxQueryLimit = 5000;

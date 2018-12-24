@@ -843,6 +843,8 @@ class CargoUtils {
 	}
 
 	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
+		global $cargoDBRowFormat;
+
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
@@ -888,6 +890,10 @@ class CargoUtils {
 		// indexes; InnoDB does not.
 		if ( $containsSearchTextType && $dbType == 'mysql' ) {
 			$createSQL .= ' ENGINE=MyISAM';
+		}
+		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
+		if ( $cargoDBRowFormat != null ) {
+			$createSQL .= " ROW_FORMAT=$cargoDBRowFormat";
 		}
 		$cdb->query( $createSQL );
 
