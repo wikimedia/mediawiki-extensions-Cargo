@@ -83,7 +83,7 @@ class CargoFilter {
 					array( $fieldTableAlias => $fieldTableName )
 				);
 		} else {
-			$date_field = $cdb->addIdentifierQuotes( $fieldTableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
+			$date_field = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
