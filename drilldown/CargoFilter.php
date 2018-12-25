@@ -236,7 +236,7 @@ class CargoFilter {
 		// We call array_values(), and not array_keys(), because
 		// SQL Server can't group by aliases.
 		$selectOptions = array( 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) );
-		$fields['total'] = "COUNT(DISTINCT {$mainTableAlias}._pageID)";
+		$fields['total'] = 'COUNT(DISTINCT ' . $cdb->addIdentifierQuotes( $mainTableAlias ) . '._pageID)';
 
 		$res = $cdb->select(
 			$tableNames,
