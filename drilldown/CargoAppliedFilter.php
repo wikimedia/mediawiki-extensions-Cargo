@@ -150,9 +150,9 @@ class CargoAppliedFilter {
 			} elseif ( $this->filter->fieldDescription->isDateOrDatetime() ) {
 				if ( $this->filter->fieldDescription->mIsList ) {
 					$dateFieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
-					$date_field = $dateFieldTableAlias . '._value';
+					$date_field = $cdb->addIdentifierQuotes( $dateFieldTableAlias ) . '._value';
 				} else {
-					$date_field = $this->filter->tableAlias . '.' . $this->filter->name;
+					$date_field = $cdb->addIdentifierQuotes( $this->filter->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->filter->name );
 				}
 				list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
 				if ( $fv->time_period == 'day' ) {
