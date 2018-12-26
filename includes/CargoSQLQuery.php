@@ -559,7 +559,8 @@ class CargoSQLQuery {
 			// It's a standard field - though if it's '_value',
 			// or ends in '__full', it's actually the type of its
 			// corresponding field.
-			if ( $fieldName == '_value' ) {
+			$useListTable = ( $fieldName == '_value' );
+			if ( $useListTable ) {
 				if ( $tableName != null ) {
 					list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
 				} else {
@@ -579,7 +580,7 @@ class CargoSQLQuery {
 				strpos( $fieldName, '__full', strlen( $fieldName ) - 6 ) !== false ) {
 				$fieldName = substr( $fieldName, 0, strlen( $fieldName ) - 6 );
 			}
-			if ( $tableName != null ) {
+			if ( $tableName != null && !$useListTable ) {
 				if ( !array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
 					throw new MWException( wfMessage( "cargo-query-badalias", $tableName )->parse() );
 				}
