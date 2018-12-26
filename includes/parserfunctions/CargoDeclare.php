@@ -75,6 +75,23 @@ class CargoDeclare {
 		'holds', 'matches', 'near', 'within'
 	);
 
+	public static function validateFieldOrTableName( $name, $type ) {
+		if ( preg_match( '/\s/', $name ) ) {
+			return "Error: $type name \"$name\" contains whitespaces. Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead.";
+		} elseif ( strpos( $name, '_' ) === 0 ) {
+			return "Error: $type name \"$name\" begins with an underscore; this is not allowed.";
+		} elseif ( strpos( $name, '__' ) !== false ) {
+			return "Error: $type name \"$name\" contains more than one underscore in a row; this is not allowed.";
+		} elseif ( preg_match( '/[\.,<>(){}\[\]]/', $name ) ) {
+			return "Error: $type name \"$name\" cannot contain any of the following characters: .,<>(){}[]";
+		} elseif ( in_array( strtolower( $name ), self::$sqlReservedWords ) ) {
+			return "Error: \"$name\" cannot be used as a Cargo $type name, because it is an SQL keyword.";
+		} elseif ( in_array( strtolower( $name ), self::$cargoReservedWords ) ) {
+			return "Error: \"$name\" cannot be used as a Cargo $type name, because it is already a Cargo keyword.";
+		}
+		return null;
+	}
+
 	/**
 	 * Handles the #cargo_declare parser function.
 	 *
@@ -168,25 +185,11 @@ class CargoDeclare {
 						}
 						$parentTable['Name'] = $parentTableName;
 						$parentTables[$parentTableAlias] = $parentTable;
-						// validate parent tables name
-						if ( preg_match( '/\s/', $parentTableName ) ) {
-							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains whitespaces. " .
-															"Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
-						} elseif ( strpos( $parentTableName, '_' ) === 0 ) {
-							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" begins with an " .
-															"underscore; this is not allowed." );
-						} elseif ( strpos( $parentTableName, '__' ) !== false ) {
-							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains more than one " .
-															"underscore in a row; this is not allowed." );
-						} elseif ( strpos( $parentTableName, ',' ) !== false ) {
-							return CargoUtils::formatError( "Error: Parent Table name \"$parentTableName\" contains a comma; " .
-															"this is not allowed." );
-						} elseif ( in_array( strtolower( $parentTableName ),
-							self::$sqlReservedWords ) ) {
-							return CargoUtils::formatError( "Error: \"$parentTableName\" cannot be used as a Cargo table name, because it is an SQL keyword." );
-						} elseif ( in_array( strtolower( $parentTableName ),
-							self::$cargoReservedWords ) ) {
-							return CargoUtils::formatError( "Error: \"$parentTableName\" cannot be used as a Cargo table name, because it is already a Cargo keyword." );
+
+						// Validate the parent table's name.
+						$validationError = self::validateFieldOrTableName( $parentTableName, 'parent table' );
+						if ( $validationError !== null ) {
+							return CargoUtils::formatError( $validationError );
 						}
 					}
 				}
@@ -238,23 +241,11 @@ class CargoDeclare {
 				$fieldName = $key;
 				$fieldDescriptionStr = $value;
 				// Validate field name.
-				if ( preg_match( '/\s/', $fieldName ) ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains whitespaces. "
-						. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
-				} elseif ( strpos( $fieldName, '_' ) === 0 ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" begins with an "
-						. "underscore; this is not allowed." );
-				} elseif ( strpos( $fieldName, '__' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains more "
-						. "than one underscore in a row; this is not allowed." );
-				} elseif ( strpos( $fieldName, ',' ) !== false ) {
-					return CargoUtils::formatError( "Error: Field name \"$fieldName\" contains a comma; "
-						. "this is not allowed." );
-				} elseif ( in_array( strtolower( $fieldName ), self::$sqlReservedWords ) ) {
-					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is an SQL keyword." );
-				} elseif ( in_array( strtolower( $fieldName ), self::$cargoReservedWords ) ) {
-					return CargoUtils::formatError( "Error: \"$fieldName\" cannot be used as a Cargo field name, because it is already a Cargo keyword." );
+				$validationError = self::validateFieldOrTableName( $fieldName, 'field' );
+				if ( $validationError !== null ) {
+					return CargoUtils::formatError( $validationError );
 				}
+
 				try {
 					$fieldDescription = CargoFieldDescription::newFromString( $fieldDescriptionStr );
 				} catch ( Exception $e ) {
@@ -290,23 +281,15 @@ class CargoDeclare {
 		// Validate table name.
 		if ( $tableName == '' ) {
 			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
-		} elseif ( preg_match( '/\s/', $tableName ) ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains whitespaces. "
-				. "Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead." );
-		} elseif ( strpos( $tableName, '_' ) === 0 ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" begins with an "
-				. "underscore; this is not allowed." );
-		} elseif ( strpos( $tableName, '__' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains more than one "
-				. "underscore in a row; this is not allowed." );
-		} elseif ( strpos( $tableName, ',' ) !== false ) {
-			return CargoUtils::formatError( "Error: Table name \"$tableName\" contains a comma; "
-				. "this is not allowed." );
+		}
+		$validationError = self::validateFieldOrTableName( $tableName, 'table' );
+		if ( $validationError !== null ) {
+			return CargoUtils::formatError( $validationError );
 		}
 		$cdb = CargoUtils::getDB();
 		foreach ( $parentTables as $parentTableAlias => $extraParams ) {
 			if ( !$cdb->tableExists( $extraParams['Name'] ) ) {
-				return CargoUtils::formatError( "Error: Parent Table \"$parentTable\" doesn't exist." );
+				return CargoUtils::formatError( "Error: Parent tuable \"$parentTable\" doesn't exist." );
 			}
 		}
 		$parserOutput = $parser->getOutput();
