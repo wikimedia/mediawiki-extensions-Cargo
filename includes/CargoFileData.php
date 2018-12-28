@@ -16,29 +16,34 @@ class CargoFileData {
 		$fieldTypes = array();
 
 		if ( in_array( 'mediaType', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_mediaType'] = array( 'String', false );
+			$fieldTypes['_mediaType'] = array( 'type' => 'String' );
 		}
 		if ( in_array( 'path', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_path'] = array( 'String', false );
+			$fieldTypes['_path'] = array( 'type' => 'String', 'hidden' => true );
 		}
 		if ( in_array( 'lastUploadDate', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_lastUploadDate'] = array( 'Date', false );
+			$fieldTypes['_lastUploadDate'] = array( 'type' => 'Date' );
 		}
 		if ( in_array( 'fullText', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_fullText'] = array( 'Searchtext', false );
+			$fieldTypes['_fullText'] = array( 'type' => 'Searchtext' );
 		}
 		if ( in_array( 'numPages', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_numPages'] = array( 'Integer', false );
+			$fieldTypes['_numPages'] = array( 'type' => 'Integer' );
 		}
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
-			list( $type, $isList ) = $fieldVals;
 			$fieldDesc = new CargoFieldDescription();
-			$fieldDesc->mType = $type;
-			if ( $isList ) {
-				$fieldDesc->mIsList = true;
-				$fieldDesc->setDelimiter( '|' );
+			foreach ( $fieldVals as $fieldKey => $fieldVal ) {
+				if ( $fieldKey == 'type' ) {
+					$fieldDesc->mType = $fieldVal;
+				} elseif ( $fieldKey == 'list' ) {
+					// Not currently used.
+					$fieldDesc->mIsList = true;
+					$fieldDesc->setDelimiter( '|' );
+				} elseif ( $fieldKey == 'hidden' ) {
+					$fieldDesc->mIsHidden = true;
+				}
 			}
 			$tableSchema->mFieldDescriptions[$field] = $fieldDesc;
 		}

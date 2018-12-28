@@ -20,6 +20,9 @@ class CargoPageData {
 
 		$fieldTypes = array();
 
+		// @TODO - change this code to match the approach taken in
+		// CargoFileData.php. This will be more important if/when
+		// some additional parameter is added, like 'hidden'.
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creationDate'] = array( 'Date', false );
 		}
