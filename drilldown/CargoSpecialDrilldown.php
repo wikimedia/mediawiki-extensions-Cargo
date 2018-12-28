@@ -2173,15 +2173,6 @@ END;
 				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
 					$fileDataTableAlias => $fileDataTableName ), '_fullText' );
 				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
-				// @HACK - the result set may contain both
-				// pages and files that match the search term.
-				// So how do we know, for each result row,
-				// whether it's for a page or a file? We add
-				// the "match on file" clause as a (boolean)
-				// query field. There may be a more efficient
-				// way to do this, using SQL variables or
-				// something.
-				$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
 			}
 		}
 		if ( !$this->formatByFieldIsList ) {
@@ -2227,6 +2218,22 @@ END;
 		$this->sqlQuery =
 			CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
+
+		// @HACK - the result set may contain both pages and files that
+		// match the search term. So how do we know, for each result
+		// row, whether it's for a page or a file? We add the "match on
+		// file" clause as a (boolean) query field. There may be a more
+		// efficient way to do this, using SQL variables or something.
+		// Further @HACK - we have to do this after the CargoSQLQuery
+		// object has already been created, to avoid validation on
+		// MATCH() AGAINST(), which is otherwise not allowed in the
+		// list of fields.
+		if ( $this->fullTextSearchTerm != null && $this->searchableFiles ) {
+			$fileDataTableName = '_fileData';
+			$fileDataTableAlias = CargoUtils::makeDifferentAlias( $fileDataTableName );
+			$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, array( $fileDataTableAlias => $fileDataTableName ), '_fullText', $this->fullTextSearchTerm );
+		}
+
 		$queryInfo = array(
 			'tables' => $tableNames,
 			'fields' => $aliasedFieldNames,
