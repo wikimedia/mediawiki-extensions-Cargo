@@ -46,6 +46,7 @@ $wgJobClasses['cargoPopulateTable'] = 'CargoPopulateTableJob';
 
 $wgHooks['ParserFirstCallInit'][] = 'CargoHooks::registerParserFunctions';
 $wgHooks['MakeGlobalVariablesScript'][] = 'CargoHooks::setGlobalJSVariables';
+$wgHooks['ResourceLoaderRegisterModules'][] = 'CargoHooks::registerModules';
 $wgHooks['PageContentSaveComplete'][] = 'CargoHooks::onPageContentSaveComplete';
 $wgHooks['ApprovedRevsRevisionApproved'][] = 'CargoHooks::onARRevisionApproved';
 $wgHooks['ApprovedRevsRevisionUnapproved'][] = 'CargoHooks::onARRevisionUnapproved';

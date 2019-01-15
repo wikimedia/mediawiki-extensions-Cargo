@@ -285,6 +285,9 @@
 		"MakeGlobalVariablesScript": [
 			"CargoHooks::setGlobalJSVariables"
 		],
+		"ResourceLoaderRegisterModules": [
+			"CargoHooks::registerModules"
+		],
 		"PageContentSaveComplete": [
 			"CargoHooks::onPageContentSaveComplete"
 		],

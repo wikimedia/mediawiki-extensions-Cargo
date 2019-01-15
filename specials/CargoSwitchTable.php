@@ -130,7 +130,9 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-switchtables-confirm', $tableLink )->text() );
 		$out->addHTML( $text );
 
-		$htmlForm = HTMLForm::factory( 'ooui', array(), $this->getContext() );
+		// Class, and display format, were added in MW 1.25.
+		$displayFormat = ( class_exists( 'OOUIHTMLForm' ) ) ? 'ooui' : 'div';
+		$htmlForm = HTMLForm::factory( $displayFormat, array(), $this->getContext() );
 		$htmlForm
 			->setMethod( 'post' )
 			->setSubmitName( 'switch' )

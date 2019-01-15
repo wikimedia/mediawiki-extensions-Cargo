@@ -81,6 +81,26 @@ class CargoHooks {
 		return true;
 	}
 
+	public static function registerModules( ResourceLoader &$resourceLoader ) {
+		// A "shim" to allow 'oojs-ui-core' to be used as a module
+		// even with MediaWiki versions (< 1.29) where it was not yet
+		// defined.
+		$cargoDir = __DIR__ . '/..';
+		$moduleNames = $resourceLoader->getModuleNames();
+		if ( in_array( 'oojs-ui-core', $moduleNames ) ) {
+			return true;
+		}
+
+		$resourceLoader->register( array(
+			'oojs-ui-core' => array(
+				'localBasePath' => $cargoDir,
+				'remoteExtPath' => 'Cargo',
+				'dependencies' => 'oojs-ui'
+			)
+		) );
+		return true;
+	}
+
 	/**
 	 * Add the "purge cache" tab to actions
 	 *
