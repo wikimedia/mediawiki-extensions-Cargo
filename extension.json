@@ -12,7 +12,8 @@
 	"callback": "CargoHooks::registerExtension",
 	"AvailableRights": [
 		"recreatecargodata",
-		"deletecargodata"
+		"deletecargodata",
+		"runcargoqueries"
 	],
 	"SpecialPages": {
 		"CargoTables": "CargoTables",

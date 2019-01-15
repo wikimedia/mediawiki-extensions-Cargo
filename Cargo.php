@@ -177,6 +177,8 @@ $wgAvailableRights[] = 'recreatecargodata';
 $wgGroupPermissions['sysop']['recreatecargodata'] = true;
 $wgAvailableRights[] = 'deletecargodata';
 $wgGroupPermissions['sysop']['deletecargodata'] = true;
+$wgAvailableRights[] = 'runcargoqueries';
+$wgGroupPermissions['*']['runcargoqueries'] = true;
 
 // ResourceLoader modules
 $wgResourceModules += array(

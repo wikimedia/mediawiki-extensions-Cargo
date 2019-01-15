@@ -15,7 +15,7 @@ class CargoDrilldown extends IncludableSpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'Drilldown' );
+		parent::__construct( 'Drilldown', 'runcargoqueries' );
 	}
 
 	function execute( $query ) {

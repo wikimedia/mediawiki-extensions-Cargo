@@ -18,6 +18,7 @@
 	"recreatedata": "{{doc-special|RecreateData}}",
 	"right-recreatecargodata": "{{doc-right|recreatecargodata}}",
 	"right-deletecargodata": "{{doc-right|deletecargodata}}",
+	"right-runcargoqueries": "{{doc-right|runcargoqueries}}",
 	"action-recreatecargodata": "{{doc-action|recreatecargodata}}\n{{doc-cargo}}",
 	"action-deletecargodata": "{{doc-action|deletecargodata}}\n{{doc-cargo}}",
 	"apihelp-cargoquery-description": "{{doc-apihelp-description|cargoquery}}",

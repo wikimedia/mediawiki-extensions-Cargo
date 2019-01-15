@@ -24,6 +24,7 @@ class CargoHooks {
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
 		$wgGroupPermissions['sysop']['deletecargodata'] = true;
+		$wgGroupPermissions['*']['runcargoqueries'] = true;
 
 		// Backward compatibility for MW < 1.28.
 		if ( !defined( 'DB_REPLICA' ) ) {

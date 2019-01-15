@@ -12,7 +12,7 @@ class CargoViewData extends SpecialPage {
 	 * Constructor
 	 */
 	function __construct() {
-		parent::__construct( 'ViewData' );
+		parent::__construct( 'ViewData', 'runcargoqueries' );
 	}
 
 	function execute( $query ) {

@@ -12,6 +12,7 @@
 	"recreatedata": "Recreate data",
 	"right-recreatecargodata": "Recreate data contained in Cargo tables",
 	"right-deletecargodata": "Delete a Cargo table",
+	"right-runcargoqueries": "Run arbitrary Cargo queries",
 	"action-recreatecargodata": "recreate Cargo data",
 	"action-deletecargodata": "delete Cargo data",
 	"apihelp-cargoquery-description": "Runs a query on the Cargo data.",
