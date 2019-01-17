@@ -21,6 +21,7 @@
 	"recreatedata": "Воссоздать данные",
 	"right-recreatecargodata": "воссоздать данные, содержащиеся в таблицах Cargo",
 	"right-deletecargodata": "Удалить таблицу Cargo",
+	"right-runcargoqueries": "Запуск произвольных запросов Cargo",
 	"action-recreatecargodata": "воссоздание данных Cargo",
 	"action-deletecargodata": "удаление данных Cargo",
 	"apihelp-cargoquery-description": "Запускает запрос по данным Cargo.",

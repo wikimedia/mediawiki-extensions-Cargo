@@ -18,6 +18,7 @@
 	"recreatedata": "Recriar dados",
 	"right-recreatecargodata": "Recriar dados contidos nas tabelas Cargo",
 	"right-deletecargodata": "Eliminar uma tabela Cargo",
+	"right-runcargoqueries": "Executar consultas Cargo arbitrárias",
 	"action-recreatecargodata": "recriar dados Cargo",
 	"action-deletecargodata": "eliminar dados Cargo",
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",

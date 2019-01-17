@@ -12,6 +12,7 @@
 	"recreatedata": "Пресъздаване на данни",
 	"right-recreatecargodata": "Пресъздаване данни в табелите на „Карго“",
 	"right-deletecargodata": "Изтриване на табела в „Карго“",
+	"right-runcargoqueries": "Изпълняване на произволни заявки от Карго",
 	"action-recreatecargodata": "пресъздаване на данни на „Карго“",
 	"action-deletecargodata": "изтриване на данни от „Карго“",
 	"apihelp-cargoquery-param-tables": "Табелите в базата на „Карго“, по които ще се претърсва",

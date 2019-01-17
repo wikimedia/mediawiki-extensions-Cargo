@@ -17,6 +17,7 @@
 	"recreatedata": "إعادة إنشاء البيانات",
 	"right-recreatecargodata": "إعادة إنشاء البيانات الواردة في جداول الحمولة",
 	"right-deletecargodata": "حذف جدول حمولة",
+	"right-runcargoqueries": "عمل استعلامات كارجو عامة",
 	"action-recreatecargodata": "إعادة إنشاء بيانات الحمولة",
 	"action-deletecargodata": "حذف بيانات الحمولة",
 	"apihelp-cargoquery-description": "تشغيل استعلام على بيانات الحمولة.",
