@@ -5,6 +5,7 @@
 			"BadDog"
 		]
 	},
+	"right-runcargoqueries": "покретање произвољних Cargo упита",
 	"cargo-logname": "Cargo дневник",
 	"cargo-logdesc": "Ово је евиденција радњи сродних са додатком Cargo.",
 	"cargo-createtableaction": "је направио/ла Cargo табелу $2",
