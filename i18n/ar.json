@@ -8,6 +8,7 @@
 			"Meno25"
 		]
 	},
+	"cargo-extensionname": "كارجو",
 	"cargo-desc": "تخزين واستعلام بيانات القالب",
 	"cargo-definestable": "يعرِّف هذا القالب الجدول \"$1\".",
 	"cargo-tablenotcreated": "لم يتم إنشاء هذا الجدول بعد.",
