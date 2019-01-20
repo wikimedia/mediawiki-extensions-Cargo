@@ -60,6 +60,8 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.main' );
+		$this->mOutput->addModuleStyles( 'jquery.tablesorter.styles' );
+		$this->mOutput->addModules( 'jquery.tablesorter' );
 
 		$mergeSimilarCells = false;
 		if ( array_key_exists( 'merge similar cells', $displayParams ) ) {
@@ -74,7 +76,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 		}
 
 		$text = "<table class=\"$tableClass\">";
-		$text .= '<tr>';
+		$text .= '<thead><tr>';
 		foreach ( array_keys( $fieldDescriptions ) as $field ) {
 			if ( strpos( $field, 'Blank value ' ) === false ) {
 				// We add a class to enable special CSS and/or
@@ -83,7 +85,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 				$text .= Html::rawElement( 'th', array( 'class' => $className ), $field ) . "\n";
 			}
 		}
-		$text .= "</tr>\n";
+		$text .= "</tr></thead>\n<tbody>";
 
 		if ( $mergeSimilarCells ) {
 			list( $duplicateValuesInTable, $blankedCells ) = $this->getHelperDataForMerging( $formattedValuesTable );
@@ -142,7 +144,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 			}
 			$text .= "</tr>\n";
 		}
-		$text .= "</table>";
+		$text .= "</tbody></table>";
 		return $text;
 	}
 
