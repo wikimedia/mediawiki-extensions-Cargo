@@ -525,7 +525,7 @@ class CargoSQLQuery {
 			}
 		}
 		// If it's a pre-defined field, we probably know its type.
-		if ( $fieldName == '_ID' || $fieldName == '_rowID' || $fieldName == '_pageID' || $fieldName == '_pageNamespace' ) {
+		if ( $fieldName == '_ID' || $fieldName == '_rowID' || $fieldName == '_pageID' || $fieldName == '_pageNamespace' || $fieldName == '_position' ) {
 			$description->mType = 'Integer';
 		} elseif ( $fieldName == '_pageTitle' ) {
 			// It's a string - do nothing.

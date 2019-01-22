@@ -367,6 +367,28 @@ class CargoStore {
 			return;
 		}
 
+		// The _position field was only added to list tables in Cargo
+		// 2.1, which means that any list table last created or
+		// re-created before then will not have that field. How to know
+		// whether to populate that field? We go to the first list
+		// table for this main table (there may be more than one), query
+		// that field, and see whether it throws an exception. (We'll
+		// assume that either all the list tables for this main table
+		// have a _position field, or none do.)
+		$hasPositionField = true;
+		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			if ( $fieldDescription->mIsList ) {
+				$listFieldTableName = $tableName . '__' . $fieldName;
+				try {
+					$res = $cdb->select( $listFieldTableName, 'COUNT(' .
+						$cdb->addIdentifierQuotes( '_position' ) . ')' );
+				} catch ( Exception $e ) {
+					$hasPositionField = false;
+				}
+				break;
+			}
+		}
+
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
 		$cdb->begin();
@@ -389,6 +411,7 @@ class CargoStore {
 				$fieldTableName = $tableName . '__' . $fieldName;
 				$delimiter = $fieldDescription->getDelimiter();
 				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName] );
+				$valueNum = 1;
 				foreach ( $individualValues as $individualValue ) {
 					$individualValue = trim( $individualValue );
 					// Ignore blank values.
@@ -399,6 +422,9 @@ class CargoStore {
 						'_rowID' => $curRowID,
 						'_value' => $individualValue
 					);
+					if ( $hasPositionField ) {
+						$fieldValues['_position'] = $valueNum++;
+					}
 					// For coordinates, there are two more
 					// fields, for latitude and longitude.
 					if ( $fieldType == 'Coordinates' ) {

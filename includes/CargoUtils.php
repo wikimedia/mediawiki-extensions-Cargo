@@ -791,6 +791,7 @@ class CargoUtils {
 				} else {
 					$fieldsInTable['_value'] = $fieldType;
 				}
+				$fieldsInTable['_position'] = 'Integer';
 				self::createTable( $cdb, $fieldTableName, $fieldsInTable );
 				$fieldTableNames[] = $fieldTableName;
 			}
