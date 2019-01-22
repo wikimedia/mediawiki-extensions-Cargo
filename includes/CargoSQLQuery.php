@@ -67,8 +67,7 @@ class CargoSQLQuery {
 		$sqlQuery->setAliasedFieldNames();
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mAliasedTableNames );
 		$sqlQuery->setOrderBy( $orderByStr );
-		$sqlQuery->mOrigGroupByStr = $groupByStr;
-		$sqlQuery->mGroupByStr = $sqlQuery->mOrigGroupByStr;
+		$sqlQuery->setGroupBy( $groupByStr );
 		$sqlQuery->mHavingStr = $havingStr;
 		$sqlQuery->setDescriptionsAndTableNamesForFields();
 		$sqlQuery->handleHierarchyFields();
@@ -410,7 +409,11 @@ class CargoSQLQuery {
 
 	function setOrderBy( $orderByStr = null ) {
 		if ( $orderByStr != '' ) {
-			$this->mOrderByStr = $orderByStr;
+			if ( strpos( $orderByStr, '(' ) === false && strpos( $orderByStr, '.' ) === false && strpos( $orderByStr, ',' ) === false ) {
+				$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $orderByStr );
+			} else {
+				$this->mOrderByStr = $orderByStr;
+			}
 		} else {
 			// By default, sort on up to the first five fields, in
 			// the order in which they're defined. Five seems like
@@ -432,6 +435,17 @@ class CargoSQLQuery {
 					break;
 				}
 			}
+		}
+	}
+
+	function setGroupBy( $groupByStr ) {
+		$this->mOrigGroupByStr = $groupByStr;
+		if ( $groupByStr == '' ) {
+			$this->mGroupByStr = null;
+		} elseif ( strpos( $groupByStr, '(' ) === false && strpos( $groupByStr, '.' ) === false && strpos( $groupByStr, ',' ) === false ) {
+			$this->mGroupByStr = $this->mCargoDB->addIdentifierQuotes( $groupByStr );
+		} else {
+			$this->mGroupByStr = $groupByStr;
 		}
 	}
 
