@@ -22,7 +22,7 @@ class CargoFileData {
 			$fieldTypes['_path'] = array( 'type' => 'String', 'hidden' => true );
 		}
 		if ( in_array( 'lastUploadDate', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_lastUploadDate'] = array( 'type' => 'Date' );
+			$fieldTypes['_lastUploadDate'] = array( 'type' => 'Datetime' );
 		}
 		if ( in_array( 'fullText', $wgCargoFileDataColumns ) ) {
 			$fieldTypes['_fullText'] = array( 'type' => 'Searchtext' );

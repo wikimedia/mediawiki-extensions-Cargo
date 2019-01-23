@@ -24,10 +24,10 @@ class CargoPageData {
 		// CargoFileData.php. This will be more important if/when
 		// some additional parameter is added, like 'hidden'.
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
-			$fieldTypes['_creationDate'] = array( 'Date', false );
+			$fieldTypes['_creationDate'] = array( 'Datetime', false );
 		}
 		if ( in_array( 'modificationDate', $wgCargoPageDataColumns ) ) {
-			$fieldTypes['_modificationDate'] = array( 'Date', false );
+			$fieldTypes['_modificationDate'] = array( 'Datetime', false );
 		}
 		if ( in_array( 'creator', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_creator'] = array( 'String', false );

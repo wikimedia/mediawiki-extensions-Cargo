@@ -131,7 +131,10 @@ class CargoQueryDisplayer {
 					}
 				} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
 					$datePrecisionField = str_replace( '_', ' ', $fieldName ) . '__precision';
-					if ( array_key_exists( $datePrecisionField, $row ) ) {
+					if ( $fieldName[0] == '_' ) {
+						// Special handling for pre-specified fields.
+						$datePrecision = ( $fieldType == 'Datetime' ) ? CargoStore::DATE_AND_TIME : CargoStore::DATE_ONLY;
+					} elseif ( array_key_exists( $datePrecisionField, $row ) ) {
 						$datePrecision = $row[$datePrecisionField];
 					} else {
 						$fullDatePrecisionField = $tableName . '.' . $datePrecisionField;
