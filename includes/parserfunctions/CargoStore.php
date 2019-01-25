@@ -428,7 +428,11 @@ class CargoStore {
 					// For coordinates, there are two more
 					// fields, for latitude and longitude.
 					if ( $fieldType == 'Coordinates' ) {
-						list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $individualValue );
+						try {
+							list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $individualValue );
+						} catch ( MWException $e ) {
+							continue;
+						}
 						$fieldValues['_lat'] = $latitude;
 						$fieldValues['_lon'] = $longitude;
 					}
@@ -442,7 +446,12 @@ class CargoStore {
 				$tableFieldValues[$fieldName . '__full'] = $tableFieldValues[$fieldName];
 				unset( $tableFieldValues[$fieldName] );
 			} elseif ( $fieldType == 'Coordinates' ) {
-				list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
+				try {
+					list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
+				} catch ( MWException $e ) {
+					unset( $tableFieldValues[$fieldName] );
+					continue;
+				}
 				// Rename the field.
 				$tableFieldValues[$fieldName . '__full'] = $tableFieldValues[$fieldName];
 				unset( $tableFieldValues[$fieldName] );
