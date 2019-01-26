@@ -21,6 +21,7 @@
 	"action-deletecargodata": "카고 데이터 삭제",
 	"apihelp-cargoquery-param-offset": "쿼리 오프셋",
 	"apihelp-cargorecreatetables-param-createReplacement": "데이터를 대체 테이블로 넣을지의 여부",
+	"apihelp-cargoautocomplete-param-where": "지정된 다른 필터에 기반한 쿼리의 \"where\" 절",
 	"cargo-createdatatable": "데이터 테이블 생성",
 	"cargo-recreatedata-desc": "이 틀의 카고 데이터를 다시 만들까요?",
 	"cargo-recreatedata-createdata": "이 틀의 카고 데이터를 생성할까요?",
@@ -28,6 +29,12 @@
 	"cargo-recreatedata-success": "데이터가 재생성되고 있습니다.",
 	"viewdata": "데이터 보기",
 	"cargo-viewdata-tables": "테이블:",
+	"cargo-viewdata-fields": "필드:",
+	"cargo-viewdata-where": "Where:",
+	"cargo-viewdata-joinon": "Join on:",
+	"cargo-viewdata-groupby": "Group by:",
+	"cargo-viewdata-having": "Having:",
+	"cargo-viewdata-orderby": "Order by:",
 	"cargo-viewdata-limit": "제한:",
 	"cargo-viewdata-offset": "오프셋:",
 	"cargo-viewdata-format": "형식:",
@@ -68,6 +75,10 @@
 	"cargo-drilldown-timelineformat": "타임라인",
 	"cargo-drilldown-galleryformat": "갤러리",
 	"cargo-drilldown-calendarformat": "달력",
+	"cargo-viewcsv": "CSV 보기",
 	"cargo-viewxls": "XLS 보기",
-	"cargo-dynamictables-searchcolumn": "$1 검색"
+	"cargo-viewjson": "JSON 보기",
+	"cargo-dynamictables-searchcolumn": "$1 검색",
+	"cargo-purgecache": "캐시 새로 고침",
+	"cargo-pageschemas-tablename": "테이블 이름:"
 }
