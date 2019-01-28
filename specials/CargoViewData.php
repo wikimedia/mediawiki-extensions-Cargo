@@ -226,9 +226,7 @@ class ViewDataPage extends QueryPage {
 	}
 
 	function getOrderFields() {
-		if ( $this->sqlQuery->mOrderByStr != '' ) {
-			return array( $this->sqlQuery->mOrderByStr );
-		}
+		return array( $this->sqlQuery->mOrderBy );
 	}
 
 	function sortDescending() {

@@ -383,9 +383,7 @@ class CargoQueryDisplayer {
 		if ( $sqlQuery->mGroupByStr != '' ) {
 			$queryStringParams['group_by'] = $sqlQuery->mGroupByStr;
 		}
-		if ( $sqlQuery->mOrderByStr != '' ) {
-			$queryStringParams['order_by'] = $sqlQuery->mOrderByStr;
-		}
+		$queryStringParams['order_by'] = $sqlQuery->mOrderBy;
 		if ( $this->mFormat != '' ) {
 			$queryStringParams['format'] = $this->mFormat;
 		}

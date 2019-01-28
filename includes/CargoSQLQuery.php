@@ -27,7 +27,7 @@ class CargoSQLQuery {
 	public $mOrigGroupByStr;
 	public $mGroupByStr;
 	public $mHavingStr;
-	public $mOrderByStr;
+	public $mOrderBy;
 	public $mQueryLimit;
 	public $mOffset;
 	public $mSearchTerms = array();
@@ -408,27 +408,39 @@ class CargoSQLQuery {
 	}
 
 	function setOrderBy( $orderByStr = null ) {
+		$this->mOrderBy = array();
 		if ( $orderByStr != '' ) {
-			if ( strpos( $orderByStr, '(' ) === false && strpos( $orderByStr, '.' ) === false && strpos( $orderByStr, ',' ) === false ) {
-				$this->mOrderByStr = $this->mCargoDB->addIdentifierQuotes( $orderByStr );
-			} else {
-				$this->mOrderByStr = $orderByStr;
+			$orderByElements = CargoUtils::smartSplit( ',', $orderByStr );
+			foreach ( $orderByElements as $elem ) {
+				// Get rid of 'ASC' - it's never needed.
+				if ( substr( $elem, -4 ) == ' ASC' ) {
+					$elem = trim( substr( $elem, 0, strlen( $elem ) - 4 ) );
+				}
+				// If it has "DESC" at the end, remove it, then
+				// add it back in later.
+				$hasDesc = ( substr( $elem, -5 ) == ' DESC' );
+				if ( $hasDesc ) {
+					$elem = trim( substr( $elem, 0, strlen( $elem ) - 5 ) );
+				}
+				if ( strpos( $elem, '(' ) === false && strpos( $elem, '.' ) === false ) {
+					$elem = $this->mCargoDB->addIdentifierQuotes( $elem );
+				}
+				if ( $hasDesc ) {
+					$elem .= ' DESC';
+				}
+				$this->mOrderBy[] = $elem;
 			}
 		} else {
 			// By default, sort on up to the first five fields, in
 			// the order in which they're defined. Five seems like
 			// enough to make sure everything is in the right order,
 			// no? Or should it always be all the fields?
-			$this->mOrderByStr = '';
 			$fieldNum = 1;
 			foreach ( $this->mAliasedFieldNames as $fieldName ) {
-				if ( $fieldNum > 1 ) {
-					$this->mOrderByStr .= ', ';
-				}
 				if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false ) {
-					$this->mOrderByStr .= $this->mCargoDB->addIdentifierQuotes( $fieldName );
+					$this->mOrderBy[] = $this->mCargoDB->addIdentifierQuotes( $fieldName );
 				} else {
-					$this->mOrderByStr .= $fieldName;
+					$this->mOrderBy[] = $fieldName;
 				}
 				$fieldNum++;
 				if ( $fieldNum > 5 ) {
@@ -439,6 +451,9 @@ class CargoSQLQuery {
 	}
 
 	function setGroupBy( $groupByStr ) {
+		// @TODO - $mGroupByStr should turn into an array named
+		// $mGroupBy for better handling of mulitple values, as was
+		// done with $mOrderBy.
 		$this->mOrigGroupByStr = $groupByStr;
 		if ( $groupByStr == '' ) {
 			$this->mGroupByStr = null;
@@ -1019,14 +1034,17 @@ class CargoSQLQuery {
 			$tableAlias = $virtualField['tableAlias'];
 			$tableName = $virtualField['tableName'];
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName );
-			$foundMatch1 = preg_match( $pattern1, $this->mOrderByStr, $matches );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName );
-			$foundMatch2 = false;
+			$foundMatch1 = $foundMatch2 = false;
+			foreach ( $this->mOrderBy as &$orderByElem ) {
+				$foundMatch1 = preg_match( $pattern1, $orderByElem, $matches );
 
-			if ( !$foundMatch1 ) {
-				$foundMatch2 = preg_match( $pattern2, $this->mOrderByStr, $matches );
-			}
-			if ( $foundMatch1 || $foundMatch2 ) {
+				if ( !$foundMatch1 ) {
+					$foundMatch2 = preg_match( $pattern2, $orderByElem, $matches );
+				}
+				if ( ! $foundMatch1 && ! $foundMatch2 ) {
+					continue;
+				}
 				$fieldTableAlias = $tableAlias . '__' . $fieldName;
 				if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 					$replacement = "$fieldTableAlias._value";
@@ -1037,9 +1055,9 @@ class CargoSQLQuery {
 					$replacement .= ',';
 				}
 				if ( $foundMatch1 ) {
-					$this->mOrderByStr = preg_replace( $pattern1, $replacement, $this->mOrderByStr );
-				} elseif ( $foundMatch2 ) {
-					$this->mOrderByStr = preg_replace( $pattern2, $replacement, $this->mOrderByStr );
+					$orderByElem = preg_replace( $pattern1, $replacement, $orderByElem );
+				} else { // $foundMatch2
+					$orderByElem = preg_replace( $pattern2, $replacement, $orderByElem );
 				}
 			}
 		}
@@ -1178,9 +1196,11 @@ class CargoSQLQuery {
 			$tableAlias = $coordinateField['tableAlias'];
 
 			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, true );
-			$this->mOrderByStr = preg_replace( $pattern1, '$1' . "$tableAlias.$fieldName" . '__full$2', $this->mOrderByStr );
 			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, true );
-			$this->mOrderByStr = preg_replace( $pattern2, '$1' . $fieldName . '__full$2', $this->mOrderByStr );
+			foreach ( $this->mOrderBy as &$orderByElem ) {
+				$orderByElem = preg_replace( $pattern1, '$1' . "$tableAlias.$fieldName" . '__full$2', $orderByElem );
+				$orderByElem = preg_replace( $pattern2, '$1' . $fieldName . '__full$2', $orderByElem );
+			}
 		}
 	}
 
@@ -1448,7 +1468,9 @@ class CargoSQLQuery {
 		}
 		$this->mGroupByStr = $this->addTablePrefixes( $this->mGroupByStr );
 		$this->mHavingStr = $this->addTablePrefixes( $this->mHavingStr );
-		$this->mOrderByStr = $this->addTablePrefixes( $this->mOrderByStr );
+		foreach ( $this->mOrderBy as &$orderByElem ) {
+			$orderByElem = $this->addTablePrefixes( $orderByElem );
+		}
 	}
 
 	/**
@@ -1473,7 +1495,7 @@ class CargoSQLQuery {
 		// @TODO - need handling of non-ASCII characters in field
 		// names, which for some reason cause problems in "ORDER BY"
 		// specifically.
-		$selectOptions['ORDER BY'] = $this->mOrderByStr;
+		$selectOptions['ORDER BY'] = $this->mOrderBy;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 		$selectOptions['OFFSET'] = $this->mOffset;
 
