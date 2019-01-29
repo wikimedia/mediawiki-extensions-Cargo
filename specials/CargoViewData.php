@@ -226,7 +226,7 @@ class ViewDataPage extends QueryPage {
 	}
 
 	function getOrderFields() {
-		return array( $this->sqlQuery->mOrderBy );
+		return $this->sqlQuery->mOrderBy;
 	}
 
 	function sortDescending() {
