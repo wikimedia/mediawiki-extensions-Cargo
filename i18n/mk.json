@@ -139,7 +139,6 @@
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-dynamictables-togglecolumns": "Префрли столбови:",
 	"cargo-dynamictables-searchcolumn": "Пребарување во $1",
-	"cargo-purgecache": "Исчисти меѓусклад",
 	"specialpages-group-cargo": "Карго",
 	"cargo-pageschemas-cargofield": "Поле во „Карго“",
 	"cargo-pageschemas-tablename": "Назив на табелата:"

@@ -112,7 +112,6 @@
 	"cargo-viewxls": "Προβολή XLS",
 	"cargo-viewjson": "Προβολή JSON",
 	"cargo-dynamictables-searchcolumn": "Αναζήτηση $1",
-	"cargo-purgecache": "Εκκαθάριση προσωρινής μνήμης",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Πεδίο Cargo",
 	"cargo-pageschemas-tablename": "Όνομα πίνακα:"

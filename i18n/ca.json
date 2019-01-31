@@ -42,7 +42,6 @@
 	"cargo-drilldown-galleryformat": "Galeria",
 	"cargo-viewcsv": "Mostra el CSV",
 	"cargo-viewjson": "Mostra el JSON",
-	"cargo-purgecache": "Purga la memòria cau",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Camp de Cargo"
 }

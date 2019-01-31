@@ -32,6 +32,5 @@
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
 	"cargo-viewjson": "Zobacz JSON",
-	"cargo-purgecache": "Odśwież cache",
 	"cargo-pageschemas-tablename": "Nazwa tabeli:"
 }

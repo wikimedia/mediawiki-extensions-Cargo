@@ -135,7 +135,6 @@
 	"cargo-viewjson": "查看JSON",
 	"cargo-dynamictables-togglecolumns": "切换列：",
 	"cargo-dynamictables-searchcolumn": "在$1中搜索",
-	"cargo-purgecache": "刷新缓存",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo字段",
 	"cargo-pageschemas-tablename": "表格名称："

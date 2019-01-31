@@ -113,7 +113,6 @@
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Преглед на JSON",
 	"cargo-dynamictables-searchcolumn": "Търсене в $1",
-	"cargo-purgecache": "Изчистване на кеша",
 	"specialpages-group-cargo": "Карго",
 	"cargo-pageschemas-cargofield": "Поле в „Карго“",
 	"cargo-pageschemas-tablename": "Име на табелата:"

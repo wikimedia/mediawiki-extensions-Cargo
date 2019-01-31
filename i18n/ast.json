@@ -131,7 +131,6 @@
 	"cargo-viewjson": "Ver como JSON",
 	"cargo-dynamictables-togglecolumns": "Conmutar columnes:",
 	"cargo-dynamictables-searchcolumn": "Buscar en $1",
-	"cargo-purgecache": "Purgar la caché",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campu de Cargo",
 	"cargo-pageschemas-tablename": "Nome de la tabla:"

@@ -50,7 +50,6 @@
 	"cargo-viewxls": "Se XLS",
 	"cargo-viewjson": "Vis JSON",
 	"cargo-dynamictables-searchcolumn": "Søk i $1",
-	"cargo-purgecache": "Tøm mellomlager",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-felt"
 }

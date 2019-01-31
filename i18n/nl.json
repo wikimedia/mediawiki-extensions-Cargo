@@ -71,7 +71,6 @@
 	"cargo-viewcsv": "CSV bekijken",
 	"cargo-viewxls": "XLS bekijken",
 	"cargo-viewjson": "JSON bekijken",
-	"cargo-purgecache": "Verversen",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-veld",
 	"cargo-pageschemas-tablename": "Tabelnaam:"

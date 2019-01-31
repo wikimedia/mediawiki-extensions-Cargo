@@ -143,7 +143,6 @@
 	"cargo-viewjson": "Див. JSON",
 	"cargo-dynamictables-togglecolumns": "Перемкнути стовпці:",
 	"cargo-dynamictables-searchcolumn": "Пошук у $1",
-	"cargo-purgecache": "Очистити кеш",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",
 	"cargo-pageschemas-tablename": "Назва таблиці:"

@@ -115,7 +115,6 @@
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
-	"cargo-purgecache": "Vaciar antememoria",
 	"cargo-pageschemas-cargofield": "campo Cargo",
 	"cargo-pageschemas-tablename": "Nombre de la tabla:"
 }
