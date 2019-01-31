@@ -844,7 +844,7 @@ class CargoUtils {
 	}
 
 	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
-		global $cargoDBRowFormat;
+		global $wgCargoDBRowFormat;
 
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
@@ -893,8 +893,8 @@ class CargoUtils {
 			$createSQL .= ' ENGINE=MyISAM';
 		}
 		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
-		if ( $cargoDBRowFormat != null ) {
-			$createSQL .= " ROW_FORMAT=$cargoDBRowFormat";
+		if ( $wgCargoDBRowFormat != null ) {
+			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
 		}
 		$cdb->query( $createSQL );
 
