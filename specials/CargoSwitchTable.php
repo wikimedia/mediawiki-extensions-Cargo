@@ -134,7 +134,6 @@ class CargoSwitchCargoTable extends UnlistedSpecialPage {
 		$displayFormat = ( class_exists( 'OOUIHTMLForm' ) ) ? 'ooui' : 'div';
 		$htmlForm = HTMLForm::factory( $displayFormat, array(), $this->getContext() );
 		$htmlForm
-			->setMethod( 'post' )
 			->setSubmitName( 'switch' )
 			->setSubmitTextMsg( 'cargo-switchtables-switch' )
 			->prepareForm()
