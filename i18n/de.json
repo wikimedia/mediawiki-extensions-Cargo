@@ -29,6 +29,7 @@
 	"apihelp-cargorecreatetables-summary": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
 	"apihelp-cargorecreatetables-param-createReplacement": "Ob Daten in eine Ersetzungstabelle eingesetzt werden sollen",
 	"apihelp-cargorecreatedata-description": "Wiederbefüllt die Daten in eine Cargo-Tabelle.",
+	"apihelp-cargorecreatedata-summary": "Befüllt die Daten in einer Cargo-Tabelle neu.",
 	"apihelp-cargorecreatedata-param-template": "Die Vorlage, deren Daten verwendet werden sollen.",
 	"apihelp-cargorecreatedata-param-table": "Die wiederzubefüllende Cargo-Datenbanktabelle",
 	"apihelp-cargoautocomplete-description": "Der von der Erweiterung „Cargo“ verwendete Autovervollständigungs-Aufruf.",
