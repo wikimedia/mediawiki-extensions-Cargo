@@ -131,7 +131,6 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 		}
 
 		$htmlForm
-			->setMethod( 'post' )
 			->setSubmitName( 'delete' )
 			->setSubmitTextMsg( 'delete' )
 			->setSubmitDestructive();
