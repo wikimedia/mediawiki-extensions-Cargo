@@ -46,7 +46,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 			if ( $sqlQuery->mHavingStr != '' ) {
 				$queryParams['having'] = $sqlQuery->mHavingStr;
 			}
-			$queryParams['order by'] = $sqlQuery->mOrderByStr;
+			$queryParams['order by'] = $sqlQuery->mOrderBy;
 			if ( $sqlQuery->mQueryLimit != '' ) {
 				$queryParams['limit'] = $sqlQuery->mQueryLimit;
 			}
