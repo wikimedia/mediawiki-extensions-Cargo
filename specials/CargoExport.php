@@ -290,6 +290,10 @@ class CargoExport extends UnlistedSpecialPage {
 				);
 				if ( $endDateValue !== null ) {
 					$eventDisplayDetails['end'] = $endDateValue;
+				} else {
+					// If there's no end date, set the
+					// end date to the start date.
+					$eventDisplayDetails['end'] = $startDateValue;
 				}
 
 				// If we have the name of the page on which
