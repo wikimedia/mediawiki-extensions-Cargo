@@ -130,6 +130,7 @@
 	"cargo-viewjson": "JSON ansehen",
 	"cargo-dynamictables-togglecolumns": "Spalten wechseln:",
 	"cargo-dynamictables-searchcolumn": "$1 durchsuchen",
+	"cargo-purgecache": "Cache leeren",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-Feld",
 	"cargo-pageschemas-tablename": "Tabellenname:"

@@ -79,5 +79,6 @@
 	"cargo-viewxls": "XLS 보기",
 	"cargo-viewjson": "JSON 보기",
 	"cargo-dynamictables-searchcolumn": "$1 검색",
+	"cargo-purgecache": "캐시 새로 고침",
 	"cargo-pageschemas-tablename": "테이블 이름:"
 }
