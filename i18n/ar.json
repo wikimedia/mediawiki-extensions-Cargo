@@ -142,6 +142,7 @@
 	"cargo-viewjson": "عرض جسون",
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
+	"cargo-purgecache": "إفراغ الكاش",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
 	"cargo-pageschemas-tablename": "اسم الجدول:"
