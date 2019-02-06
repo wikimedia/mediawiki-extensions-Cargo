@@ -268,7 +268,7 @@ $wgResourceModules += array(
 	),
 	'ext.cargo.timelinebase' => array(
 		'scripts' => array(
-			'libs/ext.cargo.timeline.js',
+			'libs/ext.cargo.timeline-init.js',
 			'libs/SimileTimeline/scripts/timeline.js',
 			'libs/SimileTimeline/scripts/util/platform.js',
 			'libs/SimileTimeline/scripts/util/xmlhttp.js',
@@ -286,6 +286,7 @@ $wgResourceModules += array(
 			'libs/SimileTimeline/styles/events.css',
 		),
 		'scripts' => array(
+			'libs/ext.cargo.timeline.js',
 			'libs/SimileTimeline/scripts/util/debug.js',
 			'libs/SimileTimeline/scripts/util/dom.js',
 			'libs/SimileTimeline/scripts/util/graphics.js',
