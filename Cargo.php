@@ -56,6 +56,7 @@ $wgHooks['LoadExtensionSchemaUpdates'][] = 'CargoHooks::describeDBSchema';
 $wgHooks['LoadExtensionSchemaUpdates'][] = 'CargoHooks::cargoSchemaUpdates';
 $wgHooks['BaseTemplateToolbox'][] = 'CargoPageValuesAction::addLink';
 $wgHooks['SkinTemplateNavigation'][] = 'CargoRecreateDataAction::displayTab';
+$wgHooks['SkinTemplateNavigation'][] = 'CargoHooks::addPurgeCacheTab';
 $wgHooks['PageForms::TemplateFieldStart'][] = 'CargoHooks::addTemplateFieldStart';
 $wgHooks['PageForms::TemplateFieldEnd'][] = 'CargoHooks::addTemplateFieldEnd';
 $wgHooks['AdminLinks'][] = 'CargoHooks::addToAdminLinks';
