@@ -5,5 +5,6 @@
 		]
 	},
 	"recreatedata": "Ccreje arrete le date",
-	"cargo-createtableaction": "ccrejate 'a tabbelle Cargo $2"
+	"cargo-createtableaction": "ccrejate 'a tabbelle Cargo $2",
+	"cargo-purgecache-failed": "Sdevacamende d'a cache fallite"
 }

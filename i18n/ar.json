@@ -143,6 +143,7 @@
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
 	"cargo-purgecache": "إفراغ الكاش",
+	"cargo-purgecache-failed": "فشل تطهير ذاكرة التخزين المؤقت",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
 	"cargo-pageschemas-tablename": "اسم الجدول:"

@@ -32,7 +32,9 @@
 	"apihelp-cargorecreatedata-summary": "Befüllt die Daten in einer Cargo-Tabelle neu.",
 	"apihelp-cargorecreatedata-param-template": "Die Vorlage, deren Daten verwendet werden sollen.",
 	"apihelp-cargorecreatedata-param-table": "Die wiederzubefüllende Cargo-Datenbanktabelle",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "Ob alte Zeilen für jede Seite bei der Neubefüllung der Tabelle ersetzt werden sollen",
 	"apihelp-cargoautocomplete-description": "Der von der Erweiterung „Cargo“ verwendete Autovervollständigungs-Aufruf.",
+	"apihelp-cargoautocomplete-summary": "Von der Cargo-Erweiterung verwendeter Autovervollständigungs-Aufruf.",
 	"apihelp-cargoautocomplete-param-limit": "Ein Limit für die Anzahl der zurückgegebenen Ergebnisse",
 	"apihelp-cargoautocomplete-param-substr": "Such-Teilzeichenfolge",
 	"apihelp-cargoautocomplete-param-table": "Cargo-Tabellen, für die die Werte gesucht werden sollen.",
@@ -132,6 +134,7 @@
 	"cargo-dynamictables-togglecolumns": "Spalten wechseln:",
 	"cargo-dynamictables-searchcolumn": "$1 durchsuchen",
 	"cargo-purgecache": "Cache leeren",
+	"cargo-purgecache-failed": "Das Leeren des Caches ist fehlgeschlagen",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-Feld",
 	"cargo-pageschemas-tablename": "Tabellenname:"

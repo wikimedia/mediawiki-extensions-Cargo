@@ -145,6 +145,7 @@
 	"cargo-dynamictables-togglecolumns": "Переключить столбцы:",
 	"cargo-dynamictables-searchcolumn": "Поиск в $1",
 	"cargo-purgecache": "Очистить кэш",
+	"cargo-purgecache-failed": "Очистка кэша не удалась",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",
 	"cargo-pageschemas-tablename": "Название таблицы:"

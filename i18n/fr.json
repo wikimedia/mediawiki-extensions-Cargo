@@ -151,6 +151,7 @@
 	"cargo-dynamictables-togglecolumns": "Basculer les colonnes :",
 	"cargo-dynamictables-searchcolumn": "Rechercher $1",
 	"cargo-purgecache": "Purger le cache",
+	"cargo-purgecache-failed": "Echec d'effacement du cache",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "champ de Cargo",
 	"cargo-pageschemas-tablename": "Nom de table :"

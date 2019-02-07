@@ -141,6 +141,7 @@
 	"cargo-dynamictables-togglecolumns": "切換欄位：",
 	"cargo-dynamictables-searchcolumn": "搜尋$1",
 	"cargo-purgecache": "清除快取",
+	"cargo-purgecache-failed": "快取清除失敗",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo 欄位",
 	"cargo-pageschemas-tablename": "表格名稱："
