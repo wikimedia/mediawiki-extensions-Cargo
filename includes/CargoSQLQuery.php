@@ -422,7 +422,7 @@ class CargoSQLQuery {
 				if ( $hasDesc ) {
 					$elem = trim( substr( $elem, 0, strlen( $elem ) - 5 ) );
 				}
-				if ( strpos( $elem, '(' ) === false && strpos( $elem, '.' ) === false ) {
+				if ( strpos( $elem, '(' ) === false && strpos( $elem, '.' ) === false && !$this->mCargoDB->isQuotedIdentifier( $elem ) ) {
 					$elem = $this->mCargoDB->addIdentifierQuotes( $elem );
 				}
 				if ( $hasDesc ) {
