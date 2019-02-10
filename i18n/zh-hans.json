@@ -5,7 +5,8 @@
 			"Yfdyh000",
 			"Fanjiayi",
 			"Phenolla",
-			"A Chinese Wikipedian"
+			"A Chinese Wikipedian",
+			"Angrydog001"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -136,6 +137,7 @@
 	"cargo-dynamictables-togglecolumns": "切换列：",
 	"cargo-dynamictables-searchcolumn": "在$1中搜索",
 	"cargo-purgecache": "刷新缓存",
+	"cargo-purgecache-failed": "缓存清除失败",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo字段",
 	"cargo-pageschemas-tablename": "表格名称："

@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"HakanIST",
-			"Botansahin"
+			"Botansahin",
+			"Mirzali"
 		]
 	},
 	"cargo-drilldown-hierarchy-within": "Bir dolar ile",
 	"cargo-drilldown-hierarchy-only": "sadece $1",
+	"cargo-purgecache-failed": "Önbellek temizleme işlemi başarısız oldu",
 	"cargo-pageschemas-tablename": "Tablo adı:"
 }
