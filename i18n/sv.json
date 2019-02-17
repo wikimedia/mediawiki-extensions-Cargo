@@ -34,6 +34,7 @@
 	"cargo-drilldown-calendarformat": "Kalender",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
+	"cargo-purgecache-failed": "Misslyckades att rensa cachen",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
 	"cargo-pageschemas-tablename": "Tabellnamn:"
 }

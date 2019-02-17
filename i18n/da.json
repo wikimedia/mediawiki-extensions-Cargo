@@ -6,6 +6,17 @@
 		]
 	},
 	"apihelp-cargoquery-param-offset": "Forskydning for forespørgsler",
+	"cargo-viewdata-tables": "Tabel(ler):",
+	"cargo-viewdata-fields": "Felt(er):",
+	"cargo-viewdata-where": "Hvor:",
+	"cargo-viewdata-groupby": "Grupper efter:",
+	"cargo-viewdata-having": "Har:",
+	"cargo-viewdata-orderby": "Sorter efter:",
 	"cargo-viewdata-offset": "Forskydning:",
+	"cargo-viewdata-format": "Format:",
+	"cargo-viewdata-defaultformat": "Standard",
+	"cargo-drilldown-allpages": "Alle sider",
+	"cargo-drilldown-allfiles": "Alle filer",
+	"cargo-drilldown-or": "eller",
 	"cargo-drilldown-calendarformat": "Kalender"
 }
