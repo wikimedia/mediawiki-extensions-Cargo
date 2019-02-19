@@ -1049,7 +1049,7 @@ class CargoSQLQuery {
 				if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 					$replacement = "$fieldTableAlias._value";
 				} else {
-					$replacement = $tableName . '.' . $fieldName . '__full';
+					$replacement = $tableAlias . '.' . $fieldName . '__full';
 				}
 				if ( isset( $matches[2] ) && ( $matches[2] == ',' ) ) {
 					$replacement .= ',';
