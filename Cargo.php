@@ -35,6 +35,7 @@ $wgExtensionCredits['parserhook'][] = array(
 	'author' => 'Yaron Koren',
 	'url' => 'https://www.mediawiki.org/wiki/Extension:Cargo',
 	'descriptionmsg' => 'cargo-desc',
+	'license-name' => 'GPL-2.0-or-later'
 );
 
 $dir = __DIR__ . '/';

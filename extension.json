@@ -5,6 +5,7 @@
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
+	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
 		"MediaWiki": ">= 1.25.3"
