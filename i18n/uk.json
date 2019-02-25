@@ -144,6 +144,7 @@
 	"cargo-dynamictables-togglecolumns": "Перемкнути стовпці:",
 	"cargo-dynamictables-searchcolumn": "Пошук у $1",
 	"cargo-purgecache": "Очистити кеш",
+	"cargo-purgecache-failed": "Очищення кешу не вдалося",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",
 	"cargo-pageschemas-tablename": "Назва таблиці:"
