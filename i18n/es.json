@@ -14,7 +14,7 @@
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
 	"cargo-definestable": "Esta plantilla define la tabla \"$1\".",
 	"cargo-tablenotcreated": "Esta tabla no se ha creado todavía.",
-	"cargo-addsrows": "Esta plantilla añade filas a la tabla \"$1\".",
+	"cargo-addsrows": "Esta plantilla añade filas a la tabla «$1», que declara la plantilla $2.",
 	"cargo-notable": "Error: debe especificarse el nombre de la tabla.",
 	"cargo-unknowntable": "Error: no se encontró la tabla $1.",
 	"recreatedata": "Recrear datos",
