@@ -2310,7 +2310,7 @@ END;
 	function getOrderFields() {
 		$cdb = CargoUtils::getDB();
 		return array( CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ),
-		'_pageTitle' ) );
+			'_pageName' ) );
 	}
 
 	function sortDescending() {
