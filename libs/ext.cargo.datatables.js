@@ -15,8 +15,11 @@ $(document).ready(function() {
 			}
 		}
 		var detailsFields = $(this).attr( 'data-details-fields' );
+		var orderByFields = $(this).attr( 'data-order' );
 		if ( detailsFields ) {
-			params['order'] = [1, 'asc'];
+			if ( !orderByFields ) {
+				params['order'] = [1, 'asc'];
+			}
 			params['columnDefs'] = [{ "orderable":false, "targets": 0 }];
 		}
 		var table = $(this).DataTable( params );

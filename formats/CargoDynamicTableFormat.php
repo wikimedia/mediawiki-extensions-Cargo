@@ -25,6 +25,12 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.datatables' );
 
+		$detailsFields = array();
+		$detailsFieldsString = '';
+		if ( array_key_exists( 'details fields', $displayParams ) ) {
+			$detailsFields = array_map( 'trim', explode( ',', $displayParams['details fields'] ) );
+			$detailsFieldsString = "data-details-fields=1";
+		}
 		// Special handlng for ordering.
 		$dataOrderString = null;
 		if ( array_key_exists( 'order by', $displayParams ) ) {
@@ -39,11 +45,20 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 					$sortAscending = false;
 					$orderByClause = trim( substr( $orderByClause, 0, -4 ) );
 				}
-				foreach ( array_keys( $fieldDescriptions ) as $i => $fieldName ) {
+				if ( $detailsFields ) {
+					$i = 1;
+				} else {
+					$i = 0;
+				}
+				foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+					if ( in_array( $fieldName, $detailsFields ) ) {
+						continue;
+					}
 					$fieldName = strtolower( str_replace( ' ', '_', $fieldName ) );
 					if ( $orderByClause == $fieldName ) {
 						$dataTableOrderByParams[] = array( $i, $sortAscending ? 'asc' : 'desc' );
 					}
+					$i++;
 				}
 			}
 			if ( count( $dataTableOrderByParams ) > 0 ) {
@@ -62,12 +77,6 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 			$pageLengthString = 'data-page-length="' . $displayParams['rows per page'] . '"';
 		} else {
 			$pageLengthString = '';
-		}
-		$detailsFields = array();
-		$detailsFieldsString = '';
-		if ( array_key_exists( 'details fields', $displayParams ) ) {
-			$detailsFields = array_map( 'trim', explode( ',', $displayParams['details fields'] ) );
-			$detailsFieldsString = "data-details-fields=1";
 		}
 		$text = '';
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
