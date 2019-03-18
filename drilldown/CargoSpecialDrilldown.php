@@ -156,10 +156,10 @@ class CargoDrilldown extends IncludableSpecialPage {
 					if ( $cdb->tableExists( $tableName ) ) {
 						if ( $fieldDescription->mIsList ) {
 							$queriedTableName = $tableName . '__' . $fieldName;
-							$queriedFieldName = '_value';
+							$queriedFieldName = $cdb->addIdentifierQuotes( '_value' );
 						} else {
 							$queriedTableName = $tableName;
-							$queriedFieldName = $fieldName;
+							$queriedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 						}
 						$res = $cdb->select( $queriedTableName,
 							"DATEDIFF(MAX($queriedFieldName), MIN($queriedFieldName))/ COUNT(*) as avgDaysPerEvent" );
