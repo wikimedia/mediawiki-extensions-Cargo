@@ -161,8 +161,16 @@ class CargoDrilldown extends IncludableSpecialPage {
 							$queriedTableName = $tableName;
 							$queriedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 						}
+						$dbType = $cdb->getType();
+						if ( $dbType == 'mysql' ) {
+							$daysSpanQuery = "DATEDIFF(MAX($queriedFieldName), MIN($queriedFieldName))";
+						} else {
+							// PostgreSQL lacks DATEDIFF().
+							// @TODO - what about SQLite?
+							$daysSpanQuery = "(MAX($queriedFieldName) - MIN($queriedFieldName))";
+						}
 						$res = $cdb->select( $queriedTableName,
-							"DATEDIFF(MAX($queriedFieldName), MIN($queriedFieldName))/ COUNT(*) as avgDaysPerEvent" );
+							"$daysSpanQuery / COUNT(*) as avgDaysPerEvent" );
 						$row = $cdb->fetchRow( $res );
 						if ( $row['avgDaysPerEvent'] < 8 ) {
 							$calendarFields[$fieldName] = '';
