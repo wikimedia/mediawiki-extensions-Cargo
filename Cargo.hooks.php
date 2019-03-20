@@ -19,7 +19,7 @@ class CargoHooks {
 		$wgCargoFieldTypes = array(
 			'Page', 'String', 'Text', 'Integer', 'Float', 'Date',
 			'Datetime', 'Boolean', 'Coordinates', 'Wikitext',
-			'Searchtext', 'File', 'URL', 'Email'
+			'Searchtext', 'File', 'URL', 'Email', 'Rating'
 		);
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;

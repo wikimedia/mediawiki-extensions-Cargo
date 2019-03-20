@@ -42,7 +42,6 @@ $dir = __DIR__ . '/';
 
 // Script path.
 $cgScriptPath = $wgScriptPath . '/extensions/Cargo';
-
 $wgJobClasses['cargoPopulateTable'] = 'CargoPopulateTableJob';
 
 $wgHooks['ParserFirstCallInit'][] = 'CargoHooks::registerParserFunctions';
@@ -350,7 +349,7 @@ $wgResourceModules += array(
 $wgCargoFieldTypes = array(
 	'Page', 'String', 'Text', 'Integer', 'Float', 'Date', 'Datetime',
 	'Boolean', 'Coordinates', 'Wikitext', 'Searchtext', 'File', 'URL',
-	'Email'
+	'Email', 'Rating'
 );
 $wgCargoAllowedSQLFunctions = array(
 	// Math functions

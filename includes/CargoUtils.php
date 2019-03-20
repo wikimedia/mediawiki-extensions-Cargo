@@ -625,7 +625,7 @@ class CargoUtils {
 				case "oracle":
 					return 'Number';
 			}
-		} elseif ( $fieldType == 'Float' ) {
+		} elseif ( $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			switch ( $dbType ) {
 				case "mssql":
 					return 'Float';

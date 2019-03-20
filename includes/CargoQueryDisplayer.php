@@ -88,6 +88,7 @@ class CargoQueryDisplayer {
 
 	public function getFormattedQueryResults( $queryResults ) {
 		// The assignment will do a copy.
+		global $wgScriptPath, $wgServer;
 		$formattedQueryResults = $queryResults;
 		foreach ( $queryResults as $rowNum => $row ) {
 			foreach ( $row as $fieldName => $value ) {
@@ -158,6 +159,11 @@ class CargoQueryDisplayer {
 				} elseif ( $fieldType == 'Searchtext' && $this->mSQLQuery && array_key_exists( $fieldName, $this->mSQLQuery->mSearchTerms ) ) {
 					$searchTerms = $this->mSQLQuery->mSearchTerms[$fieldName];
 					$text = Html::rawElement( 'span', array( 'class' => 'searchresult' ), self::getTextSnippet( $value, $searchTerms ) );
+				} elseif ( $fieldType == 'Rating' ) {
+					$rate = $value * 20;
+					$url = $wgServer . $wgScriptPath . '/' . 'extensions/Cargo/images/star-rating-sprite-1.png';
+					$text = '<span style="display: block; width: 65px; height: 13px; background: url(\'' . $url .'\') 0 0;">
+						<span style="display: block; width: '. $rate .'%; height: 13px; background: url(\'' . $url .'\') 0 -13px;"></span>';
 				} else {
 					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
 				}

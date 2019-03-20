@@ -315,7 +315,7 @@ class CargoStore {
 				// Remove digit-grouping character.
 				global $wgCargoDigitGroupingCharacter;
 				$tableFieldValues[$fieldName] = str_replace( $wgCargoDigitGroupingCharacter, '', $curValue );
-			} elseif ( $fieldType == 'Float' ) {
+			} elseif ( $fieldType == 'Float' || $fieldType == 'Rating' ) {
 				// Remove digit-grouping character, and change
 				// decimal mark to '.' if it's anything else.
 				global $wgCargoDigitGroupingCharacter;

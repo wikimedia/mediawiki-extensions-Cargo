@@ -1428,7 +1428,7 @@ END;
 		$normal_filter = true;
 		if ( count( $filter_values ) == 0 ) {
 			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->text() . ')';
-		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' ) {
+		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
 			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
