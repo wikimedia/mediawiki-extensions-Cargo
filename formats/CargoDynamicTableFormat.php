@@ -32,9 +32,8 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 			$detailsFieldsString = "data-details-fields=1";
 		}
 		// Special handlng for ordering.
-		$dataOrderString = null;
+		$dataTableOrderByParams = array();
 		if ( array_key_exists( 'order by', $displayParams ) ) {
-			$dataTableOrderByParams = array();
 			$orderByClauses = explode( ',', $displayParams['order by'] );
 			foreach ( $orderByClauses as $orderByClause ) {
 				$orderByClause = strtolower( trim( $orderByClause ) );
@@ -61,16 +60,14 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 					$i++;
 				}
 			}
-			if ( count( $dataTableOrderByParams ) > 0 ) {
-				// We have to set the text in this awkward way,
-				// instead of using the Html class, because it
-				// has to be displayed in a very specific way -
-				// single quotes outside, double quotes inside -
-				// for the jQuery part to work, and the Html
-				// class won't do it that way.
-				$dataOrderString = "data-order='" . json_encode( $dataTableOrderByParams ) . "'";
-			}
 		}
+		// We have to set the text in this awkward way,
+		// instead of using the Html class, because it
+		// has to be displayed in a very specific way -
+		// single quotes outside, double quotes inside -
+		// for the jQuery part to work, and the Html
+		// class won't do it that way.
+		$dataOrderString = "data-order='" . json_encode( $dataTableOrderByParams ) . "'";
 
 		if ( array_key_exists( 'rows per page', $displayParams ) ) {
 			// See $dataOrderString above for why it's done this way.
