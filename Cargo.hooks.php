@@ -63,9 +63,8 @@ class CargoHooks {
 		// the language of the user.
 		$vars['wgCargoMonthNames'] = $out->getLanguage()->getMonthNamesArray();
 		/**
-		 * @TODO - all these arrays should perhaps be switched to start
-		 * keys from 1, in order to match built-in arrays, such as
-		 * $wgMonthNames.
+		 * @TODO - should these be switched to objects with keys starting
+		 *         from 1 to match month indexes instead of 0-index?
 		 */
 		array_shift( $vars['wgCargoMonthNames'] ); // start keys from 0
 
