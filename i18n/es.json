@@ -8,7 +8,8 @@
 			"Ryo567",
 			"Irus",
 			"Dgstranz",
-			"KATRINE1992"
+			"KATRINE1992",
+			"Ciencia Al Poder"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -115,7 +116,7 @@
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
-	"cargo-purgecache": "Vaciar antememoria",
+	"cargo-purgecache": "Vaciar caché",
 	"cargo-purgecache-failed": "Falló la purga de la antememoria",
 	"cargo-pageschemas-cargofield": "campo Cargo",
 	"cargo-pageschemas-tablename": "Nombre de la tabla:"
