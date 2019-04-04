@@ -102,6 +102,7 @@
 	"cargo-drilldown-or": "o",
 	"cargo-drilldown-removefilter": "Quitar este filtro",
 	"cargo-drilldown-resetfilters": "Restablecer filtros",
+	"cargo-drilldown-hierarchy-only": "«$1» solamente",
 	"cargo-drilldown-addanothervalue": "Haz clic en la flecha para agregar otro valor",
 	"cargo-drilldown-othervalues": "Otros valores:",
 	"cargo-drilldown-novalues": "No hay valores para este filtro",
