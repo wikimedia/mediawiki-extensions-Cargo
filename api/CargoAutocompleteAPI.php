@@ -88,10 +88,6 @@ class CargoAutocompleteAPI extends ApiBase {
 		);
 	}
 
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
-	}
-
 	private static function getAllValues( $table, $field, $fieldIsArray, $where, $substr ) {
 		$values = array();
 
