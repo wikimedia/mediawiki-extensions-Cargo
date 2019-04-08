@@ -331,7 +331,7 @@ class CargoFilter {
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$value_string = $row['value'];
 			if ( $value_string == '' ) {
-				$value_string = ' none';
+				$value_string = '_none';
 			}
 			$possible_values[$value_string] = $row['total'];
 		}

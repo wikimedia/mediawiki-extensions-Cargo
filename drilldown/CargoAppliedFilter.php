@@ -25,7 +25,7 @@ class CargoAppliedFilter {
 		if ( $search_terms != null ) {
 			$af->search_terms = array();
 			foreach ( $search_terms as $search_term ) {
-				$af->search_terms[] = htmlspecialchars( str_replace( '_', ' ', $search_term ) );
+				$af->search_terms[] = htmlspecialchars( $search_term );
 			}
 		}
 		if ( $lower_date != null ) {

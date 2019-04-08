@@ -30,11 +30,11 @@ class CargoFilterValue {
 	 */
 	static function create( $actual_val, $filter = null ) {
 		$fv = new CargoFilterValue();
-		$fv->text = str_replace( '_', ' ', $actual_val );
+		$fv->text = $actual_val;
 
-		if ( $fv->text == ' none' ) {
+		if ( $fv->text == '_none' ) {
 			$fv->is_none = true;
-		} elseif ( $fv->text == ' other' ) {
+		} elseif ( $fv->text == '_other' ) {
 			$fv->is_other = true;
 		}
 		// Set other fields, if it's a date or number range.
