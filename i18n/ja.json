@@ -5,7 +5,8 @@
 			"Sujiniku",
 			"Otokoume",
 			"Yusuke1109",
-			"Omotecho"
+			"Omotecho",
+			"Shirayuki"
 		]
 	},
 	"cargo-desc": "テンプレートデータの保存とクエリ",
@@ -15,6 +16,8 @@
 	"cargo-notable": "エラー: テーブル名を指定する必要があります。",
 	"cargo-unknowntable": "エラー: テーブル$1が見つかりません。",
 	"recreatedata": "データを再作成する",
+	"right-deletecargodata": "Cargo テーブルを削除",
+	"action-deletecargodata": "Cargo データの削除",
 	"apihelp-cargoquery-param-fields": "取得するテーブルフィールド",
 	"apihelp-cargorecreatedata-param-template": "データを使用するテンプレート",
 	"apihelp-cargorecreatedata-param-offset": "このテンプレートを呼び出すページのうち、クエリを開始するときの番号",
