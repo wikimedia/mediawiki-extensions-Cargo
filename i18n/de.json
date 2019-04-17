@@ -18,6 +18,7 @@
 	"right-recreatecargodata": "Daten neu erstellen, die in Cargo-Tabellen enthalten sind.",
 	"action-deletecargodata": "Cargo-Daten zu löschen",
 	"right-deletecargodata": "Eine Cargo-Tabelle löschen",
+	"action-runcargoqueries": "beliebige Cargo-Abfragen auszuführen",
 	"right-runcargoqueries": "Beliebige Cargo-Abfragen ausführen",
 	"apihelp-cargoquery-description": "Führt eine Abfrage zu den Cargo-Daten aus.",
 	"apihelp-cargoquery-summary": "Führt eine Abfrage zu den Cargo-Daten aus.",

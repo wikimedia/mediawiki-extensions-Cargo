@@ -18,6 +18,7 @@
 	"right-recreatecargodata": "重建包含在 Cargo 表格的資料",
 	"action-deletecargodata": "刪除Cargo資料",
 	"right-deletecargodata": "刪除 Cargo 表格",
+	"action-runcargoqueries": "運作隨意 Cargo 查詢",
 	"right-runcargoqueries": "運作隨意 Cargo 查詢",
 	"apihelp-cargoquery-description": "在 Cargo 資料上運作查詢。",
 	"apihelp-cargoquery-summary": "在 Cargo 資料上運作查詢。",
