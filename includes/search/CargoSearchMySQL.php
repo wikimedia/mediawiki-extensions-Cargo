@@ -9,7 +9,7 @@ use MediaWiki\MediaWikiServices;
  *
  * Unfortunately, in MW 1.31, the methods parseQuery(), regexTerm() and
  * getIndexField() were made private, which means that they need to be
- * copied over here.
+ * copied over here (but declared as public).
  */
 class CargoSearchMySQL extends SearchMySQL {
 
@@ -28,7 +28,7 @@ class CargoSearchMySQL extends SearchMySQL {
 	 *
 	 * @return array
 	 */
-	private function parseQuery( $filteredText, $fulltext ) {
+	public function parseQuery( $filteredText, $fulltext ) {
 		$lc = $this->legalSearchChars( self::CHARS_NO_SYNTAX ); // Minus syntax chars (" and *)
 		$searchon = '';
 		$this->searchTerms = array();
@@ -38,9 +38,14 @@ class CargoSearchMySQL extends SearchMySQL {
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $bits ) {
-				Wikimedia\suppressWarnings();
+				if ( function_exists( 'Wikimedia\suppressWarnings' ) ) {
+					// MW >= 1.31
+					Wikimedia\suppressWarnings();
+				}
 				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
-				Wikimedia\restoreWarnings();
+				if ( function_exists( 'Wikimedia\restoreWarnings' ) ) {
+					Wikimedia\restoreWarnings();
+				}
 
 				if ( $nonQuoted != '' ) {
 					$term = $nonQuoted;
@@ -58,9 +63,15 @@ class CargoSearchMySQL extends SearchMySQL {
 					$modifier = '+';
 				}
 
+				if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
+					// MW >= 1.31
+					$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+				} else {
+					global $wgContLang;
+					$contLang = $wgContLang;
+				}
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
-				$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 				$convertedVariants = $contLang->autoConvertToAllVariants( $term );
 				if ( is_array( $convertedVariants ) ) {
 					$variants = array_unique( array_values( $convertedVariants ) );
@@ -116,9 +127,16 @@ class CargoSearchMySQL extends SearchMySQL {
 		);
 	}
 
-	private function regexTerm( $string, $wildcard ) {
+	public function regexTerm( $string, $wildcard ) {
 		$regex = preg_quote( $string, '/' );
-		if ( MediaWikiServices::getInstance()->getContentLanguage()->hasWordBreaks() ) {
+		if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
+			// MW >= 1.31
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		} else {
+			global $wgContLang;
+			$contLang = $wgContLang;
+		}
+		if ( $contLang->hasWordBreaks() ) {
 			if ( $wildcard ) {
 				// Don't cut off the final bit!
 				$regex = "\b$regex";
@@ -138,7 +156,7 @@ class CargoSearchMySQL extends SearchMySQL {
 	 * @param bool $fulltext
 	 * @return string
 	 */
-	private function getIndexField( $fulltext ) {
+	public function getIndexField( $fulltext ) {
 		return $fulltext ? 'si_text' : 'si_title';
 	}
 
