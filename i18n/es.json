@@ -118,7 +118,7 @@
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
 	"cargo-purgecache": "Vaciar caché",
-	"cargo-purgecache-failed": "Falló la purga de la antememoria",
+	"cargo-purgecache-failed": "Falló la purga de la caché",
 	"cargo-pageschemas-cargofield": "campo Cargo",
 	"cargo-pageschemas-tablename": "Nombre de la tabla:"
 }
