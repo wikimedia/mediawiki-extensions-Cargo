@@ -41,6 +41,13 @@ class CargoViewData extends SpecialPage {
 		return 'cargo';
 	}
 
+	/**
+	 * This method is used for generating the input fields
+	 * @param string $labelText
+	 * @param string $fieldName
+	 * @param int $size
+	 * @return string
+	 */
 	static function displayInputRow( $labelText, $fieldName, $size ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
@@ -206,6 +213,11 @@ class ViewDataPage extends QueryPage {
 		return $queryInfo;
 	}
 
+	/**
+	 * Returns an assciative array that will be encoded and added to the
+	 * paging links
+	 * @return array
+	 */
 	function linkParameters() {
 		$possibleParams = array(
 			'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'having', 'format'
