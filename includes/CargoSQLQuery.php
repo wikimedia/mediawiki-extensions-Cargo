@@ -557,13 +557,12 @@ class CargoSQLQuery {
 			// purposes, we'll just treat it as a string.
 			if ( in_array( $firstFunction, array( 'COUNT', 'FLOOR', 'CEIL' ) ) ) {
 				$description->mType = 'Integer';
-			} elseif ( in_array( $firstFunction, array( 'AVG', 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
+			} elseif ( in_array( $firstFunction, array( 'SUM', 'POWER', 'LN', 'LOG' ) ) ) {
 				$description->mType = 'Float';
 			} elseif ( in_array( $firstFunction,
 					array( 'DATE', 'DATE_ADD', 'DATE_SUB', 'DATE_DIFF' ) ) ) {
 				$description->mType = 'Date';
-			} elseif ( in_array( $firstFunction,
-					array( 'TRIM' ) ) ) {
+			} elseif ( in_array( $firstFunction, array( 'TRIM' ) ) ) {
 				// @HACK - allow users one string function
 				// (TRIM()) that will return a String type, and
 				// thus won't have its value parsed as wikitext.
@@ -571,7 +570,7 @@ class CargoSQLQuery {
 				// just wanting to call TRIM(). (In that case,
 				// they can wrap the call in CONCAT().)
 				$description->mType = 'String';
-			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN' ) ) ) {
+			} elseif ( in_array( $firstFunction, array( 'MAX', 'MIN', 'AVG' ) ) ) {
 				// These are special functions in that the type
 				// of their output is not fixed, but rather
 				// matches the type of their input. So we find
@@ -580,7 +579,15 @@ class CargoSQLQuery {
 				$startParenPos = strpos( $origFieldName, '(' );
 				$lastParenPos = strrpos( $origFieldName, ')' );
 				$innerFieldName = substr( $origFieldName, $startParenPos + 1, ( $lastParenPos - $startParenPos - 1 ) );
-				return $this->getDescriptionAndTableNameForField( $innerFieldName );
+				list( $innerDesc, $innerTableName ) = $this->getDescriptionAndTableNameForField( $innerFieldName );
+				if ( $firstFunction == 'AVG' && $innerDesc->mType == 'Integer' ) {
+					// In practice, handling of AVG() is here
+					// so that calling it on a Rating
+					// field will keep it as Rating.
+					$description->mType = 'Float';
+				} else {
+					return array( $innerDesc, $innerTableName );
+				}
 			}
 			// If it's anything else ('CONCAT', 'SUBSTRING',
 			// etc. etc.), we don't have to do anything.
