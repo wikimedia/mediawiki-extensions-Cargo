@@ -6,7 +6,8 @@
 			"Fanjiayi",
 			"Phenolla",
 			"A Chinese Wikipedian",
-			"Angrydog001"
+			"Angrydog001",
+			"佛壁灯"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -21,6 +22,8 @@
 	"right-recreatecargodata": "在Cargo表格中重建数据",
 	"action-deletecargodata": "删除Cargo数据",
 	"right-deletecargodata": "删除Cargo表格",
+	"action-runcargoqueries": "运行任意 Cargo 查询",
+	"right-runcargoqueries": "运行任意 Cargo 查询",
 	"apihelp-cargoquery-description": "在Cargo数据上运行一次查询。",
 	"apihelp-cargoquery-summary": "在Cargo数据上运行一次查询。",
 	"apihelp-cargoquery-param-tables": "要搜索的Cargo数据库表单或表格",
@@ -51,6 +54,11 @@
 	"apihelp-cargoautocomplete-param-field_is_array": "字段是否保留值的列表",
 	"apihelp-cargoautocomplete-param-where": "用于查询的“where”条款，基于其他指定的过滤器",
 	"cargo-logname": "货物记录",
+	"cargo-logdesc": "这是与 Cargo 扩展相关的操作日志。",
+	"cargo-createtableaction": "创建了 Cargo 表 $2",
+	"cargo-recreatetableaction": "重新创建了 Cargo 表 $2",
+	"cargo-replacetableaction": "使用新版本替换 Cargo 表 $2",
+	"cargo-deletetableaction": "删除了 Cargo 表 $2",
 	"cargo-createdatatable": "创建数据表",
 	"cargo-recreatedata-desc": "为此模板重新创建Cargo数据么？",
 	"cargo-recreatedata-createdata": "为此模板创建Cargo数据么？",
@@ -92,6 +100,7 @@
 	"cargo-cargotables-listof": "$1的列表",
 	"cargo-cargotables-totalrows": "这个表格总共有'''$1'''{{PLURAL:$1|行}}。",
 	"cargo-cargotables-totalrowsshort": "$1{{PLURAL:$1|行}}",
+	"cargo-cargotables-replacementgenerated": "已为此表生成替代表",
 	"cargo-cargotables-switch": "切换以使用此表格。",
 	"cargo-cargotables-nonexistenttable": "此表格已注册，但不存在！",
 	"cargo-recreatedata-createreplacement": "重建数据至替换表格，保持旧有数据用于查询",
