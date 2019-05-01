@@ -6,7 +6,8 @@
 			"Ilimanaq29",
 			"Matěj Suchánek",
 			"DoubyCz",
-			"Korytaacheck"
+			"Korytaacheck",
+			"Patriccck"
 		]
 	},
 	"apihelp-cargoquery-param-offset": "Posun požadavku",
@@ -20,6 +21,7 @@
 	"cargo-viewdata-defaultformat": "Výchozí",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
 	"cargo-drilldown-othervalues": "Další hodnoty:",
+	"cargo-drilldown-timelineformat": "Časová osa",
 	"cargo-drilldown-calendarformat": "Kalendář",
 	"cargo-dynamictables-searchcolumn": "Hledat $1",
 	"cargo-pageschemas-tablename": "Název tabulky:"
