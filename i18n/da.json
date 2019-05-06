@@ -15,6 +15,7 @@
 	"cargo-viewdata-offset": "Forskydning:",
 	"cargo-viewdata-format": "Format:",
 	"cargo-viewdata-defaultformat": "Standard",
+	"cargo-deletetable-success": "Tabellen \"$1\" er blevet slettet.",
 	"cargo-drilldown-allpages": "Alle sider",
 	"cargo-drilldown-allfiles": "Alle filer",
 	"cargo-drilldown-or": "eller",
