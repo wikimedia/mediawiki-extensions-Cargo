@@ -108,12 +108,6 @@ class CargoTableFormat extends CargoDisplayFormat {
 					$columnIsOdd[$field] = true;
 				}
 
-				if ( array_key_exists( $field, $row ) ) {
-					$value = $row[$field];
-				} else {
-					$value = null;
-				}
-
 				// Add a unique class to enable special CSS
 				// and/or JS handling.
 				$className = 'field_' . str_replace( ' ', '_', $field );
@@ -140,6 +134,16 @@ class CargoTableFormat extends CargoDisplayFormat {
 				) {
 					$attrs['rowspan'] = $duplicateValuesInTable[$rowNum][$field];
 				}
+
+				if ( array_key_exists( $field, $row ) ) {
+					$value = $row[$field];
+					if ( $fieldDescriptions[$field]->isDateOrDatetime() ) {
+						$attrs['data-sort-value'] = $valuesTable[$rowNum][$field];
+					}
+				} else {
+					$value = null;
+				}
+
 				$text .= Html::rawElement( 'td', $attrs, $value ) . "\n";
 			}
 			$text .= "</tr>\n";

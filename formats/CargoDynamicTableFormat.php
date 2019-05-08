@@ -169,25 +169,30 @@ END;
 
 END;
 
-		foreach ( $formattedValuesTable as $row ) {
+		foreach ( $formattedValuesTable as $rowNum => $row ) {
 			if ( $detailsFields ) {
 				$tableData = Html::rawElement( 'td', array( 'class' => 'details-control' ), null );
 			} else {
 				$tableData = '';
 			}
 			$details = '';
-			foreach ( array_keys( $fieldDescriptions ) as $field ) {
+			foreach ( $fieldDescriptions as $field => $fieldDescription ) {
+				$attribs = null;
+				$value = null;
+
 				if ( array_key_exists( $field, $row ) ) {
 					$value = $row[$field];
-				} else {
-					$value = null;
+					if ( $fieldDescription->isDateOrDatetime() ) {
+						$attribs = array( 'data-order' => $valuesTable[$rowNum][$field] );
+					}
 				}
+
 				if ( in_array( $field, $detailsFields ) ) {
-					$detailsText = "\t\t\t\t" . Html::rawElement( 'td', null, "<strong>$field: </strong>" );
-					$detailsText .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
-					$details .= "\t\t\t" . Html::rawElement( 'tr', null,  $detailsText );
+					$detailsText = "\t\t\t\t" . Html::rawElement( 'td', $attribs, "<strong>$field: </strong>" );
+					$detailsText .= "\t\t\t\t" . Html::rawElement( 'td', $attribs, $value );
+					$details .= "\t\t\t" . Html::rawElement( 'tr', $attribs,  $detailsText );
 				} else {
-					$tableData .= "\t\t\t\t" . Html::rawElement( 'td', null, $value );
+					$tableData .= "\t\t\t\t" . Html::rawElement( 'td', $attribs, $value );
 				}
 			}
 			$detailsTable =
