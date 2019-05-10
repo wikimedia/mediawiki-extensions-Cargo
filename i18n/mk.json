@@ -60,7 +60,7 @@
 	"cargo-recreatedata-tablecreated": "Пресоздадена табелата „$1“.",
 	"cargo-recreatedata-replacementcreated": "Пресоздадена заменската табела „$1“.",
 	"cargo-recreatedata-success": "Податоците се пресоздаваат.",
-	"viewdata": "Погл. податоците",
+	"viewdata": "Преглед на податоци",
 	"cargo-viewdata-tables": "Табели:",
 	"cargo-viewdata-fields": "Полиња:",
 	"cargo-viewdata-where": "Каде:",
