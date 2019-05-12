@@ -18,8 +18,7 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function execute( $query ) {
-		$this->getOutput()->setArticleBodyOnly( true );
-
+		$this->getOutput()->disable();
 		$req = $this->getRequest();
 
 		// If no value has been set for 'tables', or 'table', just
