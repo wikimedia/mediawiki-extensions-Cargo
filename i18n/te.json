@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Veeven"
+		]
+	},
+	"cargo-viewdata-where": "ఎక్కడ:",
+	"cargo-viewdata-defaultformat": "అప్రమేయం",
+	"pagevalues": "పేజీ విలువలు",
+	"cargo-pagevalues-tablevalues": "\"$1\" విలువలు",
+	"cargo-drilldown-timelineformat": "కాలరేఖ"
+}
