@@ -232,8 +232,13 @@ class CargoQueryDisplayer {
 				return Html::element( 'a', array( 'href' => $value ),
 						$fieldDescription->mOtherParams['link text'] );
 			} else {
-				// Otherwise, do nothing.
-				return $value;
+				// Otherwise, display the URL as a link.
+				global $wgNoFollowLinks;
+				$linkParams = array( 'href' => $value, 'class' => 'external free' );
+				if ( $wgNoFollowLinks ) {
+					$linkParams['rel'] = 'nofollow';
+				}
+				return Html::element( 'a', $linkParams, $value );
 			}
 		} elseif ( $type == 'Date' || $type == 'Datetime' ) {
 			// This should not get called - date fields
