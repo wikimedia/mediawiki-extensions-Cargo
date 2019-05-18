@@ -1145,7 +1145,7 @@ class CargoUtils {
 
 		if ( is_null( $title ) ) {
 			return null;
-		} elseif ( $title->getArticleID() == $wgTitle->getArticleID() ) {
+		} elseif ( !is_null( $wgTitle ) && $title->getArticleID() == $wgTitle->getArticleID() ) {
 			// Display bolded text instead of a link.
 			return Linker::makeSelfLinkObj( $title, $msg );
 		} elseif ( !is_null( $linkRenderer ) ) {
