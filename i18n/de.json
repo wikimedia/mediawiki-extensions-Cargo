@@ -133,6 +133,7 @@
 	"cargo-viewcsv": "CSV ansehen",
 	"cargo-viewxls": "XLS ansehen",
 	"cargo-viewjson": "JSON ansehen",
+	"cargo-viewbibtex": "BibTeX ansehen",
 	"cargo-dynamictables-togglecolumns": "Spalten wechseln:",
 	"cargo-dynamictables-searchcolumn": "$1 durchsuchen",
 	"cargo-purgecache": "Cache leeren",

@@ -117,6 +117,7 @@
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
+	"cargo-viewbibtex": "Ver BibTeX",
 	"cargo-purgecache": "Vaciar caché",
 	"cargo-purgecache-failed": "Falló la purga de la caché",
 	"cargo-pageschemas-cargofield": "campo Cargo",

@@ -77,6 +77,12 @@ class CargoExport extends UnlistedSpecialPage {
 		} elseif ( $format == 'json' ) {
 			$parseValues = $req->getCheck( 'parse_values' );
 			$this->displayJSONData( $sqlQueries, $parseValues );
+		} elseif ( $format == 'bibtex' ) {
+			$defaultEntryType = $req->getVal( 'default_entry_type' );
+			if ( $defaultEntryType == '' ) {
+				$defaultEntryType = 'article';
+			}
+			$this->displayBibtexData( $sqlQueries, $defaultEntryType );
 		} else {
 			print wfMessage( "cargo-query-missingformat" )->parse();
 		}
@@ -497,5 +503,20 @@ class CargoExport extends UnlistedSpecialPage {
 			$jsonOptions = JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT;
 		}
 		print json_encode( $allQueryResults, $jsonOptions );
+	}
+
+	function displayBibtexData( $sqlQueries, $defaultEntryType ) {
+		header( "Content-Type: text/plain" );
+		header( "Content-Disposition: inline;filename=results.bib" );
+
+		$text = '';
+		foreach ( $sqlQueries as $sqlQuery ) {
+			$queryResults = $sqlQuery->run();
+			$text .= CargoBibtexFormat::generateBibtexEntries( $queryResults,
+					$sqlQuery->mFieldDescriptions,
+					array( 'default entry type' => $defaultEntryType ) );
+		}
+
+		file_put_contents( "php://output", $text );
 	}
 }

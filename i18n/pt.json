@@ -141,6 +141,7 @@
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
+	"cargo-viewbibtex": "Ver BibTeX",
 	"cargo-dynamictables-togglecolumns": "Alternar colunas:",
 	"cargo-dynamictables-searchcolumn": "Pesquisar em $1",
 	"cargo-purgecache": "Limpar a cache",

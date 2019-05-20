@@ -121,6 +121,7 @@
 		"CargoSlideshowFormat": "formats/CargoSlideshowFormat.php",
 		"CargoTagCloudFormat": "formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "formats/CargoExhibitFormat.php",
+		"CargoBibtexFormat": "formats/CargoBibtexFormat.php",
 		"CargoSearchMySQL": "includes/search/CargoSearchMySQL.php",
 		"CargoPageSchemas": "includes/CargoPageSchemas.php",
 		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",

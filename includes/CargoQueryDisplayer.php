@@ -52,6 +52,7 @@ class CargoQueryDisplayer {
 			'slideshow' => 'CargoSlideshowFormat',
 			'tag cloud' => 'CargoTagCloudFormat',
 			'exhibit' => 'CargoExhibitFormat',
+			'bibtex' => 'CargoBibtexFormat',
 		);
 		return $formatClasses;
 	}
