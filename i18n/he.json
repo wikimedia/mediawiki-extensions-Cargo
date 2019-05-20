@@ -3,7 +3,8 @@
 		"authors": [
 			"Amire80",
 			"Guycn2",
-			"Or"
+			"Or",
+			"Erelon"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -86,6 +87,7 @@
 	"cargo-drilldown-or": "או",
 	"cargo-drilldown-removefilter": "להסיר את המסנן הזה",
 	"cargo-drilldown-resetfilters": "לאתחל מסננים",
+	"cargo-drilldown-hierarchy-within": "בטווח $1",
 	"cargo-drilldown-addanothervalue": "יש ללחוץ על חץ כדי להוסיף ערך אחר",
 	"cargo-drilldown-othervalues": "ערכים אחרים:",
 	"cargo-drilldown-novalues": "אין ערכים למסנן הזה",
