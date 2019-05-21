@@ -323,7 +323,7 @@ class CargoHooks {
 					$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 					$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 				),
-				array( '_pageID' => $oldid )
+				array( $cdb->addIdentifierQuotes( '_pageID' ) => $oldid )
 			);
 		}
 
@@ -337,7 +337,7 @@ class CargoHooks {
 						$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 						$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 					),
-					array( '_pageID' => $oldid )
+					array( $cdb->addIdentifierQuotes( '_pageID' ) => $oldid )
 				);
 			}
 		}
