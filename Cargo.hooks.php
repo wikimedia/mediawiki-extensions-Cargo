@@ -319,9 +319,9 @@ class CargoHooks {
 			$curMainTable = $row['table_name'];
 			$cdb->update( $curMainTable,
 				array(
-					'_pageName' => $newPageName,
-					'_pageTitle' => $newPageTitle,
-					'_pageNamespace' => $newPageNamespace
+					$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
+					$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
+					$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 				),
 				array( '_pageID' => $oldid )
 			);
@@ -333,9 +333,9 @@ class CargoHooks {
 			if ( $cdb->tableExists( $generalTable ) ) {
 				$cdb->update( $generalTable,
 					array(
-						'_pageName' => $newPageName,
-						'_pageTitle' => $newPageTitle,
-						'_pageNamespace' => $newPageNamespace
+						$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
+						$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
+						$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 					),
 					array( '_pageID' => $oldid )
 				);
