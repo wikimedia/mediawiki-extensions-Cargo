@@ -2,9 +2,8 @@
 
 BEGIN;
 
-CREATE SEQUENCE cargo_tables_template_id_seq;
 CREATE TABLE cargo_tables (
-  template_id              INTEGER  NOT NULL UNIQUE DEFAULT nextval('cargo_tables_template_id_seq'),
+  template_id              INTEGER  NOT NULL,
   main_table               TEXT     NOT NULL UNIQUE,
   field_tables             TEXT     NOT NULL,
   field_helper_tables      TEXT     NOT NULL,
