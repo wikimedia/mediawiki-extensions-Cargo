@@ -6,7 +6,8 @@
 			"Xaris333",
 			"KATRINE1992",
 			"Nikosgranturismogt",
-			"KATRINE1993"
+			"KATRINE1993",
+			"Sarri.greek"
 		]
 	},
 	"cargo-desc": "Αποθήκευση και ερωτήματα για δεδομένα προτύπων",
@@ -17,7 +18,7 @@
 	"cargo-unknowntable": "Σφάλμα: Ο πίνακας $1 δεν βρέθηκε.",
 	"recreatedata": "Αναδημιουργία δεδομένων",
 	"action-recreatecargodata": "αναδημιουργήσετε δεδομένα Cargo",
-	"action-deletecargodata": "διαγράψετε δεδομένα Cargo",
+	"action-deletecargodata": "διαγράψτε δεδομένα Cargo",
 	"apihelp-cargoquery-description": "Εκτελεί ένα ερώτημα πάνω στα δεδομένα Cargo.",
 	"apihelp-cargoquery-param-tables": "Ο πίνακας ή οι πίνακες της βάσης δεδομένων Cargo όπου να γίνει αναζήτηση",
 	"apihelp-cargoquery-param-fields": "Το/α προς ανάκτηση πεδίο/α",
@@ -71,7 +72,7 @@
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|γραμμή|γραμμές}}",
 	"cargo-cargotables-switch": "Cambiar para utilizar esta tabla.",
 	"cargo-cargotables-nonexistenttable": "Αυτός ο πίνακας έχει εγγραφεί, αλλά δεν υπάρχει!",
-	"cargo-recreatedata-createreplacement": "Δημιουργείστε πάλι τα δεδομένα σε έναν πίνακα αντικατάστασης, διατηρώντας τον πρώτον για ερωτήματα.",
+	"cargo-recreatedata-createreplacement": "Δημιουργήστε πάλι τα δεδομένα σε έναν πίνακα αντικατάστασης, διατηρώντας τον παλαιότερο για ερωτήματα.",
 	"cargo-recreatedata-replacementexists": "Δεν μπορεί προς το παρόν να δημιουργήσει ξανά τον πίνακα ''$1'', ο πίνακας αντικατάστασης ''$2'' υπάρχει ακόμη.",
 	"cargo-cargotables-replacementtable": "Αυτός ο πίνακας θα αντικαταστήσει τον πίνακα $1.Δεν χρησιμοποιείται ακόμα για ερωτήματα.",
 	"cargo-cargotables-deletereplacement": "Ή, εάν δεν θέλετε να χρησιμοποιήσετε τον πίνακα αντικατάστασης, μπορείτε να {$1 τον διαγράψετε}.",
