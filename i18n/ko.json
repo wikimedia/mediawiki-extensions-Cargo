@@ -62,6 +62,7 @@
 	"cargo-deletetable-replacementconfirm": "$2 Cargo 테이블을 위해 [$1 대체 테이블]을 삭제하시겠습니까?",
 	"cargo-deletetable-success": "\"$1\" 테이블이 삭제되었습니다.",
 	"cargo-switchtables-switch": "전환",
+	"cargo-drilldown-choosetable": "테이블 선택",
 	"cargo-drilldown-allpages": "모든 문서",
 	"cargo-drilldown-allfiles": "모든 파일",
 	"cargo-drilldown-docu": "결과를 줄이려면 아래의 필터를 사용하십시오.",
