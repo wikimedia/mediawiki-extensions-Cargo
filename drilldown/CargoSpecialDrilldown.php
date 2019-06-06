@@ -1469,7 +1469,7 @@ END;
 		if ( $this->isReplacementTable ) {
 			$this->tableName = str_replace( '__NEXT', '', $this->tableName );
 			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
-			$ctURL = $ctPage->getTitle()->getFullText();
+			$ctURL = $ctPage->getPageTitle()->getFullText();
 			$viewURL = "$ctURL/" . $this->tableName;
 			$viewLink = "[[$viewURL|{$this->tableName}]]";
 			$header .= Html::rawElement( 'div',

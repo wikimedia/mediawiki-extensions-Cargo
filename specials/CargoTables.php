@@ -235,7 +235,7 @@ class CargoTables extends IncludableSpecialPage {
 		// Actions for this table - this display is modeled on
 		// Special:ListUsers.
 		$drilldownPage = SpecialPageFactory::getPage( 'Drilldown' );
-		$drilldownURL = $drilldownPage->getTitle()->getLocalURL() . '/' . $tableName;
+		$drilldownURL = $drilldownPage->getPageTitle()->getLocalURL() . '/' . $tableName;
 		$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
 		if ( $isReplacementTable ) {
 			$drilldownURL .= "_replacement";
