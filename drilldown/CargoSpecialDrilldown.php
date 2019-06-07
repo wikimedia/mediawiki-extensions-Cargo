@@ -2145,6 +2145,8 @@ END;
 				}
 			}
 		}
+
+		$extraAliasedFields = array();
 		if ( $this->fullTextSearchTerm != null ) {
 			$fileDataTableName = '_fileData';
 			$fileDataTableAlias = CargoUtils::makeDifferentAlias( $fileDataTableName );
@@ -2155,7 +2157,7 @@ END;
 				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, array(
 					$fileDataTableAlias => $fileDataTableName ),
 					'_fullText' );
-				$aliasedFieldNames['foundFileMatch'] = '1';
+				$extraAliasedFields['foundFileMatch'] = '1';
 				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
 			} else {
 				$pageTextAlias = $this->msg( 'cargo-drilldown-pagetext' )->text();
@@ -2235,7 +2237,7 @@ END;
 
 		$queryInfo = array(
 			'tables' => $tableNames,
-			'fields' => $aliasedFieldNames,
+			'fields' => array_merge( $aliasedFieldNames, $extraAliasedFields ),
 			'conds' => $conds,
 			'join_conds' => $joinConds,
 			'options' => $queryOptions
