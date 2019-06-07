@@ -74,6 +74,8 @@ class CargoRecreateData extends Maintenance {
 	}
 
 	function recreateAllDataForTable( $tableName, $createReplacement ) {
+		global $wgTitle;
+
 		$quiet = $this->getOption( 'quiet' );
 
 		// Quick retrieval and check before we do anything else.
@@ -141,6 +143,8 @@ class CargoRecreateData extends Maintenance {
 				}
 
 				foreach ( $titlesWithThisTemplate as $title ) {
+					// This may be helpful.
+					$wgTitle = $title;
 					// All we need to do here is set some global variables based
 					// on the parameters of this job, then parse the page -
 					// the #cargo_store function will take care of the rest.
