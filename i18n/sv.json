@@ -4,7 +4,8 @@
 			"Jenniesarina",
 			"WikiPhoenix",
 			"Jopparn",
-			"Josve05a"
+			"Josve05a",
+			"Mjälten"
 		]
 	},
 	"recreatedata": "Återskapa data",
@@ -14,6 +15,7 @@
 	"cargo-createdatatable": "Skapa datatabell",
 	"viewdata": "Visa data",
 	"cargo-viewdata-offset": "Offset:",
+	"cargo-viewdata-defaultformat": "Förvalt",
 	"cargo-cargotables-tablelist": "Följande {{PLURAL:$1|tabell är definierad|tabeller är definierade}}:",
 	"cargo-cargotables-viewtable": "Visa tabell: $1",
 	"cargo-cargotables-viewtablelink": "Visa tabell",
@@ -23,9 +25,11 @@
 	"cargo-drilldown-allpages": "Alla sidor",
 	"cargo-drilldown-allfiles": "Alla filer",
 	"cargo-drilldown-docu": "Använd filtren nedan för att begränsa dina resultat.",
+	"cargo-drilldown-resetfilters": "Återställ filter",
 	"cargo-drilldown-hierarchy-within": "inom $1",
 	"cargo-drilldown-hierarchy-only": "endast \"$1\"",
 	"cargo-drilldown-othervalues": "Andra värden:",
+	"cargo-drilldown-pagetext": "Sidtext",
 	"cargo-drilldown-filename": "Filnamn",
 	"cargo-drilldown-filetext": "Filtext",
 	"cargo-drilldown-mapformat": "Karta",
@@ -35,6 +39,7 @@
 	"cargo-viewxls": "Visa XLS",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
 	"cargo-purgecache-failed": "Misslyckades att rensa cachen",
+	"specialpages-group-cargo": "Fraktgods",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
 	"cargo-pageschemas-tablename": "Tabellnamn:"
 }
