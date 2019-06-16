@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Kumkumuk",
-			"Mirzali"
+			"Mirzali",
+			"Orbot707"
 		]
 	},
 	"cargo-viewdata-where": "Koti:",
@@ -10,6 +11,7 @@
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Tabloyê kargoyi",
 	"cargo-drilldown-choosetable": "Tablo weçine",
+	"cargo-drilldown-allpages": "Peli pêro",
 	"cargo-drilldown-or": "ya zi",
 	"cargo-drilldown-removefilter": "Enê parzûni wedare",
 	"cargo-drilldown-resetfilters": "Parzûnan cıra bere",
