@@ -15,6 +15,8 @@
 	"cargo-definestable": "Dit sjabloon definieert de tabel \"$1\".",
 	"cargo-tablenotcreated": "Deze tabel is nog niet aangemaakt.",
 	"cargo-addsrows": "Dit sjabloon voegt rijen aan de tabel \"$1\" toe.",
+	"cargo-notable": "Fout: De tabelnaam is verplicht.",
+	"cargo-unknowntable": "Fout: Kon tabel $1 niet vinden.",
 	"recreatedata": "Gegevens opnieuw opbouwen",
 	"action-recreatecargodata": "Cargo data opnieuw opbouwen",
 	"action-deletecargodata": "Cargo data te verwijderen",
