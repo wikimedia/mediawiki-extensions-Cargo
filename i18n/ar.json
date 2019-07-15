@@ -141,6 +141,7 @@
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-viewjson": "عرض جسون",
+	"cargo-viewbibtex": "عرض بب تخ",
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
 	"cargo-purgecache": "إفراغ الكاش",

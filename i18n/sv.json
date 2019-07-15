@@ -50,6 +50,7 @@
 	"cargo-drilldown-calendarformat": "Kalender",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-viewjson": "Visa JSON",
+	"cargo-viewbibtex": "Visa BibTeX",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
 	"cargo-dynamictables-searchcolumn": "Sök i $1",
 	"cargo-purgecache": "Töm mellanlager",

@@ -138,6 +138,7 @@
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Погл. JSON",
+	"cargo-viewbibtex": "Погл. BibTeX",
 	"cargo-dynamictables-togglecolumns": "Префрли столбови:",
 	"cargo-dynamictables-searchcolumn": "Пребарување во $1",
 	"cargo-purgecache": "Исчисти меѓусклад",
