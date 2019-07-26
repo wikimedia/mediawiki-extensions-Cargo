@@ -70,6 +70,10 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		);
 
+		if ( $type === "sqlite" ) {
+			$params['dbFilePath'] = $dbr->getDbFilePath();
+		}
+
 		if ( class_exists( 'Database' ) ) {
 			// MW 1.27+
 			self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
