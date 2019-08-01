@@ -311,7 +311,15 @@ class CargoQueryDisplayer {
 	 */
 	function getTextSnippet( $text, $terms ) {
 		global $wgAdvancedSearchHighlighting;
-		list( $contextlines, $contextchars ) = SearchEngine::userHighlightPrefs();
+		if ( defined( '\SearchHighlighter::DEFAULT_CONTEXT_LINES' ) ) {
+			// MW 1.34+
+			// TODO: once the else block is removed simply drop these vars
+			// SearchHighlighter methods take these same values as defaults.
+			$contextlines = SearchHighlighter::DEFAULT_CONTEXT_LINES;
+			$contextchars = SearchHighlighter::DEFAULT_CONTEXT_CHARS;
+		} else {
+			list( $contextlines, $contextchars ) = SearchEngine::userHighlightPrefs();
+		}
 
 		foreach ( $terms as $i => $term ) {
 			// Try to map from a MySQL search to a PHP one -
