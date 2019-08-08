@@ -88,7 +88,7 @@ class CargoOutlineTree {
 				$formattedFieldValues = $row->getFormattedOutlineFieldValues( $field );
 				$this->categorizeRow( $fieldValues, $row, $formattedFieldValues );
 			}
-			$this->mUnsortedRows = null;
+			$this->mUnsortedRows = array();
 		} else {
 			foreach ( $this->mTree as $i => $node ) {
 				$this->mTree[$i]->addField( $field );
