@@ -94,7 +94,9 @@ class CargoDeleteCargoTable extends UnlistedSpecialPage {
 			} else {
 				$linkRenderer = null;
 			}
-			$tablesLink = CargoUtils::makeLink( $linkRenderer, $ctPage->getPageTitle(), $ctPage->getDescription() );
+			$tablesLink = CargoUtils::makeLink( $linkRenderer,
+				$ctPage->getPageTitle(),
+				htmlspecialchars( $ctPage->getDescription() ) );
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			if ( !$replacementTable ) {

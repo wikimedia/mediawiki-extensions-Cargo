@@ -253,7 +253,7 @@ class CargoTables extends IncludableSpecialPage {
 		if ( $canBeRecreated && $wgUser->isAllowed( 'recreatecargodata' ) ) {
 			$templateTitle = Title::newFromID( $templateID );
 			$actionLinks['recreate'] = CargoUtils::makeLink( $linkRenderer, $templateTitle,
-				$this->msg( 'recreatedata' )->text(), array(), array( 'action' => 'recreatedata' ) );
+				$this->msg( 'recreatedata' )->escaped(), array(), array( 'action' => 'recreatedata' ) );
 		}
 
 		if ( $wgUser->isAllowed( 'deletecargodata' ) ) {

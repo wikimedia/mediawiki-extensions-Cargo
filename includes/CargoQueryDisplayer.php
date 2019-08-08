@@ -213,7 +213,7 @@ class CargoQueryDisplayer {
 			// Hide the namespace in the display?
 			global $wgCargoHideNamespaceName;
 			if ( in_array( $title->getNamespace(), $wgCargoHideNamespaceName ) ) {
-				return CargoUtils::makeLink( $linkRenderer, $title, $title->getRootText() );
+				return CargoUtils::makeLink( $linkRenderer, $title, htmlspecialchars( $title->getRootText() ) );
 			} else {
 				return CargoUtils::makeLink( $linkRenderer, $title );
 			}
@@ -381,7 +381,7 @@ class CargoQueryDisplayer {
 	public function viewMoreResultsLink( $displayHTML = true ) {
 		$vd = Title::makeTitleSafe( NS_SPECIAL, 'ViewData' );
 		if ( array_key_exists( 'more results text', $this->mDisplayParams ) ) {
-			$moreResultsText = $this->mDisplayParams['more results text'];
+			$moreResultsText = htmlspecialchars( $this->mDisplayParams['more results text'] );
 			// If the value is blank, don't show a link at all.
 			if ( $moreResultsText == '' ) {
 				return '';
