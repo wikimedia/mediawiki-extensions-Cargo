@@ -43,7 +43,7 @@ class SetCargoPageData extends Maintenance {
 		if ( method_exists( $this, 'requireExtension' ) ) {
 			$this->requireExtension( 'Cargo' );
 		}
-		$this->mDescription = "Stores a set of data for each page in the wiki in one or more database tables, for use within Cargo queries.";
+		$this->addDescription( "Stores a set of data for each page in the wiki in one or more database tables, for use within Cargo queries." );
 		$this->addOption( "delete", "Delete the page data DB table(s)", false, false );
 	}
 

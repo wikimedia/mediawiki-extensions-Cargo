@@ -43,7 +43,7 @@ class SetCargoFileData extends Maintenance {
 		if ( method_exists( $this, 'requireExtension' ) ) {
 			$this->requireExtension( 'Cargo' );
 		}
-		$this->mDescription = "Stores a set of data for each file in the wiki in one or more database tables, for use within Cargo queries.";
+		$this->addDescription( "Stores a set of data for each file in the wiki in one or more database tables, for use within Cargo queries." );
 		$this->addOption( "delete", "Delete the file data DB table(s)", false, false );
 	}
 

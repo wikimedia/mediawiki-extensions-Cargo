@@ -43,7 +43,7 @@ class CargoRecreateData extends Maintenance {
 		if ( method_exists( $this, 'requireExtension' ) ) {
 			$this->requireExtension( 'Cargo' );
 		}
-		$this->mDescription = "Recreate the data for one or more Cargo database tables.";
+		$this->addDescription( "Recreate the data for one or more Cargo database tables." );
 		$this->addOption( 'table', 'The Cargo table to recreate', false, true );
 		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
 	}
