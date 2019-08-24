@@ -51,7 +51,8 @@
 	},
 	"MessagesDirs": {
 		"Cargo": [
-			"i18n"
+			"i18n",
+			"i18n/api"
 		]
 	},
 	"ExtensionMessagesFiles": {
@@ -366,7 +367,9 @@
 		"CargoMaxVisibleHierarchyDrilldownValues": 30,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
-		"CargoHideNamespaceName": [ 6 ],
+		"CargoHideNamespaceName": [
+			6
+		],
 		"CargoAllowedSQLFunctions": [
 			"AVG",
 			"CEIL",
