@@ -12,8 +12,6 @@
 	"recreatedata": "Återskapa data",
 	"right-recreatecargodata": "Återskapa data som finns i Cargo-tabeller",
 	"right-deletecargodata": "Radera en Cargo-tabell",
-	"apihelp-cargoquery-param-offset": "Förfrågans offset",
-	"apihelp-cargoautocomplete-param-substr": "Söksträng",
 	"cargo-createdatatable": "Skapa datatabell",
 	"viewdata": "Visa data",
 	"cargo-viewdata-tables": "Tabell(er):",
