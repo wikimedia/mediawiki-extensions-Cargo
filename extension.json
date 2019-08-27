@@ -20,7 +20,7 @@
 		"CargoTables": "CargoTables",
 		"DeleteCargoTable": "CargoDeleteCargoTable",
 		"SwitchCargoTable": "CargoSwitchCargoTable",
-		"ViewData": "CargoViewData",
+		"CargoQuery": "CargoQueryInterface",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
 		"Drilldown": "CargoDrilldown"
@@ -32,7 +32,8 @@
 		"cargoquery": "CargoQueryAPI",
 		"cargorecreatetables": "CargoRecreateTablesAPI",
 		"cargorecreatedata": "CargoRecreateDataAPI",
-		"cargoautocomplete": "CargoAutocompleteAPI"
+		"cargoautocomplete": "CargoAutocompleteAPI",
+		"cargoqueryautocomplete": "CargoQueryAutocompleteAPI"
 	},
 	"LogTypes": [
 		"cargo"
@@ -82,8 +83,8 @@
 		"CargoTables": "specials/CargoTables.php",
 		"CargoDeleteCargoTable": "specials/CargoDeleteTable.php",
 		"CargoSwitchCargoTable": "specials/CargoSwitchTable.php",
-		"CargoViewData": "specials/CargoQueryInterface.php",
-		"ViewDataPage": "specials/CargoQueryInterface.php",
+		"CargoQueryInterface": "specials/CargoQueryInterface.php",
+		"CargoQueryPage": "specials/CargoQueryInterface.php",
 		"CargoExport": "specials/CargoExport.php",
 		"CargoPageValuesAction": "includes/CargoPageValuesAction.php",
 		"CargoPageValues": "specials/CargoPageValues.php",
@@ -91,6 +92,7 @@
 		"CargoRecreateTablesAPI": "api/CargoRecreateTablesAPI.php",
 		"CargoRecreateDataAPI": "api/CargoRecreateDataAPI.php",
 		"CargoAutocompleteAPI": "api/CargoAutocompleteAPI.php",
+		"CargoQueryAutocompleteAPI": "api/CargoQueryAutocompleteAPI.php",
 		"CargoLuaLibrary": "CargoLua.library.php",
 		"CargoDisplayFormat": "formats/CargoDisplayFormat.php",
 		"CargoDeferredFormat": "formats/CargoDeferredFormat.php",
@@ -254,6 +256,22 @@
 			"scripts": [
 				"libs/DataTables/js/jquery.dataTables.js",
 				"libs/ext.cargo.datatables.js"
+			]
+		},
+		"ext.cargo.cargoquery": {
+			"styles": [
+				"libs/balloon.css"
+			],
+			"scripts": [
+				"libs/ext.cargo.query.js"
+			],
+			"messages": [
+				"cargo-query-tablesrequired",
+				"cargo-query-joinonrequired"
+			],
+			"dependencies": [
+				"jquery.ui.autocomplete",
+				"mediawiki.util"
 			]
 		},
 		"ext.cargo.nvd3": {

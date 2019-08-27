@@ -6,20 +6,21 @@
  * @ingroup Cargo
  */
 
-class CargoViewData extends SpecialPage {
+class CargoQueryInterface extends SpecialPage {
 
 	/**
 	 * Constructor
 	 */
 	function __construct() {
-		parent::__construct( 'ViewData', 'runcargoqueries' );
+		parent::__construct( 'CargoQuery', 'runcargoqueries' );
 	}
 
 	function execute( $query ) {
 		$this->setHeaders();
 		$out = $this->getOutput();
 		$out->addModules( 'ext.cargo.main' );
-
+		$out->addModules( 'ext.cargo.cargoquery' );
+		$out->getResourceLoader()->getModuleNames();
 		$req = $this->getRequest();
 		$tablesStr = $req->getVal( 'tables' );
 		if ( $tablesStr == '' ) {
@@ -29,7 +30,7 @@ class CargoViewData extends SpecialPage {
 		}
 
 		try {
-			$rep = new ViewDataPage();
+			$rep = new CargoQueryPage();
 		} catch ( MWException $e ) {
 			$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
 			return;
@@ -48,10 +49,19 @@ class CargoViewData extends SpecialPage {
 	 * @param int $size
 	 * @return string
 	 */
-	static function displayInputRow( $labelText, $fieldName, $size ) {
+	static function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
+		$label .= '&nbsp' . Html::element( 'button', array( 'class' => 'CargoQueryTooltipIcon', 'disabled' => true, 'for' => $fieldName , 'data-balloon-length' => 'large','data-balloon' => $tooltip ),  '' ) . '&nbsp';
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
-		$input = Html::input( $fieldName, '', 'text', array( 'size' => $size, 'id' => $fieldName ) );
+		$input = Html::input( $fieldName, '', 'text', array( 'class' => 'form-control cargo-query-input','multiple' => 'true', 'size' => $size.' !important', 'id' => $fieldName ) );
+		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
+		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
+	}
+	static function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
+		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
+		$label .= '&nbsp' . Html::element( 'button', array( 'class' => 'CargoQueryTooltipIcon', 'disabled' => true, 'for' => $fieldName , 'data-balloon-length' => 'large','data-balloon' => $tooltip ), '' ) . '&nbsp';
+		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
+		$input = Html::textarea( $fieldName, '', array( 'class' => 'form-control cargo-query-textarea','multiple' => 'true', 'size' => $size.' !important', 'id' => $fieldName ) );
 		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
 		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
 	}
@@ -59,25 +69,40 @@ class CargoViewData extends SpecialPage {
 	function displayInputForm() {
 		// Add the name of this special page as a hidden input, in
 		// case the wiki doesn't use nice URLs.
+		global $wgCargoDefaultQueryLimit;
 		$hiddenTitleInput = Html::hidden( 'title', $this->getPageTitle()->getFullText() );
-		$text = <<<END
-<form>
-$hiddenTitleInput
-<table class="cargoViewDataTable">
-<tbody>
 
+		$text = <<<END
+<form id="queryform">
+$hiddenTitleInput
+<table class="cargoQueryTable" id="cargoQueryTable" >
+<tbody>
 END;
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->text(), 'tables', 100 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->text(), 'fields', 100 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 100 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 100 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 50 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-having' )->text(), 'having', 50 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-orderby' )->text(), 'order_by', 50 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3 );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->text(), 'offset', 3 );
-		$formatLabel = wfMessage( 'cargo-viewdata-format' )->text();
-		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->text();
+
+		$text .= self::displayInputRow( wfMessage( 'cargo-query-tables' )->text(), 'tables', 100, wfMessage( 'cargo-query-tablestooltip', "Cities=city, Countries" )->text() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-query-fields' )->text(), 'fields', 100, wfMessage( 'cargo-query-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->text() );
+		$text .= self::displayTextArea( wfMessage( 'cargo-query-where' )->text(), 'where', 100, wfMessage( 'cargo-query-wheretooltip', "Country.Continent='North America' AND City.Population > 100000" )->text() );
+		$text .= self::displayTextArea( wfMessage( 'cargo-query-joinon' )->text(), 'join_on', 100, wfMessage( 'cargo-query-joinontooltip', "Cities.Country=Countries._pageName" )->text() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-query-groupby' )->text(), 'group_by', 100, wfMessage( 'cargo-query-groupbytooltip', "Countries.Continent" )->text() );
+		$text .= '<tr class="mw-htmlform-field-HTMLTextField showAfterGroupBy" style="display:none;">' .
+			'<td class="mw-label"><label for="having">' . wfMessage( 'cargo-query-having' )->text() .
+			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="having" data-balloon-length="large" data-balloon = "' .
+			wfMessage( 'cargo-query-havingtooltip', "COUNT(*) > 10" )->text() . '"></button>&nbsp</td>' .
+			'<td class="mw-textarea cargo-query-textarea"><textarea class="mw-input cargo-query-textarea" name="having"></textarea></td></tr>';
+		$text .= '<tr class="mw-htmlform-field-HTMLTextField order_by_class first_order_by">' .
+			'<td class = "mw-label"><label for="order_by">' . wfMessage( 'cargo-query-orderby' )->text() .
+			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' . wfMessage( 'cargo-query-orderbytooltip' )->text() .
+			'"</button></td><td class="mw-input"><input id="order_by" class="form-control order_by" size="50 !important" name="order_by[]"/>' .
+			'&nbsp&nbsp<select name = "order_by_options[]" id = "order_by_options" style = "width: 60px; white-space:pre-wrap;">
+	<option value = "ASC">ASC</option>
+	<option value = "DESC">DESC</option>
+	</select>&nbsp&nbsp<button class="addButton" name="add_more" id="add_more" type="button"></button></td></tr>';
+		$text .= self::displayInputRow( wfMessage( 'cargo-query-limit' )->text(), 'limit', 3, wfMessage( 'cargo-query-limittooltip', $wgCargoDefaultQueryLimit )->text() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-query-offset' )->text(), 'offset', 3, wfMessage( 'cargo-query-offsettooltip', "0" )->text() );
+		$formatLabel = '<label for="format">'. wfMessage( 'cargo-query-format' )->text().
+			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
+			wfMessage( 'cargo-query-formattooltip' )->text() . '"</button>&nbsp';
+		$formatOptionDefault = wfMessage( 'cargo-query-defaultformat' )->text();
 		$text .= <<<END
 <tr class="mw-htmlform-field-HTMLTextField">
 <td class="mw-label">
@@ -110,25 +135,38 @@ END;
 	}
 }
 
-class ViewDataPage extends QueryPage {
-	public function __construct( $name = 'ViewData' ) {
+class CargoQueryPage extends QueryPage {
+	public function __construct( $name = 'CargoQuery' ) {
 		parent::__construct( $name );
 
 		$req = $this->getRequest();
-		$tablesStr = $req->getVal( 'tables' );
-		$fieldsStr = $req->getVal( 'fields' );
-		$whereStr = $req->getVal( 'where' );
-		$joinOnStr = $req->getVal( 'join_on' );
-		$groupByStr = $req->getVal( 'group_by' );
-		$havingStr = $req->getVal( 'having' );
-		$orderByStr = $req->getVal( 'order_by' );
-		$limitStr = $req->getVal( 'limit' );
-		$offsetStr = $req->getVal( 'offset' );
+		$tablesStr = trim( $req->getVal( 'tables' ) );
+		$fieldsStr = trim( $req->getVal( 'fields' ) );
+		$whereStr = trim( $req->getVal( 'where' ) );
+		$joinOnStr = trim( $req->getVal( 'join_on' ) );
+		$groupByStr = trim( $req->getVal( 'group_by' ) );
+		if ( substr( $groupByStr, -1, 1 ) == ',' ) {
+			$groupByStr = substr( $groupByStr, 0, -1 ); // Remove last comma for group by
+		}
+		$havingStr = trim( $req->getVal( 'having' ) );
+		$order_by = $req->getArray( 'order_by' );
+		$order_by_options = $req->getArray( 'order_by_options' );
+		$orderByStr = "";
+		for ( $i = 0; $i < count( $order_by ); $i++ ) {
+			if ( !is_null( $order_by[$i] ) && $order_by[$i] != '' ) {
+				$orderByStr .= $order_by[$i] . '  ' . $order_by_options[$i] . ',';
+			}
+		}
+		if ( substr( $orderByStr, -1, 1 ) == ',' ) {
+			$orderByStr = substr( $orderByStr, 0, -1 ); // Remove last comma for order by
+		}
+		$limitStr = trim( $req->getVal( 'limit' ) );
+		$offsetStr = trim( $req->getVal( 'offset' ) );
 
 		$this->sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 
-		$formatStr = $req->getVal( 'format' );
+		$formatStr = trim( $req->getVal( 'format' ) );
 		$this->format = $formatStr;
 
 		// This is needed for both the results display and the
@@ -214,7 +252,7 @@ class ViewDataPage extends QueryPage {
 	}
 
 	/**
-	 * Returns an assciative array that will be encoded and added to the
+	 * Returns an associative array that will be encoded and added to the
 	 * paging links
 	 * @return array
 	 */
