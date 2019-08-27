@@ -1,0 +1,36 @@
+{
+	"@metadata": {
+		"authors": [
+			"Bjankuloski06"
+		]
+	},
+	"apihelp-cargoquery-description": "Пушта барање за податоци од „Карго“.",
+	"apihelp-cargoquery-summary": "Пушта барање за податоци од „Карго“.",
+	"apihelp-cargoquery-param-tables": "Табелите во базата на „Карго“ по кои ќе се пребарува",
+	"apihelp-cargoquery-param-fields": "Полињата на табелата за преземање",
+	"apihelp-cargoquery-param-where": "Услови за барањето, соодветно на ставката WHERE во SQL",
+	"apihelp-cargoquery-param-join_on": "Услови за спојување на повеќе табели, соодветно на ставката JOIN ON во SQL",
+	"apihelp-cargoquery-param-order_by": "Подреденоста на исходот, соодветно на ставката ORDER BY во SQL",
+	"apihelp-cargoquery-param-group_by": "По кои полиња да се групира исходот, соодветно на ставката GROUP BY во SQL",
+	"apihelp-cargoquery-param-having": "Услови за групираните вредности, соодветно на ставката HAVING во SQL",
+	"apihelp-cargoquery-param-limit": "Граница на бројот на исходни ставки",
+	"apihelp-cargoquery-param-offset": "Отстапување во барањето",
+	"apihelp-cargorecreatetables-description": "Пресоздава една или повеќе табели за „Карго“",
+	"apihelp-cargorecreatetables-summary": "Пресоздава една или повеќе табели за „Карго“",
+	"apihelp-cargorecreatetables-param-template": "Шаблонот чии изјавени табели во „Карго“ треба да се пресоздадат",
+	"apihelp-cargorecreatetables-param-createReplacement": "Дали податоците да се стават во заменска табела.",
+	"apihelp-cargorecreatedata-description": "Ги препополнува податоците во табела на „Карго“.",
+	"apihelp-cargorecreatedata-summary": "Ги препополнува податоците во табела на „Карго“.",
+	"apihelp-cargorecreatedata-param-template": "Шаблонот чии податоци ќе се користат",
+	"apihelp-cargorecreatedata-param-table": "Табела во базата на „Карго“ што треба да се препополни.",
+	"apihelp-cargorecreatedata-param-offset": "Од страниците што се повикуваат на шаблонов, бројот од кој да се почне барањето",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "Дали да се заменат старите редови за секоја страница при препополнувањето на табелата",
+	"apihelp-cargoautocomplete-description": "Повик за самодополнување што го користи додатокот „Карго“.",
+	"apihelp-cargoautocomplete-summary": "Повик за самодополнување што го користи додатокот „Карго“.",
+	"apihelp-cargoautocomplete-param-limit": "Граница на бројот на исходни ставки",
+	"apihelp-cargoautocomplete-param-substr": "Подниза за пребарување",
+	"apihelp-cargoautocomplete-param-table": "Карго-табела за која ќе се пребаруваат вредности",
+	"apihelp-cargoautocomplete-param-field": "Карго-поле за кое ќе се пребаруваат вредности",
+	"apihelp-cargoautocomplete-param-field_is_array": "Дали полето содржи список на вредности",
+	"apihelp-cargoautocomplete-param-where": "Клаузулата „where“ за барањето, во склад со другите укажани филтри"
+}
