@@ -96,11 +96,11 @@ class CargoDeclare {
 	 * Handles the #cargo_declare parser function.
 	 *
 	 * @todo Internationalize error messages
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return string
 	 */
-	public static function run( &$parser ) {
-		if ( $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
+	public static function run( Parser $parser ) {
+		if ( !$parser->getTitle() || $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
 			return CargoUtils::formatError( "Error: #cargo_declare must be called from a template page." );
 		}
 
