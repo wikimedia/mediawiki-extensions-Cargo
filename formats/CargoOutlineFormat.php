@@ -101,8 +101,8 @@ class CargoOutlineFormat extends CargoListFormat {
 	protected $mOutlineFields = array();
 	public $mFieldDescriptions;
 
-	function allowedParameters() {
-		return array( 'outline fields' );
+	public static function allowedParameters() {
+		return array( 'outline fields' => array( 'type' => 'string' ) );
 	}
 
 	function printTree( $outlineTree, $level = 0 ) {

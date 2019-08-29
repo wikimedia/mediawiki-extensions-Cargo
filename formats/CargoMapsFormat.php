@@ -15,8 +15,13 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		self::$mappingService = $wgCargoDefaultMapService;
 	}
 
-	function allowedParameters() {
-		return array( 'height', 'width', 'icon', 'zoom' );
+	public static function allowedParameters() {
+		return array(
+			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
+			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ),
+			'icon' => array( 'type' => 'string' ),
+			'zoom' => array( 'type' => 'int' )
+		);
 	}
 
 	public static function getScripts() {

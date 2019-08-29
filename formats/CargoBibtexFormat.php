@@ -6,8 +6,11 @@
 
 class CargoBibtexFormat extends CargoDeferredFormat {
 
-	function allowedParameters() {
-		return array( 'default entry type', 'link text' );
+	public static function allowedParameters() {
+		return array(
+			'default entry type' => array( 'type' => 'string' ) ,
+			'link text' => array( 'type' => 'string' )
+		);
 	}
 
 	/**

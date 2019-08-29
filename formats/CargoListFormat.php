@@ -13,8 +13,10 @@ class CargoListFormat extends CargoDisplayFormat {
 		$this->mOutput->addModules( 'ext.cargo.main' );
 	}
 
-	function allowedParameters() {
-		return array( 'delimiter' );
+	public static function allowedParameters() {
+		return array(
+			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' ) )
+		);
 	}
 
 	/**

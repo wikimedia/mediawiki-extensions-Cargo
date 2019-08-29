@@ -9,8 +9,12 @@
 
 class CargoSlideshowFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
-		return array( 'caption field', 'link field', 'slides per screen' );
+	public static function allowedParameters() {
+		return array(
+			'caption field' => array( 'type' => 'string' ),
+			'link field' => array( 'type' => 'string' ),
+			'slides per screen' => array( 'type' => 'int' )
+		);
 	}
 
 	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {

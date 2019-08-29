@@ -6,8 +6,8 @@
 
 class CargoTableFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
-		return array( 'merge similar cells' );
+	public static function allowedParameters() {
+		return array( 'merge similar cells' => array( 'type' => 'boolean' ) );
 	}
 
 	/**

@@ -6,7 +6,7 @@
 
 class CargoEmbeddedFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
+	public static function allowedParameters() {
 		return array();
 	}
 

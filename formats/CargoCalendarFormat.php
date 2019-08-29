@@ -5,8 +5,15 @@
  */
 
 class CargoCalendarFormat extends CargoDeferredFormat {
-	function allowedParameters() {
-		return array( 'width', 'start date', 'color', 'text color', 'height' );
+
+	public static function allowedParameters() {
+		return array(
+			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
+			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ),
+			'start date' => array( 'type' => 'date' ),
+			'color' => array( 'type' => 'string' ),
+			'text color' => array( 'type' => 'string' )
+		);
 	}
 
 	/**

@@ -6,8 +6,8 @@
 
 class CargoJSONFormat extends CargoDeferredFormat {
 
-	function allowedParameters() {
-		return array( 'parse values' );
+	public static function allowedParameters() {
+		return array( 'parse values' => array( 'type' => 'boolean' ) );
 	}
 
 	/**

@@ -9,8 +9,16 @@
 
 class CargoGalleryFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
-		return array( 'mode', 'show bytes', 'show filename', 'show dimensions', 'per row', 'image width', 'image height' );
+	public static function allowedParameters() {
+		return array(
+			'mode' => array( 'values' => array( 'traditional', 'nolines', 'packed', 'packed-overlay', 'packed-hover' ) ),
+			'show bytes' => array( 'type' => 'boolean' ),
+			'show filename' => array( 'type' => 'boolean' ),
+			'show dimensions' => array( 'type' => 'boolean' ),
+			'per row' => array( 'type' => 'int' ),
+			'image width' => array( 'type' => 'int' ),
+			'image height' => array( 'type' => 'int' )
+		);
 	}
 
 	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {

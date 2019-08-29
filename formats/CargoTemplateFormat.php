@@ -6,8 +6,12 @@
 
 class CargoTemplateFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
-		return array( 'template', 'named args', 'delimiter' );
+	public static function allowedParameters() {
+		return array(
+			'template' => array( 'type' => 'string' ),
+			'named args' => array( 'type' => 'string' ),
+			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() )
+		);
 	}
 
 	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {

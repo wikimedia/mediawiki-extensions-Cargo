@@ -5,8 +5,12 @@
  */
 
 class CargoPieChartFormat extends CargoDeferredFormat {
-	function allowedParameters() {
-		return array( 'width', 'height' );
+
+	public static function allowedParameters() {
+		return array(
+			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
+			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() )
+		);
 	}
 
 	/**

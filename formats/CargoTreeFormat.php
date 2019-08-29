@@ -86,8 +86,8 @@ class CargoTreeFormat extends CargoListFormat {
 	protected $mParentField = null;
 	public $mFieldDescriptions;
 
-	function allowedParameters() {
-		return array( 'parent field' );
+	public static function allowedParameters() {
+		return array( 'parent field' => array( 'type' => 'string' ) );
 	}
 
 	/**

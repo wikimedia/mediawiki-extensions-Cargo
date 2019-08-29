@@ -6,8 +6,12 @@
 
 class CargoExcelFormat extends CargoDeferredFormat {
 
-	function allowedParameters() {
-		return array( 'filename', 'parse values' );
+	public static function allowedParameters() {
+		return array(
+			'filename' => array( 'type' => 'string' ),
+			'link text' => array( 'type' => 'string' ),
+			'parse values' => array( 'type' => 'boolean' )
+		);
 	}
 
 	/**

@@ -11,7 +11,7 @@ class CargoDisplayFormat {
 		$this->mParser = $parser;
 	}
 
-	function allowedParameters() {
+	public static function allowedParameters() {
 		return array();
 	}
 

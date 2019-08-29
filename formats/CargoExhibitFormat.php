@@ -7,8 +7,17 @@
 
 class CargoExhibitFormat extends CargoDeferredFormat {
 
-	function allowedParameters() {
-		return array( 'view', 'facets', 'end', 'color', 'topunit', 'toppx', 'bottompx', 'datalabel' );
+	public static function allowedParameters() {
+		return array(
+			'view' => array( 'values' => array( 'map', 'tabular', 'timeline' ) ),
+			'facets' => array( 'type' => 'string' ),
+			'datalabel' => array( 'type' => 'string' ),
+			'end' => array( 'type' => 'string' ),
+			'color' => array( 'type' => 'string' ),
+			'topunit' => array( 'values' => array( 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade', 'century', 'millennium' ) ),
+			'toppx' => array( 'type' => 'int' ),
+			'bottompx' => array( 'type' => 'int' )
+		);
 	}
 
 	/**

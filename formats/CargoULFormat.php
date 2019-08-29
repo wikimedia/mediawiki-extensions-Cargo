@@ -6,8 +6,8 @@
 
 class CargoULFormat extends CargoListFormat {
 
-	function allowedParameters() {
-		return array( 'columns' );
+	public static function allowedParameters() {
+		return array( 'columns' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-columnsparam' )->parse() ) );
 	}
 
 	/**

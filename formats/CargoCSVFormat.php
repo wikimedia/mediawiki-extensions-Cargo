@@ -6,8 +6,13 @@
 
 class CargoCSVFormat extends CargoDeferredFormat {
 
-	function allowedParameters() {
-		return array( 'delimiter', 'link text', 'filename', 'parse values' );
+	public static function allowedParameters() {
+		return array(
+			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() ),
+			'link text' => array( 'type' => 'string' ),
+			'filename' => array( 'type' => 'string' ),
+			'parse values' => array( 'type' => 'boolean' )
+		);
 	}
 
 	/**

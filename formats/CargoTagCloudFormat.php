@@ -6,11 +6,11 @@
 
 class CargoTagCloudFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
+	public static function allowedParameters() {
 		return array(
-			'template',
-			'min size', // size of the smallest tags in percent (default 80)
-			'max size' // size of the biggest tags in percent (default 200)
+			'template' => array( 'type' => 'string' ),
+			'min size' => array( 'type' => 'int' ),
+			'max size' => array( 'type' => 'int' )
 		);
 	}
 

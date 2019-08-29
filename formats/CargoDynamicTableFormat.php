@@ -10,8 +10,11 @@
 
 class CargoDynamicTableFormat extends CargoDisplayFormat {
 
-	function allowedParameters() {
-		return array( 'rows per page', 'hidden fields' );
+	public static function allowedParameters() {
+		return array(
+			'rows per page' => array( 'type' => 'int' ),
+			'hidden fields' => array( 'type' => 'string' )
+		);
 	}
 
 	/**
