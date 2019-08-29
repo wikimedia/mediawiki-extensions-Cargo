@@ -266,8 +266,8 @@
 				"libs/ext.cargo.query.js"
 			],
 			"messages": [
-				"cargo-query-tablesrequired",
-				"cargo-query-joinonrequired"
+				"cargo-viewdata-tablesrequired",
+				"cargo-viewdata-joinonrequired"
 			],
 			"dependencies": [
 				"jquery.ui.autocomplete",

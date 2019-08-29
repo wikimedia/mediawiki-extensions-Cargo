@@ -213,9 +213,10 @@ $(document).ready(function() {
 
 		// Validating if at least one Tablename has been entered in the Table(s) field
 		if (!$('#tables').val()) {
-			if ($(".tablevalidation").length == 0) // only add if not added
-			{
-				$("#tables").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField tablevalidation'><td></td><td class = 'mw-label tablevalidation' style='color:red;margin-bottom: 20px;text-align: left'>"+ mw.msg( 'cargo-query-tablesrequired' ) + "</td></tr>");
+			if ($(".tablevalidation").length == 0) { // only add if not added
+				$("#tables").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField tablevalidation'><td></td>" +
+					"<td class = 'mw-label tablevalidation' style='color:red;margin-bottom: 20px;text-align: left'>" +
+					mw.msg( 'cargo-viewdata-tablesrequired' ) + "</td></tr>");
 				indx++;
 			}
 			e.preventDefault(); // prevent form from POST to server
@@ -232,9 +233,10 @@ $(document).ready(function() {
 			tableval = tableval.slice(0, -1);
 		}
 		if ( ( tableval.includes(',') ) &&  (!$("#join_on").val()) ) {
-			if ($(".joinonvalidation").length == 0) // only add if not added
-			{
-				$("#join_on").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField joinonvalidation'><td></td><td class = 'mw-label joinonvalidation' style='color:red;margin-bottom: 20px;text-align: left'>"+ mw.msg( 'cargo-query-joinonrequired' ) + "</td></tr>");
+			if ($(".joinonvalidation").length == 0) { // only add if not added
+				$("#join_on").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField joinonvalidation'><td></td>" +
+					"<td class = 'mw-label joinonvalidation' style='color:red;margin-bottom: 20px;text-align: left'>" +
+					mw.msg( 'cargo-viewdata-joinonrequired' ) + "</td></tr>");
 				indx++;
 			}
 			e.preventDefault(); // prevent form from POST to server

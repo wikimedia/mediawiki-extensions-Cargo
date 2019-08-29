@@ -355,8 +355,8 @@ $wgResourceModules += array(
 			'libs/ext.cargo.query.js'
 		),
 		'messages' => array(
-			'cargo-query-tablesrequired',
-			'cargo-query-joinonrequired'
+			'cargo-viewdata-tablesrequired',
+			'cargo-viewdata-joinonrequired'
 		),
 		'dependencies' => array(
 			'jquery.ui.autocomplete',
