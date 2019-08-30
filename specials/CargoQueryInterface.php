@@ -107,7 +107,7 @@ $hiddenTitleInput
 END;
 
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
-			wfMessage( 'cargo-viewdata-tablestooltip', "TableName=Alias", "Cities=city, Countries" )->parse() );
+			wfMessage( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" )->parse() );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
 			wfMessage( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->parse() );
 		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-where' )->parse(), 'where', 100,
