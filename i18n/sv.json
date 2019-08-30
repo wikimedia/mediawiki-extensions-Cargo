@@ -13,7 +13,6 @@
 	"right-recreatecargodata": "Återskapa data som finns i Cargo-tabeller",
 	"right-deletecargodata": "Radera en Cargo-tabell",
 	"cargo-createdatatable": "Skapa datatabell",
-	"viewdata": "Visa data",
 	"cargo-viewdata-tables": "Tabell(er):",
 	"cargo-viewdata-fields": "Fält:",
 	"cargo-viewdata-where": "Var:",

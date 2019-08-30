@@ -16,7 +16,6 @@
 	"cargo-recreatedata-desc": "Voleu tornar a generar les dades de Cargo d'aquesta plantilla?",
 	"cargo-recreatedata-createdata": "Voleu generar les dades de Cargo d'aquesta plantilla?",
 	"cargo-recreatedata-success": "Les dades es tornaran a crear.",
-	"viewdata": "Mostra les dades",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Taules del Cargo",
 	"cargo-cargotables-tablelist": "S'han definit les taules següents:",

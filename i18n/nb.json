@@ -18,7 +18,6 @@
 	"cargo-recreatedata-createdata": "Generer Cargo-data for denne malen?",
 	"cargo-recreatedata-tablecreated": "Gjenopprettet Cargo-tabell \"$1\".",
 	"cargo-recreatedata-success": "Dataene blir generert på nytt.",
-	"viewdata": "Vis data",
 	"cargo-viewdata-tables": "Tabell(er):",
 	"cargo-viewdata-fields": "Felt(er):",
 	"cargo-viewdata-where": "Hvor:",

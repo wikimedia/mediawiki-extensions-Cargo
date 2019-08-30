@@ -34,5 +34,10 @@
 	"apihelp-cargoautocomplete-param-table": "Table Cargo pour laquelle rechercher les valeurs",
 	"apihelp-cargoautocomplete-param-field": "Champ Cargo pour lequel rechercher les valeurs",
 	"apihelp-cargoautocomplete-param-field_is_array": "Si le champ contient une liste de valeurs",
-	"apihelp-cargoautocomplete-param-where": "La clause « where » pour la requête, basée sur les autres filtres spécifiés"
+	"apihelp-cargoautocomplete-param-where": "La clause « where » pour la requête, basée sur les autres filtres spécifiés",
+	"apihelp-cargoqueryautocomplete-description": "Appel de complétude automatique utilisé par la page spéciale CargoQuery (précédemment ViewData).",
+	"apihelp-cargoqueryautocomplete-summary": "Appel de complétude automatique utilisé par la page spéciale CargoQuery (précédemment ViewData).",
+	"apihelp-cargoqueryautocomplete-param-limit": "Une limite au nombre de résultats renvoyés.",
+	"apihelp-cargoqueryautocomplete-param-search": "Rechercher une sous-chaîne",
+	"apihelp-cargoqueryautocomplete-param-tables": "Tableau de table(s) sélectionnée(s) de Cargo, dont les champs, group by et order by sont complétés automatiquement."
 }

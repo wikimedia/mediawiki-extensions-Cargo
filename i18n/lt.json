@@ -9,7 +9,6 @@
 	"cargo-addsrows": "Šis šablonas prideda eilutes į lentelę „$1“.",
 	"recreatedata": "Atkurti duomenis",
 	"cargo-recreatedata-success": "Duomenys yra atkuriami.",
-	"viewdata": "Žiūrėti duomenis",
 	"cargo-viewdata-tables": "Lentelė(-s):",
 	"cargo-viewdata-fields": "Laukelis(-ai):",
 	"cargo-viewdata-where": "Kur:",

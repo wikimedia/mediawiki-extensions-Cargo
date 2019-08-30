@@ -25,7 +25,6 @@
 	"cargo-recreatedata-createdata": "Maak Cargo data voor dit sjabloon?",
 	"cargo-recreatedata-tablecreated": "Opnieuw Cargo tabel \"$1\".",
 	"cargo-recreatedata-success": "De gegevens worden gemaakt.",
-	"viewdata": "Bekijk de gegevens",
 	"cargo-viewdata-tables": "Tabel(len):",
 	"cargo-viewdata-fields": "Veld(en):",
 	"cargo-viewdata-where": "Waar:",
