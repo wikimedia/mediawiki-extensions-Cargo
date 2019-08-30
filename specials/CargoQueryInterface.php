@@ -18,12 +18,11 @@ class CargoQueryInterface extends SpecialPage {
 	function execute( $query ) {
 		$this->setHeaders();
 		$out = $this->getOutput();
-		$out->addModules( 'ext.cargo.main' );
-		$out->addModules( 'ext.cargo.cargoquery' );
-		$out->getResourceLoader()->getModuleNames();
 		$req = $this->getRequest();
-		$tablesStr = $req->getVal( 'tables' );
-		if ( $tablesStr == '' ) {
+
+		$out->addModules( 'ext.cargo.main' );
+		if ( ! $req->getCheck( 'tables' ) ) {
+			$out->addModules( 'ext.cargo.cargoquery' );
 			$html = $this->displayInputForm();
 			$out->addHTML( $html );
 			return;
@@ -51,25 +50,53 @@ class CargoQueryInterface extends SpecialPage {
 	 */
 	static function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
-		$label .= '&nbsp' . Html::element( 'button', array( 'class' => 'CargoQueryTooltipIcon', 'disabled' => true, 'for' => $fieldName , 'data-balloon-length' => 'large','data-balloon' => $tooltip ),  '' ) . '&nbsp';
+		$label .= '&nbsp' . Html::element( 'button',
+			array(
+				'class' => 'CargoQueryTooltipIcon',
+				'disabled' => true,
+				'for' => $fieldName ,
+				'data-balloon-length' => 'large',
+				'data-balloon' => $tooltip
+			),  '' ) . '&nbsp';
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
-		$input = Html::input( $fieldName, '', 'text', array( 'class' => 'form-control cargo-query-input','multiple' => 'true', 'size' => $size.' !important', 'id' => $fieldName ) );
+		$input = Html::input( $fieldName, '', 'text',
+			array(
+				'class' => 'form-control cargo-query-input',
+				'multiple' => 'true',
+				'size' => $size . ' !important',
+				'id' => $fieldName
+			) );
 		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
 		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
 	}
+
 	static function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
-		$label .= '&nbsp' . Html::element( 'button', array( 'class' => 'CargoQueryTooltipIcon', 'disabled' => true, 'for' => $fieldName , 'data-balloon-length' => 'large','data-balloon' => $tooltip ), '' ) . '&nbsp';
+		$label .= '&nbsp' . Html::element( 'button',
+			array(
+				'class' => 'CargoQueryTooltipIcon',
+				'disabled' => true,
+				'for' => $fieldName ,
+				'data-balloon-length' => 'large',
+				'data-balloon' => $tooltip
+			), '' ) . '&nbsp';
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
-		$input = Html::textarea( $fieldName, '', array( 'class' => 'form-control cargo-query-textarea','multiple' => 'true', 'size' => $size.' !important', 'id' => $fieldName ) );
+		$input = Html::textarea( $fieldName, '',
+			array(
+				'class' => 'form-control cargo-query-textarea',
+				'multiple' => 'true',
+				'size' => $size . ' !important',
+				'id' => $fieldName
+			) );
 		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
 		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
 	}
 
 	function displayInputForm() {
+		global $wgCargoDefaultQueryLimit;
+
 		// Add the name of this special page as a hidden input, in
 		// case the wiki doesn't use nice URLs.
-		global $wgCargoDefaultQueryLimit;
 		$hiddenTitleInput = Html::hidden( 'title', $this->getPageTitle()->getFullText() );
 
 		$text = <<<END
@@ -79,30 +106,38 @@ $hiddenTitleInput
 <tbody>
 END;
 
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->text(), 'tables', 100, wfMessage( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" )->text() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->text(), 'fields', 100, wfMessage( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->text() );
-		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-where' )->text(), 'where', 100, wfMessage( 'cargo-viewdata-wheretooltip', "Country.Continent='North America' AND City.Population > 100000" )->text() );
-		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-joinon' )->text(), 'join_on', 100, wfMessage( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->text() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->text(), 'group_by', 100, wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->text() );
-		$text .= '<tr class="mw-htmlform-field-HTMLTextField showAfterGroupBy" style="display:none;">' .
-			'<td class="mw-label"><label for="having">' . wfMessage( 'cargo-viewdata-having' )->text() .
-			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="having" data-balloon-length="large" data-balloon = "' .
-			wfMessage( 'cargo-quviewdataery-havingtooltip', "COUNT(*) > 10" )->text() . '"></button>&nbsp</td>' .
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
+			wfMessage( 'cargo-viewdata-tablestooltip', "TableName=Alias", "Cities=city, Countries" )->parse() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
+			wfMessage( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->parse() );
+		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-where' )->parse(), 'where', 100,
+			wfMessage( 'cargo-viewdata-wheretooltip', "Country.Continent = 'North America' AND City.Population > 100000" )->parse() );
+		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-joinon' )->parse(), 'join_on', 100,
+			wfMessage( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->parse() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
+			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
+		$text .= '<tr class="mw-htmlform-field-HTMLTextField showAfterGroupBy" style="display:none;">';
+		$text .= '<td class="mw-label"><label for="having">' . wfMessage( 'cargo-viewdata-having' )->parse() .
+			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="having" data-balloon-length="large" data-balloon="' .
+			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() . '"></button>&nbsp</td>' .
 			'<td class="mw-textarea cargo-query-textarea"><textarea class="mw-input cargo-query-textarea" name="having"></textarea></td></tr>';
-		$text .= '<tr class="mw-htmlform-field-HTMLTextField order_by_class first_order_by">' .
-			'<td class = "mw-label"><label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->text() .
-			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' . wfMessage( 'cargo-viewdata-orderbytooltip' )->text() .
+		$text .= '<tr class="mw-htmlform-field-HTMLTextField order_by_class first_order_by"><td class="mw-label">' .
+			'<label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->parse() .
+			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' .
+			wfMessage( 'cargo-viewdata-orderbytooltip' )->parse() .
 			'"</button></td><td class="mw-input"><input id="order_by" class="form-control order_by" size="50 !important" name="order_by[]"/>' .
-			'&nbsp&nbsp<select name = "order_by_options[]" id = "order_by_options" style = "width: 60px; white-space:pre-wrap;">
-	<option value = "ASC">ASC</option>
-	<option value = "DESC">DESC</option>
-	</select>&nbsp&nbsp<button class="addButton" name="add_more" id="add_more" type="button"></button></td></tr>';
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->text(), 'limit', 3, wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit )->text() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->text(), 'offset', 3, wfMessage( 'cargo-viewdata-offsettooltip', "0" )->text() );
-		$formatLabel = '<label for="format">'. wfMessage( 'cargo-viewdata-format' )->text().
+			'&nbsp&nbsp<select name="order_by_options[]" id="order_by_options" style="width: 60px; white-space: pre-wrap;">
+	<option value="ASC">ASC</option>
+	<option value="DESC">DESC</option>
+	</select>&nbsp&nbsp<button class= "addButton" name="add_more" id="add_more" type="button"></button></td></tr>';
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
+			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit ) ->parse() );
+		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
+			wfMessage( 'cargo-viewdata-offsettooltip', "0" )->parse() );
+		$formatLabel = '<label for="format">' . wfMessage( 'cargo-viewdata-format' )->parse() .
 			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
-			wfMessage( 'cargo-viewdata-formattooltip' )->text() . '"</button>&nbsp';
-		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->text();
+			wfMessage( 'cargo-viewdata-formattooltip' )->parse() . '"</button>&nbsp';
+		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->parse();
 		$text .= <<<END
 <tr class="mw-htmlform-field-HTMLTextField">
 <td class="mw-label">
@@ -118,7 +153,7 @@ END;
 			$text .= Html::element( 'option', null, $formatName );
 		}
 
-		$submitLabel = wfMessage( 'htmlform-submit' )->text();
+		$submitLabel = wfMessage( 'htmlform-submit' )->parse();
 		$text .= <<<END
 
 </select>

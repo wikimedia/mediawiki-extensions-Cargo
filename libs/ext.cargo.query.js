@@ -1,13 +1,13 @@
 /*
  * ext.cargo.query.js
  *
- * Handles Javascript functionalities on the Special:CargoQuery page
+ * Handles JavaScript functionality in the Special:CargoQuery page
  *
  * @author Ankita Mandal
- *
  */
 $(document).ready(function() {
-	var indx; //Global variable for first order by input field
+	var indx; // Global variable for first order by input field
+
 	function split( val ) {
 		return val.split(/,\s*/);
 	}
@@ -18,20 +18,22 @@ $(document).ready(function() {
 
 	// Function for Fields, Group_By, Order_By
 	$.fn.autocompleteOnSearchString = function ( joinString ) {
-		$(this).click(function() { $(this).autocomplete( "search", "" ); });
+		$(this).click(function() {
+			$(this).autocomplete( "search", "" );
+		});
 		var selectOpts = "";
-		if( joinString != "") {
-			 selectOpts = function( event, ui ) {
-				 var terms = split( this.value );
-				 // remove the current input
-				 terms.pop();
-				 // add the selected item
-				 terms.push( ui.item.value );
-				 // add placeholder to get the comma-and-space at the end
-				 terms.push("");
-				 this.value = terms.join(joinString);
-				 return false;
-			 };
+		if ( joinString != "" ) {
+			selectOpts = function( event, ui ) {
+				var terms = split( this.value );
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				// add placeholder to get the comma-and-space at the end
+				terms.push("");
+				this.value = terms.join(joinString);
+				return false;
+			};
 		}
 		$(this).autocomplete({
 			minLength: 0,
@@ -39,7 +41,7 @@ $(document).ready(function() {
 
 				var searchText = extractLast( request.term );
 				$.ajax({
-					url: my_server + "?action=cargoqueryautocomplete&format=json&tables=" +  $('#tables').val().replace(/\s/g, ''),
+					url: my_server + "?action=cargoqueryautocomplete&format=json&tables=" + $('#tables').val().replace(/\s/g, ''),
 					type: 'get',
 					dataType: "json",
 					data: {
@@ -93,7 +95,7 @@ $(document).ready(function() {
 	}
 	// Enable autocomplete on tables
 	$('#tables').click(function() { $(this).autocomplete( "search", "" ); });
-	$( '#tables' ).autocomplete({
+	$('#tables').autocomplete({
 		minLength: 0,
 		source: function( request, response ) {
 
@@ -134,14 +136,7 @@ $(document).ready(function() {
 		},
 
 	}).data( "autocomplete" )._renderItem = function( ul, item ) {
-
-		var delim = ", ";
-		var term;
-		if ( delim === "" ) {
-			term = this.term;
-		} else {
-			term = this.term.split( delim ).pop();
-		}
+		var term = this.term.split( ", " ).pop();
 		var re = new RegExp("(?![^&;]+;)(?!<[^<>]*)(" +
 			term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1") +
 			")(?![^<>]*>)(?![^&;]+;)", "gi");
@@ -190,15 +185,15 @@ $(document).ready(function() {
 	indx = $( ".first_order_by" ).index();
 	// Code to handle multiple order by rows
 	$('#add_more').on('click', function(){
-		var newRow = $('<tr class = "mw-htmlform-field-HTMLTextField order_by_class"><td></td><td class = "mw-input"><input id = "order_by" class = "form-control  order_by"  size = "50 !important" name = "order_by[]"/>' +
-			'&nbsp&nbsp<select name = "order_by_options[]" id = "order_by_options" style = "width: 60px; white-space:pre-wrap;">' +
-			'\t\t\t\t\t\t\t\t  <option value = "ASC">ASC</option>\n' +
-			'\t\t\t\t\t\t\t\t  <option value = "DESC">DESC</option>\n' +
-			'\t\t\t\t</select>&nbsp&nbsp<button class="deleteButton" name="delete" id ="delete" type="button"></button></td></tr>');
+		var newRow = $('<tr class = "mw-htmlform-field-HTMLTextField order_by_class"><td></td>' +
+			'<td class="mw-input"><input id="order_by" class="form-control order_by" size="50 !important" name="order_by[]"/>' +
+			'&nbsp&nbsp<select name="order_by_options[]" id="order_by_options" style="width: 60px; white-space:pre-wrap;">' +
+			'\t\t<option value="ASC">ASC</option>\n' +
+			'\t\t<option value="DESC">DESC</option>\n' +
+			'\t</select>&nbsp&nbsp<button class="deleteButton" name="delete" id ="delete" type="button"></button></td></tr>');
 		newRow.insertAfter($('#cargoQueryTable tbody tr:nth('+indx+')'));
 		indx++;
-		var elem = $(newRow.find("input"));
-		elem.autocompleteOnSearchString("");
+		newRow.find("input").autocompleteOnSearchString("");
 	});
 
 	// Remove a Order By Row when respective Delete button is pressed
@@ -211,12 +206,12 @@ $(document).ready(function() {
 	$('form').on('submit', function (e) {
 		var focusSet = false;
 
-		// Validating if at least one Tablename has been entered in the Table(s) field
+		// Validate if at least one table name has been entered in the Table(s) field
 		if (!$('#tables').val()) {
 			if ($(".tablevalidation").length == 0) { // only add if not added
-				$("#tables").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField tablevalidation'><td></td>" +
-					"<td class = 'mw-label tablevalidation' style='color:red;margin-bottom: 20px;text-align: left'>" +
-					mw.msg( 'cargo-viewdata-tablesrequired' ) + "</td></tr>");
+				$("#tables").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField tablevalidation"><td></td>' +
+					'<td class="mw-label tablevalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
+					mw.msg( 'cargo-viewdata-tablesrequired' ) + '</td></tr>');
 				indx++;
 			}
 			e.preventDefault(); // prevent form from POST to server
@@ -226,20 +221,20 @@ $(document).ready(function() {
 			$(".tablevalidation").closest('tr').remove(); // remove it
 		}
 
-		//	Validating if the Join on value has been entered when multiple tables are there
+		// Validate if the Join on value has been entered when multiple tables are there
 		var tableval = $('#tables').val().replace(/\s+/g, " ").replace(/^\s|\s$/g, "");
 		var lastChar = tableval.slice(-1);
 		if (lastChar == ',') {
 			tableval = tableval.slice(0, -1);
 		}
-		if ( ( tableval.includes(',') ) &&  (!$("#join_on").val()) ) {
+		if ( ( tableval.includes(',') ) && (!$("#join_on").val()) ) {
 			if ($(".joinonvalidation").length == 0) { // only add if not added
-				$("#join_on").closest('tr').after("<tr class = 'mw-htmlform-field-HTMLTextField joinonvalidation'><td></td>" +
-					"<td class = 'mw-label joinonvalidation' style='color:red;margin-bottom: 20px;text-align: left'>" +
-					mw.msg( 'cargo-viewdata-joinonrequired' ) + "</td></tr>");
+				$("#join_on").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField joinonvalidation"><td></td>' +
+					'<td class="mw-label joinonvalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
+					mw.msg( 'cargo-viewdata-joinonrequired' ) + '</td></tr>');
 				indx++;
 			}
-			e.preventDefault(); // prevent form from POST to server
+			e.preventDefault(); // prevent form from POSTing to server
 			$('#join_on').focus();
 			focusSet = true;
 		} else {
