@@ -32,5 +32,7 @@
 	"apihelp-cargoautocomplete-param-table": "Таблица Cargo, для которой следует провести поиск значений",
 	"apihelp-cargoautocomplete-param-field": "Поле Cargo, для которого следует провести поиск значений",
 	"apihelp-cargoautocomplete-param-field_is_array": "Содержит ли поле список значений",
-	"apihelp-cargoautocomplete-param-where": "Утверждение «where» для этого запроса, на основе других заданных фильтров"
+	"apihelp-cargoautocomplete-param-where": "Утверждение «where» для этого запроса, на основе других заданных фильтров",
+	"apihelp-cargoqueryautocomplete-param-limit": "Ограничение на количество выводимых результатов",
+	"apihelp-cargoqueryautocomplete-param-search": "Поиск подстроки"
 }

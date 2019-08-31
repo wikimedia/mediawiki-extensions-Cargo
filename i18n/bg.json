@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Vlad5250",
-			"StanProg"
+			"StanProg",
+			"Nemo bis"
 		]
 	},
 	"cargo-desc": "Позволява складиране и искане на шаблонни данни",
@@ -40,6 +41,14 @@
 	"cargo-viewdata-offset": "Отместване:",
 	"cargo-viewdata-format": "Формат:",
 	"cargo-viewdata-defaultformat": "По подразбиране",
+	"cargo-query-missingformat": "Грешка: Трябва да се установи формат.",
+	"cargo-query-badsqlfunction": "Грешка: SQL-функцията „$1“ не е позволена.",
+	"cargo-query-badalias": "Грешка: Невалиден псевдоним на таблица „$1“.",
+	"cargo-query-unknowndbtable": "Грешка: Няма таблица от базата от данни именувана „$1“.",
+	"cargo-query-unknownfieldfortable": "Грешка: Не е намерено поле с име „$1“ от таблица „$2“ от базата данни.",
+	"cargo-query-unknownfield": "Грешка: Не е намерено поле с име „$1“ в която и да е таблици от базата от данни.",
+	"cargo-query-missingparam": "Грешка: Параметърът „$1“ трябва да е установен за формат „$2“.",
+	"cargo-query-specifiedfieldmissing": "Грешка: полето „$1“, указано като „$2“, трябва да бъде сред полетата на тази заявка.",
 	"cargotables": "Таблици на „Карго“",
 	"cargo-cargotables-beingpopulated": "<strong>Забележка:</strong> Една или повече от тези таблици в момента се попълват чрез опашка на задачите.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Дефинирана е следната таблица|Дефинирани са следните таблици}}:",

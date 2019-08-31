@@ -7,7 +7,8 @@
 			"KATRINE1992",
 			"Nikosgranturismogt",
 			"KATRINE1993",
-			"Sarri.greek"
+			"Sarri.greek",
+			"Nemo bis"
 		]
 	},
 	"cargo-desc": "Αποθήκευση και ερωτήματα για δεδομένα προτύπων",
@@ -37,6 +38,14 @@
 	"cargo-viewdata-limit": "Όριο:",
 	"cargo-viewdata-format": "Μορφή:",
 	"cargo-viewdata-defaultformat": "Προεπιλογή",
+	"cargo-query-missingformat": "Σφάλμα: Πρέπει να ορίσετε format.",
+	"cargo-query-badsqlfunction": "Σφάλμα: Η λειτουργία SQL ''$1''δεν επιτρέπεται.",
+	"cargo-query-badalias": "Σφάλμα : Μη έγκυρος πίνακας aliaw ''$1''.",
+	"cargo-query-unknowndbtable": "Σφάλμα: Δεν υπάρχει βάση δεδομένων με ονομασία ''$1''.",
+	"cargo-query-unknownfieldfortable": "Σφάλμα : Δεν βρέθηκε πεδίο με τίτλο ''$1'' για πίνακα βάσης δεδομένων ''$2''.",
+	"cargo-query-unknownfield": "Σφάλμα : Δεν μπόρεσε να βρεθεί ονομασία πεδίου ''$1''για  πίνακες βάσης δεδομένων.",
+	"cargo-query-missingparam": "Σφάλμα : Η παράμετρος ''$1'' πρέπει να ρυθμιστεί για το format ''$2''.",
+	"cargo-query-specifiedfieldmissing": "Σφάλμα: το πεδίο ''$1'', που ορίζεται ως ''$2'', πρέπει να είναι τμήμα των πεδίων του ερωτήματος.",
 	"cargotables": "Πίνακες Cargo",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Έχει οριστεί ο ακόλουθος πίνακας|Έχουν οριστεί οι ακόλουθοι πίνακες}}:",
 	"cargo-cargotables-viewtable": "Προβολή πίνακα: $1",

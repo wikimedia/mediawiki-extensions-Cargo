@@ -4,7 +4,8 @@
 			"Amire80",
 			"Guycn2",
 			"Or",
-			"Erelon"
+			"Erelon",
+			"Nemo bis"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -31,6 +32,13 @@
 	"cargo-viewdata-limit": "הגבלה (LIMIT):",
 	"cargo-viewdata-format": "תסדיר:",
 	"cargo-viewdata-defaultformat": "ברירת מחדל",
+	"cargo-query-missingformat": "שגיאה: חובה להגדיר פורמט.",
+	"cargo-query-badsqlfunction": "שגיאה: פונקציית ה־SQL&rlm; \"$1\" אינה מותרת.",
+	"cargo-query-badalias": "שגיאה: כינוי טבלה בלתי־תקין בשם \"$1\".",
+	"cargo-query-unknowndbtable": "שגיאה: לא קיימת טבלת בסיס נתונים בשם \"$1\".",
+	"cargo-query-unknownfieldfortable": "שגיאה: לא נמצא שדה בשם \"$1\" בטבלת בסיס הנתונים \"$2\".",
+	"cargo-query-unknownfield": "שגיאה: לא נמצא שדה בשם \"$1\" באף אחת מטבלאות בסיס הנתונים שצוינו.",
+	"cargo-query-missingparam": "שגיאה: חובה להגדיר את הפרמטר \"$1\" עבור הפורמט \"$2\".",
 	"cargotables": "טבלאות Cargo",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|הטבלה הבאה מוגדרת|הטבלאות הבאות מוגדרות}}:",
 	"cargo-cargotables-viewtable": "הצגת הטבלה: $1",

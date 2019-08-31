@@ -6,7 +6,8 @@
 			"Dars",
 			"Piramidion",
 			"Shaleych",
-			"Vlad5250"
+			"Vlad5250",
+			"Nemo bis"
 		]
 	},
 	"cargo-extensionname": "Вантаж",
@@ -46,6 +47,14 @@
 	"cargo-viewdata-offset": "Зміщення:",
 	"cargo-viewdata-format": "Формат:",
 	"cargo-viewdata-defaultformat": "За замовчуванням",
+	"cargo-query-missingformat": "Помилка: має бути заданий формат.",
+	"cargo-query-badsqlfunction": "Помилка: функція SQL «$1» не дозволена.",
+	"cargo-query-badalias": "Помилка: невірний псевдонім таблиці «$1».",
+	"cargo-query-unknowndbtable": "Помилка: в базі даних немає таблиці з ім'ям «$1».",
+	"cargo-query-unknownfieldfortable": "Помилка: не знайдено поле з ім'ям «$1» в таблиці бази даних «$2».",
+	"cargo-query-unknownfield": "Помилка: не знайдено жодного поля з ім'ям «$1» для будь-якої з вказаних таблиць бази даних.",
+	"cargo-query-missingparam": "Помилка: параметр «$1» повинен бути установлений для формату «$2».",
+	"cargo-query-specifiedfieldmissing": "Помилка: поле «$1», вказане як «$2», повинне бути одним з полів цього запиту.",
 	"cargotables": "Таблиці Cargo",
 	"cargo-cargotables-beingpopulated": "<strong>Примітка:</strong> одна або більше цих таблиць зараз наповнюються через чергу завдань.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Така таблиця|Такі таблиці}} визначені:",

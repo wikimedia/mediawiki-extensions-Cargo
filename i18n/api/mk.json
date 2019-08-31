@@ -34,8 +34,9 @@
 	"apihelp-cargoautocomplete-param-field": "Карго-поле за кое ќе се пребаруваат вредности",
 	"apihelp-cargoautocomplete-param-field_is_array": "Дали полето содржи список на вредности",
 	"apihelp-cargoautocomplete-param-where": "Клаузулата „where“ за барањето, во склад со другите укажани филтри",
-	"apihelp-cargoqueryautocomplete-description": "Повикот за автодополнување кој се користи во службената страница „Барања од Карго“ (CargoQuery, порано ViewData).",
+	"apihelp-cargoqueryautocomplete-description": "Повикот за автодополнување кој се користи во службената страница „Барање од Карго“ (CargoQuery, порано ViewData).",
 	"apihelp-cargoqueryautocomplete-summary": "Повикот за автодополнување кој се користи во службената страница „Барање од Карго“ (CargoQuery, порано ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Граница на бројот исходни ставки.",
-	"apihelp-cargoqueryautocomplete-param-search": "Пребарај подниза"
+	"apihelp-cargoqueryautocomplete-param-search": "Пребарај подниза",
+	"apihelp-cargoqueryautocomplete-param-tables": "Строј од избрани табели на Карго според кои ќе се автодополнуваат полињата, групирањето и подредувањето."
 }

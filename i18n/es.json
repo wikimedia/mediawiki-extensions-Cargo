@@ -9,7 +9,8 @@
 			"Irus",
 			"Dgstranz",
 			"KATRINE1992",
-			"Ciencia Al Poder"
+			"Ciencia Al Poder",
+			"Nemo bis"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -37,6 +38,14 @@
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-viewdata-defaultformat": "Predeterminado",
+	"cargo-query-missingformat": "Error: debe establecerse el formato.",
+	"cargo-query-badsqlfunction": "Error: no se permite la función de SQL «$1».",
+	"cargo-query-badalias": "Error: el alias de la tabla «$1» no es válido.",
+	"cargo-query-unknowndbtable": "Error: no existe ninguna tabla llamada «$1» en la base de datos.",
+	"cargo-query-unknownfieldfortable": "Error: no se encontró ningún campo llamado «$1» en la tabla «$2» de la base de datos.",
+	"cargo-query-unknownfield": "Error: no se encontró ningún campo de nombre «$1» en ninguna de las tablas especificadas de la base de datos.",
+	"cargo-query-missingparam": "Error: el parámetro «$1» debe configurarse para el formato «$2».",
+	"cargo-query-specifiedfieldmissing": "Error: el campo «$1», especificado como «$2», debe figurar entre los campos de esta consulta.",
 	"cargotables": "Tablas de Cargo",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Está definida la siguiente tabla|Están definidas las siguientes tablas}}:",
 	"cargo-cargotables-viewtable": "Ver tabla: $1",

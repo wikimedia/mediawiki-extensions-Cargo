@@ -6,7 +6,8 @@
 			"Reza1615",
 			"Ebraminio",
 			"FarsiNevis",
-			"Barsavosh"
+			"Barsavosh",
+			"Nemo bis"
 		]
 	},
 	"cargo-definestable": "این الگو جدول «$1» را تعریف می‌کند.",
@@ -21,6 +22,9 @@
 	"cargo-viewdata-limit": "محدودیت:",
 	"cargo-viewdata-format": "قالب:",
 	"cargo-viewdata-defaultformat": "پیش‌فرض",
+	"cargo-query-unknowndbtable": "خطا: جدول پایگاه‌داده‌ای با نام «$1» وجود ندارد.",
+	"cargo-query-unknownfieldfortable": "خطا: هیچ فیلدی با نام «$1» مربوط به جدول دادگانی «$2» یافته نشد.",
+	"cargo-query-unknownfield": "خطا: هیچ فیلدی با نام «$1» مربوط به جدول‌های پایگاه‌داده مورد نظر یافته نشد.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|جدول زیر تعریف شد|جدول‌های زیر تعریف شدند}}:",
 	"cargo-cargotables-viewtable": "مشاهدهٔ جدول: $1",
 	"cargo-cargotables-viewtablelink": "مشاهدهٔ جدول",

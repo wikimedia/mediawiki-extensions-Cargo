@@ -4,7 +4,8 @@
 			"Banjo",
 			"Elisardojm",
 			"Toliño",
-			"Athena in Wonderland"
+			"Athena in Wonderland",
+			"Nemo bis"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -33,6 +34,14 @@
 	"cargo-viewdata-limit": "Límite:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-viewdata-defaultformat": "Por defecto",
+	"cargo-query-missingformat": "Erro: debe establecerse o formato.",
+	"cargo-query-badsqlfunction": "Erro: a función de SQL \"$1\" non está permitida.",
+	"cargo-query-badalias": "Erro: o alias da táboa «$1» non é válido.",
+	"cargo-query-unknowndbtable": "Erro: non existe ningunha táboa na base de datos co nome \"$1\" .",
+	"cargo-query-unknownfieldfortable": "Erro: non se atopou ningún campo chamado \"$1\" na táboa \"$2\" da base de datos.",
+	"cargo-query-unknownfield": "Erro: non se atopou ningún campo de nome \"$1\" en ningunha das táboas especificadas da base de datos.",
+	"cargo-query-missingparam": "Erro: o parámetro \"$1\" debe configurarse para o formato \"$2\".",
+	"cargo-query-specifiedfieldmissing": "Erro: o campo \"$1\", especificado como \"$2\", debe figurar entre os campos de esta consulta.",
 	"cargotables": "Táboas do Cargo",
 	"cargo-cargotables-tablelist": "Defínense {{PLURAL:$1|A seguinte táboa está definida:|As seguintes táboas están definidas:}}:",
 	"cargo-cargotables-viewtable": "Ver táboa: $1",
