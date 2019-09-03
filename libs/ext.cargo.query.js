@@ -196,21 +196,22 @@ $(document).ready(function() {
 	});
 
 	// Form validations
-	$('form').on('submit', function (e) {
-		var focusSet = false;
+	$.fn.addErrorMessage = function( className, errorMsg ) {
+		$(this).after('<tr class="mw-htmlform-field-HTMLTextField ' + className + '"><td></td>' +
+			'<td style="color: red; margin-bottom: 20px; text-align: left">' +
+			errorMsg + '</td></tr>');
+	}
 
+	$('form').on('submit', function (e) {
 		// Validate if at least one table name has been entered in the Table(s) field
 		if (!$('#tables').val()) {
-			if ($(".tablevalidation").length == 0) { // only add if not added
-				$("#tables").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField tablevalidation"><td></td>' +
-					'<td class="mw-label tablevalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
-					mw.msg( 'cargo-viewdata-tablesrequired' ) + '</td></tr>');
+			if ($(".tablesErrorMessage").length == 0) { // only add if not added
+				$("#tables").closest('tr').addErrorMessage( 'tablesErrorMessage', mw.msg( 'cargo-viewdata-tablesrequired' ) );
 			}
-			e.preventDefault(); // prevent form from POST to server
+			e.preventDefault(); // prevent form from submitting
 			$('#tables').focus();
-			focusSet = true;
 		} else {
-			$(".tablevalidation").closest('tr').remove(); // remove it
+			$(".tablesErrorMessage").remove();
 		}
 
 		// Validate if the Join on value has been entered when multiple tables are there
@@ -220,18 +221,14 @@ $(document).ready(function() {
 			tableval = tableval.slice(0, -1);
 		}
 		if ( ( tableval.includes(',') ) && (!$("#join_on").val()) ) {
-			if ($(".joinonvalidation").length == 0) { // only add if not added
-				$("#join_on").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField joinonvalidation"><td></td>' +
-					'<td class="mw-label joinonvalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
-					mw.msg( 'cargo-viewdata-joinonrequired' ) + '</td></tr>');
+			if ($(".joinOnErrorMessage").length == 0) { // only add if not added
+				$("#join_on").closest('tr').addErrorMessage( 'joinOnErrorMessage', mw.msg( 'cargo-viewdata-joinonrequired' ) );
 			}
-			e.preventDefault(); // prevent form from POSTing to server
+			e.preventDefault(); // prevent form from submitting
 			$('#join_on').focus();
-			focusSet = true;
 		} else {
-			$(".joinonvalidation").closest('tr').remove(); // remove it
+			$(".joinOnErrorMessage").remove();
 		}
-
 
 	});
 });
