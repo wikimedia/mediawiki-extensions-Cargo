@@ -166,20 +166,16 @@ $(document).ready(function() {
 	// Enable autocomplete on order_by
 	$('.order_by').autocompleteOnSearchString("");
 
-	// Load 'having' field when 'group by' has been entered
+	// Display row for 'having' input only if 'group by' has been entered
 	$('#group_by').on('change', function(){
-		// If value is empty
 		if ($(this).val().length == 0 ) {
-			// Hide the element
-			$('.showAfterGroupBy').hide();
+			$('#having').parents('tr').hide();
 		} else {
-			// Otherwise show it
-			$('.showAfterGroupBy').show();
+			$('#having').parents('tr').show();
 		}
-	}).keyup();
-	if ( $('#group_by').val().length > 0 ) {
-		// Hide the element
-		$('.showAfterGroupBy').show();
+	});
+	if ( $('#group_by').val().length == 0 ) {
+		$('#having').parents('tr').hide();
 	}
 
 	indx = $( ".first_order_by" ).index();

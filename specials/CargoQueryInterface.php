@@ -116,11 +116,8 @@ END;
 			wfMessage( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->parse() );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
 			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
-		$text .= '<tr class="mw-htmlform-field-HTMLTextField showAfterGroupBy" style="display:none;">';
-		$text .= '<td class="mw-label"><label for="having">' . wfMessage( 'cargo-viewdata-having' )->parse() .
-			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="having" data-balloon-length="large" data-balloon="' .
-			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() . '"></button>&nbsp</td>' .
-			'<td class="mw-textarea cargo-query-textarea"><textarea class="mw-input cargo-query-textarea" name="having"></textarea></td></tr>';
+		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
+			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
 		$text .= '<tr class="mw-htmlform-field-HTMLTextField order_by_class first_order_by"><td class="mw-label">' .
 			'<label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->parse() .
 			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' .
