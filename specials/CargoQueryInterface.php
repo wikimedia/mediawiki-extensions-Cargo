@@ -92,6 +92,30 @@ class CargoQueryInterface extends SpecialPage {
 		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
 	}
 
+	static function displayOrderByInput( $rowNum ) {
+		$text = "\n" . '<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' . $rowNum . '>';
+		if ( $rowNum == 0 ) {
+			$text .= '<td class="mw-label">' .
+				'<label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->parse() .
+				'&nbsp;&nbsp;<button class="cargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' .
+				wfMessage( 'cargo-viewdata-orderbytooltip' )->parse() .
+				'"</button></td>';
+		} else {
+			$text .= '<td></td>';
+		}
+		$ascAttribs = array( 'value' => 'ASC' );
+		$ascOption = Html::element( 'option', $ascAttribs, 'ASC' );
+		$descAttribs = array( 'value' => 'DESC' );
+		$descOption = Html::element( 'option', $descAttribs, 'DESC' );
+		$directionSelect = Html::rawElement( 'select', array( 'name' => 'order_by_options[' . $rowNum . ']' ), $ascOption . $descOption );
+		$text .= '<td class="mw-input"><input class="form-control order_by" size="50 !important" name="order_by[' . $rowNum . ']" />' .
+			"&nbsp;&nbsp;$directionSelect&nbsp;&nbsp;<button class=\"";
+		$text .= ( $rowNum == 0 ) ? 'addButton' : 'deleteButton';
+		$text .= '" type="button"></button></td></tr>';
+
+		return $text;
+	}
+
 	function displayInputForm() {
 		global $wgCargoDefaultQueryLimit;
 
@@ -118,15 +142,7 @@ END;
 			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
 		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
 			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
-		$text .= '<tr class="mw-htmlform-field-HTMLTextField order_by_class first_order_by"><td class="mw-label">' .
-			'<label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->parse() .
-			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' .
-			wfMessage( 'cargo-viewdata-orderbytooltip' )->parse() .
-			'"</button></td><td class="mw-input"><input id="order_by" class="form-control order_by" size="50 !important" name="order_by[]"/>' .
-			'&nbsp&nbsp<select name="order_by_options[]" id="order_by_options" style="width: 60px; white-space: pre-wrap;">
-	<option value="ASC">ASC</option>
-	<option value="DESC">DESC</option>
-	</select>&nbsp&nbsp<button class= "addButton" name="add_more" id="add_more" type="button"></button></td></tr>';
+		$text .= self::displayOrderByInput( 0 );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
 			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit ) ->parse() );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,

@@ -6,7 +6,6 @@
  * @author Ankita Mandal
  */
 $(document).ready(function() {
-	var indx; // Global variable for first order by input field
 
 	function split( val ) {
 		return val.split(/,\s*/);
@@ -178,24 +177,22 @@ $(document).ready(function() {
 		$('#having').parents('tr').hide();
 	}
 
-	indx = $( ".first_order_by" ).index();
-	// Code to handle multiple order by rows
-	$('#add_more').on('click', function(){
-		var newRow = $('<tr class = "mw-htmlform-field-HTMLTextField order_by_class"><td></td>' +
-			'<td class="mw-input"><input id="order_by" class="form-control order_by" size="50 !important" name="order_by[]"/>' +
-			'&nbsp&nbsp<select name="order_by_options[]" id="order_by_options" style="width: 60px; white-space:pre-wrap;">' +
+	// Code to handle multiple "order by" rows
+	$('.addButton').on('click', function(){
+		var lastRow = $('.orderByRow').last();
+		var orderByNum = parseInt(lastRow.attr('data-order-by-num')) + 1;
+		var newRow = $('<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' + orderByNum + '><td></td>' +
+			'<td class="mw-input"><input class="form-control order_by" size="50 !important" name="order_by[' + orderByNum + ']"/>' +
+			'&nbsp&nbsp<select name="order_by_options[' + orderByNum + ']">' +
 			'\t\t<option value="ASC">ASC</option>\n' +
 			'\t\t<option value="DESC">DESC</option>\n' +
-			'\t</select>&nbsp&nbsp<button class="deleteButton" name="delete" id ="delete" type="button"></button></td></tr>');
-		newRow.insertAfter($('#cargoQueryTable tbody tr:nth('+indx+')'));
-		indx++;
+			'\t</select>&nbsp&nbsp<button class="deleteButton" name="delete" type="button"></button></td></tr>');
+		newRow.insertAfter(lastRow);
 		newRow.find("input").autocompleteOnSearchString("");
 	});
 
-	// Remove a Order By Row when respective Delete button is pressed
 	$("#cargoQueryTable").on("click", ".deleteButton", function() {
 		$(this).closest("tr").remove();
-		indx--;
 	});
 
 	// Form validations
@@ -208,7 +205,6 @@ $(document).ready(function() {
 				$("#tables").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField tablevalidation"><td></td>' +
 					'<td class="mw-label tablevalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
 					mw.msg( 'cargo-viewdata-tablesrequired' ) + '</td></tr>');
-				indx++;
 			}
 			e.preventDefault(); // prevent form from POST to server
 			$('#tables').focus();
@@ -228,7 +224,6 @@ $(document).ready(function() {
 				$("#join_on").closest('tr').after('<tr class="mw-htmlform-field-HTMLTextField joinonvalidation"><td></td>' +
 					'<td class="mw-label joinonvalidation" style="color: red; margin-bottom: 20px; text-align: left;">' +
 					mw.msg( 'cargo-viewdata-joinonrequired' ) + '</td></tr>');
-				indx++;
 			}
 			e.preventDefault(); // prevent form from POSTing to server
 			$('#join_on').focus();
