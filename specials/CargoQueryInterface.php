@@ -230,11 +230,11 @@ class CargoQueryPage extends QueryPage {
 					'offset' ) ) ) {
 				$this->displayParams[$paramName] = $value;
 			}
-			// Special handling.
-			if ( $this->format == 'dynamic table' && $paramName == 'order by' ) {
-				$this->displayParams['order by'] = $value;
-			}
+		}
 
+		// 'dynamic table' makes its own use of 'order by'.
+		if ( $this->format == 'dynamic table' && $paramName == 'order by' ) {
+			$this->displayParams['order by'] = $orderByStr;
 		}
 	}
 
