@@ -38,7 +38,7 @@
 	"cargo-viewdata-wheretooltip": "Enter condition(s). Multiple conditions can be separated by AND/OR. Example: $1",
 	"cargo-viewdata-joinon": "Join on:",
 	"cargo-viewdata-joinontooltip": "Mandatory when multiple tables are entered. Example: $1",
-	"cargo-viewdata-joinonrequired": "Join on condition must be set for multiple tables.",
+	"cargo-viewdata-joinonrequired": "If there are multiple tables, a \"join on\" condition must be set.",
 	"cargo-viewdata-groupby": "Group by:",
 	"cargo-viewdata-groupbytooltip": "Combine rows with the same value for these field(s) into a single row. Example: $1",
 	"cargo-viewdata-having": "Having:",
