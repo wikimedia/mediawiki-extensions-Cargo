@@ -157,7 +157,7 @@ END;
 $formatLabel
 </td>
 <td class="mw-input">
-<select name="format">
+<select name="format" id="format">
 <option value="">($formatOptionDefault)</option>
 
 END;

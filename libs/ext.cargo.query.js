@@ -4,6 +4,7 @@
  * Handles JavaScript functionality in the Special:CargoQuery page
  *
  * @author Ankita Mandal
+ * @author Yaron Koren
  */
 $(document).ready(function() {
 
@@ -193,6 +194,85 @@ $(document).ready(function() {
 
 	$("#cargoQueryTable").on("click", ".deleteButton", function() {
 		$(this).closest("tr").remove();
+	});
+
+	function printCargoQueryInput( paramName, size ) {
+		var text = '<input name="' + paramName + '" type="text" size=' + size;
+		if ( queryVars.hasOwnProperty(paramName) ) {
+			text += ' value="' + queryVars[paramName] + '"';
+		}
+		text += ' />';
+		return text;
+	}
+
+	$.fn.addCargoQueryInput = function( paramName, paramAttrs ) {
+		if ( paramAttrs.hasOwnProperty('label') ) {
+			var paramLabel = paramAttrs.label;
+		} else {
+			var paramLabel = paramName.charAt(0).toUpperCase() + paramName.slice(1) + ":";
+		}
+		var inputHTML = '';
+		if ( paramAttrs.hasOwnProperty('values') ) {
+			inputHTML = '<select name="' + paramName + '">';
+			for ( i in paramAttrs['values'] ) {
+				var curValue = paramAttrs['values'][i];
+				inputHTML += '<option';
+				if ( queryVars.hasOwnProperty(paramName) && queryVars[paramName] == curValue ) {
+					inputHTML += ' selected ';
+				}
+				inputHTML += '>' + curValue + '</option>';
+			}
+			inputHTML += '</select>';
+		} else if ( paramAttrs.type == 'string' ) {
+			inputHTML = printCargoQueryInput( paramName, 30 );
+		} else if ( paramAttrs.type == 'int' ) {
+			inputHTML = printCargoQueryInput( paramName, 5 );
+		} else if ( paramAttrs.type == 'date' ) {
+			// Put a date or datetime input here?
+			inputHTML = printCargoQueryInput( paramName, 15 );
+		} else if ( paramAttrs.type == 'boolean' ) {
+			inputHTML = '<input name="' + paramName + '" type="checkbox"';
+			if ( queryVars.hasOwnProperty(paramName) ) {
+				inputHTML += ' checked';
+			}
+			inputHTML += ' />';
+		} else {
+			inputHTML = printCargoQueryInput( paramName, 30 );
+		}
+		var rowHTML = '<tr class="mw-htmlform-field-HTMLTextField formatParam"><td class="mw-label">' + paramLabel + '&nbsp;&nbsp;</td>' +
+			'<td class="mw-input">' + inputHTML + '</td></tr>';
+		$(this).append(rowHTML);
+	}
+
+	$.fn.showInputsForFormat = function() {
+		$('.formatParam').remove();
+		var formatDropdown = $(this);
+		var selectedFormat = formatDropdown.val();
+		if ( selectedFormat == '' ) {
+			return $(this);
+		}
+
+		$.ajax({
+			url: my_server + "?action=cargoformatparams&format=json&queryformat=" + selectedFormat,
+			type: 'get',
+			dataType: "json",
+			success: function (data) {
+				var params = data.cargoformatparams;
+				var formTable = formatDropdown.parents('#cargoQueryTable');
+				for ( var paramName in params ) {
+					formTable.addCargoQueryInput( paramName, params[paramName] );
+				}
+			},
+			error: function () {
+				response([]);
+			}
+		});
+		return $(this);
+	}
+
+	$('#format').showInputsForFormat();
+	$('#format').change(function(){
+		$(this).showInputsForFormat();
 	});
 
 	// Form validations

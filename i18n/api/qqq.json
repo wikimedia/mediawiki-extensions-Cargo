@@ -41,5 +41,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "{{doc-apihelp-summary|cargoqueryautocomplete}}",
 	"apihelp-cargoqueryautocomplete-param-limit": "{{doc-apihelp-param|cargoqueryautocomplete|limit}}",
 	"apihelp-cargoqueryautocomplete-param-search": "{{doc-apihelp-param|cargoqueryautocomplete|search}}",
-	"apihelp-cargoqueryautocomplete-param-tables": "{{doc-apihelp-param|cargoqueryautocomplete|tables}}"
+	"apihelp-cargoqueryautocomplete-param-tables": "{{doc-apihelp-param|cargoqueryautocomplete|tables}}",
+	"apihelp-cargoformatparams-description": "{{doc-apihelp-description|cargoformatparams}}",
+	"apihelp-cargoformatparams-summary": "{{doc-apihelp-summary|cargoformatparams}}",
+	"apihelp-cargoformatparams-param-queryformat": "{{doc-apihelp-param|cargoformatparams|queryformat}}"
 }

@@ -33,7 +33,8 @@
 		"cargorecreatetables": "CargoRecreateTablesAPI",
 		"cargorecreatedata": "CargoRecreateDataAPI",
 		"cargoautocomplete": "CargoAutocompleteAPI",
-		"cargoqueryautocomplete": "CargoQueryAutocompleteAPI"
+		"cargoqueryautocomplete": "CargoQueryAutocompleteAPI",
+		"cargoformatparams": "CargoFormatParamsAPI"
 	},
 	"LogTypes": [
 		"cargo"
@@ -93,6 +94,7 @@
 		"CargoRecreateDataAPI": "api/CargoRecreateDataAPI.php",
 		"CargoAutocompleteAPI": "api/CargoAutocompleteAPI.php",
 		"CargoQueryAutocompleteAPI": "api/CargoQueryAutocompleteAPI.php",
+		"CargoFormatParamsAPI": "api/CargoFormatParamsAPI.php",
 		"CargoLuaLibrary": "CargoLua.library.php",
 		"CargoDisplayFormat": "formats/CargoDisplayFormat.php",
 		"CargoDeferredFormat": "formats/CargoDeferredFormat.php",

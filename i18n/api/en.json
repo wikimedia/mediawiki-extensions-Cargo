@@ -35,5 +35,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "Autocompletion call used by the CargoQuery (previously ViewData) special page.",
 	"apihelp-cargoqueryautocomplete-param-limit": "A limit on the number of results returned.",
 	"apihelp-cargoqueryautocomplete-param-search": "Search substring",
-	"apihelp-cargoqueryautocomplete-param-tables": "Array of selected cargo table(s) based on which Field(s), Group By and Order By are autocompleted."
+	"apihelp-cargoqueryautocomplete-param-tables": "Array of selected cargo table(s) based on which Field(s), Group By and Order By are autocompleted.",
+	"apihelp-cargoformatparams-description": "Gets the set of display parameters for each Cargo query format.",
+	"apihelp-cargoformatparams-summary": "Gets the set of display parameters for each Cargo query format.",
+	"apihelp-cargoformatparams-param-queryformat": "A Cargo query format"
 }

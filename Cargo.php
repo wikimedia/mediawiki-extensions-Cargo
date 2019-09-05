@@ -75,6 +75,7 @@ $wgAPIModules['cargorecreatetables'] = 'CargoRecreateTablesAPI';
 $wgAPIModules['cargorecreatedata'] = 'CargoRecreateDataAPI';
 $wgAPIModules['cargoautocomplete'] = 'CargoAutocompleteAPI';
 $wgAPIModules['cargoqueryautocomplete'] = 'CargoQueryAutocompleteAPI';
+$wgAPIModules['cargoformatparams'] = 'CargoFormatParamsAPI';
 
 // Logging
 $wgLogTypes['cargo'] = 'cargo';
@@ -124,6 +125,7 @@ $wgAutoloadClasses['CargoRecreateTablesAPI'] = $dir . '/api/CargoRecreateTablesA
 $wgAutoloadClasses['CargoRecreateDataAPI'] = $dir . '/api/CargoRecreateDataAPI.php';
 $wgAutoloadClasses['CargoAutocompleteAPI'] = $dir . '/api/CargoAutocompleteAPI.php';
 $wgAutoloadClasses['CargoQueryAutocompleteAPI'] = $dir . '/api/CargoQueryAutocompleteAPI.php';
+$wgAutoloadClasses['CargoFormatParamsAPI'] = $dir . '/api/CargoFormatParamsAPI.php';
 $wgAutoloadClasses['CargoLuaLibrary'] = $dir . '/CargoLua.library.php';
 
 // Display formats
