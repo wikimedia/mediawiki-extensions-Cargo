@@ -282,7 +282,7 @@ $(document).ready(function() {
 			errorMsg + '</td></tr>');
 	}
 
-	$('form').on('submit', function (e) {
+	$('form#queryform').on('submit', function (e) {
 		// Validate if at least one table name has been entered in the Table(s) field
 		if (!$('#tables').val()) {
 			if ($(".tablesErrorMessage").length == 0) { // only add if not added

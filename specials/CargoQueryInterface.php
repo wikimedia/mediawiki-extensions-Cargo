@@ -50,14 +50,14 @@ class CargoQueryInterface extends SpecialPage {
 	 */
 	static function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
-		$label .= '&nbsp' . Html::element( 'button',
+		$label .= '&nbsp;' . Html::element( 'button',
 			array(
-				'class' => 'CargoQueryTooltipIcon',
+				'class' => 'cargoQueryTooltipIcon',
 				'disabled' => true,
 				'for' => $fieldName ,
 				'data-balloon-length' => 'large',
 				'data-balloon' => $tooltip
-			),  '' ) . '&nbsp';
+			),  '' ) . '&nbsp;';
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
 		$input = Html::input( $fieldName, '', 'text',
 			array(
@@ -72,14 +72,14 @@ class CargoQueryInterface extends SpecialPage {
 
 	static function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
-		$label .= '&nbsp' . Html::element( 'button',
+		$label .= '&nbsp;' . Html::element( 'button',
 			array(
 				'class' => 'CargoQueryTooltipIcon',
 				'disabled' => true,
 				'for' => $fieldName ,
 				'data-balloon-length' => 'large',
 				'data-balloon' => $tooltip
-			), '' ) . '&nbsp';
+			), '' ) . '&nbsp;';
 		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
 		$input = Html::textarea( $fieldName, '',
 			array(
@@ -148,8 +148,8 @@ END;
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
 			wfMessage( 'cargo-viewdata-offsettooltip', "0" )->parse() );
 		$formatLabel = '<label for="format">' . wfMessage( 'cargo-viewdata-format' )->parse() .
-			'&nbsp&nbsp<button class="CargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
-			wfMessage( 'cargo-viewdata-formattooltip' )->parse() . '"</button>&nbsp';
+			'&nbsp;&nbsp;<button class="cargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
+			wfMessage( 'cargo-viewdata-formattooltip' )->parse() . '"</button>&nbsp;';
 		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->parse();
 		$text .= <<<END
 <tr class="mw-htmlform-field-HTMLTextField">
@@ -233,7 +233,7 @@ class CargoQueryPage extends QueryPage {
 		}
 
 		// 'dynamic table' makes its own use of 'order by'.
-		if ( $this->format == 'dynamic table' && $paramName == 'order by' ) {
+		if ( $this->format == 'dynamic table' ) {
 			$this->displayParams['order by'] = $orderByStr;
 		}
 	}
