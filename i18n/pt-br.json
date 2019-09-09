@@ -38,7 +38,7 @@
 	"cargo-viewdata-wheretooltip": "Digite as condições. Várias condições podem ser separadas por AND/OR. Exemplo: $1",
 	"cargo-viewdata-joinon": "Participe:",
 	"cargo-viewdata-joinontooltip": "Obrigatório quando várias tabelas são inseridas. Exemplo: $1",
-	"cargo-viewdata-joinonrequired": "A condição de junção na condição deve ser definida para várias tabelas.",
+	"cargo-viewdata-joinonrequired": "Se houver várias tabelas, uma condição de \"associação\" deverá ser definida.",
 	"cargo-viewdata-groupby": "Agrupar por:",
 	"cargo-viewdata-having": "Tendo:",
 	"cargo-viewdata-orderby": "Ordenar por:",

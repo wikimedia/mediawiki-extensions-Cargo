@@ -37,5 +37,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "استدعاءالإكمال التلقائي المستخدم من قبل الصفحة الخاصة استعلام الحمولة (عرض البيانات سابقا).",
 	"apihelp-cargoqueryautocomplete-param-limit": "حد لعدد النتائج التي يتم إرجاعها.",
 	"apihelp-cargoqueryautocomplete-param-search": "البحث في السلسلة الفرعية",
-	"apihelp-cargoqueryautocomplete-param-tables": "مصفوفة جدول (جداول) الحمولة المحددة بناءً على أي حقل (حقول)، والتجميع حسب والترتيب حسب يتم إكماله تلقائيا."
+	"apihelp-cargoqueryautocomplete-param-tables": "مصفوفة جدول (جداول) الحمولة المحددة بناءً على أي حقل (حقول)، والتجميع حسب والترتيب حسب يتم إكماله تلقائيا.",
+	"apihelp-cargoformatparams-description": "الحصول على مجموعة وسائط العرض لكل تنسيق استعلام حمولة.",
+	"apihelp-cargoformatparams-summary": "الحصول على مجموعة وسائط العرض لكل تنسيق استعلام حمولة.",
+	"apihelp-cargoformatparams-param-queryformat": "تنسيق استعلام الحمولة"
 }

@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sagsag"
+			"Sagsag",
+			"Nitin1485"
 		]
 	},
+	"cargo-viewdata-joinonrequired": "यदि कई टेबल हैं, तो एक \"जॉइन ऑन\" कंडीशन सेट होनी चाहिए।",
 	"cargo-drilldown-mapformat": "নক্সা"
 }

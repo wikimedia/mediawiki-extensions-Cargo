@@ -38,5 +38,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "Повикот за автодополнување кој се користи во службената страница „Барање од Карго“ (CargoQuery, порано ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Граница на бројот исходни ставки.",
 	"apihelp-cargoqueryautocomplete-param-search": "Пребарај подниза",
-	"apihelp-cargoqueryautocomplete-param-tables": "Строј од избрани табели на Карго според кои ќе се автодополнуваат полињата, групирањето и подредувањето."
+	"apihelp-cargoqueryautocomplete-param-tables": "Строј од избрани табели на Карго според кои ќе се автодополнуваат полињата, групирањето и подредувањето.",
+	"apihelp-cargoformatparams-description": "Го дава збирот приказни параметри за секој формат на барања до Карго.",
+	"apihelp-cargoformatparams-summary": "Го дава збирот приказни параметри за секој формат на барања до Карго.",
+	"apihelp-cargoformatparams-param-queryformat": "Формат на барањето до Карго"
 }

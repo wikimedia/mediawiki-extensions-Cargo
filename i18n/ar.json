@@ -44,7 +44,7 @@
 	"cargo-viewdata-wheretooltip": "أدخل الشرط(الشروط)، يمكن فصل شروط متعددة عن طريق AND/OR. مثال: $1",
 	"cargo-viewdata-joinon": "الانضمام إلى:",
 	"cargo-viewdata-joinontooltip": "إلزامي عند إدخال جداول متعددة، مثال: $1",
-	"cargo-viewdata-joinonrequired": "يجب تعيين الانضمام على شرط لجداول متعددة.",
+	"cargo-viewdata-joinonrequired": "إذا كانت هناك جداول متعددة، فيجب تعيين شرط \"الانضمام على\".",
 	"cargo-viewdata-groupby": "المجموعة بواسطة:",
 	"cargo-viewdata-groupbytooltip": "دمج الصفوف ذات نفس قيمة هذا الحقل(الحقول) في صف واحد، مثال: $1",
 	"cargo-viewdata-having": "بها:",

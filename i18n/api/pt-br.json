@@ -37,5 +37,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "Chamada de preenchimento automático usada pela página especial CargoQuery (anteriormente ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Um limite no número de resultados retornados.",
 	"apihelp-cargoqueryautocomplete-param-search": "Pesquisar o subtexto",
-	"apihelp-cargoqueryautocomplete-param-tables": "Matriz de tabela(s) de carga selecionada(s) com base em quais campos, agrupar por e ordenar por são preenchidos automaticamente."
+	"apihelp-cargoqueryautocomplete-param-tables": "Matriz de tabela(s) de carga selecionada(s) com base em quais campos, agrupar por e ordenar por são preenchidos automaticamente.",
+	"apihelp-cargoformatparams-description": "Obtém o conjunto de parâmetros de exibição para cada formato de consulta de Cargo.",
+	"apihelp-cargoformatparams-summary": "Obtém o conjunto de parâmetros de exibição para cada formato de consulta de Cargo.",
+	"apihelp-cargoformatparams-param-queryformat": "Um formato de consulta de Cargo"
 }

@@ -41,7 +41,7 @@
 	"cargo-viewdata-wheretooltip": "Внесете услов(и). Кога има повеќе од еден, одделувајте ги со AND/OR. Пример: $1",
 	"cargo-viewdata-joinon": "Поврзи на:",
 	"cargo-viewdata-joinontooltip": "Задолжително кога се внесува повеќе од една табела. Пример: $1",
-	"cargo-viewdata-joinonrequired": "Условот за поврзува мора да се зададе во повеќе табели.",
+	"cargo-viewdata-joinonrequired": "Ако има повеќе табели, условот „join on“ мора да се зададе.",
 	"cargo-viewdata-groupby": "Групирај по:",
 	"cargo-viewdata-groupbytooltip": "Здружи ги редовите со истата вредност за следниве полиња во еден ред. Пример: $1",
 	"cargo-viewdata-having": "Има:",
