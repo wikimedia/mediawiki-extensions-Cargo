@@ -362,7 +362,8 @@ $wgResourceModules += array(
 		),
 		'dependencies' => array(
 			'jquery.ui.autocomplete',
-			'mediawiki.util'
+			'mediawiki.util',
+			'mediawiki.htmlform.ooui'
 		),
 		'localBasePath' => __DIR__,
 		'remoteExtPath' => 'Cargo'

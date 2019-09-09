@@ -80,3 +80,15 @@ table.cargoViewDataTable input {
 	border: 1px #a2a9b1 solid;
 	vertical-align: top;
 }
+
+a#cargo-modifyQuery-toggle {
+	width: 100%;
+	text-align: left !important;
+}
+
+#cargo-modifyQuery-form {
+	background: linear-gradient(rgba(0,0,0,0.1),#f8f9fa 0.5em);
+	border: solid 1px #a2a9b1;
+	border-top: 0;
+	padding: 10px;
+}

@@ -273,7 +273,8 @@
 			],
 			"dependencies": [
 				"jquery.ui.autocomplete",
-				"mediawiki.util"
+				"mediawiki.util",
+				"mediawiki.htmlform.ooui"
 			]
 		},
 		"ext.cargo.nvd3": {
