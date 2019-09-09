@@ -69,17 +69,19 @@ class CargoPageData {
 	 * that setting doesn't seem to take effect soon enough to get parsed
 	 * as a blank page.
 	 */
-	public static function storeValuesForPage( $title, $setToBlank = false ) {
+	public static function storeValuesForPage( $title, $createReplacement, $setToBlank = false ) {
 		global $wgCargoPageDataColumns;
 
 		if ( $title == null ) {
 			return;
 		}
 
-		// If there is no _pageData table, getTableSchemas() will
+		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
+
+		// If this table does not exist, getTableSchemas() will
 		// throw an error.
 		try {
-			$tableSchemas = CargoUtils::getTableSchemas( array( '_pageData' ) );
+			$tableSchemas = CargoUtils::getTableSchemas( array( $pageDataTable ) );
 		} catch ( MWException $e ) {
 			return;
 		}
@@ -152,7 +154,7 @@ class CargoPageData {
 			}
 		}
 
-		CargoStore::storeAllData( $title, '_pageData', $pageDataValues, $tableSchemas['_pageData'] );
+		CargoStore::storeAllData( $title, $pageDataTable, $pageDataValues, $tableSchemas[$pageDataTable] );
 	}
 
 }

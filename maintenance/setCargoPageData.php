@@ -5,7 +5,7 @@
  * auxiliary tables) for all pages in the wiki.
  *
  * Usage:
- *  php setCargoPageData.php --delete
+ *  php setCargoPageData.php --delete --replacement
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,21 +45,25 @@ class SetCargoPageData extends Maintenance {
 		}
 		$this->addDescription( "Stores a set of data for each page in the wiki in one or more database tables, for use within Cargo queries." );
 		$this->addOption( "delete", "Delete the page data DB table(s)", false, false );
+		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
 	}
 
 	public function execute() {
 		global $wgCargoPageDataColumns;
 
+		$createReplacement = $this->hasOption( 'replacement' );
+		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
-			array( 'main_table' => '_pageData' ) );
+			array( 'main_table' => $pageDataTable ) );
 
 		$numRows = $res->numRows();
 		if ( $numRows > 0 ) {
 			$row = $res->fetchRow();
 			$fieldTables = unserialize( $row['field_tables'] );
 			$fieldHelperTables = unserialize( $row['field_helper_tables'] );
-			CargoDeleteCargoTable::deleteTable( '_pageData', $fieldTables, $fieldHelperTables );
+			CargoDeleteCargoTable::deleteTable( $pageDataTable, $fieldTables, $fieldHelperTables );
 		}
 
 		if ( $this->getOption( "delete" ) ) {
@@ -76,7 +80,7 @@ class SetCargoPageData extends Maintenance {
 
 		$cdb = CargoUtils::getDB();
 		$dbw = wfGetDB( DB_MASTER );
-		CargoUtils::createCargoTableOrTables( $cdb, $dbw, '_pageData', $tableSchema, $tableSchemaString, 0 );
+		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $pageDataTable, $tableSchema, $tableSchemaString, 0 );
 
 		$pages = $dbr->select( 'page', array( 'page_id' ) );
 
@@ -85,16 +89,16 @@ class SetCargoPageData extends Maintenance {
 			if ( $title == null ) {
 				continue;
 			}
-			CargoPageData::storeValuesForPage( $title );
+			CargoPageData::storeValuesForPage( $title, $createReplacement );
 			$this->output( wfTimestamp( TS_DB ) . ' Stored page data for page "' . $title->getFullText() . "\".\n" );
 		}
 
 		$this->output( "\n Finished populating page data table(s).\n" );
 
 		if ( $numRows >= 0 ) {
-			CargoUtils::logTableAction( 'recreatetable', '_pageData' );
+			CargoUtils::logTableAction( 'recreatetable', $pageDataTable );
 		} else {
-			CargoUtils::logTableAction( 'createtable', '_pageData' );
+			CargoUtils::logTableAction( 'createtable', $pageDataTable );
 		}
 	}
 

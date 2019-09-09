@@ -53,7 +53,7 @@ class CargoFileData {
 
 	/**
 	 */
-	public static function storeValuesForFile( $title ) {
+	public static function storeValuesForFile( $title, $createReplacement ) {
 		global $wgCargoFileDataColumns, $wgLocalFileRepo;
 
 		if ( $title == null ) {
@@ -65,10 +65,12 @@ class CargoFileData {
 			return;
 		}
 
+		$fileDataTable = $createReplacement ? '_fileData__NEXT' : '_fileData';
+
 		// If there is no _fileData table, getTableSchemas() will
 		// throw an error.
 		try {
-			$tableSchemas = CargoUtils::getTableSchemas( array( '_fileData' ) );
+			$tableSchemas = CargoUtils::getTableSchemas( array( $fileDataTable ) );
 		} catch ( MWException $e ) {
 			return;
 		}
@@ -132,7 +134,7 @@ class CargoFileData {
 			}
 		}
 
-		CargoStore::storeAllData( $title, '_fileData', $fileDataValues, $tableSchemas['_fileData'] );
+		CargoStore::storeAllData( $title, $fileDataTable, $fileDataValues, $tableSchemas[$fileDataTable] );
 	}
 
 }

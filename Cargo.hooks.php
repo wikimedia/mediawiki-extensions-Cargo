@@ -249,8 +249,11 @@ class CargoHooks {
 		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getNativeData() );
 
 		// Also, save the "page data" and (if appropriate) "file data".
-		CargoPageData::storeValuesForPage( $wikiPage->getTitle() );
-		CargoFileData::storeValuesForFile( $wikiPage->getTitle() );
+		$cdb = CargoUtils::getDB();
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable );
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		CargoFileData::storeValuesForFile( $wikiPage->getTitle(), $useReplacementTable );
 
 		return true;
 	}
@@ -266,8 +269,11 @@ class CargoHooks {
 		// this page to be saved by Cargo, since the page will be
 		// parsed right after this.
 		CargoStore::$settings['origin'] = 'Approved Revs revision approved';
-		CargoPageData::storeValuesForPage( $title );
-		CargoFileData::storeValuesForFile( $title );
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
+
 		return true;
 	}
 
@@ -283,8 +289,11 @@ class CargoHooks {
 			// No point storing the Cargo data if it's blank.
 			CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
 		}
-		CargoPageData::storeValuesForPage( $title, $egApprovedRevsBlankIfUnapproved );
-		CargoFileData::storeValuesForFile( $title, $egApprovedRevsBlankIfUnapproved );
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable, $egApprovedRevsBlankIfUnapproved );
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		CargoFileData::storeValuesForFile( $title, $useReplacementTable, $egApprovedRevsBlankIfUnapproved );
+
 		return true;
 	}
 

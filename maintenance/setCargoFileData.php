@@ -5,7 +5,7 @@
  * auxiliary tables) for all pages in the wiki.
  *
  * Usage:
- *  php setCargoFileData.php --delete
+ *  php setCargoFileData.php --delete --replacement
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,21 +45,25 @@ class SetCargoFileData extends Maintenance {
 		}
 		$this->addDescription( "Stores a set of data for each file in the wiki in one or more database tables, for use within Cargo queries." );
 		$this->addOption( "delete", "Delete the file data DB table(s)", false, false );
+		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
 	}
 
 	public function execute() {
 		global $wgCargoFileDataColumns;
 
+		$createReplacement = $this->hasOption( 'replacement' );
+		$fileDataTable = $createReplacement ? '_fileData__NEXT' : '_fileData';
+
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
-			array( 'main_table' => '_fileData' ) );
+			array( 'main_table' => $fileDataTable ) );
 
 		$numRows = $res->numRows();
 		if ( $numRows >= 0 ) {
 			$row = $res->fetchRow();
 			$fieldTables = unserialize( $row['field_tables'] );
 			$fieldHelperTables = unserialize( $row['field_helper_tables'] );
-			CargoDeleteCargoTable::deleteTable( '_fileData', $fieldTables, $fieldHelperTables );
+			CargoDeleteCargoTable::deleteTable( $fileDataTable, $fieldTables, $fieldHelperTables );
 		}
 
 		if ( $this->getOption( "delete" ) ) {
@@ -76,7 +80,7 @@ class SetCargoFileData extends Maintenance {
 
 		$cdb = CargoUtils::getDB();
 		$dbw = wfGetDB( DB_MASTER );
-		CargoUtils::createCargoTableOrTables( $cdb, $dbw, '_fileData', $tableSchema, $tableSchemaString, -1 );
+		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $fileDataTable, $tableSchema, $tableSchemaString, -1 );
 
 		$pages = $dbr->select( 'page', array( 'page_id' ) );
 
@@ -85,16 +89,16 @@ class SetCargoFileData extends Maintenance {
 			if ( $title == null ) {
 				continue;
 			}
-			CargoFileData::storeValuesForFile( $title );
+			CargoFileData::storeValuesForFile( $title, $createReplacement );
 			$this->output( wfTimestamp( TS_DB ) . ' Stored file data for page "' . $title->getFullText() . "\".\n" );
 		}
 
 		$this->output( "\n Finished populating file data table(s).\n" );
 
 		if ( $numRows >= 0 ) {
-			CargoUtils::logTableAction( 'recreatetable', '_fileData' );
+			CargoUtils::logTableAction( 'recreatetable', $fileDataTable );
 		} else {
-			CargoUtils::logTableAction( 'createtable', '_fileData' );
+			CargoUtils::logTableAction( 'createtable', $fileDataTable );
 		}
 	}
 
