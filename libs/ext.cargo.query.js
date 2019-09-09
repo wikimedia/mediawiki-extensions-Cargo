@@ -7,6 +7,13 @@
  * @author Yaron Koren
  */
 $(document).ready(function() {
+	var query = decodeURIComponent( window.location.search.substring(1) ).replace(/\+/g, ' ');
+	var queryVarStrings = query.split("&");
+	var queryVars = {};
+	for (var i = 0; i < queryVarStrings.length; i++) {
+		var pair = queryVarStrings[i].split("=");
+		queryVars[pair[0]] = pair[1];
+	}
 
 	function split( val ) {
 		return val.split(/,\s*/);
@@ -309,6 +316,11 @@ $(document).ready(function() {
 		} else {
 			$(".joinOnErrorMessage").remove();
 		}
+	});
 
+	$('#cargo-modifyQuery-form').hide();
+	$('#cargo-modifyQuery-toggle').click( function(e) {
+		e.preventDefault();
+		$('#cargo-modifyQuery-form').toggle();
 	});
 });

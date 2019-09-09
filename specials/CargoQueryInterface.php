@@ -21,20 +21,41 @@ class CargoQueryInterface extends SpecialPage {
 		$req = $this->getRequest();
 
 		$out->addModules( 'ext.cargo.main' );
-		if ( ! $req->getCheck( 'tables' ) ) {
-			$out->addModules( 'ext.cargo.cargoquery' );
-			$html = $this->displayInputForm();
-			$out->addHTML( $html );
-			return;
+		$out->addModules( 'ext.cargo.cargoquery' );
+
+		if ( $req->getCheck( 'tables' ) ) {
+			try {
+				$rep = new CargoQueryPage();
+			} catch ( MWException $e ) {
+				$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
+				return;
+			}
+			$rep->execute( $query );
 		}
 
-		try {
-			$rep = new CargoQueryPage();
-		} catch ( MWException $e ) {
-			$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
-			return;
+		$formHTML = $this->displayInputForm();
+
+		if ( $req->getCheck( 'tables' ) ) {
+			$modifyQueryMsg = $this->msg( 'cargo-viewdata-modifyquery' );
+			$html = <<<END
+<div style="max-width: 70em;">
+<span style="width: 100%;" class="oo-ui-widget oo-ui-widget-enabled oo-ui-buttonElement oo-ui-buttonElement-framed oo-ui-indicatorElement oo-ui-labelElement oo-ui-buttonWidget">
+<a href="#" id="cargo-modifyQuery-toggle" class="oo-ui-buttonElement-button" role="button" tabindex="0" aria-disabled="false" rel="nofollow">
+$modifyQueryMsg
+<span class="oo-ui-indicatorElement-indicator oo-ui-indicator-down"></span>
+</a>
+</span>
+<div id="cargo-modifyQuery-form">
+$formHTML
+</div>
+</div>
+
+END;
+		} else {
+			$html = $formHTML;
 		}
-		return $rep->execute( $query );
+
+		$out->addHTML( $html );
 	}
 
 	protected function getGroupName() {
@@ -49,6 +70,8 @@ class CargoQueryInterface extends SpecialPage {
 	 * @return string
 	 */
 	static function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
+		global $wgRequest;
+
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
 		$label .= '&nbsp;' . Html::element( 'button',
 			array(
@@ -57,42 +80,44 @@ class CargoQueryInterface extends SpecialPage {
 				'for' => $fieldName ,
 				'data-balloon-length' => 'large',
 				'data-balloon' => $tooltip
-			),  '' ) . '&nbsp;';
-		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
-		$input = Html::input( $fieldName, '', 'text',
+			), '' ) . '&nbsp;';
+		$row = "\n\t" . Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
+		$input = Html::input( $fieldName, $wgRequest->getVal( $fieldName ), 'text',
 			array(
 				'class' => 'form-control cargo-query-input',
 				'multiple' => 'true',
 				'size' => $size . ' !important',
 				'id' => $fieldName
 			) );
-		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
-		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
+		$row .= "\n\t" . Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
+		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row ) . "\n";
 	}
 
 	static function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
+		global $wgRequest;
+
 		$label = Html::element( 'label', array( 'for' => $fieldName ), $labelText );
 		$label .= '&nbsp;' . Html::element( 'button',
 			array(
-				'class' => 'CargoQueryTooltipIcon',
+				'class' => 'cargoQueryTooltipIcon',
 				'disabled' => true,
 				'for' => $fieldName ,
 				'data-balloon-length' => 'large',
 				'data-balloon' => $tooltip
 			), '' ) . '&nbsp;';
-		$row = Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
-		$input = Html::textarea( $fieldName, '',
+		$row = "\n\t" . Html::rawElement( 'td', array( 'class' => 'mw-label' ), $label );
+		$input = Html::textarea( $fieldName, $wgRequest->getVal( $fieldName ),
 			array(
 				'class' => 'form-control cargo-query-textarea',
 				'multiple' => 'true',
 				'size' => $size . ' !important',
 				'id' => $fieldName
 			) );
-		$row .= Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input );
-		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row );
+		$row .= "\n\t" . Html::rawElement( 'td', array( 'class' => 'mw-input' ), $input ) . "\n";
+		return Html::rawElement( 'tr', array( 'class' => 'mw-htmlform-field-HTMLTextField' ), $row ) . "\n";
 	}
 
-	static function displayOrderByInput( $rowNum ) {
+	static function displayOrderByInput( $rowNum, $orderByValue, $orderByDirection ) {
 		$text = "\n" . '<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' . $rowNum . '>';
 		if ( $rowNum == 0 ) {
 			$text .= '<td class="mw-label">' .
@@ -104,11 +129,17 @@ class CargoQueryInterface extends SpecialPage {
 			$text .= '<td></td>';
 		}
 		$ascAttribs = array( 'value' => 'ASC' );
+		if ( $orderByDirection == 'ASC' ) {
+			$ascAttribs['selected'] = true;
+		}
 		$ascOption = Html::element( 'option', $ascAttribs, 'ASC' );
 		$descAttribs = array( 'value' => 'DESC' );
+		if ( $orderByDirection == 'DESC' ) {
+			$descAttribs['selected'] = true;
+		}
 		$descOption = Html::element( 'option', $descAttribs, 'DESC' );
 		$directionSelect = Html::rawElement( 'select', array( 'name' => 'order_by_options[' . $rowNum . ']' ), $ascOption . $descOption );
-		$text .= '<td class="mw-input"><input class="form-control order_by" size="50 !important" name="order_by[' . $rowNum . ']" />' .
+		$text .= '<td class="mw-input"><input class="form-control order_by" size="50 !important" name="order_by[' . $rowNum . ']" value="' . $orderByValue . '" />' .
 			"&nbsp;&nbsp;$directionSelect&nbsp;&nbsp;<button class=\"";
 		$text .= ( $rowNum == 0 ) ? 'addButton' : 'deleteButton';
 		$text .= '" type="button"></button></td></tr>';
@@ -117,7 +148,7 @@ class CargoQueryInterface extends SpecialPage {
 	}
 
 	function displayInputForm() {
-		global $wgCargoDefaultQueryLimit;
+		global $wgCargoDefaultQueryLimit, $wgRequest;
 
 		// Add the name of this special page as a hidden input, in
 		// case the wiki doesn't use nice URLs.
@@ -142,9 +173,18 @@ END;
 			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
 		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
 			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
-		$text .= self::displayOrderByInput( 0 );
+		$orderByValues = $wgRequest->getArray( 'order_by' );
+		if ( $orderByValues != null ) {
+			$orderByDirections = $wgRequest->getArray( 'order_by_options' );
+			$rowNum = 0;
+			foreach ( $orderByValues as $i => $curOrderBy ) {
+				$text .= self::displayOrderByInput( $rowNum++, $curOrderBy, $orderByDirections[$i] );
+			}
+		} else {
+			$text .= self::displayOrderByInput( 0, null, null );
+		}
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
-			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit ) ->parse() );
+			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit )->parse() );
 		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
 			wfMessage( 'cargo-viewdata-offsettooltip', "0" )->parse() );
 		$formatLabel = '<label for="format">' . wfMessage( 'cargo-viewdata-format' )->parse() .
@@ -163,7 +203,11 @@ $formatLabel
 END;
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
 		foreach ( $formatClasses as $formatName => $formatClass ) {
-			$text .= Html::element( 'option', null, $formatName );
+			$optionAttrs = array();
+			if ( $formatName == $wgRequest->getVal( 'format' ) ) {
+				$optionAttrs['selected'] = true;
+			}
+			$text .= Html::element( 'option', $optionAttrs, $formatName );
 		}
 
 		$submitLabel = wfMessage( 'htmlform-submit' )->parse();
@@ -197,12 +241,13 @@ class CargoQueryPage extends QueryPage {
 			$groupByStr = substr( $groupByStr, 0, -1 ); // Remove last comma for group by
 		}
 		$havingStr = trim( $req->getVal( 'having' ) );
-		$order_by = $req->getArray( 'order_by' );
-		$order_by_options = $req->getArray( 'order_by_options' );
+
 		$orderByStr = "";
-		for ( $i = 0; $i < count( $order_by ); $i++ ) {
-			if ( !is_null( $order_by[$i] ) && $order_by[$i] != '' ) {
-				$orderByStr .= $order_by[$i] . '  ' . $order_by_options[$i] . ',';
+		$orderByValues = $req->getArray( 'order_by' );
+		$orderByOptions = $req->getArray( 'order_by_options' );
+		foreach ( $orderByValues as $i => $curOrderBy ) {
+			if ( $curOrderBy != '' ) {
+				$orderByStr .= $curOrderBy . ' ' . $orderByOptions[$i] . ',';
 			}
 		}
 		if ( substr( $orderByStr, -1, 1 ) == ',' ) {
