@@ -126,6 +126,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 						'otherValues' => $displayedValuesForRow
 					);
 					if ( array_key_exists( 'icon', $displayParams ) &&
+						is_array( $displayParams['icon'] ) &&
 						array_key_exists( $i, $displayParams['icon'] ) ) {
 						$iconURL = self::getImageURL( $displayParams['icon'][$i] );
 						if ( !is_null( $iconURL ) ) {
@@ -141,7 +142,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		$jsonData = json_encode( $valuesForMap, JSON_NUMERIC_CHECK | JSON_HEX_TAG );
 		$divID = "mapCanvas" . self::$mapNumber++;
 
-		if ( array_key_exists( 'height', $displayParams ) ) {
+		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $height ) ) {
@@ -150,7 +151,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		} else {
 			$height = "400px";
 		}
-		if ( array_key_exists( 'width', $displayParams ) ) {
+		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
 			$width = $displayParams['width'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $width ) ) {
@@ -169,7 +170,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			'style' => 'display: none',
 			'mappingService' => $service
 		);
-		if ( array_key_exists( 'zoom', $displayParams ) ) {
+		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['zoom'] = $displayParams['zoom'];
 		}
 		$mapData = Html::element( 'span', $mapDataAttrs, $jsonData );

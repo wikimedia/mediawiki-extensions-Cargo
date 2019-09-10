@@ -72,7 +72,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		// class won't do it that way.
 		$dataOrderString = "data-order='" . json_encode( $dataTableOrderByParams ) . "'";
 
-		if ( array_key_exists( 'rows per page', $displayParams ) ) {
+		if ( array_key_exists( 'rows per page', $displayParams ) && $displayParams['rows per page'] != '' ) {
 			// See $dataOrderString above for why it's done this way.
 			$pageLengthString = 'data-page-length="' . $displayParams['rows per page'] . '"';
 		} else {
