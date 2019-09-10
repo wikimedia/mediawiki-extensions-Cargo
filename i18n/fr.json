@@ -73,6 +73,7 @@
 	"cargo-viewdata-widthparam": "Largeur :",
 	"cargo-viewdata-columnsparam": "Nombre de colonnes :",
 	"cargo-viewdata-delimiterparam": "Délimiteur :",
+	"cargo-viewdata-modifyquery": "Modifier la requête",
 	"cargo-query-missingformat": "Erreur : le format doit être défini.",
 	"cargo-query-badsqlfunction": "Erreur : la fonction SQL « $1 » n’est pas autorisée.",
 	"cargo-query-badalias": "Erreur : alias de table « $1 » non valide.",

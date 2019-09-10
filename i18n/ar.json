@@ -62,6 +62,7 @@
 	"cargo-viewdata-widthparam": "العرض:",
 	"cargo-viewdata-columnsparam": "عدد الأعمدة",
 	"cargo-viewdata-delimiterparam": "المحدد:",
+	"cargo-viewdata-modifyquery": "تعديل الاستعلام",
 	"cargo-query-missingformat": "خطأ: يجب ضبط التنسيق.",
 	"cargo-query-badsqlfunction": "خطأ: وظيفة SQL \"$1\" غير مسموح بها.",
 	"cargo-query-badalias": "خطأ: اسم مستعار غير صالح للجدول \"$1\".",
