@@ -26,7 +26,7 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 		$queryParams['format'] = 'nvd3chart';
 
 		$svgAttrs = array();
-		if ( array_key_exists( 'width', $displayParams ) ) {
+		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
 			$width = $displayParams['width'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $width ) ) {
@@ -36,7 +36,7 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 		} else {
 			$svgAttrs['width'] = "100%";
 		}
-		if ( array_key_exists( 'height', $displayParams ) ) {
+		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $height ) ) {

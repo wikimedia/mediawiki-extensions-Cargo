@@ -24,7 +24,7 @@ class CargoCategoryFormat extends CargoListFormat {
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		global $wgContLang;
 
-		if ( array_key_exists( 'columns', $displayParams ) ) {
+		if ( array_key_exists( 'columns', $displayParams ) && $displayParams['columns'] != '' ) {
 			$numColumns = max( $displayParams['columns'], 1 );
 		} else {
 			$numColumns = 3;

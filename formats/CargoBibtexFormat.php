@@ -253,10 +253,10 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'bibtex';
-		if ( array_key_exists( 'default entry type', $displayParams ) ) {
+		if ( array_key_exists( 'default entry type', $displayParams ) && $displayParams['default entry type'] != '' ) {
 			$queryParams['default entry type'] = $displayParams['default entry type'];
 		}
-		if ( array_key_exists( 'link text', $displayParams ) ) {
+		if ( array_key_exists( 'link text', $displayParams ) && $displayParams['link text'] != '' ) {
 			$linkText = $displayParams['link text'];
 		} else {
 			$linkText = wfMessage( 'cargo-viewbibtex' )->text();

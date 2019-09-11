@@ -25,13 +25,13 @@ class CargoExcelFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'excel';
-		if ( array_key_exists( 'filename', $displayParams ) ) {
+		if ( array_key_exists( 'filename', $displayParams ) && $displayParams['filename'] != '' ) {
 			$queryParams['filename'] = $displayParams['filename'];
 		}
-		if ( array_key_exists( 'parse values', $displayParams ) ) {
+		if ( array_key_exists( 'parse values', $displayParams ) && $displayParams['parse values'] != '' ) {
 			$queryParams['parse values'] = $displayParams['parse values'];
 		}
-		if ( array_key_exists( 'link text', $displayParams ) ) {
+		if ( array_key_exists( 'link text', $displayParams ) && $displayParams['link text'] != '' ) {
 			$linkText = $displayParams['link text'];
 		} else {
 			$linkText = wfMessage( 'cargo-viewxls' )->text();

@@ -32,7 +32,7 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 		  }
 		  } */
 
-		if ( array_key_exists( 'height', $displayParams ) ) {
+		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $height ) ) {
@@ -41,7 +41,7 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 		} else {
 			$height = "350px";
 		}
-		if ( array_key_exists( 'width', $displayParams ) ) {
+		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
 			$width = $displayParams['width'];
 			// Add on "px", if no unit is defined.
 			if ( is_numeric( $width ) ) {
