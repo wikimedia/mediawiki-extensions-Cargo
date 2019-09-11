@@ -402,8 +402,7 @@ class CargoQueryPage extends QueryPage {
 		$formatter = $queryDisplayer->getFormatter( $out );
 
 		if ( $formatter->isDeferred() ) {
-			$displayParams = array();
-			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $displayParams );
+			$text = $formatter->queryAndDisplay( array( $this->sqlQuery ), $this->displayParams );
 			$out->addHTML( $text );
 			return;
 		}
