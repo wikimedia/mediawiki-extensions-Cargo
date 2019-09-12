@@ -40,6 +40,7 @@
 	"cargo-viewdata-widthparam": "너비:",
 	"cargo-viewdata-columnsparam": "컬럼 수:",
 	"cargo-viewdata-delimiterparam": "구분자:",
+	"cargo-viewdata-modifyquery": "쿼리 수정",
 	"cargo-query-missingformat": "오류: 포맷을 설정해야 합니다.",
 	"cargo-query-badsqlfunction": "오류: \"$1\" SQL 함수는 허용되지 않습니다.",
 	"cargo-query-badalias": "오류: 유효하지 않은 테이블 별칭 \"$1\".",

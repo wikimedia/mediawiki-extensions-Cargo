@@ -22,6 +22,7 @@
 	"cargo-viewdata-widthparam": "Szerokość:",
 	"cargo-viewdata-columnsparam": "Liczba kolumn:",
 	"cargo-viewdata-delimiterparam": "Separator:",
+	"cargo-viewdata-modifyquery": "Modyfikuj zapytanie",
 	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|wiersz|wiersze|wierszy}}",
 	"cargo-drilldown-allpages": "Wszystkie strony",
 	"cargo-drilldown-allfiles": "Wszystkie pliki",

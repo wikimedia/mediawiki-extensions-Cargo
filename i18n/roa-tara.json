@@ -6,6 +6,7 @@
 	},
 	"recreatedata": "Ccreje arrete le date",
 	"cargo-createtableaction": "ccrejate 'a tabbelle Cargo $2",
+	"cargo-viewdata-modifyquery": "Cange l'inderrogazione",
 	"cargo-viewbibtex": "'Ndruche BibTeX",
 	"cargo-purgecache-failed": "Sdevacamende d'a cache fallite"
 }

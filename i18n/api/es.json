@@ -4,7 +4,8 @@
 			"Dgstranz",
 			"Fitoschido",
 			"KATRINE1992",
-			"Macofe"
+			"Macofe",
+			"Lmorillas"
 		]
 	},
 	"apihelp-cargoquery-description": "Ejecuta una consulta en los datos de Cargo.",
@@ -23,5 +24,6 @@
 	"apihelp-cargorecreatedata-param-template": "La plantilla cuyos datos se usarán",
 	"apihelp-cargoautocomplete-param-limit": "Límite en el número de resultados que devolver",
 	"apihelp-cargoautocomplete-param-substr": "Buscar subcadena",
+	"apihelp-cargoautocomplete-param-table": "Tabla de Cargo en la que buscar valores",
 	"apihelp-cargoautocomplete-param-where": "La cláusula \"where\" para la consulta, basada en los demás filtros especificados"
 }
