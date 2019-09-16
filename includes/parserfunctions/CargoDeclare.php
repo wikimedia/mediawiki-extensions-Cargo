@@ -80,6 +80,8 @@ class CargoDeclare {
 			return "Error: $type name \"$name\" contains whitespaces. Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead.";
 		} elseif ( strpos( $name, '_' ) === 0 ) {
 			return "Error: $type name \"$name\" begins with an underscore; this is not allowed.";
+		} elseif ( substr( $name, -1 ) === '_' ) {
+			return "Error: $type name \"$name\" ends with an underscore; this is not allowed.";
 		} elseif ( strpos( $name, '__' ) !== false ) {
 			return "Error: $type name \"$name\" contains more than one underscore in a row; this is not allowed.";
 		} elseif ( preg_match( '/[\.,\-<>(){}\[\]]/', $name ) ) {
