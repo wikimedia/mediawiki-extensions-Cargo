@@ -144,7 +144,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		$sqlQuery->mOrigAliasedFieldNames = $aliasedFieldNames;
 		$sqlQuery->setDescriptionsAndTableNamesForFields();
 		$sqlQuery->handleDateFields();
-		$sqlQuery->mWhereStr = "_pageID = " . $this->mTitle->getArticleID();
+		$sqlQuery->mWhereStr = $cdb->addIdentifierQuotes( '_pageID' ) . " = " . $this->mTitle->getArticleID();
 
 		$queryResults = $sqlQuery->run();
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );

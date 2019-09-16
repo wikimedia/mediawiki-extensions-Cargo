@@ -18,7 +18,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		if ( $f->fieldDescription->mIsList ) {
 			$fieldTableName = $f->tableName . '__' . $f->name;
 			$fieldTableAlias = $f->tableAlias . '__' . $f->name;
-			$countColumnName = $mainTableAlias . "._pageID";
+			$countColumnName = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 			if ( !array_key_exists( $fieldTableAlias, $tableNames ) ) {
 				$tableNames[$fieldTableAlias] = $fieldTableName;
 			}
@@ -31,7 +31,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 			$fieldColumnName = $f->name;
 			$fieldTableName = $f->tableName;
 			$fieldTableAlias = $f->tableAlias;
-			$countColumnName = $mainTableAlias . "._pageID";
+			$countColumnName = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 		}
 
 		$countClause = "COUNT(DISTINCT($countColumnName)) AS total";
