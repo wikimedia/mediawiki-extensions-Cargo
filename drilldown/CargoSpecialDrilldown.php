@@ -1942,7 +1942,7 @@ END;
 			}
 			if ( $af->filter->fieldDescription->mIsHierarchy && $af->filter->fieldDescription->mIsList ) {
 				$hierarchyFieldTable = $this->tableName . "__" . $af->filter->name;
-				$hierarchyFieldAlias = $this->tableAlias . "__" . $af->filter->Alias;
+				$hierarchyFieldAlias = $this->tableAlias . "__" . $af->filter->name;
 				$queryOptions['GROUP BY'] = CargoUtils::escapedFieldName( $cdb,
 					array( $hierarchyFieldAlias => $hierarchyFieldTable ), '_rowID' );
 			}
@@ -2177,8 +2177,12 @@ END;
 			}
 		}
 		if ( !$this->formatByFieldIsList ) {
-			$queryOptions['GROUP BY'] =
-				array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+			if ( is_array( $queryOptions['GROUP BY'] ) ) {
+				$queryOptions['GROUP BY'] =
+					array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+			} else {
+				$queryOptions['GROUP BY'] = array_values( $aliasedFieldNames );
+			}
 		} else {
 			$queryOptions['GROUP BY'] = null;
 		}

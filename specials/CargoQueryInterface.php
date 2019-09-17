@@ -245,9 +245,11 @@ class CargoQueryPage extends QueryPage {
 		$orderByStr = "";
 		$orderByValues = $req->getArray( 'order_by' );
 		$orderByOptions = $req->getArray( 'order_by_options' );
-		foreach ( $orderByValues as $i => $curOrderBy ) {
-			if ( $curOrderBy != '' ) {
-				$orderByStr .= $curOrderBy . ' ' . $orderByOptions[$i] . ',';
+		if ( is_array( $orderByValues ) ) {
+			foreach ( $orderByValues as $i => $curOrderBy ) {
+				if ( $curOrderBy != '' ) {
+					$orderByStr .= $curOrderBy . ' ' . $orderByOptions[$i] . ',';
+				}
 			}
 		}
 		if ( substr( $orderByStr, -1, 1 ) == ',' ) {
