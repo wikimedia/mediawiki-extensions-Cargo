@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 2.2
+        Version 2.3
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -63,6 +63,9 @@ the 2017 Google Summer of Code.
 Substantial improvements to the Special:Drilldown page, including
 support for "parent tables", were done by Nikhil Kumar as part of the
 2018 Google Summer of Code.
+
+Substantial improvements to the Special:CargoQuery page were done by
+Ankita Mandal as part of the 2019 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
 Cody3647, Duncan Crane, Ed Hoo, IijimaYun, Namit Ohri, Paladox,
