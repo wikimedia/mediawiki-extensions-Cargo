@@ -7,13 +7,14 @@
 			"Matěj Suchánek",
 			"DoubyCz",
 			"Korytaacheck",
-			"Patriccck"
+			"Patriccck",
+			"MrJaroslavik"
 		]
 	},
-	"cargo-viewdata-where": "WHERE:",
-	"cargo-viewdata-joinon": "JOIN ON:",
-	"cargo-viewdata-groupby": "GROUP BY:",
-	"cargo-viewdata-orderby": "ORDER BY:",
+	"cargo-viewdata-where": "KDE:",
+	"cargo-viewdata-joinon": "PŘIDEJTE SE:",
+	"cargo-viewdata-groupby": "SESKUPIT PODLE:",
+	"cargo-viewdata-orderby": "ŘADIT PODLE:",
 	"cargo-viewdata-limit": "LIMIT:",
 	"cargo-viewdata-offset": "Posun:",
 	"cargo-viewdata-format": "Formát:",
