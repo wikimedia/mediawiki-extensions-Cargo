@@ -11,7 +11,8 @@
 			"Vlad5250",
 			"Shaleych",
 			"Nemo bis",
-			"Movses"
+			"Movses",
+			"Katunchik"
 		]
 	},
 	"cargo-desc": "Хранение и запрос данных шаблона",
@@ -45,6 +46,7 @@
 	"cargo-viewdata-fields": "Поле(я):",
 	"cargo-viewdata-where": "Где:",
 	"cargo-viewdata-joinon": "Присоединить:",
+	"cargo-viewdata-joinonrequired": "Если существует несколько таблиц, необходимо установить условие \"join on\".",
 	"cargo-viewdata-groupby": "Группировать по:",
 	"cargo-viewdata-having": "Имеющие:",
 	"cargo-viewdata-orderby": "Сортировать по:",
@@ -59,6 +61,7 @@
 	"cargo-viewdata-widthparam": "Ширина:",
 	"cargo-viewdata-columnsparam": "Число столбцов:",
 	"cargo-viewdata-delimiterparam": "Разделитель:",
+	"cargo-viewdata-modifyquery": "Модифицировать запрос",
 	"cargo-query-missingformat": "Ошибка: должен быть задан формат.",
 	"cargo-query-badsqlfunction": "Ошибка: функция SQL «$1» не разрешена.",
 	"cargo-query-badalias": "Ошибка: неверный псевдоним таблицы «$1».",
