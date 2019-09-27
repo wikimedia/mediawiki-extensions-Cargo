@@ -151,6 +151,9 @@ class CargoRecreateData extends Maintenance {
 					CargoStore::$settings['origin'] = 'template';
 					CargoStore::$settings['dbTableName'] = $tableName;
 					$wikiPage = WikiPage::newFromID( $title->getArticleID() );
+					if ( $wikiPage == null ) {
+						continue;
+					}
 					$content = $wikiPage->getContent();
 					$contentText = ContentHandler::getContentText( $content );
 					CargoUtils::parsePageForStorage( $title, $contentText );
