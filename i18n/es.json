@@ -10,7 +10,8 @@
 			"Dgstranz",
 			"KATRINE1992",
 			"Ciencia Al Poder",
-			"Nemo bis"
+			"Nemo bis",
+			"Madamebiblio"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -40,6 +41,7 @@
 	"cargo-viewdata-defaultformat": "Predeterminado",
 	"cargo-viewdata-heightparam": "Altura:",
 	"cargo-viewdata-widthparam": "Anchura:",
+	"cargo-viewdata-modifyquery": "Modifique consulta",
 	"cargo-query-missingformat": "Error: debe establecerse el formato.",
 	"cargo-query-badsqlfunction": "Error: no se permite la función de SQL «$1».",
 	"cargo-query-badalias": "Error: el alias de la tabla «$1» no es válido.",
