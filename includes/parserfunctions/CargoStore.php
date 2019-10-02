@@ -165,10 +165,16 @@ class CargoStore {
 					}
 				}
 				if ( $numExistingValues > 0 ) {
+					if ( $fieldDescription->mIsMandatory ) {
+						return "Cannot store mandatory field \"$fieldName\" as it contains a duplicate value.";
+					}
 					$tableFieldValues[$fieldName] = null;
 				}
 			}
 			if ( $fieldDescription->mRegex != null && !preg_match( '/^' . $fieldDescription->mRegex . '$/', $fieldValue ) ) {
+				if ( $fieldDescription->mIsMandatory ) {
+					return "Cannot store mandatory field \"$fieldName\" as the value does not match the field's regex constraint.";
+				}
 				$tableFieldValues[$fieldName] = null;
 			}
 		}
