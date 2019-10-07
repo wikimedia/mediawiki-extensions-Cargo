@@ -84,7 +84,7 @@
 	"cargo-query-missingparam": "Erreur : le paramètre « $1 » doit être défini pour le format « $2 ».",
 	"cargo-query-specifiedfieldmissing": "Erreur : le champ « $1 », spécifié en tant que « $2 », doit faire partie des champs de cette requête.",
 	"cargotables": "Tables de Cargo",
-	"cargo-cargotables-beingpopulated": "<strong>Note :</strong> Une ou plusieurs de ces tables sont actuellement en cours de remplissage, via la file de tâches.",
+	"cargo-cargotables-beingpopulated": "<strong>Note :</strong> une ou plusieurs de ces tables sont actuellement en cours de remplissage, via la file de tâches.",
 	"cargo-cargotables-tablelist": "{{PLURAl:$1|La table suivante est définie|Les tables suivantes sont définies}} :",
 	"cargo-cargotables-viewtable": "Afficher la table : $1",
 	"cargo-cargotables-viewtablelink": "Voir le tableau",
