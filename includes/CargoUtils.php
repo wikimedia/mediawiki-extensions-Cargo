@@ -1165,7 +1165,7 @@ class CargoUtils {
 		} elseif ( $linkRenderer !== null ) {
 			// MW 1.28+
 			$html = ( $msg == null ) ? null : new HtmlArmor( $msg );
-			return $linkRenderer->makeKnownLink( $title, $html, $attrs, $params );
+			return $linkRenderer->makeLink( $title, $html, $attrs, $params );
 		} else {
 			return Linker::linkKnown( $title, $msg, $attrs, $params );
 		}
