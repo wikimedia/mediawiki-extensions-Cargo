@@ -400,8 +400,11 @@ class CargoQueryDisplayer {
 		if ( $sqlQuery->mJoinOnStr != '' ) {
 			$queryStringParams['join_on'] = $sqlQuery->mJoinOnStr;
 		}
-		if ( $sqlQuery->mGroupByStr != '' ) {
-			$queryStringParams['group_by'] = $sqlQuery->mGroupByStr;
+		if ( $sqlQuery->mOrigGroupByStr != '' ) {
+			$queryStringParams['group_by'] = $sqlQuery->mOrigGroupByStr;
+		}
+		if ( $sqlQuery->mOrigHavingStr != '' ) {
+			$queryStringParams['having'] = $sqlQuery->mOrigHavingStr;
 		}
 		$queryStringParams['order_by'] = $sqlQuery->mOrderBy;
 		if ( $this->mFormat != '' ) {
