@@ -85,7 +85,7 @@ class CargoDeclare {
 		} elseif ( strpos( $name, '__' ) !== false ) {
 			return "Error: $type name \"$name\" contains more than one underscore in a row; this is not allowed.";
 		} elseif ( preg_match( '/[\.,\-<>(){}\[\]]/', $name ) ) {
-			return "Error: $type name \"$name\" cannot contain any of the following characters: .,<>(){}[]";
+			return "Error: $type name \"$name\" cannot contain any of the following characters: .,-<>(){}[]";
 		} elseif ( in_array( strtolower( $name ), self::$sqlReservedWords ) ) {
 			return "Error: \"$name\" cannot be used as a Cargo $type name, because it is an SQL keyword.";
 		} elseif ( in_array( strtolower( $name ), self::$cargoReservedWords ) ) {
