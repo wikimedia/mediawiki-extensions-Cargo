@@ -5,7 +5,8 @@
 			"Guycn2",
 			"Or",
 			"Erelon",
-			"Nemo bis"
+			"Nemo bis",
+			"Steeve815"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -32,6 +33,11 @@
 	"cargo-viewdata-limit": "הגבלה (LIMIT):",
 	"cargo-viewdata-format": "תסדיר:",
 	"cargo-viewdata-defaultformat": "ברירת מחדל",
+	"cargo-viewdata-heightparam": "גובה:",
+	"cargo-viewdata-widthparam": "רוחב:",
+	"cargo-viewdata-columnsparam": "מספר עמודות:",
+	"cargo-viewdata-delimiterparam": "תו מפריד:",
+	"cargo-viewdata-modifyquery": "שינוי שאילתא",
 	"cargo-query-missingformat": "שגיאה: חובה להגדיר פורמט.",
 	"cargo-query-badsqlfunction": "שגיאה: פונקציית ה־SQL&rlm; \"$1\" אינה מותרת.",
 	"cargo-query-badalias": "שגיאה: כינוי טבלה בלתי־תקין בשם \"$1\".",
