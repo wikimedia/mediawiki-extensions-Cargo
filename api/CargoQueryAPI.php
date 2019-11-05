@@ -25,7 +25,7 @@ class CargoQueryAPI extends ApiBase {
 		$offsetStr = $params['offset'];
 
 		if ( $tablesStr == '' ) {
-			CargoUtils::dieWithError( $this, 'The tables must be specified', 'param_substr' );
+			$this->dieWithError( 'The tables must be specified', 'param_substr' );
 		}
 
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
@@ -40,7 +40,7 @@ class CargoQueryAPI extends ApiBase {
 		try {
 			$queryResults = $sqlQuery->run();
 		} catch ( Exception $e ) {
-			CargoUtils::dieWithError( $this, $e, 'db_error' );
+			$this->dieWithError( $e, 'db_error' );
 		}
 
 		// Format data as the API requires it.

@@ -77,12 +77,7 @@ class CargoUtils {
 			$params['dbFilePath'] = $dbr->getDbFilePath();
 		}
 
-		if ( class_exists( 'Database' ) ) {
-			// MW 1.27+
-			self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
-		} else {
-			self::$CargoDB = DatabaseBase::factory( $wgCargoDBtype, $params );
-		}
+		self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
 		return self::$CargoDB;
 	}
 
@@ -1218,23 +1213,4 @@ class CargoUtils {
 		}
 	}
 
-	/**
-	 * Calls one of the API methods to display an error message and die.
-	 *
-	 * @param Object $object
-	 * @param string|array|Message $msg
-	 * @param string|null $errcode
-	 */
-	public static function dieWithError( $object, $msg, $errcode = null ) {
-		if ( method_exists( $object, "dieWithError" ) ) {
-			// Since MW 1.29
-			$object->dieWithError( $msg, $errcode );
-		} elseif ( $errcode !== null ) {
-			// Deprecated since MW 1.29.
-			$object->dieUsage( $msg, $errcode );
-		} else {
-			// Deprecated since MW 1.29.
-			$object->dieUsageMsg( $msg );
-		}
-	}
 }

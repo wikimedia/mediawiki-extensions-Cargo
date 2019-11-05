@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.25.3"
+		"MediaWiki": ">= 1.29"
 	},
 	"callback": "CargoHooks::registerExtension",
 	"AvailableRights": [
@@ -314,9 +314,6 @@
 		],
 		"MakeGlobalVariablesScript": [
 			"CargoHooks::setGlobalJSVariables"
-		],
-		"ResourceLoaderRegisterModules": [
-			"CargoHooks::registerModules"
 		],
 		"PageContentSaveComplete": [
 			"CargoHooks::onPageContentSaveComplete"
