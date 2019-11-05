@@ -225,8 +225,6 @@ class CargoQueryDisplayer {
 			if ( $title == null ) {
 				return $value;
 			}
-			// makeThumbLinkObj() is still not deprecated in MW 1.28,
-			// but presumably it will be at some point.
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
 		} elseif ( $type == 'URL' ) {
 			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
