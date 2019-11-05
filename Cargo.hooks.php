@@ -194,8 +194,6 @@ class CargoHooks {
 	 * We use that hook, instead of 'PageContentSave', because we need
 	 * the page ID to have been set already for newly-created pages.
 	 *
-	 * @global Parser $wgParser
-	 *
 	 * @param WikiPage $wikiPage
 	 * @param User $user Unused
 	 * @param Content $content

@@ -8,6 +8,7 @@
 
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
+use MediaWiki\MediaWikiServices;
 
 class CargoUtils {
 
@@ -449,7 +450,6 @@ class CargoUtils {
 	 * we're in a special or regular page.
 	 *
 	 * @global WebRequest $wgRequest
-	 * @global Parser $wgParser
 	 * @param string $value
 	 * @param Parser $parser
 	 * @return string
@@ -474,8 +474,7 @@ class CargoUtils {
 		// depends on whether we're in a special page or not.
 		global $wgRequest;
 		if ( is_null( $parser ) ) {
-			global $wgParser;
-			$parser = $wgParser;
+			$parser = MediaWikiServices::getInstance()->getParser();
 		}
 		$title = $parser->getTitle();
 		if ( is_null( $title ) ) {
@@ -511,9 +510,6 @@ class CargoUtils {
 	}
 
 	public static function parsePageForStorage( $title, $pageContents ) {
-		// @TODO - is there a "cleaner" way to get a page to be parsed?
-		global $wgParser;
-
 		// Special handling for the Approved Revs extension.
 		$pageText = null;
 		$approvedText = null;
@@ -525,7 +521,8 @@ class CargoUtils {
 		} else {
 			$pageText = $pageContents;
 		}
-		$wgParser->parse( $pageText, $title, new ParserOptions() );
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$parser->parse( $pageText, $title, new ParserOptions() );
 	}
 
 	/**
