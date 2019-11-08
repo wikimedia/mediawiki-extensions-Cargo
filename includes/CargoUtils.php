@@ -726,7 +726,6 @@ class CargoUtils {
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
 		$cdb->begin();
 		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
-		$dbType = $cdb->getType();
 		$fieldsInMainTable = array(
 			'_ID' => 'Integer',
 			'_pageName' => 'String',
@@ -735,7 +734,6 @@ class CargoUtils {
 			'_pageID' => 'Integer',
 		);
 
-		$containsSearchTextType = false;
 		$containsFileType = false;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$size = $fieldDescription->mSize;
@@ -761,8 +759,6 @@ class CargoUtils {
 					   $fieldType == 'Start date' || $fieldType == 'Start datetime' ||
 					   $fieldType == 'End date' || $fieldType == 'End datetime' ) {
 				$fieldsInMainTable[$fieldName . '__precision'] = 'Integer';
-			} elseif ( $fieldType == 'Searchtext' ) {
-				$containsSearchTextType = true;
 			} elseif ( $fieldType == 'File' ) {
 				$containsFileType = true;
 			}
