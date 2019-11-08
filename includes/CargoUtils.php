@@ -850,7 +850,6 @@ class CargoUtils {
 		$dbType = $cdb->getType();
 		$sqlTableName = $cdb->tableName( $tableName );
 		$createSQL = "CREATE TABLE $sqlTableName ( ";
-		$containsSearchTextType = false;
 		$firstField = true;
 		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
 			$fieldOptionsText = '';
@@ -881,16 +880,10 @@ class CargoUtils {
 			$sqlFieldName = $cdb->addIdentifierQuotes( $fieldName );
 			$createSQL .= "$sqlFieldName $sqlType $fieldOptionsText";
 			if ( $fieldType == 'Searchtext' ) {
-				$containsSearchTextType = true;
 				$createSQL .= ", FULLTEXT KEY $fieldName ( $sqlFieldName )";
 			}
 		}
 		$createSQL .= ' )';
-		// For MySQL 5.6 and earlier, only MyISAM supports 'FULLTEXT'
-		// indexes; InnoDB does not.
-		if ( $containsSearchTextType && $dbType == 'mysql' ) {
-			$createSQL .= ' ENGINE=MyISAM';
-		}
 		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
 		if ( $wgCargoDBRowFormat != null ) {
 			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
