@@ -13,6 +13,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	public static function allowedParameters() {
 		return array(
 			'rows per page' => array( 'type' => 'int' ),
+			'details fields' => array( 'type' => 'string' ),
 			'hidden fields' => array( 'type' => 'string' )
 		);
 	}
@@ -31,7 +32,20 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		$detailsFields = array();
 		$detailsFieldsString = '';
 		if ( array_key_exists( 'details fields', $displayParams ) ) {
-			$detailsFields = array_map( 'trim', explode( ',', $displayParams['details fields'] ) );
+			$detailsFields = explode( ',', $displayParams['details fields'] );
+			// The field names in the $fieldDescriptions lack table names, and they
+			// have spaces instead of underscores. Since we need to compare these
+			// values to those, get the $detailsFields values in the same format.
+			foreach ( $detailsFields as &$detailsField ) {
+				$locOfDot = strpos( $detailsField, '.' );
+				if ( $locOfDot !== false ) {
+					$detailsField = substr( $detailsField, $locOfDot + 1 );
+				}
+				$detailsField = trim( $detailsField );
+				if ( strpos( $detailsField, '_' ) > 0 ) {
+					$detailsField = str_replace( '_', ' ', $detailsField );
+				}
+			}
 			$detailsFieldsString = "data-details-fields=1";
 		}
 		// Special handlng for ordering.
