@@ -511,13 +511,17 @@ class CargoUtils {
 
 	public static function parsePageForStorage( $title, $pageContents ) {
 		// Special handling for the Approved Revs extension.
-		$pageText = null;
-		$approvedText = null;
+		$approvedContent = null;
 		if ( class_exists( 'ApprovedRevs' ) ) {
-			$approvedText = ApprovedRevs::getApprovedContent( $title );
+			$approvedContent = ApprovedRevs::getApprovedContent( $title );
 		}
-		if ( $approvedText != null ) {
-			$pageText = $approvedText;
+		if ( $approvedContent != null ) {
+			if ( method_exists( $approvedContent, 'getText' ) ) {
+				// Approved Revs 1.0+
+				$pageText = $approvedContent->getText();
+			} else {
+				$pageText = $approvedContent;
+			}
 		} else {
 			$pageText = $pageContents;
 		}
