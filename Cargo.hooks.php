@@ -238,10 +238,16 @@ class CargoHooks {
 		$pageID = $title->getArticleID();
 		self::deletePageFromSystem( $pageID );
 		// In an unexpected surprise, it turns out that simply adding
-		// this setting will be enough to get the correct revision of
-		// this page to be saved by Cargo, since the page will be
-		// parsed right after this.
+		// this setting will (usually) be enough to get the correct
+		// revision of this page to be saved by Cargo, since the page
+		// will (usually) be parsed right after this.
+		// The one exception to that rule is that if it's the latest
+		// revision being approved, the page is sometimes not parsed (?) -
+		// so in that case, we'll parse it ourselves.
 		CargoStore::$settings['origin'] = 'Approved Revs revision approved';
+		if ( $revID == $title->getLatestRevID() ) {
+			CargoUtils::parsePageForStorage( $title, null );
+		}
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
 		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
