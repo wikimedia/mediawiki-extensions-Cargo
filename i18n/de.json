@@ -4,7 +4,8 @@
 			"Metalhead64",
 			"Andreasburmeister",
 			"Purodha",
-			"Nemo bis"
+			"Nemo bis",
+			"Killarnee"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -35,8 +36,8 @@
 	"cargo-recreatedata-success": "Die Daten werden neu erstellt.",
 	"cargo-viewdata-tables": "Tabelle(n):",
 	"cargo-viewdata-fields": "Feld(er):",
-	"cargo-viewdata-where": "Where:",
-	"cargo-viewdata-joinon": "Join on:",
+	"cargo-viewdata-where": "Wo:",
+	"cargo-viewdata-joinon": "Beitreten:",
 	"cargo-viewdata-groupby": "Gruppieren nach:",
 	"cargo-viewdata-having": "Hat:",
 	"cargo-viewdata-orderby": "Sortieren nach:",
