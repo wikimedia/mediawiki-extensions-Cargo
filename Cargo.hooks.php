@@ -317,6 +317,10 @@ class CargoHooks {
 		$generalTables = array( '_pageData', '_fileData' );
 		foreach ( $generalTables as $generalTable ) {
 			if ( $cdb->tableExists( $generalTable ) ) {
+				// Update in the replacement table, if one exists.
+				if ( $cdb->tableExists( $generalTable . '__NEXT' ) ) {
+					$generalTable = $generalTable . '__NEXT';
+				}
 				$cdb->update( $generalTable,
 					array(
 						$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
