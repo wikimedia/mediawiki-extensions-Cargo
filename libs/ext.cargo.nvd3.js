@@ -81,21 +81,19 @@ $(document).ready(function() {
 			var maxLabelSize = 0;
 			var numbersIncludeDecimalPoints = false;
 			for ( var i in data ) {
-				for ( var j in data[i]['values'] ) {
-					var curLabel = data[i]['values'][j]['label'];
-					maxLabelSize = Math.max( maxLabelSize, curLabel.length );
-					if ( !numbersIncludeDecimalPoints ) {
-						var curValue = data[i]['values'][j]['value'];
-						if ( curValue.toString().indexOf( '.' ) >= 0 ) {
-							numbersIncludeDecimalPoints = true;
-						}
+				var curLabel = data[i]['label'];
+				maxLabelSize = Math.max( maxLabelSize, curLabel.length );
+				if ( !numbersIncludeDecimalPoints ) {
+					var curValue = data[i]['value'];
+					if ( curValue.toString().indexOf( '.' ) >= 0 ) {
+						numbersIncludeDecimalPoints = true;
 					}
 				}
 			}
 
 			nv.addGraph(function() {
 				if ( innerSVG.height() == 1 ) {
-					var numLabels = data.length * data[0]['values'].length;
+					var numLabels = data.length;
 					var graphHeight = ( numLabels + 2 ) * 22;
 					innerSVG.height( graphHeight );
 				}
