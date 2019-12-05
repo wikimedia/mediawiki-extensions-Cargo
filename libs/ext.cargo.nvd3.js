@@ -92,12 +92,6 @@ $(document).ready(function() {
 			}
 
 			nv.addGraph(function() {
-				if ( innerSVG.height() == 1 ) {
-					var numLabels = data.length;
-					var graphHeight = ( numLabels + 2 ) * 22;
-					innerSVG.height( graphHeight );
-				}
-
 				var chart = nv.models.pieChart()
 					.x(function(d) { return d.label })
 					.y(function(d) { return d.value })

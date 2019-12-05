@@ -35,7 +35,7 @@ class CargoPieChartFormat extends CargoDeferredFormat {
 			}
 			$svgAttrs['width'] = $width;
 		} else {
-			$svgAttrs['width'] = "100%";
+			$svgAttrs['width'] = '700px';
 		}
 		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];
@@ -45,8 +45,7 @@ class CargoPieChartFormat extends CargoDeferredFormat {
 			}
 			$svgAttrs['height'] = $height;
 		} else {
-			// Stub value, so that we know to replace it.
-			$svgAttrs['height'] = '1px';
+			$svgAttrs['height'] = '400px';
 		}
 
 		$svgText = Html::element( 'svg', $svgAttrs, '' );
