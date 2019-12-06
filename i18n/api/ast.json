@@ -32,5 +32,13 @@
 	"apihelp-cargoautocomplete-param-table": "Tabla de Cargo pa la que guetar valores",
 	"apihelp-cargoautocomplete-param-field": "Campu de Cargo pal que guetar valores",
 	"apihelp-cargoautocomplete-param-field_is_array": "Si'l campu caltien una llista de valores",
-	"apihelp-cargoautocomplete-param-where": "La cláusula \"where\" pa la consulta, basada nos otros filtros especificaos"
+	"apihelp-cargoautocomplete-param-where": "La cláusula \"where\" pa la consulta, basada nos otros filtros especificaos",
+	"apihelp-cargoqueryautocomplete-description": "Llamada d'autocompletáu usada pola páxina especial CargoQuery (anteriormente ViewData).",
+	"apihelp-cargoqueryautocomplete-summary": "Llamada d'autocompletáu usada pola páxina especial CargoQuery (anteriormente ViewData).",
+	"apihelp-cargoqueryautocomplete-param-limit": "Una llende pal númberu de resultaos devueltos.",
+	"apihelp-cargoqueryautocomplete-param-search": "Subcadena de gueta",
+	"apihelp-cargoqueryautocomplete-param-tables": "Matriz de tables de carga seleicionaes nes que se basa l'autocompletáu de Field(s), Group By y Order By",
+	"apihelp-cargoformatparams-description": "Recibe'l conxuntu de parámetros de visualización pa cada formatu de consulta de Cargo.",
+	"apihelp-cargoformatparams-summary": "Recibe'l conxuntu de parámetros de visualización pa cada formatu de consulta de Cargo.",
+	"apihelp-cargoformatparams-param-queryformat": "Un formatu de consulta de Cargo"
 }

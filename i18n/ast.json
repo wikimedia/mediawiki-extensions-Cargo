@@ -20,6 +20,8 @@
 	"action-runcargoqueries": "executar consultes arbitraries de Cargo",
 	"right-runcargoqueries": "Executar consultes arbitraries de Cargo",
 	"cargo-logname": "Rexistru de Cargo",
+	"cargo-createtableaction": "creada la tabla de Cargo $2",
+	"cargo-recreatetableaction": "recreada la tabla de Cargo $2",
 	"cargo-createdatatable": "Crear tabla de datos",
 	"cargo-recreatedata-desc": "¿Recrear los datos de Cargo pa esta plantía?",
 	"cargo-recreatedata-createdata": "¿Crear los datos de Cargo pa esta plantía?",
