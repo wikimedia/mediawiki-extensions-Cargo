@@ -222,7 +222,7 @@ class CargoQueryDisplayer {
 			// namespace; they are displayed as thumbnails within
 			// queries.
 			$title = Title::newFromText( $value, NS_FILE );
-			if ( $title == null ) {
+			if ( $title == null || !$title->exists() ) {
 				return $value;
 			}
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
