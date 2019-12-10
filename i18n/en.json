@@ -55,6 +55,7 @@
 	"cargo-viewdata-heightparam": "Height:",
 	"cargo-viewdata-widthparam": "Width:",
 	"cargo-viewdata-columnsparam": "Number of columns:",
+	"cargo-viewdata-colorsparam": "Colors:",
 	"cargo-viewdata-delimiterparam": "Delimiter:",
 	"cargo-viewdata-modifyquery": "Modify query",
 	"cargo-query-missingformat": "Error: Format must be set.",

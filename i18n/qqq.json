@@ -61,6 +61,7 @@
 	"cargo-viewdata-heightparam": "Label in a form to set the height of the output",
 	"cargo-viewdata-widthparam": "Label in a form to set the width of the output",
 	"cargo-viewdata-columnsparam": "Label in a form to set the number of columns in the output",
+	"cargo-viewdata-colorsparam": "Label in a form to set the colors in a chart",
 	"cargo-viewdata-delimiterparam": "Label in a form to set the delimiter (like \",\") in the output",
 	"cargo-viewdata-modifyquery": "Text of a link to a form",
 	"cargo-query-missingformat": "An error message.",

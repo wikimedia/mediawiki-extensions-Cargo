@@ -70,6 +70,10 @@ $(document).ready(function() {
 
 		var dataURL = decodeURI( $(this).attr('dataurl') );
 		var innerSVG = $(this).find('svg');
+		var colorsStr = $(this).attr('data-colors');
+		if ( colorsStr ) {
+			var colorsVal = JSON.parse( colorsStr );
+		}
 
 		d3.json( dataURL, function(data) {
 			// Pie chart format uses only a
@@ -96,6 +100,9 @@ $(document).ready(function() {
 					.x(function(d) { return d.label })
 					.y(function(d) { return d.value })
 					.showLabels(true)           //Show chart value next to each section.
+				if ( colorsVal ) {
+					chart.color(colorsVal);
+				}
 
 				d3.selectAll(innerSVG)
 					.datum(data)

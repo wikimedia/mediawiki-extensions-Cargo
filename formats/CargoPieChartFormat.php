@@ -9,7 +9,8 @@ class CargoPieChartFormat extends CargoDeferredFormat {
 	public static function allowedParameters() {
 		return array(
 			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
-			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() )
+			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ),
+			'colors' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-colorsparam' )->parse() )
 		);
 	}
 
@@ -54,6 +55,9 @@ class CargoPieChartFormat extends CargoDeferredFormat {
 			'class' => 'cargoPieChart',
 			'dataurl' => $ce->getFullURL( $queryParams ),
 		);
+		if ( array_key_exists( 'colors', $displayParams ) && $displayParams['colors'] != '' ) {
+			$divAttrs['data-colors'] = json_encode( explode( ',', $displayParams['colors'] ) );
+		}
 		$text = Html::rawElement( 'div', $divAttrs, $svgText );
 
 		return $text;
