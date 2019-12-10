@@ -167,20 +167,6 @@
 				"cargo-cargotables-viewreplacementlink"
 			]
 		},
-		"ext.cargo.drilldown": {
-			"styles": [
-				"drilldown/resources/CargoDrilldown.css",
-				"drilldown/resources/CargoJQueryUIOverrides.css"
-			],
-			"scripts": [
-				"drilldown/resources/CargoDrilldown.js"
-			],
-			"dependencies": [
-				"jquery.ui.autocomplete",
-				"jquery.ui.button",
-				"oojs-ui-core"
-			]
-		},
 		"ext.cargo.maps": {
 			"scripts": [
 				"libs/ext.cargo.maps.js",
@@ -260,23 +246,6 @@
 				"libs/ext.cargo.datatables.js"
 			]
 		},
-		"ext.cargo.cargoquery": {
-			"styles": [
-				"libs/balloon.css"
-			],
-			"scripts": [
-				"libs/ext.cargo.query.js"
-			],
-			"messages": [
-				"cargo-viewdata-tablesrequired",
-				"cargo-viewdata-joinonrequired"
-			],
-			"dependencies": [
-				"jquery.ui.autocomplete",
-				"mediawiki.util",
-				"mediawiki.htmlform.ooui"
-			]
-		},
 		"ext.cargo.nvd3": {
 			"scripts": [
 				"libs/d3.js",
@@ -352,6 +321,9 @@
 		],
 		"PageSchemasRegisterHandlers": [
 			"CargoPageSchemas::registerClass"
+		],
+		"ResourceLoaderRegisterModules": [
+			"CargoHooks::registerModules"
 		],
 		"ResourceLoaderGetConfigVars": [
 			"CargoHooks::onResourceLoaderGetConfigVars"

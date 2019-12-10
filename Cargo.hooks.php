@@ -39,6 +39,71 @@ class CargoHooks {
 	}
 
 	/**
+	 * ResourceLoaderRegisterModules hook handler
+	 *
+	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/ResourceLoaderRegisterModules
+	 *
+	 * @param ResourceLoader &$resourceLoader The ResourceLoader object
+	 * @return bool Always true
+	 */
+	public static function registerModules( ResourceLoader &$resourceLoader ) {
+		global $wgVersion;
+
+		$cargoDir = __DIR__;
+
+		// Between MW 1.34 and 1.35, all the jquery.ui.* modules were
+		// merged into one big module, "jquery.ui".
+		if ( version_compare( $wgVersion, '1.35', '>=' ) ) {
+			$drilldownDependencies = array(
+				"jquery.ui",
+				"oojs-ui-core"
+			);
+			$cargoQueryDependencies = array(
+				"jquery.ui",
+				"mediawiki.util",
+				"mediawiki.htmlform.ooui"
+			);
+		} else {
+			$drilldownDependencies = array(
+				"jquery.ui.autocomplete",
+				"jquery.ui.button",
+				"oojs-ui-core"
+			);
+			$cargoQueryDependencies = array(
+				"jquery.ui.autocomplete",
+				"mediawiki.util",
+				"mediawiki.htmlform.ooui"
+			);
+		}
+
+		$resourceLoader->register( array(
+			"ext.cargo.drilldown" => array(
+				'localBasePath' => $cargoDir,
+				'remoteExtPath' => 'Cargo',
+				'styles' => array(
+					"drilldown/resources/CargoDrilldown.css",
+					"drilldown/resources/CargoJQueryUIOverrides.css"
+				),
+				'scripts' => "drilldown/resources/CargoDrilldown.js",
+				'dependencies' => $drilldownDependencies
+			),
+			"ext.cargo.cargoquery" => array(
+				'localBasePath' => $cargoDir,
+				'remoteExtPath' => 'Cargo',
+				'styles' => "libs/balloon.css",
+				'scripts' => "libs/ext.cargo.query.js",
+				'messages' => array(
+					"cargo-viewdata-tablesrequired",
+					"cargo-viewdata-joinonrequired"
+				),
+				'dependencies' => $cargoQueryDependencies
+			)
+		) );
+
+		return true;
+	}
+
+	/**
 	 * Add date-related messages to Global JS vars in user language
 	 *
 	 * @global int $wgCargoMapClusteringMinimum
