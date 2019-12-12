@@ -22,6 +22,7 @@
 	"cargo-viewdata-heightparam": "Altezza:",
 	"cargo-viewdata-widthparam": "Larghezza:",
 	"cargo-viewdata-columnsparam": "Numero di colonne:",
+	"cargo-viewdata-colorsparam": "Colori:",
 	"cargo-viewdata-delimiterparam": "Separatore:",
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",

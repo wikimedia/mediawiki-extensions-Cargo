@@ -59,6 +59,7 @@
 	"cargo-viewdata-heightparam": "Høyde:",
 	"cargo-viewdata-widthparam": "Bredde:",
 	"cargo-viewdata-columnsparam": "Antall kolonner:",
+	"cargo-viewdata-colorsparam": "Farger:",
 	"cargo-viewdata-delimiterparam": "Skilletegn:",
 	"cargo-viewdata-modifyquery": "Modifiser spørring",
 	"cargo-query-missingformat": "Feil: Format må være satt.",

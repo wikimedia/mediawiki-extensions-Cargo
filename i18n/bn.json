@@ -4,9 +4,11 @@
 			"Aftabuzzaman",
 			"Elias Ahmmad",
 			"Rasal Lia",
-			"আফতাবুজ্জামান"
+			"আফতাবুজ্জামান",
+			"Sohom Datta"
 		]
 	},
+	"cargo-viewdata-colorsparam": "রং:",
 	"cargo-cargotables-tablestructure": "ছকের গঠন:",
 	"cargo-cargotables-listof": "$1-এর তালিকা",
 	"cargo-recreatedata-createreplacement": "পুন:স্থাপন ছকে পুনরায় তথ্যাদি দিন, পুরাতনটি অনুসন্ধানের স্বার্থে রাখুন।",

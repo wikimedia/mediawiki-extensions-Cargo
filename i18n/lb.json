@@ -20,6 +20,7 @@
 	"cargo-viewdata-heightparam": "Héicht:",
 	"cargo-viewdata-widthparam": "Breet:",
 	"cargo-viewdata-columnsparam": "Zuel vun de Kolonnen:",
+	"cargo-viewdata-colorsparam": "Faarwen:",
 	"cargo-viewdata-delimiterparam": "Trennzeechen:",
 	"cargo-query-missingformat": "Feeler: Format muss festgeluecht sinn.",
 	"cargo-query-badsqlfunction": "Feeler: D'SQL-Funktioun \"$1\" ass net erlaabt.",

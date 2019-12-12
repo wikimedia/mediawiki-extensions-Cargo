@@ -61,6 +61,7 @@
 	"cargo-viewdata-heightparam": "الارتفاع:",
 	"cargo-viewdata-widthparam": "العرض:",
 	"cargo-viewdata-columnsparam": "عدد الأعمدة",
+	"cargo-viewdata-colorsparam": "الألوان:",
 	"cargo-viewdata-delimiterparam": "المحدد:",
 	"cargo-viewdata-modifyquery": "تعديل الاستعلام",
 	"cargo-query-missingformat": "خطأ: يجب ضبط التنسيق.",
