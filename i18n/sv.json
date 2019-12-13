@@ -5,7 +5,8 @@
 			"WikiPhoenix",
 			"Jopparn",
 			"Josve05a",
-			"Mjälten"
+			"Mjälten",
+			"ProletariatetsBefrielseOrkester"
 		]
 	},
 	"cargo-desc": "Lagring och visning av data i mallar",
@@ -26,6 +27,7 @@
 	"cargo-viewdata-heightparam": "Höjd:",
 	"cargo-viewdata-widthparam": "Bredd:",
 	"cargo-viewdata-columnsparam": "Antal kolumner:",
+	"cargo-viewdata-colorsparam": "Färger:",
 	"cargo-viewdata-delimiterparam": "Skiljetecken:",
 	"cargo-cargotables-tablelist": "Följande {{PLURAL:$1|tabell är definierad|tabeller är definierade}}:",
 	"cargo-cargotables-viewtable": "Visa tabell: $1",

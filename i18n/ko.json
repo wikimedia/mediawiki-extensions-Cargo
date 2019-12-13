@@ -39,6 +39,7 @@
 	"cargo-viewdata-heightparam": "높이:",
 	"cargo-viewdata-widthparam": "너비:",
 	"cargo-viewdata-columnsparam": "컬럼 수:",
+	"cargo-viewdata-colorsparam": "색:",
 	"cargo-viewdata-delimiterparam": "구분자:",
 	"cargo-viewdata-modifyquery": "쿼리 수정",
 	"cargo-query-missingformat": "오류: 포맷을 설정해야 합니다.",
