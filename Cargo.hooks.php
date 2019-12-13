@@ -289,7 +289,7 @@ class CargoHooks {
 		// Also, save the "page data" and (if appropriate) "file data".
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable );
+		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable, false );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
 		CargoFileData::storeValuesForFile( $wikiPage->getTitle(), $useReplacementTable );
 
@@ -315,7 +315,7 @@ class CargoHooks {
 		}
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable, true );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
 		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
 
@@ -336,7 +336,7 @@ class CargoHooks {
 		}
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $title, $useReplacementTable, $egApprovedRevsBlankIfUnapproved );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable, true, $egApprovedRevsBlankIfUnapproved );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
 		CargoFileData::storeValuesForFile( $title, $useReplacementTable, $egApprovedRevsBlankIfUnapproved );
 
@@ -415,6 +415,105 @@ class CargoHooks {
 	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content,
 		$logEntry ) {
 		self::deletePageFromSystem( $id );
+		return true;
+	}
+
+	/**
+	 * Called by the MediaWiki 'CategoryAfterPageAdded' hook.
+	 *
+	 * @param Category $category
+	 * @param WikiPage $wikiPage
+	 */
+	public static function addCategoryToPageData( $category, $wikiPage ) {
+		self::addOrRemoveCategoryData( $category, $wikiPage, true );
+	}
+
+	/**
+	 * Called by the MediaWiki 'CategoryAfterPageRemoved' hook.
+	 *
+	 * @param Category $category
+	 * @param WikiPage $wikiPage
+	 */
+	public static function removeCategoryFromPageData( $category, $wikiPage ) {
+		self::addOrRemoveCategoryData( $category, $wikiPage, false );
+	}
+
+	/**
+	 * We use hooks to modify the _categories field in _pageData, instead of
+	 * saving it on page save as is done with all other fields (in _pageData
+	 * and elsewhere), because the categories information is often not set
+	 * until after the page has already been saved, due to the use of jobs.
+	 * We can use the same function for both adding and removing categories
+	 * because it's almost the same code either way.
+	 * If anything gets messed up in this process, the data can be recreated
+	 * by calling setCargoPageData.php.
+	 */
+	static function addOrRemoveCategoryData( $category, $wikiPage, $isAdd ) {
+		global $wgCargoPageDataColumns;
+		if ( ! in_array( 'categories', $wgCargoPageDataColumns ) ) {
+			return true;
+		}
+
+		$cdb = CargoUtils::getDB();
+
+		// We need to make sure that the "categories" field table
+		// already exists, because we're only modifying it here, not
+		// creating it.
+		if ( $cdb->tableExists( '_pageData__NEXT___categories' ) ) {
+			$pageDataTable = '_pageData__NEXT';
+		} elseif ( $cdb->tableExists( '_pageData___categories' ) ) {
+			$pageDataTable = '_pageData';
+		} else {
+			return true;
+		}
+		$categoriesTable = $pageDataTable . '___categories';
+		$categoryName = $category->getName();
+		$pageID = $wikiPage->getId();
+
+		$cdb = CargoUtils::getDB();
+		$cdb->begin();
+		$res = $cdb->select( $pageDataTable, '_ID', array( '_pageID' => $pageID ) );
+		if ( $cdb->numRows( $res ) == 0 ) {
+			$cdb->commit();
+			return true;
+		}
+		$row = $res->fetchRow();
+		$rowID = $row['_ID'];
+		$categoriesForPage = array();
+		$res2 = $cdb->select( $categoriesTable, '_value',  array( '_rowID' => $rowID ) );
+		while ( $row2 = $res2->fetchRow() ) {
+			$categoriesForPage[] = $row2['_value'];
+		}
+		$categoryAlreadyListed = in_array( $categoryName, $categoriesForPage );
+		// This can be done with a NOT XOR (i.e. XNOR), but let's not make it more confusing.
+		if ( ( $isAdd && $categoryAlreadyListed ) || ( !$isAdd && !$categoryAlreadyListed ) ) {
+			$cdb->commit();
+			return true;
+		}
+
+		// The real operation is here.
+		if ( $isAdd ) {
+			$categoriesForPage[] = $categoryName;
+		} else {
+			foreach ( $categoriesForPage as $i => $cat ) {
+				if ( $cat == $categoryName ) {
+					unset( $categoriesForPage[$i] );
+				}
+			}
+		}
+		$newCategoriesFull = implode( '|', $categoriesForPage );
+		$cdb->update( $pageDataTable, array( '_categories__full' => $newCategoriesFull ), array( '_pageID' => $pageID ) );
+		if ( $isAdd ) {
+			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition',  array( '_rowID' => $rowID ) );
+			$row3 = $res3->fetchRow();
+			$maxPosition = $row3['MaxPosition'];
+			$cdb->insert( $categoriesTable, array( '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ) );
+		} else {
+			$cdb->delete( $categoriesTable, array( '_rowID' => $rowID, '_value' => $categoryName ) );
+		}
+
+		// End transaction and apply DB changes.
+		$cdb->commit();
 		return true;
 	}
 

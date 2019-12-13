@@ -299,6 +299,12 @@
 		"ArticleDeleteComplete": [
 			"CargoHooks::onArticleDeleteComplete"
 		],
+		"CategoryAfterPageAdded": [
+			"CargoHooks::addCategoryToPageData"
+		],
+		"CategoryAfterPageRemoved": [
+			"CargoHooks::removeCategoryFromPageData"
+		],
 		"LoadExtensionSchemaUpdates": [
 			"CargoHooks::describeDBSchema",
 			"CargoHooks::cargoSchemaUpdates"
