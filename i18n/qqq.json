@@ -13,6 +13,7 @@
 	"cargo-definestable": "A description of a template, that is displayed on that template's page.",
 	"cargo-tablenotcreated": "A notice to the user, displayed on a template page.",
 	"cargo-addsrows": "A description of a template, that is displayed on that template's page. Parameters:\n* $1 - a database table name\n* $2 - a template name",
+	"cargo-addsrows-missingdeclare": "A description of a template, displayed on that template's page. Parameters:\n* $1 - a database table name",
 	"cargo-notable": "An error message.",
 	"cargo-unknowntable": "An error message. Parameters:\n* $1 - a database table name",
 	"recreatedata": "{{doc-special|RecreateData}}",

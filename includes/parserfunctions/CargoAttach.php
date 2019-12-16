@@ -55,9 +55,13 @@ class CargoAttach {
 		// declares it.
 		$declaringTemplateID = CargoUtils::getTemplateIDForDBTable( $tableName );
 		$declaringTemplateTitle = Title::newFromID( $declaringTemplateID );
-		$declaringTemplateLink = '[[' . $declaringTemplateTitle->getFullText() . '|' .
-			$declaringTemplateTitle->getText() . ']]';
-		$text = wfMessage( 'cargo-addsrows', $tableName, $declaringTemplateLink )->text();
+		if ( $declaringTemplateTitle !== null ) {
+			$declaringTemplateLink = '[[' . $declaringTemplateTitle->getFullText() . '|' .
+				$declaringTemplateTitle->getText() . ']]';
+			$text = wfMessage( 'cargo-addsrows', $tableName, $declaringTemplateLink )->text();
+		} else {
+			$text = wfMessage( 'cargo-addsrows-missingdeclare', $tableName )->text();
+		}
 		$ct = SpecialPage::getTitleFor( 'CargoTables' );
 		$pageName = $ct->getPrefixedText() . "/$tableName";
 		$viewTableMsg = wfMessage( 'cargo-cargotables-viewtablelink' )->parse();
