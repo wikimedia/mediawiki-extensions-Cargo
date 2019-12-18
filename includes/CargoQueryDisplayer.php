@@ -131,8 +131,8 @@ class CargoQueryDisplayer {
 						}
 						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
 					}
-				} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
-					$datePrecisionField = str_replace( '_', ' ', $fieldName ) . '__precision';
+				} elseif ( $fieldDescription->isDateOrDatetime() ) {
+					$datePrecisionField = $fieldName . '__precision';
 					if ( $fieldName[0] == '_' ) {
 						// Special handling for pre-specified fields.
 						$datePrecision = ( $fieldType == 'Datetime' ) ? CargoStore::DATE_AND_TIME : CargoStore::DATE_ONLY;
