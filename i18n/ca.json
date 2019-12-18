@@ -19,6 +19,7 @@
 	"cargo-viewdata-format": "Format:",
 	"cargo-viewdata-heightparam": "Alçada:",
 	"cargo-viewdata-widthparam": "Amplada:",
+	"cargo-viewdata-colorsparam": "Colors:",
 	"cargotables": "Taules del Cargo",
 	"cargo-cargotables-tablelist": "S'han definit les taules següents:",
 	"cargo-cargotables-viewtable": "Mostra la taula: $1",
