@@ -42,6 +42,7 @@
 	"cargo-viewdata-heightparam": "Altura:",
 	"cargo-viewdata-widthparam": "Anchura:",
 	"cargo-viewdata-columnsparam": "Número de columnas:",
+	"cargo-viewdata-colorsparam": "Colores:",
 	"cargo-viewdata-delimiterparam": "Delimitador:",
 	"cargo-viewdata-modifyquery": "Modifique consulta",
 	"cargo-query-missingformat": "Error: debe establecerse el formato.",
