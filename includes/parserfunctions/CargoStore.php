@@ -456,7 +456,12 @@ class CargoStore {
 			} else {
 				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 			}
-			$tableFieldValuesForCheck[$quotedFieldName] = $tableFieldValues[$fieldName];
+			$fieldValue = $tableFieldValues[$fieldName];
+			if ( $fieldValue == '' ) {
+				// Needed for correct SQL handling of blank values, for some reason.
+				$fieldValue = null;
+			}
+			$tableFieldValuesForCheck[$quotedFieldName] = $fieldValue;
 		}
 		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
 		$row = $cdb->fetchRow( $res );
