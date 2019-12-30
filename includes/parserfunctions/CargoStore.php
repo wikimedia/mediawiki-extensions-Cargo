@@ -441,8 +441,8 @@ class CargoStore {
 	}
 
 	/**
-	 * Determines whether a row with the specified set of values already exists in the
-	 * specified Cargo table.
+	 * Determines whether a row with the specified set of values already
+	 * exists in the specified Cargo table.
 	 */
 	public static function doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema ) {
 		$pageID = $title->getArticleID();
@@ -457,10 +457,32 @@ class CargoStore {
 				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 			}
 			$fieldValue = $tableFieldValues[$fieldName];
+
+			if ( in_array( $fieldDescription->mType, array( 'Text', 'Wikitext', 'Searchtext' ) ) ) {
+				// @HACK - for some reason, there are times
+				// when, for long values, the check only works
+				// if there's some kind of limit in place.
+				// Rather than delve into that, we'll just
+				// make sure to only check a (relatively large)
+				// substring - which should be good enough.
+				$fieldSize = 1000;
+			} else {
+				$fieldSize = $fieldDescription->getFieldSize();
+			}
+
 			if ( $fieldValue == '' ) {
 				// Needed for correct SQL handling of blank values, for some reason.
 				$fieldValue = null;
+			} elseif ( $fieldSize != null && strlen( $fieldValue ) > $fieldSize ) {
+				// In theory, this SUBSTR() call is not needed,
+				// since the value stored in the DB won't be
+				// greater than this size. But that's not
+				// always true - there's the hack mentioned
+				// above, plus some other cases.
+				$quotedFieldName = "SUBSTR($quotedFieldName, 1, $fieldSize)";
+				$fieldValue = substr( $fieldValue, 0, $fieldSize );
 			}
+
 			$tableFieldValuesForCheck[$quotedFieldName] = $fieldValue;
 		}
 		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );

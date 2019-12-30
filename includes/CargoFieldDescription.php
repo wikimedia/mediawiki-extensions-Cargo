@@ -186,6 +186,20 @@ class CargoFieldDescription {
 		return in_array( $this->mType, array( 'Date', 'Start date', 'End date', 'Datetime', 'Start datetime', 'End datetime' ) );
 	}
 
+	function getFieldSize() {
+		if ( $this->isDateOrDatetime() ) {
+			return null;
+		} elseif ( in_array( $this->mType, array( 'Integer', 'Float', 'Rating', 'Boolean', 'Text', 'Wikitext', 'Searchtext' ) ) ) {
+			return null;
+		// This leavs String, Page, etc. - see CargoUtils::fieldTypeToSQLType().
+		} elseif ( $this->mSize != null ) {
+			return $this->mSize;
+		} else {
+			global $wgCargoDefaultStringBytes;
+			return $wgCargoDefaultStringBytes;
+		}
+	}
+
 	/**
 	 *
 	 * @return array
