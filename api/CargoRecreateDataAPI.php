@@ -13,9 +13,9 @@ class CargoRecreateDataAPI extends ApiBase {
 	}
 
 	public function execute() {
-		global $wgUser;
+		$user = $this->getUser();
 
-		if ( !$wgUser->isAllowed( 'recreatecargodata' ) || $wgUser->isBlocked() ) {
+		if ( !$user->isAllowed( 'recreatecargodata' ) || $user->isBlocked() ) {
 			$this->dieWithError( array( 'badaccess-groups' ) );
 		}
 

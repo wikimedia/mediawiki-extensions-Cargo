@@ -212,7 +212,7 @@ class CargoTables extends IncludableSpecialPage {
 	}
 
 	function displayActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
-		global $wgUser;
+		$user = $this->getUser();
 
 		$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
 		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
@@ -250,13 +250,13 @@ class CargoTables extends IncludableSpecialPage {
 		// template defines two tables, this will recreate both of
 		// them), but for standard setups, this makes things more
 		// convenient.
-		if ( $canBeRecreated && $wgUser->isAllowed( 'recreatecargodata' ) ) {
+		if ( $canBeRecreated && $user->isAllowed( 'recreatecargodata' ) ) {
 			$templateTitle = Title::newFromID( $templateID );
 			$actionLinks['recreate'] = CargoUtils::makeLink( $linkRenderer, $templateTitle,
 				$this->msg( 'recreatedata' )->escaped(), array(), array( 'action' => 'recreatedata' ) );
 		}
 
-		if ( $wgUser->isAllowed( 'deletecargodata' ) ) {
+		if ( $user->isAllowed( 'deletecargodata' ) ) {
 			$deleteTableURL = SpecialPage::getTitleFor( 'DeleteCargoTable' )->getLocalURL() . "/$tableName";
 			if ( $isReplacementTable ) {
 				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
@@ -370,12 +370,11 @@ class CargoTables extends IncludableSpecialPage {
 					$text .= Html::rawElement( 'li', null, $tableText );
 					continue;
 				}
-				global $wgUser;
 				$replacementGeneratedMsg = $this->msg( "cargo-cargotables-replacementgenerated" )->parse();
 				$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
 				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false );
 				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
-				if ( $wgUser->isAllowed( 'recreatecargodata' ) ) {
+				if ( $this->getUser()->isAllowed( 'recreatecargodata' ) ) {
 					$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 					$tableText .= "<br />\n" . Html::element( 'a', array( 'href' => $switchURL ),
 						$this->msg( "cargo-cargotables-switch" )->parse() );
