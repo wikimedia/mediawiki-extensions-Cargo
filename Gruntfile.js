@@ -18,7 +18,14 @@ module.exports = function ( grunt ) {
 		jscs: {
 			src: '<%= jshint.all %>'
 		},
-		banana: conf.MessagesDirs,
+		banana: Object.assign(
+			conf.MessagesDirs,
+			{
+				options: {
+					requireLowerCase: 'initial'
+				}
+			}
+		),
 		jsonlint: {
 			all: [
 				'**/*.json',
