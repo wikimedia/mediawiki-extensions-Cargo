@@ -8,7 +8,8 @@
 			"MokaAkashiyaPT",
 			"Athena in Wonderland",
 			"Nemo bis",
-			"Mansil alfalb"
+			"Mansil alfalb",
+			"Mansil"
 		]
 	},
 	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",
@@ -50,6 +51,7 @@
 	"cargo-viewdata-heightparam": "Altura:",
 	"cargo-viewdata-widthparam": "Largura:",
 	"cargo-viewdata-columnsparam": "Número de colunas:",
+	"cargo-viewdata-colorsparam": "Cores:",
 	"cargo-viewdata-delimiterparam": "Delimitador:",
 	"cargo-viewdata-modifyquery": "Modificar consulta",
 	"cargo-query-missingformat": "Erro: o formato tem de ser definido.",

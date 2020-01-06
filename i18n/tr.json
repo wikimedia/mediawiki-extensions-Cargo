@@ -3,9 +3,13 @@
 		"authors": [
 			"HakanIST",
 			"Botansahin",
-			"Mirzali"
+			"Mirzali",
+			"BaRaN6161 TURK"
 		]
 	},
+	"cargo-viewdata-format": "Biçim:",
+	"pagevalues": "Sayfa değerleri",
+	"cargo-pagevalues-tablevalues": "\"$1\" değer",
 	"cargo-drilldown-hierarchy-within": "Bir dolar ile",
 	"cargo-drilldown-hierarchy-only": "sadece $1",
 	"cargo-purgecache-failed": "Önbellek temizleme işlemi başarısız oldu",
