@@ -10,7 +10,7 @@
 	"cargo-viewdata-format": "Biçim:",
 	"pagevalues": "Sayfa değerleri",
 	"cargo-pagevalues-tablevalues": "\"$1\" değer",
-	"cargo-drilldown-hierarchy-within": "Bir dolar ile",
+	"cargo-drilldown-hierarchy-within": "$1 içinde",
 	"cargo-drilldown-hierarchy-only": "sadece $1",
 	"cargo-purgecache-failed": "Önbellek temizleme işlemi başarısız oldu",
 	"cargo-pageschemas-tablename": "Tablo adı:"
