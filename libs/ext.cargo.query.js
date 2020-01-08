@@ -238,7 +238,7 @@ $(document).ready(function() {
 			// Put a date or datetime input here?
 			inputHTML = printCargoQueryInput( paramName, 15 );
 		} else if ( paramAttrs.type == 'boolean' ) {
-			inputHTML = '<input name="' + paramName + '" type="checkbox"';
+			inputHTML = '<input name="' + paramName + '" type="checkbox" value="yes"';
 			if ( queryVars.hasOwnProperty(paramName) ) {
 				inputHTML += ' checked';
 			}
