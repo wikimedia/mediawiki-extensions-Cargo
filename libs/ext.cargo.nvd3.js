@@ -70,6 +70,9 @@ $(document).ready(function() {
 
 		var dataURL = decodeURI( $(this).attr('dataurl') );
 		var innerSVG = $(this).find('svg');
+		var hideLegendStr = $(this).attr('data-hide-legend');
+		var showLegend = ( hideLegendStr != '1' );
+		var labelsType = showLegend ? 'value' : 'key';
 		var colorsStr = $(this).attr('data-colors');
 		if ( colorsStr ) {
 			var colorsVal = JSON.parse( colorsStr );
@@ -100,6 +103,8 @@ $(document).ready(function() {
 					.x(function(d) { return d.label })
 					.y(function(d) { return d.value })
 					.showLabels(true)           //Show chart value next to each section.
+					.labelType(labelsType)
+					.showLegend(showLegend)
 				if ( colorsVal ) {
 					chart.color(colorsVal);
 				}
