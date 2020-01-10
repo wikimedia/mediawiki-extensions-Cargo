@@ -59,6 +59,7 @@
 	"cargo-viewdata-widthparam": "Ширина:",
 	"cargo-viewdata-columnsparam": "Број на столбови:",
 	"cargo-viewdata-colorsparam": "Бои:",
+	"cargo-viewdata-hidelegendparam": "Скриј легенда:",
 	"cargo-viewdata-delimiterparam": "Одделувач:",
 	"cargo-viewdata-modifyquery": "Измени барање",
 	"cargo-query-missingformat": "Грешка: Мора да се зададе формат.",

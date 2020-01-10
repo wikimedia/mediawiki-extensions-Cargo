@@ -61,6 +61,7 @@
 	"cargo-viewdata-widthparam": "寬度：",
 	"cargo-viewdata-columnsparam": "欄位數目：",
 	"cargo-viewdata-colorsparam": "顏色：",
+	"cargo-viewdata-hidelegendparam": "隱藏圖例：",
 	"cargo-viewdata-delimiterparam": "分隔符號：",
 	"cargo-viewdata-modifyquery": "變動查詢",
 	"cargo-query-missingformat": "錯誤：必須設定格式。",
