@@ -402,10 +402,17 @@ class CargoSQLQuery {
 			if ( array_key_exists( 'extraCond', $cargoJoinCond ) ) {
 				$joinCondConds[] = $cargoJoinCond['extraCond'];
 			}
-			$this->mJoinConds[$table2] = array(
-				$cargoJoinCond['joinType'],
-				$joinCondConds
-			);
+			if ( !array_key_exists( $table2, $this->mJoinConds ) ) {
+				$this->mJoinConds[$table2] = array(
+					$cargoJoinCond['joinType'],
+					$joinCondConds
+				);
+			} else {
+				$this->mJoinConds[$table2][1] = array_merge(
+					$this->mJoinConds[$table2][1],
+					$joinCondConds
+				);
+			};
 		}
 	}
 
