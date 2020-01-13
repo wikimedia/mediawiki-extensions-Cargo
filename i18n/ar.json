@@ -62,6 +62,7 @@
 	"cargo-viewdata-widthparam": "العرض:",
 	"cargo-viewdata-columnsparam": "عدد الأعمدة",
 	"cargo-viewdata-colorsparam": "الألوان:",
+	"cargo-viewdata-hidelegendparam": "العنوان التفسيري للإخفاء:",
 	"cargo-viewdata-delimiterparam": "المحدد:",
 	"cargo-viewdata-modifyquery": "تعديل الاستعلام",
 	"cargo-query-missingformat": "خطأ: يجب ضبط التنسيق.",

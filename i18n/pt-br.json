@@ -58,6 +58,7 @@
 	"cargo-viewdata-widthparam": "Largura:",
 	"cargo-viewdata-columnsparam": "Numero de colunas:",
 	"cargo-viewdata-colorsparam": "Cores:",
+	"cargo-viewdata-hidelegendparam": "Ocultar legenda:",
 	"cargo-viewdata-delimiterparam": "Delimitador:",
 	"cargo-viewdata-modifyquery": "Modificar consulta",
 	"cargo-query-missingformat": "Erro: o formato tem de ser definido.",
