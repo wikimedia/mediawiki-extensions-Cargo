@@ -24,7 +24,7 @@
 	"apihelp-cargorecreatedata-summary": "Ги препополнува податоците во табела на „Карго“.",
 	"apihelp-cargorecreatedata-param-template": "Предлошката чии податоци ќе се користат",
 	"apihelp-cargorecreatedata-param-table": "Табела во базата на „Карго“ што треба да се препополни.",
-	"apihelp-cargorecreatedata-param-offset": "Од страниците што се повикуваат на шаблонов, бројот од кој да се почне барањето",
+	"apihelp-cargorecreatedata-param-offset": "Од страниците што се повикуваат на предлошкава, бројот од кој да се почне барањето",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Дали да се заменат старите редови за секоја страница при препополнувањето на табелата",
 	"apihelp-cargoautocomplete-description": "Повик за самодополнување што го користи додатокот „Карго“.",
 	"apihelp-cargoautocomplete-summary": "Повик за самодополнување што го користи додатокот „Карго“.",
