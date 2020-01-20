@@ -9,6 +9,7 @@
 	"cargo-definestable": "Esta predefinição define a tabela \"$1\".",
 	"cargo-tablenotcreated": "Esta tabela ainda não foi criada.",
 	"cargo-addsrows": "Esta predefinição acrescenta linhas à tabela \"$1\", que é declarada pela predefinição $2.",
+	"cargo-addsrows-missingdeclare": "Este modelo adiciona linhas à tabela \"$1\", que não é declarada por nenhuma predefinição",
 	"cargo-notable": "Erro: o nome da tabela tem de ser especificado.",
 	"cargo-unknowntable": "Erro: a tabela $1 não foi encontrada.",
 	"recreatedata": "Recriar dados",

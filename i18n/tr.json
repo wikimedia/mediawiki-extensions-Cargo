@@ -11,6 +11,7 @@
 	"cargo-definestable": "Bu şablon \"$1\" tablosunu tanımlar.",
 	"cargo-tablenotcreated": "Bu tablo henüz oluşturulmadı.",
 	"cargo-addsrows": "Bu şablon, $2 şablonu tarafından bildirilen \"$1\" tablosuna satır ekler.",
+	"cargo-addsrows-missingdeclare": "Bu şablon, herhangi bir şablon tarafından bildirilmeyen \"$1\" tablosuna satır ekler.",
 	"cargo-notable": "Hata: Tablo adı belirtilmelidir.",
 	"cargo-unknowntable": "Hata: Tablo $1 bulunamadı.",
 	"recreatedata": "Verileri yeniden oluştur",

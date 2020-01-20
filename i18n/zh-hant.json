@@ -12,6 +12,7 @@
 	"cargo-definestable": "此模板定義表格「$1」。",
 	"cargo-tablenotcreated": "此表格尚未創建。",
 	"cargo-addsrows": "此模板為表格「$1」添加了列，該聲明自模板 $2。",
+	"cargo-addsrows-missingdeclare": "此模板添加了列到表格「$1」裡，這並沒有被任何模版聲明。",
 	"cargo-notable": "錯誤：必須指定表格名稱。",
 	"cargo-unknowntable": "錯誤：查無表格 $1。",
 	"recreatedata": "重新建立資料",
