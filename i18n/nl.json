@@ -38,6 +38,7 @@
 	"cargo-viewdata-heightparam": "Hoogte:",
 	"cargo-viewdata-widthparam": "Breedte:",
 	"cargo-viewdata-columnsparam": "Aantal kolommen:",
+	"cargo-viewdata-colorsparam": "Kleuren:",
 	"cargo-viewdata-delimiterparam": "Scheidingsteken:",
 	"cargo-viewdata-modifyquery": "Query aanpassen",
 	"cargotables": "Cargo tabellen",
