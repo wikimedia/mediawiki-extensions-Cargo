@@ -92,10 +92,11 @@ class SetCargoPageData extends Maintenance {
 
 		$this->output( "\n Finished populating page data table(s).\n" );
 
+		$user = User::newSystemUser( 'Maintenance script', [ 'steal' => true ] );
 		if ( $numRows >= 0 ) {
-			CargoUtils::logTableAction( 'recreatetable', $pageDataTable );
+			CargoUtils::logTableAction( 'recreatetable', $pageDataTable, $user );
 		} else {
-			CargoUtils::logTableAction( 'createtable', $pageDataTable );
+			CargoUtils::logTableAction( 'createtable', $pageDataTable, $user );
 		}
 	}
 

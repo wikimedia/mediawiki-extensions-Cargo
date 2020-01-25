@@ -92,10 +92,11 @@ class SetCargoFileData extends Maintenance {
 
 		$this->output( "\n Finished populating file data table(s).\n" );
 
+		$user = User::newSystemUser( 'Maintenance script', [ 'steal' => true ] );
 		if ( $numRows >= 0 ) {
-			CargoUtils::logTableAction( 'recreatetable', $fileDataTable );
+			CargoUtils::logTableAction( 'recreatetable', $fileDataTable, $user );
 		} else {
-			CargoUtils::logTableAction( 'createtable', $fileDataTable );
+			CargoUtils::logTableAction( 'createtable', $fileDataTable, $user );
 		}
 	}
 

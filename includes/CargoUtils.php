@@ -539,7 +539,12 @@ class CargoUtils {
 	 * @return bool
 	 * @throws MWException
 	 */
-	public static function recreateDBTablesForTemplate( $templatePageID, $createReplacement, $tableName = null ) {
+	public static function recreateDBTablesForTemplate(
+		$templatePageID,
+		$createReplacement,
+		User $user,
+		$tableName = null
+	) {
 		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
 		// First, see if there even is DB storage for this template -
 		// if not, exit.
@@ -602,9 +607,9 @@ class CargoUtils {
 		if ( !$createReplacement ) {
 			// Log this.
 			if ( $mainTableAlreadyExists ) {
-				self::logTableAction( 'recreatetable', $tableName );
+				self::logTableAction( 'recreatetable', $tableName, $user );
 			} else {
-				self::logTableAction( 'createtable', $tableName );
+				self::logTableAction( 'createtable', $tableName, $user );
 			}
 		}
 
@@ -1156,7 +1161,7 @@ class CargoUtils {
 		}
 	}
 
-	public static function logTableAction( $actionName, $tableName ) {
+	public static function logTableAction( $actionName, $tableName, User $user ) {
 		$log = new LogPage( 'cargo' );
 		if ( $actionName == 'deletetable' ) {
 			$logParams = [ $tableName ];
@@ -1171,7 +1176,7 @@ class CargoUtils {
 			);
 			$logParams = [ $tableLink ];
 		}
-		$log->addEntry( $actionName, new Title(), '', $logParams );
+		$log->addEntry( $actionName, new Title(), '', $logParams, $user );
 	}
 
 	public static function validateHierarchyStructure( $hierarchyStructure ) {

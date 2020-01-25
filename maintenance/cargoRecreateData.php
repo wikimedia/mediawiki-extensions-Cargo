@@ -97,7 +97,13 @@ class CargoRecreateData extends Maintenance {
 		}
 
 		try {
-			CargoUtils::recreateDBTablesForTemplate( $templatePageID, $createReplacement, $tableName );
+			$user = User::newSystemUser( 'Maintenance script', [ 'steal' => true ] );
+			CargoUtils::recreateDBTablesForTemplate(
+				$templatePageID,
+				$createReplacement,
+				$user,
+				$tableName
+			);
 		} catch ( MWException $e ) {
 			print "Error: " . $e->getMessage() . "\n";
 			return;

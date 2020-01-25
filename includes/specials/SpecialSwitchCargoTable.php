@@ -24,7 +24,12 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 	 * Also, records need to be removed, and modified, in the cargo_tables and
 	 * cargo_pages tables.
 	 */
-	public static function switchInTableReplacement( $mainTable, $fieldTables, $fieldHelperTables ) {
+	public static function switchInTableReplacement(
+		$mainTable,
+		$fieldTables,
+		$fieldHelperTables,
+		User $user
+	) {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->begin();
@@ -71,7 +76,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$dbw->update( 'cargo_tables', [ 'field_tables' => serialize( $origFieldTableNames ) ], [ 'main_table' => $mainTable ] );
 		$dbw->update( 'cargo_pages', [ 'table_name' => $mainTable ], [ 'table_name' => $mainTable . '__NEXT' ] );
 
-		CargoUtils::logTableAction( 'replacetable', $mainTable );
+		CargoUtils::logTableAction( 'replacetable', $mainTable, $user );
 	}
 
 	function execute( $subpage = false ) {
@@ -107,7 +112,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$fieldHelperTables = unserialize( $row['field_helper_tables'] );
 
 		if ( $this->getRequest()->getCheck( 'switch' ) ) {
-			self::switchInTableReplacement( $tableName, $fieldTables, $fieldHelperTables );
+			self::switchInTableReplacement( $tableName, $fieldTables, $fieldHelperTables, $this->getUser() );
 			$text = Html::element( 'p', null, "The replacement for the table \"$tableName\" was switched in." ) . "\n";
 			if ( method_exists( $this, 'getLinkRenderer' ) ) {
 				$linkRenderer = $this->getLinkRenderer();

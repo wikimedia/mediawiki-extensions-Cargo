@@ -96,7 +96,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
 			$out->addHTML( $text );
 			if ( !$replacementTable ) {
-				CargoUtils::logTableAction( 'deletetable', $tableName );
+				CargoUtils::logTableAction( 'deletetable', $tableName, $this->getUser() );
 			}
 			return true;
 		}
