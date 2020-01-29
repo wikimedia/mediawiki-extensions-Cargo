@@ -7,12 +7,12 @@
 class CargoCSVFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() ),
-			'link text' => array( 'type' => 'string' ),
-			'filename' => array( 'type' => 'string' ),
-			'parse values' => array( 'type' => 'boolean' )
-		);
+		return [
+			'delimiter' => [ 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() ],
+			'link text' => [ 'type' => 'string' ],
+			'filename' => [ 'type' => 'string' ],
+			'parse values' => [ 'type' => 'boolean' ]
+		];
 	}
 
 	/**
@@ -40,9 +40,9 @@ class CargoCSVFormat extends CargoDeferredFormat {
 		} else {
 			$linkText = wfMessage( 'cargo-viewcsv' )->text();
 		}
-		$linkAttrs = array(
+		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
-		);
+		];
 		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
 
 		return $text;

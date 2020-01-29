@@ -41,11 +41,11 @@ class CargoTables extends IncludableSpecialPage {
 
 		if ( $req->getCheck( '_replacement' ) ) {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
-			$tableLink = Html::element( 'a', array( 'href' => $viewURL ), $tableName );
+			$tableLink = Html::element( 'a', [ 'href' => $viewURL ], $tableName );
 			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
 			if ( $user->isAllowed( 'recreatecargodata' ) ) {
 				$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
-				$text .= ' ' . Html::element( 'a', array( 'href' => $switchURL ),
+				$text .= ' ' . Html::element( 'a', [ 'href' => $switchURL ],
 					$this->msg( "cargo-cargotables-switch" )->parse() );
 
 				if ( $user->isAllowed( 'deletecargodata' ) ) {
@@ -55,13 +55,13 @@ class CargoTables extends IncludableSpecialPage {
 					$text .= ' ' . $this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
 				}
 			}
-			$out->addHtml( Html::rawElement( 'div', array( 'class' => 'warningbox plainlinks' ), $text ) );
+			$out->addHtml( Html::rawElement( 'div', [ 'class' => 'warningbox plainlinks' ], $text ) );
 			$tableName .= '__NEXT';
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 			if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
 				$text = Html::rawElement( 'div',
-					array( 'class' => 'warningbox' ),
+					[ 'class' => 'warningbox' ],
 					$this->msg( 'cargo-cargotables-hasreplacement' )->parse()
 				);
 				$out->addHtml( $text );
@@ -83,9 +83,9 @@ class CargoTables extends IncludableSpecialPage {
 			$ctPage->getPageTitle(),
 			htmlspecialchars( $ctPage->getDescription() )
 		);
-		$out->setSubtitle( '< '. $mainPageLink );
+		$out->setSubtitle( '< ' . $mainPageLink );
 
-		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
+		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
 
 		// Display the table structure.
@@ -108,7 +108,7 @@ class CargoTables extends IncludableSpecialPage {
 		try {
 			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		} catch ( Exception $e ) {
-			$out->addHTML( Html::element( 'div', array( 'class' => 'error' ),
+			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
 					$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
 			return;
 		}
@@ -124,11 +124,11 @@ class CargoTables extends IncludableSpecialPage {
 		// Then, show the actual table, via a query.
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
-		$sqlQuery->mAliasedTableNames = array( $tableName => $tableName );
+		$sqlQuery->mAliasedTableNames = [ $tableName => $tableName ];
 
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
-		$aliasedFieldNames = array( $this->msg( 'nstab-main' )->parse() => '_pageName' );
+		$aliasedFieldNames = [ $this->msg( 'nstab-main' )->parse() => '_pageName' ];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( array_key_exists( 'hidden', $fieldDescription ) ) {
@@ -185,7 +185,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$queryResults = $sqlQuery->run();
 
-		$displayParams = array();
+		$displayParams = [];
 		$displayParams['max display chars'] = 300;
 
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
@@ -222,8 +222,8 @@ class CargoTables extends IncludableSpecialPage {
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
 		}
-		$actionLinks = array();
-		$actionLinks['view'] = Html::element( 'a', array( 'href' => $viewURL ),
+		$actionLinks = [];
+		$actionLinks['view'] = Html::element( 'a', [ 'href' => $viewURL ],
 			$this->msg( 'view' )->text() );
 
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
@@ -242,7 +242,7 @@ class CargoTables extends IncludableSpecialPage {
 		} else {
 			$drilldownURL .= "_single";
 		}
-		$actionLinks['drilldown'] = Html::element( 'a', array( 'href' => $drilldownURL ),
+		$actionLinks['drilldown'] = Html::element( 'a', [ 'href' => $drilldownURL ],
 			$drilldownPage->getDescription() );
 
 		// It's a bit odd to include the "Recreate data" link, since
@@ -253,7 +253,7 @@ class CargoTables extends IncludableSpecialPage {
 		if ( $canBeRecreated && $user->isAllowed( 'recreatecargodata' ) ) {
 			$templateTitle = Title::newFromID( $templateID );
 			$actionLinks['recreate'] = CargoUtils::makeLink( $linkRenderer, $templateTitle,
-				$this->msg( 'recreatedata' )->escaped(), array(), array( 'action' => 'recreatedata' ) );
+				$this->msg( 'recreatedata' )->escaped(), [], [ 'action' => 'recreatedata' ] );
 		}
 
 		if ( $user->isAllowed( 'deletecargodata' ) ) {
@@ -262,12 +262,12 @@ class CargoTables extends IncludableSpecialPage {
 				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
 				$deleteTableURL .= "_replacement";
 			}
-			$actionLinks['delete'] = Html::element( 'a', array( 'href' => $deleteTableURL ),
+			$actionLinks['delete'] = Html::element( 'a', [ 'href' => $deleteTableURL ],
 				$this->msg( 'delete' )->text() );
 		}
 
-		Hooks::run( 'CargoTablesActionLinks', array( &$actionLinks, $tableName, $isReplacementTable,
-			$hasReplacementTable, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ) );
+		Hooks::run( 'CargoTablesActionLinks', [ &$actionLinks, $tableName, $isReplacementTable,
+			$hasReplacementTable, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ] );
 		return implode( ' | ', $actionLinks );
 	}
 
@@ -283,7 +283,7 @@ class CargoTables extends IncludableSpecialPage {
 			$declaringTemplatesText = $this->msg( 'cargo-cargotables-notdeclared' )->text();
 		} else {
 			$templatesThatDeclareThisTable = $this->templatesThatDeclareTables[$tableName];
-			$templateLinks = array();
+			$templateLinks = [];
 			foreach ( $templatesThatDeclareThisTable as $templateID ) {
 				$templateTitle = Title::newFromID( $templateID );
 				$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
@@ -296,14 +296,14 @@ class CargoTables extends IncludableSpecialPage {
 		if ( array_key_exists( $tableName, $this->templatesThatAttachToTables ) ) {
 			$templatesThatAttachToThisTable = $this->templatesThatAttachToTables[$tableName];
 		} else {
-			$templatesThatAttachToThisTable = array();
+			$templatesThatAttachToThisTable = [];
 		}
 
 		if ( count( $templatesThatAttachToThisTable ) == 0 ) {
 			return $declaringTemplatesText;
 		}
 
-		$templateLinks = array();
+		$templateLinks = [];
 		foreach ( $templatesThatAttachToThisTable as $templateID ) {
 			$templateTitle = Title::newFromID( $templateID );
 			$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
@@ -376,7 +376,7 @@ class CargoTables extends IncludableSpecialPage {
 				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
 				if ( $this->getUser()->isAllowed( 'recreatecargodata' ) ) {
 					$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
-					$tableText .= "<br />\n" . Html::element( 'a', array( 'href' => $switchURL ),
+					$tableText .= "<br />\n" . Html::element( 'a', [ 'href' => $switchURL ],
 						$this->msg( "cargo-cargotables-switch" )->parse() );
 				}
 				$tableText .= "</div>";

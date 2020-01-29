@@ -8,16 +8,16 @@
 class CargoExhibitFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'view' => array( 'values' => array( 'map', 'tabular', 'timeline' ) ),
-			'facets' => array( 'type' => 'string' ),
-			'datalabel' => array( 'type' => 'string' ),
-			'end' => array( 'type' => 'string' ),
-			'color' => array( 'type' => 'string' ),
-			'topunit' => array( 'values' => array( 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade', 'century', 'millennium' ) ),
-			'toppx' => array( 'type' => 'int' ),
-			'bottompx' => array( 'type' => 'int' )
-		);
+		return [
+			'view' => [ 'values' => [ 'map', 'tabular', 'timeline' ] ],
+			'facets' => [ 'type' => 'string' ],
+			'datalabel' => [ 'type' => 'string' ],
+			'end' => [ 'type' => 'string' ],
+			'color' => [ 'type' => 'string' ],
+			'topunit' => [ 'values' => [ 'millisecond', 'second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade', 'century', 'millennium' ] ],
+			'toppx' => [ 'type' => 'int' ],
+			'bottompx' => [ 'type' => 'int' ]
+		];
 	}
 
 	/**
@@ -32,19 +32,19 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$maps_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/map/map-extension.js"/>';
 		$this->mOutput->addHeadItem( $maps_script, $maps_script );
 
-		if ( ! array_key_exists( "latlng", $this->displayParams ) ) {
+		if ( !array_key_exists( "latlng", $this->displayParams ) ) {
 			$coordFields = $this->getCoordinatesFields( $sqlQueries );
 			if ( count( $coordFields ) > 0 ) {
 				$this->displayParams['latlng'] = $coordFields[0];
 			}
 		}
 
-		$attrs = array(
+		$attrs = [
 			'data-ex-role' => 'view',
 			'data-ex-view-class' => "Map",
 			'data-ex-latlng' => $this->prependDot( $this->displayParams['latlng'] ),
 			'data-ex-autoposition' => "true",
-		);
+		];
 
 		if ( array_key_exists( "color", $this->displayParams ) ) {
 			$attrs["data-ex-color-key"] = $this->prependDot( $this->displayParams['color'] );
@@ -58,11 +58,11 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$this->mOutput->addHeadItem( $timeline_script, $timeline_script );
 
 		// div
-		$attrs = array();
+		$attrs = [];
 		$attrs['data-ex-role'] = 'view';
 		$attrs["data-ex-view-class"] = "Timeline";
 
-		if ( ! array_key_exists( "start", $this->displayParams ) ) {
+		if ( !array_key_exists( "start", $this->displayParams ) ) {
 			$dateFields = $this->getDateFields( $sqlQueries );
 			if ( count( $dateFields ) > 0 ) {
 				$this->displayParams['start'] = $dateFields[0];
@@ -94,14 +94,14 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 *
 	 */
 	function createTabular( $fieldList ) {
-		$columnsList = array();
+		$columnsList = [];
 		foreach ( $fieldList as $field ) {
 			if ( strpos( $field, '__' ) == false ) {
 				$columnsList[] = $field;
 			}
 		}
 
-		$attrs = array(
+		$attrs = [
 			'data-ex-role' => 'view',
 			'data-ex-view-class' => 'Tabular',
 			'data-ex-paginate' => "true",
@@ -111,7 +111,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 				array_map( "CargoExhibitFormat::prependDot", $columnsList ) ),
 
 			'data-ex-column-labels' => implode( ',', array_map( "ucfirst", $columnsList ) )
-		);
+		];
 
 		return Html::element( 'div', $attrs );
 	}
@@ -120,17 +120,17 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		// Explode facets and create the div for each of them.
 		$text = $this->createSearch();
 		foreach ( $facets as $f ) {
-			 $attrs = array(
+			 $attrs = [
 				'data-ex-role' => "facet",
 				'data-ex-collapsible' => "true",
 				'data-ex-expression' => '.' . $f,
 				'data-ex-show-missing' => 'false',
 				'data-ex-facet-label' => ucfirst( $f ),
 				'style' => "float: left; width: 24%; margin: 0 1% 0 0;"
-			);
+			];
 			$text .= Html::element( 'div', $attrs );
 		}
-		return Html::rawElement( 'div', array( "class" => "facets", "style" => "overflow: hidden; width: 100%;" ), $text );
+		return Html::rawElement( 'div', [ "class" => "facets", "style" => "overflow: hidden; width: 100%;" ], $text );
 	}
 
 	/**
@@ -138,12 +138,12 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 * @return string
 	 */
 	function createSearch() {
-		$attrs = array(
+		$attrs = [
 			'data-ex-role' => "exhibit-facet",
 			'data-ex-facet-class' => "TextSearch",
 			'data-ex-facet-label' => wfMessage( 'search' )->text(),
 			'style' => "float: left; width: 24%; margin: 0 1% 0 0;"
-		);
+		];
 		return Html::element( 'div', $attrs );
 	}
 
@@ -156,11 +156,11 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 				$lensBody .= "<tr data-ex-if-exists=\".$field\"><td>$th</td><td data-ex-content=\".$field\"></td></tr>";
 			}
 		}
-		$tableAttrs = array(
+		$tableAttrs = [
 			'data-ex-role' => 'lens',
 			'class' => 'cargoTable',
 			'style' => "display: none; width: 100%;"
-		);
+		];
 		return Html::rawElement( 'table', $tableAttrs, $lensBody );
 	}
 
@@ -180,9 +180,9 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$exhibit_busy = $cgScriptPath . "/resources/images/loading.gif";
 		// The "loading" message is just alt-text, so it doesn't really
 		// matter that it's hardcoded in English.
-		$preViewsText = '<img id="loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
+		$preViewsText = '<img id="loading_exhibit" src="' . $exhibit_busy . '" alt="Loading Exhibit" style="display: none;" >';
 
-		$field_list = array();
+		$field_list = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			foreach ( $sqlQuery->mAliasedFieldNames as $alias => $fieldName ) {
 				$field_list[] = $alias;
@@ -190,7 +190,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		}
 
 		$csv_properties = '';
-		if ( ! in_array( "label", $field_list ) ) {
+		if ( !in_array( "label", $field_list ) ) {
 			// first field will be label!
 			$field_list[0] = 'label';
 			$csv_properties = 'data-ex-properties="' . implode( ',', $field_list ) . '"';
@@ -232,7 +232,7 @@ EOLABEL;
 		}
 
 		// View
-		$this->views = array();
+		$this->views = [];
 
 		if ( array_key_exists( 'view', $displayParams ) ) {
 			$this->views = array_map( 'ucfirst', array_map( 'trim', explode( ',', $displayParams['view'] ) ) );
@@ -256,7 +256,7 @@ EOLABEL;
 
 		if ( count( $this->views ) > 1 ) {
 			$viewsText = Html::rawElement( 'div',
-				array( 'data-ex-role' => "viewPanel" ),
+				[ 'data-ex-role' => "viewPanel" ],
 				$viewsText );
 		}
 
@@ -285,7 +285,7 @@ EOLABEL;
 	}
 
 	function getCoordinatesFields( $sqlQueries ) {
-		$coordinatesFields = array();
+		$coordinatesFields = [];
 
 		foreach ( $sqlQueries as $query ) {
 			$fieldDescriptions = $query->mFieldDescriptions;
@@ -299,7 +299,7 @@ EOLABEL;
 	}
 
 	function getDateFields( $sqlQueries ) {
-		$dateFields = array();
+		$dateFields = [];
 
 		foreach ( $sqlQueries as $query ) {
 			$fieldDescriptions = $query->mFieldDescriptions;

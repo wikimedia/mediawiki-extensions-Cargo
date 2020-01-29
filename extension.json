@@ -18,8 +18,8 @@
 	],
 	"SpecialPages": {
 		"CargoTables": "CargoTables",
-		"DeleteCargoTable": "CargoDeleteCargoTable",
-		"SwitchCargoTable": "CargoSwitchCargoTable",
+		"DeleteCargoTable": "SpecialDeleteCargoTable",
+		"SwitchCargoTable": "SpecialSwitchCargoTable",
 		"CargoQuery": "CargoQueryInterface",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
@@ -62,7 +62,7 @@
 		"CargoAlias": "Cargo.alias.php"
 	},
 	"AutoloadClasses": {
-		"CargoHooks": "Cargo.hooks.php",
+		"CargoHooks": "CargoHooks.php",
 		"CargoUtils": "includes/CargoUtils.php",
 		"CargoFieldDescription": "includes/CargoFieldDescription.php",
 		"CargoTableSchema": "includes/CargoTableSchema.php",
@@ -80,12 +80,12 @@
 		"CargoDisplayMap": "includes/parserfunctions/CargoDisplayMap.php",
 		"CargoPopulateTableJob": "includes/CargoPopulateTableJob.php",
 		"CargoRecreateDataAction": "includes/CargoRecreateDataAction.php",
-		"CargoRecreateData": "includes/specials/CargoRecreateData.php",
+		"SpecialCargoRecreateData": "includes/specials/SpecialCargoRecreateData.php",
 		"CargoTables": "includes/specials/CargoTables.php",
-		"CargoDeleteCargoTable": "includes/specials/CargoDeleteTable.php",
-		"CargoSwitchCargoTable": "includes/specials/CargoSwitchTable.php",
+		"SpecialDeleteCargoTable": "includes/specials/SpecialDeleteCargoTable.php",
+		"SpecialSwitchCargoTable": "includes/specials/SpecialSwitchCargoTable.php",
 		"CargoQueryInterface": "includes/specials/CargoQueryInterface.php",
-		"CargoQueryPage": "includes/specials/CargoQueryInterface.php",
+		"CargoQueryPage": "includes/CargoQueryPage.php",
 		"CargoExport": "includes/specials/CargoExport.php",
 		"CargoPageValuesAction": "includes/CargoPageValuesAction.php",
 		"CargoPageValues": "includes/specials/CargoPageValues.php",
@@ -95,7 +95,7 @@
 		"CargoAutocompleteAPI": "includes/api/CargoAutocompleteAPI.php",
 		"CargoQueryAutocompleteAPI": "includes/api/CargoQueryAutocompleteAPI.php",
 		"CargoFormatParamsAPI": "includes/api/CargoFormatParamsAPI.php",
-		"CargoLuaLibrary": "CargoLua.library.php",
+		"CargoLuaLibrary": "includes/CargoLuaLibrary.php",
 		"CargoDisplayFormat": "includes/formats/CargoDisplayFormat.php",
 		"CargoDeferredFormat": "includes/formats/CargoDeferredFormat.php",
 		"CargoListFormat": "includes/formats/CargoListFormat.php",
@@ -103,11 +103,11 @@
 		"CargoOLFormat": "includes/formats/CargoOLFormat.php",
 		"CargoTemplateFormat": "includes/formats/CargoTemplateFormat.php",
 		"CargoOutlineFormat": "includes/formats/CargoOutlineFormat.php",
-		"CargoOutlineRow": "includes/formats/CargoOutlineFormat.php",
-		"CargoOutlineTree": "includes/formats/CargoOutlineFormat.php",
+		"CargoOutlineRow": "includes/formats/CargoOutlineRow.php",
+		"CargoOutlineTree": "includes/formats/CargoOutlineTree.php",
 		"CargoTreeFormat": "includes/formats/CargoTreeFormat.php",
-		"CargoTreeFormatNode": "includes/formats/CargoTreeFormat.php",
-		"CargoTreeFormatTree": "includes/formats/CargoTreeFormat.php",
+		"CargoTreeFormatNode": "includes/formats/CargoTreeFormatNode.php",
+		"CargoTreeFormatTree": "includes/formats/CargoTreeFormatTree.php",
 		"CargoEmbeddedFormat": "includes/formats/CargoEmbeddedFormat.php",
 		"CargoCSVFormat": "includes/formats/CargoCSVFormat.php",
 		"CargoExcelFormat": "includes/formats/CargoExcelFormat.php",
@@ -134,13 +134,13 @@
 		"CargoFilterValue": "drilldown/CargoFilterValue.php",
 		"CargoDrilldownUtils": "drilldown/CargoDrilldownUtils.php",
 		"CargoDrilldownHierarchy": "drilldown/CargoDrilldownHierarchy.php",
-		"CargoDrilldown": "drilldown/CargoSpecialDrilldown.php",
-		"CargoDrilldownPage": "drilldown/CargoSpecialDrilldown.php"
+		"CargoSpecialDrilldown": "drilldown/CargoSpecialDrilldown.php",
+		"CargoDrilldownPage": "drilldown/CargoDrilldownPage.php"
 	},
 	"ResourceModules": {
 		"ext.cargo.main": {
 			"scripts": "libs/Cargo.js",
-			"styles": "Cargo.css",
+			"styles": "resources/Cargo.css",
 			"messages": [
 				"show",
 				"hide"

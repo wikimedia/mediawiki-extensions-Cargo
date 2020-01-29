@@ -31,7 +31,7 @@ class CargoCompoundQuery {
 		// Another possibility is to always check for ";", but query
 		// params can in theory hold a "tables=" clause and nothing
 		// else.
-		$queryParams = $otherParams = array();
+		$queryParams = $otherParams = [];
 		foreach ( $params as $param ) {
 			if ( strpos( $param, 'tables=' ) !== false ) {
 				$queryParams[] = $param;
@@ -40,8 +40,8 @@ class CargoCompoundQuery {
 			}
 		}
 
-		$sqlQueries = array();
-		$querySpecificParams = array();
+		$sqlQueries = [];
+		$querySpecificParams = [];
 		foreach ( $queryParams as $param ) {
 			$tablesStr = null;
 			$fieldsStr = null;
@@ -54,7 +54,7 @@ class CargoCompoundQuery {
 			$offsetStr = null;
 
 			$queryClauses = CargoUtils::smartSplit( ';', $param );
-			$displayParamsForThisQuery = array();
+			$displayParamsForThisQuery = [];
 			foreach ( $queryClauses as $clause ) {
 				$parts = explode( '=', $clause, 2 );
 				if ( count( $parts ) != 2 ) {
@@ -90,7 +90,7 @@ class CargoCompoundQuery {
 		}
 
 		$format = 'auto'; // default
-		$displayParams = array();
+		$displayParams = [];
 		foreach ( $otherParams as $param ) {
 			$parts = explode( '=', $param, 2 );
 
@@ -118,7 +118,7 @@ class CargoCompoundQuery {
 	}
 
 	/**
-	 * @TODO - this should probably be streamlined and renamed.
+	 * @todo - this should probably be streamlined and renamed.
 	 */
 	public static function getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams,
 		$format = null, $displayParams = null, $parser = null ) {
@@ -128,12 +128,12 @@ class CargoCompoundQuery {
 		$formatter = $queryDisplayer->getFormatter( $parser->getOutput() );
 		if ( $formatter->isDeferred() ) {
 			$text = $formatter->queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams );
-			return array( $text, 'noparse' => true, 'isHTML' => true );
+			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
-		$allQueryResults = array();
-		$formattedQueryResults = array();
-		$allFieldDescriptions = array();
+		$allQueryResults = [];
+		$formattedQueryResults = [];
+		$allFieldDescriptions = [];
 
 		$rowNum = 0;
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
@@ -160,7 +160,7 @@ class CargoCompoundQuery {
 						. "query-specific parameter and an overall display parameter." );
 					}
 				} else {
-					$displayParams[$paramName] = array();
+					$displayParams[$paramName] = [];
 				}
 				// Now, add it in for each row.
 				for ( $j = $rowNum; $j < $rowNum + $numResultsForThisQuery; $j++ ) {
@@ -171,7 +171,7 @@ class CargoCompoundQuery {
 			$rowNum += $numResultsForThisQuery;
 		}
 
-		if ( is_null( $format ) ) {
+		if ( $format === null ) {
 			return $allQueryResults;
 		}
 
@@ -191,9 +191,9 @@ class CargoCompoundQuery {
 		// especially if there's a limit set for each query?
 
 		if ( $displayHTML ) {
-			return array( $text, 'noparse' => true, 'isHTML' => true );
+			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		} else {
-			return array( $text, 'noparse' => false );
+			return [ $text, 'noparse' => false ];
 		}
 	}
 

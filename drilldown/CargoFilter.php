@@ -17,8 +17,8 @@ class CargoFilter {
 	public $searchableFiles;
 	public $searchablePages;
 	public $allowed_values;
-	public $required_filters = array();
-	public $possible_applied_filters = array();
+	public $required_filters = [];
+	public $possible_applied_filters = [];
 
 	function __construct( $name, $tableAlias, $tableName, $fieldDescription, $searchablePages,
 			$searchableFiles ) {
@@ -44,7 +44,7 @@ class CargoFilter {
 			$year = $dateFromDB->format( 'Y' );
 			$month = $dateFromDB->format( 'm' );
 			$day = $dateFromDB->format( 'd' );
-			return array( $year, $month, $day );
+			return [ $year, $month, $day ];
 		}
 
 		// It's a string.
@@ -53,7 +53,7 @@ class CargoFilter {
 			return $dateParts;
 		} else {
 			// year, month, day
-		return array( $dateParts[0], 0, 0 );
+		return [ $dateParts[0], 0, 0 ];
 		}
 	}
 
@@ -64,10 +64,10 @@ class CargoFilter {
 	 * @param array $joinConds
 	 * @return string|null
 	 */
-	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
-			$joinConds = array() ) {
+	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
+			$joinConds = [] ) {
 		// If it's not a date/datetime field, return null.
-		if ( ! $this->fieldDescription->isDateOrDatetime() ) {
+		if ( !$this->fieldDescription->isDateOrDatetime() ) {
 			return null;
 		}
 
@@ -79,19 +79,19 @@ class CargoFilter {
 			$tableNames[$fieldTableAlias] = $fieldTableName;
 			$joinConds[$fieldTableAlias] =
 				CargoUtils::joinOfMainAndFieldTable( $cdb,
-					array( $this->tableAlias => $this->tableName ),
-					array( $fieldTableAlias => $fieldTableName )
+					[ $this->tableAlias => $this->tableName ],
+					[ $fieldTableAlias => $fieldTableName ]
 				);
 		} else {
 			$date_field = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
-		$res = $cdb->select( $tableNames, array( "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ), $conds, null,
+		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds, null,
 			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
 		$minDate = $row['min_date'];
-		if ( is_null( $minDate ) ) {
+		if ( $minDate === null ) {
 			return null;
 		}
 		list( $minYear, $minMonth, $minDay ) = $this->getDateParts( $minDate );
@@ -117,14 +117,14 @@ class CargoFilter {
 	 * @param array $joinConds
 	 * @return array
 	 */
-	function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = array(),
-			$joinConds = array() ) {
+	function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
+			$joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 
 		if ( !$tableNames ) {
-			$tableNames = array( $this->tableName => $this->tableAlias );
+			$tableNames = [ $this->tableName => $this->tableAlias ];
 		}
-		$conds = array();
+		$conds = [];
 
 		if ( $fullTextSearchTerm != null ) {
 			list( $curTableNames, $curConds, $curJoinConds ) =
@@ -135,7 +135,7 @@ class CargoFilter {
 			foreach ( $curJoinConds as $tableAlias => $curJoinCond ) {
 				if ( !array_key_exists( $tableAlias, $joinConds ) ) {
 					$tableName = $curTableNames[$tableAlias];
-					$joinConds = array_merge( $joinConds, array( $tableAlias => $curJoinCond ) );
+					$joinConds = array_merge( $joinConds, [ $tableAlias => $curJoinCond ] );
 					$tableNames[$tableAlias] = $tableName;
 				}
 			}
@@ -153,8 +153,8 @@ class CargoFilter {
 					$tableNames[$fieldTableAlias] = $fieldTableName;
 					$joinConds[$fieldTableAlias] =
 						CargoUtils::joinOfMainAndFieldTable( $cdb,
-							array( $af->filter->tableAlias => $af->filter->tableName ),
-							array( $fieldTableAlias => $fieldTableName ) );
+							[ $af->filter->tableAlias => $af->filter->tableName ],
+							[ $fieldTableAlias => $fieldTableName ] );
 				}
 				$columnName = '_value';
 			}
@@ -165,13 +165,13 @@ class CargoFilter {
 					$tableNames[$hierarchyTableAlias] = $hierarchyTableName;
 					$joinConds[$hierarchyTableAlias] =
 						CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-							array( $fieldTableAlias => $fieldTableName ), $columnName, array(
+							[ $fieldTableAlias => $fieldTableName ], $columnName, [
 								$hierarchyTableAlias => $hierarchyTableName,
-							) );
+							] );
 				}
 			}
 		}
-		return array( $tableNames, $conds, $joinConds );
+		return [ $tableNames, $conds, $joinConds ];
 	}
 
 	/**
@@ -187,10 +187,10 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
-			$tableNames = array(), $joinConds = array() ) {
+			$tableNames = [], $joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 
-		$possible_dates = array();
+		$possible_dates = [];
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
@@ -202,7 +202,7 @@ class CargoFilter {
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames,
 			$joinConds );
 
-		$fields = array();
+		$fields = [];
 		$fields['year_field'] = $yearValue;
 		if ( $timePeriod == 'month' || $timePeriod == 'day' ) {
 			$fields['month_field'] = $monthValue;
@@ -217,8 +217,8 @@ class CargoFilter {
 			$tableNames[$fieldTableAlias] = $fieldTableName;
 			$joinConds[$fieldTableAlias] =
 				CargoUtils::joinOfMainAndFieldTable( $cdb,
-					array( $this->tableAlias => $this->tableName ),
-					array( $fieldTableAlias => $fieldTableName )
+					[ $this->tableAlias => $this->tableName ],
+					[ $fieldTableAlias => $fieldTableName ]
 				);
 		}
 
@@ -235,7 +235,7 @@ class CargoFilter {
 
 		// We call array_values(), and not array_keys(), because
 		// SQL Server can't group by aliases.
-		$selectOptions = array( 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) );
+		$selectOptions = [ 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) ];
 		$pageIDField = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 		$fields['total'] = "COUNT(DISTINCT $pageIDField)";
 
@@ -294,7 +294,7 @@ class CargoFilter {
 	 * @return array
 	 */
 	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false,
-			$mainTableAlias = null, $tableNames = array(), $join_conds = array() ) {
+			$mainTableAlias = null, $tableNames = [], $join_conds = [] ) {
 		$cdb = CargoUtils::getDB();
 
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
@@ -308,16 +308,16 @@ class CargoFilter {
 				}
 				$joinConds[$fieldTableAlias] =
 					CargoUtils::joinOfMainAndFieldTable( $cdb,
-						array( $this->tableAlias => $this->tableName ), array(
+						[ $this->tableAlias => $this->tableName ], [
 							$fieldTableAlias => $fieldTableName,
-						) );
+						] );
 			}
 			$fieldName =
-				CargoUtils::escapedFieldName( $cdb, array( $fieldTableAlias => $fieldTableName ),
+				CargoUtils::escapedFieldName( $cdb, [ $fieldTableAlias => $fieldTableName ],
 					'_value' );
 		} else {
 			$fieldName =
-				CargoUtils::escapedFieldName( $cdb, array( $this->tableAlias => $this->tableName ),
+				CargoUtils::escapedFieldName( $cdb, [ $this->tableAlias => $this->tableName ],
 					$this->name );
 		}
 		if ( $isApplied ) {
@@ -325,9 +325,9 @@ class CargoFilter {
 		}
 		$pageIDField = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 		$countClause = "COUNT(DISTINCT $pageIDField) AS total";
-		$res = $cdb->select( $tableNames, array( "$fieldName AS value", $countClause ), $conds, null,
-			array( 'GROUP BY' => $fieldName ), $joinConds );
-		$possible_values = array();
+		$res = $cdb->select( $tableNames, [ "$fieldName AS value", $countClause ], $conds, null,
+			[ 'GROUP BY' => $fieldName ], $joinConds );
+		$possible_values = [];
 		while ( $row = $cdb->fetchRow( $res ) ) {
 			$value_string = $row['value'];
 			if ( $value_string == '' ) {

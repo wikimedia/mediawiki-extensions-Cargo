@@ -7,10 +7,10 @@
 class CargoTimelineFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
-			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() )
-		);
+		return [
+			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
+			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ]
+		];
 	}
 
 	/**
@@ -51,11 +51,11 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 			$width = "100%";
 		}
 
-		$attrs = array(
+		$attrs = [
 			'class' => 'cargoTimeline',
 			'dataurl' => $ce->getFullURL( $queryParams ),
 			'style' => "height: $height; width: $width; border: 1px solid #aaa;"
-		);
+		];
 		$text = Html::rawElement( 'div', $attrs, '' );
 
 		return $text;

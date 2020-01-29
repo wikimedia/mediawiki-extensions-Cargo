@@ -15,7 +15,7 @@ class CargoFormatParamsAPI extends ApiBase {
 		$params = $this->extractRequestParams();
 		$queryFormat = $params['queryformat'];
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
-		if ( ! array_key_exists( $queryFormat, $formatClasses ) ) {
+		if ( !array_key_exists( $queryFormat, $formatClasses ) ) {
 			$this->dieWithError( "Format \"$queryFormat\" not found." );
 		}
 		$formatClass = $formatClasses[$queryFormat];
@@ -28,15 +28,15 @@ class CargoFormatParamsAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array(
+		return [
 			'queryformat' => null
-		);
+		];
 	}
 
 	protected function getExamples() {
-		return array(
+		return [
 			'api.php?action=cargoformatparams&format=json&queryformat=calendar'
-		);
+		];
 	}
 
 }

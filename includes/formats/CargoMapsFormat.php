@@ -16,12 +16,12 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	}
 
 	public static function allowedParameters() {
-		return array(
-			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
-			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ),
-			'icon' => array( 'type' => 'string' ),
-			'zoom' => array( 'type' => 'int' )
-		);
+		return [
+			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
+			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ],
+			'icon' => [ 'type' => 'string' ],
+			'zoom' => [ 'type' => 'int' ]
+		];
 	}
 
 	public static function getScripts() {
@@ -31,7 +31,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		} elseif ( $wgCargoDefaultMapService == 'OpenLayers' ) {
 			return CargoOpenLayersFormat::getScripts();
 		} else {
-			return array();
+			return [];
 		}
 	}
 
@@ -59,7 +59,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	 * @throws MWException
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$coordinatesFields = array();
+		$coordinatesFields = [];
 		foreach ( $fieldDescriptions as $field => $description ) {
 			if ( $description->mType == 'Coordinates' ) {
 				$coordinatesFields[] = $field;
@@ -87,9 +87,9 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		$this->mOutput->addModules( 'ext.cargo.maps' );
 
 		// Construct the table of data we will display.
-		$valuesForMap = array();
+		$valuesForMap = [];
 		foreach ( $formattedValuesTable as $i => $valuesRow ) {
-			$displayedValuesForRow = array();
+			$displayedValuesForRow = [];
 			foreach ( $valuesRow as $fieldName => $fieldValue ) {
 				if ( !array_key_exists( $fieldName, $fieldDescriptions ) ) {
 					continue;
@@ -115,7 +115,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				// besides the coordinates field(s).
 				$firstValue = array_shift( $displayedValuesForRow );
 				if ( $latValue != '' && $lonValue != '' ) {
-					$valuesForMapPoint = array(
+					$valuesForMapPoint = [
 						// 'name' has no formatting
 						// (like a link), while 'title'
 						// might.
@@ -124,12 +124,12 @@ class CargoMapsFormat extends CargoDisplayFormat {
 						'lat' => $latValue,
 						'lon' => $lonValue,
 						'otherValues' => $displayedValuesForRow
-					);
+					];
 					if ( array_key_exists( 'icon', $displayParams ) &&
 						is_array( $displayParams['icon'] ) &&
 						array_key_exists( $i, $displayParams['icon'] ) ) {
 						$iconURL = self::getImageURL( $displayParams['icon'][$i] );
-						if ( !is_null( $iconURL ) ) {
+						if ( $iconURL !== null ) {
 							$valuesForMapPoint['icon'] = $iconURL;
 						}
 					}
@@ -165,21 +165,21 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		// set of map data, as well as, in the tag attributes,
 		// settings related to the display, including the mapping
 		// service to use.
-		$mapDataAttrs = array(
+		$mapDataAttrs = [
 			'class' => 'cargoMapData',
 			'style' => 'display: none',
 			'mappingService' => $service
-		);
+		];
 		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['zoom'] = $displayParams['zoom'];
 		}
 		$mapData = Html::element( 'span', $mapDataAttrs, $jsonData );
 
-		$mapCanvasAttrs = array(
+		$mapCanvasAttrs = [
 			'class' => 'mapCanvas',
 			'style' => "height: $height; width: $width;",
 			'id' => $divID,
-		);
+		];
 		$mapCanvas = Html::rawElement( 'div', $mapCanvasAttrs, $mapData );
 		return $mapCanvas;
 	}

@@ -6,10 +6,10 @@
 
 class CargoBarChartFormat extends CargoDeferredFormat {
 	public static function allowedParameters() {
-		return array(
-			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
-			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() )
-		);
+		return [
+			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
+			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ]
+		];
 	}
 
 	/**
@@ -25,7 +25,7 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'nvd3chart';
 
-		$svgAttrs = array();
+		$svgAttrs = [];
 		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
 			$width = $displayParams['width'];
 			// Add on "px", if no unit is defined.
@@ -50,10 +50,10 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 
 		$svgText = Html::element( 'svg', $svgAttrs, '' );
 
-		$divAttrs = array(
+		$divAttrs = [
 			'class' => 'cargoBarChart',
 			'dataurl' => $ce->getFullURL( $queryParams ),
-		);
+		];
 		$text = Html::rawElement( 'div', $divAttrs, $svgText );
 
 		return $text;

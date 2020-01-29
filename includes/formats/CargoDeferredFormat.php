@@ -20,12 +20,12 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 	 * @return array
 	 */
 	function sqlQueriesToQueryParams( $sqlQueries ) {
-		$queryParams = array(
-			'tables' => array(),
-			'join on' => array(),
-			'fields' => array(),
-			'where' => array(),
-		);
+		$queryParams = [
+			'tables' => [],
+			'join on' => [],
+			'fields' => [],
+			'where' => [],
+		];
 		if ( count( $sqlQueries ) == 0 ) {
 			return null;
 		} elseif ( count( $sqlQueries ) == 1 ) {

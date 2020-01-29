@@ -39,7 +39,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$limitArray = $req->getArray( 'limit' );
 		$offsetArray = $req->getArray( 'offset' );
 
-		$sqlQueries = array();
+		$sqlQueries = [];
 		foreach ( $tableArray as $i => $table ) {
 			$sqlQueries[] = CargoSQLQuery::newFromValues(
 				$table, $fieldsArray[$i], $whereArray[$i], $joinOnArray[$i], $groupByArray[$i],
@@ -100,12 +100,12 @@ class CargoExport extends UnlistedSpecialPage {
 		$datesLowerLimit = $req->getVal( 'start' );
 		$datesUpperLimit = $req->getVal( 'end' );
 
-		$displayedArray = array();
+		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$dateFieldRealNames = array();
-			$startDateFieldAliases = array();
-			$endDateFieldAliases = array();
-			$dateFieldAliases = array();
+			$dateFieldRealNames = [];
+			$startDateFieldAliases = [];
+			$endDateFieldAliases = [];
+			$dateFieldAliases = [];
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
 					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
@@ -188,7 +188,7 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$startDatePrecision = CargoStore::DATE_ONLY;
 				}
-				$curEvent = array(
+				$curEvent = [
 					// Get first field for the title - not
 					// necessarily the page name.
 					'title' => $eventTitle,
@@ -197,7 +197,7 @@ class CargoExport extends UnlistedSpecialPage {
 					'color' => $eventColor,
 					'textColor' => $eventTextColor,
 					'description' => $eventDescription
-				);
+				];
 				if ( array_key_exists( '_pageName', $queryResult ) ) {
 					$title = Title::newFromText( $queryResult['_pageName'] );
 					$curEvent['url'] = $title->getLocalURL();
@@ -223,9 +223,9 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayTimelineData( $sqlQueries ) {
-		$displayedArray = array();
+		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$dateFields = array();
+			$dateFields = [];
 			// Make sure the Start date/datetime type field, if any,
 			// shows up before the End date/datetime type field in
 			// the $dateFields array.
@@ -288,11 +288,11 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventTitle = reset( $queryResult );
 				}
 
-				$eventDisplayDetails = array(
+				$eventDisplayDetails = [
 					'title' => $eventTitle,
 					'description' => $eventDescription,
 					'start' => $startDateValue,
-				);
+				];
 				if ( $endDateValue !== null ) {
 					$eventDisplayDetails['end'] = $endDateValue;
 				} else {
@@ -316,7 +316,7 @@ class CargoExport extends UnlistedSpecialPage {
 		// Sort by date, ascending.
 		usort( $displayedArray, 'self::timelineDatesCmp' );
 
-		$displayedArray = array( 'events' => $displayedArray );
+		$displayedArray = [ 'events' => $displayedArray ];
 		print json_encode( $displayedArray, JSON_HEX_TAG | JSON_HEX_QUOT );
 	}
 
@@ -346,22 +346,22 @@ class CargoExport extends UnlistedSpecialPage {
 		}
 
 		// @TODO - this array needs to be longer.
-		$colorsArray = array( '#60BD68', '#FAA43A', '#5DA6DA', '#CC333F' );
+		$colorsArray = [ '#60BD68', '#FAA43A', '#5DA6DA', '#CC333F' ];
 
 		// Initialize everything, using the field names.
 		$firstRow = reset( $queryResults );
-		$displayedArray = array();
-		$labelNames = array();
+		$displayedArray = [];
+		$labelNames = [];
 		$fieldNum = 0;
 		foreach ( $firstRow as $fieldName => $value ) {
 			if ( $fieldNum == 0 ) {
 				$labelNames[] = $value;
 			} else {
-				$curSeries = array(
+				$curSeries = [
 					'key' => $fieldName,
 					'color' => $colorsArray[$fieldNum - 1],
-					'values' => array()
-				);
+					'values' => []
+				];
 				$displayedArray[] = $curSeries;
 			}
 			$fieldNum++;
@@ -377,10 +377,10 @@ class CargoExport extends UnlistedSpecialPage {
 						$labelName = $this->msg( 'powersearch-togglenone' )->text();
 					}
 				} else {
-					$displayedArray[$fieldNum - 1]['values'][] = array(
+					$displayedArray[$fieldNum - 1]['values'][] = [
 						'label' => $labelName,
 						'value' => $value
-					);
+					];
 				}
 				$fieldNum++;
 			}
@@ -393,9 +393,9 @@ class CargoExport extends UnlistedSpecialPage {
 	 * Turn all wikitext into HTML in a set of query results.
 	 */
 	function parseWikitextInQueryResults( $queryResults ) {
-		$parsedQueryResults = array();
+		$parsedQueryResults = [];
 		foreach ( $queryResults as $rowNum => $rowValues ) {
-			$parsedQueryResults[$rowNum] = array();
+			$parsedQueryResults[$rowNum] = [];
 			foreach ( $rowValues as $colName => $value ) {
 				$parsedQueryResults[$rowNum][$colName] = CargoUtils::smartParse( $value, null );
 			}
@@ -407,8 +407,8 @@ class CargoExport extends UnlistedSpecialPage {
 		header( "Content-Type: text/csv" );
 		header( "Content-Disposition: attachment; filename=$filename" );
 
-		$queryResultsArray = array();
-		$allHeaders = array();
+		$queryResultsArray = [];
+		$allHeaders = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
 			if ( $parseValues ) {
@@ -432,7 +432,7 @@ class CargoExport extends UnlistedSpecialPage {
 				// Put in a blank if this row doesn't contain
 				// a certain column (this will only happen
 				// for compound queries).
-				$displayedRow = array();
+				$displayedRow = [];
 				foreach ( $allHeaders as $header ) {
 					if ( array_key_exists( $header, $queryResultRow ) ) {
 						$displayedRow[$header] = $queryResultRow[$header];
@@ -474,7 +474,7 @@ class CargoExport extends UnlistedSpecialPage {
 	function displayJSONData( $sqlQueries, $parseValues ) {
 		header( "Content-Type: application/json" );
 
-		$allQueryResults = array();
+		$allQueryResults = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
 			if ( $parseValues ) {
@@ -514,7 +514,7 @@ class CargoExport extends UnlistedSpecialPage {
 			$queryResults = $sqlQuery->run();
 			$text .= CargoBibtexFormat::generateBibtexEntries( $queryResults,
 					$sqlQuery->mFieldDescriptions,
-					array( 'default entry type' => $defaultEntryType ) );
+					[ 'default entry type' => $defaultEntryType ] );
 		}
 
 		file_put_contents( "php://output", $text );

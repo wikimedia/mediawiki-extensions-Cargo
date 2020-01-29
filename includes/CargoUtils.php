@@ -39,24 +39,24 @@ class CargoUtils {
 		$type = $dbr->getType();
 
 		// We need $wgCargoDBtype for other functions.
-		if ( is_null( $wgCargoDBtype ) ) {
+		if ( $wgCargoDBtype === null ) {
 			$wgCargoDBtype = $type;
 		}
-		$dbServer = is_null( $wgCargoDBserver ) ? $server : $wgCargoDBserver;
-		$dbName = is_null( $wgCargoDBname ) ? $name : $wgCargoDBname;
+		$dbServer = $wgCargoDBserver === null ? $server : $wgCargoDBserver;
+		$dbName = $wgCargoDBname === null ? $name : $wgCargoDBname;
 
 		// Server (host), db name, and db type can be retrieved from $dbr via
 		// public methods, but username and password cannot. If these values are
 		// not set for Cargo, get them from either $wgDBservers or wgDBuser and
 		// $wgDBpassword, depending on whether or not there are multiple DB servers.
-		if ( !is_null( $wgCargoDBuser ) ) {
+		if ( $wgCargoDBuser !== null ) {
 			$dbUsername = $wgCargoDBuser;
 		} elseif ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
 			$dbUsername = $wgDBservers[0]['user'];
 		} else {
 			$dbUsername = $wgDBuser;
 		}
-		if ( !is_null( $wgCargoDBpassword ) ) {
+		if ( $wgCargoDBpassword !== null ) {
 			$dbPassword = $wgCargoDBpassword;
 		} elseif ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
 			$dbPassword = $wgDBservers[0]['password'];
@@ -66,13 +66,13 @@ class CargoUtils {
 
 		$dbTablePrefix = $wgDBprefix . 'cargo__';
 
-		$params = array(
+		$params = [
 			'host' => $dbServer,
 			'user' => $dbUsername,
 			'password' => $dbPassword,
 			'dbname' => $dbName,
 			'tablePrefix' => $dbTablePrefix,
-		);
+		];
 
 		if ( $type === "sqlite" ) {
 			$params['dbFilePath'] = $dbr->getDbFilePath();
@@ -87,12 +87,12 @@ class CargoUtils {
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'page_props', array(
+		$res = $dbr->select( 'page_props', [
 				'pp_value'
-			), array(
+			], [
 				'pp_page' => $pageID,
 					'pp_propname' => $pageProp,
-			)
+			]
 		);
 
 		if ( !$row = $dbr->fetchRow( $res ) ) {
@@ -107,22 +107,22 @@ class CargoUtils {
 	 */
 	public static function getAllPageProps( $pageProp ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'page_props', array(
+		$res = $dbr->select( 'page_props', [
 			'pp_page',
 			'pp_value'
-			), array(
+			], [
 			'pp_propname' => $pageProp
-			)
+			]
 		);
 
-		$pagesPerValue = array();
+		$pagesPerValue = [];
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$pageID = $row['pp_page'];
 			$pageValue = $row['pp_value'];
 			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
 				$pagesPerValue[$pageValue][] = $pageID;
 			} else {
-				$pagesPerValue[$pageValue] = array( $pageID );
+				$pagesPerValue[$pageValue] = [ $pageID ];
 			}
 		}
 
@@ -135,12 +135,12 @@ class CargoUtils {
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'page_props', array(
+		$res = $dbr->select( 'page_props', [
 			'pp_page'
-			), array(
+			], [
 			'pp_value' => $tableName,
 			'pp_propname' => 'CargoTableName'
-			)
+			]
 		);
 		if ( !$row = $dbr->fetchRow( $res ) ) {
 			return null;
@@ -162,7 +162,7 @@ class CargoUtils {
 	}
 
 	public static function getTables() {
-		$tableNames = array();
+		$tableNames = [];
 		$dbr = wfGetDB( DB_MASTER );
 		$res = $dbr->select( 'cargo_tables', 'main_table' );
 		while ( $row = $dbr->fetchRow( $res ) ) {
@@ -177,9 +177,9 @@ class CargoUtils {
 	}
 
 	static function getParentTables( $tableName ) {
-		$parentTables = array();
+		$parentTables = [];
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			if ( $tableName == $row['main_table'] ) {
 				$parentTables = self::getPageProp( $row['template_id'], 'CargoParentTables' );
@@ -191,9 +191,9 @@ class CargoUtils {
 	}
 
 	static function getDrilldownTabsParams( $tableName ) {
-		$drilldownTabs = array();
+		$drilldownTabs = [];
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'cargo_tables', array( 'template_id', 'main_table' ) );
+		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			if ( $tableName == $row['main_table'] ) {
 				$drilldownTabs = self::getPageProp( $row['template_id'], 'CargoDrilldownTabsParams' );
@@ -205,7 +205,7 @@ class CargoUtils {
 	}
 
 	static function getTableSchemas( $tableNames ) {
-		$mainTableNames = array();
+		$mainTableNames = [];
 		foreach ( $tableNames as $tableName ) {
 			if ( strpos( $tableName, '__' ) !== false &&
 				strpos( $tableName, '__NEXT' ) === false ) {
@@ -217,10 +217,10 @@ class CargoUtils {
 				$mainTableNames[] = $tableName;
 			}
 		}
-		$tableSchemas = array();
+		$tableSchemas = [];
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
-			array( 'main_table' => $mainTableNames ) );
+		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
+			[ 'main_table' => $mainTableNames ] );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$tableName = $row['main_table'];
 			$tableSchemaString = $row['table_schema'];
@@ -247,11 +247,11 @@ class CargoUtils {
 	static function getTableNameForTemplate( $templateTitle ) {
 		$templatePageID = $templateTitle->getArticleID();
 		$declaredTableName = self::getPageProp( $templatePageID, 'CargoTableName' );
-		if ( !is_null( $declaredTableName ) ) {
-			return array( $declaredTableName, true );
+		if ( $declaredTableName !== null ) {
+			return [ $declaredTableName, true ];
 		}
 		$attachedTableName = self::getPageProp( $templatePageID, 'CargoAttachedTable' );
-		return array( $attachedTableName, false );
+		return [ $attachedTableName, false ];
 	}
 
 	/**
@@ -280,11 +280,11 @@ class CargoUtils {
 	 */
 	static function smartSplit( $delimiter, $string, $includeBlankValues = false ) {
 		if ( $string == '' ) {
-			return array();
+			return [];
 		}
 
 		$ignoreNextChar = false;
-		$returnValues = array();
+		$returnValues = [];
 		$numOpenParentheses = 0;
 		$curReturnValue = '';
 
@@ -442,7 +442,7 @@ class CargoUtils {
 			// SQL Server only supports DAY(), not DAYOFMONTH().
 			$dayValue = "DAY($dateDBField)";
 		}
-		return array( $yearValue, $monthValue, $dayValue );
+		return [ $yearValue, $monthValue, $dayValue ];
 	}
 
 	/**
@@ -473,11 +473,11 @@ class CargoUtils {
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
 		global $wgRequest;
-		if ( is_null( $parser ) ) {
+		if ( $parser === null ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
 		}
 		$title = $parser->getTitle();
-		if ( is_null( $title ) ) {
+		if ( $title === null ) {
 			global $wgTitle;
 			$title = $wgTitle;
 		}
@@ -543,7 +543,7 @@ class CargoUtils {
 		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
 		// First, see if there even is DB storage for this template -
 		// if not, exit.
-		if ( is_null( $tableSchemaString ) ) {
+		if ( $tableSchemaString === null ) {
 			return false;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $tableSchemaString );
@@ -568,8 +568,8 @@ class CargoUtils {
 			// always be just one table name? Tied in with that,
 			// if a table name was already specified, do we need
 			// to do a lookup here?
-			$tableNames = array();
-			$res = $dbw->select( 'cargo_tables', 'main_table', array( 'template_id' => $templatePageID ) );
+			$tableNames = [];
+			$res = $dbw->select( 'cargo_tables', 'main_table', [ 'template_id' => $templatePageID ] );
 			while ( $row = $dbw->fetchRow( $res ) ) {
 				$tableNames[] = $row['main_table'];
 			}
@@ -591,10 +591,10 @@ class CargoUtils {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
 				}
-				$dbw->delete( 'cargo_pages', array( 'table_name' => $curTable ) );
+				$dbw->delete( 'cargo_pages', [ 'table_name' => $curTable ] );
 			}
 
-			$dbw->delete( 'cargo_tables', array( 'template_id' => $templatePageID ) );
+			$dbw->delete( 'cargo_tables', [ 'template_id' => $templatePageID ] );
 		}
 
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
@@ -730,13 +730,13 @@ class CargoUtils {
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
 		$cdb->begin();
 		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
-		$fieldsInMainTable = array(
+		$fieldsInMainTable = [
 			'_ID' => 'Integer',
 			'_pageName' => 'String',
 			'_pageTitle' => 'String',
 			'_pageNamespace' => 'Integer',
 			'_pageID' => 'Integer',
-		);
+		];
 
 		$containsFileType = false;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
@@ -772,8 +772,8 @@ class CargoUtils {
 
 		// Now also create tables for each of the 'list' fields,
 		// if there are any.
-		$fieldTableNames = array(); // Names of tables that store data regarding pages
-		$fieldHelperTableNames = array(); // Names of tables that store metadata regarding template or fields
+		$fieldTableNames = []; // Names of tables that store data regarding pages
+		$fieldHelperTableNames = []; // Names of tables that store metadata regarding template or fields
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsList ) {
 				// The double underscore in this table name
@@ -782,7 +782,7 @@ class CargoUtils {
 				$fieldTableName = $tableName . '__' . $fieldName;
 				$cdb->dropTable( $fieldTableName );
 
-				$fieldsInTable = array( '_rowID' => 'Integer' );
+				$fieldsInTable = [ '_rowID' => 'Integer' ];
 				$fieldType = $fieldDescription->mType;
 				if ( $fieldType == 'Coordinates' ) {
 					$fieldsInTable['_lat'] = 'Float';
@@ -798,11 +798,11 @@ class CargoUtils {
 				$fieldHelperTableName = $tableName . '__' . $fieldName . '__hierarchy';
 				$cdb->dropTable( $fieldHelperTableName );
 				$fieldType = $fieldDescription->mType;
-				$fieldsInTable = array(
+				$fieldsInTable = [
 					'_value' => $fieldType,
 					'_left' => 'Integer',
 					'_right' => 'Integer',
-				);
+				];
 				self::createTable( $cdb, $fieldHelperTableName, $fieldsInTable, true );
 
 				$fieldHelperTableNames[] = $fieldHelperTableName;
@@ -820,12 +820,12 @@ class CargoUtils {
 		if ( $containsFileType ) {
 			$fileTableName = $tableName . '___files';
 			$cdb->dropTable( $fileTableName );
-			$fieldsInTable = array(
+			$fieldsInTable = [
 				'_pageName' => 'String',
 				'_pageID' => 'Integer',
 				'_fieldName' => 'String',
 				'_fileName' => 'String'
-			);
+			];
 			self::createTable( $cdb, $fileTableName, $fieldsInTable );
 		}
 
@@ -833,13 +833,13 @@ class CargoUtils {
 		$cdb->commit();
 
 		// Finally, store all the info in the cargo_tables table.
-		$dbw->insert( 'cargo_tables', array(
+		$dbw->insert( 'cargo_tables', [
 			'template_id' => $templatePageID,
 			'main_table' => $tableName,
 			'field_tables' => serialize( $fieldTableNames ),
 			'field_helper_tables' => serialize( $fieldHelperTableNames ),
 			'table_schema' => $tableSchemaString
-		) );
+		] );
 	}
 
 	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
@@ -892,7 +892,7 @@ class CargoUtils {
 
 		// Add an index for any field that's not of type Text,
 		// Searchtext or Wikitext.
-		$indexedFields = array();
+		$indexedFields = [];
 		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
 			// @HACK - MySQL does not allow more than 64 keys/
 			// indexes per table. We are indexing most fields -
@@ -908,7 +908,7 @@ class CargoUtils {
 			} else {
 				$fieldType = $fieldDescOrType;
 			}
-			if ( in_array( $fieldType, array( 'Text', 'Searchtext', 'Wikitext' ) ) ) {
+			if ( in_array( $fieldType, [ 'Text', 'Searchtext', 'Wikitext' ] ) ) {
 				continue;
 			}
 			$indexedFields[] = $fieldName;
@@ -917,7 +917,7 @@ class CargoUtils {
 		if ( $multipleColumnIndex ) {
 			$indexName = "nested_set_$tableName";
 			$sqlFieldNames = array_map(
-				array( $cdb, 'addIdentifierQuotes' ),
+				[ $cdb, 'addIdentifierQuotes' ],
 				$indexedFields
 			);
 			$sqlFieldNamesStr = implode( ', ', $sqlFieldNames );
@@ -952,9 +952,9 @@ class CargoUtils {
 	 * - though that one is in Javascript.
 	 */
 	public static function coordinatePartToNumber( $coordinateStr ) {
-		$degreesSymbols = array( "\x{00B0}", "d" );
-		$minutesSymbols = array( "'", "\x{2032}", "\x{00B4}" );
-		$secondsSymbols = array( '"', "\x{2033}", "\x{00B4}\x{00B4}" );
+		$degreesSymbols = [ "\x{00B0}", "d" ];
+		$minutesSymbols = [ "'", "\x{2032}", "\x{00B4}" ];
+		$secondsSymbols = [ '"', "\x{2033}", "\x{00B4}\x{00B4}" ];
 
 		$numDegrees = null;
 		$numMinutes = null;
@@ -1014,7 +1014,7 @@ class CargoUtils {
 		}
 
 		// This is safe to do, right?
-		$coordinatesString = str_replace( array( '[', ']' ), '', $coordinatesString );
+		$coordinatesString = str_replace( [ '[', ']' ], '', $coordinatesString );
 		// See if they're separated by commas.
 		if ( strpos( $coordinatesString, ',' ) > 0 ) {
 			$latAndLonStrings = explode( ',', $coordinatesString );
@@ -1022,7 +1022,7 @@ class CargoUtils {
 			// If there are no commas, the first half, for the
 			// latitude, should end with either 'N' or 'S', so do a
 			// little hack to split up the two halves.
-			$coordinatesString = str_replace( array( 'N', 'S' ), array( 'N,', 'S,' ), $coordinatesString );
+			$coordinatesString = str_replace( [ 'N', 'S' ], [ 'N,', 'S,' ], $coordinatesString );
 			$latAndLonStrings = explode( ',', $coordinatesString );
 		}
 
@@ -1036,7 +1036,7 @@ class CargoUtils {
 		if ( strpos( $latString, 'S' ) > 0 ) {
 			$latIsNegative = true;
 		}
-		$latString = str_replace( array( 'N', 'S' ), '', $latString );
+		$latString = str_replace( [ 'N', 'S' ], '', $latString );
 		if ( is_numeric( $latString ) ) {
 			$latNum = floatval( $latString );
 		} else {
@@ -1050,7 +1050,7 @@ class CargoUtils {
 		if ( strpos( $lonString, 'W' ) > 0 ) {
 			$lonIsNegative = true;
 		}
-		$lonString = str_replace( array( 'E', 'W' ), '', $lonString );
+		$lonString = str_replace( [ 'E', 'W' ], '', $lonString );
 		if ( is_numeric( $lonString ) ) {
 			$lonNum = floatval( $lonString );
 		} else {
@@ -1060,7 +1060,7 @@ class CargoUtils {
 			$lonNum *= -1;
 		}
 
-		return array( $latNum, $lonNum );
+		return [ $latNum, $lonNum ];
 	}
 
 	public static function escapedFieldName( $cdb, $tableName, $fieldName ) {
@@ -1074,54 +1074,54 @@ class CargoUtils {
 	}
 
 	public static function joinOfMainAndFieldTable( $cdb, $mainTableName, $fieldTableName ) {
-		return array(
+		return [
 			'LEFT OUTER JOIN',
 			self::escapedFieldName( $cdb, $mainTableName, '_ID' ) .
 				' = ' .
 				self::escapedFieldName( $cdb, $fieldTableName, '_rowID' )
-		);
+		];
 	}
 
 	public static function joinOfMainAndParentTable( $cdb, $mainTable, $mainTableField,
 			$parentTable, $parentTableField ) {
-		return array(
+		return [
 			'LEFT OUTER JOIN',
 			self::escapedFieldName( $cdb, $mainTable, $mainTableField ) .
 			' = ' .
 			self::escapedFieldName( $cdb, $parentTable, $parentTableField )
-		);
+		];
 	}
 
 	public static function joinOfFieldAndMainTable( $cdb, $fieldTable, $mainTable,
 			$isHierarchy = false, $hierarchyFieldName = null ) {
 		if ( $isHierarchy ) {
-			return array(
+			return [
 				'LEFT OUTER JOIN',
 				self::escapedFieldName( $cdb, $fieldTable, '_value' ) . ' = ' .
 				self::escapedFieldName( $cdb, $mainTable, $hierarchyFieldName ),
-			);
+			];
 		} else {
-			return array(
+			return [
 				'LEFT OUTER JOIN',
 				self::escapedFieldName( $cdb, $fieldTable, '_rowID' ) . ' = ' .
 				self::escapedFieldName( $cdb, $mainTable, '_ID' ),
-			);
+			];
 		}
 	}
 
 	public static function joinOfSingleFieldAndHierarchyTable( $cdb, $singleFieldTableName, $fieldColumnName, $hierarchyTableName ) {
-		return array(
+		return [
 			'LEFT OUTER JOIN',
 			self::escapedFieldName( $cdb, $singleFieldTableName, $fieldColumnName ) .
 				' = ' .
 				self::escapedFieldName( $cdb, $hierarchyTableName, '_value' )
-		);
+		];
 	}
 
 	public static function escapedInsert( $db, $tableName, $fieldValues ) {
 		// Put quotes around the field names - needed for Postgres,
 		// which otherwise lowercases all field names.
-		$quotedFieldValues = array();
+		$quotedFieldValues = [];
 		foreach ( $fieldValues as $fieldName => $fieldValue ) {
 			$quotedFieldName = $db->addIdentifierQuotes( $fieldName );
 			$quotedFieldValues[$quotedFieldName] = $fieldValue;
@@ -1139,12 +1139,12 @@ class CargoUtils {
 	 *
 	 * @return string HTML link
 	 */
-	public static function makeLink( $linkRenderer, $title, $msg = null, $attrs = array(), $params = array() ) {
+	public static function makeLink( $linkRenderer, $title, $msg = null, $attrs = [], $params = [] ) {
 		global $wgTitle;
 
-		if ( is_null( $title ) ) {
+		if ( $title === null ) {
 			return null;
-		} elseif ( !is_null( $wgTitle ) && $title->equals( $wgTitle ) ) {
+		} elseif ( $wgTitle !== null && $title->equals( $wgTitle ) ) {
 			// Display bolded text instead of a link.
 			return Linker::makeSelfLinkObj( $title, $msg );
 		} elseif ( $linkRenderer !== null ) {
@@ -1159,24 +1159,24 @@ class CargoUtils {
 	public static function logTableAction( $actionName, $tableName ) {
 		$log = new LogPage( 'cargo' );
 		if ( $actionName == 'deletetable' ) {
-			$logParams = array( $tableName );
+			$logParams = [ $tableName ];
 		} else {
 			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullURL();
 			$tableURL = "$ctURL/$tableName";
 			$tableLink = Html::element(
 				'a',
-				array( 'href' => $tableURL ),
+				[ 'href' => $tableURL ],
 				$tableName
 			);
-			$logParams = array( $tableLink );
+			$logParams = [ $tableLink ];
 		}
 		$log->addEntry( $actionName, new Title(), '', $logParams );
 	}
 
 	public static function validateHierarchyStructure( $hierarchyStructure ) {
 		$hierarchyNodesArray = explode( "\n", $hierarchyStructure );
-		$matches = array();
+		$matches = [];
 		preg_match( '/^([*]*)[^*]*/i', $hierarchyNodesArray[0], $matches );
 		if ( strlen( $matches[1] ) != 1 ) {
 			throw new MWException( "Error: First entry of hierarchy values should start with exact one '*', the entry \"" .

@@ -10,11 +10,11 @@
 class CargoSlideshowFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'caption field' => array( 'type' => 'string' ),
-			'link field' => array( 'type' => 'string' ),
-			'slides per screen' => array( 'type' => 'int' )
-		);
+		return [
+			'caption field' => [ 'type' => 'string' ],
+			'link field' => [ 'type' => 'string' ],
+			'slides per screen' => [ 'type' => 'int' ]
+		];
 	}
 
 	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {
@@ -35,20 +35,20 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$usingPageName = false;
 		}
 
-		$fileNames = array();
+		$fileNames = [];
 		foreach ( $valuesTable as $row ) {
 			if ( array_key_exists( $fileField, $row ) ) {
 				$caption = ( $captionField == null ) ? null : $row[$captionField];
 				$link = ( $linkField == null ) ? null : Title::newFromText( $row[$linkField] );
-				$fileNames[] = array(
+				$fileNames[] = [
 					'title' => $row[$fileField],
 					'caption' => $caption,
 					'link' => $link
-				);
+				];
 			}
 		}
 
-		$files = array();
+		$files = [];
 		foreach ( $fileNames as $f ) {
 			if ( $usingPageName ) {
 				$title = Title::newFromText( $f['title'] );
@@ -62,11 +62,11 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 				}
 			}
 
-			$files[] = array(
+			$files[] = [
 				'title' => $title,
 				'caption' => CargoUtils::smartParse( $f['caption'], null ),
 				'link' => ( $f['link'] !== null ) ? $f['link']->getLinkURL() : null
-			);
+			];
 
 		}
 
@@ -116,7 +116,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$actualFile = wfLocalFile( $fileTitle->getText() );
 			$imageHTML = '<img src="' . $actualFile->getURL() . '" />';
 			if ( $file['link'] != '' ) {
-				$imageHTML = Html::rawElement( 'a', array( 'href' => $file['link'] ), $imageHTML );
+				$imageHTML = Html::rawElement( 'a', [ 'href' => $file['link'] ], $imageHTML );
 			}
 			$slideText = '<div class="image">' . $imageHTML .
 				"</div>\n";
@@ -126,9 +126,9 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$bodyText .= "<div>$slideText</div>\n";
 		}
 
-		$sliderAttrs = array( 'class' => 'cargoSlider' );
+		$sliderAttrs = [ 'class' => 'cargoSlider' ];
 
-		$slickData = array();
+		$slickData = [];
 		if ( array_key_exists( 'slides per screen', $displayParams ) ) {
 			$slickData['slidesToShow'] = $displayParams['slides per screen'];
 			// @TODO - add this? Add a separate param for it?

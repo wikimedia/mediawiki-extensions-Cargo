@@ -31,10 +31,10 @@ class CargoSearchMySQL extends SearchMySQL {
 	public function parseQuery( $filteredText, $fulltext ) {
 		$lc = $this->legalSearchChars( self::CHARS_NO_SYNTAX ); // Minus syntax chars (" and *)
 		$searchon = '';
-		$this->searchTerms = array();
+		$this->searchTerms = [];
 
 		# @todo FIXME: This doesn't handle parenthetical expressions.
-		$m = array();
+		$m = [];
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $bits ) {
@@ -76,14 +76,14 @@ class CargoSearchMySQL extends SearchMySQL {
 				if ( is_array( $convertedVariants ) ) {
 					$variants = array_unique( array_values( $convertedVariants ) );
 				} else {
-					$variants = array( $term );
+					$variants = [ $term ];
 				}
 
 				// The low-level search index does some processing on input to work
 				// around problems with minimum lengths and encoding in MySQL's
 				// fulltext engine.
 				// For Chinese this also inserts spaces between adjacent Han characters.
-				$strippedVariants = array_map( array( $contLang, 'normalizeForSearch' ), $variants );
+				$strippedVariants = array_map( [ $contLang, 'normalizeForSearch' ], $variants );
 
 				// Some languages such as Chinese force all variants to a canonical
 				// form when stripping to the low-level search index, so to be sure
@@ -121,10 +121,10 @@ class CargoSearchMySQL extends SearchMySQL {
 
 		$searchon = $this->db->addQuotes( $searchon );
 		$field = $this->getIndexField( $fulltext );
-		return array(
+		return [
 			" MATCH($field) AGAINST($searchon IN BOOLEAN MODE) ",
 			" MATCH($field) AGAINST($searchon IN NATURAL LANGUAGE MODE) DESC "
-		);
+		];
 	}
 
 	public function regexTerm( $string, $wildcard ) {

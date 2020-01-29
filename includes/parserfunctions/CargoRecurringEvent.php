@@ -34,12 +34,12 @@ class CargoRecurringEvent {
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 
-		$allDateStrings = array();
+		$allDateStrings = [];
 		$startDate = $endDate = $unit = $period = $weekNum = null;
 		$timeString = null;
 		$delimiter = '; '; // default
-		$includedDates = array();
-		$excludedDatesJD = array();
+		$includedDates = [];
+		$excludedDatesJD = [];
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -82,28 +82,28 @@ class CargoRecurringEvent {
 			}
 		}
 
-		if ( is_null( $startDate ) ) {
+		if ( $startDate === null ) {
 			return CargoUtils::formatError( 'Start date must be specified.' );
 		}
-		if ( is_null( $unit ) ) {
+		if ( $unit === null ) {
 			return CargoUtils::formatError( 'Unit must be specified.' );
 		}
 
 		// If the period is null, or outside of normal bounds,
 		// set it to 1.
-		if ( is_null( $period ) ) {
+		if ( $period === null ) {
 			$period = 1;
 		}
 
 		// Handle 'week number', but only if it's of unit 'month'.
-		if ( $unit == 'month' && !is_null( $weekNum ) ) {
+		if ( $unit == 'month' && $weekNum !== null ) {
 			$unit = 'dayofweekinmonth';
 			if ( $weekNum < -4 || $weekNum > 5 || $weekNum == 0 ) {
 				$weekNum = null;
 			}
 		}
 
-		if ( $unit == 'dayofweekinmonth' && is_null( $weekNum ) ) {
+		if ( $unit == 'dayofweekinmonth' && $weekNum === null ) {
 			$weekNum = ceil( $startDate['day'] / 7 );
 		}
 
@@ -204,7 +204,7 @@ class CargoRecurringEvent {
 
 			// Should we stop?
 			$reachedEndDate = ( $instanceNum > $wgCargoRecurringEventMaxInstances ||
-				( !is_null( $endDate ) && ( $curDateJD > $endDateJD ) ) );
+				( $endDate !== null && ( $curDateJD > $endDateJD ) ) );
 		} while ( !$reachedEndDate );
 
 		// Add in the 'include' dates as well.

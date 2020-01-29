@@ -14,7 +14,7 @@ class CargoPopulateTableJob extends Job {
 	 * @param Title $title
 	 * @param array $params
 	 */
-	function __construct( $title, array $params = array() ) {
+	function __construct( $title, array $params = [] ) {
 		parent::__construct( 'cargoPopulateTable', $title, $params );
 	}
 
@@ -24,7 +24,7 @@ class CargoPopulateTableJob extends Job {
 	 * @return bool success
 	 */
 	function run() {
-		if ( is_null( $this->title ) ) {
+		if ( $this->title === null ) {
 			$this->error = "cargoPopulateTable: Invalid title";
 			return false;
 		}
@@ -37,7 +37,7 @@ class CargoPopulateTableJob extends Job {
 		if ( $this->params['replaceOldRows'] == true ) {
 			$cdb = CargoUtils::getDB();
 			$cdb->begin();
-			$cdb->delete( $this->params['dbTableName'], array( '_pageID' => $page->getID() ) );
+			$cdb->delete( $this->params['dbTableName'], [ '_pageID' => $page->getID() ] );
 			$cdb->commit();
 		}
 

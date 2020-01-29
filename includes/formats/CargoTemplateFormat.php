@@ -7,11 +7,11 @@
 class CargoTemplateFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'template' => array( 'type' => 'string' ),
-			'named args' => array( 'type' => 'string' ),
-			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() )
-		);
+		return [
+			'template' => [ 'type' => 'string' ],
+			'named args' => [ 'type' => 'string' ],
+			'delimiter' => [ 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() ]
+		];
 	}
 
 	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {

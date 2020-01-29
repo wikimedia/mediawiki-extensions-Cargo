@@ -6,15 +6,15 @@
  * @ingroup Extensions
  */
 
-$specialPageAliases = array();
+$specialPageAliases = [];
 
 /** English (English) */
-$specialPageAliases['en'] = array(
-	'CargoExport' => array( 'CargoExport' ),
-	'CargoTables' => array( 'CargoTables' ),
-	'DeleteCargoTable' => array( 'DeleteCargoTable' ),
-	'Drilldown' => array( 'Drilldown' ),
-	'PageValues' => array( 'PageValues' ),
-	'CargoQuery' => array( 'CargoQuery', 'ViewData' ),
-	'SwitchCargoTable' => array( 'SwitchCargoTable' ),
-);
+$specialPageAliases['en'] = [
+	'CargoExport' => [ 'CargoExport' ],
+	'CargoTables' => [ 'CargoTables' ],
+	'DeleteCargoTable' => [ 'DeleteCargoTable' ],
+	'Drilldown' => [ 'Drilldown' ],
+	'PageValues' => [ 'PageValues' ],
+	'CargoQuery' => [ 'CargoQuery', 'ViewData' ],
+	'SwitchCargoTable' => [ 'SwitchCargoTable' ],
+];

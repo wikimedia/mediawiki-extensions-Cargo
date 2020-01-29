@@ -10,104 +10,17 @@
  * @author Yaron Koren
  */
 
-/**
- * Represents a single row in the outline.
- */
-class CargoOutlineRow {
-	public $mOutlineFields;
-	public $mDisplayFields;
-
-	function __construct() {
-		$this->mOutlineFields = array();
-		$this->mDisplayFields = array();
-	}
-
-	function addOutlineFieldValues( $fieldName, $values, $formattedValues ) {
-		$this->mOutlineFields[$fieldName] = array(
-			'unformatted' => $values,
-			'formatted' => $formattedValues
-		);
-	}
-
-	function addOutlineFieldValue( $fieldName, $value, $formattedValue ) {
-		$this->mOutlineFields[$fieldName] = array(
-			'unformatted' => array( $value ),
-			'formatted' => array( $formattedValue )
-		);
-	}
-
-	function addDisplayFieldValue( $fieldName, $value ) {
-		$this->mDisplayFields[$fieldName] = $value;
-	}
-
-	function getOutlineFieldValues( $fieldName ) {
-		if ( !array_key_exists( $fieldName, $this->mOutlineFields ) ) {
-			throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $fieldName, "outline fields" )->parse() );
-		}
-		return $this->mOutlineFields[$fieldName]['unformatted'];
-	}
-
-	function getFormattedOutlineFieldValues( $fieldName ) {
-		return $this->mOutlineFields[$fieldName]['formatted'];
-	}
-}
-
-/**
- * A tree structure for holding the outline data.
- */
-class CargoOutlineTree {
-	public $mTree;
-	public $mUnsortedRows;
-	public $mFormattedValue;
-
-	function __construct( $rows = array(), $formattedValue = null ) {
-		$this->mTree = array();
-		$this->mUnsortedRows = $rows;
-		$this->mFormattedValue = $formattedValue;
-	}
-
-	function addRow( $row ) {
-		$this->mUnsortedRows[] = $row;
-	}
-
-	function categorizeRow( $vals, $row, $formattedVals ) {
-		foreach ( $vals as $val ) {
-			if ( array_key_exists( $val, $this->mTree ) ) {
-				$this->mTree[$val]->mUnsortedRows[] = $row;
-			} else {
-				$formattedVal = reset( $formattedVals );
-				$this->mTree[$val] = new CargoOutlineTree( array( $row ), $formattedVal );
-			}
-		}
-	}
-
-	function addField( $field ) {
-		if ( count( $this->mUnsortedRows ) > 0 ) {
-			foreach ( $this->mUnsortedRows as $row ) {
-				$fieldValues = $row->getOutlineFieldValues( $field );
-				$formattedFieldValues = $row->getFormattedOutlineFieldValues( $field );
-				$this->categorizeRow( $fieldValues, $row, $formattedFieldValues );
-			}
-			$this->mUnsortedRows = array();
-		} else {
-			foreach ( $this->mTree as $i => $node ) {
-				$this->mTree[$i]->addField( $field );
-			}
-		}
-	}
-}
-
 class CargoOutlineFormat extends CargoListFormat {
-	protected $mOutlineFields = array();
+	protected $mOutlineFields = [];
 	public $mFieldDescriptions;
 
 	public static function allowedParameters() {
-		return array( 'outline fields' => array( 'type' => 'string' ) );
+		return [ 'outline fields' => [ 'type' => 'string' ] ];
 	}
 
 	function printTree( $outlineTree, $level = 0 ) {
 		$text = "";
-		if ( !is_null( $outlineTree->mUnsortedRows ) ) {
+		if ( $outlineTree->mUnsortedRows !== null ) {
 			$text .= "<ul>\n";
 			foreach ( $outlineTree->mUnsortedRows as $row ) {
 				$text .= Html::rawElement( 'li', null,
@@ -140,8 +53,8 @@ class CargoOutlineFormat extends CargoListFormat {
 		}
 		foreach ( $outlineTree->mTree as $node ) {
 			$text .= Html::rawElement( 'p',
-				array( 'style' =>
-				"font-size: $fontSize; font-weight: $fontWeight;" ), $node->mFormattedValue ) . "\n";
+				[ 'style' =>
+				"font-size: $fontSize; font-weight: $fontWeight;" ], $node->mFormattedValue ) . "\n";
 			$text .= $this->printTree( $node, $level + 1 );
 		}
 		if ( $level > 0 ) {

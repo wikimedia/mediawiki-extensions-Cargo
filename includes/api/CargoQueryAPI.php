@@ -44,9 +44,9 @@ class CargoQueryAPI extends ApiBase {
 		}
 
 		// Format data as the API requires it.
-		$formattedData = array();
+		$formattedData = [];
 		foreach ( $queryResults as $row ) {
-			$formattedData[] = array( 'title' => $row );
+			$formattedData[] = [ 'title' => $row ];
 		}
 
 		// Set top-level elements.
@@ -56,14 +56,14 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array(
-			'limit' => array(
+		return [
+			'limit' => [
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_DFLT => 50,
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			),
+			],
 			'tables' => null,
 			'fields' => null,
 			'where' => null,
@@ -71,16 +71,16 @@ class CargoQueryAPI extends ApiBase {
 			'group_by' => null,
 			'having' => null,
 			'order_by' => null,
-			'offset' => array(
+			'offset' => [
 				ApiBase::PARAM_TYPE => 'integer',
 				ApiBase::PARAM_DFLT => 0,
 				ApiBase::PARAM_MIN => 0,
-			),
-		);
+			],
+		];
 	}
 
 	protected function getParamDescription() {
-		return array(
+		return [
 			'tables' => 'The Cargo database table or tables on which to search',
 			'fields' => 'The table field(s) to retrieve',
 			'where' => 'The conditions for the query, corresponding to an SQL WHERE clause',
@@ -90,7 +90,7 @@ class CargoQueryAPI extends ApiBase {
 			'having' => 'Conditions for grouped values, corresponding to an SQL HAVING clause',
 			'limit' => 'A limit on the number of results returned',
 			'offset' => 'The query offset number',
-		);
+		];
 	}
 
 	protected function getDescription() {
@@ -99,10 +99,10 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	protected function getExamples() {
-		return array(
+		return [
 			'api.php?action=cargoquery&tables=Items&fields=_pageName=Item,Source,Date=Publication_date'
 			. '&where=Source+LIKE+\'%New%\'&order_by=Date&limit=100'
-		);
+		];
 	}
 
 }

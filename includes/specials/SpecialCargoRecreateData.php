@@ -7,7 +7,7 @@
  * @ingroup Cargo
  */
 
-class CargoRecreateData extends UnlistedSpecialPage {
+class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	public $mTemplateTitle;
 	public $mTableName;
 	public $mIsDeclared;
@@ -49,7 +49,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 			$viewURL .= "_replacement";
 			$viewReplacementText = $this->msg( 'cargo-cargotables-viewreplacementlink' )->parse();
 
-			$text .= ' (' . Xml::element( 'a', array( 'href' => $viewURL ), $viewReplacementText ) . ')';
+			$text .= ' (' . Xml::element( 'a', [ 'href' => $viewURL ], $viewReplacementText ) . ')';
 			$out->addHTML( $text );
 			return true;
 		}
@@ -62,34 +62,34 @@ class CargoRecreateData extends UnlistedSpecialPage {
 
 		$out->addModules( 'ext.cargo.recreatedata' );
 
-		$templateData = array();
+		$templateData = [];
 		$dbw = wfGetDB( DB_MASTER );
 
-		$templateData[] = array(
+		$templateData[] = [
 			'name' => $this->mTemplateTitle->getText(),
 			'numPages' => $this->getNumPagesThatCallTemplate( $dbw, $this->mTemplateTitle )
-		);
+		];
 
 		if ( $this->mIsDeclared ) {
 			// Get all attached templates.
 			$res = $dbw->select( 'page_props',
-				array(
+				[
 					'pp_page'
-				),
-				array(
+				],
+				[
 					'pp_value' => $this->mTableName,
 					'pp_propname' => 'CargoAttachedTable'
-				)
+				]
 			);
 			while ( $row = $dbw->fetchRow( $res ) ) {
 				$templateID = $row['pp_page'];
 				$attachedTemplateTitle = Title::newFromID( $templateID );
 				$numPages = $this->getNumPagesThatCallTemplate( $dbw, $attachedTemplateTitle );
 				$attachedTemplateName = $attachedTemplateTitle->getText();
-				$templateData[] = array(
+				$templateData[] = [
 					'name' => $attachedTemplateName,
 					'numPages' => $numPages
-				);
+				];
 			}
 		}
 
@@ -97,7 +97,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 		$viewTableURL = $ct->getInternalURL() . '/' . $this->mTableName;
 
 		// Store all the necesssary data on the page.
-		$text = Html::element( 'div', array(
+		$text = Html::element( 'div', [
 				'hidden' => 'true',
 				'id' => 'recreateDataData',
 				// These two variables are not data-
@@ -111,7 +111,7 @@ class CargoRecreateData extends UnlistedSpecialPage {
 				'tablename' => $this->mTableName,
 				'isdeclared' => $this->mIsDeclared,
 				'viewtableurl' => $viewTableURL
-			), json_encode( $templateData ) );
+			], json_encode( $templateData ) );
 
 		// Simple form.
 		$text .= '<div id="recreateDataCanvas">' . "\n";
@@ -123,27 +123,27 @@ class CargoRecreateData extends UnlistedSpecialPage {
 				$text .= '<p><em>The checkbox intended to go here is temporarily disabled; please run <tt>update.php</tt> to see it.</em></p>';
 			} else {
 				$checkBox = new OOUI\FieldLayout(
-					new OOUI\CheckboxInputWidget( array(
+					new OOUI\CheckboxInputWidget( [
 						'name' => 'createReplacement',
 						'selected' => true,
 						'value' => 1,
-					) ),
-					array(
+					] ),
+					[
 						'label' => $this->msg( 'cargo-recreatedata-createreplacement' )->parse(),
 						'align' => 'inline',
 						'infusable' => true,
-					)
+					]
 				);
 				$text .= Html::rawElement( 'p', null, $checkBox );
 			}
 		}
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
 		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
-		$text .= new OOUI\ButtonInputWidget( array(
+		$text .= new OOUI\ButtonInputWidget( [
 			'id' => 'cargoSubmit',
 			'label' => $this->msg( 'ok' )->parse(),
-			'flags' => array( 'primary', 'progressive' )
-		 ) );
+			'flags' => [ 'primary', 'progressive' ]
+		 ] );
 		$text .= "\n</div>";
 
 		$out->addHTML( $text );
@@ -153,14 +153,14 @@ class CargoRecreateData extends UnlistedSpecialPage {
 
 	function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
 		$res = $dbw->select(
-			array( 'page', 'templatelinks' ),
+			[ 'page', 'templatelinks' ],
 			'COUNT(*) AS total',
-			array(
+			[
 				"tl_from=page_id",
 				"tl_namespace" => $templateTitle->getNamespace(),
-				"tl_title" => $templateTitle->getDBkey() ),
+				"tl_title" => $templateTitle->getDBkey() ],
 			__METHOD__,
-			array()
+			[]
 		);
 		$row = $dbw->fetchRow( $res );
 		return intval( $row['total'] );

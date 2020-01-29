@@ -16,11 +16,11 @@ class CargoHooks {
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
 
-		$wgCargoFieldTypes = array(
+		$wgCargoFieldTypes = [
 			'Page', 'String', 'Text', 'Integer', 'Float', 'Date',
 			'Datetime', 'Boolean', 'Coordinates', 'Wikitext',
 			'Searchtext', 'File', 'URL', 'Email', 'Rating'
-		);
+		];
 
 		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
 		$wgGroupPermissions['sysop']['deletecargodata'] = true;
@@ -28,13 +28,13 @@ class CargoHooks {
 	}
 
 	public static function registerParserFunctions( &$parser ) {
-		$parser->setFunctionHook( 'cargo_declare', array( 'CargoDeclare', 'run' ) );
-		$parser->setFunctionHook( 'cargo_attach', array( 'CargoAttach', 'run' ) );
-		$parser->setFunctionHook( 'cargo_store', array( 'CargoStore', 'run' ) );
-		$parser->setFunctionHook( 'cargo_query', array( 'CargoQuery', 'run' ) );
-		$parser->setFunctionHook( 'cargo_compound_query', array( 'CargoCompoundQuery', 'run' ) );
-		$parser->setFunctionHook( 'recurring_event', array( 'CargoRecurringEvent', 'run' ) );
-		$parser->setFunctionHook( 'cargo_display_map', array( 'CargoDisplayMap', 'run' ) );
+		$parser->setFunctionHook( 'cargo_declare', [ 'CargoDeclare', 'run' ] );
+		$parser->setFunctionHook( 'cargo_attach', [ 'CargoAttach', 'run' ] );
+		$parser->setFunctionHook( 'cargo_store', [ 'CargoStore', 'run' ] );
+		$parser->setFunctionHook( 'cargo_query', [ 'CargoQuery', 'run' ] );
+		$parser->setFunctionHook( 'cargo_compound_query', [ 'CargoCompoundQuery', 'run' ] );
+		$parser->setFunctionHook( 'recurring_event', [ 'CargoRecurringEvent', 'run' ] );
+		$parser->setFunctionHook( 'cargo_display_map', [ 'CargoDisplayMap', 'run' ] );
 		return true;
 	}
 
@@ -54,51 +54,51 @@ class CargoHooks {
 		// Between MW 1.34 and 1.35, all the jquery.ui.* modules were
 		// merged into one big module, "jquery.ui".
 		if ( version_compare( $wgVersion, '1.35', '>=' ) ) {
-			$drilldownDependencies = array(
+			$drilldownDependencies = [
 				"jquery.ui",
 				"oojs-ui-core"
-			);
-			$cargoQueryDependencies = array(
+			];
+			$cargoQueryDependencies = [
 				"jquery.ui",
 				"mediawiki.util",
 				"mediawiki.htmlform.ooui"
-			);
+			];
 		} else {
-			$drilldownDependencies = array(
+			$drilldownDependencies = [
 				"jquery.ui.autocomplete",
 				"jquery.ui.button",
 				"oojs-ui-core"
-			);
-			$cargoQueryDependencies = array(
+			];
+			$cargoQueryDependencies = [
 				"jquery.ui.autocomplete",
 				"mediawiki.util",
 				"mediawiki.htmlform.ooui"
-			);
+			];
 		}
 
-		$resourceLoader->register( array(
-			"ext.cargo.drilldown" => array(
+		$resourceLoader->register( [
+			"ext.cargo.drilldown" => [
 				'localBasePath' => $cargoDir,
 				'remoteExtPath' => 'Cargo',
-				'styles' => array(
+				'styles' => [
 					"drilldown/resources/CargoDrilldown.css",
 					"drilldown/resources/CargoJQueryUIOverrides.css"
-				),
+				],
 				'scripts' => "drilldown/resources/CargoDrilldown.js",
 				'dependencies' => $drilldownDependencies
-			),
-			"ext.cargo.cargoquery" => array(
+			],
+			"ext.cargo.cargoquery" => [
 				'localBasePath' => $cargoDir,
 				'remoteExtPath' => 'Cargo',
 				'styles' => "libs/balloon.css",
 				'scripts' => "libs/ext.cargo.query.js",
-				'messages' => array(
+				'messages' => [
 					"cargo-viewdata-tablesrequired",
 					"cargo-viewdata-joinonrequired"
-				),
+				],
 				'dependencies' => $cargoQueryDependencies
-			)
-		) );
+			]
+		] );
 
 		return true;
 	}
@@ -131,8 +131,8 @@ class CargoHooks {
 		$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
 		array_shift( $vars['wgCargoMonthNamesShort'] ); // start keys from 0
 
-		$vars['wgCargoWeekDays'] = array();
-		$vars['wgCargoWeekDaysShort'] = array();
+		$vars['wgCargoWeekDays'] = [];
+		$vars['wgCargoWeekDaysShort'] = [];
 		for ( $i = 1; $i < 8; $i++ ) {
 			$vars['wgCargoWeekDays'][] = $out->getLanguage()->getWeekdayName( $i );
 			$vars['wgCargoWeekDaysShort'][] = $out->getLanguage()->getWeekdayAbbreviation( $i );
@@ -157,11 +157,11 @@ class CargoHooks {
 
 		if ( $skinTemplate->getUser()->isAllowed( 'purge' ) ) {
 			$skinTemplate->getOutput()->addModules( 'ext.cargo.purge' );
-			$links['actions']['cargo-purge'] = array(
+			$links['actions']['cargo-purge'] = [
 				'class' => false,
 				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),
-				'href' => $skinTemplate->getTitle()->getLocalUrl( array( 'action' => 'purge' ) )
-			);
+				'href' => $skinTemplate->getTitle()->getLocalUrl( [ 'action' => 'purge' ] )
+			];
 		}
 
 		return true;
@@ -193,7 +193,7 @@ class CargoHooks {
 	 * "replacement table" exists.
 	 *
 	 * @param int $pageID
-	 * @TODO - move this to a different class, like CargoUtils?
+	 * @todo - move this to a different class, like CargoUtils?
 	 */
 	public static function deletePageFromSystem( $pageID ) {
 		// We'll delete every reference to this page in the
@@ -205,9 +205,9 @@ class CargoHooks {
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
-		$cdbPageIDCheck = array( $cdb->addIdentifierQuotes( '_pageID' ) => $pageID );
+		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
-		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $pageID ) );
+		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageID ] );
 		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
 
@@ -217,7 +217,7 @@ class CargoHooks {
 			}
 
 			// First, delete from the "field" tables.
-			$res2 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => $curMainTable ) );
+			$res2 = $dbw->select( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ] );
 			$row2 = $dbw->fetchRow( $res2 );
 			$fieldTableNames = unserialize( $row2['field_tables'] );
 			foreach ( $fieldTableNames as $curFieldTable ) {
@@ -241,13 +241,13 @@ class CargoHooks {
 			// Now, delete from the "main" table.
 			$cdb->delete( $curMainTable, $cdbPageIDCheck );
 		}
-		$res3 = $dbw->select( 'cargo_tables', 'field_tables', array( 'main_table' => '_pageData' ) );
+		$res3 = $dbw->select( 'cargo_tables', 'field_tables', [ 'main_table' => '_pageData' ] );
 		if ( $dbw->numRows( $res3 ) > 0 ) {
 			$cdb->delete( '_pageData', $cdbPageIDCheck );
 		}
 
 		// Finally, delete from cargo_pages.
-		$dbw->delete( 'cargo_pages', array( 'page_id' => $pageID ) );
+		$dbw->delete( 'cargo_pages', [ 'page_id' => $pageID ] );
 
 		// End transaction and apply DB changes.
 		$cdb->commit();
@@ -330,7 +330,7 @@ class CargoHooks {
 
 		$pageID = $title->getArticleID();
 		self::deletePageFromSystem( $pageID );
-		if ( ! $egApprovedRevsBlankIfUnapproved ) {
+		if ( !$egApprovedRevsBlankIfUnapproved ) {
 			// No point storing the Cargo data if it's blank.
 			CargoStore::$settings['origin'] = 'Approved Revs revision unapproved';
 		}
@@ -365,21 +365,21 @@ class CargoHooks {
 		$cdb->begin();
 		// We use $oldid, because that's the page ID - $newid is the
 		// ID of the redirect page.
-		$res = $dbw->select( 'cargo_pages', 'table_name', array( 'page_id' => $oldid ) );
+		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $oldid ] );
 		while ( $row = $dbw->fetchRow( $res ) ) {
 			$curMainTable = $row['table_name'];
 			$cdb->update( $curMainTable,
-				array(
+				[
 					$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
 					$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 					$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
-				),
-				array( $cdb->addIdentifierQuotes( '_pageID' ) => $oldid )
+				],
+				[ $cdb->addIdentifierQuotes( '_pageID' ) => $oldid ]
 			);
 		}
 
 		// Update the page title in the "general data" tables.
-		$generalTables = array( '_pageData', '_fileData' );
+		$generalTables = [ '_pageData', '_fileData' ];
 		foreach ( $generalTables as $generalTable ) {
 			if ( $cdb->tableExists( $generalTable ) ) {
 				// Update in the replacement table, if one exists.
@@ -387,12 +387,12 @@ class CargoHooks {
 					$generalTable = $generalTable . '__NEXT';
 				}
 				$cdb->update( $generalTable,
-					array(
+					[
 						$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
 						$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 						$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
-					),
-					array( $cdb->addIdentifierQuotes( '_pageID' ) => $oldid )
+					],
+					[ $cdb->addIdentifierQuotes( '_pageID' ) => $oldid ]
 				);
 			}
 		}
@@ -450,7 +450,7 @@ class CargoHooks {
 	 */
 	static function addOrRemoveCategoryData( $category, $wikiPage, $isAdd ) {
 		global $wgCargoPageDataColumns;
-		if ( ! in_array( 'categories', $wgCargoPageDataColumns ) ) {
+		if ( !in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			return true;
 		}
 
@@ -472,15 +472,15 @@ class CargoHooks {
 
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
-		$res = $cdb->select( $pageDataTable, '_ID', array( '_pageID' => $pageID ) );
+		$res = $cdb->select( $pageDataTable, '_ID', [ '_pageID' => $pageID ] );
 		if ( $cdb->numRows( $res ) == 0 ) {
 			$cdb->commit();
 			return true;
 		}
 		$row = $res->fetchRow();
 		$rowID = $row['_ID'];
-		$categoriesForPage = array();
-		$res2 = $cdb->select( $categoriesTable, '_value',  array( '_rowID' => $rowID ) );
+		$categoriesForPage = [];
+		$res2 = $cdb->select( $categoriesTable, '_value',  [ '_rowID' => $rowID ] );
 		while ( $row2 = $res2->fetchRow() ) {
 			$categoriesForPage[] = $row2['_value'];
 		}
@@ -502,14 +502,14 @@ class CargoHooks {
 			}
 		}
 		$newCategoriesFull = implode( '|', $categoriesForPage );
-		$cdb->update( $pageDataTable, array( '_categories__full' => $newCategoriesFull ), array( '_pageID' => $pageID ) );
+		$cdb->update( $pageDataTable, [ '_categories__full' => $newCategoriesFull ], [ '_pageID' => $pageID ] );
 		if ( $isAdd ) {
-			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition',  array( '_rowID' => $rowID ) );
+			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition',  [ '_rowID' => $rowID ] );
 			$row3 = $res3->fetchRow();
 			$maxPosition = $row3['MaxPosition'];
-			$cdb->insert( $categoriesTable, array( '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ) );
+			$cdb->insert( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ] );
 		} else {
-			$cdb->delete( $categoriesTable, array( '_rowID' => $rowID, '_value' => $categoryName ) );
+			$cdb->delete( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName ] );
 		}
 
 		// End transaction and apply DB changes.
@@ -525,11 +525,11 @@ class CargoHooks {
 			$updater->addExtensionTable( 'cargo_tables', __DIR__ . "/sql/Cargo.sql" );
 			$updater->addExtensionTable( 'cargo_pages', __DIR__ . "/sql/Cargo.sql" );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ) );
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ) );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ] );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ] );
 		} elseif ( $updater->getDB()->getType() == 'mssql' ) {
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.mssql.sql", true ) );
-			$updater->addExtensionUpdate( array( 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.mssql.sql", true ) );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.mssql.sql", true ] );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.mssql.sql", true ] );
 		}
 		return true;
 	}

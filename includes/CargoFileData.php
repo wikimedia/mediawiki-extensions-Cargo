@@ -13,22 +13,22 @@ class CargoFileData {
 	static function getTableSchema() {
 		global $wgCargoFileDataColumns;
 
-		$fieldTypes = array();
+		$fieldTypes = [];
 
 		if ( in_array( 'mediaType', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_mediaType'] = array( 'type' => 'String' );
+			$fieldTypes['_mediaType'] = [ 'type' => 'String' ];
 		}
 		if ( in_array( 'path', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_path'] = array( 'type' => 'String', 'hidden' => true );
+			$fieldTypes['_path'] = [ 'type' => 'String', 'hidden' => true ];
 		}
 		if ( in_array( 'lastUploadDate', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_lastUploadDate'] = array( 'type' => 'Datetime' );
+			$fieldTypes['_lastUploadDate'] = [ 'type' => 'Datetime' ];
 		}
 		if ( in_array( 'fullText', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_fullText'] = array( 'type' => 'Searchtext' );
+			$fieldTypes['_fullText'] = [ 'type' => 'Searchtext' ];
 		}
 		if ( in_array( 'numPages', $wgCargoFileDataColumns ) ) {
-			$fieldTypes['_numPages'] = array( 'type' => 'Integer' );
+			$fieldTypes['_numPages'] = [ 'type' => 'Integer' ];
 		}
 
 		$tableSchema = new CargoTableSchema();
@@ -70,7 +70,7 @@ class CargoFileData {
 		// If there is no _fileData table, getTableSchemas() will
 		// throw an error.
 		try {
-			$tableSchemas = CargoUtils::getTableSchemas( array( $fileDataTable ) );
+			$tableSchemas = CargoUtils::getTableSchemas( [ $fileDataTable ] );
 		} catch ( MWException $e ) {
 			return;
 		}
@@ -78,7 +78,7 @@ class CargoFileData {
 		$repo = new LocalRepo( $wgLocalFileRepo );
 		$file = LocalFile::newFromTitle( $title, $repo );
 
-		$fileDataValues = array();
+		$fileDataValues = [];
 
 		if ( in_array( 'mediaType', $wgCargoFileDataColumns ) ) {
 			$fileDataValues['_mediaType'] = $file->getMimeType();
@@ -102,7 +102,7 @@ class CargoFileData {
 			} else {
 				// Copied in part from the PdfHandler extension.
 				$filePath = $file->getLocalRefPath();
-				$cmd = wfEscapeShellArg( $wgCargoPDFToText ) . ' '. wfEscapeShellArg( $filePath ) . ' - ';
+				$cmd = wfEscapeShellArg( $wgCargoPDFToText ) . ' ' . wfEscapeShellArg( $filePath ) . ' - ';
 				$retval = '';
 				$txt = wfShellExec( $cmd, $retval );
 				if ( $retval == 0 ) {
@@ -121,7 +121,7 @@ class CargoFileData {
 				// We only handle PDF files.
 			} else {
 				$filePath = $file->getLocalRefPath();
-				$cmd = wfEscapeShellArg( $wgCargoPDFInfo ) . ' '. wfEscapeShellArg( $filePath );
+				$cmd = wfEscapeShellArg( $wgCargoPDFInfo ) . ' ' . wfEscapeShellArg( $filePath );
 				$retval = '';
 				$txt = wfShellExec( $cmd, $retval );
 				if ( $retval == 0 ) {

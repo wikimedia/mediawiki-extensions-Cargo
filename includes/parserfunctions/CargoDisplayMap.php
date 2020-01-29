@@ -75,12 +75,12 @@ class CargoDisplayMap {
 		} catch ( MWException $e ) {
 			return CargoUtils::formatError( "Cannot display map: " . $e->getMessage() );
 		}
-		$valuesTable = array( array( 'Coords  lat' => $lat, 'Coords  lon' => $lon ) );
+		$valuesTable = [ [ 'Coords  lat' => $lat, 'Coords  lon' => $lon ] ];
 		$formattedValuesTable = $valuesTable;
 		$coordsDesc = new CargoFieldDescription();
 		$coordsDesc->mType = 'Coordinates';
-		$fieldDescriptions = array( 'Coords' => $coordsDesc );
-		$displayParams = array();
+		$fieldDescriptions = [ 'Coords' => $coordsDesc ];
+		$displayParams = [];
 		if ( $heightStr != null ) {
 			$displayParams['height'] = $heightStr;
 		}
@@ -94,7 +94,7 @@ class CargoDisplayMap {
 		$text = $mappingFormat->display( $valuesTable, $formattedValuesTable, $fieldDescriptions,
 			$displayParams );
 
-		return array( $text, 'noparse' => true, 'isHTML' => true );
+		return [ $text, 'noparse' => true, 'isHTML' => true ];
 	}
 
 }

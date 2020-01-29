@@ -7,11 +7,11 @@
 class CargoTagCloudFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'template' => array( 'type' => 'string' ),
-			'min size' => array( 'type' => 'int' ),
-			'max size' => array( 'type' => 'int' )
-		);
+		return [
+			'template' => [ 'type' => 'string' ],
+			'min size' => [ 'type' => 'int' ],
+			'max size' => [ 'type' => 'int' ]
+		];
 	}
 
 	/**
@@ -37,7 +37,7 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 			return '';
 		}
 
-		$tags = array();
+		$tags = [];
 
 		foreach ( $formattedValuesTagCloud as $row ) {
 
@@ -52,7 +52,7 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 
 		}
 
-		if ( $tags == array() ) {
+		if ( $tags == [] ) {
 			return '';
 		}
 
@@ -77,13 +77,13 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 			$size = $minSize + $maxSizeIncrease / 2;
 		} else {
 			$denominator = log( $maxCount ) - log( $minCount );
-			$sizes = array();
+			$sizes = [];
 		}
 
-		$attrs = array(
+		$attrs = [
 			'class' => 'cargoTagCloud',
 			'align' => 'justify'
-		);
+		];
 
 		$text = Html::openElement( 'div', $attrs );
 
@@ -106,9 +106,9 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 				$size = $sizes[$countstr];
 			}
 			$text .= Html::rawElement( 'span',
-				array(
-					'style' => 'font-size:' . $size .'%;white-space:nowrap;'
-				),
+				[
+					'style' => 'font-size:' . $size . '%;white-space:nowrap;'
+				],
 				$tagstring );
 			$text .= ' ';
 		}

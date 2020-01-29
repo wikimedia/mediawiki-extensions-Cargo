@@ -7,13 +7,13 @@
 class CargoCalendarFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'height' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ),
-			'width' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ),
-			'start date' => array( 'type' => 'date' ),
-			'color' => array( 'type' => 'string' ),
-			'text color' => array( 'type' => 'string' )
-		);
+		return [
+			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
+			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ],
+			'start date' => [ 'type' => 'date' ],
+			'color' => [ 'type' => 'string' ],
+			'text color' => [ 'type' => 'string' ]
+		];
 	}
 
 	/**
@@ -35,8 +35,8 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'fullcalendar';
-		$queryParams['color'] = array();
-		$queryParams['text color'] = array();
+		$queryParams['color'] = [];
+		$queryParams['text color'] = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			if ( $querySpecificParams != null ) {
 				if ( array_key_exists( 'color', $querySpecificParams[$i] ) ) {
@@ -80,12 +80,12 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			$height = null;
 		}
 
-		$attrs = array(
+		$attrs = [
 			'class' => 'cargoCalendar',
 			'dataurl' => $ce->getFullURL( $queryParams ),
 			'style' => "width: $width",
 			'height' => $height,
-		);
+		];
 		if ( array_key_exists( 'view', $displayParams ) && $displayParams['view'] != '' ) {
 			$view = $displayParams['view'];
 			// Enable simpler view names.

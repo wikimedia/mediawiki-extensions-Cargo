@@ -7,10 +7,10 @@
 class CargoBibtexFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'default entry type' => array( 'type' => 'string' ) ,
-			'link text' => array( 'type' => 'string' )
-		);
+		return [
+			'default entry type' => [ 'type' => 'string' ] ,
+			'link text' => [ 'type' => 'string' ]
+		];
 	}
 
 	/**
@@ -20,9 +20,9 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 	 * removes all non-alphabetic characters.
 	 *
 	 * @param string $title
-	 * @param integer $numChars
+	 * @param int $numChars
 	 */
-	private static function generateTitleKey( $title , $numChars=5 ) {
+	private static function generateTitleKey( $title, $numChars = 5 ) {
 		$titleKey = '';
 		if ( $title != '' && $numChars > 0 ) {
 			$titleWords = explode( ' ', str_replace( '-', ' ', strtolower( $title ) ) );
@@ -79,20 +79,20 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 	}
 
 	// BibTeX month abbreviations
-	private static $monthStrings = array( 'jan', 'feb', 'mar', 'apr', 'may',
-		'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec' );
+	private static $monthStrings = [ 'jan', 'feb', 'mar', 'apr', 'may',
+		'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec' ];
 
 	/**
 	 * This is the list of BibTeX fields that do not have special cases for
 	 * generating the output. Fields that have special cases are: title, author,
 	 * editor, pages, month, and year.
 	 */
-	private static $bibtexFields = array( 'address', 'annote', 'booktitle',
+	private static $bibtexFields = [ 'address', 'annote', 'booktitle',
 		'chapter', 'crossref', 'doi', 'edition', 'howpublished', 'institution',
 		'journal', 'key', 'note', 'number', 'organization', 'publisher',
-		'school', 'series', 'type', 'volume' );
+		'school', 'series', 'type', 'volume' ];
 
-	static function generateBibtexEntries( $valuesTable,  $fieldDescriptions, $displayParams ) {
+	static function generateBibtexEntries( $valuesTable, $fieldDescriptions, $displayParams ) {
 		if ( array_key_exists( 'default entry type', $displayParams ) ) {
 			$defaultEntryType = strtolower( $displayParams['default entry type'] );
 		} else {
@@ -117,7 +117,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		$lastPageExists = array_key_exists( 'lastpage', $fieldDescriptions ) ? true : false;
 
 		// generate array of bibtex fields to output
-		$bibtexOutputFields = array();
+		$bibtexOutputFields = [];
 		foreach ( self::$bibtexFields as $bibtexField ) {
 			if ( array_key_exists( $bibtexField, $fieldDescriptions ) ) {
 				$bibtexOutputFields[] = $bibtexField;
@@ -261,10 +261,10 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		} else {
 			$linkText = wfMessage( 'cargo-viewbibtex' )->text();
 		}
-		$linkAttrs = array(
+		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
 			'target' => '_blank' // link will open in a new tab
-		);
+		];
 		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
 
 		return $text;

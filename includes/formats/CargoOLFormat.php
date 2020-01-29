@@ -7,9 +7,9 @@
 class CargoOLFormat extends CargoListFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'columns' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-columnsparam' )->parse() )
-		);
+		return [
+			'columns' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-columnsparam' )->parse() ]
+		];
 	}
 
 	/**
@@ -35,14 +35,14 @@ class CargoOLFormat extends CargoListFormat {
 		foreach ( $formattedValuesTable as $i => $row ) {
 			$text .= Html::rawElement( 'li', null, $this->displayRow( $row, $fieldDescriptions ) ) . "\n";
 		}
-		$olAttribs = array( 'start' => $offset + 1 );
+		$olAttribs = [ 'start' => $offset + 1 ];
 		if ( $numColumns > 1 ) {
 			$olAttribs['style'] = "margin-top: 0;";
 		}
 		$text = Html::rawElement( 'ol', $olAttribs, $text );
 		if ( $numColumns > 1 ) {
 			$text = Html::rawElement( 'div',
-				array( 'style' => "-webkit-column-count: $numColumns; -moz-column-count: $numColumns; column-count: $numColumns;" ), $text );
+				[ 'style' => "-webkit-column-count: $numColumns; -moz-column-count: $numColumns; column-count: $numColumns;" ], $text );
 		}
 		return $text;
 	}

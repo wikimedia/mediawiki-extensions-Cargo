@@ -7,7 +7,7 @@
 class CargoEmbeddedFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return array();
+		return [];
 	}
 
 	function displayRow( $row ) {

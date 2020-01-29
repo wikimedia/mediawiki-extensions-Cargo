@@ -6,7 +6,7 @@
 
 class CargoListFormat extends CargoDisplayFormat {
 
-	protected $undisplayedFields = array();
+	protected $undisplayedFields = [];
 
 	function __construct( $output, $parser = null ) {
 		parent::__construct( $output, $parser );
@@ -14,9 +14,9 @@ class CargoListFormat extends CargoDisplayFormat {
 	}
 
 	public static function allowedParameters() {
-		return array(
-			'delimiter' => array( 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' ) )
-		);
+		return [
+			'delimiter' => [ 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' ) ]
+		];
 	}
 
 	/**

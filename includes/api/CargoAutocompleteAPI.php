@@ -30,7 +30,7 @@ class CargoAutocompleteAPI extends ApiBase {
 		// If we got back an error message, exit with that message.
 		if ( !is_array( $data ) ) {
 			if ( !$data instanceof Message ) {
-				$data = ApiMessage::create( new RawMessage( '$1', array( $data ) ), 'unknownerror' );
+				$data = ApiMessage::create( new RawMessage( '$1', [ $data ] ), 'unknownerror' );
 			}
 			$this->dieWithError( $data );
 		}
@@ -42,30 +42,30 @@ class CargoAutocompleteAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array(
-			'limit' => array(
+		return [
+			'limit' => [
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			),
+			],
 			'substr' => null,
 			'table' => null,
 			'field' => null,
 			'field_is_array' => false,
 			'where' => null,
-		);
+		];
 	}
 
 	protected function getParamDescription() {
-		return array(
+		return [
 			'substr' => 'Search substring',
 			'table' => 'Cargo table for which to search values',
 			'field' => 'Cargo field for which to search values',
 			'field_is_array' => 'Whether the field holds an array/list of values',
 			'where' => 'The "where" clause for the query, based on the other filters specified',
-		);
+		];
 	}
 
 	protected function getDescription() {
@@ -73,16 +73,16 @@ class CargoAutocompleteAPI extends ApiBase {
 	}
 
 	protected function getExamples() {
-		return array(
+		return [
 			'api.php?action=cargoautocomplete&table=Books&field=Author&substr=jo',
 			'api.php?action=cargoautocomplete&table=Books&field=Author&where=Genre=comedy+AND+Year_published=1986&substr=jo',
-		);
+		];
 	}
 
 	private static function getAllValues( $table, $field, $fieldIsArray, $where, $substr ) {
-		$values = array();
+		$values = [];
 
-		if ( !is_null( $substr ) ) {
+		if ( $substr !== null ) {
 			if ( $where != '' ) {
 				$where .= " AND ";
 			}

@@ -11,7 +11,7 @@
 
 class CargoAppliedFilter {
 	public $filter;
-	public $values = array();
+	public $values = [];
 	public $search_terms;
 	public $lower_date;
 	public $upper_date;
@@ -23,7 +23,7 @@ class CargoAppliedFilter {
 		$af = new CargoAppliedFilter();
 		$af->filter = $filter;
 		if ( $search_terms != null ) {
-			$af->search_terms = array();
+			$af->search_terms = [];
 			foreach ( $search_terms as $search_term ) {
 				$af->search_terms[] = htmlspecialchars( $search_term );
 			}
@@ -39,7 +39,7 @@ class CargoAppliedFilter {
 				" " . $upper_date['day'] . ", " . $upper_date['year'];
 		}
 		if ( !is_array( $values ) ) {
-			$values = array( $values );
+			$values = [ $values ];
 		}
 		foreach ( $values as $val ) {
 			$filter_val = CargoFilterValue::create( $val, $filter );
@@ -59,12 +59,12 @@ class CargoAppliedFilter {
 			$fieldTableName = $this->filter->tableName . '__' . $this->filter->name;
 			$fieldTableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
 			$value_field =
-				CargoUtils::escapedFieldName( $cdb, array( $fieldTableAlias => $fieldTableName ),
+				CargoUtils::escapedFieldName( $cdb, [ $fieldTableAlias => $fieldTableName ],
 					'_value' );
 		} else {
 			$value_field =
 				CargoUtils::escapedFieldName( $cdb,
-					array( $this->filter->tableAlias => $this->filter->tableName ),
+					[ $this->filter->tableAlias => $this->filter->tableName ],
 					$this->filter->name );
 		}
 		$sql = "(";
@@ -119,7 +119,7 @@ class CargoAppliedFilter {
 				}
 				$sql .= "))";
 			} elseif ( $this->filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $fv->text ) ) {
-				$matches = array();
+				$matches = [];
 				if ( preg_match( "/^~within (.+)/", $fv->text, $matches ) ) {
 					$value = $matches[1];
 					$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
@@ -135,7 +135,7 @@ class CargoAppliedFilter {
 							$drilldownHierarchyRoot = $node;
 							break;
 						}
-						for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i -- ) {
+						for ( $i = count( $node->mChildren ) - 1; $i >= 0; $i-- ) {
 							$stack->push( $node->mChildren[$i] );
 						}
 					}
@@ -186,9 +186,9 @@ class CargoAppliedFilter {
 	function getQueryParts( $mainTableName ) {
 		$cdb = CargoUtils::getDB();
 
-		$tableNames = array();
-		$conds = array();
-		$joinConds = array();
+		$tableNames = [];
+		$conds = [];
+		$joinConds = [];
 		$fieldTableName = $this->filter->tableName;
 		$fieldTableAlias = $this->filter->tableAlias;
 		$fieldName = $this->filter->name;
@@ -202,8 +202,8 @@ class CargoAppliedFilter {
 			$tableNames[$fieldTableAlias] = $fieldTableName;
 			$joinConds[$fieldTableAlias] =
 				CargoUtils::joinOfMainAndFieldTable( $cdb,
-					array( $this->filter->tableAlias => $this->filter->tableName ),
-					array( $fieldTableAlias => $fieldTableName ) );
+					[ $this->filter->tableAlias => $this->filter->tableName ],
+					[ $fieldTableAlias => $fieldTableName ] );
 		}
 
 		if ( $this->filter->fieldDescription->mIsHierarchy ) {
@@ -212,19 +212,19 @@ class CargoAppliedFilter {
 			$tableNames[$hierarchyTableAlias] = $hierarchyTableName;
 			$joinConds[$hierarchyTableAlias] =
 				CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-					array( $fieldTableAlias => $fieldTableName ), $fieldName, array(
+					[ $fieldTableAlias => $fieldTableName ], $fieldName, [
 						$hierarchyTableAlias => $hierarchyTableName,
-					) );
+					] );
 		}
 
-		return array( $tableNames, $conds, $joinConds );
+		return [ $tableNames, $conds, $joinConds ];
 	}
 
 	/**
 	 * Gets an array of all values that this filter has.
 	 */
 	function getAllOrValues() {
-		$possible_values = array();
+		$possible_values = [];
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$tableName = $this->filter->tableName . '__' . $this->filter->name;
 			$tableAlias = $this->filter->tableAlias . '__' . $this->filter->name;
@@ -234,7 +234,7 @@ class CargoAppliedFilter {
 			$tableAlias = $this->filter->tableAlias;
 			$value_field = $this->filter->name;
 		}
-		$table = array( $tableAlias => $tableName );
+		$table = [ $tableAlias => $tableName ];
 
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $table, "DISTINCT " . $cdb->addIdentifierQuotes( $value_field ) );

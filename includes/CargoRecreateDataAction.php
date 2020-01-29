@@ -68,11 +68,11 @@ class CargoRecreateDataAction extends Action {
 			$recreateDataTabMsg = 'cargo-createdatatable';
 		}
 
-		$recreateDataTab = array(
+		$recreateDataTab = [
 			'class' => ( $request->getVal( 'action' ) == 'recreatedata' ) ? 'selected' : '',
 			'text' => $obj->msg( $recreateDataTabMsg )->parse(),
 			'href' => $title->getLocalURL( 'action=recreatedata' )
-		);
+		];
 
 		$links['views']['recreatedata'] = $recreateDataTab;
 

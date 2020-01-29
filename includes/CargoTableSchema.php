@@ -10,7 +10,7 @@
 
 class CargoTableSchema {
 
-	public $mFieldDescriptions = array();
+	public $mFieldDescriptions = [];
 
 	public static function newFromDBString( $dbString ) {
 		$tableSchema = new CargoTableSchema();
@@ -26,7 +26,7 @@ class CargoTableSchema {
 	}
 
 	function toDBString() {
-		$tableSchemaDBArray = array();
+		$tableSchemaDBArray = [];
 		foreach ( $this->mFieldDescriptions as $fieldName => $fieldDesc ) {
 			$tableSchemaDBArray[$fieldName] = $fieldDesc->toDBArray();
 		}

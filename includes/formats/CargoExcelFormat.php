@@ -7,11 +7,11 @@
 class CargoExcelFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'filename' => array( 'type' => 'string' ),
-			'link text' => array( 'type' => 'string' ),
-			'parse values' => array( 'type' => 'boolean' )
-		);
+		return [
+			'filename' => [ 'type' => 'string' ],
+			'link text' => [ 'type' => 'string' ],
+			'parse values' => [ 'type' => 'boolean' ]
+		];
 	}
 
 	/**
@@ -36,9 +36,9 @@ class CargoExcelFormat extends CargoDeferredFormat {
 		} else {
 			$linkText = wfMessage( 'cargo-viewxls' )->text();
 		}
-		$linkAttrs = array(
+		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
-		);
+		];
 		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
 
 		return $text;

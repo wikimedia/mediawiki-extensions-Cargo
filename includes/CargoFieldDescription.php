@@ -10,7 +10,7 @@
 class CargoFieldDescription {
 	public $mType;
 	public $mSize;
-	public $mDependentOn = array();
+	public $mDependentOn = [];
 	public $mIsList = false;
 	private $mDelimiter;
 	public $mAllowedValues = null;
@@ -20,7 +20,7 @@ class CargoFieldDescription {
 	public $mIsHidden = false;
 	public $mIsHierarchy = false;
 	public $mHierarchyStructure = null;
-	public $mOtherParams = array();
+	public $mOtherParams = [];
 
 	/**
 	 * Initializes from a string within the #cargo_declare function.
@@ -32,7 +32,7 @@ class CargoFieldDescription {
 		$fieldDescription = new CargoFieldDescription();
 
 		if ( strpos( strtolower( $fieldDescriptionStr ), 'list' ) === 0 ) {
-			$matches = array();
+			$matches = [];
 			$foundMatch = preg_match( '/[Ll][Ii][Ss][Tt] \((.*)\) [Oo][Ff] (.*)/is', $fieldDescriptionStr, $matches );
 			if ( !$foundMatch ) {
 				// Return a true error message here?
@@ -44,7 +44,7 @@ class CargoFieldDescription {
 		}
 
 		// There may be additional parameters, in/ parentheses.
-		$matches = array();
+		$matches = [];
 		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/s', $fieldDescriptionStr, $matches );
 		$allowedValuesParam = "";
 		if ( $foundMatch2 ) {
@@ -76,7 +76,7 @@ class CargoFieldDescription {
 				}
 			}
 			if ( $allowedValuesParam !== "" ) {
-				$allowedValuesArray = array();
+				$allowedValuesArray = [];
 				if ( $fieldDescription->mIsHierarchy == true ) {
 					// $paramValue contains "*" hierarchy structure
 					CargoUtils::validateHierarchyStructure( trim( $allowedValuesParam ) );
@@ -183,13 +183,13 @@ class CargoFieldDescription {
 	}
 
 	function isDateOrDatetime() {
-		return in_array( $this->mType, array( 'Date', 'Start date', 'End date', 'Datetime', 'Start datetime', 'End datetime' ) );
+		return in_array( $this->mType, [ 'Date', 'Start date', 'End date', 'Datetime', 'Start datetime', 'End datetime' ] );
 	}
 
 	function getFieldSize() {
 		if ( $this->isDateOrDatetime() ) {
 			return null;
-		} elseif ( in_array( $this->mType, array( 'Integer', 'Float', 'Rating', 'Boolean', 'Text', 'Wikitext', 'Searchtext' ) ) ) {
+		} elseif ( in_array( $this->mType, [ 'Integer', 'Float', 'Rating', 'Boolean', 'Text', 'Wikitext', 'Searchtext' ] ) ) {
 			return null;
 		// This leavs String, Page, etc. - see CargoUtils::fieldTypeToSQLType().
 		} elseif ( $this->mSize != null ) {
@@ -205,7 +205,7 @@ class CargoFieldDescription {
 	 * @return array
 	 */
 	function toDBArray() {
-		$descriptionData = array();
+		$descriptionData = [];
 		$descriptionData['type'] = $this->mType;
 		if ( $this->mSize != null ) {
 			$descriptionData['size'] = $this->mSize;
@@ -253,7 +253,7 @@ class CargoFieldDescription {
 		// CargoStore::getDateValueAndPrecision() could move there too.
 		$fieldValue = trim( $fieldValue );
 		if ( $fieldValue == '' ) {
-			return array( 'value' => $fieldValue );
+			return [ 'value' => $fieldValue ];
 		}
 
 		$newValue = $precision = null;
@@ -264,7 +264,7 @@ class CargoFieldDescription {
 			if ( $this->mIsList ) {
 				$delimiter = $this->getDelimiter();
 				$individualValues = explode( $delimiter, $fieldValue );
-				$valuesToBeKept = array();
+				$valuesToBeKept = [];
 				foreach ( $individualValues as $individualValue ) {
 					$realIndividualVal = trim( $individualValue );
 					if ( in_array( $realIndividualVal, $allowedValues ) ) {
@@ -288,7 +288,7 @@ class CargoFieldDescription {
 				// one date - store the most "precise" of the
 				// precision values.
 				$maxPrecision = self::YEAR_ONLY;
-				$dateValues = array();
+				$dateValues = [];
 				foreach ( $individualValues as $individualValue ) {
 					$realIndividualVal = trim( $individualValue );
 					if ( $realIndividualVal == '' ) {
@@ -335,8 +335,8 @@ class CargoFieldDescription {
 			$newValue = $fieldValue;
 		}
 
-		$valueArray = array( 'value' => $newValue );
-		if ( !is_null( $precision ) ) {
+		$valueArray = [ 'value' => $newValue ];
+		if ( $precision !== null ) {
 			$valueArray['precision'] = $precision;
 		}
 

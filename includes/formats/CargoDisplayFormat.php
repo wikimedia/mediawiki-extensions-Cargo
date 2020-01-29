@@ -12,7 +12,7 @@ class CargoDisplayFormat {
 	}
 
 	public static function allowedParameters() {
-		return array();
+		return [];
 	}
 
 	static function isDeferred() {

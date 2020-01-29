@@ -16,10 +16,10 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$params = $this->extractRequestParams();
 		$substr = $params['search'];
 		$tables = $params['tables'];
-		$data = array();
+		$data = [];
 
 		// Call appropriate method as per the parameters passed
-		if ( is_null( $tables ) ) {
+		if ( $tables === null ) {
 			$data = self::getTables( $substr );
 		} else {
 			$data = self::getFields( $tables, $substr );
@@ -28,7 +28,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		// If we got back an error message, exit with that message.
 		if ( !is_array( $data ) ) {
 			if ( !$data instanceof Message ) {
-				$data = ApiMessage::create( new RawMessage( '$1', array( $data ) ), 'unknownerror' );
+				$data = ApiMessage::create( new RawMessage( '$1', [ $data ] ), 'unknownerror' );
 			}
 			$this->dieWithError( $data );
 		}
@@ -40,24 +40,24 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array(
-			'limit' => array(
+		return [
+			'limit' => [
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			),
+			],
 			'search' => null,
 			'tables' => null,
-		);
+		];
 	}
 
 	protected function getParamDescription() {
-		return array(
+		return [
 				'search' => 'Search substring',
 				'tables' => 'Array of selected cargo table(s)'
-		);
+		];
 	}
 
 	protected function getDescription() {
@@ -65,10 +65,10 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 	}
 
 	protected function getExamples() {
-		return array(
+		return [
 			'api.php?action=cargoqueryautocomplete&format=json&search=Em',
 			'api.php?action=cargoqueryautocomplete&format=json&tables=Employee&search=Skil',
-		);
+		];
 	}
 
 	public function getVersion() {
@@ -77,18 +77,18 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 
 	public function getTables( $substr ) {
 		$dbr = wfGetDB( DB_MASTER );
-		$tables = array();
-		if ( is_null( $substr ) || $substr == '' ) {
+		$tables = [];
+		if ( $substr === null || $substr == '' ) {
 			$res = $dbr->select(
 				'cargo_tables',
-				array( 'main_table' ),
+				[ 'main_table' ],
 				"main_table NOT LIKE '%__NEXT'"
 				);
 		}
 		$res = $dbr->select(
 			'cargo_tables',
-			array( 'main_table' ),
-			array( "main_table LIKE '%$substr%'","main_table NOT LIKE '%__NEXT'" )
+			[ 'main_table' ],
+			[ "main_table LIKE '%$substr%'","main_table NOT LIKE '%__NEXT'" ]
 		);
 		foreach ( $res as $row ) {
 			array_push( $tables, $row );
@@ -97,14 +97,14 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		return $tables;
 	}
 
-	public function getFields( $tableNames ,$substr ) {
+	public function getFields( $tableNames, $substr ) {
 		$tables = explode( ",", $tableNames );
-		$fields = array();
+		$fields = [];
 		foreach ( $tables as &$table ) {
-			$tableSchemas = array();
+			$tableSchemas = [];
 			$dbr = wfGetDB( DB_REPLICA );
-			$res = $dbr->select( 'cargo_tables', array( 'main_table', 'table_schema' ),
-				array( 'main_table' => $table ) );
+			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
+				[ 'main_table' => $table ] );
 			while ( $row = $dbr->fetchRow( $res ) ) {
 				$tableName = $row['main_table'];
 				$tableSchemaString = $row['table_schema'];
@@ -113,7 +113,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 				$tempfields = array_keys( call_user_func_array( 'array_merge', $mFieldDescriptions ) );
 				array_push( $tempfields, "_pageName", "_pageTitle", "_pageNamespace", "_pageID", "_ID" );
 				foreach ( $tempfields as $key => $value ) {
-					if ( ( is_null( $substr ) || $substr == '' || stripos( $tableName, $substr ) === 0 ) || stristr( $value, $substr ) || stristr( $tableName . '.' . $value, $substr ) ) {
+					if ( ( $substr === null || $substr == '' || stripos( $tableName, $substr ) === 0 ) || stristr( $value, $substr ) || stristr( $tableName . '.' . $value, $substr ) ) {
 						array_push( $fields, $tableName . '.' . $value );
 					}
 				}

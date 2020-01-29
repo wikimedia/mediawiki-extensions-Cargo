@@ -13,7 +13,7 @@ class CargoQueryDisplayer {
 
 	public $mSQLQuery;
 	public $mFormat;
-	public $mDisplayParams = array();
+	public $mDisplayParams = [];
 	public $mParser = null;
 	public $mFieldDescriptions;
 	public $mFieldTables;
@@ -27,7 +27,7 @@ class CargoQueryDisplayer {
 	}
 
 	public static function getAllFormatClasses() {
-		$formatClasses = array(
+		$formatClasses = [
 			'list' => 'CargoListFormat',
 			'ul' => 'CargoULFormat',
 			'ol' => 'CargoOLFormat',
@@ -53,7 +53,7 @@ class CargoQueryDisplayer {
 			'tag cloud' => 'CargoTagCloudFormat',
 			'exhibit' => 'CargoExhibitFormat',
 			'bibtex' => 'CargoBibtexFormat',
-		);
+		];
 		return $formatClasses;
 	}
 
@@ -68,7 +68,7 @@ class CargoQueryDisplayer {
 		}
 
 		$formatClass = null;
-		Hooks::run( 'CargoGetFormatClass', array( $this->mFormat, &$formatClass ) );
+		Hooks::run( 'CargoGetFormatClass', [ $this->mFormat, &$formatClass ] );
 		if ( $formatClass != null ) {
 			return $formatClass;
 		}
@@ -159,12 +159,12 @@ class CargoQueryDisplayer {
 					$text = ( $value == true ) ? wfMessage( 'htmlform-yes' )->text() : wfMessage( 'htmlform-no' )->text();
 				} elseif ( $fieldType == 'Searchtext' && $this->mSQLQuery && array_key_exists( $fieldName, $this->mSQLQuery->mSearchTerms ) ) {
 					$searchTerms = $this->mSQLQuery->mSearchTerms[$fieldName];
-					$text = Html::rawElement( 'span', array( 'class' => 'searchresult' ), self::getTextSnippet( $value, $searchTerms ) );
+					$text = Html::rawElement( 'span', [ 'class' => 'searchresult' ], self::getTextSnippet( $value, $searchTerms ) );
 				} elseif ( $fieldType == 'Rating' ) {
 					$rate = $value * 20;
 					$url = $wgServer . $wgScriptPath . '/' . 'extensions/Cargo/resources/images/star-rating-sprite-1.png';
-					$text = '<span style="display: block; width: 65px; height: 13px; background: url(\'' . $url .'\') 0 0;">
-						<span style="display: block; width: '. $rate .'%; height: 13px; background: url(\'' . $url .'\') 0 -13px;"></span>';
+					$text = '<span style="display: block; width: 65px; height: 13px; background: url(\'' . $url . '\') 0 0;">
+						<span style="display: block; width: ' . $rate . '%; height: 13px; background: url(\'' . $url . '\') 0 -13px;"></span>';
 				} else {
 					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
 				}
@@ -228,12 +228,12 @@ class CargoQueryDisplayer {
 			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
 		} elseif ( $type == 'URL' ) {
 			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
-				return Html::element( 'a', array( 'href' => $value ),
+				return Html::element( 'a', [ 'href' => $value ],
 						$fieldDescription->mOtherParams['link text'] );
 			} else {
 				// Otherwise, display the URL as a link.
 				global $wgNoFollowLinks;
-				$linkParams = array( 'href' => $value, 'class' => 'external free' );
+				$linkParams = [ 'href' => $value, 'class' => 'external free' ];
 				if ( $wgNoFollowLinks ) {
 					$linkParams['rel'] = 'nofollow';
 				}
@@ -322,7 +322,7 @@ class CargoQueryDisplayer {
 		foreach ( $terms as $i => $term ) {
 			// Try to map from a MySQL search to a PHP one -
 			// this code could probably be improved.
-			$term = str_replace( array( '"', "'", '+', '*' ), '', $term );
+			$term = str_replace( [ '"', "'", '+', '*' ], '', $term );
 			// What is the point of this...?
 			if ( strpos( $term, '*' ) !== false ) {
 				$term = '\b' . $term . '\b';
@@ -388,7 +388,7 @@ class CargoQueryDisplayer {
 			$moreResultsText = wfMessage( 'moredotdotdot' )->parse();
 		}
 
-		$queryStringParams = array();
+		$queryStringParams = [];
 		$sqlQuery = $this->mSQLQuery;
 		$queryStringParams['tables'] = $sqlQuery->mTablesStr;
 		$queryStringParams['fields'] = $sqlQuery->mFieldsStr;
@@ -423,7 +423,7 @@ class CargoQueryDisplayer {
 				$linkRenderer = null;
 			}
 			return Html::rawElement( 'p', null,
-				CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, array(), $queryStringParams ) );
+				CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, [], $queryStringParams ) );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;

@@ -7,7 +7,7 @@
 class CargoTableFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return array( 'merge similar cells' => array( 'type' => 'boolean' ) );
+		return [ 'merge similar cells' => [ 'type' => 'boolean' ] ];
 	}
 
 	/**
@@ -15,8 +15,8 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 * easier, if it's going to be done.
 	 */
 	function getHelperDataForMerging( $formattedValuesTable ) {
-		$duplicateValuesInTable = array();
-		$blankedCells = array();
+		$duplicateValuesInTable = [];
+		$blankedCells = [];
 		$numRows = count( $formattedValuesTable );
 		foreach ( $formattedValuesTable as $rowNum => $row ) {
 			foreach ( $row as $columnNum => $value ) {
@@ -34,20 +34,20 @@ class CargoTableFormat extends CargoDisplayFormat {
 				) {
 					$numMatches++;
 					if ( !array_key_exists( $nextRowNum, $blankedCells ) ) {
-						$blankedCells[$nextRowNum] = array();
+						$blankedCells[$nextRowNum] = [];
 					}
 					$blankedCells[$nextRowNum][] = $columnNum;
 				}
 				if ( $numMatches > 0 ) {
 					if ( !array_key_exists( $rowNum, $duplicateValuesInTable ) ) {
-						$duplicateValuesInTable[$rowNum] = array();
+						$duplicateValuesInTable[$rowNum] = [];
 					}
 					$duplicateValuesInTable[$rowNum][$columnNum] = $numMatches + 1;
 				}
 			}
 		}
 
-		return array( $duplicateValuesInTable, $blankedCells );
+		return [ $duplicateValuesInTable, $blankedCells ];
 	}
 
 	/**
@@ -82,7 +82,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 				// We add a class to enable special CSS and/or
 				// JS handling.
 				$className = 'field_' . str_replace( ' ', '_', $field );
-				$text .= Html::rawElement( 'th', array( 'class' => $className ), $field ) . "\n";
+				$text .= Html::rawElement( 'th', [ 'class' => $className ], $field ) . "\n";
 			}
 		}
 		$text .= "</tr></thead>\n<tbody>";
@@ -91,7 +91,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 			list( $duplicateValuesInTable, $blankedCells ) = $this->getHelperDataForMerging( $formattedValuesTable );
 		}
 
-		$columnIsOdd = array();
+		$columnIsOdd = [];
 
 		foreach ( $formattedValuesTable as $rowNum => $row ) {
 			$text .= "<tr>\n";
@@ -126,7 +126,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 					}
 				}
 
-				$attrs = array( 'class' => $className );
+				$attrs = [ 'class' => $className ];
 				if (
 					$mergeSimilarCells &&
 					array_key_exists( $rowNum, $duplicateValuesInTable ) &&

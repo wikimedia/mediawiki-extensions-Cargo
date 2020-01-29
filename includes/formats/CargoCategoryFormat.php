@@ -7,9 +7,9 @@
 class CargoCategoryFormat extends CargoListFormat {
 
 	public static function allowedParameters() {
-		return array(
-			'columns' => array( 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-columnsparam' )->parse() )
-		);
+		return [
+			'columns' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-columnsparam' )->parse() ]
+		];
 	}
 
 	/**

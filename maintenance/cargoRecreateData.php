@@ -116,7 +116,7 @@ class CargoRecreateData extends Maintenance {
 		if ( array_key_exists( $tableName, $this->templatesThatAttachToTables ) ) {
 			$templatesThatAttachToThisTable = $this->templatesThatAttachToTables[$tableName];
 		} else {
-			$templatesThatAttachToThisTable = array();
+			$templatesThatAttachToThisTable = [];
 		}
 		$templatesForThisTable = array_merge( $templatesThatDeclareThisTable, $templatesThatAttachToThisTable );
 
@@ -133,8 +133,8 @@ class CargoRecreateData extends Maintenance {
 
 			$offset = 0;
 			do {
-				$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( array(
-					'LIMIT' => 500, 'OFFSET' => $offset ) );
+				$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( [
+					'LIMIT' => 500, 'OFFSET' => $offset ] );
 				if ( !$quiet ) {
 					print "Saving data for pages " . ( $offset + 1 ) . " to " . ( $offset + count( $titlesWithThisTemplate ) ) . " that call this template...\n";
 				}

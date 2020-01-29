@@ -30,7 +30,7 @@ class CargoQuery {
 		$offsetStr = null;
 		$noHTML = false;
 		$format = 'auto'; // default
-		$displayParams = array();
+		$displayParams = [];
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -107,15 +107,15 @@ class CargoQuery {
 			// necessary. There has to be some better way, though.
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
-			$text = $formatter->queryAndDisplay( array( $sqlQuery ), $displayParams );
-			return array( $text, 'noparse' => true, 'isHTML' => true );
+			$text = $formatter->queryAndDisplay( [ $sqlQuery ], $displayParams );
+			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
 		// If the query limit was set to 0, no need to run the query -
 		// all we need to do is show the "more results" link, then exit.
 		if ( $sqlQuery->mQueryLimit == 0 ) {
 			$text = $queryDisplayer->viewMoreResultsLink( true );
-			return array( $text, 'noparse' => true, 'isHTML' => true );
+			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
 		try {
@@ -147,9 +147,9 @@ class CargoQuery {
 		}
 
 		if ( $displayHTML ) {
-			return array( $text, 'noparse' => true, 'isHTML' => true );
+			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		} else {
-			return array( $text, 'noparse' => false );
+			return [ $text, 'noparse' => false ];
 		}
 	}
 

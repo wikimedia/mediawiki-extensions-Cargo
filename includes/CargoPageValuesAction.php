@@ -41,12 +41,12 @@ class CargoPageValuesAction extends Action {
 			return true;
 		}
 
-		$toolbox['cargo-pagevalues'] = array(
+		$toolbox['cargo-pagevalues'] = [
 			'msg' => 'pagevalues',
-			'href' => $title->getLocalUrl( array( 'action' => 'pagevalues' ) ),
+			'href' => $title->getLocalUrl( [ 'action' => 'pagevalues' ] ),
 			'id' => 't-cargopagevalueslink',
 			'rel' => 'cargo-pagevalues'
-		);
+		];
 
 		return true;
 	}

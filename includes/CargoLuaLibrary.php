@@ -3,16 +3,16 @@
 class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 
 	function register() {
-		$lib = array(
-			'query' => array( $this, 'cargoQuery' )
-		);
-		return $this->getEngine()->registerInterface( __DIR__ . '/cargo.lua', $lib, array() );
+		$lib = [
+			'query' => [ $this, 'cargoQuery' ]
+		];
+		return $this->getEngine()->registerInterface( __DIR__ . '/cargo.lua', $lib, [] );
 	}
 
 	function cargoQuery( $tables, $fields, $args ) {
 		$this->checkType( 'query', 1, $tables, 'string' );
 		$this->checkType( 'query', 2, $fields, 'string' );
-		$this->checkTypeOptional( 'query', 3, $args, 'table', array() );
+		$this->checkTypeOptional( 'query', 3, $args, 'table', [] );
 
 		if ( isset( $args['where'] ) ) {
 			$where = $args['where'];
@@ -59,13 +59,13 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			throw new Scribunto_LuaError( $e->getMessage() );
 		}
 
-		$result = array();
+		$result = [];
 
 		$fieldArray = CargoUtils::smartSplit( ',', $fields );
 
 		$rowIndex = 1; // because Lua arrays start at 1
 		foreach ( $rows as $row ) {
-			$values = array();
+			$values = [];
 			foreach ( $fieldArray as $fieldString ) {
 				$alias = $query->getAliasForFieldString( $fieldString );
 				$nameArray = CargoUtils::smartSplit( '=', $fieldString );
@@ -75,6 +75,6 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			$result[$rowIndex++] = $values;
 		}
 
-		return array( $result );
+		return [ $result ];
 	}
 }

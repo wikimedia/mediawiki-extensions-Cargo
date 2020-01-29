@@ -16,7 +16,7 @@ class CargoRecreateTablesAPI extends ApiBase {
 		$user = $this->getUser();
 
 		if ( !$user->isAllowed( 'recreatecargodata' ) || $user->isBlocked() ) {
-			$this->dieWithError( array( 'badaccess-groups' ) );
+			$this->dieWithError( [ 'badaccess-groups' ] );
 		}
 
 		$params = $this->extractRequestParams();
@@ -36,21 +36,21 @@ class CargoRecreateTablesAPI extends ApiBase {
 	}
 
 	protected function getAllowedParams() {
-		return array(
-			'template' => array(
+		return [
+			'template' => [
 				ApiBase::PARAM_TYPE => 'string',
-			),
-			'createReplacement' => array(
+			],
+			'createReplacement' => [
 				ApiBase::PARAM_TYPE => 'boolean',
-			),
-		);
+			],
+		];
 	}
 
 	protected function getParamDescription() {
-		return array(
+		return [
 			'template' => 'The template whose declared Cargo table(s) should be recreated',
 			'createReplacement' => 'Whether to put data into a replacement table',
-		);
+		];
 	}
 
 	protected function getDescription() {
@@ -59,9 +59,9 @@ class CargoRecreateTablesAPI extends ApiBase {
 	}
 
 	protected function getExamples() {
-		return array(
+		return [
 			'api.php?action=cargorecreatetables&template=City'
-		);
+		];
 	}
 
 }

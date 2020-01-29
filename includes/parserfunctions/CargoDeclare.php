@@ -17,7 +17,7 @@ class CargoDeclare {
 	 * MySQL; other DB systems' additional words (if any) should be added
 	 * as well.
 	 */
-	private static $sqlReservedWords = array(
+	private static $sqlReservedWords = [
 		'accessible', 'add', 'all', 'alter', 'analyze',
 		'and', 'as', 'asc', 'asensitive', 'before',
 		'between', 'bigint', 'binary', 'blob', 'both',
@@ -65,15 +65,15 @@ class CargoDeclare {
 		'utc_timestamp', 'values', 'varbinary', 'varchar', 'varcharacter',
 		'varying', 'virtual', 'when', 'where', 'while',
 		'with', 'write', 'xor', 'year_month', 'zerofill'
-	);
+	];
 
 	/**
 	 * Words that are similarly reserved for Cargo - thankfully, a much
 	 * shorter list.
 	 */
-	private static $cargoReservedWords = array(
+	private static $cargoReservedWords = [
 		'holds', 'matches', 'near', 'within'
-	);
+	];
 
 	public static function validateFieldOrTableName( $name, $type ) {
 		if ( preg_match( '/\s/', $name ) ) {
@@ -110,8 +110,8 @@ class CargoDeclare {
 		array_shift( $params ); // we already know the $parser...
 
 		$tableName = null;
-		$parentTables = array();
-		$drilldownTabsParams = array();
+		$parentTables = [];
+		$drilldownTabsParams = [];
 		$tableSchema = new CargoTableSchema();
 		$hasStartEvent = false;
 		$hasEndEvent = false;
@@ -133,7 +133,7 @@ class CargoDeclare {
 			} elseif ( $key == '_parentTables' ) {
 				$tables = explode( ';', $value );
 				foreach ( $tables as $table ) {
-					$parentTable = array();
+					$parentTable = [];
 					$parentTableAlias = '';
 					$foundMatch = preg_match( '/([^(]*)\s*\((.*)\)/s', $table, $matches );
 					if ( $foundMatch ) {
@@ -209,7 +209,7 @@ class CargoDeclare {
 					}
 					$extraParams = $matches[2][0];
 					$params = preg_split( '~(?<!\\\)' . preg_quote( ';', '~' ) . '~', $extraParams );
-					$tabParams = array();
+					$tabParams = [];
 					foreach ( $params as $param ) {
 						if ( !$param ) {
 							continue;
@@ -217,7 +217,7 @@ class CargoDeclare {
 						$param = array_map( 'trim', explode( '=', $param, 2 ) );
 						if ( $param[0] == 'fields' ) {
 							$fields = array_map( 'trim', explode( ',', $param[1] ) );
-							$drilldownFields = array();
+							$drilldownFields = [];
 							foreach ( $fields as $field ) {
 								$field = array_map( 'trim', explode( '=', $field ) );
 								if ( count( $field ) == 2 ) {
@@ -235,7 +235,7 @@ class CargoDeclare {
 						$tabParams['format'] = 'category';
 					}
 					if ( !array_key_exists( 'fields', $tabParams ) ) {
-						$tabParams['fields'] = array( 'Title' => '_pageName' );
+						$tabParams['fields'] = [ 'Title' => '_pageName' ];
 					}
 					$drilldownTabsParams[$tabName] = $tabParams;
 				}

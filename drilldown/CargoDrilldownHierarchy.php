@@ -11,7 +11,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	public $mExactRootMatchCount = 0;
 
 	static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
-			$mainTableAlias = null, $tableNames = array(), $joinConds = array() ) {
+			$mainTableAlias = null, $tableNames = [], $joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 		list( $tableNames, $conds, $joinConds ) = $f->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
@@ -25,7 +25,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 			$fieldColumnName = '_value';
 			if ( !array_key_exists( $fieldTableAlias, $joinConds ) ) {
 				$joinConds[$fieldTableAlias] = CargoUtils::joinOfMainAndFieldTable( $cdb,
-					array( $f->tableAlias => $f->tableName ), array( $fieldTableAlias => $fieldTableName ) );
+					[ $f->tableAlias => $f->tableName ], [ $fieldTableAlias => $fieldTableName ] );
 			}
 		} else {
 			$fieldColumnName = $f->name;
@@ -45,22 +45,22 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		if ( !array_key_exists( $hierarchyTableAlias, $joinConds ) ) {
 			$joinConds[$hierarchyTableAlias] =
 				CargoUtils::joinOfSingleFieldAndHierarchyTable( $cdb,
-					array( $fieldTableAlias => $fieldTableName ), $fieldColumnName,
-					array( $hierarchyTableAlias => $hierarchyTableName ) );
+					[ $fieldTableAlias => $fieldTableName ], $fieldColumnName,
+					[ $hierarchyTableAlias => $hierarchyTableName ] );
 		}
-		$withinTreeHierarchyConds = array();
-		$exactRootHierarchyConds = array();
+		$withinTreeHierarchyConds = [];
+		$exactRootHierarchyConds = [];
 		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._left >= $node->mLeft";
 		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._right <= $node->mRight";
 		$exactRootHierarchyConds[] = "$hierarchyTableAlias._left = $node->mLeft";
 		// within hierarchy tree value count
-		$res = $cdb->select( $tableNames, array( $countClause ), array_merge( $conds, $withinTreeHierarchyConds ),
+		$res = $cdb->select( $tableNames, [ $countClause ], array_merge( $conds, $withinTreeHierarchyConds ),
 			null, null, $joinConds );
 		$row = $cdb->fetchRow( $res );
 		$node->mWithinTreeMatchCount = $row['total'];
 		$cdb->freeResult( $res );
 		// exact hierarchy node value count
-		$res = $cdb->select( $tableNames, array( $countClause ), array_merge( $conds, $exactRootHierarchyConds ),
+		$res = $cdb->select( $tableNames, [ $countClause ], array_merge( $conds, $exactRootHierarchyConds ),
 			null, null, $joinConds );
 		$row = $cdb->fetchRow( $res );
 		$node->mExactRootMatchCount = $row['total'];
@@ -72,8 +72,8 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	 * for calling this function. Also return an array of distinct values of the field and their counts.
 	 */
 	static function computeNodeCountForTreeByFilter( $node, $f, $fullTextSearchTerm,
-			$appliedFilters, $mainTableName = null, $tableNames = array(), $joinConds = array() ) {
-		$filter_values = array();
+			$appliedFilters, $mainTableName = null, $tableNames = [], $joinConds = [] ) {
+		$filter_values = [];
 		$stack = new SplStack();
 		// preorder traversal of the tree
 		$stack->push( $node );

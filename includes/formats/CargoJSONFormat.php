@@ -7,7 +7,7 @@
 class CargoJSONFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
-		return array( 'parse values' => array( 'type' => 'boolean' ) );
+		return [ 'parse values' => [ 'type' => 'boolean' ] ];
 	}
 
 	/**
@@ -25,9 +25,9 @@ class CargoJSONFormat extends CargoDeferredFormat {
 			$queryParams['parse values'] = $displayParams['parse values'];
 		}
 
-		$linkAttrs = array(
+		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
-		);
+		];
 		$text = Html::rawElement( 'a', $linkAttrs, wfMessage( 'cargo-viewjson' )->text() );
 
 		return $text;

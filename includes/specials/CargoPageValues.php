@@ -41,7 +41,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$dbw = wfGetDB( DB_MASTER );
 
-		$tableNames = array();
+		$tableNames = [];
 
 		// Make _pageData and _fileData the first two tables, if
 		// either of them hold any real data.
@@ -53,7 +53,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$res = $dbw->select(
-			'cargo_pages', 'table_name', array( 'page_id' => $this->mTitle->getArticleID() ) );
+			'cargo_pages', 'table_name', [ 'page_id' => $this->mTitle->getArticleID() ] );
 		while ( $row = $dbw->fetchRow( $res ) ) {
 			$tableNames[] = $row['table_name'];
 		}
@@ -80,7 +80,7 @@ class CargoPageValues extends IncludableSpecialPage {
 				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
 
 			$text .= Html::rawElement( 'h2', null,
-				Html::element( 'span', array( 'class' => 'mw-headline', 'id' => $tableSectionAnchor ), $tableSectionHeader ) ) . "\n";
+				Html::element( 'span', [ 'class' => 'mw-headline', 'id' => $tableSectionAnchor ], $tableSectionHeader ) ) . "\n";
 
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
@@ -119,12 +119,12 @@ class CargoPageValues extends IncludableSpecialPage {
 		$cdb = CargoUtils::getDB();
 
 		$sqlQuery = new CargoSQLQuery();
-		$sqlQuery->mAliasedTableNames = array( $tableName => $tableName );
+		$sqlQuery->mAliasedTableNames = [ $tableName => $tableName ];
 
-		$tableSchemas = CargoUtils::getTableSchemas( array( $tableName ) );
+		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
-		$aliasedFieldNames = array();
+		$aliasedFieldNames = [];
 		foreach ( $tableSchemas[$tableName]->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( $fieldDescription->mIsHidden ) {
 				// @TODO - do some custom formatting
@@ -161,9 +161,9 @@ class CargoPageValues extends IncludableSpecialPage {
 		if ( $name == '_fullText' && strlen( $value ) > 300 ) {
 			$value = substr( $value, 0, 300 ) . ' ...';
 		}
-		return Html::rawElement( 'tr', array(),
-			Html::rawElement( 'td', array( 'style' => 'vertical-align: top;' ), $name ) .
-			Html::rawElement( 'td', array(), $value )
+		return Html::rawElement( 'tr', [],
+			Html::rawElement( 'td', [ 'style' => 'vertical-align: top;' ], $name ) .
+			Html::rawElement( 'td', [], $value )
 		);
 	}
 
@@ -171,7 +171,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	 * Based on MediaWiki's InfoAction::addTable()
 	 */
 	function printTable( $tableContents ) {
-		return Html::rawElement( 'table', array( 'class' => 'wikitable mw-page-info' ),
+		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
 			$tableContents ) . "\n";
 	}
 

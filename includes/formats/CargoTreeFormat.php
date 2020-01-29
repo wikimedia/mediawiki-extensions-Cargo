@@ -1,93 +1,19 @@
 <?php
 
 /**
- * Classes to print query results in a "tree" display, using a field that
+ * Class to print query results in a "tree" display, using a field that
  * defines a "parent" relationship between rows.
  *
  * @author Yaron Koren
  * @ingroup Cargo
  */
 
-class CargoTreeFormatNode {
-
-	private $mParent;
-	private $mChildren = array();
-	private $mValues = array();
-
-	public function getParent() {
-		return $this->mParent;
-	}
-
-	public function setParent( $parent ) {
-		$this->mParent = $parent;
-	}
-
-	public function getChildren() {
-		return $this->mChildren;
-	}
-
-	public function addChild( $child ) {
-		$this->mChildren[] = $child;
-	}
-
-	public function getValues() {
-		return $this->mValues;
-	}
-
-	public function setValues( $values ) {
-		$this->mValues = $values;
-	}
-}
-
-class CargoTreeFormatTree {
-
-	private $mNodes = array();
-
-	public function getNodes() {
-		return $this->mNodes;
-	}
-
-	public function getNode( $nodeName ) {
-		return $this->mNodes[$nodeName];
-	}
-
-	/**
-	 *
-	 * @param string $nodeName
-	 * @param string $parentName
-	 * @param array $nodeValues
-	 * @throws MWException
-	 */
-	function addNode( $nodeName, $parentName, $nodeValues ) {
-		// Add node for child, if it's not already there.
-		if ( array_key_exists( $nodeName, $this->mNodes ) ) {
-			// Make sure it doesn't have more than one parent.
-			$existingParent = $this->mNodes[$nodeName]->getParent();
-			if ( $existingParent != null && $existingParent != $parentName ) {
-				throw new MWException( "The value \"$nodeName\" cannot have more than one parent "
-				. "defined for it" );
-			}
-		} else {
-			$this->mNodes[$nodeName] = new CargoTreeFormatNode();
-		}
-		$this->mNodes[$nodeName]->setParent( $parentName );
-		$this->mNodes[$nodeName]->setValues( $nodeValues );
-
-		// Add node for parent, if it's not already there
-		if ( !array_key_exists( $parentName, $this->mNodes ) ) {
-			$this->mNodes[$parentName] = new CargoTreeFormatNode();
-		}
-		$this->mNodes[$parentName]->addChild( $nodeName );
-	}
-
-}
-
 class CargoTreeFormat extends CargoListFormat {
 	protected $mParentField = null;
 	public $mFieldDescriptions;
 
 	public static function allowedParameters() {
-		return array( 'parent field' => array( 'type' => 'string' ) );
+		return [ 'parent field' => [ 'type' => 'string' ] ];
 	}
 
 	/**
@@ -121,7 +47,7 @@ class CargoTreeFormat extends CargoListFormat {
 		foreach ( $formattedValuesTable as $queryResultsRow ) {
 			$name = null;
 			$parentName = null;
-			$values = array();
+			$values = [];
 			foreach ( $queryResultsRow as $fieldName => $value ) {
 				if ( $name == null ) {
 					$name = $value;

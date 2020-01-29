@@ -52,15 +52,15 @@ class SetCargoPageData extends Maintenance {
 		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'cargo_tables', array( 'field_tables', 'field_helper_tables' ),
-			array( 'main_table' => $pageDataTable ) );
+		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
+			[ 'main_table' => $pageDataTable ] );
 
 		$numRows = $res->numRows();
 		if ( $numRows > 0 ) {
 			$row = $res->fetchRow();
 			$fieldTables = unserialize( $row['field_tables'] );
 			$fieldHelperTables = unserialize( $row['field_helper_tables'] );
-			CargoDeleteCargoTable::deleteTable( $pageDataTable, $fieldTables, $fieldHelperTables );
+			SpecialDeleteCargoTable::deleteTable( $pageDataTable, $fieldTables, $fieldHelperTables );
 		}
 
 		if ( $this->getOption( "delete" ) ) {
@@ -79,7 +79,7 @@ class SetCargoPageData extends Maintenance {
 		$dbw = wfGetDB( DB_MASTER );
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $pageDataTable, $tableSchema, $tableSchemaString, 0 );
 
-		$pages = $dbr->select( 'page', array( 'page_id' ) );
+		$pages = $dbr->select( 'page', [ 'page_id' ] );
 
 		while ( $page = $pages->fetchObject() ) {
 			$title = Title::newFromID( $page->page_id );
