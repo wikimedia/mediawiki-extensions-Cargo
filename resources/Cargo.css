@@ -66,7 +66,7 @@ table.cargoViewDataTable input {
 .addButton {
 	padding:10px;
 	background-color: transparent;
-	background-image: url(images/add.png);
+	background-image: url(../resources/images/add.png);
 	background-color: #f8f9fa;
 	border: 1px #a2a9b1 solid;
 	vertical-align: top;
@@ -75,7 +75,7 @@ table.cargoViewDataTable input {
 .deleteButton {
 	padding:10px;
 	background-color: transparent;
-	background-image: url(images/subtract.png);
+	background-image: url(../resources/images/subtract.png);
 	background-color: #f8f9fa;
 	border: 1px #a2a9b1 solid;
 	vertical-align: top;

@@ -162,7 +162,7 @@ class CargoQueryDisplayer {
 					$text = Html::rawElement( 'span', array( 'class' => 'searchresult' ), self::getTextSnippet( $value, $searchTerms ) );
 				} elseif ( $fieldType == 'Rating' ) {
 					$rate = $value * 20;
-					$url = $wgServer . $wgScriptPath . '/' . 'extensions/Cargo/images/star-rating-sprite-1.png';
+					$url = $wgServer . $wgScriptPath . '/' . 'extensions/Cargo/resources/images/star-rating-sprite-1.png';
 					$text = '<span style="display: block; width: 65px; height: 13px; background: url(\'' . $url .'\') 0 0;">
 						<span style="display: block; width: '. $rate .'%; height: 13px; background: url(\'' . $url .'\') 0 -13px;"></span>';
 				} else {

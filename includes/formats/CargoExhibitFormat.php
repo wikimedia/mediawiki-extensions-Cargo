@@ -177,7 +177,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$this->mOutput->addModules( 'ext.cargo.exhibit' );
 		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
 
-		$exhibit_busy = $cgScriptPath . "/skins/loading.gif";
+		$exhibit_busy = $cgScriptPath . "/resources/images/loading.gif";
 		// The "loading" message is just alt-text, so it doesn't really
 		// matter that it's hardcoded in English.
 		$preViewsText = '<img id="loading_exhibit" src="'. $exhibit_busy .'" alt="Loading Exhibit" style="display: none;" >';
