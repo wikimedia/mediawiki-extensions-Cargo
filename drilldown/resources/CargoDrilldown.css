@@ -103,8 +103,14 @@ span.drilldown-filter-notes {
 div.drilldown-filter-values {
 }
 
-.ui-button { margin-left: -1px; }
-.ui-button-icon-only .ui-button-text { padding: 0.35em; }
+.ui-button {
+	margin-left: -1px;
+}
+
+.ui-button-icon-only .ui-button-text {
+	padding: 0.35em;
+}
+
 button.ui-button-icon-only {
 	width: 1.7em;
 	height: 1.5em;
@@ -113,14 +119,14 @@ button.ui-button-icon-only {
 }
 
 /* Tabs */
-@media screen and (min-width: 550px) {
+@media screen and ( min-width: 550px ) {
 	.drilldown-tabs {
 		width: 100%;
 		float: left;
 		clear: both;
 		margin: 0;
 		padding: 0;
-		background: url(break.png) no-repeat bottom left;
+		background: url( break.png ) no-repeat bottom left;
 	}
 
 	.drilldown-tabs li {
@@ -130,7 +136,7 @@ button.ui-button-icon-only {
 		height: 2.25em;
 		white-space: nowrap;
 		list-style: none none;
-		background: url(break.png) no-repeat bottom right, url(fade.png) repeat-x bottom;
+		background: url( break.png ) no-repeat bottom right, url( fade.png ) repeat-x bottom;
 	}
 
 	.drilldown-tabs li:first-child {
@@ -166,12 +172,12 @@ button.ui-button-icon-only {
 
 /* override gallery css(resources/src/mediawiki.page.gallery.styles/gallery.css) */
 .gallerybox {
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 4px 8px 0 rgba( 0, 0, 0, 0.2 );
 	transition: 0.3s;
 }
 
 .gallerybox:hover {
-	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 8px 16px 0 rgba( 0, 0, 0, 0.2 );
 }
 
 li.gallerybox div.thumb {
@@ -183,8 +189,9 @@ li.gallerybox div.thumb img {
 	width: 100%;
 }
 
-@media screen and (max-width: 549px) {
-	html, body {
+@media screen and ( max-width: 549px ) {
+	html,
+	body {
 		height: 100%;
 	}
 
@@ -192,7 +199,8 @@ li.gallerybox div.thumb img {
 		position: relative;
 	}
 
-	div#right-navigation, div#left-navigation {
+	div#right-navigation,
+	div#left-navigation {
 		margin-top: 0;
 	}
 
@@ -211,7 +219,8 @@ li.gallerybox div.thumb img {
 		border-bottom: 1px solid #ffffff;
 	}
 
-	div#mw-page-base, div#mw-head-base {
+	div#mw-page-base,
+	div#mw-head-base {
 		height: 2.55em;
 		margin-top: -2.55em;
 	}
@@ -249,14 +258,14 @@ li.gallerybox div.thumb img {
 		position: fixed;
 		height: 100%;
 		overflow-y: auto;
-		-webkit-transform: translate(-275px, 0);
-		transform: translate(-275px, 0);
+		-webkit-transform: translate( -275px, 0 );
+		transform: translate( -275px, 0 );
 		transition: transform 0.3s ease;
 	}
 
 	#drilldown-tables-tabs-wrapper.open {
-		-webkit-transform: translate(0, 0);
-		transform: translate(0, 0);
+		-webkit-transform: translate( 0, 0 );
+		transform: translate( 0, 0 );
 	}
 
 	#drilldown-tables-tabs-wrapper ul {
@@ -266,7 +275,8 @@ li.gallerybox div.thumb img {
 		margin: 0;
 	}
 
-	#tableTabsHeader, #formatTabsHeader {
+	#tableTabsHeader,
+	#formatTabsHeader {
 		padding: 0.5em 0.5em 0.5em 1em;
 	}
 
@@ -299,11 +309,15 @@ li.gallerybox div.thumb img {
 
 	div.mapCanvas {
 		width: 100% !important;
-		/*width: 100%;*/
-		/*zoom: calc(1- calc(360/700));*/
+		/* width: 100%;
+		zoom: calc(1- calc(360/700)); */
 	}
 
-	div#p-logo, div#p-personal, #contentSub, br, .hide {
+	div#p-logo,
+	div#p-personal,
+	#contentSub,
+	br,
+	.hide {
 		display: none;
 	}
 }

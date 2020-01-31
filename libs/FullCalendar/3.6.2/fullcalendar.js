@@ -2533,7 +2533,7 @@ var TaskQueue = Class.extend(EmitterMixin, {
 			res = this.runTask(task);
 
 			if (res && res.then) {
-				res.then(function() { // jshint ignore:line
+				res.then(function() {
 					if (_this.canRunNext()) {
 						_this.runRemaining();
 					}
@@ -2681,7 +2681,7 @@ var RenderQueue = TaskQueue.extend({
 
 				switch (task.type) {
 					case 'init':
-						shouldAppend = false; // jshint ignore:line
+						shouldAppend = false;
 						// the latest destroy is cancelled out by not doing the init
 						// and fallthrough....
 					case 'add':
@@ -9391,7 +9391,7 @@ function Toolbar(calendar, toolbarOptions) {
 							};
 							(buttonIcon = theme.getCustomButtonIconClass(customButtonProps)) ||
 							(buttonIcon = theme.getIconClass(buttonName)) ||
-							(buttonText = customButtonProps.text); // jshint ignore:line
+							(buttonText = customButtonProps.text);
 						}
 						else if ((viewSpec = calendar.getViewSpec(buttonName))) {
 							viewsWithButtons.push(buttonName);
@@ -9400,7 +9400,7 @@ function Toolbar(calendar, toolbarOptions) {
 							};
 							(buttonText = viewSpec.buttonTextOverride) ||
 							(buttonIcon = theme.getIconClass(buttonName)) ||
-							(buttonText = viewSpec.buttonTextDefault); // jshint ignore:line
+							(buttonText = viewSpec.buttonTextDefault);
 						}
 						else if (calendar[buttonName]) { // a calendar method
 							buttonClick = function() {
@@ -9408,7 +9408,7 @@ function Toolbar(calendar, toolbarOptions) {
 							};
 							(buttonText = calendarButtonTextOverrides[buttonName]) ||
 							(buttonIcon = theme.getIconClass(buttonName)) ||
-							(buttonText = calendarButtonText[buttonName]); // jshint ignore:line
+							(buttonText = calendarButtonText[buttonName]);
 							//            ^ everything else is considered default
 						}
 

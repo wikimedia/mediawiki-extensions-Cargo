@@ -1,8 +1,6 @@
 // Loads Exhibit API after document is ready.
 // @author @lmorillas
 
-/*jshint globals Exhibit */
-
 var Exhibit_urlPrefix = "//api.simile-widgets.org/exhibit/HEAD/";
 var Exhibit_TimeExtension_urlPrefix = Exhibit_urlPrefix + "extensions/time/";
 var Exhibit_MapExtension_urlPrefix = Exhibit_urlPrefix + "extensions/map/";
