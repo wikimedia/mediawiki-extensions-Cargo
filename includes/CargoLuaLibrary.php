@@ -6,7 +6,7 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		$lib = [
 			'query' => [ $this, 'cargoQuery' ]
 		];
-		return $this->getEngine()->registerInterface( __DIR__ . '/cargo.lua', $lib, [] );
+		return $this->getEngine()->registerInterface( __DIR__ . '/../cargo.lua', $lib, [] );
 	}
 
 	function cargoQuery( $tables, $fields, $args ) {
