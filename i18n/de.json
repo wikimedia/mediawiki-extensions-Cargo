@@ -5,7 +5,8 @@
 			"Andreasburmeister",
 			"Purodha",
 			"Nemo bis",
-			"Killarnee"
+			"Killarnee",
+			"Mglaser"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -44,7 +45,15 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-offset": "Offset:",
 	"cargo-viewdata-format": "Format:",
+	"cargo-viewdata-formattooltip": "Setzt das Format für die Ergebnisanzeige.",
 	"cargo-viewdata-defaultformat": "Standard",
+	"cargo-viewdata-heightparam": "Höhe:",
+	"cargo-viewdata-widthparam": "Breite:",
+	"cargo-viewdata-columnsparam": "Anzahl der Spalten:",
+	"cargo-viewdata-colorsparam": "Farben:",
+	"cargo-viewdata-hidelegendparam": "Legende verstecken:",
+	"cargo-viewdata-delimiterparam": "Trennzeichen:",
+	"cargo-viewdata-modifyquery": "Abfrage verändern",
 	"cargo-query-missingformat": "Fehler: Es muss ein Format festgelegt werden.",
 	"cargo-query-badsqlfunction": "Fehler: Die SQL-Funktion „$1“ ist nicht erlaubt.",
 	"cargo-query-badalias": "Fehler: Ungültiger Tabellenalias „$1“.",
