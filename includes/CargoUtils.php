@@ -287,9 +287,9 @@ class CargoUtils {
 		$returnValues = [];
 		$numOpenParentheses = 0;
 		$curReturnValue = '';
-
-		for ( $i = 0; $i < strlen( $string ); $i++ ) {
-			$curChar = $string{$i};
+		$strLength = strlen( $string );
+		for ( $i = 0; $i < $strLength; $i++ ) {
+			$curChar = $string[$i];
 
 			if ( $ignoreNextChar ) {
 				// If previous character was a backslash,
@@ -341,12 +341,13 @@ class CargoUtils {
 	 */
 	public static function findQuotedStringEnd( $string, $quoteChar, $pos ) {
 		$ignoreNextChar = false;
-		for ( $i = $pos; $i < strlen( $string ); $i++ ) {
-			$curChar = $string{$i};
+		$strLength = strlen( $string );
+		for ( $i = $pos; $i < $strLength; $i++ ) {
+			$curChar = $string[$i];
 			if ( $ignoreNextChar ) {
 				$ignoreNextChar = false;
 			} elseif ( $curChar == $quoteChar ) {
-				if ( $i + 1 < strlen( $string ) && $string{$i + 1} == $quoteChar ) {
+				if ( $i + 1 < $strLength && $string[$i + 1] == $quoteChar ) {
 					$i++;
 				} else {
 					return $i;
