@@ -480,7 +480,7 @@ class CargoStore {
 				// always true - there's the hack mentioned
 				// above, plus some other cases.
 				$quotedFieldName = "SUBSTR($quotedFieldName, 1, $fieldSize)";
-				$fieldValue = substr( $fieldValue, 0, $fieldSize );
+				$fieldValue = mb_substr( $fieldValue, 0, $fieldSize );
 			}
 
 			$tableFieldValuesForCheck[$quotedFieldName] = $fieldValue;
