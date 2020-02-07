@@ -23,7 +23,7 @@
 		"CargoQuery": "CargoQueryInterface",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
-		"Drilldown": "CargoDrilldown"
+		"Drilldown": "CargoSpecialDrilldown"
 	},
 	"JobClasses": {
 		"cargoPopulateTable": "CargoPopulateTableJob"
