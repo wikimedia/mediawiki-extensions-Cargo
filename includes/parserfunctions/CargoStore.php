@@ -470,7 +470,7 @@ class CargoStore {
 				$fieldSize = $fieldDescription->getFieldSize();
 			}
 
-			if ( $fieldValue == '' ) {
+			if ( $fieldValue === '' ) {
 				// Needed for correct SQL handling of blank values, for some reason.
 				$fieldValue = null;
 			} elseif ( $fieldSize != null && strlen( $fieldValue ) > $fieldSize ) {
