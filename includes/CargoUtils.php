@@ -1165,7 +1165,7 @@ class CargoUtils {
 	}
 
 	public static function logTableAction( $actionName, $tableName, User $user ) {
-		$log = new LogPage( 'cargo' );
+		$log = new LogPage( 'cargo', false );
 		if ( $actionName == 'deletetable' ) {
 			$logParams = [ $tableName ];
 		} else {
