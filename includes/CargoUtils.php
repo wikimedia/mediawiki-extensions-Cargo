@@ -464,12 +464,14 @@ class CargoUtils {
 		// {{PAGENAME}} as well, but those seem less likely.
 		$value = htmlspecialchars_decode( $value );
 
-		// Add a newline at the beginning if it looks like the value
-		// starts with a bulleted or numbered list, to make sure that
-		// the first line gets formatted correctly.
-		if ( strpos( $value, '*' ) === 0 || strpos( $value, '#' ) === 0 ) {
-			$value = "\n" . $value;
-		}
+		// Add __NOTOC__ and __NOEDITSECTION__ "behavior switches"
+		// to the beginning of this value, so that, on the off chance
+		// that it contains section headers, a table of contents and
+		// edit links will not appear in the parsed output.
+		// This addition also has the nice side effect that, if the
+		// value starts with a bulleted or numbered list, the first
+		// line will get formatted correctly.
+		$value = "__NOTOC__\n__NOEDITSECTION__\n$value";
 
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
