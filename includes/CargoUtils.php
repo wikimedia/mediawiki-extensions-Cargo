@@ -471,7 +471,7 @@ class CargoUtils {
 		// This addition also has the nice side effect that, if the
 		// value starts with a bulleted or numbered list, the first
 		// line will get formatted correctly.
-		$value = "__NOTOC__\n__NOEDITSECTION__\n$value";
+		$value = "__NOTOC__ __NOEDITSECTION__\n$value";
 
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
