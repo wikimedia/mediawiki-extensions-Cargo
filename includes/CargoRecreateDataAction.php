@@ -33,7 +33,7 @@ class CargoRecreateDataAction extends Action {
 			return;
 		}
 
-		$recreateDataPage = new CargoRecreateData( $title, $tableName, $isDeclared );
+		$recreateDataPage = new SpecialCargoRecreateData( $title, $tableName, $isDeclared );
 		$recreateDataPage->execute();
 	}
 
