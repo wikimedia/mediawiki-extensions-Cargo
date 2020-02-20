@@ -17,7 +17,8 @@ module.exports = function ( grunt ) {
 		),
 		eslint: {
 			options: {
-				extensions: [ '.js', '.json' ]
+				extensions: [ '.js', '.json' ],
+				cache: true
 			},
 			all: [
 				'**/*.js{,on}',
