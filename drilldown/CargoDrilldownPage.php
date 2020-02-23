@@ -10,6 +10,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
 	public $tableAlias = "";
@@ -1066,8 +1068,14 @@ END;
 	 */
 	function printDateInput( $input_name, $cur_value = null ) {
 		/** @todo Shouldn't this use the user language? */
-		global $wgContLang;
-		$month_names = $wgContLang->getMonthNamesArray();
+		if ( method_exists( MediaWikiServices::class, 'getContentLanguage' ) ) {
+			// MW >= 1.32
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		} else {
+			global $wgContLang;
+			$contLang = $wgContLang;
+		}
+		$month_names = $contLang->getMonthNamesArray();
 
 		if ( is_array( $cur_value ) && array_key_exists( 'month', $cur_value ) ) {
 			$selected_month = $cur_value['month'];

@@ -64,7 +64,7 @@ class CargoSearchMySQL extends SearchMySQL {
 				}
 
 				if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
-					// MW >= 1.31
+					// MW >= 1.32
 					$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 				} else {
 					global $wgContLang;
@@ -130,7 +130,7 @@ class CargoSearchMySQL extends SearchMySQL {
 	public function regexTerm( $string, $wildcard ) {
 		$regex = preg_quote( $string, '/' );
 		if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
-			// MW >= 1.31
+			// MW >= 1.32
 			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 		} else {
 			global $wgContLang;
