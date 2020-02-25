@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * Handles the 'recreatedata' action.
  *
@@ -46,10 +49,23 @@ class CargoRecreateDataAction extends Action {
 	 */
 	static function displayTab( $obj, &$links ) {
 		$title = $obj->getTitle();
-		if ( !$title || $title->getNamespace() !== NS_TEMPLATE ||
-			!$title->userCan( 'recreatecargodata' ) ) {
+		if ( !$title || $title->getNamespace() !== NS_TEMPLATE ) {
 			return true;
 		}
+
+		$user = $obj->getUser();
+		if ( method_exists( 'MediaWiki\Permissions\PermissionManager', 'userCan' ) ) {
+			// MW 1.33+
+			$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+			if ( !$permissionManager->userCan( 'recreatecargodata', $user, $title ) ) {
+				return true;
+			}
+		} else {
+			if ( !$title->userCan( 'recreatecargodata', $user ) ) {
+				return true;
+			}
+		}
+
 		$request = $obj->getRequest();
 
 		// Make sure that this is a template page, that it either
