@@ -1700,6 +1700,7 @@ END;
 			$calendarFieldFound = false;
 			$coordsFieldFound = false;
 			$fileFieldFound = false;
+			$coordsFieldName = $fileFieldName = null;
 			foreach ( $fields as $fieldAlias => $field ) {
 				$fieldPartTableAlias = $this->tableAlias;
 				$fieldPartTableName = $this->tableName;
@@ -1716,7 +1717,7 @@ END;
 						$field = $fieldParts[1];
 					}
 				}
-				if ( ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) && $field == 'Coordinates' ) {
+				if ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) {
 					foreach ( $this->coordsFields as $tableAlias => $coordsField ) {
 						if ( !$coordsFieldFound && $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
 							$coordsFieldFound = true;
@@ -1736,7 +1737,11 @@ END;
 							$fileFieldAlias = $fieldAlias;
 						}
 					}
-				} else {
+				}
+
+				// Display this field if it's not the coordinates or file field -
+				// those already got special handling.
+				if ( $field != $coordsFieldName && $field != $fileFieldName ) {
 					if ( is_string( $fieldAlias ) ) {
 						$aliasedFieldNames[$fieldAlias] =
 							CargoUtils::escapedFieldName( $cdb,
