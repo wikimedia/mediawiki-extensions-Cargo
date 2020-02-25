@@ -1686,77 +1686,75 @@ END;
 		} else {
 			$aliasedFieldNames = [];
 		}
-		if ( $this->drilldownTabsParams ) {
-			if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
-				$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
-				$this->format = strtolower( $currentTabParams['format'] );
-				$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
-				if ( array_key_exists( $this->format, $formatClasses ) ) {
-					$formatClass = $formatClasses[$this->format];
-				} else {
-					$formatClass = $formatClasses['category'];
+		if ( $this->drilldownTabsParams && array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
+			$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
+			$this->format = strtolower( $currentTabParams['format'] );
+			$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
+			if ( array_key_exists( $this->format, $formatClasses ) ) {
+				$formatClass = $formatClasses[$this->format];
+			} else {
+				$formatClass = $formatClasses['category'];
+			}
+			$isDeferred = $formatClass::isDeferred();
+			$fields = $currentTabParams['fields'];
+			$calendarFieldFound = false;
+			$coordsFieldFound = false;
+			$fileFieldFound = false;
+			foreach ( $fields as $fieldAlias => $field ) {
+				$fieldPartTableAlias = $this->tableAlias;
+				$fieldPartTableName = $this->tableName;
+				if ( strpos( $field, '.' ) ) {
+					$fieldParts = explode( '.', $field );
+					if ( count( $fieldParts ) == 2 ) {
+						foreach ( $tableNames as $tableAlias => $tableName ) {
+							if ( $fieldParts[0] == $tableAlias || $fieldParts[0] == $tableName ) {
+								$fieldPartTableName = $tableName;
+								$fieldPartTableAlias = $tableAlias;
+								break;
+							}
+						}
+						$field = $fieldParts[1];
+					}
 				}
-				$isDeferred = $formatClass::isDeferred();
-				$fields = $currentTabParams['fields'];
-				$calendarFieldFound = false;
-				$coordsFieldFound = false;
-				$fileFieldFound = false;
-				foreach ( $fields as $fieldAlias => $field ) {
-					$fieldPartTableAlias = $this->tableAlias;
-					$fieldPartTableName = $this->tableName;
-					if ( strpos( $field, '.' ) ) {
-						$fieldParts = explode( '.', $field );
-						if ( count( $fieldParts ) == 2 ) {
-							foreach ( $tableNames as $tableAlias => $tableName ) {
-								if ( $fieldParts[0] == $tableAlias || $fieldParts[0] == $tableName ) {
-									$fieldPartTableName = $tableName;
-									$fieldPartTableAlias = $tableAlias;
-									break;
-								}
-							}
-							$field = $fieldParts[1];
+				if ( ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) && $field == 'Coordinates' ) {
+					foreach ( $this->coordsFields as $tableAlias => $coordsField ) {
+						if ( !$coordsFieldFound && $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
+							$coordsFieldFound = true;
+							$coordsFieldTableName = $fieldPartTableName;
+							$coordsFieldTableAlias = $fieldPartTableAlias;
+							$coordsFieldName = $field;
+							$coordsFieldAlias = $fieldAlias;
 						}
 					}
-					if ( ( $this->format == 'map' || $this->format == 'openlayers' || $this->format == 'googlemaps' ) && $field == 'Coordinates' ) {
-						foreach ( $this->coordsFields as $tableAlias => $coordsField ) {
-							if ( !$coordsFieldFound && $coordsField == $field && $tableAlias == $fieldPartTableAlias ) {
-								$coordsFieldFound = true;
-								$coordsFieldTableName = $fieldPartTableName;
-								$coordsFieldTableAlias = $fieldPartTableAlias;
-								$coordsFieldName = $field;
-								$coordsFieldAlias = $fieldAlias;
-							}
+				} elseif ( $this->format == 'gallery' ) {
+					foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
+						if ( !$fileFieldFound && $field == $fieldName ) {
+							$fileFieldFound = true;
+							$fileFieldTableName = $fieldPartTableName;
+							$fileFieldTableAlias = $fieldPartTableAlias;
+							$fileFieldName = $field;
+							$fileFieldAlias = $fieldAlias;
 						}
-					} elseif ( $this->format == 'gallery' ) {
-						foreach ( $this->fileFields as $fieldName => $fieldDescription ) {
-							if ( !$fileFieldFound && $field == $fieldName ) {
-								$fileFieldFound = true;
-								$fileFieldTableName = $fieldPartTableName;
-								$fileFieldTableAlias = $fieldPartTableAlias;
-								$fileFieldName = $field;
-								$fileFieldAlias = $fieldAlias;
-							}
-						}
+					}
+				} else {
+					if ( is_string( $fieldAlias ) ) {
+						$aliasedFieldNames[$fieldAlias] =
+							CargoUtils::escapedFieldName( $cdb,
+								[ $fieldPartTableAlias => $fieldPartTableName ], $field );
+						$fieldsStr[] = $fieldPartTableAlias . '.' . $field . '=' . $fieldAlias;
 					} else {
-						if ( is_string( $fieldAlias ) ) {
-							$aliasedFieldNames[$fieldAlias] =
-								CargoUtils::escapedFieldName( $cdb,
-									[ $fieldPartTableAlias => $fieldPartTableName ], $field );
-							$fieldsStr[] = $fieldPartTableAlias . '.' . $field . '=' . $fieldAlias;
-						} else {
-							$aliasedFieldNames[$field] =
-								CargoUtils::escapedFieldName( $cdb,
-									[ $fieldPartTableAlias => $fieldPartTableName ], $field );
-							$fieldsStr[] = $fieldPartTableAlias . '.' . $field;
-						}
+						$aliasedFieldNames[$field] =
+							CargoUtils::escapedFieldName( $cdb,
+								[ $fieldPartTableAlias => $fieldPartTableName ], $field );
+						$fieldsStr[] = $fieldPartTableAlias . '.' . $field;
 					}
-					if ( $this->format == 'calendar' ) {
-						foreach ( $this->dateFields as $dateField ) {
-							if ( !$calendarFieldFound && $dateField == $field ) {
-								$calendarFieldFound = true;
-								$calendarFieldName = $field;
-								$calendarFieldTableAlias = $fieldPartTableAlias;
-							}
+				}
+				if ( $this->format == 'calendar' ) {
+					foreach ( $this->dateFields as $dateField ) {
+						if ( !$calendarFieldFound && $dateField == $field ) {
+							$calendarFieldFound = true;
+							$calendarFieldName = $field;
+							$calendarFieldTableAlias = $fieldPartTableAlias;
 						}
 					}
 				}
