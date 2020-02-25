@@ -317,7 +317,10 @@ class CargoStore {
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
 		$cdb->begin();
-		$cdb->lockForUpdate( $tableName );
+		if ( method_exists( $cdb, 'lockForUpdate' ) ) {
+			// MW 1.32+
+			$cdb->lockForUpdate( $tableName );
+		}
 
 		$res = $cdb->select( $tableName, 'MAX(' .
 			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
