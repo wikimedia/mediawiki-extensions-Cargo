@@ -2,9 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Nirjal stha",
-			"Nirajan pant"
+			"Nirajan pant",
+			"हिमाल सुबेदी"
 		]
 	},
+	"cargo-viewdata-groupby": "का अनुसार समूह:",
 	"cargo-viewdata-having": "भएकोः",
 	"cargo-drilldown-othervalues": "अन्य मानहरू:",
 	"cargo-drilldown-calendarformat": "पात्रो"

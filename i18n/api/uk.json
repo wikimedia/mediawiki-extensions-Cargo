@@ -25,12 +25,20 @@
 	"apihelp-cargorecreatedata-param-table": "Таблиця бази даних Cargo, яку треба повторно заповнити",
 	"apihelp-cargorecreatedata-param-offset": "Сторінок, що викликають цей шаблон, кількість, з якої починати надсилання запитів",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Чи замінювати старі рядки для кожної сторінки при повторному заповненні таблиці",
-	"apihelp-cargoautocomplete-description": "Запит на автозаповнення, що використовується розширенням Cargo.",
-	"apihelp-cargoautocomplete-summary": "Запит на автозаповнення, що використовується розширенням Cargo.",
+	"apihelp-cargoautocomplete-description": "Запит на автодоповнення, що використовується розширенням Cargo.",
+	"apihelp-cargoautocomplete-summary": "Запит на автодоповнення, що використовується розширенням Cargo.",
 	"apihelp-cargoautocomplete-param-limit": "Обмеження на кількість виведених результатів",
 	"apihelp-cargoautocomplete-param-substr": "Підрядок пошуку",
 	"apihelp-cargoautocomplete-param-table": "Таблиця Cargo, для якої слід провести пошук значень",
 	"apihelp-cargoautocomplete-param-field": "Поле Cargo, для якого слід провести пошук значень",
 	"apihelp-cargoautocomplete-param-field_is_array": "Чи містить поле список значень",
-	"apihelp-cargoautocomplete-param-where": "Твердження «where» для цього запиту, на основі інших заданих фільтрів"
+	"apihelp-cargoautocomplete-param-where": "Твердження «where» для цього запиту, на основі інших заданих фільтрів",
+	"apihelp-cargoqueryautocomplete-description": "Виклик автодоповнення, який використовує спеціальна сторінка CargoQuery (раніше — ViewData).",
+	"apihelp-cargoqueryautocomplete-summary": "Виклик автодоповнення, який використовує спеціальна сторінка CargoQuery (раніше — ViewData).",
+	"apihelp-cargoqueryautocomplete-param-limit": "Обмеження кількості результатів, які буде повернуто.",
+	"apihelp-cargoqueryautocomplete-param-search": "Пошук підрядка",
+	"apihelp-cargoqueryautocomplete-param-tables": "Масив вибраних таблиць Cargo, на основі яких виконується автодоповнення полів та опцій «групувати за» і «сортувати за».",
+	"apihelp-cargoformatparams-description": "Отримує набір параметрів показу для кожного формату запиту Cargo.",
+	"apihelp-cargoformatparams-summary": "Отримує набір параметрів показу для кожного формату запиту Cargo.",
+	"apihelp-cargoformatparams-param-queryformat": "Формат запиту Cargo"
 }
