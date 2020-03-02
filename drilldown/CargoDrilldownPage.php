@@ -1206,7 +1206,7 @@ END;
 		}
 		if ( $this->isReplacementTable ) {
 			$this->tableName = str_replace( '__NEXT', '', $this->tableName );
-			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullText();
 			$viewURL = "$ctURL/" . $this->tableName;
 			$viewLink = "[[$viewURL|{$this->tableName}]]";

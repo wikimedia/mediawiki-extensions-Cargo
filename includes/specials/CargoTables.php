@@ -77,7 +77,7 @@ class CargoTables extends IncludableSpecialPage {
 		} else {
 			$linkRenderer = null;
 		}
-		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+		$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 		$mainPageLink = CargoUtils::makeLink(
 			$linkRenderer,
 			$ctPage->getPageTitle(),

@@ -77,7 +77,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 			return true;
 		}
 
-		$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+		$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 		$row = $res->fetchRow();
 		$fieldTables = unserialize( $row['field_tables'] );
 		$fieldHelperTables = unserialize( $row['field_helper_tables'] );

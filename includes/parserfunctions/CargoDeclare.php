@@ -318,7 +318,7 @@ class CargoDeclare {
 		// Also link to the replacement table, if it exists.
 		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
 			$text .= ' ' . wfMessage( "cargo-cargotables-replacementgenerated" )->parse();
-			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullURL();
 			$viewURL = $ctURL . '/' . $tableName;
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';

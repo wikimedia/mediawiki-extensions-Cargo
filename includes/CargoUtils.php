@@ -1164,12 +1164,23 @@ class CargoUtils {
 		}
 	}
 
+	public static function getSpecialPage( $pageName ) {
+		if ( class_exists( 'MediaWiki\Special\SpecialPageFactory' ) ) {
+			// MW 1.32+
+			return MediaWikiServices::getInstance()
+				->getSpecialPageFactory()
+				->getPage( $pageName );
+		} else {
+			return SpecialPageFactory::getPage( $pageName );
+		}
+	}
+
 	public static function logTableAction( $actionName, $tableName, User $user ) {
 		$log = new LogPage( 'cargo', false );
 		if ( $actionName == 'deletetable' ) {
 			$logParams = [ $tableName ];
 		} else {
-			$ctPage = SpecialPageFactory::getPage( 'CargoTables' );
+			$ctPage = self::getSpecialPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullURL();
 			$tableURL = "$ctURL/$tableName";
 			$tableLink = Html::element(
