@@ -84,7 +84,13 @@ class CargoExport extends UnlistedSpecialPage {
 			}
 			$this->displayBibtexData( $sqlQueries, $defaultEntryType );
 		} else {
-			print wfMessage( "cargo-query-missingformat" )->parse();
+			// Let other extensions display the data if they have defined their own "deferred"
+			// formats. This is an unusual hook in that functions that use it have to return false;
+			// otherwise the error message will be displayed.
+			$result = Hooks::run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
+			if ( $result ) {
+				print wfMessage( "cargo-query-missingformat" )->parse();
+			}
 		}
 	}
 

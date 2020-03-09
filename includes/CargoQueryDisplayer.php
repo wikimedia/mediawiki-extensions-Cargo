@@ -54,6 +54,11 @@ class CargoQueryDisplayer {
 			'exhibit' => 'CargoExhibitFormat',
 			'bibtex' => 'CargoBibtexFormat',
 		];
+
+		// Let other extensions add their own formats - or even
+		// remove formats, if they want to.
+		Hooks::run( 'CargoSetFormatClasses', [ &$formatClasses ] );
+
 		return $formatClasses;
 	}
 
@@ -65,12 +70,6 @@ class CargoQueryDisplayer {
 		$formatClasses = self::getAllFormatClasses();
 		if ( array_key_exists( $this->mFormat, $formatClasses ) ) {
 			return $formatClasses[$this->mFormat];
-		}
-
-		$formatClass = null;
-		Hooks::run( 'CargoGetFormatClass', [ $this->mFormat, &$formatClass ] );
-		if ( $formatClass != null ) {
-			return $formatClass;
 		}
 
 		if ( count( $this->mFieldDescriptions ) > 1 ) {
