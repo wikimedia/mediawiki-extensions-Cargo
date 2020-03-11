@@ -278,33 +278,15 @@
 		"pagevalues": "CargoPageValuesAction"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": [
-			"CargoHooks::registerParserFunctions"
-		],
-		"MakeGlobalVariablesScript": [
-			"CargoHooks::setGlobalJSVariables"
-		],
-		"PageContentSaveComplete": [
-			"CargoHooks::onPageContentSaveComplete"
-		],
-		"ApprovedRevsRevisionApproved": [
-			"CargoHooks::onARRevisionApproved"
-		],
-		"ApprovedRevsRevisionUnapproved": [
-			"CargoHooks::onARRevisionUnapproved"
-		],
-		"TitleMoveComplete": [
-			"CargoHooks::onTitleMoveComplete"
-		],
-		"ArticleDeleteComplete": [
-			"CargoHooks::onArticleDeleteComplete"
-		],
-		"CategoryAfterPageAdded": [
-			"CargoHooks::addCategoryToPageData"
-		],
-		"CategoryAfterPageRemoved": [
-			"CargoHooks::removeCategoryFromPageData"
-		],
+		"ParserFirstCallInit": "CargoHooks::registerParserFunctions",
+		"MakeGlobalVariablesScript": "CargoHooks::setGlobalJSVariables",
+		"PageContentSaveComplete": "CargoHooks::onPageContentSaveComplete",
+		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
+		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
+		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
+		"ArticleDeleteComplete": "CargoHooks::onArticleDeleteComplete",
+		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
+		"CategoryAfterPageRemoved": "CargoHooks::removeCategoryFromPageData",
 		"LoadExtensionSchemaUpdates": [
 			"CargoHooks::describeDBSchema",
 			"CargoHooks::cargoSchemaUpdates"
@@ -313,30 +295,14 @@
 			"CargoRecreateDataAction::displayTab",
 			"CargoHooks::addPurgeCacheTab"
 		],
-		"BaseTemplateToolbox": [
-			"CargoPageValuesAction::addLink"
-		],
-		"PageForms::TemplateFieldStart": [
-			"CargoHooks::addTemplateFieldStart"
-		],
-		"PageForms::TemplateFieldEnd": [
-			"CargoHooks::addTemplateFieldEnd"
-		],
-		"AdminLinks": [
-			"CargoHooks::addToAdminLinks"
-		],
-		"PageSchemasRegisterHandlers": [
-			"CargoPageSchemas::registerClass"
-		],
-		"ResourceLoaderRegisterModules": [
-			"CargoHooks::registerModules"
-		],
-		"ResourceLoaderGetConfigVars": [
-			"CargoHooks::onResourceLoaderGetConfigVars"
-		],
-		"ScribuntoExternalLibraries": [
-			"CargoHooks::addLuaLibrary"
-		]
+		"BaseTemplateToolbox": "CargoPageValuesAction::addLink",
+		"PageForms::TemplateFieldStart": "CargoHooks::addTemplateFieldStart",
+		"PageForms::TemplateFieldEnd": "CargoHooks::addTemplateFieldEnd",
+		"AdminLinks": "CargoHooks::addToAdminLinks",
+		"PageSchemasRegisterHandlers": "CargoPageSchemas::registerClass",
+		"ResourceLoaderRegisterModules": "CargoHooks::registerModules",
+		"ResourceLoaderGetConfigVars": "CargoHooks::onResourceLoaderGetConfigVars",
+		"ScribuntoExternalLibraries": "CargoHooks::addLuaLibrary"
 	},
 	"config": {
 		"CargoDecimalMark": ".",
