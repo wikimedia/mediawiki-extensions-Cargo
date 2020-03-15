@@ -94,3 +94,27 @@ a#cargo-modifyQuery-toggle {
 	border-top: 0;
 	padding: 10px;
 }
+
+/**
+ * Overwrite the styles inherited from jQuery UI's "Autocomplete"
+ * widget, to make the autocompletion dropdown look like that of
+ * standard MediaWiki.
+ */
+.ui-state-focus {
+	border: none !important;
+	background: #2a4b8d !important;
+	color: #fff !important;
+	margin: 0px !important;
+}
+
+.ui-menu .ui-menu-item a {
+	color: #000;
+	font-size: 13px;
+	padding: 0.01em 0.25em;
+	font-family: sans-serif;
+}
+
+.ui-corner-all {
+	border-radius: 0px;
+	padding: 0px;
+}
