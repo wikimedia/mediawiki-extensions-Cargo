@@ -22,7 +22,7 @@
 	"action-recreatecargodata": "відтворення даних Cargo",
 	"right-recreatecargodata": "відтворити дані, що містяться в таблицях Cargo",
 	"action-deletecargodata": "вилучення даних Cargo",
-	"right-deletecargodata": "Видалити таблицю Cargo",
+	"right-deletecargodata": "Вилучення таблиці Cargo",
 	"action-runcargoqueries": "запуск допоміжних запитів Cargo",
 	"right-runcargoqueries": "запуск допоміжних запитів Cargo",
 	"cargo-logname": "Журнал Cargo",
