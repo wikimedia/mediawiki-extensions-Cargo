@@ -45,7 +45,6 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable
 	 * @param array $formattedValuesTable Unused
 	 * @param array $fieldDescriptions

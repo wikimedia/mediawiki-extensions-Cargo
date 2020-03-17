@@ -23,9 +23,8 @@ class CargoFilterValue {
 	public $time_period = null;
 
 	/**
-	 *
 	 * @param string $actual_val
-	 * @param CargoFilter $filter
+	 * @param CargoFilter|null $filter
 	 * @return \CargoFilterValue
 	 */
 	static function create( $actual_val, $filter = null ) {

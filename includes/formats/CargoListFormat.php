@@ -20,7 +20,6 @@ class CargoListFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $row
 	 * @param array $fieldDescriptions
 	 * @return string
@@ -63,7 +62,6 @@ class CargoListFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable Unused
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

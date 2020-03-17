@@ -135,7 +135,6 @@ class CargoFieldDescription {
 	}
 
 	/**
-	 *
 	 * @param array $descriptionData
 	 * @return \CargoFieldDescription
 	 */
@@ -201,7 +200,6 @@ class CargoFieldDescription {
 	}
 
 	/**
-	 *
 	 * @return array
 	 */
 	function toDBArray() {

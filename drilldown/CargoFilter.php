@@ -179,7 +179,7 @@ class CargoFilter {
 	 * months) for this filter, and, for each one,
 	 * the number of pages that match that time period.
 	 *
-	 * @param $fullTextSearchTerm
+	 * @param string $fullTextSearchTerm
 	 * @param array $appliedFilters
 	 * @param array|null $mainTableAlias
 	 * @param array $tableNames

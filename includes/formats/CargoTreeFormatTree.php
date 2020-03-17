@@ -21,7 +21,6 @@ class CargoTreeFormatTree {
 	}
 
 	/**
-	 *
 	 * @param string $nodeName
 	 * @param string $parentName
 	 * @param array $nodeValues

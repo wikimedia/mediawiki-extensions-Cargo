@@ -16,11 +16,10 @@ class CargoPieChartFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 *
 	 * @param array $sqlQueries
 	 * @param array $displayParams
-	 * @param array $querySpecificParams Unused
-	 * @return string
+	 * @param array|null $querySpecificParams Unused
+	 * @return string HTML
 	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$this->mOutput->addModules( 'ext.cargo.nvd3' );

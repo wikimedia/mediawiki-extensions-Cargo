@@ -78,6 +78,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		// preorder traversal of the tree
 		$stack->push( $node );
 		while ( !$stack->isEmpty() ) {
+			/** @var CargoDrilldownHierarchy $node */
 			$node = $stack->pop();
 			self::computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
 				$mainTableName, $tableNames, $joinConds );
@@ -97,10 +98,14 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		return $filter_values;
 	}
 
-	/*
-	* Finds maximum permissible depth for listing values in Drilldown filter line such that total values appearing on the Filter line
-	* is less than or equal to $wgCargoMaxVisibleHierarchyDrilldownValues
-	*/
+	/**
+	 * Finds maximum permissible depth for listing values in Drilldown filter line such that total
+	 * values appearing on the Filter line is less than or equal to
+	 * $wgCargoMaxVisibleHierarchyDrilldownValues
+	 *
+	 * @param CargoHierarchyTree $node
+	 * @return int
+	 */
 	static function findMaxDrilldownDepth( $node ) {
 		global $wgCargoMaxVisibleHierarchyDrilldownValues;
 		if ( !isset( $wgCargoMaxVisibleHierarchyDrilldownValues ) || !is_int( $wgCargoMaxVisibleHierarchyDrilldownValues ) || $wgCargoMaxVisibleHierarchyDrilldownValues < 0 ) {
@@ -112,6 +117,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		$queue->enqueue( $node );
 		$queue->enqueue( null );
 		while ( !$queue->isEmpty() ) {
+			/** @var CargoHierarchyTree|null $node */
 			$node = $queue->dequeue();
 			if ( $node === null ) {
 				if ( !$queue->isEmpty() ) {

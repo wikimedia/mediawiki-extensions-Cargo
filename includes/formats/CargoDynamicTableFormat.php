@@ -19,7 +19,6 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable Unused
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

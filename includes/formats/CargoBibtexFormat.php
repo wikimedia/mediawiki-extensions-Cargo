@@ -246,8 +246,8 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 	 *
 	 * @param array $sqlQueries
 	 * @param array $displayParams
-	 * @param array $querySpecificParams Unused
-	 * @return string
+	 * @param array|null $querySpecificParams Unused
+	 * @return string HTML
 	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );

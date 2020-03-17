@@ -11,7 +11,6 @@ class CargoULFormat extends CargoListFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable Unused
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

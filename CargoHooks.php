@@ -344,7 +344,6 @@ class CargoHooks {
 	}
 
 	/**
-	 *
 	 * @param Title &$title Unused
 	 * @param Title &$newtitle
 	 * @param User &$user Unused

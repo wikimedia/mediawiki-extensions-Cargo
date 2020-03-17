@@ -130,6 +130,7 @@ class CargoAppliedFilter {
 					// preorder traversal of the tree
 					$stack->push( $drilldownHierarchyRoot );
 					while ( !$stack->isEmpty() ) {
+						/** @var CargoHierarchyTree $node */
 						$node = $stack->pop();
 						if ( $node->mRootValue === $value ) {
 							$drilldownHierarchyRoot = $node;

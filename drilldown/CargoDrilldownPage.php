@@ -94,7 +94,7 @@ class CargoDrilldownPage extends QueryPage {
 
 	/**
 	 * @param string $tableName
-	 * @param string $searchTerm
+	 * @param string|null $searchTerm
 	 * @param array $applied_filters
 	 * @param array $filters_to_remove
 	 * @param array $attributes
@@ -505,6 +505,7 @@ END;
 		// preorder traversal of the tree
 		$stack->push( $drilldownHierarchyRoot );
 		while ( !$stack->isEmpty() ) {
+			/** @var CargoDrilldownHierarchy $node */
 			$node = $stack->pop();
 			if ( $node->mRootValue === $filter_value ) {
 				$drilldownHierarchyRoot = $node;
@@ -568,6 +569,7 @@ END;
 		// preorder traversal of the tree
 		$stack->push( $drilldownHierarchyRoot );
 		while ( !$stack->isEmpty() ) {
+			/** @var CargoDrilldownHierarchy $node */
 			$node = $stack->pop();
 			if ( $node != ")" ) {
 				if ( $node->mLeft !== 1 && $node->mWithinTreeMatchCount > 0 ) {
@@ -1062,7 +1064,7 @@ END;
 	 *
 	 * @global Language $wgContLang
 	 * @param string $input_name Used in the HTML name attribute
-	 * @param type $cur_value an array that may contain the keys 'day', 'month' & 'year' with an
+	 * @param int[]|null $cur_value an array that may contain the keys 'day', 'month' & 'year' with an
 	 * integer value
 	 * @return string
 	 */
@@ -1189,7 +1191,7 @@ END;
 	}
 
 	function getPageHeader() {
-		global $wgRequest, $wgCargoPageDataColumns, $wgCargoFileDataColumns;
+		global $wgRequest, $wgCargoFileDataColumns;
 		global $cgScriptPath;
 
 		$tables = CargoUtils::getTables();

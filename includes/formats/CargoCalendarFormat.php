@@ -17,11 +17,10 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 *
 	 * @param array $sqlQueries
 	 * @param array $displayParams
-	 * @param array $querySpecificParams
-	 * @return string
+	 * @param array|null $querySpecificParams
+	 * @return string HTML
 	 */
 	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		global $wgVersion, $wgUsejQueryThree;

@@ -15,7 +15,6 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTagCloud Unused
 	 * @param array $formattedValuesTagCloud
 	 * @param array $fieldDescriptions

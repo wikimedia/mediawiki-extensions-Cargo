@@ -10,7 +10,6 @@
 class CargoPopulateTableJob extends Job {
 
 	/**
-	 *
 	 * @param Title $title
 	 * @param array $params
 	 */

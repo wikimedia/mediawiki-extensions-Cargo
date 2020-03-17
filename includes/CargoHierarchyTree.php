@@ -26,6 +26,9 @@ class CargoHierarchyTree {
 	 * Turn a manually-created "structure", defined as a bulleted list
 	 * in wikitext, into a tree. This code has been borrowed from PFTree class
 	 * of Page Forms Extension
+	 *
+	 * @param string $wikitext
+	 * @return self
 	 */
 	public static function newFromWikiText( $wikitext ) {
 		// A dummy node (__pseudo_root__ is added so that
@@ -62,6 +65,7 @@ class CargoHierarchyTree {
 		$stack = new SplStack();
 		$stack->push( $this );
 		while ( !$stack->isEmpty() ) {
+			/** @var CargoHierarchyTree $node */
 			$node = $stack->pop();
 			$row = [];
 			$row['_value'] = $node->mRootValue;

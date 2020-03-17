@@ -1,32 +1,30 @@
 <?xml version="1.0"?>
 <ruleset>
 	<rule ref="./vendor/mediawiki/mediawiki-codesniffer/MediaWiki">
-		<exclude name="Generic.Classes.DuplicateClassName.Found" />
-		<exclude name="Generic.CodeAnalysis.ForLoopWithTestFunctionCall.NotAllowed" />
-		<exclude name="Generic.Files.LineLength.TooLong" />
 		<exclude name="MediaWiki.Commenting.FunctionAnnotations.UnrecognizedAnnotation" />
-		<exclude name="MediaWiki.Commenting.FunctionComment.ExtraParamComment" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationPrivate" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationProtected" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingDocumentationPublic" />
-		<exclude name="MediaWiki.Commenting.FunctionComment.MissingParamName" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingParamTag" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.MissingReturn" />
 		<exclude name="MediaWiki.Commenting.FunctionComment.WrongStyle" />
-		<exclude name="MediaWiki.Commenting.FunctionComment.DefaultNullTypeParam" />
 		<exclude name="MediaWiki.ControlStructures.AssignmentInControlStructures.AssignmentInControlStructures" />
-		<exclude name="MediaWiki.NamingConventions.ValidGlobalName.allowedPrefix" />
-		<exclude name="MediaWiki.NamingConventions.ValidGlobalName.wgPrefix" />
-		<exclude name="MediaWiki.Usage.DeprecatedGlobalVariables.Deprecated$wgContLang" />
 		<exclude name="MediaWiki.Usage.DeprecatedGlobalVariables.Deprecated$wgTitle" />
-		<exclude name="MediaWiki.VariableAnalysis.ForbiddenGlobalVariables.ForbiddenGlobal$wgTitle" />
-		<exclude name="MediaWiki.VariableAnalysis.UnusedGlobalVariables.UnusedGlobal$wgCargoFileDataColumns" />
-		<exclude name="MediaWiki.VariableAnalysis.UnusedGlobalVariables.UnusedGlobal$wgCargoPageDataColumns" />
 		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
 		<exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
 		<exclude name="PSR12.Properties.ConstantVisibility.NotFound" />
 		<exclude name="Squiz.Scope.MemberVarScope.Missing" />
 		<exclude name="Squiz.Scope.MethodScope.Missing" />
+	</rule>
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="177" />
+		</properties>
+	</rule>
+	<rule ref="MediaWiki.NamingConventions.ValidGlobalName">
+		<properties>
+			<property name="ignoreList" type="array" value="$cgScriptPath,$egApprovedRevsBlankIfUnapproved" />
+		</properties>
 	</rule>
 	<file>.</file>
 	<arg name="extensions" value="php,php5,inc"/>

@@ -46,8 +46,6 @@ class SetCargoFileData extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgCargoFileDataColumns;
-
 		$createReplacement = $this->hasOption( 'replacement' );
 		$fileDataTable = $createReplacement ? '_fileData__NEXT' : '_fileData';
 

@@ -50,7 +50,6 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

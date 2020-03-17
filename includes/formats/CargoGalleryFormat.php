@@ -81,7 +81,6 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 	}
 
 	/**
-	 *
 	 * @param array $valuesTable Unused
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

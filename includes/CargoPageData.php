@@ -14,6 +14,8 @@ class CargoPageData {
 	 * CargoPageData::CREATION_DATE instead of 'creationDate') but
 	 * unfortunately the extension.json system doesn't support any kind
 	 * of constants.
+	 *
+	 * @return CargoTableSchema
 	 */
 	static function getTableSchema() {
 		global $wgCargoPageDataColumns;

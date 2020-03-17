@@ -90,8 +90,8 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 * @param $fields_list array
-	 *
+	 * @param string[] $fieldList
+	 * @return string HTML
 	 */
 	function createTabular( $fieldList ) {
 		$columnsList = [];
@@ -134,7 +134,6 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 * @param string $title
 	 * @return string
 	 */
 	function createSearch() {
@@ -165,8 +164,8 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	}
 
 	/**
-	 * @param $sqlQueries
-	 * @param $displayParams
+	 * @param CargoSQLQuery[] $sqlQueries
+	 * @param array $displayParams
 	 * @param array|null $querySpecificParams
 	 * @return string HTML
 	 * @throws MWException

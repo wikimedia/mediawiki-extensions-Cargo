@@ -46,8 +46,6 @@ class SetCargoPageData extends Maintenance {
 	}
 
 	public function execute() {
-		global $wgCargoPageDataColumns;
-
 		$createReplacement = $this->hasOption( 'replacement' );
 		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
 

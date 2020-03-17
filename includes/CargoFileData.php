@@ -9,6 +9,8 @@ class CargoFileData {
 
 	/**
 	 * Set the schema based on what has been entered in LocalSettings.php.
+	 *
+	 * @return CargoTableSchema
 	 */
 	static function getTableSchema() {
 		global $wgCargoFileDataColumns;
@@ -52,6 +54,8 @@ class CargoFileData {
 	}
 
 	/**
+	 * @param Title|null $title
+	 * @param bool $createReplacement
 	 */
 	public static function storeValuesForFile( $title, $createReplacement ) {
 		global $wgCargoFileDataColumns, $wgLocalFileRepo;

@@ -730,7 +730,9 @@ class CargoSQLQuery {
 		// http://stackoverflow.com/a/1783125
 		$indexOfMainTable = array_search( $tableAlias, array_keys( $this->mAliasedTableNames ) );
 		$offset = $indexOfMainTable + 1;
-		$this->mAliasedTableNames = array_slice( $this->mAliasedTableNames, 0, $offset, true ) + [ $fieldTableAlias => $fieldTableName ] + array_slice( $this->mAliasedTableNames, $offset, null, true );
+		$this->mAliasedTableNames = array_slice( $this->mAliasedTableNames, 0, $offset, true ) +
+			[ $fieldTableAlias => $fieldTableName ] +
+			array_slice( $this->mAliasedTableNames, $offset, null, true );
 	}
 
 	/**
@@ -749,7 +751,7 @@ class CargoSQLQuery {
 		return false;
 	}
 
-	/*
+	/**
 	 * Provides HOLDS functionality to WHERE clause by replacing $pattern
 	 * in $subject with $replacement and setting $found to true if
 	 * successful (leaves it untouched otehrwise). Includes modifying
