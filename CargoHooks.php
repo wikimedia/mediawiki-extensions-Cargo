@@ -9,7 +9,7 @@
 class CargoHooks {
 
 	public static function registerExtension() {
-		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgGroupPermissions;
+		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes;
 
 		define( 'CARGO_VERSION', '2.4' );
 
@@ -21,10 +21,6 @@ class CargoHooks {
 			'Datetime', 'Boolean', 'Coordinates', 'Wikitext',
 			'Searchtext', 'File', 'URL', 'Email', 'Rating'
 		];
-
-		$wgGroupPermissions['sysop']['recreatecargodata'] = true;
-		$wgGroupPermissions['sysop']['deletecargodata'] = true;
-		$wgGroupPermissions['*']['runcargoqueries'] = true;
 	}
 
 	public static function registerParserFunctions( &$parser ) {
