@@ -16,6 +16,8 @@ class CargoQueryInterface extends SpecialPage {
 	}
 
 	function execute( $query ) {
+		$this->checkPermissions();
+
 		$this->setHeaders();
 		$out = $this->getOutput();
 		$req = $this->getRequest();

@@ -25,6 +25,8 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		global $cgScriptPath, $wgCargoPageDataColumns;
 		global $wgCargoFileDataColumns;
 
+		$this->checkPermissions();
+
 		$request = $this->getRequest();
 		$out = $this->getOutput();
 		$title = $this->getPageTitle();
