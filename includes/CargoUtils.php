@@ -811,7 +811,7 @@ class CargoUtils {
 					$fieldsInTable['_value'] = $fieldType;
 				}
 				$fieldsInTable['_position'] = 'Integer';
-				$parentTables = [
+				$parentTablesForFieldTable = [
 					'mainTable' => [
 						'Name' => $tableName,
 						'_localField' => '_rowID',
@@ -819,7 +819,7 @@ class CargoUtils {
 					]
 				];
 
-				self::createTable( $cdb, $fieldTableName, $fieldsInTable, false, $parentTables );
+				self::createTable( $cdb, $fieldTableName, $fieldsInTable, false, $parentTablesForFieldTable );
 				$fieldTableNames[] = $fieldTableName;
 			}
 			if ( $fieldDescription->mIsHierarchy ) {
@@ -896,8 +896,7 @@ class CargoUtils {
 				$fieldType = $fieldDescOrType;
 				$sqlType = self::fieldTypeToSQLType( $fieldType, $dbType );
 				if ( $fieldName == '_ID' ) {
-					$fieldOptionsText .= ' NOT NULL';
-					$fieldOptionsText .= ' UNIQUE';
+					$fieldOptionsText .= ' PRIMARY KEY';
 				}
 			}
 			if ( $firstField ) {
@@ -912,7 +911,8 @@ class CargoUtils {
 			}
 		}
 
-		// Create a "foreign key" for each parent table.
+		// Create a "foreign key" for each parent table - this will
+		// only have an effect if these tables use InnoDB.
 		foreach ( $parentTables as $alias => $parentTableInfo ) {
 			$localField = $parentTableInfo['_localField'];
 			$remoteField = $parentTableInfo['_remoteField'];
@@ -931,6 +931,12 @@ class CargoUtils {
 		// Searchtext or Wikitext.
 		$indexedFields = [];
 		foreach ( $fieldsInTable as $fieldName => $fieldDescOrType ) {
+			// We don't need to index _ID, because it's already
+			// the primary key.
+			if ( $fieldName == '_ID' ) {
+				continue;
+			}
+
 			// @HACK - MySQL does not allow more than 64 keys/
 			// indexes per table. We are indexing most fields -
 			// so if a table has more than 64 fields, there's a
