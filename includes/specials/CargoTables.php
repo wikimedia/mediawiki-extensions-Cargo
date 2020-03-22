@@ -36,6 +36,11 @@ class CargoTables extends IncludableSpecialPage {
 
 		$cdb = CargoUtils::getDB();
 
+		if ( !$cdb->tableExists( $tableName ) ) {
+			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ], wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+			return;
+		}
+
 		$ctURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL();
 		$viewURL = "$ctURL/$tableName";
 
