@@ -70,13 +70,13 @@ class CargoFilterValue {
 		} else {
 			if ( $fv->text == '' ) {
 				// do nothing
-			} elseif ( $fv->text { 0 } == '<' ) {
+			} elseif ( $fv->text [ 0 ] == '<' ) {
 				$possible_number = str_replace( ',', '', trim( substr( $fv->text, 1 ) ) );
 				if ( is_numeric( $possible_number ) ) {
 					$fv->upper_limit = $possible_number;
 					$fv->is_numeric = true;
 				}
-			} elseif ( $fv->text { 0 } == '>' ) {
+			} elseif ( $fv->text [ 0 ] == '>' ) {
 				$possible_number = str_replace( ',', '', trim( substr( $fv->text, 1 ) ) );
 				if ( is_numeric( $possible_number ) ) {
 					$fv->lower_limit = $possible_number;
