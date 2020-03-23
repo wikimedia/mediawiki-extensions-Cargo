@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Gwendal"
+			"Gwendal",
+			"Fulup"
 		]
 	},
+	"cargo-viewdata-modifyquery": "Kemmañ ar reked",
 	"cargo-drilldown-mapformat": "Kartenn"
 }
