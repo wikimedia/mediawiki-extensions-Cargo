@@ -897,6 +897,8 @@ class CargoUtils {
 				$sqlType = self::fieldTypeToSQLType( $fieldType, $dbType );
 				if ( $fieldName == '_ID' ) {
 					$fieldOptionsText .= ' PRIMARY KEY';
+				} elseif ( $fieldName == '_rowID' ) {
+					$fieldOptionsText .= ' NOT NULL';
 				}
 			}
 			if ( $firstField ) {
