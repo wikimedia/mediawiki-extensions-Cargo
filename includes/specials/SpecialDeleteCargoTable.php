@@ -28,7 +28,6 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->begin();
-			$cdb->dropTable( $mainTable );
 			foreach ( $fieldTables as $fieldTable ) {
 				$cdb->dropTable( $fieldTable );
 			}
@@ -37,6 +36,10 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 					$cdb->dropTable( $fieldHelperTable );
 				}
 			}
+			// We delete the main table last, because the other
+			// tables may have foreign keys pointing to it, so those
+			// have to get deleted first.
+			$cdb->dropTable( $mainTable );
 			$cdb->commit();
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
