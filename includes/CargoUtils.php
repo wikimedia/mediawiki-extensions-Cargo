@@ -918,7 +918,7 @@ class CargoUtils {
 		foreach ( $parentTables as $alias => $parentTableInfo ) {
 			$localField = $parentTableInfo['_localField'];
 			$remoteField = $parentTableInfo['_remoteField'];
-			$remoteTable = $parentTableInfo['Name'];
+			$remoteTable = $cdb->tableName( $parentTableInfo['Name'] );
 			$createSQL .= ", FOREIGN KEY ($localField) REFERENCES $remoteTable($remoteField)";
 		}
 
