@@ -216,20 +216,26 @@ class CargoUtils {
 		return $childTables;
 	}
 
-	static function dropForeignKey( $tableName, $fieldName ) {
+	static function dropForeignKey( $tableName, $fieldName, $remoteTableName, $remoteFieldName ) {
 		$cdb = self::getDB();
 		if ( $cdb->getType() !== 'mysql' ) {
 			// Only for MySQL.
 			return;
 		}
+		$foreignKeyName = $remoteTableName . '__' . $remoteFieldName . '__fk';
 		$alterSQL = 'ALTER TABLE ' . $cdb->tableName( $tableName ) .
-			' DROP FOREIGN KEY ' . $cdb->addIdentifierQuotes( $fieldName );
+			' DROP FOREIGN KEY ' . $cdb->addIdentifierQuotes( $foreignKeyName );
 		$cdb->query( $alterSQL );
 	}
 
 	static function dropForeignKeysForChildTables( $childTables ) {
 		foreach ( $childTables as $childTableInfo ) {
-			self::dropForeignKey( $childTableInfo['childTable'], $childTableInfo['childField'] );
+			self::dropForeignKey(
+				$childTableInfo['childTable'],
+				$childTableInfo['childField'],
+				$childTableInfo['parentTable'],
+				$childTableInfo['parentField']
+			);
 		}
 	}
 
@@ -239,8 +245,10 @@ class CargoUtils {
 			// Only for MySQL.
 			return;
 		}
+		$foreignKeyName = $remoteTableName . '__' . $remoteFieldName . '__fk';
 		$alterSQL = 'ALTER TABLE ' . $cdb->tableName( $tableName ) .
-			' ADD FOREIGN KEY (' . $cdb->addIdentifierQuotes( $fieldName ) .
+			' ADD CONSTRAINT ' . $cdb->addIdentifierQuotes( $foreignKeyName ) .
+			' FOREIGN KEY (' . $cdb->addIdentifierQuotes( $fieldName ) .
 			') REFERENCES ' . $cdb->tableName( $remoteTableName ) . ' (' .
 			$cdb->addIdentifierQuotes( $remoteFieldName ) . ')';
 		$cdb->query( $alterSQL );
@@ -984,15 +992,6 @@ class CargoUtils {
 			}
 		}
 
-		// Create a "foreign key" for each parent table - this will
-		// only have an effect if these tables use InnoDB.
-		foreach ( $parentTables as $alias => $parentTableInfo ) {
-			$localField = $parentTableInfo['_localField'];
-			$remoteField = $parentTableInfo['_remoteField'];
-			$remoteTable = $parentTableInfo['Name'];
-			$createSQL .= ", FOREIGN KEY ($localField) REFERENCES $remoteTable($remoteField)";
-		}
-
 		$createSQL .= ' )';
 		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
 		if ( $wgCargoDBRowFormat != null ) {
@@ -1051,6 +1050,15 @@ class CargoUtils {
 					"$sqlTableName ($sqlFieldName)";
 				$cdb->query( $createIndexSQL );
 			}
+		}
+
+		// Create a "foreign key" for each parent table - this will
+		// only have an effect if these tables use InnoDB.
+		foreach ( $parentTables as $alias => $parentTableInfo ) {
+			$localField = $parentTableInfo['_localField'];
+			$remoteField = $parentTableInfo['_remoteField'];
+			$remoteTable = $parentTableInfo['Name'];
+			self::addForeignKey( $tableName, $localField, $remoteTable, $remoteField );
 		}
 	}
 

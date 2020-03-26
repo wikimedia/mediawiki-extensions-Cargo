@@ -40,7 +40,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 			// tables may have foreign keys pointing to it, so those
 			// have to get deleted - or get their foreign keys
 			// deleted - first.
-			$childTables = CargoUtils::getChildTables();
+			$childTables = CargoUtils::getChildTables( $mainTable );
 			CargoUtils::dropForeignKeysForChildTables( $childTables );
 			$cdb->dropTable( $mainTable );
 			$cdb->commit();

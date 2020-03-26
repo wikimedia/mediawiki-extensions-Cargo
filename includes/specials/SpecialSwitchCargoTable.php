@@ -61,7 +61,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			// can delete the main table.
 			foreach ( $fieldTables as $fieldTable ) {
 				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
-				CargoUtils::dropForeignKey( $origFieldTable, '_rowID' );
+				CargoUtils::dropForeignKey( $origFieldTable, '_rowID', $mainTable, '_ID' );
 			}
 
 			$cdb->dropTable( $mainTable );
