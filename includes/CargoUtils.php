@@ -189,6 +189,74 @@ class CargoUtils {
 		}
 	}
 
+	static function getChildTables( $tableName ) {
+		$childTables = [];
+		$allParentTablesInfo = self::getAllPageProps( 'CargoParentTables' );
+		foreach ( $allParentTablesInfo as $parentTablesInfoStr => $templateIDs ) {
+			$parentTablesInfo = unserialize( $parentTablesInfoStr );
+			foreach ( $parentTablesInfo as $alias => $parentTableInfo ) {
+				$remoteTable = $parentTableInfo['Name'];
+				if ( $remoteTable !== $tableName ) {
+					continue;
+				}
+				$localField = $parentTableInfo['_localField'];
+				$remoteField = $parentTableInfo['_remoteField'];
+				// There should only ever be one ID here... right?
+				foreach ( $templateIDs as $templateID ) {
+					$childTable = self::getPageProp( $templateID, 'CargoTableName' );
+					$childTables[] = [
+						'childTable' => $childTable,
+						'childField' => $localField,
+						'parentTable' => $remoteTable,
+						'parentField' => $remoteField
+					];
+				}
+			}
+		}
+		return $childTables;
+	}
+
+	static function dropForeignKey( $tableName, $fieldName ) {
+		$cdb = self::getDB();
+		if ( $cdb->getType() !== 'mysql' ) {
+			// Only for MySQL.
+			return;
+		}
+		$alterSQL = 'ALTER TABLE ' . $cdb->tableName( $tableName ) .
+			' DROP FOREIGN KEY ' . $cdb->addIdentifierQuotes( $fieldName );
+		$cdb->query( $alterSQL );
+	}
+
+	static function dropForeignKeysForChildTables( $childTables ) {
+		foreach ( $childTables as $childTableInfo ) {
+			self::dropForeignKey( $childTableInfo['childTable'], $childTableInfo['childField'] );
+		}
+	}
+
+	static function addForeignKey( $tableName, $fieldName, $remoteTableName, $remoteFieldName ) {
+		$cdb = self::getDB();
+		if ( $cdb->getType() !== 'mysql' ) {
+			// Only for MySQL.
+			return;
+		}
+		$alterSQL = 'ALTER TABLE ' . $cdb->tableName( $tableName ) .
+			' ADD FOREIGN KEY (' . $cdb->addIdentifierQuotes( $fieldName ) .
+			') REFERENCES ' . $cdb->tableName( $remoteTableName ) . ' (' .
+			$cdb->addIdentifierQuotes( $remoteFieldName ) . ')';
+		$cdb->query( $alterSQL );
+	}
+
+	static function addForeignKeysForChildTables( $childTables ) {
+		foreach ( $childTables as $childTableInfo ) {
+			self::addForeignKey(
+				$childTableInfo['childTable'],
+				$childTableInfo['childField'],
+				$childTableInfo['parentTable'],
+				$childTableInfo['parentField']
+			);
+		}
+	}
+
 	static function getDrilldownTabsParams( $tableName ) {
 		$drilldownTabs = [];
 		$dbr = wfGetDB( DB_REPLICA );
@@ -601,6 +669,8 @@ class CargoUtils {
 			}
 
 			$mainTableAlreadyExists = $cdb->tableExists( $tableNames[0] );
+			$childTables = self::getChildTables( $tableNames[0] );
+			self::dropForeignKeysForChildTables( $childTables );
 
 			foreach ( $tableNames as $curTable ) {
 				try {
@@ -620,6 +690,7 @@ class CargoUtils {
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $parentTables, $templatePageID );
 
 		if ( !$createReplacement ) {
+			self::addForeignKeysForChildTables( $childTables );
 			// Log this.
 			if ( $mainTableAlreadyExists ) {
 				self::logTableAction( 'recreatetable', $tableName, $user );
@@ -780,8 +851,8 @@ class CargoUtils {
 				$fieldsInMainTable[$fieldName . '__lat'] = 'Float';
 				$fieldsInMainTable[$fieldName . '__lon'] = 'Float';
 			} elseif ( $fieldType == 'Date' || $fieldType == 'Datetime' ||
-					   $fieldType == 'Start date' || $fieldType == 'Start datetime' ||
-					   $fieldType == 'End date' || $fieldType == 'End datetime' ) {
+					$fieldType == 'Start date' || $fieldType == 'Start datetime' ||
+					$fieldType == 'End date' || $fieldType == 'End datetime' ) {
 				$fieldsInMainTable[$fieldName . '__precision'] = 'Integer';
 			} elseif ( $fieldType == 'File' ) {
 				$containsFileType = true;
@@ -918,7 +989,7 @@ class CargoUtils {
 		foreach ( $parentTables as $alias => $parentTableInfo ) {
 			$localField = $parentTableInfo['_localField'];
 			$remoteField = $parentTableInfo['_remoteField'];
-			$remoteTable = $cdb->tableName( $parentTableInfo['Name'] );
+			$remoteTable = $parentTableInfo['Name'];
 			$createSQL .= ", FOREIGN KEY ($localField) REFERENCES $remoteTable($remoteField)";
 		}
 
@@ -1112,7 +1183,7 @@ class CargoUtils {
 		if ( is_array( $tableName ) ) {
 			$tableAlias = key( $tableName );
 			return $cdb->addIdentifierQuotes( $tableAlias ) . '.' .
-				   $cdb->addIdentifierQuotes( $fieldName );
+				$cdb->addIdentifierQuotes( $fieldName );
 		}
 		return $cdb->tableName( $tableName ) . '.' .
 			$cdb->addIdentifierQuotes( $fieldName );

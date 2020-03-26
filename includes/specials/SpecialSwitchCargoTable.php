@@ -33,10 +33,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$cdb = CargoUtils::getDB();
 		try {
 			$cdb->begin();
-			$cdb->dropTable( $mainTable );
-			$cdb->query( 'ALTER TABLE ' .
-				$cdb->tableName( $mainTable . '__NEXT' ) .
-				' RENAME TO ' . $cdb->tableName( $mainTable ) );
+
 			// The helper tables' names come from the database,
 			// so they already contain '__NEXT' - remove that,
 			// instead of adding it, when getting table names.
@@ -59,6 +56,25 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 						$cdb->tableName( $origFieldHelperTable ) );
 				}
 			}
+
+			// Drop the foreign keys from the field tables, so we
+			// can delete the main table.
+			foreach ( $fieldTables as $fieldTable ) {
+				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
+				CargoUtils::dropForeignKey( $origFieldTable, '_rowID' );
+			}
+
+			$cdb->dropTable( $mainTable );
+			$cdb->query( 'ALTER TABLE ' .
+				$cdb->tableName( $mainTable . '__NEXT' ) .
+				' RENAME TO ' . $cdb->tableName( $mainTable ) );
+
+			// Finally, re-add those foreign keys.
+			foreach ( $fieldTables as $fieldTable ) {
+				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
+				CargoUtils::addForeignKey( $origFieldTable, '_rowID', $mainTable, '_ID' );
+			}
+
 			$cdb->commit();
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to switch in replacement for Cargo table. "
