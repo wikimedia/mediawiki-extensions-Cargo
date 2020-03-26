@@ -541,6 +541,7 @@ class CargoHooks {
 		$cargoRow = new ALRow( 'cargo' );
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'CargoTables' ) );
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'Drilldown' ) );
+		$cargoRow->addItem( ALItem::newFromSpecialPage( 'CargoQuery' ) );
 		$browseSearchSection->addRow( $cargoRow );
 
 		return true;
