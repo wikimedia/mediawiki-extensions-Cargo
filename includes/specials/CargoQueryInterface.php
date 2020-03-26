@@ -71,7 +71,7 @@ END;
 	 * @param int $size
 	 * @return string
 	 */
-	static function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
+	function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
 		global $wgRequest;
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
@@ -95,7 +95,7 @@ END;
 		return Html::rawElement( 'tr', [ 'class' => 'mw-htmlform-field-HTMLTextField' ], $row ) . "\n";
 	}
 
-	static function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
+	function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
 		global $wgRequest;
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
@@ -119,7 +119,7 @@ END;
 		return Html::rawElement( 'tr', [ 'class' => 'mw-htmlform-field-HTMLTextField' ], $row ) . "\n";
 	}
 
-	static function displayOrderByInput( $rowNum, $orderByValue, $orderByDirection ) {
+	function displayOrderByInput( $rowNum, $orderByValue, $orderByDirection ) {
 		$text = "\n" . '<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' . $rowNum . '>';
 		if ( $rowNum == 0 ) {
 			$text .= '<td class="mw-label">' .
@@ -163,31 +163,31 @@ $hiddenTitleInput
 <tbody>
 END;
 
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
+		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
 			wfMessage( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" )->parse() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
+		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
 			wfMessage( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->parse() );
-		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-where' )->parse(), 'where', 100,
+		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-where' )->parse(), 'where', 100,
 			wfMessage( 'cargo-viewdata-wheretooltip', "Country.Continent = 'North America' AND City.Population > 100000" )->parse() );
-		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-joinon' )->parse(), 'join_on', 100,
+		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-joinon' )->parse(), 'join_on', 100,
 			wfMessage( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->parse() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
+		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
 			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
-		$text .= self::displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
+		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
 			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
 		$orderByValues = $wgRequest->getArray( 'order_by' );
 		if ( $orderByValues != null ) {
 			$orderByDirections = $wgRequest->getArray( 'order_by_options' );
 			$rowNum = 0;
 			foreach ( $orderByValues as $i => $curOrderBy ) {
-				$text .= self::displayOrderByInput( $rowNum++, $curOrderBy, $orderByDirections[$i] );
+				$text .= $this->displayOrderByInput( $rowNum++, $curOrderBy, $orderByDirections[$i] );
 			}
 		} else {
-			$text .= self::displayOrderByInput( 0, null, null );
+			$text .= $this->displayOrderByInput( 0, null, null );
 		}
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
+		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
 			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit )->parse() );
-		$text .= self::displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
+		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
 			wfMessage( 'cargo-viewdata-offsettooltip', "0" )->parse() );
 		$formatLabel = '<label for="format">' . wfMessage( 'cargo-viewdata-format' )->parse() .
 			'&nbsp;&nbsp;<button class="cargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
