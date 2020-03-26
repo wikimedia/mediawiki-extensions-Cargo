@@ -72,7 +72,7 @@ END;
 	 * @return string
 	 */
 	function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
-		global $wgRequest;
+		$req = $this->getRequest();
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
 		$label .= '&nbsp;' . Html::element( 'button',
@@ -84,7 +84,7 @@ END;
 				'data-balloon' => $tooltip
 			], '' ) . '&nbsp;';
 		$row = "\n\t" . Html::rawElement( 'td', [ 'class' => 'mw-label' ], $label );
-		$input = Html::input( $fieldName, $wgRequest->getVal( $fieldName ), 'text',
+		$input = Html::input( $fieldName, $req->getVal( $fieldName ), 'text',
 			[
 				'class' => 'form-control cargo-query-input',
 				'multiple' => 'true',
@@ -96,7 +96,7 @@ END;
 	}
 
 	function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
-		global $wgRequest;
+		$req = $this->getRequest();
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
 		$label .= '&nbsp;' . Html::element( 'button',
@@ -108,7 +108,7 @@ END;
 				'data-balloon' => $tooltip
 			], '' ) . '&nbsp;';
 		$row = "\n\t" . Html::rawElement( 'td', [ 'class' => 'mw-label' ], $label );
-		$input = Html::textarea( $fieldName, $wgRequest->getVal( $fieldName ),
+		$input = Html::textarea( $fieldName, $req->getVal( $fieldName ),
 			[
 				'class' => 'form-control cargo-query-textarea',
 				'multiple' => 'true',
@@ -150,8 +150,9 @@ END;
 	}
 
 	function displayInputForm() {
-		global $wgCargoDefaultQueryLimit, $wgRequest;
+		global $wgCargoDefaultQueryLimit;
 
+		$req = $this->getRequest();
 		// Add the name of this special page as a hidden input, in
 		// case the wiki doesn't use nice URLs.
 		$hiddenTitleInput = Html::hidden( 'title', $this->getPageTitle()->getFullText() );
@@ -175,9 +176,9 @@ END;
 			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
 		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
 			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
-		$orderByValues = $wgRequest->getArray( 'order_by' );
+		$orderByValues = $req->getArray( 'order_by' );
 		if ( $orderByValues != null ) {
-			$orderByDirections = $wgRequest->getArray( 'order_by_options' );
+			$orderByDirections = $req->getArray( 'order_by_options' );
 			$rowNum = 0;
 			foreach ( $orderByValues as $i => $curOrderBy ) {
 				$text .= $this->displayOrderByInput( $rowNum++, $curOrderBy, $orderByDirections[$i] );
@@ -206,7 +207,7 @@ END;
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
 		foreach ( $formatClasses as $formatName => $formatClass ) {
 			$optionAttrs = [];
-			if ( $formatName == $wgRequest->getVal( 'format' ) ) {
+			if ( $formatName == $req->getVal( 'format' ) ) {
 				$optionAttrs['selected'] = true;
 			}
 			$text .= Html::element( 'option', $optionAttrs, $formatName );
