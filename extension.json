@@ -355,6 +355,7 @@
 			"FLOOR",
 			"FORMAT",
 			"GROUP_CONCAT",
+			"IF",
 			"LCASE",
 			"LN",
 			"LOG",
