@@ -66,6 +66,17 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		if ( $request->getCheck( '_replacement' ) ) {
 			$mainTable .= '__NEXT';
 		}
+
+		$cdb = CargoUtils::getDB();
+
+		// This check is necessary because getTableSchemas(), below,
+		// for some reason returns a false positive when an alternate
+		// capitalization of the table name is used.
+		if ( !$cdb->tableExists( $mainTable ) ) {
+			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ], wfMessage( "cargo-unknowntable", $mainTable )->parse() ) );
+			return;
+		}
+
 		$mainTableAlias = CargoUtils::makeDifferentAlias( $mainTable );
 		try {
 			if ( $parentTables ) {
@@ -155,7 +166,6 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 					 ( $fieldDescription->mType == 'Date' || $fieldDescription->mType == 'Datetime' ||
 					   $fieldDescription->mType == 'Start date' || $fieldDescription->mType == 'Start datetime' ) ) {
 					$dateFields[] = $fieldName;
-					$cdb = CargoUtils::getDB();
 					// If no. of events is more than 4 per month (i.e average days per event < 8),
 					// then calendar format is displayed for that field's result.
 					if ( $cdb->tableExists( $tableName ) ) {
