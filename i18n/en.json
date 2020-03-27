@@ -60,6 +60,7 @@
 	"cargo-viewdata-hidelegendparam": "Hide legend:",
 	"cargo-viewdata-delimiterparam": "Delimiter:",
 	"cargo-viewdata-modifyquery": "Modify query",
+	"cargo-viewdata-viewwikitext": "View wikitext",
 	"cargo-query-missingformat": "Error: Format must be set.",
 	"cargo-query-badsqlfunction": "Error: The SQL function \"$1\" is not allowed.",
 	"cargo-query-badalias": "Error: Invalid table alias \"$1\".",

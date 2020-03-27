@@ -66,6 +66,7 @@
 	"cargo-viewdata-hidelegendparam": "Label in a form to hide the legend of a chart",
 	"cargo-viewdata-delimiterparam": "Label in a form to set the delimiter (like \",\") in the output",
 	"cargo-viewdata-modifyquery": "Text of a link to a form",
+	"cargo-viewdata-viewwikitext": "Text of a link to view a wikitext (MediaWiki syntax) parser function",
 	"cargo-query-missingformat": "An error message.",
 	"cargo-query-badsqlfunction": "An error message. Parameters:\n* $1 - form name (with link)",
 	"cargo-query-badalias": "An error message. Parameters:\n* $1 - an SQL table alias",

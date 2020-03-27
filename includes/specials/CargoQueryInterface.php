@@ -38,21 +38,9 @@ class CargoQueryInterface extends SpecialPage {
 		$formHTML = $this->displayInputForm();
 
 		if ( $req->getCheck( 'tables' ) ) {
-			$modifyQueryMsg = $this->msg( 'cargo-viewdata-modifyquery' );
-			$html = <<<END
-<div style="max-width: 70em;">
-<span style="width: 100%;" class="oo-ui-widget oo-ui-widget-enabled oo-ui-buttonElement oo-ui-buttonElement-framed oo-ui-indicatorElement oo-ui-labelElement oo-ui-buttonWidget">
-<a href="#" id="cargo-modifyQuery-toggle" class="oo-ui-buttonElement-button" role="button" tabindex="0" aria-disabled="false" rel="nofollow">
-$modifyQueryMsg
-<span class="oo-ui-indicatorElement-indicator oo-ui-indicator-down"></span>
-</a>
-</span>
-<div id="cargo-modifyQuery-form">
-$formHTML
-</div>
-</div>
-
-END;
+			$html = $this->displayBottomPane( $this->msg( 'cargo-viewdata-modifyquery' ), $formHTML );
+			$wikitext = $this->getWikitextForQuery();
+			$html .= $this->displayBottomPane( $this->msg( 'cargo-viewdata-viewwikitext' ), $wikitext );
 		} else {
 			$html = $formHTML;
 		}
@@ -228,4 +216,62 @@ END;
 END;
 		return $text;
 	}
+
+	function getWikitextForQuery() {
+		$req = $this->getRequest();
+
+		$wikitext = "<pre>{{#cargo_query:\n";
+		$vals = $req->getValues();
+		$firstParam = true;
+		foreach ( $vals as $key => $val ) {
+			if ( $key == 'title' || $key == 'order_by_options' ) {
+				continue;
+			}
+			$key = str_replace( '_', ' ', $key );
+			if ( $key == 'order by' ) {
+				$orderByVal = '';
+				foreach ( $val as $i => $orderByField ) {
+					if ( $orderByField == '' ) {
+						continue;
+					}
+					$option = $vals['order_by_options'][$i];
+					$orderByVal .= $orderByField . ' ' . $option . ', ';
+				}
+				$val = $orderByVal;
+			}
+			$val = trim( $val );
+			$val = trim( $val, ',' );
+			if ( $val == '' ) {
+				continue;
+			}
+			if ( $firstParam ) {
+				$firstParam = false;
+			} else {
+				$wikitext .= '|';
+			}
+			$wikitext .= "$key=$val\n";
+		}
+		$wikitext .= "}}";
+
+		return $wikitext;
+	}
+
+	function displayBottomPane( $paneName, $paneText ) {
+		$html = <<<END
+<div style="max-width: 70em;">
+<span style="width: 100%;" class="oo-ui-widget oo-ui-widget-enabled oo-ui-buttonElement oo-ui-buttonElement-framed oo-ui-indicatorElement oo-ui-labelElement oo-ui-buttonWidget">
+<a href="#" class="specialCargoQuery-extraPane-toggle oo-ui-buttonElement-button" role="button" tabindex="0" aria-disabled="false" rel="nofollow">
+$paneName
+<span class="oo-ui-indicatorElement-indicator oo-ui-indicator-down"></span>
+</a>
+</span>
+<div class="specialCargoQuery-extraPane">
+$paneText
+</div>
+</div>
+
+END;
+		return $html;
+	}
+
 }

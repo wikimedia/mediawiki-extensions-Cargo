@@ -83,12 +83,13 @@ table.cargoViewDataTable input {
 	vertical-align: top;
 }
 
-a#cargo-modifyQuery-toggle {
+a.specialCargoQuery-extraPane-toggle {
+	margin-top: 7px;
 	width: 100%;
 	text-align: left !important;
 }
 
-#cargo-modifyQuery-form {
+div.specialCargoQuery-extraPane {
 	background: linear-gradient( rgba( 0, 0, 0, 0.1 ), #f8f9fa 0.5em );
 	border: solid 1px #a2a9b1;
 	border-top: 0;

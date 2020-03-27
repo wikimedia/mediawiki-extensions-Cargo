@@ -318,9 +318,10 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#cargo-modifyQuery-form').hide();
-	$('#cargo-modifyQuery-toggle').click( function(e) {
+	$('.specialCargoQuery-extraPane').hide();
+	$('.specialCargoQuery-extraPane-toggle').click( function(e) {
 		e.preventDefault();
-		$('#cargo-modifyQuery-form').toggle();
+		$(this).closest('div').find('.specialCargoQuery-extraPane').toggle();
 	});
+
 });
