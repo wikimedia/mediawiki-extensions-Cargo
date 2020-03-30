@@ -63,6 +63,7 @@
 	"cargo-viewdata-hidelegendparam": "Скриј легенда:",
 	"cargo-viewdata-delimiterparam": "Одделувач:",
 	"cargo-viewdata-modifyquery": "Измени барање",
+	"cargo-viewdata-viewwikitext": "Погл. викитекст",
 	"cargo-query-missingformat": "Грешка: Мора да се зададе формат.",
 	"cargo-query-badsqlfunction": "Грешка: SQL-функцијата „$1“ не е дозволена.",
 	"cargo-query-badalias": "Грешка: Неважечки истозначник „$1“ на табелата.",

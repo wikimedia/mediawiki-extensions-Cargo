@@ -68,6 +68,7 @@
 	"cargo-viewdata-hidelegendparam": "Сховати легенду:",
 	"cargo-viewdata-delimiterparam": "Роздільник:",
 	"cargo-viewdata-modifyquery": "Модифікувати запит",
+	"cargo-viewdata-viewwikitext": "Переглянути вікірозмітку",
 	"cargo-query-missingformat": "Помилка: має бути заданий формат.",
 	"cargo-query-badsqlfunction": "Помилка: функція SQL «$1» не дозволена.",
 	"cargo-query-badalias": "Помилка: недійсний псевдонім таблиці «$1».",
