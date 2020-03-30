@@ -64,6 +64,7 @@
 	"cargo-viewdata-hidelegendparam": "Göstergeyi gizle:",
 	"cargo-viewdata-delimiterparam": "Sınırlayıcı:",
 	"cargo-viewdata-modifyquery": "Sorguyu değiştir",
+	"cargo-viewdata-viewwikitext": "Vikimetin görüntüle",
 	"cargo-query-missingformat": "Hata: Biçim ayarlanmalıdır.",
 	"cargo-query-badsqlfunction": "Hata: \"$1\" SQL işlevine izin verilmiyor.",
 	"cargo-query-badalias": "Hata: Geçersiz tablo diğer adı \"$1\".",

@@ -6,7 +6,8 @@
 			"Jopparn",
 			"Josve05a",
 			"Mjälten",
-			"ProletariatetsBefrielseOrkester"
+			"ProletariatetsBefrielseOrkester",
+			"Technic2"
 		]
 	},
 	"cargo-desc": "Lagring och visning av data i mallar",
@@ -18,12 +19,12 @@
 	"cargo-viewdata-fields": "Fält:",
 	"cargo-viewdata-where": "Var:",
 	"cargo-viewdata-joinon": "Gå med och",
-	"cargo-viewdata-groupby": "Grupper efter:",
+	"cargo-viewdata-groupby": "Gruppera efter:",
 	"cargo-viewdata-having": "Har:",
 	"cargo-viewdata-orderby": "Sortera efter:",
-	"cargo-viewdata-limit": "Begränsning",
+	"cargo-viewdata-limit": "Begränsning:",
 	"cargo-viewdata-offset": "Offset:",
-	"cargo-viewdata-defaultformat": "Förvalt",
+	"cargo-viewdata-defaultformat": "Förvalt:",
 	"cargo-viewdata-heightparam": "Höjd:",
 	"cargo-viewdata-widthparam": "Bredd:",
 	"cargo-viewdata-columnsparam": "Antal kolumner:",
