@@ -62,6 +62,7 @@
 	"cargo-viewdata-hidelegendparam": "Ocultar legenda:",
 	"cargo-viewdata-delimiterparam": "Delimitador:",
 	"cargo-viewdata-modifyquery": "Modificar consulta",
+	"cargo-viewdata-viewwikitext": "Ver com o wikitexto",
 	"cargo-query-missingformat": "Erro: o formato tem de ser definido.",
 	"cargo-query-badsqlfunction": "Erro: a função SQL \"$1\" não é permitida.",
 	"cargo-query-badalias": "Erro: nome alternativo de tabela \"$1\" inválido.",

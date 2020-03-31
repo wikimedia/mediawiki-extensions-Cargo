@@ -78,6 +78,7 @@
 	"cargo-viewdata-hidelegendparam": "Masquer la légende :",
 	"cargo-viewdata-delimiterparam": "Délimiteur :",
 	"cargo-viewdata-modifyquery": "Modifier la requête",
+	"cargo-viewdata-viewwikitext": "Afficher le wikitexte",
 	"cargo-query-missingformat": "Erreur : le format doit être défini.",
 	"cargo-query-badsqlfunction": "Erreur : la fonction SQL « $1 » n’est pas autorisée.",
 	"cargo-query-badalias": "Erreur : alias de table « $1 » non valide.",
