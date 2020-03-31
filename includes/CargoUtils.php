@@ -223,8 +223,24 @@ class CargoUtils {
 			return;
 		}
 		$foreignKeyName = $remoteTableName . '__' . $remoteFieldName . '__fk';
-		$alterSQL = 'ALTER TABLE ' . $cdb->tableName( $tableName ) .
-			' DROP FOREIGN KEY ' . $cdb->addIdentifierQuotes( $foreignKeyName );
+		$sqlTableName = $cdb->tableName( $tableName );
+		$foreignKeyName = $remoteTableName . '__' . $remoteFieldName . '__fk';
+		$sqlFKName = $cdb->addIdentifierQuotes( $foreignKeyName );
+
+		// Make sure foreign key exists before trying to drop it.
+		$res = $cdb->query( "SELECT TRUE
+	FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+	WHERE CONSTRAINT_TYPE = 'FOREIGN KEY'
+	AND TABLE_SCHEMA = '$sqlTableName'
+	AND CONSTRAINT_NAME = '$foreignKeyName'" );
+		$row = $dbw->fetchRow( $res );
+		$exists = $row[0];
+		if ( $exists === false ) {
+			return;
+		}
+
+		$alterSQL = "ALTER TABLE $sqlTableName" .
+			" DROP FOREIGN KEY $sqlFKName";
 		$cdb->query( $alterSQL );
 	}
 
