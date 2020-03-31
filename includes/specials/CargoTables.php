@@ -4,6 +4,7 @@
  * the Cargo database.
  *
  * @author Yaron Koren
+ * @author Megan Cutrofello
  * @ingroup Cargo
  */
 
@@ -11,6 +12,8 @@ class CargoTables extends IncludableSpecialPage {
 
 	private $templatesThatDeclareTables;
 	private $templatesThatAttachToTables;
+
+	private static $actionList = null;
 
 	/**
 	 * Constructor
@@ -31,13 +34,16 @@ class CargoTables extends IncludableSpecialPage {
 
 		if ( $tableName == '' ) {
 			$out->addHTML( $this->displayListOfTables() );
+
 			return;
 		}
 
 		$cdb = CargoUtils::getDB();
 
 		if ( !$cdb->tableExists( $tableName ) ) {
-			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ], wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
+				wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+
 			return;
 		}
 
@@ -45,30 +51,35 @@ class CargoTables extends IncludableSpecialPage {
 		$viewURL = "$ctURL/$tableName";
 
 		if ( $req->getCheck( '_replacement' ) ) {
-			$pageTitle = $this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
+			$pageTitle =
+				$this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
 			$tableLink = Html::element( 'a', [ 'href' => $viewURL ], $tableName );
 			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
 			if ( $user->isAllowed( 'recreatecargodata' ) ) {
-				$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
+				$switchURL =
+					SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 				$text .= ' ' . Html::element( 'a', [ 'href' => $switchURL ],
-					$this->msg( "cargo-cargotables-switch" )->parse() );
+						$this->msg( "cargo-cargotables-switch" )->parse() );
 
 				if ( $user->isAllowed( 'deletecargodata' ) ) {
-					$deleteURL = SpecialPage::getTitleFor( 'DeleteCargoTable' )->getFullURL() . "/$tableName";
+					$deleteURL =
+						SpecialPage::getTitleFor( 'DeleteCargoTable' )->getFullURL() .
+						"/$tableName";
 					$deleteURL .= strpos( $deleteURL, '?' ) ? '&' : '?';
 					$deleteURL .= "_replacement";
-					$text .= ' ' . $this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
+					$text .= ' ' .
+						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
 				}
 			}
-			$out->addHtml( Html::rawElement( 'div', [ 'class' => 'warningbox plainlinks' ], $text ) );
+			$out->addHtml( Html::rawElement( 'div', [ 'class' => 'warningbox plainlinks' ],
+				$text ) );
 			$tableName .= '__NEXT';
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 			if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
-				$text = Html::rawElement( 'div',
-					[ 'class' => 'warningbox' ],
-					$this->msg( 'cargo-cargotables-hasreplacement' )->parse()
-				);
+				$text =
+					Html::rawElement( 'div', [ 'class' => 'warningbox' ],
+						$this->msg( 'cargo-cargotables-hasreplacement' )->parse() );
 				$out->addHtml( $text );
 			}
 		}
@@ -83,11 +94,9 @@ class CargoTables extends IncludableSpecialPage {
 			$linkRenderer = null;
 		}
 		$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
-		$mainPageLink = CargoUtils::makeLink(
-			$linkRenderer,
-			$ctPage->getPageTitle(),
-			htmlspecialchars( $ctPage->getDescription() )
-		);
+		$mainPageLink =
+			CargoUtils::makeLink( $linkRenderer, $ctPage->getPageTitle(),
+				htmlspecialchars( $ctPage->getDescription() ) );
 		$out->setSubtitle( '< ' . $mainPageLink );
 
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
@@ -112,13 +121,16 @@ class CargoTables extends IncludableSpecialPage {
 		// Then, display a count.
 		try {
 			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
-		} catch ( Exception $e ) {
+		}
+		catch ( Exception $e ) {
 			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
 					$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
+
 			return;
 		}
 		$row = $cdb->fetchRow( $res );
-		$numRowsMessage = $this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) );
+		$numRowsMessage =
+			$this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) );
 		if ( method_exists( $out, 'addWikiTextAsInterface' ) ) {
 			// MW 1.32+
 			$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
@@ -153,12 +165,14 @@ class CargoTables extends IncludableSpecialPage {
 			if ( $fieldType == 'URL' && !$fieldDescription->mIsList ) {
 				// CONCAT() was only defined in MS SQL Server
 				// in version 11.0, from 2012.
-				if ( $cdb->getType() == 'mssql' && version_compare( $cdb->getServerInfo(), '11.0', '<' ) ) {
+				if ( $cdb->getType() == 'mssql' &&
+					version_compare( $cdb->getServerInfo(), '11.0', '<' ) ) {
 					// Just show the URL.
 				} else {
 					// Thankfully, there's a message in core
 					// MediaWiki that seems to just be "URL".
-					$fieldName = "CONCAT('[', $fieldName, ' " .
+					$fieldName =
+						"CONCAT('[', $fieldName, ' " .
 						$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
 				}
 			}
@@ -198,8 +212,9 @@ class CargoTables extends IncludableSpecialPage {
 		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
 
 		$tableFormat = new CargoTableFormat( $this->getOutput() );
-		$text = $tableFormat->display( $queryResults, $formattedQueryResults,
-			$sqlQuery->mFieldDescriptions, $displayParams );
+		$text =
+			$tableFormat->display( $queryResults, $formattedQueryResults,
+				$sqlQuery->mFieldDescriptions, $displayParams );
 
 		// If there are (seemingly) more results than what we showed,
 		// show a "View more" link that links to Special:ViewData.
@@ -211,34 +226,132 @@ class CargoTables extends IncludableSpecialPage {
 	}
 
 	function displayNumRowsForTable( $cdb, $tableName ) {
+		global $wgCargoDecimalMark;
+		global $wgCargoDigitGroupingCharacter;
+
 		$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		$row = $cdb->fetchRow( $res );
-		return $this->msg( 'cargo-cargotables-totalrowsshort' )->numParams( intval( $row['total'] ) )->parse();
+
+		return number_format( intval( $row['total'] ), 0, $wgCargoDecimalMark,
+			$wgCargoDigitGroupingCharacter );
 	}
 
-	function displayActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
-		$user = $this->getUser();
-
-		$canBeRecreated = !$hasReplacementTable && array_key_exists( $tableName, $this->templatesThatDeclareTables );
-		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
-
+	function getTableLinkedToView( $tableName, $isReplacementTable ) {
 		$viewURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL() . "/$tableName";
 		if ( $isReplacementTable ) {
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
 		}
-		$actionLinks = [];
-		$actionLinks['view'] = Html::element( 'a', [ 'href' => $viewURL ],
-			$this->msg( 'view' )->text() );
 
-		if ( method_exists( $this, 'getLinkRenderer' ) ) {
-			$linkRenderer = $this->getLinkRenderer();
-		} else {
-			$linkRenderer = null;
+		$displayText =
+			$isReplacementTable ? $this->msg( 'cargo-cargotables-replacementlink' ) : $tableName;
+
+		return Html::element( 'a', [ 'href' => $viewURL ], $displayText );
+	}
+
+	function getActionButton( $action, $target ) {
+		// a button is a clickable link, its target being a table action
+		$actionList = self::$actionList;
+		$displayIcon = $actionList[$action]['ooui-icon'];
+		$displayTitle = $this->msg( $actionList[$action]['ooui-title'] );
+		$element = new OOUI\ButtonWidget( [
+				'icon' => $displayIcon,
+				'title' => $displayTitle,
+				'href' => $target,
+			] );
+
+		return $element->toString();
+	}
+
+	function getActionIcon( $action ) {
+		// an icon is just a static icon, no link. these are used in headings.
+		$actionList = self::$actionList;
+		$displayIcon = $actionList[$action]['ooui-icon'];
+		$displayTitle = $this->msg( $actionList[$action]['ooui-title'] );
+		$element = new OOUI\IconWidget( [
+				'icon' => $displayIcon,
+				'title' => $displayTitle,
+			] );
+
+		return $element->toString();
+	}
+
+	function setAllowedActions() {
+		// initialize needed ooui stuff
+		$this->getOutput()->enableOOUI();
+		$this->getOutput()->addModuleStyles( [ 'oojs-ui.styles.icons-interactions' ] );
+		$this->getOutput()->addModuleStyles( [ 'oojs-ui.styles.icons-moderation' ] );
+		OOUI\Element::setDefaultDir( 'ltr' );
+
+		// add display information for all actions that a user is able to perform
+		// if the parent param is set, then the action belongs to another column
+		// and will NOT cause creation of a new column
+		$user = $this->getUser();
+
+		// drilldown requires no permissions so it's guaranteed to be allowed
+		$allowedActions = [
+			"drilldown" => [
+				"ooui-icon" => "funnel",
+				"ooui-title" => "cargo-cargotables-action-drilldown",
+			],
+		];
+
+		// recreatecargodata allows both recreating and switching in replacements
+		if ( $user->isAllowed( 'recreatecargodata' ) ) {
+			$allowedActions['recreate'] =
+				[ "ooui-icon" => "reload", "ooui-title" => "cargo-cargotables-action-recreate" ];
+			$allowedActions['switchReplacement'] =
+				[
+					"ooui-icon" => "check",
+					"ooui-title" => "cargo-cargotables-action-switchreplacement",
+					"parent" => "recreate",
+				];
 		}
+
+		// deletecargodata allows deleting live tables & their replacements
+		// these cases are handled separately so they can use separate icons
+		if ( $user->isAllowed( 'deletecargodata' ) ) {
+			$allowedActions['delete'] =
+				[ "ooui-icon" => "trash", "ooui-title" => "cargo-cargotables-action-delete" ];
+			$allowedActions['deleteReplacement'] =
+				[
+					"ooui-icon" => "cancel",
+					"ooui-title" => "cargo-cargotables-action-deletereplacement",
+					"parent" => "delete",
+				];
+		}
+
+		// allow opportunity for adding additional actions & display info
+		Hooks::run( 'CargoTablesSetAllowedActions', [ &$allowedActions ] );
+		self::$actionList = $allowedActions;
+	}
+
+	function deriveListOfColumnsFromUserAllowedActions() {
+		$columns = [];
+		foreach ( self::$actionList as $action => $actionInfo ) {
+			if ( array_key_exists( "parent", $actionInfo ) ) {
+				continue;
+			}
+			$columns[] = $action;
+		}
+
+		return $columns;
+	}
+
+	function getActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
+		$user = $this->getUser();
+
+		$canBeRecreated =
+			!$isReplacementTable && !$hasReplacementTable &&
+			array_key_exists( $tableName, $this->templatesThatDeclareTables );
+		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
+
+		$actionLinks = [];
 
 		// Actions for this table - this display is modeled on
 		// Special:ListUsers.
+
+		// No permissions check required for drilldown
 		$drilldownPage = SpecialPageFactory::getPage( 'Drilldown' );
 		$drilldownURL = $drilldownPage->getPageTitle()->getLocalURL() . '/' . $tableName;
 		$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
@@ -247,33 +360,51 @@ class CargoTables extends IncludableSpecialPage {
 		} else {
 			$drilldownURL .= "_single";
 		}
-		$actionLinks['drilldown'] = Html::element( 'a', [ 'href' => $drilldownURL ],
-			$drilldownPage->getDescription() );
+		$actionLinks['drilldown'] = $this->getActionButton( 'drilldown', $drilldownURL );
 
-		// It's a bit odd to include the "Recreate data" link, since
-		// it's an action for the template and not the table (if a
-		// template defines two tables, this will recreate both of
-		// them), but for standard setups, this makes things more
-		// convenient.
-		if ( $canBeRecreated && $user->isAllowed( 'recreatecargodata' ) ) {
-			$templateTitle = Title::newFromID( $templateID );
-			$actionLinks['recreate'] = CargoUtils::makeLink( $linkRenderer, $templateTitle,
-				$this->msg( 'recreatedata' )->escaped(), [], [ 'action' => 'recreatedata' ] );
+		// Recreation permission governs both recreating and switching
+		if ( array_key_exists( 'recreate', self::$actionList ) ) {
+			// It's a bit odd to include the "Recreate data" link, since
+			// it's an action for the template and not the table (if a
+			// template defines two tables, this will recreate both of
+			// them), but for standard setups, this makes things more
+			// convenient.
+			if ( $canBeRecreated ) {
+				$templateTitle = Title::newFromID( $templateID );
+				$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
+				$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
+			} // switch will be in the same column as recreate
+ elseif ( $isReplacementTable ) {
+				$switchURL =
+					SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
+				$actionLinks['recreate'] =
+					$this->getActionButton( 'switchReplacement', $switchURL );
+	}
 		}
 
-		if ( $user->isAllowed( 'deletecargodata' ) ) {
-			$deleteTableURL = SpecialPage::getTitleFor( 'DeleteCargoTable' )->getLocalURL() . "/$tableName";
+		if ( array_key_exists( 'delete', self::$actionList ) ) {
+			$deleteTableURL =
+				SpecialPage::getTitleFor( 'DeleteCargoTable' )->getLocalURL() . "/$tableName";
+			$deleteAction = "delete";
 			if ( $isReplacementTable ) {
 				$deleteTableURL .= strpos( $deleteTableURL, '?' ) ? '&' : '?';
 				$deleteTableURL .= "_replacement";
+				$deleteAction = "deleteReplacement";
 			}
-			$actionLinks['delete'] = Html::element( 'a', [ 'href' => $deleteTableURL ],
-				$this->msg( 'delete' )->text() );
+			$actionLinks['delete'] = $this->getActionButton( $deleteAction, $deleteTableURL );
 		}
 
-		Hooks::run( 'CargoTablesActionLinks', [ &$actionLinks, $tableName, $isReplacementTable,
-			$hasReplacementTable, $this->templatesThatDeclareTables, $this->templatesThatAttachToTables ] );
-		return implode( ' | ', $actionLinks );
+		Hooks::run( 'CargoTablesActionLinks', [
+			&$actionLinks,
+			$tableName,
+			$isReplacementTable,
+			$hasReplacementTable,
+			$this->templatesThatDeclareTables,
+			$this->templatesThatAttachToTables,
+			self::$actionList,
+		] );
+
+		return $actionLinks;
 	}
 
 	function tableTemplatesText( $tableName ) {
@@ -293,8 +424,9 @@ class CargoTables extends IncludableSpecialPage {
 				$templateTitle = Title::newFromID( $templateID );
 				$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 			}
-			$declaringTemplatesText = $this->msg(
-				'cargo-cargotables-declaredby', implode( ', ', $templateLinks ) )->text();
+			$declaringTemplatesText =
+				Html::rawElement( 'span', [ "class" => "cargo-tablelist-template-declaring" ],
+					implode( ', ', $templateLinks ) );
 		}
 
 		// "Attached by" text
@@ -313,8 +445,9 @@ class CargoTables extends IncludableSpecialPage {
 			$templateTitle = Title::newFromID( $templateID );
 			$templateLinks[] = CargoUtils::makeLink( $linkRenderer, $templateTitle );
 		}
-		$attachingTemplatesText = $this->msg(
-			'cargo-cargotables-attachedby', implode( ', ', $templateLinks ) )->text();
+		$attachingTemplatesText =
+			Html::rawElement( 'span', [ "class" => "cargo-tablelist-template-attaching" ],
+				implode( ', ', $templateLinks ) );
 
 		return "$declaringTemplatesText, $attachingTemplatesText";
 	}
@@ -324,7 +457,16 @@ class CargoTables extends IncludableSpecialPage {
 	 * links and information for each one.
 	 */
 	function displayListOfTables() {
+		global $wgCargoTablesPrioritizeReplacements;
 		$text = '';
+
+		$this->setAllowedActions();
+
+		$listOfColumns = $this->deriveListOfColumnsFromUserAllowedActions();
+
+		// if there's an error message, it needs to span all of the action columns
+		// plus the number of rows column
+		$colspanOfErrorMessage = 1 + count( $listOfColumns );
 
 		// Show a note if there are currently Cargo populate-data jobs
 		// that haven't been run, to make troubleshooting easier.
@@ -334,63 +476,128 @@ class CargoTables extends IncludableSpecialPage {
 		// queue - a bug in MediaWiki?
 		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
 		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
-			$text .= '<div class="warningbox">' . $this->msg( 'cargo-cargotables-beingpopulated' )->text() . "</div>\n";
+			$text .= '<div class="warningbox">' .
+				$this->msg( 'cargo-cargotables-beingpopulated' )->text() . "</div>\n";
 		}
 
 		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();
 
-		if ( method_exists( $this, 'getLinkRenderer' ) ) {
-			$linkRenderer = $this->getLinkRenderer();
-		} else {
-			$linkRenderer = null;
+		// reorder table list so tables with replacements are first,
+		// but only if the preference is set to do so
+		if ( $wgCargoTablesPrioritizeReplacements ) {
+			foreach ( $tableNames as $tableIndex => $tableName ) {
+				$possibleReplacementTable = $tableName . '__NEXT';
+				if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+					unset( $tableNames[$tableIndex] );
+					array_unshift( $tableNames, $tableName );
+				}
+			}
 		}
 
-		$text .= Html::rawElement( 'p', null,
-			$this->msg( 'cargo-cargotables-tablelist' )->numParams( count( $tableNames ) )->parse() ) . "\n";
-		$text .= "<ul>\n";
+		$text .= Html::rawElement( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )
+				->numParams( count( $tableNames ) )
+				->parse() ) . "\n";
+
+		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText .= Html::element( 'th', null,
+			$this->msg( "cargo-cargotables-header-rowcount" ) );
+
+		foreach ( $listOfColumns as $action ) {
+			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action, null ) );
+		}
+
+		$headerText .= Html::element( 'th', null,
+			$this->msg( "cargo-cargotables-header-templates" ) );
+
+		$wikitableText = Html::rawElement( 'tr', null, $headerText );
+
 		foreach ( $tableNames as $tableName ) {
+
+			$tableLink = $this->getTableLinkedToView( $tableName, false );
+
+			$rowText = "";
 			if ( !$cdb->tableExists( $tableName ) ) {
-				$tableText = "$tableName - ";
-				$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
-				$tableText .= ' (' . $this->tableTemplatesText( $tableName ) . ')';
-				$text .= Html::rawElement( 'li', null, $tableText );
+				$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-tablename' ],
+					$tableLink );
+				$errorText =
+					'<span class="error">' .
+					$this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
+				$rowText .= Html::rawElement( 'td', [ 'colspan' => $colspanOfErrorMessage ],
+					$errorText );
+				$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-templates' ],
+					$this->tableTemplatesText( $tableName ) );
+				$wikitableText .= Html::rawElement( 'tr', null, $rowText );
 				continue;
 			}
 
 			$possibleReplacementTable = $tableName . '__NEXT';
 			$hasReplacementTable = $cdb->tableExists( $possibleReplacementTable );
-			$actionLinks = $this->displayActionLinksForTable( $tableName, false, $hasReplacementTable );
+			$actionLinks = $this->getActionLinksForTable( $tableName, false, $hasReplacementTable );
+
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
 			$templatesText = $this->tableTemplatesText( $tableName );
 
-			$tableText = "$tableName ($actionLinks) - $numRowsText ($templatesText)";
+			$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-tablename' ],
+				$tableLink );
+			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
+				$numRowsText );
 
-			if ( $hasReplacementTable ) {
-				if ( !$cdb->tableExists( $tableName . '__NEXT' ) ) {
-					$tableText .= "\n<div class=\"cargoReplacementTableInfo\">";
-					$tableText .= $tableName . '__NEXT - ';
-					$tableText .= '<span class="error">' . $this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
-					$tableText .= "</div>";
-					$text .= Html::rawElement( 'li', null, $tableText );
-					continue;
-				}
-				$replacementGeneratedMsg = $this->msg( "cargo-cargotables-replacementgenerated" )->parse();
-				$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
-				$actionLinks = $this->displayActionLinksForTable( $tableName, true, false );
-				$tableText .= "\n<div class=\"cargoReplacementTableInfo\">$replacementGeneratedMsg ($actionLinks) - $numRowsText";
-				if ( $this->getUser()->isAllowed( 'recreatecargodata' ) ) {
-					$switchURL = SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
-					$tableText .= "<br />\n" . Html::element( 'a', [ 'href' => $switchURL ],
-						$this->msg( "cargo-cargotables-switch" )->parse() );
-				}
-				$tableText .= "</div>";
+			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
+
+			if ( !$hasReplacementTable ) {
+				$rowText .= Html::rawElement( 'td', null, $templatesText );
+				$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+				continue;
 			}
 
-			$text .= Html::rawElement( 'li', null, $tableText );
+			// if there's a replacement table, the template links need to span 2 rows
+			$rowText .= Html::rawElement( 'td', [ 'rowspan' => 2 ], $templatesText );
+			$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+
+			$replacementRowText = '';
+			$tableLink = $this->getTableLinkedToView( $tableName, true );
+
+			if ( !$cdb->tableExists( $tableName . '__NEXT' ) ) {
+				$replacementRowText .= Html::rawElement( 'td',
+					[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
+				$errorText =
+					'<span class="error">' .
+					$this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
+				$replacementRowText .= Html::rawElement( 'td',
+					[ 'colspan' => $colspanOfErrorMessage ], $errorText );
+				$wikitableText .= Html::rawElement( 'tr',
+					[ 'class' => 'cargo-tablelist-replacement-row' ], $replacementRowText );
+				continue;
+			}
+			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
+			$actionLinks = $this->getActionLinksForTable( $tableName, true, false );
+
+			$replacementRowText .= Html::rawElement( 'td',
+				[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
+			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
+				$numRowsText );
+
+			$this->displayActionLinks( $listOfColumns, $actionLinks, $replacementRowText );
+
+			$wikitableText .= Html::rawElement( 'tr',
+				[ 'class' => 'cargo-tablelist-replacement-row' ], $replacementRowText );
 		}
-		$text .= "</ul>\n";
+		$text .= Html::rawElement( 'table', [ 'class' => 'mw-datatable cargo-tablelist' ],
+			$wikitableText );
+
 		return $text;
+	}
+
+	function displayActionLinks( $listOfColumns, $actionLinks, &$rowText ) {
+		foreach ( $listOfColumns as $action ) {
+			if ( array_key_exists( $action, $actionLinks ) ) {
+				$rowText .= Html::rawElement( 'td', [ "class" => "cargo-tablelist-actionbutton" ],
+					$actionLinks[$action] );
+			} else {
+				$rowText .= Html::rawElement( 'td', null, '' );
+			}
+		}
 	}
 
 	protected function getGroupName() {
