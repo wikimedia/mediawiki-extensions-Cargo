@@ -57,23 +57,10 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 				}
 			}
 
-			// Drop the foreign keys from the field tables, so we
-			// can delete the main table.
-			foreach ( $fieldTables as $fieldTable ) {
-				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
-				CargoUtils::dropForeignKey( $origFieldTable, '_rowID', $mainTable, '_ID' );
-			}
-
 			$cdb->dropTable( $mainTable );
 			$cdb->query( 'ALTER TABLE ' .
 				$cdb->tableName( $mainTable . '__NEXT' ) .
 				' RENAME TO ' . $cdb->tableName( $mainTable ) );
-
-			// Finally, re-add those foreign keys.
-			foreach ( $fieldTables as $fieldTable ) {
-				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
-				CargoUtils::addForeignKey( $origFieldTable, '_rowID', $mainTable, '_ID' );
-			}
 
 			$cdb->commit();
 		} catch ( Exception $e ) {
