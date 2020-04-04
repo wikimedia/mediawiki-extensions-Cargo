@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * @author Yaron Koren
  * @ingroup Cargo
@@ -108,11 +111,17 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$linkField = null;
 		}
 
+		if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
+			// MediaWiki 1.34+
+			$localRepo = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo();
+		} else {
+			$localRepo = RepoGroup::singleton()->getLocalRepo();
+		}
 		$bodyText = '';
 		$files = self::getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField );
 		foreach ( $files as $file ) {
 			$fileTitle = $file['title'];
-			$actualFile = wfLocalFile( $fileTitle->getText() );
+			$actualFile = $localRepo->newFile( $fileTitle->getText() );
 			$imageHTML = '<img src="' . $actualFile->getURL() . '" />';
 			if ( $file['link'] != '' ) {
 				$imageHTML = Html::rawElement( 'a', [ 'href' => $file['link'] ], $imageHTML );

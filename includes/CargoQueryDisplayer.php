@@ -225,7 +225,18 @@ class CargoQueryDisplayer {
 			if ( $title == null || !$title->exists() ) {
 				return $value;
 			}
-			return Linker::makeThumbLinkObj( $title, wfLocalFile( $title ), $value, '' );
+			if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
+				// MediaWiki 1.34+
+				$file = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
+			} else {
+				$file = wfLocalFile( $title );
+			}
+			return Linker::makeThumbLinkObj(
+				$title,
+				$file,
+				$value,
+				''
+			);
 		} elseif ( $type == 'URL' ) {
 			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
 				return Html::element( 'a', [ 'href' => $value ],
