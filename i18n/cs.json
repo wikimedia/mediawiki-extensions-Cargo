@@ -19,7 +19,6 @@
 	"cargo-viewdata-offset": "Posun:",
 	"cargo-viewdata-format": "Formát:",
 	"cargo-viewdata-defaultformat": "Výchozí",
-	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|řádek|řádky|řádků}}",
 	"cargo-drilldown-othervalues": "Další hodnoty:",
 	"cargo-drilldown-timelineformat": "Časová osa",
 	"cargo-drilldown-calendarformat": "Kalendář",

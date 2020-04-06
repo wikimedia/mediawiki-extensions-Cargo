@@ -29,7 +29,6 @@
 	"cargo-viewdata-modifyquery": "Modyfikuj zapytanie",
 	"cargo-cargotables-viewtable": "Zobacz tabelę: $1",
 	"cargo-cargotables-viewtablelink": "Zobacz tabelę",
-	"cargo-cargotables-totalrowsshort": "$1 {{PLURAL:$1|wiersz|wiersze|wierszy}}",
 	"cargo-drilldown-allpages": "Wszystkie strony",
 	"cargo-drilldown-allfiles": "Wszystkie pliki",
 	"cargo-drilldown-docu": "Użyj poniższych filtrów, aby zawęzić wyniki.",

@@ -37,8 +37,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "CargoQuery (önceden ViewData) özel sayfası tarafından kullanılan otomatik tamamlama çağrısı.",
 	"apihelp-cargoqueryautocomplete-param-limit": "Döndürülen sonuç sayısı için bir sınır.",
 	"apihelp-cargoqueryautocomplete-param-search": "Arama alt dize",
-	"apihelp-cargoqueryautocomplete-param-tables": "Hangi Alan, Gruplama ve Sipariş Verme işlemlerinin otomatik olarak tamamlandığına bağlı olarak seçilen kargo tablosunun dizisi.",
+	"apihelp-cargoqueryautocomplete-param-tables": "Hangi Alan, Gruplama ve Sıralama Verme işlemlerinin otomatik olarak tamamlandığına bağlı olarak seçilen kargo tablosunun dizisi.",
 	"apihelp-cargoformatparams-description": "Her bir Kargo sorgusu biçimi için görüntüleme parametreleri kümesini alır.",
 	"apihelp-cargoformatparams-summary": "Her bir Kargo sorgusu biçimi için görüntüleme parametreleri kümesini alır.",
-	"apihelp-cargoformatparams-param-queryformat": "Kargo sorgu formatı"
+	"apihelp-cargoformatparams-param-queryformat": "Kargo sorgu biçimi"
 }
