@@ -394,7 +394,7 @@ class CargoTables extends IncludableSpecialPage {
 			$actionLinks['delete'] = $this->getActionButton( $deleteAction, $deleteTableURL );
 		}
 
-		Hooks::run( 'CargoTablesActionLinks', [
+		Hooks::run( 'CargoTablesSetActionLinks', [
 			&$actionLinks,
 			$tableName,
 			$isReplacementTable,
