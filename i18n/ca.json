@@ -25,8 +25,6 @@
 	"cargo-cargotables-viewtable": "Mostra la taula: $1",
 	"cargo-cargotables-viewtablelink": "Mostra la taula",
 	"cargo-cargotables-notdeclared": "no definit per cap plantilla",
-	"cargo-cargotables-declaredby": "Declarat per $1",
-	"cargo-cargotables-attachedby": "adjunt per $1",
 	"cargo-cargotables-tablenotfound": "No s’ha trobat la taula «$1» en la base de dades del Cargo.",
 	"cargo-cargotables-totalrows": "La taula té un total de $1 files.",
 	"deletecargotable": "Elimina la taula de Cargo",

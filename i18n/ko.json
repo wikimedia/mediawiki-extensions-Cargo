@@ -55,7 +55,6 @@
 	"cargo-cargotables-viewreplacementlink": "대체 테이블 보기",
 	"cargo-cargotables-tablestructure": "테이블 구조:",
 	"cargo-cargotables-listof": "$1 목록",
-	"cargo-cargotables-totalrowsshort": "$1개의 {{PLURAL:$1|행}}",
 	"cargo-cargotables-switch": "이 테이블을 사용하는 것으로 전환합니다.",
 	"cargo-cargotables-nonexistenttable": "이 테이블은 등록되어 있으나 존재하지 않습니다!",
 	"cargo-recreatedata-createreplacement": "데이터를 대체 테이블로 이관하여 다시 만들되, 조회를 위해 기존의 테이블은 유지합니다",

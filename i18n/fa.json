@@ -32,7 +32,6 @@
 	"cargo-cargotables-viewreplacementlink": "جدول جایگزین را مشاهده کنید",
 	"cargo-cargotables-tablestructure": "ساختار جدول:",
 	"cargo-cargotables-listof": "فهرست $1",
-	"cargo-cargotables-totalrowsshort": "$1 سطر",
 	"cargo-cargotables-replacementgenerated": "یک جدول جایگزین برای این جدول ساخته شد",
 	"cargo-pagevalues-tablevalues": "مقادیر «$1»",
 	"cargo-drilldown-choosetable": "انتخاب جدول",
