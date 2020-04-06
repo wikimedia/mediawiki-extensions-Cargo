@@ -936,11 +936,12 @@ END;
 		}
 
 		if ( $is_full_text_search ) {
-			// Make this input narrower than the standard MediaWiki search
-			// input, to accomodate the list of tables on the side.
+			// Make this input narrower than the standard MediaWiki
+			// search input, to accomodate the list of tables on the
+			// side.
 			$text .= <<< END
 <div class="oo-ui-actionFieldLayout-input oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="display: inline; float: left;" data-ooui>
-	<input type="text" name="$inputName" value="$cur_value" />
+	<input type="text" name="$inputName" value="$cur_value" class="cargo-drilldown-search" />
 	<span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
 	<span class='oo-ui-indicatorElement-indicator'></span>
 </div>

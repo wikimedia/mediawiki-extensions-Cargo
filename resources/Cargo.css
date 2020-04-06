@@ -120,6 +120,16 @@ div.specialCargoQuery-extraPane {
 	padding: 0px;
 }
 
+/**
+ * @HACK - it would be better to get this accomplished using
+ * OOUI's CSS.
+ */
+input.cargo-drilldown-search {
+	height: auto;
+	width: 631px;
+	padding: 6px 28px 6px 37px;
+}
+
 /* Special:CargoTables */
 
 table.wikitable.cargo-tablelist th {
