@@ -2,12 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Jenniesarina",
-			"WikiPhoenix",
 			"Jopparn",
 			"Josve05a",
 			"Mjälten",
 			"ProletariatetsBefrielseOrkester",
-			"Technic2"
+			"Technic2",
+			"WikiPhoenix"
 		]
 	},
 	"cargo-desc": "Lagring och visning av data i mallar",

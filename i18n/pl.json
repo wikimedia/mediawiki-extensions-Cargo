@@ -2,10 +2,10 @@
 	"@metadata": {
 		"authors": [
 			"Chrumps",
-			"Devwebtel",
-			"Railfail536",
 			"CiaPan",
-			"Rail"
+			"Devwebtel",
+			"Rail",
+			"Railfail536"
 		]
 	},
 	"cargo-logname": "Dziennik Cargo",
@@ -27,6 +27,12 @@
 	"cargo-viewdata-colorsparam": "Kolory:",
 	"cargo-viewdata-delimiterparam": "Separator:",
 	"cargo-viewdata-modifyquery": "Modyfikuj zapytanie",
+	"cargo-cargotables-header-table": "Tabela",
+	"cargo-cargotables-header-rowcount": "Wiersze",
+	"cargo-cargotables-header-templates": "Szablony",
+	"cargo-cargotables-action-deletereplacement": "Usuń",
+	"cargo-cargotables-action-delete": "Usuń",
+	"cargo-cargotables-action-recreate": "Utwórz ponownie",
 	"cargo-cargotables-viewtable": "Zobacz tabelę: $1",
 	"cargo-cargotables-viewtablelink": "Zobacz tabelę",
 	"cargo-drilldown-allpages": "Wszystkie strony",

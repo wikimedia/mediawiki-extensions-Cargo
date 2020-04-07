@@ -2,17 +2,17 @@
 	"@metadata": {
 		"authors": [
 			"Batumski brodyaga",
-			"Дмитрий",
-			"Okras",
 			"Irus",
-			"Sunpriat",
-			"Smigles",
-			"Redredsonia",
-			"Vlad5250",
-			"Shaleych",
-			"Nemo bis",
+			"Katunchik",
 			"Movses",
-			"Katunchik"
+			"Nemo bis",
+			"Okras",
+			"Redredsonia",
+			"Shaleych",
+			"Smigles",
+			"Sunpriat",
+			"Vlad5250",
+			"Дмитрий"
 		]
 	},
 	"cargo-desc": "Хранение и запрос данных шаблона",

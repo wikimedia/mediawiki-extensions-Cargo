@@ -1,8 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Shaleych",
-			"Katunchik"
+			"Katunchik",
+			"Shaleych"
 		]
 	},
 	"apihelp-cargoquery-description": "Запускает запрос по данным Cargo.",

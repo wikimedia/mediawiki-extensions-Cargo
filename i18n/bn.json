@@ -4,11 +4,18 @@
 			"Aftabuzzaman",
 			"Elias Ahmmad",
 			"Rasal Lia",
-			"আফতাবুজ্জামান",
-			"Sohom Datta"
+			"Sohom Datta",
+			"Tahmid02016",
+			"আফতাবুজ্জামান"
 		]
 	},
 	"cargo-viewdata-colorsparam": "রং:",
+	"cargo-cargotables-header-table": "ছক",
+	"cargo-cargotables-header-rowcount": "সারি",
+	"cargo-cargotables-header-templates": "টেমপ্লেট",
+	"cargo-cargotables-action-deletereplacement": "অপসারণ",
+	"cargo-cargotables-action-delete": "অপসারণ",
+	"cargo-cargotables-action-recreate": "পুনরায় তৈরি করুন",
 	"cargo-cargotables-tablestructure": "ছকের গঠন:",
 	"cargo-cargotables-listof": "$1-এর তালিকা",
 	"cargo-recreatedata-createreplacement": "পুন:স্থাপন ছকে পুনরায় তথ্যাদি দিন, পুরাতনটি অনুসন্ধানের স্বার্থে রাখুন।",

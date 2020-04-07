@@ -1,13 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Максим Підліснюк",
-			"Ата",
 			"Dars",
+			"Movses",
+			"Nemo bis",
 			"Piramidion",
 			"Shaleych",
 			"Vlad5250",
-			"Nemo bis"
+			"Ата",
+			"Максим Підліснюк"
 		]
 	},
 	"cargo-extensionname": "Вантаж",
@@ -78,6 +79,14 @@
 	"cargo-query-missingparam": "Помилка: параметр «$1» повинен бути установлений для формату «$2».",
 	"cargo-query-specifiedfieldmissing": "Помилка: поле «$1», вказане як «$2», повинне бути одним з полів цього запиту.",
 	"cargotables": "Таблиці Cargo",
+	"cargo-cargotables-header-table": "Таблиця",
+	"cargo-cargotables-header-rowcount": "Рядки",
+	"cargo-cargotables-header-templates": "Шаблони",
+	"cargo-cargotables-action-deletereplacement": "Вилучити",
+	"cargo-cargotables-action-switchreplacement": "Ввімкнути",
+	"cargo-cargotables-action-drilldown": "Деталізація",
+	"cargo-cargotables-action-delete": "Вилучити",
+	"cargo-cargotables-action-recreate": "Створено заново",
 	"cargo-cargotables-beingpopulated": "<strong>Примітка:</strong> одна або більше цих таблиць зараз наповнюються через чергу завдань.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Така таблиця|Такі таблиці}} визначені:",
 	"cargo-cargotables-viewtable": "Переглянути таблицю: $1",
@@ -85,6 +94,7 @@
 	"cargo-cargotables-viewreplacement": "Див. замінну таблицю для $1",
 	"cargo-cargotables-viewreplacementlink": "Див. замінну таблицю",
 	"cargo-cargotables-notdeclared": "не визначено жодним шаблоном",
+	"cargo-cargotables-replacementlink": "Таблиця замін",
 	"cargo-cargotables-tablenotfound": "Таблиця «$1» не знайдена в базі даних Cargo.",
 	"cargo-cargotables-tablestructure": "Структура таблиці:",
 	"cargo-cargotables-listof": "Список $1",
@@ -99,7 +109,7 @@
 	"cargo-cargotables-hasreplacement": "Цю таблицю у даний момент неможливо редагувати, поки створюється її заміна.",
 	"deletecargotable": "Вилучити таблицю Cargo",
 	"cargo-deletetable-confirm": "Видалити таблицю Cargo $1?",
-	"cargo-deletetable-replacementconfirm": "Видалити [$1 таблицю], яка замінює таблицю Cargo $2?",
+	"cargo-deletetable-replacementconfirm": "Видалити [$1 таблицю], яка замінює таблицю Cargo $2? Це не зачепить активну таблицю.",
 	"cargo-deletetable-success": "Таблицю «$1» було вилучено.",
 	"switchcargotable": "Перейти до замінної таблиці Cargo",
 	"cargo-switchtables-confirm": "Перейти до замінної таблиці Cargo $1?",

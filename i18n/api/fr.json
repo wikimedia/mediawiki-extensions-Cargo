@@ -3,9 +3,9 @@
 		"authors": [
 			"Gomoko",
 			"Orlodrim",
-			"Wladek92",
 			"Thibaut120094",
-			"Verdy p"
+			"Verdy p",
+			"Wladek92"
 		]
 	},
 	"apihelp-cargoquery-description": "Lance une requête sur les données de Cargo.",

@@ -1,11 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Umherirrender",
 			"Liuxinyu970226",
-			"Seb35",
 			"Raymond",
-			"Robby"
+			"Robby",
+			"Seb35",
+			"Umherirrender"
 		]
 	},
 	"cargo-extensionname": "{{name}}",

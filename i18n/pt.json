@@ -1,15 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
-			"Imperadeiro90",
-			"Vitorvicentevalente",
-			"Jkb8",
-			"Hamilton Abreu",
-			"MokaAkashiyaPT",
 			"Athena in Wonderland",
-			"Nemo bis",
+			"Hamilton Abreu",
+			"Imperadeiro90",
+			"Jkb8",
+			"Mansil",
 			"Mansil alfalb",
-			"Mansil"
+			"MokaAkashiyaPT",
+			"Nemo bis",
+			"Vitorvicentevalente"
 		]
 	},
 	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",

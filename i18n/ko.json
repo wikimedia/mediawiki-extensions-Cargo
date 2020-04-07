@@ -1,12 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"SeoJeongHo",
-			"Revi",
-			"Ykhwong",
-			"Jerrykim306",
 			"In2acous",
-			"Nemo bis"
+			"Jerrykim306",
+			"Nemo bis",
+			"Revi",
+			"SeoJeongHo",
+			"Ykhwong"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",

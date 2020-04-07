@@ -1,13 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Danialbehzadi",
+			"Barsavosh",
 			"Dalba",
-			"Reza1615",
+			"Danialbehzadi",
 			"Ebraminio",
 			"FarsiNevis",
-			"Barsavosh",
-			"Nemo bis"
+			"Nemo bis",
+			"Reza1615"
 		]
 	},
 	"cargo-definestable": "این الگو جدول «$1» را تعریف می‌کند.",

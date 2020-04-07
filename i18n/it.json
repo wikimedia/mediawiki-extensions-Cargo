@@ -2,9 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Beta16",
-			"Macofe",
+			"Greis",
 			"JackLantern",
-			"Greis"
+			"Macofe"
 		]
 	},
 	"cargo-definestable": "Questo template definisce la tabella \"$1\".",
@@ -25,6 +25,11 @@
 	"cargo-viewdata-colorsparam": "Colori:",
 	"cargo-viewdata-delimiterparam": "Separatore:",
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
+	"cargo-cargotables-header-table": "Tabella",
+	"cargo-cargotables-header-rowcount": "Righe",
+	"cargo-cargotables-action-deletereplacement": "Cancella",
+	"cargo-cargotables-action-delete": "Cancella",
+	"cargo-cargotables-action-recreate": "Ricrea",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",
 	"cargo-cargotables-tablenotfound": "La tabella \"$1\" non è stata trovata nel database Cargo.",
 	"cargo-cargotables-tablestructure": "Struttura della tabella:",

@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kareyac"
+			"Kareyac",
+			"Renessaince"
 		]
 	},
+	"cargo-cargotables-replacementlink": "Табліца замены",
 	"cargo-drilldown-allpages": "Усе старонкі"
 }

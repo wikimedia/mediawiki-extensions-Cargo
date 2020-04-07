@@ -72,6 +72,8 @@
 	"cargo-query-missingparam": "Erro: o parâmetro \"$1\" tem de estar definido para o formato \"$2\".",
 	"cargo-query-specifiedfieldmissing": "Erro: o campo \"$1\", especificado como o \"$2\", tem de estar nos campos desta consulta.",
 	"cargotables": "Tabelas Cargo",
+	"cargo-cargotables-header-table": "Tabela",
+	"cargo-cargotables-action-deletereplacement": "Excluir",
 	"cargo-cargotables-beingpopulated": "<strong>Nota:</strong> Uma ou mais destas tabelas estão a ser populadas, através da fila de tarefas.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|A seguinte tabela está definida|As seguintes tabelas estão definidas}}:",
 	"cargo-cargotables-viewtable": "Ver tabela: $1",

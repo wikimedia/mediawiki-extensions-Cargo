@@ -1,13 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
-			"Surgical21",
-			"Sujiniku",
-			"Otokoume",
-			"Yusuke1109",
+			"Nemo bis",
 			"Omotecho",
+			"Otokoume",
 			"Shirayuki",
-			"Nemo bis"
+			"Sujiniku",
+			"Surgical21",
+			"Yusuke1109"
 		]
 	},
 	"cargo-desc": "テンプレートデータの保存とクエリ",

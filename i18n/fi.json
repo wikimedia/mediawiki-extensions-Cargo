@@ -1,9 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Valtlait",
 			"Nike",
-			"Silvonen"
+			"Silvonen",
+			"Valtlait"
 		]
 	},
 	"cargo-logname": "Cargo-loki",

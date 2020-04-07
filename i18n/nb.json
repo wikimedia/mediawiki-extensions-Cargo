@@ -1,10 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Emilbk",
-			"Kingu",
 			"Citadell",
-			"Jon Harald Søby"
+			"Emilbk",
+			"Jon Harald Søby",
+			"Kingu"
 		]
 	},
 	"cargo-desc": "Lagring og visning av data i maler",

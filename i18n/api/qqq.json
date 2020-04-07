@@ -1,11 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Umherirrender",
 			"Liuxinyu970226",
-			"Seb35",
 			"Raymond",
-			"Robby"
+			"Robby",
+			"Seb35",
+			"Umherirrender"
 		]
 	},
 	"apihelp-cargoquery-description": "{{doc-apihelp-description|cargoquery}}",

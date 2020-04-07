@@ -1,12 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Metalhead64",
 			"Andreasburmeister",
-			"Purodha",
-			"Nemo bis",
 			"Killarnee",
-			"Mglaser"
+			"Metalhead64",
+			"Mglaser",
+			"Nemo bis",
+			"Purodha"
 		]
 	},
 	"cargo-extensionname": "Cargo",

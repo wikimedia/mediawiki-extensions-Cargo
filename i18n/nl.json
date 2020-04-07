@@ -1,14 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robin0van0der0vliet",
-			"Esketti",
-			"Robin van der Vliet",
-			"Sjoerddebruin",
-			"Mainframe98",
 			"AdSvS",
+			"Esketti",
+			"Mainframe98",
 			"Rcdeboer",
-			"SPQRobin"
+			"Robin van der Vliet",
+			"Robin0van0der0vliet",
+			"SPQRobin",
+			"Sjoerddebruin"
 		]
 	},
 	"cargo-desc": "Opslag en opvragen van sjabloon gegevens",
