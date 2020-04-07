@@ -4,19 +4,19 @@
  * @author Yaron Koren
  * @ingroup Cargo
  */
-class CargoOpenLayersFormat extends CargoMapsFormat {
+class CargoLeafletFormat extends CargoMapsFormat {
 
 	function __construct( $output ) {
 		parent::__construct( $output );
-		self::$mappingService = "OpenLayers";
+		self::$mappingService = "Leaflet";
 	}
 
 	public static function getScripts() {
-		return [ "//openlayers.org/api/OpenLayers.js" ];
+		return [ "https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" ];
 	}
 
 	public static function getStyles() {
-		return [];
+		return [ "https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" ];
 	}
 
 }

@@ -30,6 +30,17 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			return CargoGoogleMapsFormat::getScripts();
 		} elseif ( $wgCargoDefaultMapService == 'OpenLayers' ) {
 			return CargoOpenLayersFormat::getScripts();
+		} elseif ( $wgCargoDefaultMapService == 'Leaflet' ) {
+			return CargoLeafletFormat::getScripts();
+		} else {
+			return [];
+		}
+	}
+
+	public static function getStyles() {
+		global $wgCargoDefaultMapService;
+		if ( $wgCargoDefaultMapService == 'Leaflet' ) {
+			return CargoLeafletFormat::getStyles();
 		} else {
 			return [];
 		}
@@ -76,13 +87,19 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			throw new MWException( "No results found for this query; not displaying a map." );
 		}
 
-		// Add necessary JS scripts.
+		// Add necessary JS scripts and CSS styles.
 		$scripts = $this->getScripts();
 		$scriptsHTML = '';
 		foreach ( $scripts as $script ) {
 			$scriptsHTML .= Html::linkedScript( $script );
 		}
+		$styles = $this->getStyles();
+		$stylesHTML = '';
+		foreach ( $styles as $style ) {
+			$stylesHTML .= Html::linkedStyle( $style );
+		}
 		$this->mOutput->addHeadItem( $scriptsHTML, $scriptsHTML );
+		$this->mOutput->addHeadItem( $stylesHTML, $stylesHTML );
 		$this->mOutput->addModules( 'ext.cargo.maps' );
 
 		// Construct the table of data we will display.

@@ -19,4 +19,8 @@ class CargoGoogleMapsFormat extends CargoMapsFormat {
 		];
 	}
 
+	public static function getStyles() {
+		return [];
+	}
+
 }

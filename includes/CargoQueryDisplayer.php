@@ -42,6 +42,7 @@ class CargoQueryDisplayer {
 			'dynamic table' => 'CargoDynamicTableFormat',
 			'map' => 'CargoMapsFormat',
 			'googlemaps' => 'CargoGoogleMapsFormat',
+			'leaflet' => 'CargoLeafletFormat',
 			'openlayers' => 'CargoOpenLayersFormat',
 			'calendar' => 'CargoCalendarFormat',
 			'timeline' => 'CargoTimelineFormat',

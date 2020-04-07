@@ -1,7 +1,7 @@
 {
 	"name": "Cargo",
 	"namemsg": "cargo-extensionname",
-	"version": "2.4",
+	"version": "2.5-alpha",
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
@@ -125,6 +125,7 @@
 		"CargoDynamicTableFormat": "includes/formats/CargoDynamicTableFormat.php",
 		"CargoMapsFormat": "includes/formats/CargoMapsFormat.php",
 		"CargoGoogleMapsFormat": "includes/formats/CargoGoogleMapsFormat.php",
+		"CargoLeafletFormat": "includes/formats/CargoLeafletFormat.php",
 		"CargoOpenLayersFormat": "includes/formats/CargoOpenLayersFormat.php",
 		"CargoCalendarFormat": "includes/formats/CargoCalendarFormat.php",
 		"CargoTimelineFormat": "includes/formats/CargoTimelineFormat.php",

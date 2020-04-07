@@ -72,6 +72,8 @@ CargoMap.createPopupHTMLForRow = function( row ) {
 CargoMap.prototype.display = function( mapService, doMarkerClustering ) {
 	if ( mapService == 'Google Maps' ) {
 		this.displayWithGoogleMaps( doMarkerClustering );
+	} else if ( mapService == 'Leaflet' ) {
+		this.displayWithLeaflet();
 	} else { // default is OpenLayers
 		this.displayWithOpenLayers();
 	}
@@ -136,6 +138,43 @@ CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
 	}
 	if ( doMarkerClustering ) {
 		var mc = new MarkerClusterer( map, markers );
+	}
+}
+
+CargoMap.prototype.displayWithLeaflet = function() {
+	var mapCanvas = document.getElementById(this.divID);
+	var mapOptions = {};
+	var layerOptions = {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	};
+
+	var map = L.map(mapCanvas, mapOptions);
+
+	new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions).addTo(map);
+	var imageBounds = [[this.southLatitude, this.westLongitude], [this.northLatitude, this.eastLongitude]];
+	map.fitBounds(imageBounds);
+
+	if ( this.zoomLevel != null ) {
+		map.setZoom( this.zoomLevel );
+	}
+
+	var numItems = this.allItemValues.length;
+	for ( i = 0; i < numItems; i++ ) {
+		var curItem = this.allItemValues[i];
+		var lat = curItem['lat'];
+		var lon = curItem['lon'];
+		if ( imageUrl !== undefined ) {
+			lat *= imageHeight / 100;
+			lon *= imageWidth / 100;
+		}
+		var marker = L.marker([lat, lon]).addTo( map );
+		if ( curItem.hasOwnProperty('icon') ) {
+			var icon = L.icon({iconUrl: curItem.icon});
+			marker.setIcon( icon );
+			if ( this.allItemValues[i]['title'] != null ) {
+				marker.bindPopup( CargoMap.createPopupHTMLForRow( curItem ) );
+			}
+		}
 	}
 }
 
