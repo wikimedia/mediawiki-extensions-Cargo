@@ -322,7 +322,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		// allow opportunity for adding additional actions & display info
-		Hooks::run( 'CargoTablesSetAllowedActions', [ &$allowedActions ] );
+		Hooks::run( 'CargoTablesSetAllowedActions', [ $this, &$allowedActions ] );
 		self::$actionList = $allowedActions;
 	}
 
@@ -362,7 +362,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 		$actionLinks['drilldown'] = $this->getActionButton( 'drilldown', $drilldownURL );
 
-		// Recreation permission governs both recreating and switching
+		// Recreate permission governs both recreating and switching
 		if ( array_key_exists( 'recreate', self::$actionList ) ) {
 			// It's a bit odd to include the "Recreate data" link, since
 			// it's an action for the template and not the table (if a
@@ -373,13 +373,13 @@ class CargoTables extends IncludableSpecialPage {
 				$templateTitle = Title::newFromID( $templateID );
 				$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
 				$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
-			} // switch will be in the same column as recreate
- elseif ( $isReplacementTable ) {
+			} elseif ( $isReplacementTable ) {
+				// switch will be in the same column as recreate
 				$switchURL =
 					SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 				$actionLinks['recreate'] =
 					$this->getActionButton( 'switchReplacement', $switchURL );
-	}
+			}
 		}
 
 		if ( array_key_exists( 'delete', self::$actionList ) ) {
@@ -395,6 +395,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		Hooks::run( 'CargoTablesSetActionLinks', [
+			$this,
 			&$actionLinks,
 			$tableName,
 			$isReplacementTable,
