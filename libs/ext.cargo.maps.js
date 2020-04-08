@@ -257,8 +257,8 @@ jQuery(document).ready( function() {
 	jQuery(".mapCanvas").each( function() {
 		var mapDataText = $(this).find(".cargoMapData").text();
 		var valuesForMap = jQuery.parseJSON(mapDataText);
-		var mappingService = $(this).find(".cargoMapData").attr('mappingService');
-		var zoomLevel = $(this).find(".cargoMapData").attr('zoom');
+		var mappingService = $(this).find(".cargoMapData").attr('data-mapping-service');
+		var zoomLevel = $(this).find(".cargoMapData").attr('data-zoom');
 		var doMarkerClustering = valuesForMap.length >= mw.config.get( 'wgCargoMapClusteringMinimum' );
 		var cargoMap = new CargoMap( valuesForMap, $(this).attr('id'), zoomLevel );
 		cargoMap.display( mappingService, doMarkerClustering );
