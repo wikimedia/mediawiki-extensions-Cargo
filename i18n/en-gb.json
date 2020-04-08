@@ -1,9 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Michel Bakni",
 			"NuqneH"
 		]
 	},
 	"cargo-cargotables-header-table": "Bord",
+	"cargo-cargotables-header-rowcount": "الأسطر",
+	"cargo-cargotables-header-templates": "قوالب",
+	"cargo-cargotables-action-delete": "حذف",
 	"cargo-cargotables-action-recreate": "Återskapa"
 }
