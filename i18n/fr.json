@@ -118,7 +118,7 @@
 	"cargo-cargotables-hasreplacement": "Cette table est actuellement en lecture seule, pendant qu’une table de remplacement est générée.",
 	"deletecargotable": "Supprimer la table de Cargo",
 	"cargo-deletetable-confirm": "Supprimer la table $1 de Cargo ?",
-	"cargo-deletetable-replacementconfirm": "Supprimer la [$1 table de remplacement] pour la table $2 de Cargo ? Cela n’affectera pas la table en cours.",
+	"cargo-deletetable-replacementconfirm": "Supprimer la [$1 table de remplacement] pour la table $2 de Cargo ? Cela n’affectera pas la table en cours.",
 	"cargo-deletetable-success": "La table « $1 » a été supprimée.",
 	"switchcargotable": "Passer au remplacement de la table Cargo",
 	"cargo-switchtables-confirm": "Basculer sur le remplacement pour la table $1 de Cargo ?",
