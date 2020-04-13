@@ -54,7 +54,7 @@
 	"cargo-cargotables-tablestructure": "מבנה הטבלה:",
 	"cargo-cargotables-listof": "רשימה של $1",
 	"cargo-cargotables-totalrows": "בטבלה הזאת יש {{PLURAL:$1|שורה '''אחת'''|'''$1''' שורות}} בסך הכול.",
-	"cargo-cargotables-nonexistenttable": "הטבלה הזו רשומה, אבל היא לא קיימת!",
+	"cargo-cargotables-nonexistenttable": "הטבלה הזאת רשומה, אבל אינה קיימת!",
 	"deletecargotable": "מחיקת טבלת Cargo",
 	"cargo-deletetable-success": "הטבלה \"$1\" נמחקה.",
 	"cargo-switchtables-switch": "החלפה",
