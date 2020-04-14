@@ -27,6 +27,7 @@ class CargoDisplayMap {
 		$heightStr = null;
 		$widthStr = null;
 		$zoomStr = null;
+		$imageStr = null;
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -45,6 +46,8 @@ class CargoDisplayMap {
 				$widthStr = $value;
 			} elseif ( $key == 'zoom' ) {
 				$zoomStr = $value;
+			} elseif ( $key == 'image' ) {
+				$imageStr = $value;
 			}
 		}
 
@@ -66,6 +69,8 @@ class CargoDisplayMap {
 		// yet.
 		if ( $serviceStr == 'googlemaps' ) {
 			$mappingFormat = new CargoGoogleMapsFormat( $parser->getOutput() );
+		} elseif ( $serviceStr == 'leaflet' ) {
+			$mappingFormat = new CargoLeafletFormat( $parser->getOutput() );
 		} else {
 			$mappingFormat = new CargoOpenLayersFormat( $parser->getOutput() );
 		}
@@ -90,9 +95,17 @@ class CargoDisplayMap {
 		if ( $zoomStr != null ) {
 			$displayParams['zoom'] = $zoomStr;
 		}
+		if ( $imageStr != null ) {
+			$displayParams['image'] = $imageStr;
+		}
 
-		$text = $mappingFormat->display( $valuesTable, $formattedValuesTable, $fieldDescriptions,
-			$displayParams );
+		try {
+			$text = $mappingFormat->display( $valuesTable,
+				$formattedValuesTable, $fieldDescriptions,
+				$displayParams );
+		} catch ( MWException $e ) {
+			return CargoUtils::formatError( $e->getMessage() );
+		}
 
 		return [ $text, 'noparse' => true, 'isHTML' => true ];
 	}
