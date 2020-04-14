@@ -84,7 +84,7 @@
 	"cargo-cargotables-viewtablelink": "View table",
 	"cargo-cargotables-viewreplacement": "View replacement table for $1",
 	"cargo-cargotables-viewreplacementlink": "View replacement table",
-	"cargo-cargotables-notdeclared": "Not by any template",
+	"cargo-cargotables-notdeclared": "Not defined by any template",
 	"cargo-cargotables-replacementlink": "Replacement table",
 	"cargo-cargotables-tablenotfound": "Table \"$1\" not found in Cargo database.",
 	"cargo-cargotables-tablestructure": "Table structure:",
