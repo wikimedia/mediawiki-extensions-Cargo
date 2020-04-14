@@ -60,6 +60,23 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		return $imagePage->getDisplayedFile()->getURL();
 	}
 
+	public function getImageData( $fileName ) {
+		global $wgUploadDirectory;
+
+		if ( $fileName == '' ) {
+			return null;
+		}
+		$fileTitle = Title::makeTitleSafe( NS_FILE, $fileName );
+		if ( !$fileTitle->exists() ) {
+			throw new MWException( "Error: File \"$fileName\" does not exist on this wiki." );
+		}
+		$imagePage = new ImagePage( $fileTitle );
+		$file = $imagePage->getDisplayedFile();
+		$filePath = $wgUploadDirectory . '/' . $file->getUrlRel();
+		list( $imageWidth, $imageHeight, $type, $attr ) = getimagesize( $filePath );
+		return [ $imageWidth, $imageHeight, $file->getUrl() ];
+	}
+
 	/**
 	 * @param array $valuesTable
 	 * @param array $formattedValuesTable
@@ -158,6 +175,18 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		$jsonData = json_encode( $valuesForMap, JSON_NUMERIC_CHECK | JSON_HEX_TAG );
 		$divID = "mapCanvas" . self::$mapNumber++;
 
+		if ( $service == 'Leaflet' && array_key_exists( 'image', $displayParams ) ) {
+			$fileName = $displayParams['image'];
+			$imageData = $this->getImageData( $fileName );
+			if ( $imageData == null ) {
+				$fileName = null;
+			} else {
+				list( $imageWidth, $imageHeight, $imageURL ) = $imageData;
+			}
+		} else {
+			$fileName = null;
+		}
+
 		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];
 			// Add on "px", if no unit is defined.
@@ -165,8 +194,9 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				$height .= "px";
 			}
 		} else {
-			$height = "400px";
+			$height = null;
 		}
+
 		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
 			$width = $displayParams['width'];
 			// Add on "px", if no unit is defined.
@@ -174,7 +204,39 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				$width .= "px";
 			}
 		} else {
-			$width = "700px";
+			$width = null;
+		}
+
+		if ( $fileName !== null ) {
+			// Do some scaling of the image, if necessary.
+			if ( $height !== null && $width !== null ) {
+				// Reduce image if it doesn't fit into the
+				// assigned rectangle.
+				$heightRatio = (int)$height / $imageHeight;
+				$widthRatio = (int)$width / $imageWidth;
+				$smallerRatio = min( $heightRatio, $widthRatio );
+				if ( $smallerRatio < 1 ) {
+					$imageHeight *= $smallerRatio;
+					$imageWidth *= $smallerRatio;
+				}
+			} else {
+				// Reduce image if it's too big.
+				$maxDimension = max( $imageHeight, $imageWidth );
+				$maxAllowedSize = 1000;
+				if ( $maxDimension > $maxAllowedSize ) {
+					$imageHeight *= $maxAllowedSize / $maxDimension;
+					$imageWidth *= $maxAllowedSize / $maxDimension;
+				}
+				$height = $imageHeight . 'px';
+				$width = $imageWidth . 'px';
+			}
+		} else {
+			if ( $height == null ) {
+				$height = "400px";
+			}
+			if ( $width == null ) {
+				$width = "700px";
+			}
 		}
 
 		// The 'map data' element does double duty: it holds the full
@@ -189,6 +251,12 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['data-zoom'] = $displayParams['zoom'];
 		}
+		if ( $fileName !== null ) {
+			$mapDataAttrs['data-image-path'] = $imageURL;
+			$mapDataAttrs['data-height'] = $imageHeight;
+			$mapDataAttrs['data-width'] = $imageWidth;
+		}
+
 		$mapData = Html::element( 'span', $mapDataAttrs, $jsonData );
 
 		$mapCanvasAttrs = [

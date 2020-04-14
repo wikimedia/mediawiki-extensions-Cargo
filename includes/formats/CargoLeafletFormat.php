@@ -11,6 +11,12 @@ class CargoLeafletFormat extends CargoMapsFormat {
 		self::$mappingService = "Leaflet";
 	}
 
+	public static function allowedParameters() {
+		$allowedParams = parent::allowedParameters();
+		$allowedParams['image'] = [ 'type' => 'string' ];
+		return $allowedParams;
+	}
+
 	public static function getScripts() {
 		return [ "https://unpkg.com/leaflet@1.1.0/dist/leaflet.js" ];
 	}

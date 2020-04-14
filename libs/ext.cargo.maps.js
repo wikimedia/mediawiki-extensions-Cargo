@@ -141,6 +141,13 @@ CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
 	}
 }
 
+CargoMap.toOpenLayersLonLat = function( map, lat, lon ) {
+	return new OpenLayers.LonLat( lon, lat ).transform(
+		new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+		map.getProjectionObject() // to Spherical Mercator Projection
+	);
+}
+
 CargoMap.prototype.displayWithLeaflet = function() {
 	var mapCanvas = document.getElementById(this.divID);
 	var mapOptions = {};
@@ -148,11 +155,25 @@ CargoMap.prototype.displayWithLeaflet = function() {
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 	};
 
+	var mapDataDiv = $(mapCanvas).find(".cargoMapData");
+	var imageUrl = mapDataDiv.attr('data-image-path');
+	if ( imageUrl !== undefined ) {
+		imageHeight = mapDataDiv.attr('data-height');
+		imageWidth = mapDataDiv.attr('data-width');
+		mapOptions.crs = L.CRS.Simple;
+	}
+
 	var map = L.map(mapCanvas, mapOptions);
 
-	new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions).addTo(map);
-	var imageBounds = [[this.southLatitude, this.westLongitude], [this.northLatitude, this.eastLongitude]];
-	map.fitBounds(imageBounds);
+	if ( imageUrl !== undefined ) {
+		var imageBounds = [[0, 0], [imageHeight, imageWidth]];
+		L.imageOverlay(imageUrl, imageBounds).addTo(map);
+		map.fitBounds(imageBounds);
+	} else {
+		new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions).addTo(map);
+		var imageBounds = [[this.southLatitude, this.westLongitude], [this.northLatitude, this.eastLongitude]];
+		map.fitBounds(imageBounds);
+	}
 
 	if ( this.zoomLevel != null ) {
 		map.setZoom( this.zoomLevel );
@@ -164,7 +185,7 @@ CargoMap.prototype.displayWithLeaflet = function() {
 		var lat = curItem['lat'];
 		var lon = curItem['lon'];
 		if ( imageUrl !== undefined ) {
-			lat *= imageHeight / 100;
+			lat *= imageWidth / 100;
 			lon *= imageWidth / 100;
 		}
 		var marker = L.marker([lat, lon]).addTo( map );
@@ -176,13 +197,6 @@ CargoMap.prototype.displayWithLeaflet = function() {
 			}
 		}
 	}
-}
-
-CargoMap.toOpenLayersLonLat = function( map, lat, lon ) {
-	return new OpenLayers.LonLat( lon, lat ).transform(
-		new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
-		map.getProjectionObject() // to Spherical Mercator Projection
-	);
 }
 
 CargoMap.prototype.displayWithOpenLayers = function() {
