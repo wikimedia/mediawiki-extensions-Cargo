@@ -371,8 +371,10 @@ class CargoTables extends IncludableSpecialPage {
 			// convenient.
 			if ( $canBeRecreated ) {
 				$templateTitle = Title::newFromID( $templateID );
-				$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
-				$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
+				if ( $templateTitle !== null ) {
+					$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
+					$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
+				}
 			} elseif ( $isReplacementTable ) {
 				// switch will be in the same column as recreate
 				$switchURL =
