@@ -4,6 +4,7 @@
 			"Esraa Ismail",
 			"Meno25",
 			"Sonic N800",
+			"Tala Ali",
 			"ديفيد",
 			"محمد أحمد عبد الفتاح"
 		]
@@ -76,6 +77,14 @@
 	"cargo-query-missingparam": "خطأ: يجب تعيين الوسيط \"$1\" للتنسيق \"$2\".",
 	"cargo-query-specifiedfieldmissing": "خطأ: يجب أن يكون الحقل \"$1\"، المحدد كـ\"$2\"، بين حقول هذا الاستعلام.",
 	"cargotables": "جداول الحمولة",
+	"cargo-cargotables-header-table": "جدول",
+	"cargo-cargotables-header-rowcount": "الصفوف",
+	"cargo-cargotables-header-templates": "عوارض",
+	"cargo-cargotables-action-deletereplacement": "احذف",
+	"cargo-cargotables-action-switchreplacement": "حول في",
+	"cargo-cargotables-action-drilldown": "التوغل",
+	"cargo-cargotables-action-delete": "احذف",
+	"cargo-cargotables-action-recreate": "إعادة الانشاء",
 	"cargo-cargotables-beingpopulated": "<strong>ملاحظة:</strong> يتم الآن ملء واحد أو أكثر من هذه الجداول، عبر قائمة انتظار المهام.",
 	"cargo-cargotables-tablelist": "يتم تعريف {{PLURAL:$1|الجدول التالي|الجداول التالية}}:",
 	"cargo-cargotables-viewtable": "عرض الجدول: $1",

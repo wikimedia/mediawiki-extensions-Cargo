@@ -35,6 +35,7 @@
 	"cargo-cargotables-viewtable": "Tabell weisen: $1",
 	"cargo-cargotables-viewtablelink": "Tabell weisen",
 	"cargo-cargotables-notdeclared": "Vu kenger Schabloun",
+	"cargo-cargotables-replacementlink": "Ersatztabell",
 	"cargo-cargotables-tablestructure": "Struktur vun der Tabell:",
 	"cargo-cargotables-listof": "Lëscht vu(n) $1",
 	"cargo-cargotables-totalrows": "Dës Tabell huet am Ganzen {{PLURAL:$1|'''eng''' Zeil|'''$1''' Zeilen}}.",
