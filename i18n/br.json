@@ -15,7 +15,7 @@
 	"cargo-cargotables-action-drilldown": "Resisaat",
 	"cargo-cargotables-action-delete": "Dilemel",
 	"cargo-cargotables-action-recreate": "Adkrouiñ",
-	"cargo-cargotables-notdeclared": "Ket gant patrom ebet",
+	"cargo-cargotables-notdeclared": "Termenet gant patrom ebet",
 	"cargo-cargotables-replacementlink": "Taolenn erlec'hiañ",
 	"cargo-deletetable-replacementconfirm": "Dilemel [$1 an daolenn erlec'hiañ] evit taolenn $2 Cargo ? Ne cheñcho netra evit an daolenn red.",
 	"cargo-drilldown-mapformat": "Kartenn"

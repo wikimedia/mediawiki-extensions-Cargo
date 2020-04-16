@@ -86,7 +86,7 @@
 	"cargo-cargotables-viewtablelink": "Ver tabela",
 	"cargo-cargotables-viewreplacement": "Ver a tabela de substituição para $1",
 	"cargo-cargotables-viewreplacementlink": "Ver a tabela de substituição",
-	"cargo-cargotables-notdeclared": "não é nenhuma predefinição",
+	"cargo-cargotables-notdeclared": "Não definido por nenhuma predefinição",
 	"cargo-cargotables-replacementlink": "Tabela de substituições",
 	"cargo-cargotables-tablenotfound": "A tabela \"$1\" não foi encontrada na base de dados Cargo.",
 	"cargo-cargotables-tablestructure": "Estrutura da tabela:",

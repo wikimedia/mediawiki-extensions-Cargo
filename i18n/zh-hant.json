@@ -89,7 +89,7 @@
 	"cargo-cargotables-viewtablelink": "檢視表格",
 	"cargo-cargotables-viewreplacement": "檢視 $1 的替換表格",
 	"cargo-cargotables-viewreplacementlink": "檢視替換表格",
-	"cargo-cargotables-notdeclared": "尚未被任何模板",
+	"cargo-cargotables-notdeclared": "尚未被任何模板定義",
 	"cargo-cargotables-replacementlink": "取代表格",
 	"cargo-cargotables-tablenotfound": "在 Cargo 資料庫查無表格「$1」。",
 	"cargo-cargotables-tablestructure": "表格架構：",

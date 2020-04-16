@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"1917 Ekim Devrimi",
 			"Kumkumuk",
 			"Mirzali",
 			"Orbot707"
@@ -13,6 +14,14 @@
 	"cargo-viewdata-limit": "Limit:",
 	"cargo-viewdata-format": "Format:",
 	"cargotables": "Tabloyê kargoyi",
+	"cargo-cargotables-header-table": "Tablo",
+	"cargo-cargotables-header-rowcount": "Satıri",
+	"cargo-cargotables-header-templates": "Şabloni",
+	"cargo-cargotables-action-deletereplacement": "Esterıtış",
+	"cargo-cargotables-action-switchreplacement": "Bıvurnê",
+	"cargo-cargotables-action-drilldown": "Xoriyeya",
+	"cargo-cargotables-action-delete": "Esterıtış",
+	"cargo-cargotables-action-recreate": "Ravırazê",
 	"cargo-drilldown-choosetable": "Tablo weçine",
 	"cargo-drilldown-allpages": "Peli pêro",
 	"cargo-drilldown-or": "ya zi",
