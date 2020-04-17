@@ -1223,11 +1223,12 @@ class CargoUtils {
 
 	public static function logTableAction( $actionName, $tableName, User $user ) {
 		$log = new LogPage( 'cargo', false );
+		$ctPage = self::getSpecialPage( 'CargoTables' );
+		$ctTitle = $ctPage->getPageTitle();
 		if ( $actionName == 'deletetable' ) {
 			$logParams = [ $tableName ];
 		} else {
-			$ctPage = self::getSpecialPage( 'CargoTables' );
-			$ctURL = $ctPage->getPageTitle()->getFullURL();
+			$ctURL = $ctTitle->getFullURL();
 			$tableURL = "$ctURL/$tableName";
 			$tableLink = Html::element(
 				'a',
@@ -1236,7 +1237,10 @@ class CargoUtils {
 			);
 			$logParams = [ $tableLink ];
 		}
-		$log->addEntry( $actionName, new Title(), '', $logParams, $user );
+		// Every log entry requires an associated title; Cargo table
+		// actions don't involve an actual page, so we just use
+		// Special:CargoTables as the title.
+		$log->addEntry( $actionName, $ctTitle, '', $logParams, $user );
 	}
 
 	public static function validateHierarchyStructure( $hierarchyStructure ) {
