@@ -352,7 +352,7 @@ class CargoTables extends IncludableSpecialPage {
 		// Special:ListUsers.
 
 		// No permissions check required for drilldown
-		$drilldownPage = SpecialPageFactory::getPage( 'Drilldown' );
+		$drilldownPage = CargoUtils::getSpecialPage( 'Drilldown' );
 		$drilldownURL = $drilldownPage->getPageTitle()->getLocalURL() . '/' . $tableName;
 		$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
 		if ( $isReplacementTable ) {
