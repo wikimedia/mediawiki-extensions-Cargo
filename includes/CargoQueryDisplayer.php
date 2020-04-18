@@ -45,6 +45,7 @@ class CargoQueryDisplayer {
 			'leaflet' => 'CargoLeafletFormat',
 			'openlayers' => 'CargoOpenLayersFormat',
 			'calendar' => 'CargoCalendarFormat',
+			'icalendar' => 'CargoICalendarFormat',
 			'timeline' => 'CargoTimelineFormat',
 			'category' => 'CargoCategoryFormat',
 			'bar chart' => 'CargoBarChartFormat',

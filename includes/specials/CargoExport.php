@@ -83,6 +83,8 @@ class CargoExport extends UnlistedSpecialPage {
 				$defaultEntryType = 'article';
 			}
 			$this->displayBibtexData( $sqlQueries, $defaultEntryType );
+		} elseif ( $format === 'icalendar' ) {
+			$this->displayIcalendarData( $sqlQueries );
 		} else {
 			// Let other extensions display the data if they have defined their own "deferred"
 			// formats. This is an unusual hook in that functions that use it have to return false;
@@ -524,5 +526,30 @@ class CargoExport extends UnlistedSpecialPage {
 		}
 
 		file_put_contents( "php://output", $text );
+	}
+
+	/**
+	 * Output in the icalendar format.
+	 *
+	 * @param CargoSQLQuery[] $sqlQueries
+	 */
+	public function displayIcalendarData( $sqlQueries ) {
+		$req = $this->getRequest();
+		$format = new CargoICalendarFormat( $this->getOutput() );
+		$calendar = $format->getCalendar( $req, $sqlQueries );
+
+		// Get the filename, clean it, and make sure it has a .ics extension.
+		// @todo Generalize this for the other filename parameters in this class.
+		$filenameRaw = $req->getText( 'filename', 'export.ics' );
+		$filenameTitle = Title::newFromText( wfStripIllegalFilenameChars( $filenameRaw ) );
+		$filename = $filenameTitle->getDBkey();
+		if ( substr( $filename, -strlen( '.ics' ) ) !== '.ics' ) {
+			$filename .= '.ics';
+		}
+
+		// Output the file.
+		header( 'Content-Type: text/calendar' );
+		header( 'Content-Disposition: inline;filename=' . $filename );
+		file_put_contents( 'php://output', $calendar );
 	}
 }

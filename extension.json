@@ -128,6 +128,7 @@
 		"CargoLeafletFormat": "includes/formats/CargoLeafletFormat.php",
 		"CargoOpenLayersFormat": "includes/formats/CargoOpenLayersFormat.php",
 		"CargoCalendarFormat": "includes/formats/CargoCalendarFormat.php",
+		"CargoICalendarFormat": "includes/formats/CargoICalendarFormat.php",
 		"CargoTimelineFormat": "includes/formats/CargoTimelineFormat.php",
 		"CargoCategoryFormat": "includes/formats/CargoCategoryFormat.php",
 		"CargoBarChartFormat": "includes/formats/CargoBarChartFormat.php",

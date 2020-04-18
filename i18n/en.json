@@ -133,6 +133,7 @@
 	"cargo-viewxls": "View XLS",
 	"cargo-viewjson": "View JSON",
 	"cargo-viewbibtex": "View BibTeX",
+	"cargo-viewicalendar": "View iCalendar",
 	"cargo-dynamictables-togglecolumns": "Toggle columns:",
 	"cargo-dynamictables-searchcolumn": "Search $1",
 	"cargo-purgecache": "Purge cache",
