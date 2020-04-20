@@ -3,6 +3,7 @@
 		"authors": [
 			"Batumski brodyaga",
 			"Irus",
+			"Kareyac",
 			"Katunchik",
 			"Movses",
 			"Nemo bis",
@@ -71,6 +72,8 @@
 	"cargo-query-missingparam": "Ошибка: параметр «$1» должен быть установлен для формата «$2».",
 	"cargo-query-specifiedfieldmissing": "Ошибка: поле «$1», указанное как «$2», должно быть одним из полей этого запроса.",
 	"cargotables": "Таблицы Cargo",
+	"cargo-cargotables-header-table": "Таблица",
+	"cargo-cargotables-header-templates": "Шаблоны",
 	"cargo-cargotables-beingpopulated": "<strong>Примечание:</strong> Одна или несколько из этих таблиц в настоящее время заполняются через очередь заданий.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Определена следующая таблица|Определены следующие таблицы}}:",
 	"cargo-cargotables-viewtable": "Просмотр таблицы: $1",
