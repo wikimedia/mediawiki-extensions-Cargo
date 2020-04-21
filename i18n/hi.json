@@ -3,7 +3,8 @@
 		"authors": [
 			"Abijeet Patro",
 			"Nitin1485",
-			"Sagsag"
+			"Sagsag",
+			"गोपाल"
 		]
 	},
 	"cargo-viewdata-joinonrequired": "यदि कई टेबल हैं, तो एक \"जॉइन ऑन\" कंडीशन सेट होनी चाहिए।",
@@ -11,5 +12,6 @@
 	"cargo-cargotables-action-deletereplacement": "हटाएँ",
 	"cargo-cargotables-action-delete": "हटाएँ",
 	"cargo-cargotables-action-recreate": "फिरसे बनायें",
+	"cargo-cargotables-notdeclared": "किसी भी रूपरेखा द्वारा परिभाषित नहीं",
 	"cargo-drilldown-mapformat": "নক্সা"
 }
