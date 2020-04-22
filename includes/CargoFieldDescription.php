@@ -285,7 +285,7 @@ class CargoFieldDescription {
 				// value per field, even if it holds more than
 				// one date - store the most "precise" of the
 				// precision values.
-				$maxPrecision = self::YEAR_ONLY;
+				$maxPrecision = CargoStore::YEAR_ONLY;
 				$dateValues = [];
 				foreach ( $individualValues as $individualValue ) {
 					$realIndividualVal = trim( $individualValue );
