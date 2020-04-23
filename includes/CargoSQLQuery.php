@@ -884,8 +884,11 @@ class CargoSQLQuery {
 				}
 			}
 
-			// Always use the "field table" if it's a date field.
-			if ( $fieldType == 'Date' || $fieldType == 'Datetime' ) {
+			// Always use the "field table" if it's a date field,
+			// and it's being queried.
+			$isFieldInQuery = in_array( $fieldName, $this->mAliasedFieldNames ) ||
+				in_array( "$tableAlias.$fieldName", $this->mAliasedFieldNames );
+			if ( $isFieldInQuery && ( $fieldType == 'Date' || $fieldType == 'Datetime' ) ) {
 				$fieldReplaced = true;
 			}
 
