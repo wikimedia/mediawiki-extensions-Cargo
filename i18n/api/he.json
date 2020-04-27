@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Amire80",
-			"Guycn2"
+			"Guycn2",
+			"Steeve815"
 		]
 	},
 	"apihelp-cargoquery-description": "הרצת שאילתה על נתוני Cargo.",
@@ -24,5 +25,6 @@
 	"apihelp-cargorecreatedata-param-table": "איזו טבלה של מסד נתונים של Cargo למלא מחדש",
 	"apihelp-cargorecreatedata-param-offset": "מתוך הדפים שקוראים לתבנית הזאת, באיזה מספר להתחיל להריץ שאילתה",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "האם להחליף שורות ישנות לכל דף בזמן מילוי מחדש של הטבלה",
-	"apihelp-cargoautocomplete-param-limit": "הגבלה על מספר התוצאות שתוחזרנה"
+	"apihelp-cargoautocomplete-param-limit": "הגבלה על מספר התוצאות שתוחזרנה",
+	"apihelp-cargoqueryautocomplete-param-limit": "מגבלה על מספר התוצאות שתוחזרנה."
 }
