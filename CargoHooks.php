@@ -11,7 +11,7 @@ class CargoHooks {
 	public static function registerExtension() {
 		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes;
 
-		define( 'CARGO_VERSION', '2.4' );
+		define( 'CARGO_VERSION', '2.5' );
 
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
