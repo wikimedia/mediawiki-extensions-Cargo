@@ -28,15 +28,14 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		$out->enableOOUI();
 		$this->setHeaders();
 
-		$cdb = CargoUtils::getDB();
-		$tableExists = $cdb->tableExists( $this->mTableName );
+		$tableExists = CargoUtils::tableFullyExists( $this->mTableName );
 		if ( !$tableExists ) {
 			$out->setPageTitle( $this->msg( 'cargo-createdatatable' )->parse() );
 		}
 
 		// Disable page if "replacement table" exists.
 		$possibleReplacementTable = $this->mTableName . '__NEXT';
-		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+		if ( CargoUtils::tableFullyExists( $this->mTableName ) && CargoUtils::tableFullyExists( $possibleReplacementTable ) ) {
 			$text = $this->msg( 'cargo-recreatedata-replacementexists', $this->mTableName, $possibleReplacementTable )->parse();
 			$ctURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL();
 			$viewURL = $ctURL . '/' . $this->mTableName;

@@ -38,9 +38,7 @@ class CargoTables extends IncludableSpecialPage {
 			return;
 		}
 
-		$cdb = CargoUtils::getDB();
-
-		if ( !$cdb->tableExists( $tableName ) ) {
+		if ( !CargoUtils::tableFullyExists( $tableName ) ) {
 			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
 				wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
 
@@ -76,7 +74,7 @@ class CargoTables extends IncludableSpecialPage {
 			$tableName .= '__NEXT';
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
-			if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
+			if ( CargoUtils::tableFullyExists( $tableName . '__NEXT' ) ) {
 				$text =
 					Html::rawElement( 'div', [ 'class' => 'warningbox' ],
 						$this->msg( 'cargo-cargotables-hasreplacement' )->parse() );
@@ -119,6 +117,7 @@ class CargoTables extends IncludableSpecialPage {
 		$out->addHTML( $structureDesc );
 
 		// Then, display a count.
+		$cdb = CargoUtils::getDB();
 		try {
 			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
 		}
@@ -520,22 +519,12 @@ class CargoTables extends IncludableSpecialPage {
 			$tableLink = $this->getTableLinkedToView( $tableName, false );
 
 			$rowText = "";
-			if ( !$cdb->tableExists( $tableName ) ) {
-				$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-tablename' ],
-					$tableLink );
-				$errorText =
-					'<span class="error">' .
-					$this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
-				$rowText .= Html::rawElement( 'td', [ 'colspan' => $colspanOfErrorMessage ],
-					$errorText );
-				$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-templates' ],
-					$this->tableTemplatesText( $tableName ) );
-				$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+			if ( !CargoUtils::tableFullyExists( $tableName ) ) {
 				continue;
 			}
 
 			$possibleReplacementTable = $tableName . '__NEXT';
-			$hasReplacementTable = $cdb->tableExists( $possibleReplacementTable );
+			$hasReplacementTable = CargoUtils::tableFullyExists( $possibleReplacementTable );
 			$actionLinks = $this->getActionLinksForTable( $tableName, false, $hasReplacementTable );
 
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
@@ -561,18 +550,6 @@ class CargoTables extends IncludableSpecialPage {
 			$replacementRowText = '';
 			$tableLink = $this->getTableLinkedToView( $tableName, true );
 
-			if ( !$cdb->tableExists( $tableName . '__NEXT' ) ) {
-				$replacementRowText .= Html::rawElement( 'td',
-					[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
-				$errorText =
-					'<span class="error">' .
-					$this->msg( "cargo-cargotables-nonexistenttable" )->parse() . '</span>';
-				$replacementRowText .= Html::rawElement( 'td',
-					[ 'colspan' => $colspanOfErrorMessage ], $errorText );
-				$wikitableText .= Html::rawElement( 'tr',
-					[ 'class' => 'cargo-tablelist-replacement-row' ], $replacementRowText );
-				continue;
-			}
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
 			$actionLinks = $this->getActionLinksForTable( $tableName, true, false );
 

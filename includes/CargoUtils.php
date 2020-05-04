@@ -604,12 +604,25 @@ class CargoUtils {
 
 		// Cannot run any recreate if a replacement table exists.
 		$possibleReplacementTable = $tableName . '__NEXT';
-		if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+		if ( self::tableFullyExists( $tableName ) && self::tableFullyExists( $possibleReplacementTable ) ) {
 			throw new MWException( wfMessage( 'cargo-recreatedata-replacementexists', $tableName, $possibleReplacementTable )->parse() );
 		}
 
 		if ( $createReplacement ) {
 			$tableName .= '__NEXT';
+			if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+				// The replacement table exists, but it does
+				// not have a row in cargo_tables - this is
+				// hopefully a rare occurrence.
+				try {
+					$cdb->begin();
+					$cdb->dropTable( $tableName );
+					$cdb->commit();
+				} catch ( Exception $e ) {
+					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
+					. "Please make sure that your database user account has the DROP permission." );
+				}
+			}
 		} else {
 			// @TODO - is an array really necessary? Shouldn't it
 			// always be just one table name? Tied in with that,
@@ -627,7 +640,7 @@ class CargoUtils {
 				$tableNames[] = $tableName;
 			}
 
-			$mainTableAlreadyExists = $cdb->tableExists( $tableNames[0] );
+			$mainTableAlreadyExists = self::tableFullyExists( $tableNames[0] );
 			foreach ( $tableNames as $curTable ) {
 				try {
 					$cdb->begin();
@@ -655,6 +668,17 @@ class CargoUtils {
 		}
 
 		return true;
+	}
+
+	public static function tableFullyExists( $tableName ) {
+		$dbr = wfGetDB( DB_REPLICA );
+		$numRows = $dbr->selectField( 'cargo_tables', 'COUNT(*)', [ 'main_table' => $tableName ] );
+		if ( $numRows == 0 ) {
+			return false;
+		}
+
+		$cdb = self::getDB();
+		return $cdb->tableExists( $tableName );
 	}
 
 	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
