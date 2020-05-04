@@ -337,7 +337,7 @@
 		"CargoDrilldownMinValuesForComboBox": 40,
 		"CargoDrilldownNumRangesForNumbers": 5,
 		"CargoMaxVisibleHierarchyDrilldownValues": 30,
-		"CargoTablesPrioritizeReplacements": true,
+		"CargoTablesPrioritizeReplacements": false,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [
