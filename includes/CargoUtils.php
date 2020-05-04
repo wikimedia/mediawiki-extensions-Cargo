@@ -162,7 +162,7 @@ class CargoUtils {
 
 	public static function getTables() {
 		$tableNames = [];
-		$dbr = wfGetDB( DB_MASTER );
+		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', 'main_table' );
 		while ( $row = $dbr->fetchRow( $res ) ) {
 			$tableName = $row['main_table'];
