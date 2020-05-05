@@ -119,7 +119,7 @@ class CargoTables extends IncludableSpecialPage {
 		// Then, display a count.
 		$cdb = CargoUtils::getDB();
 		try {
-			$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
+			$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
 		}
 		catch ( Exception $e ) {
 			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
@@ -127,9 +127,8 @@ class CargoTables extends IncludableSpecialPage {
 
 			return;
 		}
-		$row = $cdb->fetchRow( $res );
 		$numRowsMessage =
-			$this->msg( 'cargo-cargotables-totalrows' )->numParams( intval( $row['total'] ) );
+			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows );
 		if ( method_exists( $out, 'addWikiTextAsInterface' ) ) {
 			// MW 1.32+
 			$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
