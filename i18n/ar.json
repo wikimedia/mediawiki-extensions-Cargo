@@ -98,7 +98,6 @@
 	"cargo-cargotables-totalrows": "يحتوي هذا الجدول على '''$1''' {{PLURAL:$1|صف}} تماما.",
 	"cargo-cargotables-replacementgenerated": "تم إنشاء جدول بديل لهذا الجدول",
 	"cargo-cargotables-switch": "التبديل إلى استخدام هذا الجدول.",
-	"cargo-cargotables-nonexistenttable": "هذا الجدول مسجل، ولكنه غير موجود!",
 	"cargo-recreatedata-createreplacement": "أعد إنشاء البيانات في جدول استبدال، مع الاحتفاظ بالقديم للاستعلام",
 	"cargo-recreatedata-replacementexists": "لا يمكن حاليًا إعادة إنشاء الجدول \"$1\"، لا يزال جدول الاستبدال \"$2\" موجودا.",
 	"cargo-cargotables-replacementtable": "هذا الجدول مخصص لاستبدال الجدول $1; لا يتم استخدامه بعد للاستعلام.",

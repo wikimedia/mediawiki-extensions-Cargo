@@ -101,7 +101,6 @@
 	"cargo-cargotables-totalrows": "Ця таблиця має загалом '''$1''' {{PLURAL:$1|рядок|рядки|рядків}}.",
 	"cargo-cargotables-replacementgenerated": "Створена заміна для цієї таблиці",
 	"cargo-cargotables-switch": "Перейти до використання цієї таблиці.",
-	"cargo-cargotables-nonexistenttable": "Ця таблиця зареєстрована, але не існує!",
 	"cargo-recreatedata-createreplacement": "Відтворити дані в таблицю заміщення, зберігши стару для запитів",
 	"cargo-recreatedata-replacementexists": "Неможливо відтворити таблицю «$1»; все ще існує замінна таблиця «$2».",
 	"cargo-cargotables-replacementtable": "Ця таблиця призначена для заміни таблиці $1. Вона ще не використовується для запитів.",

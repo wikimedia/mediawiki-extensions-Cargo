@@ -70,7 +70,6 @@
 	"cargo-cargotables-totalrows": "这个表格总共有'''$1'''{{PLURAL:$1|行}}。",
 	"cargo-cargotables-replacementgenerated": "已为此表生成替代表",
 	"cargo-cargotables-switch": "切换以使用此表格。",
-	"cargo-cargotables-nonexistenttable": "此表格已注册，但不存在！",
 	"cargo-recreatedata-createreplacement": "重建数据至替换表格，保持旧有数据用于查询",
 	"cargo-recreatedata-replacementexists": "当前不能重新创建表格“$1”；替换表格“$2”仍然存在。",
 	"cargo-cargotables-replacementtable": "此表格本应用于替换$1表格。它尚未用于查询。",

@@ -84,7 +84,6 @@
 	"cargo-cargotables-totalrows": "Esta tabla tien '''$1''' {{PLURAL:$1|filera|fileres}} en total.",
 	"cargo-cargotables-replacementgenerated": "Xeneróse una tabla de respaldu pa esta tabla",
 	"cargo-cargotables-switch": "Cambiar a usar esta tabla.",
-	"cargo-cargotables-nonexistenttable": "La tabla ta rexistrada pero nun esiste.",
 	"cargo-recreatedata-createreplacement": "Recrear los datos nuna tabla de sustitución, calteniendo la antigua pa consultar",
 	"cargo-recreatedata-replacementexists": "Actualmente nun puede volver a crease la tabla |«$1»; la tabla de sustitución «$2» inda esiste.",
 	"cargo-cargotables-replacementtable": "Esta tabla sirve pa sustituir la tabla $1. Inda nun ta usándose pa consultes.",

@@ -95,7 +95,6 @@
 	"cargo-cargotables-totalrows": "Оваа табела има вкупно '''$1''' {{PLURAL:$1|ред|реда}}.",
 	"cargo-cargotables-replacementgenerated": "Создадена е замена за оваа табела",
 	"cargo-cargotables-switch": "Префрли на употреба на табелава.",
-	"cargo-cargotables-nonexistenttable": "Оваа табела е пријавена, но не постои!",
 	"cargo-recreatedata-createreplacement": "Пресоздај ги податоците во заменска табела, задржувајќи ја старата за побарувања",
 	"cargo-recreatedata-replacementexists": "Во моментов не можам да ја пресоздадам табелата „$1“; сè уште постои заменската табела „$2“.",
 	"cargo-cargotables-replacementtable": "Оваа табела е предвидена да ја замени табелата $1. Сè уште не се користи за побарувања.",

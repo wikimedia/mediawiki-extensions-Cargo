@@ -96,7 +96,6 @@
 	"cargo-cargotables-totalrows": "Denne tabellen har totalt $1 {{PLURAL:$1|rad|rader}}.",
 	"cargo-cargotables-replacementgenerated": "En erstatningstabell har blitt generert for denne tabellen",
 	"cargo-cargotables-switch": "Bytt til å bruke denne tabellen.",
-	"cargo-cargotables-nonexistenttable": "Denne tabellen er registrert, men finnes ikke!",
 	"cargo-recreatedata-createreplacement": "Gjenskap dataene i en erstatningstabell, og behold den gamle for å kjøre spørringer",
 	"cargo-recreatedata-replacementexists": "Kan ikke gjenskape tabellen «$1»; erstatningstabellen «$2» finnes fortsatt.",
 	"cargo-cargotables-replacementtable": "Denne tabellen er ment å erstatte tabellen $1. Den brukes ennå ikke for å kjøre spørringer.",

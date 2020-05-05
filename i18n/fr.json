@@ -110,7 +110,6 @@
 	"cargo-cargotables-totalrows": "Cette table a '''$1''' {{PLURAL:$1|ligne|lignes}} au total.",
 	"cargo-cargotables-replacementgenerated": "Une table de remplacement a été générée pour cette table",
 	"cargo-cargotables-switch": "Passer à l'utilisation de cette table.",
-	"cargo-cargotables-nonexistenttable": "Cette table est déclarée mais n'existe pas !",
 	"cargo-recreatedata-createreplacement": "Recréer les données dans une table de remplacement, en gardant les anciennes pour consultation",
 	"cargo-recreatedata-replacementexists": "Impossible de recréer maintenant la table « $1 » ; la table de remplacement « $2 » existe déjà.",
 	"cargo-cargotables-replacementtable": "Cette table remplacera la table $1. Elle n’est pas encore utilisée pour les requêtes.",

@@ -63,7 +63,6 @@
 	"cargo-cargotables-totalrows": "Тази таблица има общо '''$1''' {{PLURAL:$1|ред|реда}}.",
 	"cargo-cargotables-replacementgenerated": "Генерирана е таблица за замяна за тази таблица",
 	"cargo-cargotables-switch": "Преминаване към употреба на тази таблица.",
-	"cargo-cargotables-nonexistenttable": "Тази таблица е регистрирана, но не съществува!",
 	"cargo-recreatedata-createreplacement": "Пресъздаване на данните в таблица за замяна, запазвайки старата за изпълняване на заявки",
 	"cargo-cargotables-hasreplacement": "Тази таблица в момента не може да се редактира, докато не се генерира заменяща таблица.",
 	"deletecargotable": "Изтриване на таблица",

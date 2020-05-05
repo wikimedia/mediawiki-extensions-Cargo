@@ -85,7 +85,6 @@
 	"cargo-cargotables-totalrows": "Diese Tabelle hat insgesamt {{PLURAL:$1|'''eine''' Zeile|'''$1''' Zeilen}}.",
 	"cargo-cargotables-replacementgenerated": "Für diese Tabelle wurde eine Ersetzungstabelle erstellt",
 	"cargo-cargotables-switch": "Auf die Verwendung dieser Tabelle wechseln.",
-	"cargo-cargotables-nonexistenttable": "Diese Tabelle ist registriert, jedoch nicht vorhanden!",
 	"cargo-recreatedata-createreplacement": "Erstellt Daten in eine Ersetzungstabelle neu und behält die alte für Abfragen",
 	"cargo-recreatedata-replacementexists": "Die Tabelle „$1“ konnte derzeit nicht neu erstellt werden. Die Ersetzungstabelle „$2“ ist noch vorhanden.",
 	"cargo-cargotables-replacementtable": "Diese Tabelle ist zur Ersetzung der Tabelle $1 beabsichtigt. Sie wurde noch nicht für Abfragen verwendet.",

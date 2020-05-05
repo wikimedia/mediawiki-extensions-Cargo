@@ -94,7 +94,6 @@
 	"cargo-cargotables-totalrows": "Esta tabela tem um total de '''$1''' {{PLURAL:$1|linha|linhas}}.",
 	"cargo-cargotables-replacementgenerated": "Foi gerada uma tabela de substituição desta tabela",
 	"cargo-cargotables-switch": "Passar para utilizar esta tabela.",
-	"cargo-cargotables-nonexistenttable": "Esta tabela está registada, mas não existe!",
 	"cargo-recreatedata-createreplacement": "Recrear dados numa tabela de substituição, mantendo a tabela anterior para consultas",
 	"cargo-recreatedata-replacementexists": "Neste momento não é possível recrear a tabela \"$1\"; a tabela de substituição \"$2\" ainda existe.",
 	"cargo-cargotables-replacementtable": "Esta tabela destina-se a substituir a tabela $1. Ela ainda não é usada para consultas.",

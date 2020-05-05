@@ -97,7 +97,6 @@
 	"cargo-cargotables-totalrows": "此表格共有 '''$1''' {{PLURAL:$1|列|列}}。",
 	"cargo-cargotables-replacementgenerated": "已產生此表格用的替代表格",
 	"cargo-cargotables-switch": "切換來使用此表格。",
-	"cargo-cargotables-nonexistenttable": "此表格雖已註冊，但並不存在！",
 	"cargo-recreatedata-createreplacement": "重新建立資料至替換表格，替查詢保留舊有內容",
 	"cargo-recreatedata-replacementexists": "目前無法重新建立表格「$1」，因替換表格「$2」仍存在緣故。",
 	"cargo-cargotables-replacementtable": "此表格用於替換 $1 表格。此尚未被用於查詢。",

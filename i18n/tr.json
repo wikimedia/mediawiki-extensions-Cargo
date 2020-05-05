@@ -96,7 +96,6 @@
 	"cargo-cargotables-totalrows": "Bu tabloda '''$1''' {{PLURAL:$1|satır|satır}} tamamen var.",
 	"cargo-cargotables-replacementgenerated": "Bu tablo için bir yedek tablo oluşturuldu",
 	"cargo-cargotables-switch": "Bu tabloyu kullanmaya geçin.",
-	"cargo-cargotables-nonexistenttable": "Bu tablo kayıtlı, ancak mevcut değil!",
 	"cargo-recreatedata-createreplacement": "Eski tabloyu sorgulamak için saklayarak verileri yeni bir tabloya yeniden oluşturun",
 	"cargo-recreatedata-replacementexists": "Şu anda \"$1\" tablosu yeniden oluşturulamıyor; yedek tablo \"$2\" hala var.",
 	"cargo-cargotables-replacementtable": "Bu tablonun $1 tablosunun yerini alması amaçlanmıştır. Henüz sorgulama için kullanılmıyor.",
