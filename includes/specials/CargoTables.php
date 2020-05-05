@@ -286,13 +286,13 @@ class CargoTables extends IncludableSpecialPage {
 		// and will NOT cause creation of a new column
 		$user = $this->getUser();
 
-		// drilldown requires no permissions so it's guaranteed to be allowed
-		$allowedActions = [
-			"drilldown" => [
+		$allowedActions = [];
+		if ( $user->isAllowed( 'runcargoqueries' ) ) {
+			$allowedActions['drilldown'] = [
 				"ooui-icon" => "funnel",
 				"ooui-title" => "cargo-cargotables-action-drilldown",
-			],
-		];
+			];
+		}
 
 		// recreatecargodata allows both recreating and switching in replacements
 		if ( $user->isAllowed( 'recreatecargodata' ) ) {
@@ -346,19 +346,17 @@ class CargoTables extends IncludableSpecialPage {
 
 		$actionLinks = [];
 
-		// Actions for this table - this display is modeled on
-		// Special:ListUsers.
-
-		// No permissions check required for drilldown
-		$drilldownPage = CargoUtils::getSpecialPage( 'Drilldown' );
-		$drilldownURL = $drilldownPage->getPageTitle()->getLocalURL() . '/' . $tableName;
-		$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
-		if ( $isReplacementTable ) {
-			$drilldownURL .= "_replacement";
-		} else {
-			$drilldownURL .= "_single";
+		if ( array_key_exists( 'drilldown', self::$actionList ) ) {
+			$drilldownPage = CargoUtils::getSpecialPage( 'Drilldown' );
+			$drilldownURL = $drilldownPage->getPageTitle()->getLocalURL() . '/' . $tableName;
+			$drilldownURL .= strpos( $drilldownURL, '?' ) ? '&' : '?';
+			if ( $isReplacementTable ) {
+				$drilldownURL .= "_replacement";
+			} else {
+				$drilldownURL .= "_single";
+			}
+			$actionLinks['drilldown'] = $this->getActionButton( 'drilldown', $drilldownURL );
 		}
-		$actionLinks['drilldown'] = $this->getActionButton( 'drilldown', $drilldownURL );
 
 		// Recreate permission governs both recreating and switching
 		if ( array_key_exists( 'recreate', self::$actionList ) ) {
