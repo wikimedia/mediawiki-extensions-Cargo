@@ -48,7 +48,12 @@ To install the extension, place the entire 'Cargo' directory within
 your MediaWiki 'extensions' directory, then add the following line to
 your 'LocalSettings.php' file:
 
-     require_once( "$IP/extensions/Cargo/Cargo.php" );
+     wfLoadExtension( 'Cargo' );
+
+Then, go to core MediaWiki's /maintenance directory, and call the
+following:
+
+     php update.php
 
 == Credits ==
 
