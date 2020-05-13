@@ -56,7 +56,7 @@
 	"cargo-cargotables-viewtablelink": "Преглед на таблица",
 	"cargo-cargotables-viewreplacement": "Преглед на заменяща таблица за $1",
 	"cargo-cargotables-viewreplacementlink": "Преглед на заменяща таблица",
-	"cargo-cargotables-notdeclared": "не е дефинирано от никой шаблон",
+	"cargo-cargotables-notdeclared": "Не е дефинирано от никой шаблон",
 	"cargo-cargotables-tablenotfound": "Таблица „$1“ не е намерена в базата от данни на „Карго“.",
 	"cargo-cargotables-tablestructure": "Структура на таблицата:",
 	"cargo-cargotables-listof": "Списък на $1",
