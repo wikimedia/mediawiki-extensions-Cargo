@@ -64,6 +64,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		}
 		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ?
 			$displayParams['delimiter'] : '';
+		$delimiter = str_replace( '\n', "\n", $delimiter );
 		$text = '';
 		foreach ( $valuesTable as $i => $row ) {
 			if ( $i > 0 ) {
