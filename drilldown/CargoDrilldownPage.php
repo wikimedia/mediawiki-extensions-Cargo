@@ -1918,16 +1918,23 @@ END;
 				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
 			}
 		}
+
+		// @TODO - fix the handling of "group by". It may be useful to
+		// add all the queried field names to "group by" to prevent
+		// duplicate listings, but it also sometimes causes the query to
+		// not work.
 		if ( !$this->formatByFieldIsList ) {
-			if ( is_array( $queryOptions['GROUP BY'] ) ) {
-				$queryOptions['GROUP BY'] =
-					array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
+			if ( is_array( $queryOptions['GROUP BY'] ) && count( $queryOptions['GROUP BY'] ) > 0 ) {
+				// $queryOptions['GROUP BY'] =
+				//	array_merge( $queryOptions['GROUP BY'], array_values( $aliasedFieldNames ) );
 			} else {
-				$queryOptions['GROUP BY'] = array_values( $aliasedFieldNames );
+				// $queryOptions['GROUP BY'] = array_values( $aliasedFieldNames );
+				$queryOptions['GROUP BY'] = null;
 			}
 		} else {
 			$queryOptions['GROUP BY'] = null;
 		}
+
 		$tablesStr = '';
 		$i = 0;
 		foreach ( $tableNames as $tableAlias => $tableName ) {
