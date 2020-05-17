@@ -6,7 +6,7 @@
  * @ingroup Cargo
  */
 
-class CargoQueryInterface extends SpecialPage {
+class SpecialCargoQuery extends SpecialPage {
 
 	/**
 	 * Constructor

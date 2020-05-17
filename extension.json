@@ -29,7 +29,7 @@
 		"CargoTables": "CargoTables",
 		"DeleteCargoTable": "SpecialDeleteCargoTable",
 		"SwitchCargoTable": "SpecialSwitchCargoTable",
-		"CargoQuery": "CargoQueryInterface",
+		"CargoQuery": "SpecialCargoQuery",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
 		"Drilldown": "CargoSpecialDrilldown"
@@ -93,7 +93,7 @@
 		"CargoTables": "includes/specials/CargoTables.php",
 		"SpecialDeleteCargoTable": "includes/specials/SpecialDeleteCargoTable.php",
 		"SpecialSwitchCargoTable": "includes/specials/SpecialSwitchCargoTable.php",
-		"CargoQueryInterface": "includes/specials/CargoQueryInterface.php",
+		"SpecialCargoQuery": "includes/specials/SpecialCargoQuery.php",
 		"CargoQueryPage": "includes/CargoQueryPage.php",
 		"CargoExport": "includes/specials/CargoExport.php",
 		"CargoPageValuesAction": "includes/CargoPageValuesAction.php",
