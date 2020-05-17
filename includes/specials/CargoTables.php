@@ -118,15 +118,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Then, display a count.
 		$cdb = CargoUtils::getDB();
-		try {
-			$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
-		}
-		catch ( Exception $e ) {
-			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
-					$this->msg( 'cargo-cargotables-tablenotfound', $tableName )->parse() ) . "\n" );
-
-			return;
-		}
+		$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
 		$numRowsMessage =
 			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows );
 		if ( method_exists( $out, 'addWikiTextAsInterface' ) ) {
