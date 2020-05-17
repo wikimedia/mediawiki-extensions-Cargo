@@ -92,7 +92,6 @@
 	"cargo-cargotables-viewreplacementlink": "The text of a link to a subpage of [[Special:CargoTables]].",
 	"cargo-cargotables-notdeclared": "Descriptive message placed in [[Special:CargoTables]].",
 	"cargo-cargotables-replacementlink": "Text in the Table column when table is a replacement",
-	"cargo-cargotables-tablenotfound": "An error message. ({{doc-cargo}})\n\nParameters:\n* $1 - table name.",
 	"cargo-cargotables-tablestructure": "A header for a list of fields",
 	"cargo-cargotables-listof": "An informational message",
 	"cargo-cargotables-totalrows": "Parameters:\n* $1 - number of rows in a database table.",
