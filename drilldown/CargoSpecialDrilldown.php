@@ -86,8 +86,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 				$tableSchemas = CargoUtils::getTableSchemas( [ $mainTable ] );
 			}
 		} catch ( MWException $e ) {
-			$out->addHTML( Html::rawElement( 'div', [ 'class' => 'error' ],
-				$this->msg( 'cargo-cargotables-tablenotfound', $mainTable )->parse() ) . "\n" );
+			$out->addHTML( CargoUtils::formatError( $e->getMessage() ) );
 			return;
 		}
 		$all_filters = [];
