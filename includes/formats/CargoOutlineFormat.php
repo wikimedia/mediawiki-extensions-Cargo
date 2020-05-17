@@ -67,8 +67,15 @@ class CargoOutlineFormat extends CargoListFormat {
 		if ( !array_key_exists( 'outline fields', $displayParams ) ) {
 			throw new MWException( wfMessage( "cargo-query-missingparam", "outline fields", "outline" )->parse() );
 		}
-		$outlineFields = explode( ',', str_replace( '_', ' ', $displayParams['outline fields'] ) );
-		$this->mOutlineFields = array_map( 'trim', $outlineFields );
+		$outlineFields = explode( ',', $displayParams['outline fields'] );
+		$this->mOutlineFields = [];
+		foreach ( $outlineFields as $outlineField ) {
+			$modifiedOutlineField = trim( $outlineField );
+			if ( $modifiedOutlineField[0] != '_' ) {
+				$modifiedOutlineField = str_replace( '_', ' ', $modifiedOutlineField );
+			}
+			$this->mOutlineFields[] = $modifiedOutlineField;
+		}
 		$this->mFieldDescriptions = $fieldDescriptions;
 
 		// For each result row, create an array of the row itself
