@@ -234,7 +234,11 @@ END;
 					if ( $orderByField == '' ) {
 						continue;
 					}
-					$option = $vals['order_by_options'][$i];
+					if ( array_key_exists( 'order_by_options', $vals ) ) {
+						$option = $vals['order_by_options'][$i];
+					} else {
+						$option = '';
+					}
 					$orderByVal .= $orderByField . ' ' . $option . ', ';
 				}
 				$val = $orderByVal;
