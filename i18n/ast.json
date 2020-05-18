@@ -78,7 +78,6 @@
 	"cargo-cargotables-viewreplacementlink": "Ver la tabla de sustitución",
 	"cargo-cargotables-notdeclared": "Ensin definir por nenguna plantía",
 	"cargo-cargotables-replacementlink": "Tabla de sustitución",
-	"cargo-cargotables-tablenotfound": "Nun s'alcontró la tabla \"$1\" na base de datos de Cargo.",
 	"cargo-cargotables-tablestructure": "Estructura de la tabla:",
 	"cargo-cargotables-listof": "Llista de $1",
 	"cargo-cargotables-totalrows": "Esta tabla tien '''$1''' {{PLURAL:$1|filera|fileres}} en total.",

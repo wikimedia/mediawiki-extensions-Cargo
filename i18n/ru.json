@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Batumski brodyaga",
+			"Iniquity",
 			"Irus",
 			"Kareyac",
 			"Katunchik",
@@ -80,8 +81,7 @@
 	"cargo-cargotables-viewtablelink": "Просмотр таблицы",
 	"cargo-cargotables-viewreplacement": "Просмотр таблицы замены для $1",
 	"cargo-cargotables-viewreplacementlink": "Просмотреть таблицу замен",
-	"cargo-cargotables-notdeclared": "не определен ни одним шаблоном",
-	"cargo-cargotables-tablenotfound": "Таблица «$1» не найдена в базе данных Cargo.",
+	"cargo-cargotables-notdeclared": "Не определен ни одним шаблоном",
 	"cargo-cargotables-tablestructure": "Структура таблицы:",
 	"cargo-cargotables-listof": "Список $1",
 	"cargo-cargotables-totalrows": "Эта таблица имеет в целом '''$1''' {{PLURAL:$1|строку|строки|строк}}.",

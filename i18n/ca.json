@@ -33,7 +33,6 @@
 	"cargo-cargotables-viewtablelink": "Mostra la taula",
 	"cargo-cargotables-notdeclared": "no definit per cap plantilla",
 	"cargo-cargotables-replacementlink": "Taula de substitucions",
-	"cargo-cargotables-tablenotfound": "No s’ha trobat la taula «$1» en la base de dades del Cargo.",
 	"cargo-cargotables-totalrows": "La taula té un total de $1 files.",
 	"deletecargotable": "Elimina la taula de Cargo",
 	"pagevalues": "Valors de la pàgina",

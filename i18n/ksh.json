@@ -31,7 +31,6 @@
 	"cargo-cargotables-viewtable": "Belohr di Tabäll: „$1“",
 	"cargo-cargotables-viewtablelink": "Belohr di Tabäll",
 	"cargo-cargotables-notdeclared": "nit övver en Schablohn faßjelaht",
-	"cargo-cargotables-tablenotfound": "De Tabäll „$1“ wood en de Kargo (Schablohnedathe) nit jefonge.",
 	"cargo-cargotables-totalrows": "Heh di Tabäll hät zersamme {{PLURAL:$1|ein Reih|$1 Reihje|kein Reihje}}.",
 	"deletecargotable": "De Kargo (Schablohnedathe) Tabäll fott schmihße",
 	"pagevalues": "Sigge_Wääte",

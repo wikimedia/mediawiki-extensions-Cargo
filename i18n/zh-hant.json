@@ -91,7 +91,6 @@
 	"cargo-cargotables-viewreplacementlink": "檢視替換表格",
 	"cargo-cargotables-notdeclared": "尚未被任何模板定義",
 	"cargo-cargotables-replacementlink": "取代表格",
-	"cargo-cargotables-tablenotfound": "在 Cargo 資料庫查無表格「$1」。",
 	"cargo-cargotables-tablestructure": "表格架構：",
 	"cargo-cargotables-listof": "$1 清單",
 	"cargo-cargotables-totalrows": "此表格共有 '''$1''' {{PLURAL:$1|列|列}}。",

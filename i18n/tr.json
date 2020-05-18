@@ -90,7 +90,6 @@
 	"cargo-cargotables-viewreplacementlink": "Değiştirme tablosunu görüntüle",
 	"cargo-cargotables-notdeclared": "Herhangi bir şablon tarafından tanımlanmadı",
 	"cargo-cargotables-replacementlink": "Değiştirme tablosu",
-	"cargo-cargotables-tablenotfound": "\"$1\" tablosu Kargo veritabanında bulunamadı.",
 	"cargo-cargotables-tablestructure": "Tablo yapısı:",
 	"cargo-cargotables-listof": "$1 listesi",
 	"cargo-cargotables-totalrows": "Bu tabloda '''$1''' satır tamamen var.",

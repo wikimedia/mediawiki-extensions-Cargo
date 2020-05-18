@@ -79,7 +79,6 @@
 	"cargo-cargotables-viewreplacement": "Ersetzungstabelle für $1 ansehen",
 	"cargo-cargotables-viewreplacementlink": "Ersetzungstabelle ansehen",
 	"cargo-cargotables-notdeclared": "Nicht durch irgendeine Vorlage definiert",
-	"cargo-cargotables-tablenotfound": "Die Tabelle „$1“ wurde in der Cargo-Datenbank nicht gefunden.",
 	"cargo-cargotables-tablestructure": "Tabellenstruktur:",
 	"cargo-cargotables-listof": "Liste von $1",
 	"cargo-cargotables-totalrows": "Diese Tabelle hat insgesamt {{PLURAL:$1|'''eine''' Zeile|'''$1''' Zeilen}}.",

@@ -56,7 +56,6 @@
 	"cargo-cargotables-viewtablelink": "Tabel bekijken",
 	"cargo-cargotables-notdeclared": "Niet door enig template",
 	"cargo-cargotables-replacementlink": "Vervangende tabel",
-	"cargo-cargotables-tablenotfound": "Tabel \"$1\" is niet gevonden in de Cargo database.",
 	"cargo-cargotables-tablestructure": "Tabelstructuur:",
 	"cargo-cargotables-listof": "Lijst met $1",
 	"cargo-cargotables-totalrows": "Deze tabel heeft in totaal $1 {{PLURAL:$1|rij|rijen}}.",

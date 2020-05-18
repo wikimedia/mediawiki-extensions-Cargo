@@ -90,7 +90,6 @@
 	"cargo-cargotables-viewreplacementlink": "Vis erstatningstabell",
 	"cargo-cargotables-notdeclared": "Ikke definert av noen mal",
 	"cargo-cargotables-replacementlink": "Erstatningstabell",
-	"cargo-cargotables-tablenotfound": "Tabellen \"$1\" ble ikke funnet i Cargos database.",
 	"cargo-cargotables-tablestructure": "Tabellstruktur:",
 	"cargo-cargotables-listof": "Liste over $1",
 	"cargo-cargotables-totalrows": "Denne tabellen har totalt $1 {{PLURAL:$1|rad|rader}}.",

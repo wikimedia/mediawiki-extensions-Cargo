@@ -68,7 +68,6 @@
 	"cargo-cargotables-viewreplacementlink": "Ver tabla sustituta",
 	"cargo-cargotables-notdeclared": "no definido por ninguna plantilla",
 	"cargo-cargotables-replacementlink": "Tabla de sustituciones",
-	"cargo-cargotables-tablenotfound": "Tabla \"$1\" no encontrada en la base de datos de Cargo.",
 	"cargo-cargotables-tablestructure": "Estructura de la tabla:",
 	"cargo-cargotables-listof": "Lista de $1",
 	"cargo-cargotables-totalrows": "Esta tabla tiene '''$1''' {{PLURAL:$1|fila|filas}} en total.",

@@ -64,7 +64,6 @@
 	"cargo-cargotables-viewreplacement": "查看用于$1的替换表格",
 	"cargo-cargotables-viewreplacementlink": "查看替换表格",
 	"cargo-cargotables-notdeclared": "没有被任何模板定义",
-	"cargo-cargotables-tablenotfound": "在Cargo数据库中没有发现表格“$1”。",
 	"cargo-cargotables-tablestructure": "表格结构：",
 	"cargo-cargotables-listof": "$1的列表",
 	"cargo-cargotables-totalrows": "这个表格总共有'''$1'''{{PLURAL:$1|行}}。",
