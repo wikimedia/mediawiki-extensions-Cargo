@@ -111,9 +111,9 @@ class SpecialCargoQuery extends SpecialPage {
 		$text = "\n" . '<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' . $rowNum . '>';
 		if ( $rowNum == 0 ) {
 			$text .= '<td class="mw-label">' .
-				'<label for="order_by">' . wfMessage( 'cargo-viewdata-orderby' )->parse() .
+				'<label for="order_by">' . $this->msg( 'cargo-viewdata-orderby' )->parse() .
 				'&nbsp;&nbsp;<button class="cargoQueryTooltipIcon" type="button" for="order_by" data-balloon-length="large" data-balloon="' .
-				wfMessage( 'cargo-viewdata-orderbytooltip' )->parse() .
+				$this->msg( 'cargo-viewdata-orderbytooltip' )->parse() .
 				'"</button></td>';
 		} else {
 			$text .= '<td></td>';
@@ -152,18 +152,18 @@ $hiddenTitleInput
 <tbody>
 END;
 
-		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
-			wfMessage( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" )->parse() );
-		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
-			wfMessage( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->parse() );
-		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-where' )->parse(), 'where', 100,
-			wfMessage( 'cargo-viewdata-wheretooltip', "Country.Continent = 'North America' AND City.Population > 100000" )->parse() );
-		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-joinon' )->parse(), 'join_on', 100,
-			wfMessage( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->parse() );
-		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
-			wfMessage( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
-		$text .= $this->displayTextArea( wfMessage( 'cargo-viewdata-having' )->parse(), 'having', 100,
-			wfMessage( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
+		$text .= $this->displayInputRow( $this->msg( 'cargo-viewdata-tables' )->parse(), 'tables', 100,
+			$this->msg( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" )->parse() );
+		$text .= $this->displayInputRow( $this->msg( 'cargo-viewdata-fields' )->parse(), 'fields', 100,
+			$this->msg( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" )->parse() );
+		$text .= $this->displayTextArea( $this->msg( 'cargo-viewdata-where' )->parse(), 'where', 100,
+			$this->msg( 'cargo-viewdata-wheretooltip', "Country.Continent = 'North America' AND City.Population > 100000" )->parse() );
+		$text .= $this->displayTextArea( $this->msg( 'cargo-viewdata-joinon' )->parse(), 'join_on', 100,
+			$this->msg( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" )->parse() );
+		$text .= $this->displayInputRow( $this->msg( 'cargo-viewdata-groupby' )->parse(), 'group_by', 100,
+			$this->msg( 'cargo-viewdata-groupbytooltip', "Countries.Continent" )->parse() );
+		$text .= $this->displayTextArea( $this->msg( 'cargo-viewdata-having' )->parse(), 'having', 100,
+			$this->msg( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" )->parse() );
 		$orderByValues = $req->getArray( 'order_by' );
 		if ( $orderByValues != null ) {
 			$orderByDirections = $req->getArray( 'order_by_options' );
@@ -174,14 +174,14 @@ END;
 		} else {
 			$text .= $this->displayOrderByInput( 0, null, null );
 		}
-		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
-			wfMessage( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit )->parse() );
-		$text .= $this->displayInputRow( wfMessage( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
-			wfMessage( 'cargo-viewdata-offsettooltip', "0" )->parse() );
-		$formatLabel = '<label for="format">' . wfMessage( 'cargo-viewdata-format' )->parse() .
+		$text .= $this->displayInputRow( $this->msg( 'cargo-viewdata-limit' )->parse(), 'limit', 3,
+			$this->msg( 'cargo-viewdata-limittooltip', $wgCargoDefaultQueryLimit )->parse() );
+		$text .= $this->displayInputRow( $this->msg( 'cargo-viewdata-offset' )->parse(), 'offset', 3,
+			$this->msg( 'cargo-viewdata-offsettooltip', "0" )->parse() );
+		$formatLabel = '<label for="format">' . $this->msg( 'cargo-viewdata-format' )->parse() .
 			'&nbsp;&nbsp;<button class="cargoQueryTooltipIcon" type="button" for="format" data-balloon-length="large" data-balloon="' .
-			wfMessage( 'cargo-viewdata-formattooltip' )->parse() . '"</button>&nbsp;';
-		$formatOptionDefault = wfMessage( 'cargo-viewdata-defaultformat' )->parse();
+			$this->msg( 'cargo-viewdata-formattooltip' )->parse() . '"</button>&nbsp;';
+		$formatOptionDefault = $this->msg( 'cargo-viewdata-defaultformat' )->parse();
 		$text .= <<<END
 <tr class="mw-htmlform-field-HTMLTextField">
 <td class="mw-label">
@@ -201,7 +201,7 @@ END;
 			$text .= Html::element( 'option', $optionAttrs, $formatName );
 		}
 
-		$submitLabel = wfMessage( 'htmlform-submit' )->parse();
+		$submitLabel = $this->msg( 'htmlform-submit' )->parse();
 		$text .= <<<END
 
 </select>

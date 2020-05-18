@@ -40,7 +40,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		if ( !CargoUtils::tableFullyExists( $tableName ) ) {
 			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
-				wfMessage( "cargo-unknowntable", $tableName )->parse() ) );
+				$this->msg( "cargo-unknowntable", $tableName )->parse() ) );
 
 			return;
 		}

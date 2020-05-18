@@ -89,7 +89,7 @@ class CargoExport extends UnlistedSpecialPage {
 			// otherwise the error message will be displayed.
 			$result = Hooks::run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
 			if ( $result ) {
-				print wfMessage( "cargo-query-missingformat" )->parse();
+				print $this->msg( "cargo-query-missingformat" )->parse();
 			}
 		}
 	}
