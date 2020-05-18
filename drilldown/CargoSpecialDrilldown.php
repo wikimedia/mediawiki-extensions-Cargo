@@ -29,7 +29,6 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 
 		$request = $this->getRequest();
 		$out = $this->getOutput();
-		$title = $this->getPageTitle();
 
 		if ( $this->including() ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
@@ -73,7 +72,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		// for some reason returns a false positive when an alternate
 		// capitalization of the table name is used.
 		if ( !$cdb->tableExists( $mainTable ) ) {
-			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ], wfMessage( "cargo-unknowntable", $mainTable )->parse() ) );
+			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $mainTable )->parse() ) );
 			return;
 		}
 
@@ -290,8 +289,9 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		if ( !$mainTable ) {
 			$tableTitle = $this->msg( 'drilldown' )->text();
 		} else {
-			$tableTitle = $this->msg( 'drilldown' )->text() . html_entity_decode(
-				$this->msg( 'colon-separator' )->text() ) . $rep->displayTableName( $mainTable );
+			$tableTitle = $this->msg( 'drilldown' )->text() .
+				html_entity_decode( $this->msg( 'colon-separator' )->text() ) .
+				$rep->displayTableName( $mainTable );
 		}
 		$out->setPageTitle( $tableTitle );
 

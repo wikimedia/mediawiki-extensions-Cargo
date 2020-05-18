@@ -148,7 +148,7 @@ class CargoUtils {
 	}
 
 	public static function formatError( $errorString ) {
-		return '<div class="error">' . $errorString . '</div>';
+		return Html::element( 'div', [ 'class' => 'error' ], $errorString );
 	}
 
 	public static function displayErrorMessage( OutputPage $out, Message $message ) {

@@ -376,7 +376,7 @@ class CargoQueryDisplayer {
 			$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions,
 				$this->mDisplayParams );
 		} catch ( Exception $e ) {
-			return '<div class="error">' . $e->getMessage() . '</div>';
+			return CargoUtils::formatError( $e->getMessage() );
 		}
 		if ( array_key_exists( 'outro', $this->mDisplayParams ) ) {
 			$text .= $this->mDisplayParams['outro'];

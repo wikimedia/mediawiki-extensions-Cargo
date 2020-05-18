@@ -152,7 +152,8 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 			[
 				"tl_from=page_id",
 				"tl_namespace" => $templateTitle->getNamespace(),
-				"tl_title" => $templateTitle->getDBkey() ],
+				"tl_title" => $templateTitle->getDBkey()
+			],
 			__METHOD__,
 			[]
 		);
