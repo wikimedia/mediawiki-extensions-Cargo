@@ -753,19 +753,29 @@ class CargoSQLQuery {
 
 	/**
 	 * Provides HOLDS functionality to WHERE clause by replacing $pattern
-	 * in $subject with $replacement and setting $found to true if
+	 * in $subject with suitable subquery and setting $found to true if
 	 * successful (leaves it untouched otehrwise). Includes modifying
 	 * the regex beginning from a non-valid identifier character to word
 	 * boundary.
 	 */
-	function substVirtualFieldName( &$subject, $pattern, $replacement, &$found, &$fullExpression ) {
-		if ( preg_match( $pattern, $subject ) ) {
+	function substVirtualFieldName( &$subject, $pattern, $tableName, $notOperation, $fieldTableName, $compareOperator, &$found ) {
+		if ( preg_match_all( $pattern, $subject, $matches ) ) {
 			$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern );
 			$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern );
-			$subject = preg_replace( $pattern, $replacement, $subject );
-			$pattern2 = '/' . $replacement . '\s*([\'"]?[^\'"]*[\'"]?)/i'; // To capture string in quotes or a number
-			if ( preg_match( $pattern2, $subject, $matches ) ) {
-				$fullExpression = $matches[0];
+			$notOperator = $notOperation ? 'NOT' : '';
+			foreach ( $matches[2] as $match ) {
+				$replacement =
+					$this->mCargoDB->tableName( $tableName ) .
+					"._ID " .
+					$notOperator .
+					" IN (SELECT _rowID FROM " .
+					$this->mCargoDB->tableName( $fieldTableName ) .
+					" WHERE _value " .
+					$compareOperator .
+					$match .
+					") ";
+
+				$subject = preg_replace( $pattern, $replacement, $subject, $limit = 1 );
 			}
 			$found = true;
 		}
@@ -774,9 +784,8 @@ class CargoSQLQuery {
 	function handleVirtualFields() {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
-		// "where" - make sure that "HOLDS" or "HOlDS LIKE" is
-		// specified. If it is, "translate" it, and add the values
-		// table to "tables" and "join on".
+		// "where" - make sure that "HOLDS" or "HOLDS LIKE" is
+		// specified. If it is, "translate" it into required subquery.
 		// "join on" - make sure that "HOLDS" is specified, If it is,
 		// "translate" it, and add the values table to "tables".
 		// "group by" - always "translate" it into the single value.
@@ -820,8 +829,7 @@ class CargoSQLQuery {
 
 			$fieldTableName = $tableName . '__' . $fieldName;
 			$fieldTableAlias = $tableAlias . '__' . $fieldName;
-			$replacementFieldName = $fieldTableAlias . '._value';
-			$patternSuffix = '\b\s*/i';
+			$patternSuffix = '\s*([\'"]?[^\'"]*[\'"]?)/i';
 			$fieldReplaced = false;
 			$throwException = false;
 
@@ -834,40 +842,47 @@ class CargoSQLQuery {
 				CargoUtils::getSQLFieldPattern( $fieldName, false ) . '\s+'
 				];
 
-			$fullExpression = null;
 			for ( $i = 0; $i < 2; $i++ ) {
 				if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT\s+LIKE' . $patternSuffix,
-						"$replacementFieldName NOT LIKE ",
-						$fieldReplaced,
-						$fullExpression
+						$tableName,
+						$notOperation = true,
+						$fieldTableName,
+						$compareOperation = "LIKE ",
+						$fieldReplaced
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+LIKE' . $patternSuffix,
-						"$replacementFieldName LIKE ",
-						$fieldReplaced,
-						$fullExpression
+						$tableName,
+						$notOperation = false,
+						$fieldTableName,
+						$compareOperation = "LIKE ",
+						$fieldReplaced
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS\s+NOT' . $patternSuffix,
-						"$replacementFieldName!=",
-						$fieldReplaced,
-						$fullExpression
+						$tableName,
+						$notOperation = true,
+						$fieldTableName,
+						$compareOperation = "= ",
+						$fieldReplaced
 					);
 
 					$this->substVirtualFieldName(
 						$this->mWhereStr,
 						$patternRoot[$i] . 'HOLDS' . $patternSuffix,
-						"$replacementFieldName=",
-						$fieldReplaced,
-						$fullExpression
+						$tableName,
+						$notOperation = false,
+						$fieldTableName,
+						$compareOperation = "= ",
+						$fieldReplaced
 					);
 
 					if ( preg_match( $patternSimple[$i], $this->mWhereStr ) ) {
@@ -890,39 +905,6 @@ class CargoSQLQuery {
 				in_array( "$tableAlias.$fieldName", $this->mAliasedFieldNames );
 			if ( $isFieldInQuery && ( $fieldType == 'Date' || $fieldType == 'Datetime' ) ) {
 				$fieldReplaced = true;
-			}
-
-			if ( $fieldReplaced ) {
-				$this->addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias );
-				$cargoJoinConds = [
-					'joinType' => 'LEFT OUTER JOIN',
-					'table1' => $tableAlias,
-					'field1' => '_ID',
-					'table2' => $fieldTableAlias,
-					'field2' => '_rowID'
-				];
-				// We store this in order to add it to the
-				// JOIN clause, because it's necessary, for
-				// somewhat complex reasons, if there are
-				// multiple HOLDS checks in the query and
-				// they're connected via OR.
-				if ( $fullExpression != null ) {
-					global $wgDBprefix;
-					$cargoJoinConds['extraCond'] = $wgDBprefix . 'cargo__' . $fullExpression;
-					$numHoldsExpressions++;
-				}
-				$this->mCargoJoinConds[] = $cargoJoinConds;
-
-			}
-		}
-
-		// We only need the extre JOIN clauses if there are two or more
-		// HOLDS expressions, but these extra clauses have already been
-		// added. So remove them if there are less then two. This is
-		// somewhat of a @HACK, but it seemed like the easiest way to do it.
-		if ( $numHoldsExpressions < 2 ) {
-			for ( $i = 0; $i < count( $this->mCargoJoinConds ); $i++ ) {
-				unset( $this->mCargoJoinConds[$i]['extraCond'] );
 			}
 		}
 
@@ -1330,10 +1312,7 @@ class CargoSQLQuery {
 				$newWhere = " " . $fieldName . " IN " . $subquery;
 			}
 
-			$fullExpression = null;
 			if ( $completeMatch ) {
-				$this->substVirtualFieldName( $this->mWhereStr, $completeSearchPattern, $newWhere, $fieldReplaced,
-					$fullExpression );
 				$this->mWhereStr = preg_replace( $completeSearchPattern, $newWhere, $this->mWhereStr );
 			}
 
