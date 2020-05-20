@@ -1,7 +1,5 @@
 <?php
 
-use MediaWiki\MediaWikiServices;
-
 /**
  * We need to create subclasses, instead of just calling the functionality,
  * because both filter() and, more importantly, $searchTerms are currently
@@ -63,13 +61,7 @@ class CargoSearchMySQL extends SearchMySQL {
 					$modifier = '+';
 				}
 
-				if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
-					// MW >= 1.32
-					$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-				} else {
-					global $wgContLang;
-					$contLang = $wgContLang;
-				}
+				$contLang = CargoUtils::getContentLang();
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
 				$convertedVariants = $contLang->autoConvertToAllVariants( $term );
@@ -129,13 +121,7 @@ class CargoSearchMySQL extends SearchMySQL {
 
 	public function regexTerm( $string, $wildcard ) {
 		$regex = preg_quote( $string, '/' );
-		if ( method_exists( MediaWikiServices::getInstance(), 'getContentLanguage' ) ) {
-			// MW >= 1.32
-			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		} else {
-			global $wgContLang;
-			$contLang = $wgContLang;
-		}
+		$contLang = CargoUtils::getContentLang();
 		if ( $contLang->hasWordBreaks() ) {
 			if ( $wildcard ) {
 				// Don't cut off the final bit!

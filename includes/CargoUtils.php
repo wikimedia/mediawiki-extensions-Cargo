@@ -1245,6 +1245,23 @@ class CargoUtils {
 		}
 	}
 
+	/**
+	 * Get the wiki's content langauge.
+	 * This is a wrapper to maintain backwards-compatibility for MediaWiki 1.31 and earlier.
+	 * @since 2.6
+	 * @return Language
+	 */
+	public static function getContentLang() {
+		if ( method_exists( MediaWikiServices::class, 'getContentLanguage' ) ) {
+			// MW >= 1.32
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		} else {
+			global $wgContLang;
+			$contLang = $wgContLang;
+		}
+		return $contLang;
+	}
+
 	public static function logTableAction( $actionName, $tableName, User $user ) {
 		$log = new LogPage( 'cargo', false );
 		$ctPage = self::getSpecialPage( 'CargoTables' );

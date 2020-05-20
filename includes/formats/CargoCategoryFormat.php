@@ -4,8 +4,6 @@
  * @ingroup Cargo
  */
 
-use MediaWiki\MediaWikiServices;
-
 class CargoCategoryFormat extends CargoListFormat {
 
 	public static function allowedParameters() {
@@ -23,13 +21,7 @@ class CargoCategoryFormat extends CargoListFormat {
 	 * @return string
 	 */
 	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		if ( method_exists( MediaWikiServices::class, 'getContentLanguage' ) ) {
-			// MW >= 1.32
-			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		} else {
-			global $wgContLang;
-			$contLang = $wgContLang;
-		}
+		$contLang = CargoUtils::getContentLang();
 
 		if ( array_key_exists( 'columns', $displayParams ) && $displayParams['columns'] != '' ) {
 			$numColumns = max( $displayParams['columns'], 1 );
