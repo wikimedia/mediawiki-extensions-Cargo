@@ -137,6 +137,7 @@
 	"cargo-viewxls": "檢視 XLS",
 	"cargo-viewjson": "檢視 JSON",
 	"cargo-viewbibtex": "檢視 BibTeX",
+	"cargo-viewicalendar": "檢視 iCalendar",
 	"cargo-dynamictables-togglecolumns": "切換欄位：",
 	"cargo-dynamictables-searchcolumn": "搜尋$1",
 	"cargo-purgecache": "清除快取",

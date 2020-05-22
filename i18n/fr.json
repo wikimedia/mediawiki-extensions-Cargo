@@ -150,6 +150,7 @@
 	"cargo-viewxls": "Afficher l'XLS",
 	"cargo-viewjson": "Afficher le JSON",
 	"cargo-viewbibtex": "Afficher le BibTeX",
+	"cargo-viewicalendar": "Voir iCalendar",
 	"cargo-dynamictables-togglecolumns": "Basculer les colonnes :",
 	"cargo-dynamictables-searchcolumn": "Rechercher $1",
 	"cargo-purgecache": "Purger le cache",
