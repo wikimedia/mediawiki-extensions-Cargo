@@ -136,6 +136,7 @@
 	"cargo-viewxls": "XLS'yi görüntüle",
 	"cargo-viewjson": "JSON'yi görüntüle",
 	"cargo-viewbibtex": "BibTeX'i görüntüle",
+	"cargo-viewicalendar": "iCalendar'ı görüntüle",
 	"cargo-dynamictables-togglecolumns": "Sütunları aç/kapat:",
 	"cargo-dynamictables-searchcolumn": "$1 ara",
 	"cargo-purgecache": "Önbelleği temizle",
