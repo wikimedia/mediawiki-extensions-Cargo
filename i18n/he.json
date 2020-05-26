@@ -6,7 +6,8 @@
 			"Guycn2",
 			"Nemo bis",
 			"Or",
-			"Steeve815"
+			"Steeve815",
+			"חיים"
 		]
 	},
 	"cargo-desc": "אחסון ושאילתות של נתוני תבנית",
@@ -33,7 +34,7 @@
 	"cargo-viewdata-fields": "שדה / שדות:",
 	"cargo-viewdata-where": "איפה:",
 	"cargo-viewdata-joinon": "איחוב ב־(JOIN ON):",
-	"cargo-viewdata-groupby": "לקבץ לפי (GROUP BY):",
+	"cargo-viewdata-groupby": "קיבוץ לפי:",
 	"cargo-viewdata-having": "שיש להם (HAVING):",
 	"cargo-viewdata-orderby": "למיין לפי (ORDER BY):",
 	"cargo-viewdata-limit": "הגבלה (LIMIT):",
