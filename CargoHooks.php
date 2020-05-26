@@ -311,7 +311,7 @@ class CargoHooks {
 		}
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $title, $useReplacementTable, true );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
 		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
 

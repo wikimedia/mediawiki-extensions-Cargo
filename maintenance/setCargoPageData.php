@@ -84,7 +84,7 @@ class SetCargoPageData extends Maintenance {
 			if ( $title == null ) {
 				continue;
 			}
-			CargoPageData::storeValuesForPage( $title, $createReplacement, true );
+			CargoPageData::storeValuesForPage( $title, $createReplacement );
 			$this->output( wfTimestamp( TS_DB ) . ' Stored page data for page "' . $title->getFullText() . "\".\n" );
 		}
 

@@ -71,7 +71,7 @@ class CargoPageData {
 	 * that setting doesn't seem to take effect soon enough to get parsed
 	 * as a blank page.
 	 */
-	public static function storeValuesForPage( $title, $createReplacement, $storeCategories, $setToBlank = false ) {
+	public static function storeValuesForPage( $title, $createReplacement, $storeCategories = true, $setToBlank = false ) {
 		global $wgCargoPageDataColumns;
 
 		if ( $title == null ) {
