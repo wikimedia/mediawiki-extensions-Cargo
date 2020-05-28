@@ -1956,9 +1956,10 @@ END;
 		$whereStr = implode( ' AND ', $whereStr );
 		$whereStr = str_replace( 'DAY', 'DAYOFMONTH', $whereStr );
 		$joinOnStr = [];
+		$cdbPrefix = $cdb->tablePrefix();
 		foreach ( $joinConds as $table => $joinCond ) {
 			$joinCondStr = str_replace( '`', '', $joinCond[1] );
-			$joinCondStr = str_replace( 'cargo__', '', $joinCondStr );
+			$joinCondStr = str_replace( $cdbPrefix, '', $joinCondStr );
 			$joinOnStr[] = $joinCondStr;
 		}
 		$joinOnStr = implode( ',', $joinOnStr );

@@ -324,6 +324,7 @@
 		"CargoDBname": null,
 		"CargoDBuser": null,
 		"CargoDBpassword": null,
+		"CargoDBprefix": null,
 		"CargoDBRowFormat": null,
 		"CargoDefaultStringBytes": 300,
 		"CargoDefaultQueryLimit": 100,

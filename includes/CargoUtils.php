@@ -20,7 +20,8 @@ class CargoUtils {
 	 * @global string $wgCargoDBserver
 	 * @global string $wgCargoDBname
 	 * @global string $wgCargoDBuser
-	 * @global string $wgCargoDBpassword
+	 * @global string $wgCargoDBpasswordd
+	 * @global string $wgCargoDBprefix
 	 * @global string $wgCargoDBtype
 	 * @return Database or DatabaseBase
 	 */
@@ -30,7 +31,7 @@ class CargoUtils {
 		}
 
 		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
-		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBtype;
+		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype;
 
 		$dbr = wfGetDB( DB_REPLICA );
 		$server = $dbr->getServer();
@@ -63,7 +64,11 @@ class CargoUtils {
 			$dbPassword = $wgDBpassword;
 		}
 
-		$dbTablePrefix = $wgDBprefix . 'cargo__';
+		if ( $wgCargoDBprefix !== null ) {
+			$dbTablePrefix = $wgCargoDBprefix;
+		} else {
+			$dbTablePrefix = $wgDBprefix . 'cargo__';
+		}
 
 		$params = [
 			'host' => $dbServer,
