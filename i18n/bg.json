@@ -3,6 +3,7 @@
 		"authors": [
 			"Nemo bis",
 			"StanProg",
+			"Ted Masters",
 			"Vlad5250"
 		]
 	},
@@ -60,7 +61,7 @@
 	"cargo-cargotables-tablestructure": "Структура на таблицата:",
 	"cargo-cargotables-listof": "Списък на $1",
 	"cargo-cargotables-totalrows": "Тази таблица има общо '''$1''' {{PLURAL:$1|ред|реда}}.",
-	"cargo-cargotables-replacementgenerated": "Генерирана е таблица за замяна за тази таблица",
+	"cargo-cargotables-replacementgenerated": "Създадена е заменяща таблица за тази таблица",
 	"cargo-cargotables-switch": "Преминаване към употреба на тази таблица.",
 	"cargo-recreatedata-createreplacement": "Пресъздаване на данните в таблица за замяна, запазвайки старата за изпълняване на заявки",
 	"cargo-cargotables-hasreplacement": "Тази таблица в момента не може да се редактира, докато не се генерира заменяща таблица.",
