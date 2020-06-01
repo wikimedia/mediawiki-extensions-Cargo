@@ -1,6 +1,6 @@
 <?php
 
-class CargoUtilsTest extends MediaWikiTestCase {
+class CargoUtilsTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @covers CargoUtils::smartSplit

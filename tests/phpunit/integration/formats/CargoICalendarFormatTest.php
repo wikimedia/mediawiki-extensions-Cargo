@@ -6,7 +6,7 @@
 /**
  * Tests for the iCalendar format.
  */
-class CargoICalendarFormatTest extends MediaWikiTestCase {
+class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		// Set useless article path, for easier URL testing.
