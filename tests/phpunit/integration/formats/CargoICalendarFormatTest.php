@@ -84,7 +84,10 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 	 * @covers CargoICalendarFormat::getEvent
 	 * @dataProvider provideGetEvent
 	 */
-	public function testGetEvent( $dbRow, $icalLines ) {
+	public function testGetEvent( $dbRow, $icalLines, $localtimezone = null ) {
+		if ( $localtimezone ) {
+			$this->setMwGlobals( 'wgLocaltimezone', $localtimezone );
+		}
 		$format = new CargoICalendarFormat( $this->createMock( OutputPage::class ) );
 		static::assertSame( $icalLines, $format->getEvent( $dbRow ) );
 	}
@@ -126,6 +129,23 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 					'DESCRIPTION;LANGUAGE=en:Foo bar\; lorem\, and: escaped\ncharacters.',
 					'END:VEVENT',
 				]
+			],
+			'different wiki timezone' => [
+				[
+					'_pageName' => 'Lorem ipsum',
+					'start' => '2020-01-02 23:04:05',
+					'_modificationDate' => '2020-01-02 03:04:05',
+				],
+				[
+					'BEGIN:VEVENT',
+					'UID:cargotest/Special:Redirect/page/0',
+					'DTSTAMP:20200102T030405Z',
+					'SUMMARY;LANGUAGE=en:Lorem ipsum',
+					// 2020-01-02 in Melbourne was +1100
+					'DTSTART:20200102T120405Z',
+					'END:VEVENT',
+				],
+				'Australia/Melbourne',
 			],
 		];
 	}

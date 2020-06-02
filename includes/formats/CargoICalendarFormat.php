@@ -4,6 +4,8 @@
  * @file
  */
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Handle the iCalendar export format.
  * @since 2.6
@@ -97,11 +99,16 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 		$pageId = isset( $result['_pageID'] ) ? $result['_pageID'] : $page->getId();
 		$permalink = SpecialPage::getTitleFor( 'Redirect', 'page/' . $pageId, $result['_ID'] ?? '' );
 		$uid = $permalink->getCanonicalURL();
-		$start = wfTimestamp( TS_ISO_8601_BASIC, $result['start'] );
+		// Page values are stored in the wiki's timezone.
+		$wikiTimezone = MediaWikiServices::getInstance()->getMainConfig()->get( 'Localtimezone' );
+		$startDateTime = new DateTime( $result['start'], new DateTimeZone( $wikiTimezone ) );
+		$start = wfTimestamp( TS_ISO_8601_BASIC, $startDateTime->getTimestamp() );
 		$end = false;
 		if ( isset( $result['end'] ) && $result['end'] ) {
-			$end = wfTimestamp( TS_ISO_8601_BASIC, $result['end'] );
+			$endDateTime = new DateTime( $result['end'], new DateTimeZone( $wikiTimezone ) );
+			$end = wfTimestamp( TS_ISO_8601_BASIC, $endDateTime->getTimestamp() );
 		}
+		// Modification date is stored in UTC.
 		$dtstamp = isset( $result['_modificationDate'] )
 			? wfTimestamp( TS_ISO_8601_BASIC, $result['_modificationDate'] )
 			: MWTimestamp::convert( TS_ISO_8601_BASIC, $page->getTimestamp() );
