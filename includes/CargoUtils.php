@@ -309,7 +309,7 @@ class CargoUtils {
 	 * @return string[] Array of substrings (with or without blank values).
 	 * @throws MWException On unmatched quotes or incomplete escape sequences.
 	 */
-	static function smartSplit( $delimiter, $string, $includeBlankValues = false ) {
+	public static function smartSplit( $delimiter, $string, $includeBlankValues = false ) {
 		if ( $string == '' ) {
 			return [];
 		}
