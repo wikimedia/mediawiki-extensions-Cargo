@@ -1251,7 +1251,7 @@ class CargoUtils {
 	}
 
 	/**
-	 * Get the wiki's content langauge.
+	 * Get the wiki's content language.
 	 * This is a wrapper to maintain backwards-compatibility for MediaWiki 1.31 and earlier.
 	 * @since 2.6
 	 * @return Language
