@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	public function setUp() : void {
 		$this->setMwGlobals(
@@ -54,5 +56,36 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 		$actual = CargoUtils::getContentLang();
 
 		$this->assertInstanceOf( Language::class, $actual );
+	}
+
+	/**
+	 * @covers CargoUtils::makeLink
+	 * @dataProvider provideMakeLinkData
+	 */
+	public function testMakeLink(
+		$linkRenderer,
+		$title,
+		$msg,
+		$attr,
+		$params,
+		$expected
+	) {
+		$actual = CargoUtils::makeLink( $linkRenderer, $title, $msg, $attr, $params );
+
+		$this->assertSame( $expected, $actual );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provideMakeLinkData() {
+		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+		$title = Title::newFromText( 'Test' );
+		return [
+			[ null, null, null, [], [], null ],
+			[ null, null, '', [], [], null ],
+			[ null, $title, null, [], [], '<a href="/index.php/Test" title="Test">Test</a>' ],
+			[ $linkRenderer, $title, null, [], [], '<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Test</a>' ],
+		];
 	}
 }
