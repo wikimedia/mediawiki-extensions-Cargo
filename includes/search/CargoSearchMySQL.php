@@ -119,6 +119,11 @@ class CargoSearchMySQL extends SearchMySQL {
 		];
 	}
 
+	/**
+	 * @param string $string
+	 * @param bool $wildcard
+	 * @return string
+	 */
 	public function regexTerm( $string, $wildcard ) {
 		$regex = preg_quote( $string, '/' );
 		$contLang = CargoUtils::getContentLang();
