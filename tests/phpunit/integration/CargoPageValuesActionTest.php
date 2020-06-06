@@ -20,7 +20,7 @@ class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 	 * @param Title $title
 	 * @return BaseTemplate
 	 */
-	private function getBaseTemplate( Title $title ) {
+	private function getSkin( Title $title ) {
 		$skin = $this->getMockBuilder( Skin::class )
 			->onlyMethods( [ 'getTitle' ] )
 			->getMockForAbstractClass();
@@ -28,13 +28,7 @@ class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 			->method( 'getTitle' )
 			->willReturn( $title );
 
-		$baseTemplate = $this->getMockBuilder( BaseTemplate::class )
-			->onlyMethods( [ 'getSkin' ] )
-			->getMockForAbstractClass();
-		$baseTemplate->expects( $this->once() )
-			->method( 'getSkin' )
-			->willReturn( $skin );
-		return $baseTemplate;
+		return $skin;
 	}
 
 	/**
@@ -42,13 +36,13 @@ class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideTitle
 	 */
 	public function testAddLink( $title ) {
-		$toolbox = [];
+		$sidebar = [];
 		$actual = CargoPageValuesAction::addLink(
-			$this->getBaseTemplate( $title ),
-			$toolbox
+			$this->getSkin( $title ),
+			$sidebar
 		);
 
-		$this->assertTrue( $actual );
+		// @TODO - need a good check here
 	}
 
 	/** @return array */

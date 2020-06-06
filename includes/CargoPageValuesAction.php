@@ -29,26 +29,24 @@ class CargoPageValuesAction extends Action {
 	/**
 	 * Add the "Page values" link to the toolbox.
 	 *
-	 * @param BaseTemplate $skinTemplate
-	 * @param array &$toolbox
-	 * @return bool
+	 * @param Skin $skin
+	 * @param array &$sidebar
+	 * @return bool|void
 	 */
-	public static function addLink( BaseTemplate $skinTemplate, array &$toolbox ) {
-		$title = $skinTemplate->getSkin()->getTitle();
+	public static function addLink( Skin $skin, array &$sidebar ) {
+		$title = $skin->getTitle();
 		// This function doesn't usually get called for special pages,
 		// but sometimes it is.
 		if ( $title->isSpecialPage() ) {
-			return true;
+			return false;
 		}
 
-		$toolbox['cargo-pagevalues'] = [
+		$sidebar['TOOLBOX']['cargo-pagevalues'] = [
 			'msg' => 'pagevalues',
 			'href' => $title->getLocalUrl( [ 'action' => 'pagevalues' ] ),
 			'id' => 't-cargopagevalueslink',
 			'rel' => 'cargo-pagevalues'
 		];
-
-		return true;
 	}
 
 }
