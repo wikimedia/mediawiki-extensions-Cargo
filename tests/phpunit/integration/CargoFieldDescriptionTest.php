@@ -126,4 +126,38 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 		$actual = $this->cargoFieldDescription->getFieldSize();
 		$this->assertSame( 500, $actual );
 	}
+
+	/**
+	 * @covers CargoFieldDescription::toDBArray
+	 */
+	public function testToDBArray() {
+		$this->cargoFieldDescription->mType = 'String';
+		$this->cargoFieldDescription->mSize = 40;
+		$this->cargoFieldDescription->mDependentOn = [ 'nothing' ];
+		$this->cargoFieldDescription->mIsList = true;
+		$this->cargoFieldDescription->setDelimiter( '\n' );
+		$this->cargoFieldDescription->mAllowedValues = [ 'nothing' ];
+		$this->cargoFieldDescription->mIsMandatory = true;
+		$this->cargoFieldDescription->mIsUnique = true;
+		$this->cargoFieldDescription->mRegex = 'regex';
+		$this->cargoFieldDescription->mIsHidden = true;
+		$this->cargoFieldDescription->mIsHierarchy = true;
+		$this->cargoFieldDescription->mOtherParams['extra'] = 'nothing';
+
+		$fieldDescArray = $this->cargoFieldDescription->toDBArray();
+		$this->assertIsArray( $fieldDescArray );
+		$this->assertArrayHasKey( 'type', $fieldDescArray );
+		$this->assertArrayHasKey( 'size', $fieldDescArray );
+		$this->assertArrayHasKey( 'dependent on', $fieldDescArray );
+		$this->assertArrayHasKey( 'isList', $fieldDescArray );
+		$this->assertArrayHasKey( 'delimiter', $fieldDescArray );
+		$this->assertArrayHasKey( 'allowedValues', $fieldDescArray );
+		$this->assertArrayHasKey( 'mandatory', $fieldDescArray );
+		$this->assertArrayHasKey( 'unique', $fieldDescArray );
+		$this->assertArrayHasKey( 'regex', $fieldDescArray );
+		$this->assertArrayHasKey( 'hidden', $fieldDescArray );
+		$this->assertArrayHasKey( 'hierarchy', $fieldDescArray );
+		$this->assertArrayHasKey( 'hierarchyStructure', $fieldDescArray );
+		$this->assertArrayHasKey( 'extra', $fieldDescArray );
+	}
 }
