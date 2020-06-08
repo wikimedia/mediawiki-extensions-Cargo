@@ -190,7 +190,7 @@ class CargoFieldDescription {
 			return null;
 		} elseif ( in_array( $this->mType, [ 'Integer', 'Float', 'Rating', 'Boolean', 'Text', 'Wikitext', 'Searchtext' ] ) ) {
 			return null;
-		// This leavs String, Page, etc. - see CargoUtils::fieldTypeToSQLType().
+		// This leaves String, Page, etc. - see CargoUtils::fieldTypeToSQLType().
 		} elseif ( $this->mSize != null ) {
 			return $this->mSize;
 		} else {
