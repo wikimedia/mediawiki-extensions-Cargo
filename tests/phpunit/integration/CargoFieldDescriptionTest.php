@@ -17,7 +17,19 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 		$this->assertInstanceOf( CargoFieldDescription::class, $actual );
 		$this->assertSame( 'String', $actual->mType );
 		$this->assertSame( 100, $actual->mSize );
+		$this->assertIsArray( $actual->mDependentOn );
+		$this->assertTrue( $actual->mIsList );
+		$this->assertSame(
+			"Something\nto delimit",
+			$actual->getDelimiter()
+		);
+		$this->assertIsArray( $actual->mAllowedValues );
+		$this->assertTrue( $actual->mIsMandatory );
 		$this->assertTrue( $actual->mIsUnique );
+		$this->assertSame( 'regex', $actual->mRegex );
+		$this->assertTrue( $actual->mIsHidden );
+		$this->assertTrue( $actual->mIsHierarchy );
+		$this->assertIsArray( $actual->mHierarchyStructure );
 		$this->assertSame( 'Nothing', $actual->mOtherParams['extra'] );
 	}
 
@@ -28,7 +40,16 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 				[
 					'type' => 'String',
 					'size' => 100,
-					'unique' => '',
+					'dependent on' => [],
+					'isList' => true,
+					'delimiter' => 'Something\nto delimit',
+					'allowedValues' => [],
+					'mandatory' => true,
+					'unique' => true,
+					'regex' => 'regex',
+					'hidden' => true,
+					'hierarchy' => true,
+					'hierarchyStructure' => [],
 					'extra' => 'Nothing'
 				]
 			],
