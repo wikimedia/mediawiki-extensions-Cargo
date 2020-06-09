@@ -8,6 +8,26 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/**
+	 * @covers CargoFieldDescription::newFromString
+	 */
+	public function testNewFromStringReturnNull() {
+		$actual = CargoFieldDescription::newFromString( 'list' );
+		$this->assertNull( $actual );
+	}
+
+	/**
+	 * @covers CargoFieldDescription::newFromString
+	 */
+	public function testNewFromString() {
+		$fieldDescStr = "{{#cargo_declare:_table=Test|Name=String (size=10;dependent on=size;delimiter=\;allowed values=*One**Oneone;mandatory;unique;regex=xxx;hidden;hierarchy;)}}";
+
+		$actual = CargoFieldDescription::newFromString( $fieldDescStr );
+		$this->assertInstanceOf(
+			CargoFieldDescription::class, $actual
+		);
+	}
+
+	/**
 	 * @covers CargoFieldDescription::newFromDBArray
 	 * @dataProvider provideDescriptionData
 	 */

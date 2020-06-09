@@ -26,7 +26,7 @@ class CargoFieldDescription {
 	 * Initializes from a string within the #cargo_declare function.
 	 *
 	 * @param string $fieldDescriptionStr
-	 * @return \CargoFieldDescription
+	 * @return \CargoFieldDescription|null
 	 */
 	static function newFromString( $fieldDescriptionStr ) {
 		$fieldDescription = new CargoFieldDescription();
