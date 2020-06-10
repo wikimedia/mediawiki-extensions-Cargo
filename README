@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 2.5
+        Version 2.6
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -73,8 +73,9 @@ Substantial improvements to the Special:CargoQuery page were done by
 Ankita Mandal as part of the 2019 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
-Cody3647, Duncan Crane, Ed Hoo, IijimaYun, Namit Ohri, Paladox,
-Priyanshu Varshney, Tomás Bolaño, Sam Wilson, Vivek Ghaisas and others.
+Cody3647, Derick Alangi, Duncan Crane, Ed Hoo, IijimaYun, Namit Ohri,
+Paladox, Priyanshu Varshney, Tomás Bolaño, Sahaj Khandelwal, Sam
+Wilson, Vivek Ghaisas and others.
 
 == Contact ==
 
