@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * Static functions for dealing with the "_pageData" table.
  *
@@ -70,8 +72,15 @@ class CargoPageData {
 	 * for "blank if unapproved" with the Approved Revs extension, because
 	 * that setting doesn't seem to take effect soon enough to get parsed
 	 * as a blank page.
+	 *
+	 * @param Title $title
+	 * @param bool $createReplacement
+	 * @param bool $storeCategories
+	 * @param bool $setToBlank
 	 */
-	public static function storeValuesForPage( $title, $createReplacement, $storeCategories = true, $setToBlank = false ) {
+	public static function storeValuesForPage(
+		Title $title, $createReplacement, $storeCategories = true, $setToBlank = false
+	) {
 		global $wgCargoPageDataColumns;
 
 		if ( $title == null ) {
@@ -92,7 +101,13 @@ class CargoPageData {
 		$pageDataValues = [];
 
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
-			$firstRevision = $title->getFirstRevision();
+			if ( method_exists( MediaWikiServices::getInstance(), 'getRevisionLookup' ) ) {
+				// For MW >= 1.31
+				$firstRevision = MediaWikiServices::getInstance()->getRevisionLookup()->getFirstRevision( $title );
+			} else {
+				// Backwards-compatibility for MW < 1.31
+				$firstRevision = $title->getFirstRevision();
+			}
 			if ( $firstRevision == null ) {
 				// This can sometimes happen.
 				$pageDataValues['_creationDate'] = null;
