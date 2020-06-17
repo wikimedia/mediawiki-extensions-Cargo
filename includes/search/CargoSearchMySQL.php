@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
+
 /**
  * We need to create subclasses, instead of just calling the functionality,
  * because both filter() and, more importantly, $searchTerms are currently
@@ -10,6 +12,16 @@
  * copied over here (but declared as public).
  */
 class CargoSearchMySQL extends SearchMySQL {
+
+	function __construct() {
+		if ( property_exists( 'SearchMySQL', 'lb' ) ) {
+			// MW 1.34+
+			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+			parent::__construct( $lb );
+		} else {
+			parent::__construct();
+		}
+	}
 
 	function getSearchTerms( $searchString ) {
 		$filteredTerm = $this->filter( $searchString );
