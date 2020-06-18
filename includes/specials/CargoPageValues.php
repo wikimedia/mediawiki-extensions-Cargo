@@ -72,7 +72,13 @@ class CargoPageValues extends IncludableSpecialPage {
 
 			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
 			$tableSectionAnchor = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->escaped();
-			$tableSectionAnchor = Sanitizer::escapeId( $tableSectionAnchor, 'noninitial' );
+			if ( method_exists( Sanitizer::class, 'escapeIdForAttribute' ) ) {
+				// For MW >= 1.30
+				$tableSectionAnchor = Sanitizer::escapeIdForAttribute( $tableSectionAnchor );
+			} else {
+				// Backwards compatibility for MW < 1.30
+				$tableSectionAnchor = Sanitizer::escapeId( $tableSectionAnchor, 'noninitial' );
+			}
 
 			// We construct the table of contents at the same time
 			// as the main text.
