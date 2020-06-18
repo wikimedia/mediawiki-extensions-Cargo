@@ -101,11 +101,10 @@ class CargoPageData {
 		$pageDataValues = [];
 
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
-			if ( method_exists( MediaWikiServices::getInstance(), 'getRevisionLookup' ) ) {
-				// For MW >= 1.31
+			if ( method_exists( 'RevisionLookup', 'getFirstRevision' ) ) {
+				// MW >= 1.35
 				$firstRevision = MediaWikiServices::getInstance()->getRevisionLookup()->getFirstRevision( $title );
 			} else {
-				// Backwards-compatibility for MW < 1.31
 				$firstRevision = $title->getFirstRevision();
 			}
 			if ( $firstRevision == null ) {
