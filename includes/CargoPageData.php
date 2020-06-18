@@ -101,7 +101,7 @@ class CargoPageData {
 		$pageDataValues = [];
 
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
-			if ( method_exists( 'RevisionLookup', 'getFirstRevision' ) ) {
+			if ( method_exists( 'MediaWiki\Revision\RevisionLookup', 'getFirstRevision' ) ) {
 				// MW >= 1.35
 				$firstRevision = MediaWikiServices::getInstance()->getRevisionLookup()->getFirstRevision( $title );
 			} else {
