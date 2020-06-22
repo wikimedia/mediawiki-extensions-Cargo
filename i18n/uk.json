@@ -141,6 +141,7 @@
 	"cargo-viewxls": "Переглянути XLS",
 	"cargo-viewjson": "Див. JSON",
 	"cargo-viewbibtex": "Переглянути BibTeX",
+	"cargo-viewicalendar": "Переглянути iCalendar",
 	"cargo-dynamictables-togglecolumns": "Перемкнути стовпці:",
 	"cargo-dynamictables-searchcolumn": "Пошук у $1",
 	"cargo-purgecache": "Очистити кеш",
