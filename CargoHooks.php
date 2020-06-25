@@ -72,6 +72,9 @@ class CargoHooks {
 			];
 		}
 
+		$drilldownDependencies[] = 'ext.cargo.main';
+		$cargoQueryDependencies[] = 'ext.cargo.main';
+
 		$resourceLoader->register( [
 			"ext.cargo.drilldown" => [
 				'localBasePath' => $cargoDir,
