@@ -67,7 +67,7 @@
 	"cargo-cargotables-hasreplacement": "Тази таблица в момента не може да се редактира, докато не се генерира заменяща таблица.",
 	"deletecargotable": "Изтриване на таблица",
 	"cargo-deletetable-confirm": "Да изтрия ли таблица $1?",
-	"cargo-deletetable-replacementconfirm": "Да изтрия ли [$1 таблицата за замяна], за Карго таблица $2?",
+	"cargo-deletetable-replacementconfirm": "Да изтрия ли [$1 таблицата за замяна], за Карго таблица $2? Това няма да засегне таблицата на живо.",
 	"cargo-deletetable-success": "Таблица „$1“ е изтрита.",
 	"switchcargotable": "Преминаване към Карго таблица за замяна",
 	"cargo-switchtables-confirm": "Прехвърляне към Карго таблица за замяна $1?",
