@@ -306,7 +306,6 @@
 			"CargoRecreateDataAction::displayTab",
 			"CargoHooks::addPurgeCacheTab"
 		],
-		"SidebarBeforeOutput": "CargoPageValuesAction::addLink",
 		"PageForms::TemplateFieldStart": "CargoHooks::addTemplateFieldStart",
 		"PageForms::TemplateFieldEnd": "CargoHooks::addTemplateFieldEnd",
 		"AdminLinks": "CargoHooks::addToAdminLinks",

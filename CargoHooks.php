@@ -9,7 +9,7 @@
 class CargoHooks {
 
 	public static function registerExtension() {
-		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes;
+		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgHooks;
 
 		define( 'CARGO_VERSION', '2.6' );
 
@@ -21,6 +21,14 @@ class CargoHooks {
 			'Datetime', 'Boolean', 'Coordinates', 'Wikitext',
 			'Searchtext', 'File', 'URL', 'Email', 'Rating'
 		];
+
+		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
+			// MW 1.35+
+			$wgHooks['SidebarBeforeOutput'][] = "CargoPageValuesAction::addLink";
+		} else {
+			// MW < 1.35
+			$wgHooks['BaseTemplateToolbox'][] = "CargoPageValuesAction::addLinkOld";
+		}
 	}
 
 	public static function registerParserFunctions( &$parser ) {
