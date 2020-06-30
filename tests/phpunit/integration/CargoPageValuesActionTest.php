@@ -43,7 +43,7 @@ class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 		);
 
 		if ( $title->getNamespace() == NS_SPECIAL ) {
-			$this->assertFalse( $result );
+			$this->assertNull( $result );
 			$this->assertCount( 0, $sidebar );
 		} else {
 			$this->assertNull( $result );

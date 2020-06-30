@@ -69,14 +69,14 @@ class CargoPageValuesAction extends Action {
 	 *
 	 * @param Skin $skin
 	 * @param array &$sidebar
-	 * @return bool|void
+	 * @return void
 	 */
 	public static function addLink( Skin $skin, array &$sidebar ) {
 		$title = $skin->getTitle();
 		// This function doesn't usually get called for special pages,
 		// but sometimes it is.
 		if ( $title->isSpecialPage() ) {
-			return false;
+			return;
 		}
 
 		$sidebar['TOOLBOX']['cargo-pagevalues'] =
