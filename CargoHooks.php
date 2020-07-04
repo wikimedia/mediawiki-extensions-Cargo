@@ -1,5 +1,9 @@
 <?php
 
+use MediaWiki\Revision\RevisionStoreRecord;
+use MediaWiki\Revision\SlotRecord;
+use MediaWiki\Storage\EditResult;
+
 /**
  * CargoHooks class
  *
@@ -25,9 +29,11 @@ class CargoHooks {
 		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
 			// MW 1.35+
 			$wgHooks['SidebarBeforeOutput'][] = "CargoPageValuesAction::addLink";
+			$wgHooks['PageSaveComplete'][] = "CargoHooks::onPageSaveComplete";
 		} else {
 			// MW < 1.35
 			$wgHooks['BaseTemplateToolbox'][] = "CargoPageValuesAction::addLinkOld";
+			$wgHooks['PageContentSaveComplete'][] = "CargoHooks::onPageContentSaveComplete";
 		}
 	}
 
@@ -279,8 +285,16 @@ class CargoHooks {
 	 * @return bool
 	 */
 	public static function onPageContentSaveComplete(
-		WikiPage $wikiPage, $user, $content, $summary, $isMinor,
-		$isWatch, $section, $flags, $status ) {
+		WikiPage $wikiPage,
+		$user,
+		$content,
+		$summary,
+		$isMinor,
+		$isWatch,
+		$section,
+		$flags,
+		$status
+	) {
 		// First, delete the existing data.
 		$pageID = $wikiPage->getID();
 		self::deletePageFromSystem( $pageID );
@@ -292,6 +306,51 @@ class CargoHooks {
 		// added to remain set.
 		CargoStore::$settings['origin'] = 'page save';
 		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getNativeData() );
+
+		// Also, save the "page data" and (if appropriate) "file data".
+		$cdb = CargoUtils::getDB();
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable, false );
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		CargoFileData::storeValuesForFile( $wikiPage->getTitle(), $useReplacementTable );
+
+		return true;
+	}
+
+	/**
+	 * Called by the MediaWiki 'PageSaveComplete' hook.
+	 *
+	 * @param WikiPage $wikiPage
+	 * @param User $user
+	 * @param string $summary
+	 * @param int $flags
+	 * @param RevisionStoreRecord $revisionRecord
+	 * @param EditResult $editResult
+	 *
+	 * @return bool true
+	 */
+	public static function onPageSaveComplete(
+		WikiPage $wikiPage,
+		User $user,
+		string $summary,
+		int $flags,
+		RevisionStoreRecord $revisionRecord,
+		EditResult $editResult
+	) {
+		// First, delete the existing data.
+		$pageID = $wikiPage->getID();
+		self::deletePageFromSystem( $pageID );
+
+		// Now parse the page again, so that #cargo_store will be
+		// called.
+		// Even though the page will get parsed again after the save,
+		// we need to parse it here anyway, for the settings we
+		// added to remain set.
+		CargoStore::$settings['origin'] = 'page save';
+		CargoUtils::parsePageForStorage(
+			$wikiPage->getTitle(),
+			$revisionRecord->getContent( SlotRecord::MAIN )->getNativeData()
+		);
 
 		// Also, save the "page data" and (if appropriate) "file data".
 		$cdb = CargoUtils::getDB();

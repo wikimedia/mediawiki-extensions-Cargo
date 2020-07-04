@@ -291,7 +291,6 @@
 	"Hooks": {
 		"ParserFirstCallInit": "CargoHooks::registerParserFunctions",
 		"MakeGlobalVariablesScript": "CargoHooks::setGlobalJSVariables",
-		"PageContentSaveComplete": "CargoHooks::onPageContentSaveComplete",
 		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
