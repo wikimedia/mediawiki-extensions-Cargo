@@ -75,6 +75,14 @@ class CargoDeclare {
 		'holds', 'matches', 'near', 'within'
 	];
 
+	/**
+	 * FIXME: Should this throw an exception instead? This will
+	 * enhance the method to be better tested.
+	 *
+	 * @param string $name The name of the table or field
+	 * @param string $type The type of the field provided
+	 * @return string|null
+	 */
 	public static function validateFieldOrTableName( $name, $type ) {
 		if ( preg_match( '/\s/', $name ) ) {
 			return "Error: $type name \"$name\" contains whitespaces. Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead.";
