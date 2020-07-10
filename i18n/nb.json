@@ -136,6 +136,7 @@
 	"cargo-viewxls": "Se XLS",
 	"cargo-viewjson": "Vis JSON",
 	"cargo-viewbibtex": "Med BibTeX",
+	"cargo-viewicalendar": "Vis iCalendar",
 	"cargo-dynamictables-togglecolumns": "Vis/skjul kolonner:",
 	"cargo-dynamictables-searchcolumn": "Søk i $1",
 	"cargo-purgecache": "Tøm mellomlager",
