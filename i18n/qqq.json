@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"BaRaN6161 TURK",
 			"Liuxinyu970226",
 			"Raymond",
 			"Robby",
@@ -54,7 +55,7 @@
 	"cargo-viewdata-orderbytooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Order By info icon.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
 	"cargo-viewdata-limittooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Limit info icon.",
-	"cargo-viewdata-offset": "Label in a form to set the equivalent of an SQL 'OFFSET' clause.\n{{Identical|Offset}}",
+	"cargo-viewdata-offset": "Label in a form to set the equivalent of an SQL 'OFFSET' clause.",
 	"cargo-viewdata-offsettooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Offset info icon.",
 	"cargo-viewdata-format": "Label in a form to set the display format for query results.\n{{Identical|Format}}",
 	"cargo-viewdata-formattooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Format info icon.",
@@ -122,7 +123,7 @@
 	"cargo-drilldown-removefilter": "This is the content of a tooltip on [[Special:Drilldown]] when you hover your mouse over a filter currently in use.",
 	"cargo-drilldown-resetfilters": "This is the content of a tooltip on [[Special:Drilldown]] when you hover your mouse over the name of a table.",
 	"cargo-drilldown-hierarchy-within": "The label for applied filter to indicate a search within the tree from the node specified\n{{Identical|Within}}",
-	"cargo-drilldown-hierarchy-only": "The label for filter values to indicate an exact search\n{{Identical|Only}}",
+	"cargo-drilldown-hierarchy-only": "The label for filter values to indicate an exact search.",
 	"cargo-drilldown-addanothervalue": "This is an informational message providing help for the usage of [[Special:Drilldown]].",
 	"cargo-drilldown-othervalues": "The label for ComboBoxInput and TextBoxInput",
 	"cargo-drilldown-novalues": "This is an informational message on [[Special:Drildown]].",
