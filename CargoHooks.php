@@ -1,8 +1,6 @@
 <?php
 
-use MediaWiki\Revision\RevisionStoreRecord;
 use MediaWiki\Revision\SlotRecord;
-use MediaWiki\Storage\EditResult;
 
 /**
  * CargoHooks class
@@ -321,21 +319,21 @@ class CargoHooks {
 	 * Called by the MediaWiki 'PageSaveComplete' hook.
 	 *
 	 * @param WikiPage $wikiPage
-	 * @param User $user
+	 * @param UserIdentity $user
 	 * @param string $summary
 	 * @param int $flags
-	 * @param RevisionStoreRecord $revisionRecord
+	 * @param RevisionRecord $revisionRecord
 	 * @param EditResult $editResult
 	 *
 	 * @return bool true
 	 */
 	public static function onPageSaveComplete(
 		WikiPage $wikiPage,
-		User $user,
+		MediaWiki\User\UserIdentity $user,
 		string $summary,
 		int $flags,
-		RevisionStoreRecord $revisionRecord,
-		EditResult $editResult
+		MediaWiki\Revision\RevisionRecord $revisionRecord,
+		MediaWiki\Storage\EditResult $editResult
 	) {
 		// First, delete the existing data.
 		$pageID = $wikiPage->getID();
