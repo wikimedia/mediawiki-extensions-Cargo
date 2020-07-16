@@ -23,6 +23,8 @@
 		"no-undef": "off",
 		"no-unused-vars": "off",
 		"no-useless-escape": "off",
-		"vars-on-top": "off"
+		"vars-on-top": "off",
+		"array-callback-return": "warn",
+		"es/no-object-assign": "warn"
 	}
 }
