@@ -23,6 +23,7 @@
 	"cargo-cargotables-action-deletereplacement": "Slet",
 	"cargo-cargotables-action-delete": "Slet",
 	"cargo-cargotables-action-recreate": "Genopret",
+	"cargo-cargotables-listof": "Liste over $1",
 	"cargo-deletetable-success": "Tabellen \"$1\" er blevet slettet.",
 	"cargo-drilldown-allpages": "Alle sider",
 	"cargo-drilldown-allfiles": "Alle filer",
