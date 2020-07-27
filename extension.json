@@ -85,6 +85,8 @@
 		"CargoQueryDisplayer": "includes/CargoQueryDisplayer.php",
 		"CargoPageData": "includes/CargoPageData.php",
 		"CargoFileData": "includes/CargoFileData.php",
+		"CargoBPMNData": "includes/CargoBPMNData.php",
+		"CargoGanttData": "includes/CargoGanttData.php",
 		"CargoRecurringEvent": "includes/parserfunctions/CargoRecurringEvent.php",
 		"CargoDisplayMap": "includes/parserfunctions/CargoDisplayMap.php",
 		"CargoPopulateTableJob": "includes/CargoPopulateTableJob.php",
