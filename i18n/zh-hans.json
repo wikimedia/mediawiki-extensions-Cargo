@@ -8,7 +8,8 @@
 			"Nemo bis",
 			"Phenolla",
 			"Yfdyh000",
-			"佛壁灯"
+			"佛壁灯",
+			"列维劳德"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -76,7 +77,7 @@
 	"cargo-cargotables-hasreplacement": "此表格目前为只读状态，不过用于它的替换表格也已生成。",
 	"deletecargotable": "删除Cargo表格",
 	"cargo-deletetable-confirm": "删除Cargo表格$1么？",
-	"cargo-deletetable-replacementconfirm": "删除用于Cargo表格$2的[$1 替换表格]么？",
+	"cargo-deletetable-replacementconfirm": "删除用于Cargo表格$2的[$1 替换表格]么？这不会影响 live 表格。",
 	"cargo-deletetable-success": "表格“$1”已删除。",
 	"switchcargotable": "在替换Cargo表格中切换",
 	"cargo-switchtables-confirm": "切换用于Cargo表格$1的替换表格么？",
