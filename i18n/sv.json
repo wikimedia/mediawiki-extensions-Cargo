@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ainali",
 			"Jenniesarina",
 			"Jopparn",
 			"Josve05a",
@@ -62,7 +63,7 @@
 	"cargo-viewbibtex": "Visa BibTeX",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
 	"cargo-dynamictables-searchcolumn": "Sök i $1",
-	"cargo-purgecache": "Töm mellanlager",
+	"cargo-purgecache": "Töm cache",
 	"cargo-purgecache-failed": "Misslyckades att rensa cachen",
 	"specialpages-group-cargo": "Fraktgods",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
