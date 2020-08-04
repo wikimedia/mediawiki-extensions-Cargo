@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Fitoschido",
+			"Mguix",
 			"Toniher"
 		]
 	},
@@ -28,10 +29,10 @@
 	"cargo-cargotables-action-drilldown": "Detalla",
 	"cargo-cargotables-action-delete": "Suprimeix",
 	"cargo-cargotables-action-recreate": "Torna a crear",
-	"cargo-cargotables-tablelist": "S'han definit les taules següents:",
+	"cargo-cargotables-tablelist": "S'han definit les taules següents:\n{{PLURAl:$1|La taula següent està definida|Les taules següents estan definides}} :",
 	"cargo-cargotables-viewtable": "Mostra la taula: $1",
 	"cargo-cargotables-viewtablelink": "Mostra la taula",
-	"cargo-cargotables-notdeclared": "no definit per cap plantilla",
+	"cargo-cargotables-notdeclared": "No definit per cap plantilla",
 	"cargo-cargotables-replacementlink": "Taula de substitucions",
 	"cargo-cargotables-totalrows": "La taula té un total de $1 files.",
 	"deletecargotable": "Elimina la taula de Cargo",
