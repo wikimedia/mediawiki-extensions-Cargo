@@ -306,9 +306,23 @@ class CargoFieldDescription {
 		} elseif ( $fieldType == 'Integer' ) {
 			// Remove digit-grouping character.
 			global $wgCargoDigitGroupingCharacter;
-			$newValue = str_replace( $wgCargoDigitGroupingCharacter, '', $fieldValue );
-			if ( !is_int( $newValue ) ) {
-				$newValue = round( $newValue );
+			if ( $this->mIsList ) {
+				$delimiter = $this->getDelimiter();
+				if ( $delimiter != $wgCargoDigitGroupingCharacter ) {
+					$fieldValue = str_replace( $wgCargoDigitGroupingCharacter, '', $fieldValue );
+				}
+				$individualValues = explode( $delimiter, $fieldValue );
+				foreach ( $individualValues as &$individualValue ) {
+					if ( !is_int( $individualValue ) ) {
+						$individualValue = round( $individualValue );
+					}
+				}
+				$newValue = implode( $delimiter, $individualValues );
+			} else {
+				$newValue = str_replace( $wgCargoDigitGroupingCharacter, '', $fieldValue );
+				if ( !is_int( $newValue ) ) {
+					$newValue = round( $newValue );
+				}
 			}
 		} elseif ( $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			// Remove digit-grouping character, and change
