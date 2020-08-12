@@ -130,6 +130,9 @@ class CargoFieldDescription {
 		if ( $fieldDescription->mType == 'Text' && array_key_exists( 'unique', $fieldDescription->mOtherParams ) ) {
 			throw new MWException( "'unique' is not allowed for fields of type 'Text'." );
 		}
+		if ( $fieldDescription->mType == 'Boolean' && $fieldDescription->mIsList == true ) {
+			throw new MWException( "Error: 'list' is not allowed for fields of type 'Boolean'." );
+		}
 
 		return $fieldDescription;
 	}
