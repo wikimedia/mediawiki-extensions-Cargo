@@ -297,6 +297,7 @@
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
 		"ArticleDeleteComplete": "CargoHooks::onArticleDeleteComplete",
+		"UploadComplete": "CargoHooks::onUploadComplete",
 		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
 		"CategoryAfterPageRemoved": "CargoHooks::removeCategoryFromPageData",
 		"LoadExtensionSchemaUpdates": [

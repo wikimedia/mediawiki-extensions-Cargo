@@ -482,6 +482,29 @@ class CargoHooks {
 	}
 
 	/**
+	 * Called by the MediaWiki 'UploadComplete' hook.
+	 *
+	 * Updates a file's entry in the _fileData table if it has been
+	 * uploaded or re-uploaded.
+	 *
+	 * @param Image $image
+	 * @return bool true
+	 */
+	public static function onUploadComplete( $image ) {
+		$cdb = CargoUtils::getDB();
+		if ( !$cdb->tableExists( '_fileData' ) ) {
+			return true;
+		}
+		$title = $image->getLocalFile()->getTitle();
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		$pageID = $title->getArticleID();
+		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
+		$fileDataTable = $useReplacementTable ? '_fileData__NEXT' : '_fileData';
+		$cdb->delete( $fileDataTable, $cdbPageIDCheck );
+		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
+	}
+
+	/**
 	 * Called by the MediaWiki 'CategoryAfterPageAdded' hook.
 	 *
 	 * @param Category $category
