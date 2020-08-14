@@ -7,6 +7,7 @@
 			"Liuxinyu970226",
 			"Nemo bis",
 			"Phenolla",
+			"SolidBlock",
 			"Yfdyh000",
 			"佛壁灯",
 			"列维劳德"
@@ -37,7 +38,7 @@
 	"cargo-recreatedata-createdata": "为此模板创建Cargo数据么？",
 	"cargo-recreatedata-tablecreated": "重新创建Cargo表“$1”。",
 	"cargo-recreatedata-replacementcreated": "已为Cargo表格“$1”重新创建替换表格。",
-	"cargo-recreatedata-success": "数据正在被重新创建。",
+	"cargo-recreatedata-success": "数据重新创建中。",
 	"cargo-viewdata-tables": "表格：",
 	"cargo-viewdata-fields": "字段：",
 	"cargo-viewdata-where": "地点：",
