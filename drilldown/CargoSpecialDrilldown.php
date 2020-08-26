@@ -21,7 +21,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		parent::__construct( 'Drilldown', 'runcargoqueries' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		global $cgScriptPath, $wgCargoPageDataColumns;
 		global $wgCargoFileDataColumns;
 

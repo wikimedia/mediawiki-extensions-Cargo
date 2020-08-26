@@ -20,7 +20,7 @@ class CargoCategoryFormat extends CargoListFormat {
 	 * @param array $displayParams
 	 * @return string
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$contLang = CargoUtils::getContentLang();
 
 		if ( array_key_exists( 'columns', $displayParams ) && $displayParams['columns'] != '' ) {

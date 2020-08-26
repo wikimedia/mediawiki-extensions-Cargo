@@ -24,11 +24,11 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 * @param string $p
 	 * @return string
 	 */
-	function prependDot( $p ) {
+	private function prependDot( $p ) {
 		return '.' . trim( $p );
 	}
 
-	function createMap( $sqlQueries ) {
+	private function createMap( $sqlQueries ) {
 		$maps_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/map/map-extension.js"/>';
 		$this->mOutput->addHeadItem( $maps_script, $maps_script );
 
@@ -53,7 +53,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		return Html::element( 'div', $attrs );
 	}
 
-	function createTimeline( $sqlQueries ) {
+	private function createTimeline( $sqlQueries ) {
 		$timeline_script = '<link rel="exhibit-extension" href="//api.simile-widgets.org/exhibit/HEAD/extensions/time/time-extension.js"/>';
 		$this->mOutput->addHeadItem( $timeline_script, $timeline_script );
 
@@ -93,7 +93,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 * @param string[] $fieldList
 	 * @return string HTML
 	 */
-	function createTabular( $fieldList ) {
+	private function createTabular( $fieldList ) {
 		$columnsList = [];
 		foreach ( $fieldList as $field ) {
 			if ( strpos( $field, '__' ) == false ) {
@@ -116,7 +116,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		return Html::element( 'div', $attrs );
 	}
 
-	function createFacets( $facets ) {
+	private function createFacets( $facets ) {
 		// Explode facets and create the div for each of them.
 		$text = $this->createSearch();
 		foreach ( $facets as $f ) {
@@ -136,7 +136,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	/**
 	 * @return string
 	 */
-	function createSearch() {
+	private function createSearch() {
 		$attrs = [
 			'data-ex-role' => "exhibit-facet",
 			'data-ex-facet-class' => "TextSearch",
@@ -146,7 +146,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		return Html::element( 'div', $attrs );
 	}
 
-	function createLens( $fieldList ) {
+	private function createLens( $fieldList ) {
 		$lensBody = '<caption><strong data-ex-content=".label"></strong></caption>';
 		foreach ( $fieldList as $field ) {
 			if ( $field != "label" && strpos( $field, '__' ) === false &&
@@ -170,7 +170,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 * @return string HTML
 	 * @throws MWException
 	 */
-	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
+	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		global $cgScriptPath;
 
 		$this->mOutput->addModules( 'ext.cargo.exhibit' );
@@ -265,7 +265,7 @@ EOLABEL;
 	/**
 	 * Initializes $this->views[]
 	 */
-	function automateViews( $sqlQueries ) {
+	private function automateViews( $sqlQueries ) {
 		// map ?
 		$coordFields = $this->getCoordinatesFields( $sqlQueries );
 		if ( count( $coordFields ) > 0 ) {
@@ -283,7 +283,7 @@ EOLABEL;
 		$this->views[] = 'Tabular';
 	}
 
-	function getCoordinatesFields( $sqlQueries ) {
+	private function getCoordinatesFields( $sqlQueries ) {
 		$coordinatesFields = [];
 
 		foreach ( $sqlQueries as $query ) {
@@ -297,7 +297,7 @@ EOLABEL;
 		return $coordinatesFields;
 	}
 
-	function getDateFields( $sqlQueries ) {
+	private function getDateFields( $sqlQueries ) {
 		$dateFields = [];
 
 		foreach ( $sqlQueries as $query ) {

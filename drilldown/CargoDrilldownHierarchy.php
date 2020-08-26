@@ -10,7 +10,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	public $mWithinTreeMatchCount = 0;
 	public $mExactRootMatchCount = 0;
 
-	static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
+	public static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
 			$mainTableAlias = null, $tableNames = [], $joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 		list( $tableNames, $conds, $joinConds ) = $f->getQueryParts( $fullTextSearchTerm,
@@ -71,7 +71,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	 * Fill up (set the value) the count data members of nodes of the tree represented by node used
 	 * for calling this function. Also return an array of distinct values of the field and their counts.
 	 */
-	static function computeNodeCountForTreeByFilter( $node, $f, $fullTextSearchTerm,
+	public static function computeNodeCountForTreeByFilter( $node, $f, $fullTextSearchTerm,
 			$appliedFilters, $mainTableName = null, $tableNames = [], $joinConds = [] ) {
 		$filter_values = [];
 		$stack = new SplStack();
@@ -106,7 +106,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	 * @param CargoHierarchyTree $node
 	 * @return int
 	 */
-	static function findMaxDrilldownDepth( $node ) {
+	public static function findMaxDrilldownDepth( $node ) {
 		global $wgCargoMaxVisibleHierarchyDrilldownValues;
 		if ( !isset( $wgCargoMaxVisibleHierarchyDrilldownValues ) || !is_int( $wgCargoMaxVisibleHierarchyDrilldownValues ) || $wgCargoMaxVisibleHierarchyDrilldownValues < 0 ) {
 			return PHP_INT_MAX;

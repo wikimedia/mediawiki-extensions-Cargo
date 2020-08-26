@@ -11,11 +11,11 @@ class SpecialCargoQuery extends SpecialPage {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'CargoQuery', 'runcargoqueries' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->checkPermissions();
 
 		$this->setHeaders();
@@ -59,7 +59,7 @@ class SpecialCargoQuery extends SpecialPage {
 	 * @param int $size
 	 * @return string
 	 */
-	function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
+	public function displayInputRow( $labelText, $fieldName, $size, $tooltip ) {
 		$req = $this->getRequest();
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
@@ -83,7 +83,7 @@ class SpecialCargoQuery extends SpecialPage {
 		return Html::rawElement( 'tr', [ 'class' => 'mw-htmlform-field-HTMLTextField' ], $row ) . "\n";
 	}
 
-	function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
+	public function displayTextArea( $labelText, $fieldName, $size, $tooltip ) {
 		$req = $this->getRequest();
 
 		$label = Html::element( 'label', [ 'for' => $fieldName ], $labelText );
@@ -107,7 +107,7 @@ class SpecialCargoQuery extends SpecialPage {
 		return Html::rawElement( 'tr', [ 'class' => 'mw-htmlform-field-HTMLTextField' ], $row ) . "\n";
 	}
 
-	function displayOrderByInput( $rowNum, $orderByValue, $orderByDirection ) {
+	public function displayOrderByInput( $rowNum, $orderByValue, $orderByDirection ) {
 		$text = "\n" . '<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' . $rowNum . '>';
 		if ( $rowNum == 0 ) {
 			$text .= '<td class="mw-label">' .
@@ -137,7 +137,7 @@ class SpecialCargoQuery extends SpecialPage {
 		return $text;
 	}
 
-	function displayInputForm() {
+	public function displayInputForm() {
 		global $wgCargoDefaultQueryLimit;
 
 		$req = $this->getRequest();
@@ -217,7 +217,7 @@ END;
 		return $text;
 	}
 
-	function getWikitextForQuery() {
+	public function getWikitextForQuery() {
 		$req = $this->getRequest();
 
 		$wikitext = "<pre>{{#cargo_query:\n";
@@ -260,7 +260,7 @@ END;
 		return $wikitext;
 	}
 
-	function displayBottomPane( $paneName, $paneText ) {
+	private function displayBottomPane( $paneName, $paneText ) {
 		$html = <<<END
 <div style="max-width: 70em;">
 <span style="width: 100%;" class="oo-ui-widget oo-ui-widget-enabled oo-ui-buttonElement oo-ui-buttonElement-framed oo-ui-indicatorElement oo-ui-labelElement oo-ui-buttonWidget">

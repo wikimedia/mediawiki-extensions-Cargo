@@ -14,7 +14,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		];
 	}
 
-	function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
+	private function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
 		$wikiText = '{{' . $templateName;
 		// If we're not using named arguments, we add the field number
 		// in to the template call, to not mess up values that contain '='.
@@ -52,7 +52,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 	 * @return string
 	 * @throws MWException
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'template', $displayParams ) ) {
 			throw new MWException( wfMessage( "cargo-query-missingparam", "template", "template" )->parse() );
 		}

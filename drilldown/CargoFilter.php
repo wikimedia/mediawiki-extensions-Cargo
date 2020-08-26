@@ -20,7 +20,7 @@ class CargoFilter {
 	public $required_filters = [];
 	public $possible_applied_filters = [];
 
-	function __construct( $name, $tableAlias, $tableName, $fieldDescription, $searchablePages,
+	public function __construct( $name, $tableAlias, $tableName, $fieldDescription, $searchablePages,
 			$searchableFiles ) {
 		$this->name = $name;
 		$this->tableAlias = $tableAlias;
@@ -38,7 +38,7 @@ class CargoFilter {
 		return $this->tableName;
 	}
 
-	function getDateParts( $dateFromDB ) {
+	public function getDateParts( $dateFromDB ) {
 		// Does this only happen for MS SQL Server DBs?
 		if ( $dateFromDB instanceof DateTime ) {
 			$year = $dateFromDB->format( 'Y' );
@@ -64,7 +64,7 @@ class CargoFilter {
 	 * @param array $joinConds
 	 * @return string|null
 	 */
-	function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
+	public function getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
 			$joinConds = [] ) {
 		// If it's not a date/datetime field, return null.
 		if ( !$this->fieldDescription->isDateOrDatetime() ) {
@@ -117,7 +117,7 @@ class CargoFilter {
 	 * @param array $joinConds
 	 * @return array
 	 */
-	function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
+	public function getQueryParts( $fullTextSearchTerm, $appliedFilters, $tableNames = [],
 			$joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 
@@ -186,7 +186,7 @@ class CargoFilter {
 	 * @param array $joinConds
 	 * @return array
 	 */
-	function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
+	public function getTimePeriodValues( $fullTextSearchTerm, $appliedFilters, $mainTableAlias = null,
 			$tableNames = [], $joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
 
@@ -293,7 +293,7 @@ class CargoFilter {
 	 * @param array $join_conds
 	 * @return array
 	 */
-	function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false,
+	public function getAllValues( $fullTextSearchTerm, $appliedFilters, $isApplied = false,
 			$mainTableAlias = null, $tableNames = [], $join_conds = [] ) {
 		$cdb = CargoUtils::getDB();
 

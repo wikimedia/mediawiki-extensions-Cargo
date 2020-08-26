@@ -13,11 +13,11 @@ class CargoExport extends UnlistedSpecialPage {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'CargoExport' );
 	}
 
-	function execute( $query ) {
+	public function execute( $query ) {
 		$this->getOutput()->disable();
 		$req = $this->getRequest();
 
@@ -99,7 +99,7 @@ class CargoExport extends UnlistedSpecialPage {
 	/**
 	 * Used for calendar format
 	 */
-	function displayCalendarData( $sqlQueries ) {
+	private function displayCalendarData( $sqlQueries ) {
 		$req = $this->getRequest();
 
 		$colorArray = $req->getArray( 'color' );
@@ -223,14 +223,14 @@ class CargoExport extends UnlistedSpecialPage {
 	/**
 	 * Used by displayTimelineData().
 	 */
-	function timelineDatesCmp( $a, $b ) {
+	private function timelineDatesCmp( $a, $b ) {
 		if ( $a['start'] == $b['start'] ) {
 			return 0;
 		}
 		return ( $a['start'] < $b['start'] ) ? -1 : 1;
 	}
 
-	function displayTimelineData( $sqlQueries ) {
+	private function displayTimelineData( $sqlQueries ) {
 		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$dateFields = [];
@@ -328,7 +328,7 @@ class CargoExport extends UnlistedSpecialPage {
 		print json_encode( $displayedArray, JSON_HEX_TAG | JSON_HEX_QUOT );
 	}
 
-	function displayNVD3ChartData( $sqlQueries ) {
+	private function displayNVD3ChartData( $sqlQueries ) {
 		$req = $this->getRequest();
 
 		// We'll only use the first query, if there's more than one.
@@ -400,7 +400,7 @@ class CargoExport extends UnlistedSpecialPage {
 	/**
 	 * Turn all wikitext into HTML in a set of query results.
 	 */
-	function parseWikitextInQueryResults( $queryResults ) {
+	private function parseWikitextInQueryResults( $queryResults ) {
 		$parsedQueryResults = [];
 		foreach ( $queryResults as $rowNum => $rowValues ) {
 			$parsedQueryResults[$rowNum] = [];
@@ -411,7 +411,7 @@ class CargoExport extends UnlistedSpecialPage {
 		return $parsedQueryResults;
 	}
 
-	function displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues ) {
+	private function displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues ) {
 		header( "Content-Type: text/csv" );
 		header( "Content-Disposition: attachment; filename=$filename" );
 
@@ -454,7 +454,7 @@ class CargoExport extends UnlistedSpecialPage {
 		fclose( $out );
 	}
 
-	function displayExcelData( $sqlQueries, $filename, $parseValues ) {
+	private function displayExcelData( $sqlQueries, $filename, $parseValues ) {
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
@@ -479,7 +479,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$writer->save( 'php://output' );
 	}
 
-	function displayJSONData( $sqlQueries, $parseValues ) {
+	private function displayJSONData( $sqlQueries, $parseValues ) {
 		$allQueryResults = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
@@ -528,7 +528,7 @@ class CargoExport extends UnlistedSpecialPage {
 	 *
 	 * @param CargoSQLQuery[] $sqlQueries
 	 */
-	public function displayIcalendarData( $sqlQueries ) {
+	private function displayIcalendarData( $sqlQueries ) {
 		$req = $this->getRequest();
 		$format = new CargoICalendarFormat( $this->getOutput() );
 		$calendar = $format->getCalendar( $req, $sqlQueries );

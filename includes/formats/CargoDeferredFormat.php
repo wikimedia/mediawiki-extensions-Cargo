@@ -8,7 +8,7 @@
  */
 
 abstract class CargoDeferredFormat extends CargoDisplayFormat {
-	static function isDeferred() {
+	public static function isDeferred() {
 		return true;
 	}
 
@@ -19,7 +19,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 	 * @param array $sqlQueries
 	 * @return array
 	 */
-	function sqlQueriesToQueryParams( $sqlQueries ) {
+	public function sqlQueriesToQueryParams( $sqlQueries ) {
 		$queryParams = [
 			'tables' => [],
 			'join on' => [],
@@ -68,6 +68,6 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 	/**
 	 * Must be defined for any class that inherits from this one.
 	 */
-	abstract function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null );
+	abstract public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null );
 
 }

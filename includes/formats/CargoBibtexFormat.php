@@ -92,7 +92,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		'journal', 'key', 'note', 'number', 'organization', 'publisher',
 		'school', 'series', 'type', 'volume' ];
 
-	static function generateBibtexEntries( $valuesTable, $fieldDescriptions, $displayParams ) {
+	public static function generateBibtexEntries( $valuesTable, $fieldDescriptions, $displayParams ) {
 		if ( array_key_exists( 'default entry type', $displayParams ) ) {
 			$defaultEntryType = strtolower( $displayParams['default entry type'] );
 		} else {
@@ -249,7 +249,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 	 * @param array|null $querySpecificParams Unused
 	 * @return string HTML
 	 */
-	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
+	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'bibtex';

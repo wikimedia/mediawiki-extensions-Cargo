@@ -14,7 +14,7 @@ class CargoRecurringEvent {
 	 * @param string[] $date
 	 * @return int
 	 */
-	static function getJD( $date ) {
+	public static function getJD( $date ) {
 		return gregorianToJD( $date['month'], $date['day'], $date['year'] );
 	}
 

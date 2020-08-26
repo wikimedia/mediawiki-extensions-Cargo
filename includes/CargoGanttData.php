@@ -11,7 +11,7 @@ class CargoGanttData {
 	/**
 	 * Set the schema.
 	 */
-	static function getTableSchema() {
+	public static function getTableSchema() {
 		$fieldTypes = [];
 		$fieldTypes['_localID'] = [ 'String', false ];
 		$fieldTypes['_name'] = [ 'String', false ];

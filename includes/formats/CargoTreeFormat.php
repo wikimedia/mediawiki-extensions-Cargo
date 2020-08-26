@@ -24,7 +24,7 @@ class CargoTreeFormat extends CargoListFormat {
 	 * @return string HTML
 	 * @throws MWException
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'parent field', $displayParams ) ) {
 			throw new MWException( wfMessage( "cargo-query-missingparam", "parent field", "tree" )->parse() );
 		}
@@ -64,7 +64,7 @@ class CargoTreeFormat extends CargoListFormat {
 		return $result;
 	}
 
-	function printNode( $tree, $nodeName, $level ) {
+	private function printNode( $tree, $nodeName, $level ) {
 		$node = $tree->getNode( $nodeName );
 		$text = str_repeat( '*', $level );
 		if ( $level == 1 ) {
@@ -78,7 +78,7 @@ class CargoTreeFormat extends CargoListFormat {
 		return $text;
 	}
 
-	function printTree( $tree ) {
+	private function printTree( $tree ) {
 		// Print subtree for each top-level node.
 		$text = '';
 		foreach ( $tree->getNodes() as $nodeName => $node ) {

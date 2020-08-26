@@ -12,7 +12,7 @@ class CargoFileData {
 	 *
 	 * @return CargoTableSchema
 	 */
-	static function getTableSchema() {
+	public static function getTableSchema() {
 		global $wgCargoFileDataColumns;
 
 		$fieldTypes = [];

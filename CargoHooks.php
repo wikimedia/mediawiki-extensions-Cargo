@@ -122,7 +122,7 @@ class CargoHooks {
 	 * @param OutputPage $out
 	 * @return bool
 	 */
-	static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
+	public static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
 		global $wgCargoMapClusteringMinimum;
 
 		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
@@ -534,7 +534,7 @@ class CargoHooks {
 	 * If anything gets messed up in this process, the data can be recreated
 	 * by calling setCargoPageData.php.
 	 */
-	static function addOrRemoveCategoryData( $category, $wikiPage, $isAdd ) {
+	public static function addOrRemoveCategoryData( $category, $wikiPage, $isAdd ) {
 		global $wgCargoPageDataColumns;
 		if ( !in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			return true;

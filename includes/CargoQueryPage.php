@@ -58,22 +58,22 @@ class CargoQueryPage extends QueryPage {
 		}
 	}
 
-	function isExpensive() {
+	public function isExpensive() {
 		return false;
 	}
 
-	function isSyndicated() {
+	public function isSyndicated() {
 		return false;
 	}
 
 	// @TODO - declare a getPageHeader() function, to show some
 	// information about the query?
 
-	function getRecacheDB() {
+	public function getRecacheDB() {
 		return CargoUtils::getDB();
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		$selectOptions = [];
 		if ( $this->sqlQuery->mGroupByStr != '' ) {
 			$selectOptions['GROUP BY'] = $this->sqlQuery->mGroupByStr;
@@ -118,7 +118,7 @@ class CargoQueryPage extends QueryPage {
 	 * paging links
 	 * @return array
 	 */
-	function linkParameters() {
+	public function linkParameters() {
 		$possibleParams = [
 			'tables', 'fields', 'where', 'join_on', 'order_by', 'group_by', 'having', 'format'
 		];
@@ -137,15 +137,15 @@ class CargoQueryPage extends QueryPage {
 		return $linkParams;
 	}
 
-	function getOrderFields() {
+	public function getOrderFields() {
 		return $this->sqlQuery->mOrderBy;
 	}
 
-	function sortDescending() {
+	public function sortDescending() {
 		return false;
 	}
 
-	function formatResult( $skin, $result ) {
+	public function formatResult( $skin, $result ) {
 		// This function needs to be declared, but it is not called.
 	}
 
@@ -160,7 +160,7 @@ class CargoQueryPage extends QueryPage {
 	 * @param int $num Number of available result rows
 	 * @param int $offset Paging offset
 	 */
-	function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
+	public function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$valuesTable = [];
 		for ( $i = 0; $i < $num && $row = $res->fetchObject(); $i++ ) {
 			$valuesTable[] = get_object_vars( $row );

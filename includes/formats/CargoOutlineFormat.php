@@ -18,7 +18,7 @@ class CargoOutlineFormat extends CargoListFormat {
 		return [ 'outline fields' => [ 'type' => 'string' ] ];
 	}
 
-	function printTree( $outlineTree, $level = 0 ) {
+	private function printTree( $outlineTree, $level = 0 ) {
 		$text = "";
 		if ( $outlineTree->mUnsortedRows !== null ) {
 			$text .= "<ul>\n";
@@ -63,7 +63,7 @@ class CargoOutlineFormat extends CargoListFormat {
 		return $text;
 	}
 
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( !array_key_exists( 'outline fields', $displayParams ) ) {
 			throw new MWException( wfMessage( "cargo-query-missingparam", "outline fields", "outline" )->parse() );
 		}

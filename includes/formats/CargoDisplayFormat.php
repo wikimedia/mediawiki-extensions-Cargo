@@ -6,7 +6,7 @@
 
 class CargoDisplayFormat {
 
-	function __construct( $output, $parser = null ) {
+	public function __construct( $output, $parser = null ) {
 		$this->mOutput = $output;
 		$this->mParser = $parser;
 	}
@@ -15,7 +15,7 @@ class CargoDisplayFormat {
 		return [];
 	}
 
-	static function isDeferred() {
+	public static function isDeferred() {
 		return false;
 	}
 

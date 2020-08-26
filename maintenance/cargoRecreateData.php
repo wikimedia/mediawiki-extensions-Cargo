@@ -70,7 +70,7 @@ class CargoRecreateData extends Maintenance {
 		}
 	}
 
-	function recreateAllDataForTable( $tableName, $createReplacement ) {
+	private function recreateAllDataForTable( $tableName, $createReplacement ) {
 		global $wgTitle;
 
 		$quiet = $this->getOption( 'quiet' );

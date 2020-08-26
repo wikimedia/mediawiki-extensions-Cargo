@@ -14,7 +14,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 * Creates helper data structures that make merging cells
 	 * easier, if it's going to be done.
 	 */
-	function getHelperDataForMerging( $formattedValuesTable ) {
+	private function getHelperDataForMerging( $formattedValuesTable ) {
 		$duplicateValuesInTable = [];
 		$blankedCells = [];
 		$numRows = count( $formattedValuesTable );
@@ -57,7 +57,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 * @param array $displayParams Unused
 	 * @return string HTML
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.main' );
 		$this->mOutput->addModuleStyles( 'jquery.tablesorter.styles' );
 		$this->mOutput->addModules( 'jquery.tablesorter' );

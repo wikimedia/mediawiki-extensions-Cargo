@@ -6,7 +6,7 @@
  */
 class CargoGoogleMapsFormat extends CargoMapsFormat {
 
-	function __construct( $output ) {
+	public function __construct( $output ) {
 		parent::__construct( $output );
 		self::$mappingService = "Google Maps";
 	}

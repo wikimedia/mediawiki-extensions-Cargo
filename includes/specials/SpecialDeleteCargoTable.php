@@ -9,7 +9,7 @@
 
 class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'DeleteCargoTable', 'deletecargodata' );
 	}
 
@@ -48,7 +48,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ] );
 	}
 
-	function execute( $subpage = false ) {
+	public function execute( $subpage = false ) {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();

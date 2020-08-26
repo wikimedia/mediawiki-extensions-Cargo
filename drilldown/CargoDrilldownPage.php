@@ -62,7 +62,7 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param bool $formatByFieldIsList
 	 * @param mixed $curTabName
 	 */
-	function __construct( $tableName, $tableSchema, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
+	public function __construct( $tableName, $tableSchema, $parentTables, $drilldownTabsParams, $all_filters, $applied_filters,
 			$remaining_filters, $fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields,
 			$fileFields, $searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit,
 			$format, $formatBy, $formatByFieldIsList, $curTabName ) {
@@ -100,7 +100,7 @@ class CargoDrilldownPage extends QueryPage {
 	 * @param array $attributes
 	 * @return string
 	 */
-	function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = [],
+	private function makeBrowseURL( $tableName, $searchTerm = null, $applied_filters = [],
 			$filters_to_remove = [], $attributes = [] ) {
 		$dd = SpecialPage::getTitleFor( 'Drilldown' );
 		$url = $dd->getLocalURL() . '/' . $tableName;
@@ -187,19 +187,19 @@ class CargoDrilldownPage extends QueryPage {
 		return $url;
 	}
 
-	function getName() {
+	public function getName() {
 		return "Drilldown";
 	}
 
-	function isExpensive() {
+	public function isExpensive() {
 		return false;
 	}
 
-	function isSyndicated() {
+	public function isSyndicated() {
 		return false;
 	}
 
-	function printTablesList( $tables ) {
+	private function printTablesList( $tables ) {
 		global $wgCargoDrilldownUseTabs;
 
 		$chooseTableText = $this->msg( 'cargo-drilldown-choosetable' )->text() .
@@ -261,7 +261,7 @@ END;
 		return $text;
 	}
 
-	function displayTableName( $tableName = null ) {
+	public function displayTableName( $tableName = null ) {
 		if ( $tableName == null ) {
 			$tableName = $this->tableName;
 		}
@@ -279,7 +279,7 @@ END;
 	 * Create the full display of the filter line, once the text for
 	 * the "results" (values) for this filter has been created.
 	 */
-	function printFilterLine( $filterName, $isApplied, $isNormalFilter, $resultsLine, $tableAlias = null ) {
+	public function printFilterLine( $filterName, $isApplied, $isNormalFilter, $resultsLine, $tableAlias = null ) {
 		global $cgScriptPath;
 
 		$filterLabel = str_replace( '_', ' ', $filterName );
@@ -323,7 +323,7 @@ END;
 	 * Print a "nice" version of the value for a filter, if it's some
 	 * special case like 'other', 'none', a boolean, etc.
 	 */
-	function printFilterValue( $filter, $value ) {
+	public function printFilterValue( $filter, $value ) {
 		// If it's boolean, display something nicer than "0" or "1".
 		if ( $value === '_other' ) {
 			return Html::element( 'span', [ 'style' => 'font-style: italic;' ],
@@ -354,7 +354,7 @@ END;
 	 * If $printAllFilterValues is false, then it prints the most popular filter values for a filter
 	 * Used to print the most popular filter values before ComboBoxInput or TextInput
 	 */
-	function printAppliedFilterLine( $af, $printAllFilterValues = true ) {
+	public function printAppliedFilterLine( $af, $printAllFilterValues = true ) {
 		global $wgCargoDrilldownMinValuesForComboBox;
 		if ( $af->filter->fieldDescription->mIsHierarchy ) {
 			return $this->printAppliedFilterLineForHierarchy( $af );
@@ -473,7 +473,7 @@ END;
 		}
 	}
 
-	function printAppliedFilterLineForHierarchy( $af ) {
+	private function printAppliedFilterLineForHierarchy( $af ) {
 		$applied_filters = $this->applied_filters;
 		$applied_filters_no_hierarchy = [];
 		foreach ( $applied_filters as $key => $af2 ) {
@@ -527,7 +527,7 @@ END;
 			$af->filter->tableName );
 	}
 
-	function printUnappliedFilterValues( $cur_url, $f, $filter_values ) {
+	private function printUnappliedFilterValues( $cur_url, $f, $filter_values ) {
 		$results_line = "";
 		// now print the values
 		$num_printed_values = 0;
@@ -550,13 +550,13 @@ END;
 		return $results_line;
 	}
 
-	function printUnappliedFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters ) {
+	private function printUnappliedFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters ) {
 		// construct the tree of CargoDrilldownHierarchy
 		$drilldownHierarchyRoot = CargoDrilldownHierarchy::newFromWikiText( $f->fieldDescription->mHierarchyStructure );
 		return $this->printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot );
 	}
 
-	function printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot ) {
+	private function printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot ) {
 		$results_line = "";
 		// compute counts
 		list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
@@ -628,7 +628,7 @@ END;
 		return $results_line;
 	}
 
-	function printFilterValueLink( $f, $value_str, $num_results, $filter_url, $filter_values ) {
+	private function printFilterValueLink( $f, $value_str, $num_results, $filter_url, $filter_values ) {
 		global $wgCargoDrilldownSmallestFontSize, $wgCargoDrilldownLargestFontSize;
 		// set font-size values for filter_values filter "tag cloud", if the
 		// appropriate global variables are set
@@ -670,7 +670,7 @@ END;
 	 * (https://github.com/yaronkoren/miga/blob/master/NumberUtils.js)
 	 * - though that one is in Javascript.
 	 */
-	function getNearestNiceNumber( $num, $previousNum, $nextNum ) {
+	public function getNearestNiceNumber( $num, $previousNum, $nextNum ) {
 		if ( $previousNum === null ) {
 			$smallestDifference = $nextNum - $num;
 		} elseif ( $nextNum === null ) {
@@ -709,7 +709,7 @@ END;
 	 * (https://github.com/yaronkoren/miga/blob/master/NumberUtils.js)
 	 * - though that one is in Javascript.
 	 */
-	function generateIndividualFilterValuesFromNumbers( $uniqueValues ) {
+	public function generateIndividualFilterValuesFromNumbers( $uniqueValues ) {
 		$propertyValues = [];
 		foreach ( $uniqueValues as $uniqueValue => $numInstances ) {
 			$propertyValues[] = [
@@ -726,7 +726,7 @@ END;
 	 * (https://github.com/yaronkoren/miga/blob/master/NumberUtils.js)
 	 * - though that one is in Javascript.
 	 */
-	function generateFilterValuesFromNumbers( $numberArray ) {
+	public function generateFilterValuesFromNumbers( $numberArray ) {
 		global $wgCargoDrilldownNumRangesForNumbers;
 
 		$numNumbers = count( $numberArray );
@@ -817,7 +817,7 @@ END;
 		return $propertyValues;
 	}
 
-	function printNumber( $num ) {
+	public function printNumber( $num ) {
 		global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 
 		// Get the precision, i.e. the number of decimals to display.
@@ -833,7 +833,7 @@ END;
 			$wgCargoDigitGroupingCharacter );
 	}
 
-	function printNumberRanges( $filter_name, $filter_values ) {
+	public function printNumberRanges( $filter_name, $filter_values ) {
 		// We generate $cur_url here, instead of passing it in, because
 		// if there's a previous value for this filter it may be
 		// removed.
@@ -893,7 +893,7 @@ END;
 		return $text;
 	}
 
-	function printTextInput( $filter_name, $instance_num, $is_full_text_search = false,
+	public function printTextInput( $filter_name, $instance_num, $is_full_text_search = false,
 			$cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false,
 			$filter_values = null, $f = null ) {
 		global $wgRequest;
@@ -1000,7 +1000,7 @@ END;
 		return $text;
 	}
 
-	function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
+	public function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
 		global $wgRequest;
 
 		$filter_name = str_replace( ' ', '_', $filter_name );
@@ -1069,7 +1069,7 @@ END;
 	 * integer value
 	 * @return string
 	 */
-	function printDateInput( $input_name, $cur_value = null ) {
+	public function printDateInput( $input_name, $cur_value = null ) {
 		/** @todo Shouldn't this use the user language? */
 		if ( method_exists( MediaWikiServices::class, 'getContentLanguage' ) ) {
 			// MW >= 1.32
@@ -1106,7 +1106,7 @@ END;
 	 * Split the filter values into the set displayed on the screen and those
 	 * that will simply be autocompleted on, if not all of them will be displayed.
 	 */
-	function splitIntoDisplayedAndUndisplayedFilterValues( $filterValues ) {
+	public function splitIntoDisplayedAndUndisplayedFilterValues( $filterValues ) {
 		$maxDisplayedValues = 20;
 		if ( count( $filterValues ) <= $maxDisplayedValues ) {
 			// We shouldn't be here - exit out.
@@ -1135,7 +1135,7 @@ END;
 	 * Print the line showing 'AND' values for a filter that has not
 	 * been applied to the drilldown
 	 */
-	function printUnappliedFilterLine( $f, $cur_url = null ) {
+	public function printUnappliedFilterLine( $f, $cur_url = null ) {
 		global $wgCargoDrilldownMinValuesForComboBox;
 
 		$fieldType = $f->fieldDescription->mType;
@@ -1191,7 +1191,7 @@ END;
 		return $text;
 	}
 
-	function getPageHeader() {
+	public function getPageHeader() {
 		global $wgRequest, $wgCargoFileDataColumns;
 		global $cgScriptPath;
 
@@ -1447,7 +1447,7 @@ END;
 	/**
 	 * Used to set URL for additional pages of results.
 	 */
-	function linkParameters() {
+	public function linkParameters() {
 		$params = [];
 		if ( $this->showSingleTable ) {
 			$params['_single'] = null;
@@ -1497,11 +1497,11 @@ END;
 		return $params;
 	}
 
-	function getRecacheDB() {
+	public function getRecacheDB() {
 		return CargoUtils::getDB();
 	}
 
-	function getInitialQueryParts() {
+	public function getInitialQueryParts() {
 		$cdb = CargoUtils::getDB();
 		if ( $this->isReplacementTable ) {
 			$mainTableName = $this->tableName . '__NEXT';
@@ -1637,7 +1637,7 @@ END;
 		return [ $tableNames, $joinConds, $mainTableName, $mainTableAlias ];
 	}
 
-	function getQueryInfo() {
+	public function getQueryInfo() {
 		$cdb = CargoUtils::getDB();
 
 		list( $tableNames, $joinConds ) = $this->getInitialQueryParts();
@@ -2000,7 +2000,7 @@ END;
 		return $queryInfo;
 	}
 
-	static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $mainTableAlias,
+	public static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $mainTableAlias,
 			$searchablePages, $searchableFiles ) {
 		$cdb = CargoUtils::getDB();
 
@@ -2062,17 +2062,17 @@ END;
 		return [ $tableNames, $conds, $joinConds, $whereConds ];
 	}
 
-	function getOrderFields() {
+	public function getOrderFields() {
 		$cdb = CargoUtils::getDB();
 		return [ CargoUtils::escapedFieldName( $cdb, [ $this->tableAlias => $this->tableName ],
 			'_pageName' ) ];
 	}
 
-	function sortDescending() {
+	public function sortDescending() {
 		return false;
 	}
 
-	function formatResult( $skin, $result ) {
+	public function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( $result->namespace, $result->value );
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
 			$linkRenderer = $this->getLinkRenderer();
@@ -2093,7 +2093,7 @@ END;
 	 * @param int $num Number of available result rows - Unused
 	 * @param int $offset Paging offset - Unused
 	 */
-	protected function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
+	public function outputResults( $out, $skin, $dbr, $res, $num, $offset ) {
 		$url = $this->makeBrowseURL( $this->tableName, $this->fullTextSearchTerm,
 			$this->applied_filters, [],
 			[ 'limit' => $this->limit, 'offset' => $this->offset ] );
@@ -2266,10 +2266,10 @@ END;
 		}
 	}
 
-	function openList( $offset ) {
+	public function openList( $offset ) {
 	}
 
-	function closeList() {
+	public function closeList() {
 		return "\n\t\t\t<br style=\"clear: both\" />\n";
 	}
 }

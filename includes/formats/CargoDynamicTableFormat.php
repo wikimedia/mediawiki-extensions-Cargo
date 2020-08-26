@@ -25,7 +25,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	 * @param array $displayParams Unused
 	 * @return string HTML
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.datatables' );
 
 		$detailsFields = [];

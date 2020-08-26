@@ -27,7 +27,7 @@ class CargoFilterValue {
 	 * @param CargoFilter|null $filter
 	 * @return \CargoFilterValue
 	 */
-	static function create( $actual_val, $filter = null ) {
+	public static function create( $actual_val, $filter = null ) {
 		$fv = new CargoFilterValue();
 		$fv->text = $actual_val;
 

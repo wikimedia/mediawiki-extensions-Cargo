@@ -22,7 +22,7 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 	 * @param array|null $querySpecificParams
 	 * @return string HTML
 	 */
-	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
+	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		global $wgVersion, $wgUsejQueryThree;
 
 		// This check will probably be necessary as long as MW <= 1.29 is supported.

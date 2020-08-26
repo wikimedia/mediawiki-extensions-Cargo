@@ -26,7 +26,7 @@ class CargoTreeFormatTree {
 	 * @param array $nodeValues
 	 * @throws MWException
 	 */
-	function addNode( $nodeName, $parentName, $nodeValues ) {
+	public function addNode( $nodeName, $parentName, $nodeValues ) {
 		// Add node for child, if it's not already there.
 		if ( array_key_exists( $nodeName, $this->mNodes ) ) {
 			// Make sure it doesn't have more than one parent.

@@ -21,7 +21,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		];
 	}
 
-	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
+	private function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {
@@ -87,7 +87,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 	 * @param array $displayParams Unused
 	 * @return string HTML
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'mediawiki.page.gallery' );
 		$this->mOutput->addModuleStyles( 'mediawiki.page.gallery.styles' );
 

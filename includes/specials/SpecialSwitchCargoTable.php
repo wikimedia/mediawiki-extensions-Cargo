@@ -9,7 +9,7 @@
 
 class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'SwitchCargoTable', 'recreatecargodata' );
 	}
 
@@ -82,7 +82,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		CargoUtils::logTableAction( 'replacetable', $mainTable, $user );
 	}
 
-	function execute( $subpage = false ) {
+	public function execute( $subpage = false ) {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();

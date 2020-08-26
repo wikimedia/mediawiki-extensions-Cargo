@@ -10,7 +10,7 @@ class CargoEmbeddedFormat extends CargoDisplayFormat {
 		return [];
 	}
 
-	function displayRow( $row ) {
+	private function displayRow( $row ) {
 		$pageName = reset( $row );
 		$wikiText = <<<END
 <p style="font-size: small; text-align: right;">[[$pageName]]</p>
@@ -30,7 +30,7 @@ END;
 	 * @param array $displayParams Unused
 	 * @return string
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$text = '';
 		foreach ( $valuesTable as $row ) {
 			$text .= $this->displayRow( $row );

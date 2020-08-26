@@ -15,7 +15,6 @@
 		<exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
 		<exclude name="PSR12.Properties.ConstantVisibility.NotFound" />
 		<exclude name="Squiz.Scope.MemberVarScope.Missing" />
-		<exclude name="Squiz.Scope.MethodScope.Missing" />
 	</rule>
 	<rule ref="Generic.Files.LineLength">
 		<properties>

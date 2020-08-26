@@ -13,7 +13,7 @@ class CargoPopulateTableJob extends Job {
 	 * @param Title $title
 	 * @param array $params
 	 */
-	function __construct( $title, array $params = [] ) {
+	public function __construct( $title, array $params = [] ) {
 		parent::__construct( 'cargoPopulateTable', $title, $params );
 	}
 
@@ -22,7 +22,7 @@ class CargoPopulateTableJob extends Job {
 	 *
 	 * @return bool success
 	 */
-	function run() {
+	public function run() {
 		if ( $this->title === null ) {
 			$this->error = "cargoPopulateTable: Invalid title";
 			return false;

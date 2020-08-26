@@ -33,7 +33,7 @@ class CargoSQLQuery {
 	public $mOffset;
 	public $mSearchTerms = [];
 
-	function __construct() {
+	public function __construct() {
 		$this->mCargoDB = CargoUtils::getDB();
 	}
 
@@ -170,7 +170,7 @@ class CargoSQLQuery {
 	 * Gets a mapping of original field name strings to their field name aliases
 	 * as they appear in the query result
 	 */
-	function getAliasForFieldString( $fieldString ) {
+	public function getAliasForFieldString( $fieldString ) {
 		return $this->mFieldStringAliases[$fieldString];
 	}
 
@@ -178,7 +178,7 @@ class CargoSQLQuery {
 	 * Gets an array of field names and their aliases from the passed-in
 	 * SQL fragment.
 	 */
-	function setAliasedFieldNames() {
+	private function setAliasedFieldNames() {
 		$this->mAliasedFieldNames = [];
 		$fieldStrings = CargoUtils::smartSplit( ',', $this->mFieldsStr );
 		// Default is "_pageName".
@@ -232,7 +232,7 @@ class CargoSQLQuery {
 		$this->mOrigAliasedFieldNames = $this->mAliasedFieldNames;
 	}
 
-	function setAliasedTableNames() {
+	private function setAliasedTableNames() {
 		$this->mAliasedTableNames = [];
 		$tableStrings = CargoUtils::smartSplit( ',', $this->mTablesStr );
 
@@ -262,7 +262,7 @@ class CargoSQLQuery {
 	 * MediaWiki's database query() method requires - it is more
 	 * structured and does not contain the necessary table prefixes yet.
 	 */
-	function setCargoJoinConds( $joinOnStr ) {
+	private function setCargoJoinConds( $joinOnStr ) {
 		// This string is needed for "deferred" queries.
 		$this->mJoinOnStr = $joinOnStr;
 
@@ -366,7 +366,7 @@ class CargoSQLQuery {
 	 * conditions into the one that MediaWiki uses - this includes
 	 * adding the database prefix to each table name.
 	 */
-	function setMWJoinConds() {
+	private function setMWJoinConds() {
 		if ( $this->mCargoJoinConds == null ) {
 			return;
 		}
@@ -416,7 +416,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function setOrderBy( $orderByStr = null ) {
+	public function setOrderBy( $orderByStr = null ) {
 		$this->mOrderBy = [];
 		if ( $orderByStr != '' ) {
 			$orderByElements = CargoUtils::smartSplit( ',', $orderByStr );
@@ -459,7 +459,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function setGroupBy( $groupByStr ) {
+	public function setGroupBy( $groupByStr ) {
 		// @TODO - $mGroupByStr should turn into an array named
 		// $mGroupBy for better handling of mulitple values, as was
 		// done with $mOrderBy.
@@ -473,7 +473,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	static function getAndValidateSQLFunctions( $str ) {
+	private static function getAndValidateSQLFunctions( $str ) {
 		global $wgCargoAllowedSQLFunctions;
 
 		$sqlFunctionMatches = [];
@@ -509,7 +509,7 @@ class CargoSQLQuery {
 	 * Also does some validation of table names, field names, and any SQL
 	 * functions contained in this clause.
 	 */
-	function getDescriptionAndTableNameForField( $origFieldName ) {
+	private function getDescriptionAndTableNameForField( $origFieldName ) {
 		$tableName = null;
 		$fieldName = null;
 		$description = new CargoFieldDescription();
@@ -684,7 +684,7 @@ class CargoSQLQuery {
 	 * the table name, of each field specified in a SELECT call (via a
 	 * #cargo_query call), using the set of schemas for all data tables.
 	 */
-	function setDescriptionsAndTableNamesForFields() {
+	public function setDescriptionsAndTableNamesForFields() {
 		$this->mFieldDescriptions = [];
 		$this->mFieldTables = [];
 		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
@@ -697,7 +697,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function addToCargoJoinConds( $newCargoJoinConds ) {
+	public function addToCargoJoinConds( $newCargoJoinConds ) {
 		foreach ( $newCargoJoinConds as $newCargoJoinCond ) {
 			// Go through to make sure it's not there already.
 			$foundMatch = false;
@@ -716,7 +716,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias ) {
+	public function addFieldTableToTableNames( $fieldTableName, $fieldTableAlias, $tableAlias ) {
 		// Add it in in the correct place, if it should be added at all.
 		if ( array_key_exists( $fieldTableAlias, $this->mAliasedTableNames ) ) {
 			return;
@@ -741,7 +741,7 @@ class CargoSQLQuery {
 	 * fields" depends on whether the separate table for that field has
 	 * been included in the query.
 	 */
-	function fieldTableIsIncluded( $fieldTableAlias ) {
+	public function fieldTableIsIncluded( $fieldTableAlias ) {
 		foreach ( $this->mCargoJoinConds as $cargoJoinCond ) {
 			if ( $cargoJoinCond['table1'] == $fieldTableAlias ||
 				$cargoJoinCond['table2'] == $fieldTableAlias ) {
@@ -758,7 +758,7 @@ class CargoSQLQuery {
 	 * the regex beginning from a non-valid identifier character to word
 	 * boundary.
 	 */
-	function substVirtualFieldName( &$subject, $rootPattern, $tableAlias, $notOperation, $fieldTableName, $compareOperator, &$found ) {
+	public function substVirtualFieldName( &$subject, $rootPattern, $tableAlias, $notOperation, $fieldTableName, $compareOperator, &$found ) {
 		$notOperator = $notOperation ? 'NOT' : '';
 		$patternMatch = [];
 		// Match HOLDS syntax with values in single quotes
@@ -799,7 +799,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function handleVirtualFields() {
+	private function handleVirtualFields() {
 		// The array-field alias can be found in a number of different
 		// clauses. Handling depends on which clause it is:
 		// "where" - make sure that "HOLDS" or "HOLDS LIKE" is
@@ -1085,7 +1085,7 @@ class CargoSQLQuery {
 	 * Similar to handleVirtualFields(), but handles coordinates fields
 	 * instead of fields that hold lists. This handling is much simpler.
 	 */
-	function handleVirtualCoordinateFields() {
+	private function handleVirtualCoordinateFields() {
 		// Coordinate fields can be found in the "fields" and "where"
 		// clauses. The following handling is done:
 		// "fields" - "translate" it, where the translation (i.e.
@@ -1225,7 +1225,7 @@ class CargoSQLQuery {
 	/**
 	 * Handles Hierarchy fields' "WHERE" operations
 	 */
-	function handleHierarchyFields() {
+	private function handleHierarchyFields() {
 		// "where" - make sure that if
 		// "WITHIN" (if not list) or "HOLDS WITHIN" (if list)
 		// is specified, then translate the clause accordingly.
@@ -1342,7 +1342,7 @@ class CargoSQLQuery {
 	 * miles), based on the passed-in latitude. (Longitude doesn't matter
 	 * when doing this conversion, but latitude does.)
 	 */
-	static function distanceToDegrees( $distanceNumber, $distanceUnit, $latString ) {
+	private static function distanceToDegrees( $distanceNumber, $distanceUnit, $latString ) {
 		if ( in_array( $distanceUnit, [ 'kilometers', 'kilometres', 'km' ] ) ) {
 			$distanceInKM = $distanceNumber;
 		} elseif ( in_array( $distanceUnit, [ 'miles', 'mi' ] ) ) {
@@ -1383,7 +1383,7 @@ class CargoSQLQuery {
 	 * field (which indicates whether the date is year-only, etc.) to
 	 * the query.
 	 */
-	function handleDateFields() {
+	public function handleDateFields() {
 		$dateFields = [];
 		foreach ( $this->mOrigAliasedFieldNames as $alias => $fieldName ) {
 			if ( !array_key_exists( $alias, $this->mFieldDescriptions ) ) {
@@ -1412,7 +1412,7 @@ class CargoSQLQuery {
 		}
 	}
 
-	function handleSearchTextFields() {
+	private function handleSearchTextFields() {
 		$searchTextFields = [];
 		foreach ( $this->mTableSchemas as $tableName => $tableSchema ) {
 			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
@@ -1474,7 +1474,7 @@ class CargoSQLQuery {
 	 * prepended automatically by the MediaWiki query, while for
 	 * 'join on' the prefixes are added when the object is created.
 	 */
-	function addTablePrefixesToAll() {
+	private function addTablePrefixesToAll() {
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 			$this->mAliasedFieldNames[$alias] = $this->addTablePrefixes( $fieldName );
 		}
@@ -1492,7 +1492,7 @@ class CargoSQLQuery {
 	 * Calls a database SELECT query given the parts of the query; first
 	 * appending the Cargo prefix onto table names where necessary.
 	 */
-	function run() {
+	public function run() {
 		foreach ( $this->mAliasedTableNames as $tableName ) {
 			if ( !$this->mCargoDB->tableExists( $tableName ) ) {
 				throw new MWException( "Error: No database table exists named \"$tableName\"." );
@@ -1565,7 +1565,7 @@ class CargoSQLQuery {
 		return $resultArray;
 	}
 
-	function addTablePrefixes( $string ) {
+	private function addTablePrefixes( $string ) {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = [];

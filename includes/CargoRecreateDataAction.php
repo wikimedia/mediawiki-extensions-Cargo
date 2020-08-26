@@ -47,7 +47,7 @@ class CargoRecreateDataAction extends Action {
 	 * @param array &$links
 	 * @return bool
 	 */
-	static function displayTab( $obj, &$links ) {
+	public static function displayTab( $obj, &$links ) {
 		$title = $obj->getTitle();
 		if ( !$title || $title->getNamespace() !== NS_TEMPLATE ) {
 			return true;

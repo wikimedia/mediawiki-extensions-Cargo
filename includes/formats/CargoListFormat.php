@@ -8,7 +8,7 @@ class CargoListFormat extends CargoDisplayFormat {
 
 	protected $undisplayedFields = [];
 
-	function __construct( $output, $parser = null ) {
+	public function __construct( $output, $parser = null ) {
 		parent::__construct( $output, $parser );
 		$this->mOutput->addModules( 'ext.cargo.main' );
 	}
@@ -24,7 +24,7 @@ class CargoListFormat extends CargoDisplayFormat {
 	 * @param array $fieldDescriptions
 	 * @return string
 	 */
-	function displayRow( $row, $fieldDescriptions ) {
+	public function displayRow( $row, $fieldDescriptions ) {
 		$text = '';
 		$startParenthesisAdded = false;
 		$firstField = true;
@@ -68,7 +68,7 @@ class CargoListFormat extends CargoDisplayFormat {
 	 * @param array $displayParams
 	 * @return string
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$text = '';
 		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ?
 			$displayParams['delimiter'] : wfMessage( 'comma-separator' )->text();

@@ -8,17 +8,17 @@ class CargoOutlineTree {
 	public $mUnsortedRows;
 	public $mFormattedValue;
 
-	function __construct( $rows = [], $formattedValue = null ) {
+	public function __construct( $rows = [], $formattedValue = null ) {
 		$this->mTree = [];
 		$this->mUnsortedRows = $rows;
 		$this->mFormattedValue = $formattedValue;
 	}
 
-	function addRow( $row ) {
+	public function addRow( $row ) {
 		$this->mUnsortedRows[] = $row;
 	}
 
-	function categorizeRow( $vals, $row, $formattedVals ) {
+	public function categorizeRow( $vals, $row, $formattedVals ) {
 		foreach ( $vals as $val ) {
 			if ( array_key_exists( $val, $this->mTree ) ) {
 				$this->mTree[$val]->mUnsortedRows[] = $row;
@@ -29,7 +29,7 @@ class CargoOutlineTree {
 		}
 	}
 
-	function addField( $field ) {
+	public function addField( $field ) {
 		if ( count( $this->mUnsortedRows ) > 0 ) {
 			foreach ( $this->mUnsortedRows as $row ) {
 				$fieldValues = $row->getOutlineFieldValues( $field );

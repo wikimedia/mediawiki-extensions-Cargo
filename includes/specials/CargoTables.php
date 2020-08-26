@@ -24,7 +24,7 @@ class CargoTables extends IncludableSpecialPage {
 		$this->templatesThatAttachToTables = CargoUtils::getAllPageProps( 'CargoAttachedTable' );
 	}
 
-	function execute( $tableName ) {
+	public function execute( $tableName ) {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 		$user = $this->getUser();
@@ -215,7 +215,7 @@ class CargoTables extends IncludableSpecialPage {
 		$out->addHTML( $text );
 	}
 
-	function displayNumRowsForTable( $cdb, $tableName ) {
+	public function displayNumRowsForTable( $cdb, $tableName ) {
 		global $wgCargoDecimalMark;
 		global $wgCargoDigitGroupingCharacter;
 
@@ -226,7 +226,7 @@ class CargoTables extends IncludableSpecialPage {
 			$wgCargoDigitGroupingCharacter );
 	}
 
-	function getTableLinkedToView( $tableName, $isReplacementTable ) {
+	private function getTableLinkedToView( $tableName, $isReplacementTable ) {
 		$viewURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL() . "/$tableName";
 		if ( $isReplacementTable ) {
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
@@ -239,7 +239,7 @@ class CargoTables extends IncludableSpecialPage {
 		return Html::element( 'a', [ 'href' => $viewURL ], $displayText );
 	}
 
-	function getActionButton( $action, $target ) {
+	private function getActionButton( $action, $target ) {
 		// a button is a clickable link, its target being a table action
 		$actionList = self::$actionList;
 		$displayIcon = $actionList[$action]['ooui-icon'];
@@ -253,7 +253,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $element->toString();
 	}
 
-	function getActionIcon( $action ) {
+	private function getActionIcon( $action ) {
 		// an icon is just a static icon, no link. these are used in headings.
 		$actionList = self::$actionList;
 		$displayIcon = $actionList[$action]['ooui-icon'];
@@ -266,7 +266,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $element->toString();
 	}
 
-	function setAllowedActions() {
+	private function setAllowedActions() {
 		// initialize needed ooui stuff
 		$this->getOutput()->enableOOUI();
 		$this->getOutput()->addModuleStyles( [ 'oojs-ui.styles.icons-interactions' ] );
@@ -316,7 +316,7 @@ class CargoTables extends IncludableSpecialPage {
 		self::$actionList = $allowedActions;
 	}
 
-	function deriveListOfColumnsFromUserAllowedActions() {
+	private function deriveListOfColumnsFromUserAllowedActions() {
 		$columns = [];
 		foreach ( self::$actionList as $action => $actionInfo ) {
 			if ( array_key_exists( "parent", $actionInfo ) ) {
@@ -328,7 +328,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $columns;
 	}
 
-	function getActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
+	private function getActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
 		$user = $this->getUser();
 
 		$canBeRecreated =
@@ -398,7 +398,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $actionLinks;
 	}
 
-	function tableTemplatesText( $tableName ) {
+	private function tableTemplatesText( $tableName ) {
 		if ( method_exists( $this, 'getLinkRenderer' ) ) {
 			$linkRenderer = $this->getLinkRenderer();
 		} else {
@@ -447,7 +447,7 @@ class CargoTables extends IncludableSpecialPage {
 	 * Returns HTML for a bulleted list of Cargo tables, with various
 	 * links and information for each one.
 	 */
-	function displayListOfTables() {
+	private function displayListOfTables() {
 		global $wgCargoTablesPrioritizeReplacements;
 		$text = '';
 
@@ -558,7 +558,7 @@ class CargoTables extends IncludableSpecialPage {
 		return $text;
 	}
 
-	function displayActionLinks( $listOfColumns, $actionLinks, &$rowText ) {
+	private function displayActionLinks( $listOfColumns, $actionLinks, &$rowText ) {
 		foreach ( $listOfColumns as $action ) {
 			if ( array_key_exists( $action, $actionLinks ) ) {
 				$rowText .= Html::rawElement( 'td', [ "class" => "cargo-tablelist-actionbutton" ],

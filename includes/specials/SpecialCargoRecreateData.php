@@ -12,14 +12,14 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	public $mTableName;
 	public $mIsDeclared;
 
-	function __construct( $templateTitle, $tableName, $isDeclared ) {
+	public function __construct( $templateTitle, $tableName, $isDeclared ) {
 		parent::__construct( 'RecreateData', 'recreatecargodata' );
 		$this->mTemplateTitle = $templateTitle;
 		$this->mTableName = $tableName;
 		$this->mIsDeclared = $isDeclared;
 	}
 
-	function execute( $query = null ) {
+	public function execute( $query = null ) {
 		global $wgScriptPath, $cgScriptPath;
 
 		$this->checkPermissions();
@@ -145,7 +145,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		return true;
 	}
 
-	function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
+	public function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
 		$res = $dbw->select(
 			[ 'page', 'templatelinks' ],
 			'COUNT(*) AS total',

@@ -16,7 +16,7 @@ class CargoJSONFormat extends CargoDeferredFormat {
 	 * @param array|null $querySpecificParams Unused
 	 * @return string HTML
 	 */
-	function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
+	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'json';

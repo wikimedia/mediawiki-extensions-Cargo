@@ -9,7 +9,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	public static $mappingService = "OpenLayers";
 	public static $mapNumber = 1;
 
-	function __construct( $output ) {
+	public function __construct( $output ) {
 		global $wgCargoDefaultMapService;
 		parent::__construct( $output );
 		self::$mappingService = $wgCargoDefaultMapService;
@@ -85,7 +85,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 * @throws MWException
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$coordinatesFields = [];
 		foreach ( $fieldDescriptions as $field => $description ) {
 			if ( $description->mType == 'Coordinates' ) {

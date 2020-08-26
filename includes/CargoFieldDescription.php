@@ -28,7 +28,7 @@ class CargoFieldDescription {
 	 * @param string $fieldDescriptionStr
 	 * @return \CargoFieldDescription|null
 	 */
-	static function newFromString( $fieldDescriptionStr ) {
+	public static function newFromString( $fieldDescriptionStr ) {
 		$fieldDescription = new CargoFieldDescription();
 
 		if ( strpos( strtolower( $fieldDescriptionStr ), 'list' ) === 0 ) {
@@ -141,7 +141,7 @@ class CargoFieldDescription {
 	 * @param array $descriptionData
 	 * @return \CargoFieldDescription
 	 */
-	static function newFromDBArray( $descriptionData ) {
+	public static function newFromDBArray( $descriptionData ) {
 		$fieldDescription = new CargoFieldDescription();
 		foreach ( $descriptionData as $param => $value ) {
 			if ( $param == 'type' ) {
@@ -175,20 +175,20 @@ class CargoFieldDescription {
 		return $fieldDescription;
 	}
 
-	function getDelimiter() {
+	public function getDelimiter() {
 		// Make "\n" represent a newline.
 		return str_replace( '\n', "\n", $this->mDelimiter );
 	}
 
-	function setDelimiter( $delimiter ) {
+	public function setDelimiter( $delimiter ) {
 		$this->mDelimiter = $delimiter;
 	}
 
-	function isDateOrDatetime() {
+	public function isDateOrDatetime() {
 		return in_array( $this->mType, [ 'Date', 'Start date', 'End date', 'Datetime', 'Start datetime', 'End datetime' ] );
 	}
 
-	function getFieldSize() {
+	public function getFieldSize() {
 		if ( $this->isDateOrDatetime() ) {
 			return null;
 		} elseif ( in_array( $this->mType, [ 'Integer', 'Float', 'Rating', 'Boolean', 'Text', 'Wikitext', 'Searchtext' ] ) ) {
@@ -205,7 +205,7 @@ class CargoFieldDescription {
 	/**
 	 * @return array
 	 */
-	function toDBArray() {
+	public function toDBArray() {
 		$descriptionData = [];
 		$descriptionData['type'] = $this->mType;
 		if ( $this->mSize != null ) {
@@ -246,7 +246,7 @@ class CargoFieldDescription {
 		return $descriptionData;
 	}
 
-	function prepareAndValidateValue( $fieldValue ) {
+	public function prepareAndValidateValue( $fieldValue ) {
 		// @TODO - also set, and return, an error message and/or code
 		// if the returned value is different from the incoming value.
 		// @TODO - it might make sense to create a new class around

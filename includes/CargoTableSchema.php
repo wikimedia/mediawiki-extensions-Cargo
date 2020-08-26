@@ -25,7 +25,7 @@ class CargoTableSchema {
 		return $tableSchema;
 	}
 
-	function toDBString() {
+	public function toDBString() {
 		$tableSchemaDBArray = [];
 		foreach ( $this->mFieldDescriptions as $fieldName => $fieldDesc ) {
 			$tableSchemaDBArray[$fieldName] = $fieldDesc->toDBArray();

@@ -19,7 +19,7 @@ class CargoOLFormat extends CargoListFormat {
 	 * @param array $displayParams
 	 * @return string HTML
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		if ( array_key_exists( 'columns', $displayParams ) ) {
 			$numColumns = max( $displayParams['columns'], 1 );
 		} else {

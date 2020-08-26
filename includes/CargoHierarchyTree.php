@@ -13,12 +13,12 @@ class CargoHierarchyTree {
 	public $mLeft = 0;
 	public $mRight = 0;
 
-	function __construct( $curTitle = '__pseudo_root__' ) {
+	public function __construct( $curTitle = '__pseudo_root__' ) {
 		$this->mRootValue = $curTitle;
 		$this->mChildren = [];
 	}
 
-	function addChild( $child ) {
+	public function addChild( $child ) {
 		$this->mChildren[] = $child;
 	}
 
@@ -51,7 +51,7 @@ class CargoHierarchyTree {
 		return $fullTree;
 	}
 
-	function getLastNodeForLevel( $level ) {
+	public function getLastNodeForLevel( $level ) {
 		if ( $level <= 1 || count( $this->mChildren ) == 0 ) {
 			return $this;
 		}
@@ -59,7 +59,7 @@ class CargoHierarchyTree {
 		return $lastNodeOnCurLevel->getLastNodeForLevel( $level - 1 );
 	}
 
-	function generateHierarchyStructureTableData() {
+	public function generateHierarchyStructureTableData() {
 		$tableData = [];
 		// Preorder traversal using Stack data structure
 		$stack = new SplStack();

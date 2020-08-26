@@ -270,7 +270,7 @@ class CargoQueryDisplayer {
 		return $value;
 	}
 
-	static function formatDateFieldValue( $dateValue, $datePrecision, $type ) {
+	public static function formatDateFieldValue( $dateValue, $datePrecision, $type ) {
 		// Quick escape.
 		if ( $dateValue == '' ) {
 			return '';
@@ -319,7 +319,7 @@ class CargoQueryDisplayer {
 	/**
 	 * Based heavily on MediaWiki's SearchResult::getTextSnippet()
 	 */
-	function getTextSnippet( $text, $terms ) {
+	public function getTextSnippet( $text, $terms ) {
 		global $wgAdvancedSearchHighlighting;
 		if ( defined( '\SearchHighlighter::DEFAULT_CONTEXT_LINES' ) ) {
 			// MW 1.34+

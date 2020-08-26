@@ -10,13 +10,13 @@
 class CargoPageValues extends IncludableSpecialPage {
 	public $mTitle;
 
-	function __construct( $title = null ) {
+	public function __construct( $title = null ) {
 		parent::__construct( 'PageValues' );
 
 		$this->mTitle = $title;
 	}
 
-	function execute( $subpage = null ) {
+	public function execute( $subpage = null ) {
 		global $wgCargoPageDataColumns, $wgCargoFileDataColumns;
 
 		if ( $subpage ) {
@@ -121,7 +121,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		return true;
 	}
 
-	function getRowsForPageInTable( $tableName ) {
+	public function getRowsForPageInTable( $tableName ) {
 		$cdb = CargoUtils::getDB();
 
 		$sqlQuery = new CargoSQLQuery();
@@ -163,7 +163,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	/**
 	 * Based on MediaWiki's InfoAction::addRow()
 	 */
-	function printRow( $name, $value ) {
+	public function printRow( $name, $value ) {
 		if ( $name == '_fullText' && strlen( $value ) > 300 ) {
 			$value = substr( $value, 0, 300 ) . ' ...';
 		}
@@ -176,7 +176,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	/**
 	 * Based on MediaWiki's InfoAction::addTable()
 	 */
-	function printTable( $tableContents ) {
+	public function printTable( $tableContents ) {
 		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
 			$tableContents ) . "\n";
 	}
@@ -184,7 +184,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	/**
 	 * Don't list this in Special:SpecialPages.
 	 */
-	function isListed() {
+	public function isListed() {
 		return false;
 	}
 }

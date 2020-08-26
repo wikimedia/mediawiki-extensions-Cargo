@@ -16,7 +16,7 @@ class CargoDrilldownUtils {
 	 * @param array &$vars
 	 * @return bool
 	 */
-	static function setGlobalJSVariables( &$vars ) {
+	public static function setGlobalJSVariables( &$vars ) {
 		global $cgScriptPath;
 
 		$vars['cgDownArrowImage'] = "$cgScriptPath/drilldown/resources/down-arrow.png";
@@ -32,7 +32,7 @@ class CargoDrilldownUtils {
 	 * @return string Month name in user language
 	 * @todo This function should be replaced with direct calls to Language::getMonthName()
 	 */
-	static function monthToString( $month ) {
+	public static function monthToString( $month ) {
 		$monthInt = intval( $month );
 		if ( $monthInt < 1 || $monthInt > 12 ) {
 			return false;
@@ -50,7 +50,7 @@ class CargoDrilldownUtils {
 	 * @param Language|null $language
 	 * @return int|bool
 	 */
-	static function stringToMonth( $str, Language $language = null ) {
+	public static function stringToMonth( $str, Language $language = null ) {
 		if ( $language === null ) {
 			global $wgLang;
 			$language = $wgLang;

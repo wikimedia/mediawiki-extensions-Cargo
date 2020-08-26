@@ -18,7 +18,7 @@ class CargoAppliedFilter {
 	public $lower_date_string;
 	public $upper_date_string;
 
-	static function create( $filter, $values, $search_terms = null, $lower_date = null,
+	public static function create( $filter, $values, $search_terms = null, $lower_date = null,
 		$upper_date = null ) {
 		$af = new CargoAppliedFilter();
 		$af->filter = $filter;
@@ -52,7 +52,7 @@ class CargoAppliedFilter {
 	 * Returns a string that adds a check for this filter/value
 	 * combination to an SQL "WHERE" clause.
 	 */
-	function checkSQL() {
+	public function checkSQL() {
 		$cdb = CargoUtils::getDB();
 
 		if ( $this->filter->fieldDescription->mIsList ) {
@@ -184,7 +184,7 @@ class CargoAppliedFilter {
 		return $sql;
 	}
 
-	function getQueryParts( $mainTableName ) {
+	public function getQueryParts( $mainTableName ) {
 		$cdb = CargoUtils::getDB();
 
 		$tableNames = [];
@@ -224,7 +224,7 @@ class CargoAppliedFilter {
 	/**
 	 * Gets an array of all values that this filter has.
 	 */
-	function getAllOrValues() {
+	public function getAllOrValues() {
 		$possible_values = [];
 		if ( $this->filter->fieldDescription->mIsList ) {
 			$tableName = $this->filter->tableName . '__' . $this->filter->name;

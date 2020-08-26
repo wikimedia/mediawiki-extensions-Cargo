@@ -20,7 +20,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 		];
 	}
 
-	function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {
+	private function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {
@@ -83,7 +83,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 	 * @param array $displayParams Unused
 	 * @return string HTML
 	 */
-	function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
+	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.slick' );
 
 		if ( array_key_exists( 'caption field', $displayParams ) ) {
