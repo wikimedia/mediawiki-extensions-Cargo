@@ -480,8 +480,6 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	function displayJSONData( $sqlQueries, $parseValues ) {
-		header( "Content-Type: application/json" );
-
 		$allQueryResults = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
@@ -510,13 +508,11 @@ class CargoExport extends UnlistedSpecialPage {
 		} else {
 			$jsonOptions = JSON_NUMERIC_CHECK | JSON_HEX_TAG | JSON_PRETTY_PRINT;
 		}
-		print json_encode( $allQueryResults, $jsonOptions );
+		$json = json_encode( $allQueryResults, $jsonOptions );
+		$this->outputFile( 'application/json', 'export', 'json', $json );
 	}
 
-	function displayBibtexData( $sqlQueries, $defaultEntryType ) {
-		header( "Content-Type: text/plain" );
-		header( "Content-Disposition: inline;filename=results.bib" );
-
+	private function displayBibtexData( $sqlQueries, $defaultEntryType ) {
 		$text = '';
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
@@ -524,8 +520,7 @@ class CargoExport extends UnlistedSpecialPage {
 					$sqlQuery->mFieldDescriptions,
 					[ 'default entry type' => $defaultEntryType ] );
 		}
-
-		file_put_contents( "php://output", $text );
+		$this->outputFile( 'text/plain', 'results.bib', 'bib', $text );
 	}
 
 	/**
@@ -538,18 +533,30 @@ class CargoExport extends UnlistedSpecialPage {
 		$format = new CargoICalendarFormat( $this->getOutput() );
 		$calendar = $format->getCalendar( $req, $sqlQueries );
 
-		// Get the filename, clean it, and make sure it has a .ics extension.
-		// @todo Generalize this for the other filename parameters in this class.
-		$filenameRaw = $req->getText( 'filename', 'export.ics' );
-		$filenameTitle = Title::newFromText( wfStripIllegalFilenameChars( $filenameRaw ) );
+		$filename = $req->getText( 'filename', 'export.ics' );
+		$this->outputFile( 'text/calendar', $filename, 'ics', $calendar );
+	}
+
+	/**
+	 * Output a file, with a normalized name and appropriate HTTP headers.
+	 *
+	 * @param string $contentType The MIME type of the file.
+	 * @param string $filename The filename. It doesn't matter if it has the extension or not.
+	 * @param string $fileExtension The file extension, without a leading dot.
+	 * @param string $data The file contents.
+	 * @param string $disposition Either 'inline' (the default) or 'attachment'.
+	 */
+	private function outputFile( $contentType, $filename, $fileExtension, $data, $disposition = 'inline' ) {
+		// Clean the filename and make sure it has the correct extension.
+		$filenameTitle = Title::newFromText( wfStripIllegalFilenameChars( $filename ) );
 		$filename = $filenameTitle->getDBkey();
-		if ( substr( $filename, -strlen( '.ics' ) ) !== '.ics' ) {
-			$filename .= '.ics';
+		if ( substr( $filename, -strlen( '.' . $fileExtension ) ) !== '.' . $fileExtension ) {
+			$filename .= '.' . $fileExtension;
 		}
 
-		// Output the file.
-		header( 'Content-Type: text/calendar' );
-		header( 'Content-Disposition: inline;filename=' . $filename );
-		file_put_contents( 'php://output', $calendar );
+		$disposition = in_array( $disposition, [ 'inline', 'attachment' ] ) ? $disposition : 'inline';
+		header( 'Content-Type: ' . $contentType );
+		header( 'Content-Disposition: ' . $disposition . ';filename=' . $filename );
+		file_put_contents( 'php://output', $data );
 	}
 }
