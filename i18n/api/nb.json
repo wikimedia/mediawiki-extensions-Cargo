@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Fredrilj",
 			"Jon Harald Søby"
 		]
 	},
@@ -19,23 +20,23 @@
 	"apihelp-cargorecreatetables-summary": "Gjenskaper én eller flere Cargo-tabeller.",
 	"apihelp-cargorecreatetables-param-template": "Malen hvis erklærte Cargo-tabell(er) skal gjenskapes",
 	"apihelp-cargorecreatetables-param-createReplacement": "Hvorvidt dataene skal puttes i en erstatningstabell",
-	"apihelp-cargorecreatedata-description": "Gjenbefolker dataene i Cargo-tabellen.",
+	"apihelp-cargorecreatedata-description": "Bygger dataene i Cargo-tabellen på nytt.",
 	"apihelp-cargorecreatedata-summary": "Gjenbefolker dataene i Cargo-tabellen.",
 	"apihelp-cargorecreatedata-param-template": "Malen hvis data skal brukes",
-	"apihelp-cargorecreatedata-param-table": "Cargo-databasen som skal gjenbefolkes",
+	"apihelp-cargorecreatedata-param-table": "Cargo-databasetabellen som skal bygges på nytt.",
 	"apihelp-cargorecreatedata-param-offset": "Av sidene som kaller denne malen, hvilket tall man skal begynne spørringen ved",
-	"apihelp-cargorecreatedata-param-replaceOldRows": "Hvorvidt de gamle radene skal erstattes for hver side når man gjenbefolker tabellen",
-	"apihelp-cargoautocomplete-description": "Autofulfføringskall brukt av Cargo-utvidelsen.",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "Hvorvidt de gamle radene skal erstattes for hver side, når man bygger tabellen på nytt",
+	"apihelp-cargoautocomplete-description": "Autofullføringskall brukt av Cargo-utvidelsen.",
 	"apihelp-cargoautocomplete-summary": "Autofullføringskall brukt av Cargo-utvidelsen.",
 	"apihelp-cargoautocomplete-param-limit": "En grense på antall resultater som returneres",
 	"apihelp-cargoautocomplete-param-substr": "Søkeunderstreng",
 	"apihelp-cargoautocomplete-param-table": "Cargo-tabell det skal søkes etter verdier i",
 	"apihelp-cargoautocomplete-param-field": "Cargo-felt det skal søkes etter verdier i",
 	"apihelp-cargoautocomplete-param-field_is_array": "Hvorvidt feltet holder en liste over verdier",
-	"apihelp-cargoautocomplete-param-where": "«where»-klausul for spørringen, basert på de andre gitte filtrene",
+	"apihelp-cargoautocomplete-param-where": "«where»-klausul for spørringen, basert på de andre spesifiserte filtrene",
 	"apihelp-cargoqueryautocomplete-description": "Autofullføringskall brukt av spesialsiden CargoQuery (tidligere ViewData).",
 	"apihelp-cargoqueryautocomplete-summary": "Autofullføringskall brukt av spesialsiden CargoQuery (tidligere ViewData).",
-	"apihelp-cargoqueryautocomplete-param-limit": "En grense på antall resultater som skal returneres.",
+	"apihelp-cargoqueryautocomplete-param-limit": "En grense på antall resultater som skal vises.",
 	"apihelp-cargoqueryautocomplete-param-search": "Søkeunderstreng",
 	"apihelp-cargoqueryautocomplete-param-tables": "Liste over valgte Cargo-tabeller basert på hvilke felt. GROUP BY og ORDER BY autofullføres.",
 	"apihelp-cargoformatparams-description": "Henter settet over visningsparametre for hvert Cargo-spørringsformat.",

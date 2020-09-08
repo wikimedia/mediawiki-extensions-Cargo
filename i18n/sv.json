@@ -7,6 +7,8 @@
 			"Josve05a",
 			"Mjälten",
 			"ProletariatetsBefrielseOrkester",
+			"Pyscowicz",
+			"Sabelöga",
 			"Technic2",
 			"WikiPhoenix"
 		]
@@ -31,6 +33,7 @@
 	"cargo-viewdata-columnsparam": "Antal kolumner:",
 	"cargo-viewdata-colorsparam": "Färger:",
 	"cargo-viewdata-delimiterparam": "Skiljetecken:",
+	"cargo-viewdata-viewwikitext": "Visa wikitext",
 	"cargo-cargotables-header-table": "Tabell",
 	"cargo-cargotables-header-rowcount": "Rader",
 	"cargo-cargotables-header-templates": "Mallar",
@@ -58,9 +61,11 @@
 	"cargo-drilldown-timelineformat": "Tidslinje",
 	"cargo-drilldown-galleryformat": "Galleri",
 	"cargo-drilldown-calendarformat": "Kalender",
+	"cargo-viewcsv": "Visa CSV",
 	"cargo-viewxls": "Visa XLS",
 	"cargo-viewjson": "Visa JSON",
 	"cargo-viewbibtex": "Visa BibTeX",
+	"cargo-viewicalendar": "Visa iCalendar",
 	"cargo-dynamictables-togglecolumns": "Visa/dölj kolumner:",
 	"cargo-dynamictables-searchcolumn": "Sök i $1",
 	"cargo-purgecache": "Töm cache",
