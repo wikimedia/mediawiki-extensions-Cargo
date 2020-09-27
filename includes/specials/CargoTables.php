@@ -239,7 +239,7 @@ class CargoTables extends IncludableSpecialPage {
 		return Html::element( 'a', [ 'href' => $viewURL ], $displayText );
 	}
 
-	private function getActionButton( $action, $target ) {
+	public function getActionButton( $action, $target ) {
 		// a button is a clickable link, its target being a table action
 		$actionList = self::$actionList;
 		$displayIcon = $actionList[$action]['ooui-icon'];
