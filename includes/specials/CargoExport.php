@@ -209,6 +209,9 @@ class CargoExport extends UnlistedSpecialPage {
 				if ( array_key_exists( '_pageName', $queryResult ) ) {
 					$title = Title::newFromText( $queryResult['_pageName'] );
 					$curEvent['url'] = $title->getLocalURL();
+				} elseif ( array_key_exists( 'link', $queryResult ) ) {
+					$title = Title::newFromText( $queryResult['link'] );
+					$curEvent['url'] = $title->getLocalURL();
 				}
 				if ( $startDatePrecision != CargoStore::DATE_AND_TIME ) {
 					$curEvent['allDay'] = true;
