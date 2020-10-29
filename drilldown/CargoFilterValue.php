@@ -106,13 +106,13 @@ class CargoFilterValue {
 			return 1;
 		}
 		if ( $fv2->is_none ) {
-			return - 1;
+			return -1;
 		}
 		if ( $fv1->is_other ) {
 			return 1;
 		}
 		if ( $fv2->is_other ) {
-			return - 1;
+			return -1;
 		}
 
 		if ( $fv1->year != null && $fv2->year != null ) {
@@ -120,24 +120,24 @@ class CargoFilterValue {
 				if ( $fv1->month == $fv1->month ) {
 					return 0;
 				}
-				return ( $fv1->month > $fv2->month ) ? 1 : - 1;
+				return ( $fv1->month > $fv2->month ) ? 1 : -1;
 			}
 
-			return ( $fv1->year > $fv2->year ) ? 1 : - 1;
+			return ( $fv1->year > $fv2->year ) ? 1 : -1;
 		}
 
 		if ( $fv1->is_numeric ) {
 			if ( $fv1->lower_limit == null ) {
-				return - 1;
+				return -1;
 			}
-			return ( $fv1->lower_limit > $fv2->lower_limit ) ? 1 : - 1;
+			return ( $fv1->lower_limit > $fv2->lower_limit ) ? 1 : -1;
 		}
 
 		if ( $fv1->text == $fv2->text ) {
 			return 0;
 		}
 
-		return ( $fv1->text > $fv2->text ) ? 1 : - 1;
+		return ( $fv1->text > $fv2->text ) ? 1 : -1;
 	}
 
 }
