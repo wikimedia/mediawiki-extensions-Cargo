@@ -487,6 +487,8 @@ class CargoUtils {
 	 * @return string
 	 */
 	public static function smartParse( $value, $parser ) {
+		global $wgRequest;
+
 		// This decode() call is here in case the value was
 		// set using {{PAGENAME}}, which for some reason
 		// HTML-encodes some of its characters - see
@@ -512,11 +514,21 @@ class CargoUtils {
 
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
-		global $wgRequest;
 		if ( $parser === null ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
 		}
-		$title = $parser->getTitle();
+
+		// Since MW 1.35, Parser::getTitle() throws a TypeError if it
+		// would have returned null, so just catch the error.
+		// Why would the title be null? It's not clear, but it seems to
+		// happen in at least once case: in "action=pagevalues" for a
+		// page with non-ASCII characters in its name.
+		try {
+			$title = $parser->getTitle();
+		} catch ( TypeError $e ) {
+			$title = null;
+		}
+
 		if ( $title === null ) {
 			global $wgTitle;
 			$title = $wgTitle;
