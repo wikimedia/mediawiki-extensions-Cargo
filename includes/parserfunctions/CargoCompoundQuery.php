@@ -84,8 +84,12 @@ class CargoCompoundQuery {
 					$displayParamsForThisQuery[$key] = $value;
 				}
 			}
-			$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+			try {
+				$sqlQueries[] = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 					$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
+			} catch ( Exception $e ) {
+				return CargoUtils::formatError( $e->getMessage() );
+			}
 			$querySpecificParams[] = $displayParamsForThisQuery;
 		}
 
