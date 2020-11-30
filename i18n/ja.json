@@ -7,7 +7,8 @@
 			"Shirayuki",
 			"Sujiniku",
 			"Surgical21",
-			"Yusuke1109"
+			"Yusuke1109",
+			"つぶあん派"
 		]
 	},
 	"cargo-desc": "テンプレートデータの保存とクエリ",
@@ -25,7 +26,7 @@
 	"cargo-recreatedata-success": "データが再作成されています。",
 	"cargo-viewdata-tables": "テーブル:",
 	"cargo-viewdata-orderby": "並び順:",
-	"cargo-viewdata-limit": "制限",
+	"cargo-viewdata-limit": "表示数",
 	"cargo-viewdata-format": "形式:",
 	"cargo-viewdata-defaultformat": "既定",
 	"cargo-viewdata-heightparam": "高さ:",
