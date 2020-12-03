@@ -138,7 +138,7 @@ class CargoTables extends IncludableSpecialPage {
 		$aliasedFieldNames = [ $this->msg( 'nstab-main' )->parse() => '_pageName' ];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
-			if ( array_key_exists( 'hidden', $fieldDescription ) ) {
+			if ( property_exists( $fieldDescription, 'hidden' ) ) {
 				continue;
 			}
 
