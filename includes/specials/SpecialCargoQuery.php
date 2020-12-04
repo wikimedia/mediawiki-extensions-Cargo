@@ -169,7 +169,8 @@ END;
 			$orderByDirections = $req->getArray( 'order_by_options' );
 			$rowNum = 0;
 			foreach ( $orderByValues as $i => $curOrderBy ) {
-				$text .= $this->displayOrderByInput( $rowNum++, $curOrderBy, $orderByDirections[$i] );
+				$orderByDir = ( $orderByDirections == null ) ? null : $orderByDirections[$i];
+				$text .= $this->displayOrderByInput( $rowNum++, $curOrderBy, $orderByDir );
 			}
 		} else {
 			$text .= $this->displayOrderByInput( 0, null, null );

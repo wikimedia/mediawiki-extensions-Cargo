@@ -20,9 +20,14 @@ class CargoQueryPage extends QueryPage {
 		$orderByOptions = $req->getArray( 'order_by_options' );
 		if ( is_array( $orderByValues ) ) {
 			foreach ( $orderByValues as $i => $curOrderBy ) {
-				if ( $curOrderBy != '' ) {
-					$orderByStr .= $curOrderBy . ' ' . $orderByOptions[$i] . ',';
+				if ( $curOrderBy == '' ) {
+					continue;
 				}
+				$orderByStr .= $curOrderBy;
+				if ( $orderByOptions != null ) {
+					$orderByStr .= ' ' . $orderByOptions[$i];
+				}
+				$orderByStr .= ',';
 			}
 		}
 		if ( substr( $orderByStr, -1, 1 ) == ',' ) {
