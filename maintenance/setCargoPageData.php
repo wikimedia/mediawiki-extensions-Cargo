@@ -84,7 +84,14 @@ class SetCargoPageData extends Maintenance {
 			if ( $title == null ) {
 				continue;
 			}
-			CargoPageData::storeValuesForPage( $title, $createReplacement );
+			try {
+				CargoPageData::storeValuesForPage( $title, $createReplacement );
+			} catch ( MWException $e ) {
+				// This can happen if, for example, there's a
+				// page with a content type that is no longer
+				// supported.
+				continue;
+			}
 			$this->output( wfTimestamp( TS_DB ) . ' Stored page data for page "' . $title->getFullText() . "\".\n" );
 		}
 
