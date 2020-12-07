@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"ArenaL5",
 			"Awesomecat5",
 			"Ciencia Al Poder",
 			"Dgstranz",
@@ -32,7 +33,7 @@
 	"cargo-viewdata-tables": "Tabla(s):",
 	"cargo-viewdata-fields": "Campo(s):",
 	"cargo-viewdata-where": "Donde:",
-	"cargo-viewdata-joinon": "Unirse en:",
+	"cargo-viewdata-joinon": "Unir por:",
 	"cargo-viewdata-groupby": "Agrupar por:",
 	"cargo-viewdata-having": "Que contengan:",
 	"cargo-viewdata-orderby": "Ordenar por:",
@@ -81,7 +82,7 @@
 	"cargo-cargotables-hasreplacement": "Esta tabla es de solo lectura mientras se genera una tabla sustituta para ella.",
 	"deletecargotable": "Eliminar tabla de Cargo",
 	"cargo-deletetable-confirm": "Eliminar la table de Cargo $1?",
-	"cargo-deletetable-replacementconfirm": "¿Quieres eliminar la [$1 tabla sustituta] de la tabla de Cargo $2?",
+	"cargo-deletetable-replacementconfirm": "¿Quieres eliminar la [$1 tabla sustituta] de la tabla de Cargo $2? Esto no afectará a la tabla real.",
 	"cargo-deletetable-success": "Se eliminó la tabla «$1».",
 	"switchcargotable": "Cambiar en tabla de Cargo sustituida",
 	"cargo-switchtables-confirm": "Cambiar en el reemplazo por la tabla de Cargo $1?",
