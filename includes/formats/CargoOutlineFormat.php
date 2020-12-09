@@ -87,7 +87,7 @@ class CargoOutlineFormat extends CargoListFormat {
 			foreach ( $queryResultsRow as $fieldName => $value ) {
 				$formattedValue = $formattedValuesTable[$rowNum][$fieldName];
 				if ( in_array( $fieldName, $this->mOutlineFields ) ) {
-					if ( array_key_exists( 'isList', $fieldDescriptions[$fieldName] ) ) {
+					if ( property_exists( $fieldDescriptions[$fieldName], 'isList' ) ) {
 						$delimiter = $fieldDescriptions[$fieldName]['delimiter'];
 						$coRow->addOutlineFieldValues( $fieldName, array_map( 'trim', explode( $delimiter, $value ) ),
 							array_map( 'trim', explode( $delimiter, $formattedValue ) ) );
