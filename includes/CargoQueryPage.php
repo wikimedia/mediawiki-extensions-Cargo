@@ -170,7 +170,7 @@ class CargoQueryPage extends QueryPage {
 		for ( $i = 0; $i < $num && $row = $res->fetchObject(); $i++ ) {
 			$valuesTable[] = get_object_vars( $row );
 		}
-		$queryDisplayer = new CargoQueryDisplayer();
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery );
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		$queryDisplayer->mFormat = $this->format;
 		$formatter = $queryDisplayer->getFormatter( $out );
