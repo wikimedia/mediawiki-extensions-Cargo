@@ -153,16 +153,20 @@ class CargoHooks {
 	}
 
 	/**
-	 * Add the "purge cache" tab to actions
+	 * Add the "purge cache" link to page actions.
 	 *
+	 * @link https://www.mediawiki.org/wiki/Manual:Hooks/SkinTemplateNavigation
 	 * @param SkinTemplate $skinTemplate
-	 * @param array &$links
+	 * @param mixed[] &$links
 	 * @return bool
 	 */
 	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
-		// Only add this tab if Semantic MediaWiki (which has its
-		// identical "refresh" tab) is not installed.
-		if ( defined( 'SMW_VERSION' ) ) {
+		global $wgVersion;
+
+		// Only add this tab if neither the Purge nor SemanticMediaWiki extension
+		// (which has its own "purge link") is installed.
+		$extReg = ExtensionRegistry::getInstance();
+		if ( $extReg->isLoaded( 'SemanticMediaWiki' ) || $extReg->isLoaded( 'Purge' ) ) {
 			return true;
 		}
 
@@ -173,6 +177,12 @@ class CargoHooks {
 				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),
 				'href' => $skinTemplate->getTitle()->getLocalUrl( [ 'action' => 'purge' ] )
 			];
+			// The mediawiki.notify module is always loaded in MW 1.35 and later,
+			// so we set a DOM flag here so the ext.cargo.purge module
+			// knows to load it for versions earlier than that.
+			if ( version_compare( $wgVersion, '1.35', '<' ) ) {
+				$links['actions']['cargo-purge']['data-ext-cargo-notify'] = true;
+			}
 		}
 
 		return true;
