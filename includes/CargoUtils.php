@@ -578,7 +578,8 @@ class CargoUtils {
 			$pageText = $pageContents;
 		}
 		$parser = MediaWikiServices::getInstance()->getParser();
-		$parser->parse( $pageText, $title, new ParserOptions() );
+		$parserOptions = ParserOptions::newFromAnon();
+		$parser->parse( $pageText, $title, $parserOptions );
 	}
 
 	/**
