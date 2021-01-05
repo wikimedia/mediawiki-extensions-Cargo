@@ -3,6 +3,7 @@
 		"authors": [
 			"Esraa Ismail",
 			"Meno25",
+			"Michel Bakni",
 			"Sonic N800",
 			"Tala Ali",
 			"ديفيد",
@@ -140,7 +141,7 @@
 	"cargo-viewbibtex": "عرض بب تخ",
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
-	"cargo-purgecache": "إفراغ الكاش",
+	"cargo-purgecache": "محو الاختزان",
 	"cargo-purgecache-failed": "فشل تطهير ذاكرة التخزين المؤقت",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
