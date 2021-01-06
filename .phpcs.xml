@@ -19,9 +19,7 @@
 		<exclude name="MediaWiki.Usage.ExtendClassUsage.FunctionConfigUsage" />
 		<exclude name="MediaWiki.Usage.ExtendClassUsage.FunctionVarUsage" />
 		<exclude name="MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment" />
-		<exclude name="PSR2.Classes.PropertyDeclaration.ScopeMissing" />
 		<exclude name="PSR12.Properties.ConstantVisibility.NotFound" />
-		<exclude name="Squiz.Scope.MemberVarScope.Missing" />
 	</rule>
 	<rule ref="Generic.Files.LineLength">
 		<properties>

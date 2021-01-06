@@ -12,7 +12,7 @@ use MediaWiki\MediaWikiServices;
 
 class CargoUtils {
 
-	static $CargoDB = null;
+	private static $CargoDB = null;
 
 	/**
 	 * @global string $wgDBuser
