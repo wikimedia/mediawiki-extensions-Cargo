@@ -546,7 +546,7 @@ class CargoUtils {
 		} elseif ( ( $title != null && $title->isSpecialPage() && !$wgRequest->getCheck( 'wpRunQuery' ) ) ||
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
-			$parserOptions = new ParserOptions();
+			$parserOptions = ParserOptions::newFromAnon();
 			if ( method_exists( $parserOptions, 'setWrapOutputClass' ) ) {
 				// Remove '<div class="mw-parser-output">' from around
 				// the value, if it was parsed - this class, and method,
