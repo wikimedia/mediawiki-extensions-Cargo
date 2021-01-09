@@ -227,7 +227,8 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 			$search_terms = $request->getArray( '_search_' . $filter_name );
 			$lower_date = $request->getArray( '_lower_' . $filter_name );
 			$upper_date = $request->getArray( '_upper_' . $filter_name );
-			if ( $vals_array = $request->getArray( $filter_name ) ) {
+			$vals_array = $request->getArray( $filter_name );
+			if ( $vals_array ) {
 				// If it has both search_terms and normal filter values
 				if ( $search_terms != null ) {
 					$applied_filters[] =

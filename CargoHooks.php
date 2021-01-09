@@ -229,8 +229,8 @@ class CargoHooks {
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
 		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageID ] );
-		while ( $row = $dbw->fetchRow( $res ) ) {
-			$curMainTable = $row['table_name'];
+		foreach ( $res as $row ) {
+			$curMainTable = $row->table_name;
 
 			if ( $cdb->tableExists( $curMainTable . '__NEXT' ) ) {
 				// It's a "read-only" table - ignore.
@@ -439,8 +439,8 @@ class CargoHooks {
 		// We use $oldid, because that's the page ID - $newid is the
 		// ID of the redirect page.
 		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $oldid ] );
-		while ( $row = $dbw->fetchRow( $res ) ) {
-			$curMainTable = $row['table_name'];
+		foreach ( $res as $row ) {
+			$curMainTable = $row->table_name;
 			$cdb->update( $curMainTable,
 				[
 					$cdb->addIdentifierQuotes( '_pageName' ) => $newPageName,
@@ -577,8 +577,8 @@ class CargoHooks {
 		$rowID = $row['_ID'];
 		$categoriesForPage = [];
 		$res2 = $cdb->select( $categoriesTable, '_value',  [ '_rowID' => $rowID ] );
-		while ( $row2 = $res2->fetchRow() ) {
-			$categoriesForPage[] = $row2['_value'];
+		foreach ( $res2 as $row2 ) {
+			$categoriesForPage[] = $row2->_value;
 		}
 		$categoryAlreadyListed = in_array( $categoryName, $categoriesForPage );
 		// This can be done with a NOT XOR (i.e. XNOR), but let's not make it more confusing.

@@ -105,9 +105,9 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 			$dbr = wfGetDB( DB_REPLICA );
 			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 				[ 'main_table' => $table ] );
-			while ( $row = $dbr->fetchRow( $res ) ) {
-				$tableName = $row['main_table'];
-				$tableSchemaString = $row['table_schema'];
+			foreach ( $res as $row ) {
+				$tableName = $row->main_table;
+				$tableSchemaString = $row->table_schema;
 				$tableSchemas[$tableName] = CargoTableSchema::newFromDBString( $tableSchemaString );
 				$mFieldDescriptions = array_column( $tableSchemas, 'mFieldDescriptions' );
 				$tempfields = array_keys( call_user_func_array( 'array_merge', $mFieldDescriptions ) );

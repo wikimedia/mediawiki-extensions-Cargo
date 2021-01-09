@@ -79,7 +79,7 @@ class SetCargoGanttData extends Maintenance {
 
 		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . FD_NS_GANTT );
 
-		while ( $page = $pages->fetchObject() ) {
+		foreach ( $pages as $page ) {
 			$title = Title::newFromID( $page->page_id );
 			if ( $title == null ) {
 				continue;

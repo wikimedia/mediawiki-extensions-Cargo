@@ -128,7 +128,7 @@ class CargoStore {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_pages', 'page_id',
 			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
-		if ( !$row = $dbw->fetchRow( $res ) ) {
+		if ( !$dbw->fetchRow( $res ) ) {
 			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		}
 	}

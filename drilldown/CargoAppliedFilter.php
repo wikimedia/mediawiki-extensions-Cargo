@@ -239,10 +239,9 @@ class CargoAppliedFilter {
 
 		$cdb = CargoUtils::getDB();
 		$res = $cdb->select( $table, "DISTINCT " . $cdb->addIdentifierQuotes( $value_field ) );
-		while ( $row = $cdb->fetchRow( $res ) ) {
-			$possible_values[] = $row[$value_field];
+		foreach ( $res as $row ) {
+			$possible_values[] = $row->$value_field;
 		}
-		$cdb->freeResult( $res );
 		return $possible_values;
 	}
 

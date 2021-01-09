@@ -54,8 +54,8 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$res = $dbw->select(
 			'cargo_pages', 'table_name', [ 'page_id' => $this->mTitle->getArticleID() ] );
-		while ( $row = $dbw->fetchRow( $res ) ) {
-			$tableNames[] = $row['table_name'];
+		foreach ( $res as $row ) {
+			$tableNames[] = $row->table_name;
 		}
 
 		$toc = Linker::tocIndent();

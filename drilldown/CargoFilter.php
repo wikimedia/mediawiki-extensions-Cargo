@@ -248,36 +248,35 @@ class CargoFilter {
 			$joinConds
 		);
 
-		while ( $row = $cdb->fetchRow( $res ) ) {
-			$firstVal = current( $row ); // separate variable needed for PHP 5.3
+		foreach ( $res as $row ) {
+			$firstVal = current( (array)$row ); // separate variable needed for PHP 5.3
 			if ( empty( $firstVal ) ) {
-				$possible_dates['_none'] = $row['total'];
+				$possible_dates['_none'] = $row->total;
 			} elseif ( $timePeriod == 'day' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row['month_field'] ) . ' ' . $row['day_of_month_field'] . ', ' . $row['year_field'];
-				$possible_dates[$date_string] = $row['total'];
+				$date_string = CargoDrilldownUtils::monthToString( $row->month_field ) . ' ' . $row->day_of_month_field . ', ' . $row->year_field;
+				$possible_dates[$date_string] = $row->total;
 			} elseif ( $timePeriod == 'month' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row['month_field'] ) . ' ' . $row['year_field'];
-				$possible_dates[$date_string] = $row['total'];
+				$date_string = CargoDrilldownUtils::monthToString( $row->month_field ) . ' ' . $row->year_field;
+				$possible_dates[$date_string] = $row->total;
 			} elseif ( $timePeriod == 'year' ) {
-				$date_string = $row['year_field'];
-				$possible_dates[$date_string] = $row['total'];
+				$date_string = $row->year_field;
+				$possible_dates[$date_string] = $row->total;
 			} else { // if ( $timePeriod == 'decade' )
 				// Unfortunately, there's no SQL DECADE()
 				// function - so we have to take these values,
 				// which are grouped into year "buckets", and
 				// re-group them into decade buckets.
-				$year_string = $row['year_field'];
+				$year_string = $row->year_field;
 				$start_of_decade = $year_string - ( $year_string % 10 );
 				$end_of_decade = $start_of_decade + 9;
 				$decade_string = $start_of_decade . ' - ' . $end_of_decade;
 				if ( !array_key_exists( $decade_string, $possible_dates ) ) {
-					$possible_dates[$decade_string] = $row['total'];
+					$possible_dates[$decade_string] = $row->total;
 				} else {
-					$possible_dates[$decade_string] += $row['total'];
+					$possible_dates[$decade_string] += $row->total;
 				}
 			}
 		}
-		$cdb->freeResult( $res );
 		return $possible_dates;
 	}
 
@@ -328,14 +327,13 @@ class CargoFilter {
 		$res = $cdb->select( $tableNames, [ "$fieldName AS value", $countClause ], $conds, null,
 			[ 'GROUP BY' => $fieldName ], $joinConds );
 		$possible_values = [];
-		while ( $row = $cdb->fetchRow( $res ) ) {
-			$value_string = $row['value'];
+		foreach ( $res as $row ) {
+			$value_string = $row->value;
 			if ( $value_string == '' ) {
 				$value_string = '_none';
 			}
 			$possible_values[$value_string] = $row['total'];
 		}
-		$cdb->freeResult( $res );
 
 		return $possible_values;
 	}

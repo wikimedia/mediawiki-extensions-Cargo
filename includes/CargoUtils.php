@@ -91,7 +91,7 @@ class CargoUtils {
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'page_props', [
+		$value = $dbr->selectField( 'page_props', [
 				'pp_value'
 			], [
 				'pp_page' => $pageID,
@@ -99,11 +99,11 @@ class CargoUtils {
 			]
 		);
 
-		if ( !$row = $dbr->fetchRow( $res ) ) {
+		if ( !$value ) {
 			return null;
 		}
 
-		return $row['pp_value'];
+		return $value;
 	}
 
 	/**
@@ -120,9 +120,9 @@ class CargoUtils {
 		);
 
 		$pagesPerValue = [];
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			$pageID = $row['pp_page'];
-			$pageValue = $row['pp_value'];
+		foreach ( $res as $row ) {
+			$pageID = $row->pp_page;
+			$pageValue = $row->pp_value;
 			if ( array_key_exists( $pageValue, $pagesPerValue ) ) {
 				$pagesPerValue[$pageValue][] = $pageID;
 			} else {
@@ -139,17 +139,17 @@ class CargoUtils {
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'page_props', [
+		$page = $dbr->selectField( 'page_props', [
 			'pp_page'
 			], [
 			'pp_value' => $tableName,
 			'pp_propname' => 'CargoTableName'
 			]
 		);
-		if ( !$row = $dbr->fetchRow( $res ) ) {
+		if ( !$page ) {
 			return null;
 		}
-		return $row['pp_page'];
+		return $page;
 	}
 
 	public static function formatError( $errorString ) {
@@ -169,8 +169,8 @@ class CargoUtils {
 		$tableNames = [];
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', 'main_table' );
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			$tableName = $row['main_table'];
+		foreach ( $res as $row ) {
+			$tableName = $row->main_table;
 			// Skip "replacement" tables.
 			if ( substr( $tableName, -6 ) == '__NEXT' ) {
 				continue;
@@ -184,9 +184,9 @@ class CargoUtils {
 		$parentTables = [];
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			if ( $tableName == $row['main_table'] ) {
-				$parentTables = self::getPageProp( $row['template_id'], 'CargoParentTables' );
+		foreach ( $res as $row ) {
+			if ( $tableName == $row->main_table ) {
+				$parentTables = self::getPageProp( $row->template_id, 'CargoParentTables' );
 			}
 		}
 		if ( $parentTables ) {
@@ -225,9 +225,9 @@ class CargoUtils {
 		$drilldownTabs = [];
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			if ( $tableName == $row['main_table'] ) {
-				$drilldownTabs = self::getPageProp( $row['template_id'], 'CargoDrilldownTabsParams' );
+		foreach ( $res as $row ) {
+			if ( $tableName == $row->main_table ) {
+				$drilldownTabs = self::getPageProp( $row->template_id, 'CargoDrilldownTabsParams' );
 			}
 		}
 		if ( $drilldownTabs ) {
@@ -252,9 +252,9 @@ class CargoUtils {
 		$dbr = wfGetDB( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 			[ 'main_table' => $mainTableNames ] );
-		while ( $row = $dbr->fetchRow( $res ) ) {
-			$tableName = $row['main_table'];
-			$tableSchemaString = $row['table_schema'];
+		foreach ( $res as $row ) {
+			$tableName = $row->main_table;
+			$tableSchemaString = $row->table_schema;
 			$tableSchemas[$tableName] = CargoTableSchema::newFromDBString( $tableSchemaString );
 		}
 
@@ -648,8 +648,8 @@ class CargoUtils {
 			// to do a lookup here?
 			$tableNames = [];
 			$res = $dbw->select( 'cargo_tables', 'main_table', [ 'template_id' => $templatePageID ] );
-			while ( $row = $dbw->fetchRow( $res ) ) {
-				$tableNames[] = $row['main_table'];
+			foreach ( $res as $row ) {
+				$tableNames[] = $row->main_table;
 			}
 
 			// For whatever reason, that DB query might have failed -

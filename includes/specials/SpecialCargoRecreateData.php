@@ -75,8 +75,8 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 					'pp_propname' => 'CargoAttachedTable'
 				]
 			);
-			while ( $row = $dbw->fetchRow( $res ) ) {
-				$templateID = $row['pp_page'];
+			foreach ( $res as $row ) {
+				$templateID = $row->pp_page;
 				$attachedTemplateTitle = Title::newFromID( $templateID );
 				$numPages = $this->getNumPagesThatCallTemplate( $dbw, $attachedTemplateTitle );
 				$attachedTemplateName = $attachedTemplateTitle->getText();

@@ -1545,10 +1545,10 @@ class CargoSQLQuery {
 		// Is there a more straightforward way of turning query
 		// results into an array?
 		$resultArray = [];
-		while ( $row = $this->mCargoDB->fetchRow( $res ) ) {
+		foreach ( $res as $row ) {
 			$resultsRow = [];
 			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
-				$curValue = $row[$alias];
+				$curValue = $row->$alias;
 				if ( $curValue instanceof DateTime ) {
 					// MSSQL dates only?
 					$resultsRow[$alias] = $curValue->format( DateTime::W3C );

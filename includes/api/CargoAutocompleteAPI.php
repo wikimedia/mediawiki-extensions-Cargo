@@ -116,7 +116,8 @@ class CargoAutocompleteAPI extends ApiBase {
 
 		foreach ( $queryResults as $row ) {
 			// @TODO - this check should not be necessary.
-			if ( ( $value = $row[$fieldAlias] ) != '' ) {
+			$value = $row[$fieldAlias];
+			if ( $value != '' ) {
 				$values[] = $value;
 			}
 		}
