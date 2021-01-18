@@ -71,9 +71,12 @@ class CargoQueryPage extends QueryPage {
 		return false;
 	}
 
-	// @TODO - declare a getPageHeader() function, to show some
+	// @todo - declare a getPageHeader() function, to show some
 	// information about the query?
 
+	/**
+	 * @return string
+	 */
 	public function getRecacheDB() {
 		return CargoUtils::getDB();
 	}

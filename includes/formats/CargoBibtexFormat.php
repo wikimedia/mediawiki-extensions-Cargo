@@ -78,7 +78,9 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		return self::generateAuthorKey( $author ) . $year . self::generateTitleKey( $title );
 	}
 
-	// BibTeX month abbreviations
+	/**
+	 * BibTeX month abbreviations
+	 */
 	private static $monthStrings = [ 'jan', 'feb', 'mar', 'apr', 'may',
 		'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec' ];
 
