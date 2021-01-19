@@ -371,7 +371,7 @@ class CargoQueryDisplayer {
 		$formattedQueryResults = $this->getFormattedQueryResults( $queryResults );
 		$text = '';
 		if ( array_key_exists( 'intro', $this->mDisplayParams ) ) {
-			$text .= $this->mDisplayParams['intro'];
+			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], $formatter->mParser );
 		}
 		try {
 			$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions,
@@ -380,7 +380,7 @@ class CargoQueryDisplayer {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
 		if ( array_key_exists( 'outro', $this->mDisplayParams ) ) {
-			$text .= $this->mDisplayParams['outro'];
+			$text .= CargoUtils::smartParse( $this->mDisplayParams['outro'], $formatter->mParser );
 		}
 		return $text;
 	}
