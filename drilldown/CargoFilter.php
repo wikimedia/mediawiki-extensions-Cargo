@@ -332,7 +332,7 @@ class CargoFilter {
 			if ( $value_string == '' ) {
 				$value_string = '_none';
 			}
-			$possible_values[$value_string] = $row['total'];
+			$possible_values[$value_string] = $row->total;
 		}
 
 		return $possible_values;
