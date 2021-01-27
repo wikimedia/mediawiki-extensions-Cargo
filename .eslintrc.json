@@ -23,6 +23,7 @@
 		"vars-on-top": "off",
 		"array-callback-return": "warn",
 		"es/no-object-assign": "warn",
-		"no-shadow": "warn"
+		"no-shadow": "warn",
+		"compat/compat": "warn"
 	}
 }

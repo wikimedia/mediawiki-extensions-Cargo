@@ -292,7 +292,7 @@
 				"libs/dagre-d3.js",
 				"libs/ext.cargo.dagre.js"
 			]
-                }
+		}
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
