@@ -1,19 +1,6 @@
 <?php
 
 class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
-	/**
-	 * @covers CargoPageValuesAction::getName
-	 * @dataProvider provideTitle
-	 */
-	public function testGetName( $title ) {
-		$article = new Article( $title );
-		$cargoPageValuesAction = new CargoPageValuesAction(
-			$article, RequestContext::getMain()
-		);
-
-		$actual = $cargoPageValuesAction->getName();
-		$this->assertSame( 'pagevalues', $actual );
-	}
 
 	/**
 	 * Mock Skin for use in ::addLink test.
