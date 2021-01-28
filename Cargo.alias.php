@@ -14,6 +14,7 @@ $specialPageAliases['en'] = [
 	'CargoTables' => [ 'CargoTables' ],
 	'DeleteCargoTable' => [ 'DeleteCargoTable' ],
 	'Drilldown' => [ 'Drilldown' ],
+	'CargoTableDiagram' => [ 'CargoTableDiagram' ],
 	'PageValues' => [ 'PageValues' ],
 	'CargoQuery' => [ 'CargoQuery', 'ViewData' ],
 	'SwitchCargoTable' => [ 'SwitchCargoTable' ],

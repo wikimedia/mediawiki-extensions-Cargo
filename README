@@ -98,6 +98,9 @@ available under the MIT License.
 * Cargo includes the Slick JS library (http://kenwheeler.github.io/slick/),
 available under the MIT License.
 
+* Cargo includes the Dagre JS library (https://github.com/dagrejs/dagre),
+available under the MIT License.
+
 * Cargo includes the markerclusterer.js file, available under the Apache
 License.
 

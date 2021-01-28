@@ -27,6 +27,7 @@
 	},
 	"SpecialPages": {
 		"CargoTables": "CargoTables",
+		"CargoTableDiagram": "CargoTableDiagram",
 		"DeleteCargoTable": "SpecialDeleteCargoTable",
 		"SwitchCargoTable": "SpecialSwitchCargoTable",
 		"CargoQuery": "SpecialCargoQuery",
@@ -93,6 +94,7 @@
 		"CargoRecreateDataAction": "includes/CargoRecreateDataAction.php",
 		"SpecialCargoRecreateData": "includes/specials/SpecialCargoRecreateData.php",
 		"CargoTables": "includes/specials/CargoTables.php",
+		"CargoTableDiagram": "includes/specials/CargoTableDiagram.php",
 		"SpecialDeleteCargoTable": "includes/specials/SpecialDeleteCargoTable.php",
 		"SpecialSwitchCargoTable": "includes/specials/SpecialSwitchCargoTable.php",
 		"SpecialCargoQuery": "includes/specials/SpecialCargoQuery.php",
@@ -280,7 +282,17 @@
 			"scripts": [
 				"libs/slick/slick.js"
 			]
-		}
+		},
+		"ext.cargo.diagram": {
+			"styles": [
+				"resources/ext.cargo.dagre.css"
+			],
+			"scripts": [
+				"libs/d3.js",
+				"libs/dagre-d3.js",
+				"libs/ext.cargo.dagre.js"
+			]
+                }
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",

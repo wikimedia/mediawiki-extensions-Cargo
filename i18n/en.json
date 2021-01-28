@@ -103,6 +103,7 @@
 	"switchcargotable": "Switch in replacement Cargo table",
 	"cargo-switchtables-confirm": "Switch in the replacement for the Cargo table $1?",
 	"cargo-switchtables-switch": "Switch",
+	"cargotablediagram": "Cargo table diagram",
 	"pagevalues": "Page values",
 	"cargo-pagevaluesfor": "Page values for \"$1\"",
 	"cargo-pagevalues-tablevalues": "\"$1\" values",
