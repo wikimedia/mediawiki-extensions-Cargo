@@ -105,6 +105,7 @@
 	"switchcargotable": "Usar substituição da tabela Cargo",
 	"cargo-switchtables-confirm": "Alternar para a substituição da tabela Cargo $1?",
 	"cargo-switchtables-switch": "Mudar",
+	"cargotablediagram": "Diagrama da tabela de cargo",
 	"pagevalues": "Valores de página",
 	"cargo-pagevaluesfor": "Valores de página para \"$1\"",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
