@@ -94,7 +94,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		}
 
 		if ( count( $coordinatesFields ) == 0 ) {
-			throw new MWException( "Error: no fields of type \"Coordinate\" were specified in this "
+			throw new MWException( "Error: no fields of type \"Coordinates\" were specified in this "
 			. "query; cannot display in a map." );
 		}
 

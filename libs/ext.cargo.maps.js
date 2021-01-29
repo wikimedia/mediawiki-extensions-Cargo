@@ -180,7 +180,7 @@ CargoMap.prototype.displayWithLeaflet = function() {
 	}
 
 	var numItems = this.allItemValues.length;
-	for ( i = 0; i < numItems; i++ ) {
+	for ( var i = 0; i < numItems; i++ ) {
 		var curItem = this.allItemValues[i];
 		var lat = curItem['lat'];
 		var lon = curItem['lon'];
@@ -192,9 +192,9 @@ CargoMap.prototype.displayWithLeaflet = function() {
 		if ( curItem.hasOwnProperty('icon') ) {
 			var icon = L.icon({iconUrl: curItem.icon});
 			marker.setIcon( icon );
-			if ( this.allItemValues[i]['title'] != null ) {
-				marker.bindPopup( CargoMap.createPopupHTMLForRow( curItem ) );
-			}
+		}
+		if ( this.allItemValues[ i ].title !== null ) {
+			marker.bindPopup( CargoMap.createPopupHTMLForRow( curItem ) );
 		}
 	}
 }
