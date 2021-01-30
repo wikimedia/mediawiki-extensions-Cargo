@@ -1507,9 +1507,25 @@ class CargoSQLQuery {
 		if ( $this->mHavingStr != '' ) {
 			$selectOptions['HAVING'] = $this->mHavingStr;
 		}
-		// @TODO - need handling of non-ASCII characters in field
-		// names, which for some reason cause problems in "ORDER BY"
-		// specifically.
+
+		foreach ( $this->mOrderBy as &$fieldName ) {
+			if ( strpos( $fieldName, '(' ) === false ) {
+				if ( strpos( $fieldName, '.' ) === false ) {
+					if ( !$this->mCargoDB->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
+						$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
+					}
+				} else {
+					list( $realTableName, $realFieldName ) = explode( '.', $fieldName, 2 );
+					if ( !$this->mCargoDB->isQuotedIdentifier( $realTableName ) && !CargoUtils::isSQLStringLiteral( $realTableName ) ) {
+						$realTableName = $this->mCargoDB->addIdentifierQuotes( $realTableName );
+					}
+					if ( !$this->mCargoDB->isQuotedIdentifier( $realFieldName ) && !CargoUtils::isSQLStringLiteral( $realFieldName ) ) {
+						$realFieldName = $this->mCargoDB->addIdentifierQuotes( $realFieldName );
+					}
+					$fieldName = "$realTableName.$realFieldName";
+				}
+			}
+		}
 		$selectOptions['ORDER BY'] = $this->mOrderBy;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 		$selectOptions['OFFSET'] = $this->mOffset;
