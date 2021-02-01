@@ -106,6 +106,7 @@
 	"switchcargotable": "Префрли на заменска табела",
 	"cargo-switchtables-confirm": "Да префрлам на замената за табелата $1?",
 	"cargo-switchtables-switch": "Префрли",
+	"cargotablediagram": "Табеларен дијаграм на „Карго“",
 	"pagevalues": "Вредности на страницата",
 	"cargo-pagevaluesfor": "Вредности на страницата „$1“",
 	"cargo-pagevalues-tablevalues": "вредности од „$1“",
