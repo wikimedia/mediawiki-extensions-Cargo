@@ -783,12 +783,15 @@ class CargoSQLQuery {
 				$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern );
 				$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern );
 				foreach ( $matches[2] as $match ) {
+					// _ID need not be quoted here.
+					// This being attached with a table name is handled
+					// in the function addTablePrefixesToAll, like other fields.
 					$replacement =
 						$tableAlias . "._ID " .
 						$notOperator .
-						" IN (SELECT _rowID FROM " .
+						" IN (SELECT " . $this->mCargoDB->addIdentifierQuotes( "_rowID" ) . " FROM " .
 						$this->mCargoDB->tableName( $fieldTableName ) .
-						" WHERE _value " .
+						" WHERE " . $this->mCargoDB->addIdentifierQuotes( "_value" ) .
 						$compareOperator .
 						$match .
 						") ";
@@ -1291,6 +1294,9 @@ class CargoSQLQuery {
 			$completeSearchPattern = "";
 			$matches = [];
 			$newWhere = "";
+			$leftFieldName = $this->mCargoDB->addIdentifierQuotes( "_left" );
+			$rightFieldName = $this->mCargoDB->addIdentifierQuotes( "_right" );
+			$valueFieldName = $this->mCargoDB->addIdentifierQuotes( "_value" );
 
 			if ( preg_match( $patternRoot . '(\s+HOLDS WITHIN\s+)' . $patternSuffix, $this->mWhereStr, $matches ) ) {
 				if ( !$fieldIsList ) {
@@ -1302,11 +1308,11 @@ class CargoSQLQuery {
 					throw new MWException( "Error: Please specify a value for \"HOLDS WITHIN\"" );
 				}
 				$withinValue = $matches[3];
-				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .
-					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
-					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
+				$subquery = "( SELECT $valueFieldName FROM $hierarchyTable WHERE " .
+					"$leftFieldName >= ( SELECT $leftFieldName FROM $hierarchyTable WHERE $valueFieldName = $withinValue ) AND " .
+					"$rightFieldName <= ( SELECT $rightFieldName FROM $hierarchyTable WHERE $valueFieldName = $withinValue ) " .
 					")";
-				$subquery = "( SELECT DISTINCT( _rowID ) FROM $fieldTableName WHERE _value IN " . $subquery . " )";
+				$subquery = "( SELECT DISTINCT( " . $this->mCargoDB->addIdentifierQuotes( "_rowID" ) . " ) FROM $fieldTableName WHERE $valueFieldName IN " . $subquery . " )";
 				$newWhere = " " . $tableName . "._ID" . " IN " . $subquery;
 			}
 
@@ -1320,9 +1326,9 @@ class CargoSQLQuery {
 					throw new MWException( "Error: Please specify a value for \"WITHIN\"" );
 				}
 				$withinValue = $matches[3];
-				$subquery = "( SELECT _value FROM $hierarchyTable WHERE " .
-					"_left >= ( SELECT _left FROM $hierarchyTable WHERE _value = $withinValue ) AND " .
-					"_right <= ( SELECT _right FROM $hierarchyTable WHERE _value = $withinValue ) " .
+				$subquery = "( SELECT $valueFieldName FROM $hierarchyTable WHERE " .
+					"$leftFieldName >= ( SELECT $leftFieldName FROM $hierarchyTable WHERE $valueFieldName = $withinValue ) AND " .
+					"$rightFieldName <= ( SELECT $rightFieldName FROM $hierarchyTable WHERE $valueFieldName = $withinValue ) " .
 					")";
 				$newWhere = " " . $fieldName . " IN " . $subquery;
 			}
