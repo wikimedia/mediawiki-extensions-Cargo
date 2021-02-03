@@ -16,7 +16,7 @@ class CargoDisplayMap {
 	 * parser function defined by the Maps extension.
 	 *
 	 * @param Parser &$parser
-	 * @return string
+	 * @return string|array
 	 */
 	public static function run( &$parser ) {
 		$params = func_get_args();
@@ -60,7 +60,7 @@ class CargoDisplayMap {
 			return CargoUtils::formatError( "Error: 'point' parameter must be set." );
 		}
 		if ( $pointStr === '' ) {
-			return;
+			return '';
 		}
 
 		// Simulate a query with the appropriate mapping format.
