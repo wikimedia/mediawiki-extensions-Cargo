@@ -1070,7 +1070,7 @@ class CargoSQLQuery {
 				if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 					$replacement = "$fieldTableAlias._value";
 				} else {
-					$replacement = $tableAlias . '.' . $fieldName . '__full';
+					$replacement = $tableAlias . '.' . $fieldName . '__full ';
 				}
 				if ( isset( $matches[2] ) && ( $matches[2] == ',' ) ) {
 					$replacement .= ',';
@@ -1514,24 +1514,6 @@ class CargoSQLQuery {
 			$selectOptions['HAVING'] = $this->mHavingStr;
 		}
 
-		foreach ( $this->mOrderBy as &$fieldName ) {
-			if ( strpos( $fieldName, '(' ) === false ) {
-				if ( strpos( $fieldName, '.' ) === false ) {
-					if ( !$this->mCargoDB->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
-						$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
-					}
-				} else {
-					list( $realTableName, $realFieldName ) = explode( '.', $fieldName, 2 );
-					if ( !$this->mCargoDB->isQuotedIdentifier( $realTableName ) && !CargoUtils::isSQLStringLiteral( $realTableName ) ) {
-						$realTableName = $this->mCargoDB->addIdentifierQuotes( $realTableName );
-					}
-					if ( !$this->mCargoDB->isQuotedIdentifier( $realFieldName ) && !CargoUtils::isSQLStringLiteral( $realFieldName ) ) {
-						$realFieldName = $this->mCargoDB->addIdentifierQuotes( $realFieldName );
-					}
-					$fieldName = "$realTableName.$realFieldName";
-				}
-			}
-		}
 		$selectOptions['ORDER BY'] = $this->mOrderBy;
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 		$selectOptions['OFFSET'] = $this->mOffset;
@@ -1591,8 +1573,9 @@ class CargoSQLQuery {
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = [];
-		foreach ( $this->mAliasedTableNames as $tableName ) {
+		foreach ( $this->mAliasedTableNames as $alias => $tableName ) {
 			$tableNamePatterns[] = CargoUtils::getSQLTablePattern( $tableName );
+			$tableNamePatterns[] = CargoUtils::getSQLTablePattern( $alias );
 		}
 
 		return preg_replace_callback( $tableNamePatterns,
