@@ -32,7 +32,10 @@ class CargoRecreateDataAction extends Action {
 		list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $title );
 
 		if ( $tableName == '' ) {
-			// @TODO - display an error message here.
+			$out = $this->getOutput();
+			$out->setPageTitle( $this->msg( 'cargo-createdatatable' )->parse() );
+			// @TODO - create an i18n message for this.
+			$out->addHTML( CargoUtils::formatError( 'This template does not declare any Cargo table.' ) );
 			return;
 		}
 
