@@ -547,14 +547,14 @@ class CargoUtils {
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
 			$parserOptions = ParserOptions::newFromAnon();
-			if ( method_exists( $parserOptions, 'setWrapOutputClass' ) ) {
+			if ( !defined( 'ParserOutput::SUPPORTS_UNWRAP_TRANSFORM' ) && method_exists( $parserOptions, 'setWrapOutputClass' ) ) {
 				// Remove '<div class="mw-parser-output">' from around
 				// the value, if it was parsed - this class, and method,
-				// were both added in MW 1.30.
+				// were both added in MW 1.30 but the method was deprecated in MW 1.31.
 				$parserOptions->setWrapOutputClass( false );
 			}
 			$parserOutput = $parser->parse( $value, $title, $parserOptions, false );
-			$value = $parserOutput->getText();
+			$value = $parserOutput->getText( [ 'unwrap' => true ] );
 		} else {
 			$value = $parser->internalParse( $value );
 		}
