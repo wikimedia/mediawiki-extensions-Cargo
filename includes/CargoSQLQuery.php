@@ -1552,6 +1552,10 @@ class CargoSQLQuery {
 		foreach ( $res as $row ) {
 			$resultsRow = [];
 			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
+				if ( !isset( $row->$alias ) ) {
+					continue;
+				}
+
 				$curValue = $row->$alias;
 				if ( $curValue instanceof DateTime ) {
 					// MSSQL dates only?
