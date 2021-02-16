@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.29"
+		"MediaWiki": ">= 1.30"
 	},
 	"callback": "CargoHooks::registerExtension",
 	"AvailableRights": [
@@ -188,28 +188,14 @@
 				"libs/markerclusterer.js"
 			]
 		},
-		"ext.cargo.calendar.jquery1": {
+		"ext.cargo.calendar": {
 			"styles": [
-				"libs/FullCalendar/2.9.1/fullcalendar.css",
+				"libs/FullCalendar/fullcalendar.css",
 				"libs/ext.cargo.calendar.css"
 			],
 			"scripts": [
-				"libs/FullCalendar/2.9.1/fullcalendar.js",
-				"libs/FullCalendar/2.9.1/lang-all.js",
-				"libs/ext.cargo.calendar.js"
-			],
-			"dependencies": [
-				"moment"
-			]
-		},
-		"ext.cargo.calendar.jquery3": {
-			"styles": [
-				"libs/FullCalendar/3.6.2/fullcalendar.css",
-				"libs/ext.cargo.calendar.css"
-			],
-			"scripts": [
-				"libs/FullCalendar/3.6.2/fullcalendar.js",
-				"libs/FullCalendar/3.6.2/locale-all.js",
+				"libs/FullCalendar/fullcalendar.js",
+				"libs/FullCalendar/locale-all.js",
 				"libs/ext.cargo.calendar.js"
 			],
 			"dependencies": [
