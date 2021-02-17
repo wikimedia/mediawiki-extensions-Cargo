@@ -86,14 +86,9 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Mimic the appearance of a subpage to link back to
 		// Special:CargoTables.
-		if ( method_exists( $this, 'getLinkRenderer' ) ) {
-			$linkRenderer = $this->getLinkRenderer();
-		} else {
-			$linkRenderer = null;
-		}
 		$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 		$mainPageLink =
-			CargoUtils::makeLink( $linkRenderer, $ctPage->getPageTitle(),
+			CargoUtils::makeLink( $this->getLinkRenderer(), $ctPage->getPageTitle(),
 				htmlspecialchars( $ctPage->getDescription() ) );
 		$out->setSubtitle( '< ' . $mainPageLink );
 
@@ -399,11 +394,7 @@ class CargoTables extends IncludableSpecialPage {
 	}
 
 	private function tableTemplatesText( $tableName ) {
-		if ( method_exists( $this, 'getLinkRenderer' ) ) {
-			$linkRenderer = $this->getLinkRenderer();
-		} else {
-			$linkRenderer = null;
-		}
+		$linkRenderer = $this->getLinkRenderer();
 
 		// "Declared by" text
 		if ( !array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {

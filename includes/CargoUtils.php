@@ -1227,7 +1227,7 @@ class CargoUtils {
 	}
 
 	/**
-	 * @param LinkRenderer|null $linkRenderer
+	 * @param LinkRenderer $linkRenderer
 	 * @param LinkTarget|Title $title
 	 * @param string|null $msg Must already be HTML escaped
 	 * @param array $attrs link attributes
@@ -1243,12 +1243,9 @@ class CargoUtils {
 		} elseif ( $wgTitle !== null && $title->equals( $wgTitle ) ) {
 			// Display bolded text instead of a link.
 			return Linker::makeSelfLinkObj( $title, $msg );
-		} elseif ( $linkRenderer !== null ) {
-			// MW 1.28+
+		} else {
 			$html = ( $msg == null ) ? null : new HtmlArmor( $msg );
 			return $linkRenderer->makeLink( $title, $html, $attrs, $params );
-		} else {
-			return Linker::linkKnown( $title, $msg, $attrs, $params );
 		}
 	}
 

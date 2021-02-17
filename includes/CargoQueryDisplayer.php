@@ -206,11 +206,7 @@ class CargoQueryDisplayer {
 			if ( $title == null ) {
 				return null;
 			}
-			if ( method_exists( 'MediaWiki\MediaWikiServices', 'getLinkRenderer' ) ) {
-				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-			} else {
-				$linkRenderer = null;
-			}
+			$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 			// Hide the namespace in the display?
 			global $wgCargoHideNamespaceName;
 			if ( in_array( $title->getNamespace(), $wgCargoHideNamespaceName ) ) {
@@ -429,13 +425,9 @@ class CargoQueryDisplayer {
 		}
 
 		if ( $displayHTML ) {
-			if ( function_exists( 'MediaWiki\MediaWikiServices::getLinkRenderer' ) ) {
-				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-			} else {
-				$linkRenderer = null;
-			}
-			return Html::rawElement( 'p', null,
-				CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, [], $queryStringParams ) );
+			$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+			$link = CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, [], $queryStringParams );
+			return Html::rawElement( 'p', null, $link );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;

@@ -87,12 +87,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		if ( $this->getRequest()->getCheck( 'delete' ) ) {
 			self::deleteTable( $tableName, $fieldTables, $fieldHelperTables );
 			$text = Html::element( 'p', null, $this->msg( 'cargo-deletetable-success', $tableName )->parse() ) . "\n";
-			if ( method_exists( $this, 'getLinkRenderer' ) ) {
-				$linkRenderer = $this->getLinkRenderer();
-			} else {
-				$linkRenderer = null;
-			}
-			$tablesLink = CargoUtils::makeLink( $linkRenderer,
+			$tablesLink = CargoUtils::makeLink( $this->getLinkRenderer(),
 				$ctPage->getPageTitle(),
 				htmlspecialchars( $ctPage->getDescription() ) );
 			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto', $tablesLink )->text() );
