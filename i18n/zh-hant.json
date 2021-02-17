@@ -108,6 +108,7 @@
 	"switchcargotable": "在替換 Cargo 表格裡切換",
 	"cargo-switchtables-confirm": "切換 Cargo 表格 $1 的替換嗎？",
 	"cargo-switchtables-switch": "切換",
+	"cargotablediagram": "Cargo 表格圖表",
 	"pagevalues": "頁面值",
 	"cargo-pagevaluesfor": "用於「$1」的頁面值",
 	"cargo-pagevalues-tablevalues": "「$1」值",
