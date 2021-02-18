@@ -78,8 +78,12 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		];
 
-		if ( $type === "sqlite" ) {
+		if ( $type === 'sqlite' ) {
 			$params['dbFilePath'] = $dbr->getDbFilePath();
+		} elseif ( $type === 'postgres' ) {
+			global $wgDBport;
+			// @TODO - a $wgCargoDBport variable is still needed.
+			$params['port'] = $wgDBport;
 		}
 
 		self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
