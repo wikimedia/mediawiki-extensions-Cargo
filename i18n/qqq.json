@@ -110,6 +110,7 @@
 	"switchcargotable": "{{doc-special|SwitchCargoTable}}\n{{doc-cargo}}",
 	"cargo-switchtables-confirm": "Asks for confirmation to \"switch in\" in a replacement for a database table. Parameters:\n* $1 - the name of the old table",
 	"cargo-switchtables-switch": "The text for a button that \"switches in\" a database table (deletes the old one, and renames the new one to have the name of the old one).\n{{Identical|Switch}}",
+	"cargo-switchtables-success": "Message displayed after user replaces one database table with another. Parameters:\n* $1 - the main table name.",
 	"cargotablediagram": "{{doc-special|CargoTableDiagram}}",
 	"pagevalues": "{{doc-special|PageValues}}",
 	"cargo-pagevaluesfor": "Parameters:\n* $1 - a page name.",
