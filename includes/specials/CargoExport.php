@@ -161,13 +161,17 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 				if ( array_key_exists( 'color', $queryResult ) ) {
 					$eventColor = $queryResult['color'];
-				} else {
+				} elseif ( $colorArray != null && array_key_exists( $i, $colorArray ) ) {
 					$eventColor = $colorArray[$i];
+				} else {
+					$eventColor = null;
 				}
 				if ( array_key_exists( 'text color', $queryResult ) ) {
 					$eventTextColor = $queryResult['text color'];
-				} else {
+				} elseif ( $textColorArray != null && array_key_exists( $i, $textColorArray ) ) {
 					$eventTextColor = $textColorArray[$i];
+				} else {
+					$eventTextColor = null;
 				}
 				if ( array_key_exists( 'start', $queryResult ) ) {
 					$eventStart = $queryResult['start'];
