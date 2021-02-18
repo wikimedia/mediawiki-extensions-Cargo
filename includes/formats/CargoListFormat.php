@@ -6,6 +6,7 @@
 
 class CargoListFormat extends CargoDisplayFormat {
 
+	/** @var string[] */
 	protected $undisplayedFields = [];
 
 	public function __construct( $output, $parser = null ) {

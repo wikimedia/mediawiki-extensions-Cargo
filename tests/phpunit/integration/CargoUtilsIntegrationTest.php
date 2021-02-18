@@ -84,8 +84,12 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 		return [
 			[ $linkRenderer, null, null, [], [], null ],
 			[ $linkRenderer, null, '', [], [], null ],
-			[ $linkRenderer, $title, null, [], [], '<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Test</a>' ],
-			[ $linkRenderer, $title, 'Link text', [], [], '<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Link text</a>' ],
+			[ $linkRenderer, $title, null, [], [],
+				'<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Test</a>'
+			],
+			[ $linkRenderer, $title, 'Link text', [], [],
+				'<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Link text</a>'
+			],
 		];
 	}
 }

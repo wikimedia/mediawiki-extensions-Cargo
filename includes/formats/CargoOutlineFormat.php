@@ -11,7 +11,10 @@
  */
 
 class CargoOutlineFormat extends CargoListFormat {
+
+	/** @var string[] */
 	protected $mOutlineFields = [];
+	/** @var array|null */
 	public $mFieldDescriptions;
 
 	public static function allowedParameters() {

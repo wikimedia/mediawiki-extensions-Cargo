@@ -9,7 +9,9 @@
  */
 
 class CargoTreeFormat extends CargoListFormat {
+	/** @var string|null */
 	protected $mParentField = null;
+	/** @var array|null */
 	public $mFieldDescriptions;
 
 	public static function allowedParameters() {

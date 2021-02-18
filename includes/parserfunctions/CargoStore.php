@@ -10,10 +10,10 @@ class CargoStore {
 
 	public static $settings = [];
 
-	const DATE_AND_TIME = 0;
-	const DATE_ONLY = 1;
-	const MONTH_ONLY = 2;
-	const YEAR_ONLY = 3;
+	public const DATE_AND_TIME = 0;
+	public const DATE_ONLY = 1;
+	public const MONTH_ONLY = 2;
+	public const YEAR_ONLY = 3;
 
 	/**
 	 * Handles the #cargo_store parser function - saves data for one

@@ -16,6 +16,8 @@ class CargoDeclare {
 	 * @TODO - currently this list only includes reserved words from
 	 * MySQL; other DB systems' additional words (if any) should be added
 	 * as well.
+	 *
+	 * @var string[]
 	 */
 	private static $sqlReservedWords = [
 		'accessible', 'add', 'all', 'alter', 'analyze',
@@ -70,6 +72,8 @@ class CargoDeclare {
 	/**
 	 * Words that are similarly reserved for Cargo - thankfully, a much
 	 * shorter list.
+	 *
+	 * @var string[]
 	 */
 	private static $cargoReservedWords = [
 		'holds', 'matches', 'near', 'within'

@@ -16,7 +16,6 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$params = $this->extractRequestParams();
 		$substr = $params['search'];
 		$tables = $params['tables'];
-		$data = [];
 
 		// Call appropriate method as per the parameters passed
 		if ( $tables === null ) {
@@ -113,7 +112,10 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 				$tempfields = array_keys( call_user_func_array( 'array_merge', $mFieldDescriptions ) );
 				array_push( $tempfields, "_pageName", "_pageTitle", "_pageNamespace", "_pageID", "_ID" );
 				foreach ( $tempfields as $key => $value ) {
-					if ( ( $substr === null || $substr == '' || stripos( $tableName, $substr ) === 0 ) || stristr( $value, $substr ) || stristr( $tableName . '.' . $value, $substr ) ) {
+					if ( ( $substr === null || $substr == '' || stripos( $tableName, $substr ) === 0 ) ||
+						stristr( $value, $substr ) ||
+						stristr( $tableName . '.' . $value, $substr )
+					) {
 						array_push( $fields, $tableName . '.' . $value );
 					}
 				}

@@ -80,6 +80,8 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 
 	/**
 	 * BibTeX month abbreviations
+	 *
+	 * @var string[]
 	 */
 	private static $monthStrings = [ 'jan', 'feb', 'mar', 'apr', 'may',
 		'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec' ];
@@ -88,6 +90,8 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 	 * This is the list of BibTeX fields that do not have special cases for
 	 * generating the output. Fields that have special cases are: title, author,
 	 * editor, pages, month, and year.
+	 *
+	 * @var string[]
 	 */
 	private static $bibtexFields = [ 'address', 'annote', 'booktitle',
 		'chapter', 'crossref', 'doi', 'edition', 'howpublished', 'institution',

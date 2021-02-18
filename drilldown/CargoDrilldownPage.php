@@ -341,7 +341,7 @@ END;
 		} elseif ( $filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $value ) ) {
 			$matches = [];
 			preg_match( "/^~within (.+)/", $value, $matches );
-			return wfMessage( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
+			return $this->msg( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
 		} else {
 			return $value;
 		}
@@ -519,7 +519,7 @@ END;
 		if ( $isFilterValueNotWithin === true ) {
 			CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $node,
 				$af->filter, null, $applied_filters, $mainTableAlias, $tableNames, $joinConds );
-			$results_line = wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() . " ($node->mExactRootMatchCount)";
+			$results_line = $this->msg( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse() . " ($node->mExactRootMatchCount)";
 		} else {
 			$results_line = $this->printFilterValuesForHierarchy( $cur_url, $af->filter, null, $applied_filters, $drilldownHierarchyRoot );
 		}
@@ -610,7 +610,7 @@ END;
 									'=' . urlencode( $node->mRootValue );
 							}
 							$results_line .= $this->printFilterValueLink( $f,
-								wfMessage( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse(),
+								$this->msg( 'cargo-drilldown-hierarchy-only', $node->mRootValue )->parse(),
 								$node->mExactRootMatchCount, $filter_url, $filter_values );
 							$num_printed_values_level++;
 						}
@@ -896,8 +896,6 @@ END;
 	public function printTextInput( $filter_name, $instance_num, $is_full_text_search = false,
 			$cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false,
 			$filter_values = null, $f = null ) {
-		global $wgRequest;
-
 		$filterStr = str_replace( ' ', '_', $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
@@ -922,7 +920,7 @@ END;
 
 END;
 
-		foreach ( $wgRequest->getValues() as $key => $val ) {
+		foreach ( $this->getRequest()->getValues() as $key => $val ) {
 			if ( $key != $inputName ) {
 				if ( is_array( $val ) ) {
 					foreach ( $val as $i => $realVal ) {
@@ -1001,8 +999,6 @@ END;
 	}
 
 	public function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
-		global $wgRequest;
-
 		$filter_name = str_replace( ' ', '_', $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
@@ -1019,7 +1015,7 @@ END;
 
 END;
 
-		foreach ( $wgRequest->getValues() as $key => $val ) {
+		foreach ( $this->getRequest()->getValues() as $key => $val ) {
 			if ( $key != $inputName ) {
 				if ( is_array( $val ) ) {
 					foreach ( $val as $i => $realVal ) {
@@ -1192,8 +1188,7 @@ END;
 	}
 
 	public function getPageHeader() {
-		global $wgRequest, $wgCargoFileDataColumns;
-		global $cgScriptPath;
+		global $wgCargoFileDataColumns, $cgScriptPath;
 
 		$tables = CargoUtils::getTables();
 		// if there are no tables, escape quickly
@@ -1202,8 +1197,8 @@ END;
 		}
 
 		$header = "";
-		$this->isReplacementTable = $wgRequest->getCheck( '_replacement' );
-		$this->showSingleTable = $this->isReplacementTable || $wgRequest->getCheck( '_single' );
+		$this->isReplacementTable = $this->getRequest()->getCheck( '_replacement' );
+		$this->showSingleTable = $this->isReplacementTable || $this->getRequest()->getCheck( '_single' );
 		if ( !$this->showSingleTable ) {
 			$header .= $this->printTablesList( $tables );
 		}
