@@ -121,6 +121,7 @@
 	"switchcargotable": "Passer au remplacement de la table Cargo",
 	"cargo-switchtables-confirm": "Basculer sur le remplacement pour la table $1 de Cargo ?",
 	"cargo-switchtables-switch": "Basculer",
+	"cargo-switchtables-success": "Le remplacement de la table « $1 » a été mis en service.",
 	"cargotablediagram": "Diagramme des tables de Cargo",
 	"pagevalues": "Valeurs de page",
 	"cargo-pagevaluesfor": "Valeurs de page pour « $1 »",
