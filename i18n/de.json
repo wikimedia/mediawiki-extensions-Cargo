@@ -99,6 +99,7 @@
 	"switchcargotable": "Ersetzung der Cargo-Tabelle wechseln",
 	"cargo-switchtables-confirm": "Die Ersetzung für die Cargo-Tabelle $1 wechseln?",
 	"cargo-switchtables-switch": "Wechseln",
+	"cargo-switchtables-success": "Der Ersatz für die Tabelle \"$1\" wurde eingewechselt.",
 	"pagevalues": "Seitenwerte",
 	"cargo-pagevaluesfor": "Seitenwerte für „$1“",
 	"cargo-pagevalues-tablevalues": "Werte von „$1“",
