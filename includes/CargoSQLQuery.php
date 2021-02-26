@@ -354,7 +354,7 @@ class CargoSQLQuery {
 		if ( $numUnmatchedTables > 0 ) {
 			foreach ( array_keys( $this->mAliasedTableNames ) as $tableAlias ) {
 				if ( !in_array( $tableAlias, $matchedTables ) ) {
-					throw new MWException( "Error: Table \"$tableName\" is not included within the "
+					throw new MWException( "Error: Table \"$tableAlias\" is not included within the "
 					. "join conditions." );
 				}
 			}
