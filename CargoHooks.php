@@ -38,7 +38,7 @@ class CargoHooks {
 	public static function registerParserFunctions( &$parser ) {
 		$parser->setFunctionHook( 'cargo_declare', [ 'CargoDeclare', 'run' ] );
 		$parser->setFunctionHook( 'cargo_attach', [ 'CargoAttach', 'run' ] );
-		$parser->setFunctionHook( 'cargo_store', [ 'CargoStore', 'run' ] );
+		$parser->setFunctionHook( 'cargo_store', [ 'CargoStore', 'run' ], Parser::SFH_OBJECT_ARGS );
 		$parser->setFunctionHook( 'cargo_query', [ 'CargoQuery', 'run' ] );
 		$parser->setFunctionHook( 'cargo_compound_query', [ 'CargoCompoundQuery', 'run' ] );
 		$parser->setFunctionHook( 'recurring_event', [ 'CargoRecurringEvent', 'run' ] );

@@ -24,7 +24,7 @@ class CargoStore {
 	 * @param Parser &$parser
 	 * @throws MWException
 	 */
-	public static function run( &$parser ) {
+	public static function run( &$parser, $frame, $args ) {
 		// Get page-related information early on, so we can exit
 		// quickly if there's a problem.
 		$title = $parser->getTitle();
@@ -36,8 +36,10 @@ class CargoStore {
 			return;
 		}
 
-		$params = func_get_args();
-		array_shift( $params ); // we already know the $parser...
+		$params = [];
+		foreach ( $args as $arg ) {
+			$params[] = trim( $frame->expand( $arg ) );
+		}
 
 		$tableName = null;
 		$tableFieldValues = [];
@@ -66,7 +68,32 @@ class CargoStore {
 		}
 
 		if ( $tableName == '' ) {
+			$templateTitle = $frame->title;
+			list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $templateTitle );
+		}
+
+		if ( $tableName == '' ) {
 			return;
+		}
+
+		// Go through all the fields for this table, setting any that
+		// were not explicitly set in the #cargo_store call.
+		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
+		$fieldNames = array_keys( $fieldDescriptions );
+		foreach ( $fieldNames as $fieldName ) {
+			// Skip it if it's already being handled.
+			if ( array_key_exists( $fieldName, $tableFieldValues ) ) {
+				continue;
+			}
+			// Look for a template parameter with the same name
+			// as this field, both with underscores and with spaces.
+			$curFieldValue = $frame->getArgument( $fieldName );
+			if ( $curFieldValue == null ) {
+				$unescapedFieldName = str_replace( '_', ' ', $fieldName );
+				$curFieldValue = $frame->getArgument( $unescapedFieldName );
+			}
+			$tableFieldValues[$fieldName] = $curFieldValue;
 		}
 
 		$origTableName = $tableName;
