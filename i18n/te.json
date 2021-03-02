@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Chaduvari",
 			"Veeven"
 		]
 	},
@@ -17,5 +18,6 @@
 	"cargo-cargotables-action-delete": "తొలగించు",
 	"pagevalues": "పేజీ విలువలు",
 	"cargo-pagevalues-tablevalues": "\"$1\" విలువలు",
+	"cargo-drilldown-mapformat": "పటం",
 	"cargo-drilldown-timelineformat": "కాలరేఖ"
 }
