@@ -15,6 +15,9 @@ class CargoStore {
 	public const MONTH_ONLY = 2;
 	public const YEAR_ONLY = 3;
 
+	// This can be removed when support for Cargo < 3.0 is dropped.
+	public const PARAMS_OPTIONAL = true;
+
 	/**
 	 * Handles the #cargo_store parser function - saves data for one
 	 * template call.
