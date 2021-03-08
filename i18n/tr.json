@@ -108,6 +108,7 @@
 	"switchcargotable": "Anahtar değiştirme Kargo tablosu",
 	"cargo-switchtables-confirm": "Kargo tablosu $1 yerine geçecek misiniz?",
 	"cargo-switchtables-switch": "Değiştir",
+	"cargo-switchtables-success": "\"$1\" tablosu yerini alacak tabloyla değiştirildi.",
 	"cargotablediagram": "Kargo tablosu grafiği",
 	"pagevalues": "Sayfa değerleri",
 	"cargo-pagevaluesfor": "\"$1\" için sayfa değerleri",
