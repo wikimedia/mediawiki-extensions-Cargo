@@ -303,7 +303,7 @@ class CargoDeclare {
 		$cdb = CargoUtils::getDB();
 		foreach ( $parentTables as $parentTableAlias => $extraParams ) {
 			if ( !$cdb->tableExists( $extraParams['Name'] ) ) {
-				return CargoUtils::formatError( "Error: Parent tuable \"$parentTable\" doesn't exist." );
+				return CargoUtils::formatError( "Error: Parent table \"$parentTable\" doesn't exist." );
 			}
 		}
 		$parserOutput = $parser->getOutput();
