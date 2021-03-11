@@ -108,6 +108,8 @@
 	"switchcargotable": "Bytt til Cargos erstatningstabell",
 	"cargo-switchtables-confirm": "Bytte inn erstatningen for Cargo-tabellen $1?",
 	"cargo-switchtables-switch": "Bytt",
+	"cargo-switchtables-success": "Erstatningen for tabellen «$1» ble byttet inn.",
+	"cargotablediagram": "Cargo-tabelldiagram",
 	"pagevalues": "Sideverdier",
 	"cargo-pagevaluesfor": "Sideverdier for «$1»",
 	"cargo-pagevalues-tablevalues": "«$1»-verdier",
