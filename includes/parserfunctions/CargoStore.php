@@ -81,7 +81,12 @@ class CargoStore {
 
 		// Go through all the fields for this table, setting any that
 		// were not explicitly set in the #cargo_store call.
-		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		try {
+			$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		} catch ( MWException $e ) {
+			// Most likely, this table was never created - just exit.
+			return;
+		}
 		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
 		$fieldNames = array_keys( $fieldDescriptions );
 		foreach ( $fieldNames as $fieldName ) {
