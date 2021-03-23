@@ -78,7 +78,9 @@ class CargoRecreateData extends Maintenance {
 		// Quick retrieval and check before we do anything else.
 		$templatePageID = CargoUtils::getTemplateIDForDBTable( $tableName );
 		if ( $templatePageID == null ) {
-			print "Table \"$tableName\" is not declared in any template.\n";
+			if ( !$quiet ) {
+				print "Table \"$tableName\" is not declared in any template; skipping.\n";
+			}
 			return;
 		}
 
