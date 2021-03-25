@@ -30,7 +30,10 @@ class CargoTables extends IncludableSpecialPage {
 		$user = $this->getUser();
 		$this->setHeaders();
 
-		$out->addModules( 'ext.cargo.main' );
+		$out->addModules( [
+			'ext.cargo.main',
+			'mediawiki.pager.tablePager'
+		] );
 
 		if ( $tableName == '' ) {
 			$out->addHTML( $this->displayListOfTables() );
