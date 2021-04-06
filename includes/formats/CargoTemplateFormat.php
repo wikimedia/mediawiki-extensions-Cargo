@@ -9,7 +9,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 	public static function allowedParameters() {
 		return [
 			'template' => [ 'type' => 'string' ],
-			'named args' => [ 'type' => 'string' ],
+			'named args' => [ 'type' => 'boolean' ],
 			'delimiter' => [ 'type' => 'string', 'label' => wfMessage( 'cargo-viewdata-delimiterparam' )->parse() ]
 		];
 	}
