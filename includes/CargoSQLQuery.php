@@ -1448,24 +1448,30 @@ class CargoSQLQuery {
 			$tableName = $searchTextField['tableName'];
 			$tableAlias = array_search( $tableName, $this->mAliasedTableNames );
 			$patternSuffix = '(\s+MATCHES\s*)([\'"][^\'"]*[\'"])/i';
+			$patternSuffix1 = '(\s+MATCHES\s*)(\'[^\']*\')/i';
+			$patternSuffix2 = '(\s+MATCHES\s*)("[^"]*")/i';
 
-			$pattern1 = CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix;
-			$foundMatch1 = preg_match( $pattern1, $this->mWhereStr, $matches );
-			$pattern2 = CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix;
-			$foundMatch2 = false;
-
-			if ( !$foundMatch1 ) {
-				$foundMatch2 = preg_match( $pattern2, $this->mWhereStr, $matches );
+			$patterns = [
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix1,
+				CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix1,
+				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix2,
+				CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix2
+			];
+			$matchingPattern = null;
+			foreach ( $patterns as $i => $pattern ) {
+				$foundMatch = preg_match( $pattern, $this->mWhereStr, $matches );
+				if ( $foundMatch ) {
+					$matchingPattern = $i;
+					break;
+				}
 			}
-			if ( $foundMatch1 || $foundMatch2 ) {
+
+			if ( $foundMatch ) {
 				$searchString = $matches[3];
 				$newWhere = " MATCH($tableAlias.$fieldName) AGAINST ($searchString IN BOOLEAN MODE) ";
 
-				if ( $foundMatch1 ) {
-					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
-				} elseif ( $foundMatch2 ) {
-					$this->mWhereStr = preg_replace( $pattern2, $newWhere, $this->mWhereStr );
-				}
+				$pattern = $patterns[$matchingPattern];
+				$this->mWhereStr = preg_replace( $pattern, $newWhere, $this->mWhereStr );
 				$searchEngine = new CargoSearchMySQL();
 				$searchTerms = $searchEngine->getSearchTerms( $searchString );
 				// @TODO - does $tableName need to be in there?
