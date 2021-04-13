@@ -160,7 +160,7 @@ class CargoTables extends IncludableSpecialPage {
 					// Thankfully, there's a message in core
 					// MediaWiki that seems to just be "URL".
 					$fieldName =
-						"CONCAT('[', $fieldName, ' " .
+						"CONCAT('[', " . $cdb->addIdentifierQuotes( $fieldName ) . ", ' " .
 						$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
 				}
 			}
