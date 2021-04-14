@@ -327,17 +327,23 @@ class CargoSQLQuery {
 		$firstJoinCond = current( $this->mCargoJoinConds );
 		$firstTableInJoins = $firstJoinCond['table1'];
 		$matchedTables = [ $firstTableInJoins ];
+		// We will check against aliases, not table names.
+		$allPossibleTableAliases = [];
+		foreach ( $this->mAliasedTableNames as $tableAlias => $tableName ) {
+			$allPossibleTableAliases[] = $tableAlias;
+			// This is useful for at least PostgreSQL.
+			$allPossibleTableAliases[] = $this->mCargoDB->addIdentifierQuotes( $tableAlias );
+		}
 		do {
 			$previousNumUnmatchedTables = $numUnmatchedTables;
 			foreach ( $this->mCargoJoinConds as $joinCond ) {
 				$table1 = $joinCond['table1'];
 				$table2 = $joinCond['table2'];
-				// Check against aliases, not table names.
-				if ( !array_key_exists( $table1, $this->mAliasedTableNames ) ) {
-					throw new MWException( "Error: table \"$table1\" is not in list of table names." );
+				if ( !in_array( $table1, $allPossibleTableAliases ) ) {
+					throw new MWException( "Error: table \"$table1\" is not in list of table names or aliases." );
 				}
-				if ( !array_key_exists( $table2, $this->mAliasedTableNames ) ) {
-					throw new MWException( "Error: table \"$table2\" is not in list of table names." );
+				if ( !in_array( $table2, $allPossibleTableAliases ) ) {
+					throw new MWException( "Error: table \"$table2\" is not in list of table names or aliases." );
 				}
 
 				if ( in_array( $table1, $matchedTables ) && !in_array( $table2, $matchedTables ) ) {
@@ -353,7 +359,9 @@ class CargoSQLQuery {
 
 		if ( $numUnmatchedTables > 0 ) {
 			foreach ( array_keys( $this->mAliasedTableNames ) as $tableAlias ) {
-				if ( !in_array( $tableAlias, $matchedTables ) ) {
+				$escapedTableAlias = $this->mCargoDB->addIdentifierQuotes( $tableAlias );
+				if ( !in_array( $tableAlias, $matchedTables ) &&
+					!in_array( $escapedTableAlias, $matchedTables ) ) {
 					throw new MWException( "Error: Table \"$tableAlias\" is not included within the "
 					. "join conditions." );
 				}
