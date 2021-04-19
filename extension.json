@@ -278,6 +278,23 @@
 				"libs/dagre-d3.js",
 				"libs/ext.cargo.dagre.js"
 			]
+		},
+		"ext.cargo.drilldown": {
+			"styles": [
+				"drilldown/resources/CargoDrilldown.css"
+			],
+			"scripts": [
+				"drilldown/resources/CargoSearchAutocompleteWidget.js",
+				"drilldown/resources/CargoDrilldown.js"
+			],
+			"messages": [
+				"searchresultshead",
+				"cargo-drilldown-othervalues"
+			],
+			"dependencies": [
+				"ext.cargo.main",
+				"oojs-ui-widgets"
+			]
 		}
 	},
 	"ResourceFileModulePaths": {

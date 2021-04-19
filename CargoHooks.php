@@ -62,21 +62,12 @@ class CargoHooks {
 		// Between MW 1.34 and 1.35, all the jquery.ui.* modules were
 		// merged into one big module, "jquery.ui".
 		if ( version_compare( $wgVersion, '1.35', '>=' ) ) {
-			$drilldownDependencies = [
-				"jquery.ui",
-				"oojs-ui-core"
-			];
 			$cargoQueryDependencies = [
 				"jquery.ui",
 				"mediawiki.util",
 				"mediawiki.htmlform.ooui"
 			];
 		} else {
-			$drilldownDependencies = [
-				"jquery.ui.autocomplete",
-				"jquery.ui.button",
-				"oojs-ui-core"
-			];
 			$cargoQueryDependencies = [
 				"jquery.ui.autocomplete",
 				"mediawiki.util",
@@ -84,20 +75,9 @@ class CargoHooks {
 			];
 		}
 
-		$drilldownDependencies[] = 'ext.cargo.main';
 		$cargoQueryDependencies[] = 'ext.cargo.main';
 
 		$resourceLoader->register( [
-			"ext.cargo.drilldown" => [
-				'localBasePath' => $cargoDir,
-				'remoteExtPath' => 'Cargo',
-				'styles' => [
-					"drilldown/resources/CargoDrilldown.css",
-					"drilldown/resources/CargoJQueryUIOverrides.css"
-				],
-				'scripts' => "drilldown/resources/CargoDrilldown.js",
-				'dependencies' => $drilldownDependencies
-			],
 			"ext.cargo.cargoquery" => [
 				'localBasePath' => $cargoDir,
 				'remoteExtPath' => 'Cargo',

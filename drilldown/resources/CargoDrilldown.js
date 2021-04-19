@@ -10,155 +10,83 @@
  * @author Yaron Koren
  */
 ( function () {
-	jQuery.ui.autocomplete.prototype._renderItem = function ( ul, item ) {
-		var re = new RegExp( '(?![^&;]+;)(?!<[^<>]*)(' + this.term.replace( /([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, '\\$1' ) + ')(?![^<>]*>)(?![^&;]+;)', 'gi' ),
-			loc = item.label.search( re );
-		if ( loc >= 0 ) {
-			var t = item.label.substr( 0, loc ) + '<strong>' + item.label.substr( loc, this.term.length ) + '</strong>' + item.label.substr( loc + this.term.length );
+
+	jQuery.fn.toggleCDValuesDisplay = function () {
+		$valuesDiv = jQuery( this ).closest( '.drilldown-filter' )
+			.find( '.drilldown-filter-values' );
+		if ( $valuesDiv.css( 'display' ) === 'none' ) {
+			$valuesDiv.css( 'display', 'block' );
+			var downArrowImage = mw.config.get( 'cgDownArrowImage' );
+			this.find( 'img' ).attr( 'src', downArrowImage );
 		} else {
-			var t = item.label;
+			$valuesDiv.css( 'display', 'none' );
+			var rightArrowImage = mw.config.get( 'cgRightArrowImage' );
+			this.find( 'img' ).attr( 'src', rightArrowImage );
 		}
-		return jQuery( '<li></li>' )
-			.data( 'item.autocomplete', item )
-			.append( ' <a>' + t + '</a>' )
-			.appendTo( ul );
 	};
 
-	jQuery.widget( 'ui.CDComboBox', {
-		_create: function () {
-			var self = this,
-				select = this.element.hide(),
-				inp_id = select[ 0 ].options[ 0 ].value,
-				curval = select[ 0 ].name,
-				input = jQuery( '<input id = "' + inp_id + '" type="text" name="' + inp_id + '" value="' + curval + '">' )
-					.insertAfter( select )
-					.autocomplete( {
-						source: function ( request, response ) {
-							var matcher = new RegExp( '\\b' + request.term, 'i' );
-							response( select.children( 'option' ).map( function () {
-								var text = jQuery( this ).text();
-								if ( this.value && ( !request.term || matcher.test( text ) ) ) {
-									return {
-										id: this.value,
-										label: text,
-										value: text
-									};
-								}
-							} ) );
-						},
-						delay: 0,
-						change: function ( event, ui ) {
-							if ( !ui.item ) {
-							// if it didn't match anything,
-							// just leave it as it is
-								return false;
-							}
-							select.val( ui.item.id );
-							self._trigger( 'selected', event, {
-								item: select.find( "[value='" + ui.item.id + "']" )
-							} );
+	jQuery.fn.showDifferentColors = function () {
+		$( this ).each( function () {
+			if ( $( this ).attr( 'id' ) % 2 === 0 ) {
+				$( this ).attr( 'style', 'background-color:#faf1f1;' );
+			} else if ( $( this ).attr( 'id' ) % 2 === 1 ) {
+				$( this ).attr( 'style', 'background-color:#f0f9f1;' );
+			}
+		} );
+	};
 
-						},
-						minLength: 0
-					} )
-					.addClass( 'ui-widget ui-widget-content ui-corner-left' );
-			jQuery( '<button type="button">&nbsp;</button>' )
-				.attr( 'tabIndex', -1 )
-				.attr( 'title', 'Show All Items' )
-				.insertAfter( input )
-				.button( {
-					icons: {
-						primary: 'ui-icon-triangle-1-s'
-					},
-					text: false
-				} ).removeClass( 'ui-corner-all' )
-				.addClass( 'ui-corner-right ui-button-icon' )
-			// Need to do some hardcoded CSS here, to override
-			// pesky jQuery UI settings!
-			// Unfortunately, calling .css() won't work, because
-			// it ignores "!important".
-				.attr( 'style', 'width: 2.4em; margin: 0 !important; border-radius: 0' )
-				.click( function () {
-				// close if already visible
-					if ( input.autocomplete( 'widget' ).is( ':visible' ) ) {
-						input.autocomplete( 'close' );
-						return;
-					}
-					// pass empty string as value to search for, displaying all results
-					input.autocomplete( 'search', '' );
-					input.focus();
-				} );
-		}
-	} );
+	jQuery.fn.CDFullTextSearch = function () {
+		var searchInput = new OO.ui.SearchInputWidget( {
+			type: 'search',
+			name: '_search',
+			value: $( this ).attr( 'data-search-term' )
+		} );
+		var searchButton = new OO.ui.ButtonInputWidget( {
+			type: 'submit',
+			label: mw.msg( 'searchresultshead' ),
+			flags: 'progressive'
+		} );
+		var searchLayout = new OO.ui.ActionFieldLayout(
+			searchInput, searchButton, {
+				align: 'top'
+			}
+		);
+		$( this ).html( searchLayout.$element );
+	};
 
-	jQuery.widget( 'ui.CDRemoteAutocomplete', {
-		_create: function () {
-			var input = this.element;
-			input.autocomplete( {
-				source: function ( request, response ) {
-					var urlAPI = mw.config.get( 'wgScriptPath' ) + '/api.php?action=cargoautocomplete' +
-						'&table=' + input.attr( 'data-cargo-table' ) +
-						'&field=' + input.attr( 'data-cargo-field' ),
-						fieldIsArray = input.attr( 'data-cargo-field-is-list' );
-					if ( fieldIsArray != undefined ) {
-						urlAPI += '&field_is_array=' + fieldIsArray;
-					}
-					urlAPI += '&where=' + input.attr( 'data-cargo-where' ) +
-						'&format=json';
-					$.ajax( {
-						url: urlAPI,
-						dataType: 'json',
-						// jsonp: false,
-						data: {
-							substr: request.term
-						},
-						success: function ( data ) {
-							response( data.cargoautocomplete );
-						},
-						error: function ( jqxhr, status, error ) {
-							// Add debugging stuff here.
-						}
-					} );
-				}
-			} )
-				.addClass( 'ui-widget ui-widget-content' );
-		}
-	} );
+	jQuery.fn.CDRemoteAutocomplete = function () {
+		var config = {
+			name: $( this ).attr( 'data-input-name' ),
+			table: $( this ).attr( 'data-cargo-table' ),
+			field: $( this ).attr( 'data-cargo-field' ),
+			field_is_array: $( this ).attr( 'data-cargo-field-is-list' ),
+			where: $( this ).attr( 'data-cargo-where' )
+		};
+		var autocompleteInput = new CargoSearchAutocompleteWidget( config );
+		var searchButton = new OO.ui.ButtonInputWidget( {
+			type: 'submit',
+			label: mw.msg( 'searchresultshead' ),
+			flags: 'progressive'
+		} );
+		var autocompleteLayout = new OO.ui.ActionFieldLayout(
+			autocompleteInput, searchButton, {
+				label: mw.msg( 'cargo-drilldown-othervalues' ),
+				align: 'top'
+			}
+		);
+		$( this ).html( autocompleteLayout.$element );
+	};
 
 }( jQuery ) );
-
-jQuery.fn.toggleCDValuesDisplay = function () {
-	$valuesDiv = jQuery( this ).closest( '.drilldown-filter' )
-		.find( '.drilldown-filter-values' );
-	if ( $valuesDiv.css( 'display' ) === 'none' ) {
-		$valuesDiv.css( 'display', 'block' );
-		var downArrowImage = mw.config.get( 'cgDownArrowImage' );
-		this.find( 'img' ).attr( 'src', downArrowImage );
-	} else {
-		$valuesDiv.css( 'display', 'none' );
-		var rightArrowImage = mw.config.get( 'cgRightArrowImage' );
-		this.find( 'img' ).attr( 'src', rightArrowImage );
-	}
-};
-
-jQuery.fn.showDifferentColors = function () {
-	$( this ).each( function () {
-		if ( $( this ).attr( 'id' ) % 2 === 0 ) {
-			$( this ).attr( 'style', 'background-color:#faf1f1;' );
-		} else if ( $( this ).attr( 'id' ) % 2 === 1 ) {
-			$( this ).attr( 'style', 'background-color:#f0f9f1;' );
-		}
-	} );
-};
 
 jQuery( document ).ready( function () {
 	var viewport = '<meta name="viewport" content="width=device-width,initial-scale=1">';
 	$( 'head' ).append( viewport );
 
-	jQuery( '.cargoDrilldownComboBox' ).CDComboBox();
 	jQuery( '.cargoDrilldownRemoteAutocomplete' ).CDRemoteAutocomplete();
 	jQuery( '.drilldown-values-toggle' ).on( 'click', function () { jQuery( this ).toggleCDValuesDisplay(); } );
 	jQuery( '.drilldown-parent-tables-value, .drilldown-parent-filters-wrapper' ).showDifferentColors();
+	jQuery( '.cargoDrilldownFullTextSearch' ).CDFullTextSearch();
 
 	var maxWidth = window.matchMedia( '(max-width: 549px)' );
 

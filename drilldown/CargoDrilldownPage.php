@@ -68,6 +68,8 @@ class CargoDrilldownPage extends QueryPage {
 			$format, $formatBy, $formatByFieldIsList, $curTabName ) {
 		parent::__construct( 'Drilldown' );
 
+		$this->getOutput()->enableOOUI();
+
 		$this->tableName = $tableName;
 		$this->tableSchema = $tableSchema;
 		$this->tableAlias = CargoUtils::makeDifferentAlias( $tableName );
@@ -392,7 +394,7 @@ END;
 				}
 				if ( count( $or_values ) >= 250 ) {
 					$results_line .= $this->printTextInput( $af->filter->name, $instance_num,
-						false, null, true, $af->filter->fieldDescription->mIsList,
+						null, $af->filter->fieldDescription->mIsList,
 						$printed_filter_values, $af->filter );
 				} else {
 					$results_line .= $this->printComboBoxInput( $af->filter->name,
@@ -893,9 +895,26 @@ END;
 		return $text;
 	}
 
-	public function printTextInput( $filter_name, $instance_num, $is_full_text_search = false,
-			$cur_value = null, $has_remote_autocompletion = false, $filter_is_list = false,
-			$filter_values = null, $f = null ) {
+	public function printHiddenInputs( $inputName ) {
+		$text = '';
+		foreach ( $this->getRequest()->getValues() as $key => $val ) {
+			if ( $key == $inputName ) {
+				continue;
+			}
+			if ( is_array( $val ) ) {
+				foreach ( $val as $i => $realVal ) {
+					$keyString = $key . '[' . $i . ']';
+					$text .= Html::hidden( $keyString, $realVal ) . "\n";
+				}
+			} else {
+				$text .= Html::hidden( $key, $val ) . "\n";
+			}
+		}
+		return $text;
+	}
+
+	public function printTextInput( $filter_name, $instance_num,
+			$cur_value, $filter_is_list, $filter_values, $f ) {
 		$filterStr = str_replace( ' ', '_', $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
@@ -904,98 +923,53 @@ END;
 		// Add on the instance number, since it can be one of a string
 		// of values.
 		$filterStr .= '[' . $instance_num . ']';
-
-		if ( strpos( $filterStr, '_search' ) === 0 ) {
-			$inputName = '_search';
-		} else {
-			$inputName = "_search_$filterStr";
-		}
+		$inputName = "_search_$filterStr";
 
 		if ( $cur_value != null ) {
 			$cur_value = htmlentities( $cur_value );
 		}
 
-		$text = <<< END
-<form method="get">
-
-END;
-
-		foreach ( $this->getRequest()->getValues() as $key => $val ) {
-			if ( $key != $inputName ) {
-				if ( is_array( $val ) ) {
-					foreach ( $val as $i => $realVal ) {
-						$keyString = $key . '[' . $i . ']';
-						$text .= Html::hidden( $keyString, $realVal ) . "\n";
-					}
-				} else {
-					$text .= Html::hidden( $key, $val ) . "\n";
-				}
-			}
+		$spanAttrs = [
+			'class' => "cargoDrilldownRemoteAutocomplete",
+			'data-input-name' => $inputName,
+			'data-value' => $cur_value,
+			'data-cargo-table' => $this->tableName . '=' . $this->tableAlias,
+			'data-cargo-field' => $filter_name
+		];
+		if ( $filter_is_list ) {
+			$spanAttrs['data-cargo-field-is-list'] = true;
 		}
 
-		if ( $is_full_text_search ) {
-			// Make this input narrower than the standard MediaWiki
-			// search input, to accomodate the list of tables on the
-			// side.
-			$text .= <<< END
-<div class="oo-ui-actionFieldLayout-input oo-ui-iconElement oo-ui-textInputWidget mw-widget-titleInputWidget" style="display: inline; float: left;" data-ooui>
-	<input type="text" name="$inputName" value="$cur_value" class="cargo-drilldown-search" />
-	<span class='oo-ui-iconElement-icon oo-ui-icon-search'></span>
-	<span class='oo-ui-indicatorElement-indicator'></span>
-</div>
-
-END;
-		} else {
-			$text .= '<div class="oo-ui-actionFieldLayout-input" style="display: inline; float: left;">';
-			$inputAttrs = [];
-			if ( $has_remote_autocompletion ) {
-				$inputAttrs['class'] = "cargoDrilldownRemoteAutocomplete";
-				$inputAttrs['data-cargo-table'] = $this->tableName . '=' . $this->tableAlias;
-				$inputAttrs['data-cargo-field'] = $filter_name;
-				if ( $filter_is_list ) {
-					$inputAttrs['data-cargo-field-is-list'] = true;
-				}
-				$inputAttrs['size'] = 30;
-				$inputAttrs['style'] = 'padding: 0.57142857em 0.57142857em 0.5em;'; // Copied from OOUI
-				$whereSQL = '';
-				// In the WHERE statement, first add all the filters which have been applied and
-				// then remove all the filter values for this filter which have been printed
-				// before the text box
-				foreach ( $this->applied_filters as $i => $af ) {
-					if ( $i > 0 ) {
-						$whereSQL .= ' AND ';
-					}
-					if ( $af->filter->name == $filter_name ) {
-						$whereSQL .= ' NOT ';
-					}
-					$whereSQL .= $af->checkSQL();
-				}
-				if ( $filter_values ) {
-					if ( $this->applied_filters ) {
-						$whereSQL .= ' AND ';
-					}
-					$whereSQL .= ' NOT ';
-					$cur_filter_value = [];
-					foreach ( $filter_values as $value => $num_instances ) {
-						$cur_filter_value = array_merge( $cur_filter_value, [ $value ] );
-					}
-					$af = CargoAppliedFilter::create( $f, $cur_filter_value );
-					$whereSQL .= $af->checkSQL();
-				}
-				$inputAttrs['data-cargo-where'] = $whereSQL;
+		$whereSQL = '';
+		// In the WHERE statement, first add all the filters which have
+		// been applied and then remove all the filter values for this
+		// filter which have been printed before the text box.
+		foreach ( $this->applied_filters as $i => $af ) {
+			if ( $i > 0 ) {
+				$whereSQL .= ' AND ';
 			}
-			$text .= "\n\t\t\t\t\t<span>" .
-					 $this->msg( 'cargo-drilldown-othervalues' )->text() . " </span>";
-			$text .= Html::input( $inputName, $cur_value, 'text', $inputAttrs ) . "\n";
-			$text .= "</div>\n\n";
+			if ( $af->filter->name == $filter_name ) {
+				$whereSQL .= ' NOT ';
+			}
+			$whereSQL .= $af->checkSQL();
 		}
+		if ( $filter_values ) {
+			if ( $this->applied_filters ) {
+				$whereSQL .= ' AND ';
+			}
+			$whereSQL .= ' NOT ';
+			$cur_filter_value = [];
+			foreach ( $filter_values as $value => $num_instances ) {
+				$cur_filter_value = array_merge( $cur_filter_value, [ $value ] );
+			}
+			$af = CargoAppliedFilter::create( $f, $cur_filter_value );
+			$whereSQL .= $af->checkSQL();
+		}
+		$spanAttrs['data-cargo-where'] = $whereSQL;
 
-		$text .= '<span class="oo-ui-actionFieldLayout-button">';
-		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
-				[ 'class' => 'mw-ui-button mw-ui-progressive' ] ) . "\n";
-		$text .= "</span>\n";
-		$text .= "</form>\n";
-		return $text;
+		$hiddenInputs = $this->printHiddenInputs( $inputName );
+		$span = Html::rawElement( 'span', $spanAttrs, '&nbsp;' );
+		return Html::rawElement( 'form', [], $hiddenInputs . $span );
 	}
 
 	public function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
@@ -1010,50 +984,27 @@ END;
 
 		$inputName = "_search_$filter_name";
 
-		$text = <<< END
-<form method="get">
-
-END;
-
-		foreach ( $this->getRequest()->getValues() as $key => $val ) {
-			if ( $key != $inputName ) {
-				if ( is_array( $val ) ) {
-					foreach ( $val as $i => $realVal ) {
-						$keyString = $key . '[' . $i . ']';
-						$text .= Html::hidden( $keyString, $realVal ) . "\n";
-					}
-				} else {
-					$text .= Html::hidden( $key, $val ) . "\n";
-				}
-			}
+		$comboboxItems = [];
+		foreach ( $filter_values as $filter_value => $num ) {
+			$comboboxItems[] = [ 'data' => $filter_value ];
 		}
-		$msg = $this->msg( 'cargo-drilldown-othervalues' )->text();
-		$text .= <<< END
-	<div class="oo-ui-actionFieldLayout-input ui-widget" style="display: inline; float: left;">
-		<span>$msg</span>
-		<select class="cargoDrilldownComboBox" name="$cur_value">
-			<option value="$inputName"></option>;
+		$combobox = new OOUI\ComboBoxInputWidget( [
+			'name' => $inputName,
+			'value' => $cur_value,
+			'options' => $comboboxItems
+		] );
 
-END;
-		foreach ( $filter_values as $value => $num_instances ) {
-			if ( $value != '_other' && $value != '_none' ) {
-				$text .= "\t\t" . Html::element( 'option', [
-						'value' => $value ], $value ) . "\n";
-			}
-		}
-
-		$text .= <<<END
-		</select>
-	</div>
-
-END;
-
-		$text .= '<span class="oo-ui-actionFieldLayout-button">';
-		$text .= Html::input( null, $this->msg( 'searchresultshead' )->text(), 'submit',
-				[ 'class' => 'mw-ui-button mw-ui-progressive' ] ) . "\n";
-		$text .= "</form>\n";
-		$text .= "</span>\n";
-		return $text;
+		$comboboxButton = new OOUI\ButtonInputWidget( [
+			'label' => $this->msg( 'searchresultshead' )->parse(),
+			'type' => 'submit',
+			'flags' => 'progressive'
+		] );
+		$comboboxLayout = new OOUI\ActionFieldLayout( $combobox, $comboboxButton, [
+			'align' => 'top',
+			'label' => $this->msg( 'cargo-drilldown-othervalues' )->parse()
+		] );
+		$hiddenInputs = $this->printHiddenInputs( $inputName );
+		return Html::rawElement( 'form', [], $hiddenInputs . $comboboxLayout );
 	}
 
 	/**
@@ -1171,7 +1122,7 @@ END;
 			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
 			// Lots of values - switch to remote autocompletion.
-			$results_line .= $this->printTextInput( $filter_name, 0, false, null, true,
+			$results_line .= $this->printTextInput( $filter_name, 0, null,
 				$f->fieldDescription->mIsList, $displayedValues, $f );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
@@ -1373,8 +1324,13 @@ END;
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 
 		if ( $displaySearchInput ) {
-			$fullTextSearchInput = $this->printTextInput( '_search', 0, true, $this->fullTextSearchTerm );
-			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchInput );
+			$fullTextSearchInput = Html::rawElement( 'span', [
+				'class' => 'cargoDrilldownFullTextSearch',
+				'data-search-term' => $this->fullTextSearchTerm
+			], '&nbsp;' );
+			$hiddenInputs = $this->printHiddenInputs( '_search' );
+			$fullTextSearchForm = Html::rawElement( 'form', [], $hiddenInputs . $fullTextSearchInput );
+			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchForm );
 		}
 		// For each filter check if it has been applied or not. If it hasn't been applied, then
 		// don't show the filters which depends(i.e. "dependent fields" parameter values) on it.
