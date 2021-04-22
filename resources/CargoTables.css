@@ -1,0 +1,29 @@
+table.wikitable.cargo-tablelist th {
+	text-align: center;
+}
+
+table.cargo-tablelist.mw-datatable tr.cargo-tablelist-replacement-row:hover td,
+table.cargo-tablelist.mw-datatable tr.cargo-tablelist-replacement-row > td {
+	background-color: rgba( 128, 128, 128, 0.5 );
+}
+
+.cargo-tablelist-template-declaring {
+	font-weight: bold;
+}
+
+.cargo-tablelist-numrows {
+	text-align: right;
+}
+
+.cargo-tablelist-actionbutton {
+	font-size: 80%;
+	text-align: center;
+}
+
+.cargo-tablelist .oo-ui-buttonElement-framed.oo-ui-widget-enabled > .oo-ui-buttonElement-button {
+	border-color: black;
+}
+
+.cargo-tablelist-replacement-row .cargo-tablelist-tablename {
+	padding-left: 2em;
+}

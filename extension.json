@@ -164,6 +164,9 @@
 		"ext.cargo.pagevalues": {
 			"styles": "resources/CargoPageValues.css"
 		},
+		"ext.cargo.cargotables": {
+			"styles": "resources/CargoTables.css"
+		},
 		"ext.cargo.purge": {
 			"scripts": "libs/ext.cargo.purge.js",
 			"messages": "cargo-purgecache-failed"
