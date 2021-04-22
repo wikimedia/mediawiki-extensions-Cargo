@@ -69,18 +69,33 @@ class CargoPageValues extends IncludableSpecialPage {
 				// table doesn't exist.
 				continue;
 			}
+			$numRowsOnPage = count( $queryResults );
 
-			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
+			// Hide _fileData if it's empty - we do this only for _fileData,
+			// as another table having 0 rows can indicate an error, and we'd
+			// like to preserve that information for debugging purposes.
+			if ( $numRowsOnPage === 0 && $tableName === '_fileData' ) {
+				continue;
+			}
+
+			$tableLink = $this->getTableLink( $tableName );
+
+			$tableSectionHeader = $this->msg( 'cargo-pagevalues-tablevalues', $tableLink )->text();
+			$tableSectionTocDisplay = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->text();
 			$tableSectionAnchor = $this->msg( 'cargo-pagevalues-tablevalues', $tableName )->escaped();
 			$tableSectionAnchor = Sanitizer::escapeIdForAttribute( $tableSectionAnchor );
 
 			// We construct the table of contents at the same time
 			// as the main text.
-			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionHeader,
+			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionTocDisplay,
 				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
 
-			$text .= Html::rawElement( 'h2', null,
-				Html::element( 'span', [ 'class' => 'mw-headline', 'id' => $tableSectionAnchor ], $tableSectionHeader ) ) . "\n";
+			$h2 = Html::rawElement( 'h2', null,
+				Html::rawElement( 'span', [ 'class' => 'mw-headline', 'id' => $tableSectionAnchor ], $tableSectionHeader ) );
+
+			$text .= Html::rawElement( 'div', [ 'class' => 'cargo-pagevalues-tableinfo' ],
+				$h2 . $this->msg( "cargo-pagevalues-tableinfo-numrows", $numRowsOnPage )
+			);
 
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
@@ -111,8 +126,21 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$out->addHTML( $text );
+		$out->addModuleStyles( 'ext.cargo.pagevalues' );
 
 		return true;
+	}
+
+	private function getTableLink( $tableName ) {
+		$originalTableName = str_replace( '__NEXT', '', $tableName );
+		$isReplacementTable = substr( $tableName, -6 ) == '__NEXT';
+		$viewURL = SpecialPage::getTitleFor( 'CargoTables' )->getFullURL() . "/$originalTableName";
+		if ( $isReplacementTable ) {
+			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
+			$viewURL .= "_replacement";
+		}
+
+		return Html::element( 'a', [ 'href' => $viewURL ], $tableName );
 	}
 
 	public function getRowsForPageInTable( $tableName ) {

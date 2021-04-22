@@ -108,6 +108,7 @@
 	"pagevalues": "Page values",
 	"cargo-pagevaluesfor": "Page values for \"$1\"",
 	"cargo-pagevalues-tablevalues": "\"$1\" values",
+	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|row is|rows are}} stored for this page",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Choose a table",
 	"cargo-drilldown-allpages": "All pages",

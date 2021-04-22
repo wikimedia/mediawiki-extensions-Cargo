@@ -161,6 +161,9 @@
 				"hide"
 			]
 		},
+		"ext.cargo.pagevalues": {
+			"styles": "resources/CargoPageValues.css"
+		},
 		"ext.cargo.purge": {
 			"scripts": "libs/ext.cargo.purge.js",
 			"messages": "cargo-purgecache-failed"
