@@ -111,6 +111,7 @@
 	"pagevalues": "Вредности на страницата",
 	"cargo-pagevaluesfor": "Вредности на страницата „$1“",
 	"cargo-pagevalues-tablevalues": "вредности од „$1“",
+	"cargo-pagevalues-tableinfo-numrows": "На страницава {{PLURAL:$1|е складиран $1 ред|се складирани $1 редови}}",
 	"drilldown": "Истенчување",
 	"cargo-drilldown-choosetable": "Изберете табела",
 	"cargo-drilldown-allpages": "Сите страници",
