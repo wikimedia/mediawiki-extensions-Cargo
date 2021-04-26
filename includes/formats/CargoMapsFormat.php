@@ -142,6 +142,12 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			// @TODO - handle lists of coordinates as well.
 			foreach ( $coordinatesFields as $coordinatesField ) {
 				$coordinatesField = str_replace( ' ', '_', $coordinatesField );
+				if (
+					!array_key_exists( $coordinatesField . '  lat', $valuesRow ) ||
+					!array_key_exists( $coordinatesField . '  lon', $valuesRow )
+				) {
+					continue;
+				}
 				$latValue = $valuesRow[$coordinatesField . '  lat'];
 				$lonValue = $valuesRow[$coordinatesField . '  lon'];
 				// @TODO - enforce the existence of a field
