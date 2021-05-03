@@ -113,6 +113,7 @@
 	"pagevalues": "Sayfa değerleri",
 	"cargo-pagevaluesfor": "\"$1\" için sayfa değerleri",
 	"cargo-pagevalues-tablevalues": "\"$1\" değer",
+	"cargo-pagevalues-tableinfo-numrows": "Bu sayfa için $1 {{PLURAL:$1|satır|satır}} yüklendi",
 	"drilldown": "Derinlemesine",
 	"cargo-drilldown-choosetable": "Bir tablo seçin",
 	"cargo-drilldown-allpages": "Tüm sayfalar",
