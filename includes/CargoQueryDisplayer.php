@@ -316,7 +316,6 @@ class CargoQueryDisplayer {
 	 * Based heavily on MediaWiki's SearchResult::getTextSnippet()
 	 */
 	public function getTextSnippet( $text, $terms ) {
-		global $wgAdvancedSearchHighlighting;
 		if ( defined( '\SearchHighlighter::DEFAULT_CONTEXT_LINES' ) ) {
 			// MW 1.34+
 			// TODO: once the else block is removed simply drop these vars
@@ -342,11 +341,13 @@ class CargoQueryDisplayer {
 		$text = preg_replace( '/\s+/', ' ', $text );
 		$h = new SearchHighlighter();
 		if ( count( $terms ) > 0 ) {
-			if ( $wgAdvancedSearchHighlighting ) {
-				$snippet = $h->highlightText( $text, $terms, $contextlines, $contextchars );
-			} else {
-				$snippet = $h->highlightSimple( $text, $terms, $contextlines, $contextchars );
-			}
+			// In the core MediaWiki equivalent of this code,
+			// there is a check here of the flag
+			// $wgAdvancedSearchHighlighting. Instead, we always
+			// call the more expensive function, highlightText()
+			// rather than highlightSimple(), because we're not
+			// that concerned about performance.
+			$snippet = $h->highlightText( $text, $terms, $contextlines, $contextchars );
 		} else {
 			$snippet = $h->highlightNone( $text, $contextlines, $contextchars );
 		}
