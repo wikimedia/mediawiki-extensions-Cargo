@@ -135,7 +135,7 @@ button.ui-button-icon-only {
 		padding: 0 1px 0 0;
 		height: 2.25em;
 		white-space: nowrap;
-		list-style: none none;
+		list-style: none;
 		background: url( break.png ) no-repeat bottom right, url( fade.png ) repeat-x bottom;
 	}
 
