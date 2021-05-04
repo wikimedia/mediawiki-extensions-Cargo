@@ -164,12 +164,22 @@ class CargoMapsFormat extends CargoDisplayFormat {
 						'lon' => $lonValue,
 						'otherValues' => $displayedValuesForRow
 					];
-					if ( array_key_exists( 'icon', $displayParams ) &&
-						is_array( $displayParams['icon'] ) &&
-						array_key_exists( $i, $displayParams['icon'] ) ) {
-						$iconURL = self::getImageURL( $displayParams['icon'][$i] );
-						if ( $iconURL !== null ) {
-							$valuesForMapPoint['icon'] = $iconURL;
+					if ( array_key_exists( 'icon', $displayParams ) ) {
+						$iconFileName = null;
+						if ( is_array( $displayParams['icon'] ) ) {
+							// Compound query.
+							if ( array_key_exists( $i, $displayParams['icon'] ) ) {
+								$iconFileName = $displayParams['icon'][$i];
+							}
+						} else {
+							// Regular query.
+							$iconFileName = $displayParams['icon'];
+						}
+						if ( $iconFileName !== null ) {
+							$iconURL = self::getImageURL( $iconFileName );
+							if ( $iconURL !== null ) {
+								$valuesForMapPoint['icon'] = $iconURL;
+							}
 						}
 					}
 					$valuesForMap[] = $valuesForMapPoint;
