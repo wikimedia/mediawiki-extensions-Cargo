@@ -103,7 +103,9 @@ class CargoQueryDisplayer {
 				}
 
 				$fieldDescription = $this->mFieldDescriptions[$fieldName];
-				$tableName = $this->mFieldTables[$fieldName];
+				if ( is_array( $this->mFieldTables ) && array_key_exists( $fieldName, $this->mFieldTables ) ) {
+					$fieldTableName = $this->mFieldTables[$fieldName];
+				}
 				$fieldType = $fieldDescription->mType;
 
 				$text = '';
@@ -140,7 +142,7 @@ class CargoQueryDisplayer {
 					} elseif ( array_key_exists( $datePrecisionField, $row ) ) {
 						$datePrecision = $row[$datePrecisionField];
 					} else {
-						$fullDatePrecisionField = $tableName . '.' . $datePrecisionField;
+						$fullDatePrecisionField = $fieldTableName . '.' . $datePrecisionField;
 						if ( array_key_exists( $fullDatePrecisionField, $row ) ) {
 							$datePrecision = $row[$fullDatePrecisionField];
 						} else {
