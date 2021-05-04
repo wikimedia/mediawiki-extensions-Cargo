@@ -365,7 +365,7 @@ class CargoUtils {
 		}
 
 		// Remove empty strings (but not other quasi-empty values, like '0') and re-key the array.
-		$noEmptyStrings = function ( $s ) {
+		$noEmptyStrings = static function ( $s ) {
 			return $s !== '';
 		};
 		return array_values( array_filter( $returnValues, $noEmptyStrings ) );

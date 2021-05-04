@@ -57,7 +57,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		$drilldownTabsParams = CargoUtils::getDrilldownTabsParams( $mainTable );
 		if ( $parentTables ) {
 			$parentTablesNames =
-				array_map( function ( $table ) {
+				array_map( static function ( $table ) {
 					return $table['Name'];
 				}, $parentTables );
 		}
