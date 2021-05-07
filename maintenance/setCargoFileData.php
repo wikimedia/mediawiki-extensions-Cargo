@@ -32,7 +32,7 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
-$maintClass = "SetCargoFileData";
+$maintClass = SetCargoFileData::class;
 
 class SetCargoFileData extends Maintenance {
 
