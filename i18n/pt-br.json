@@ -111,6 +111,7 @@
 	"pagevalues": "Valores de página",
 	"cargo-pagevaluesfor": "Valores de página para \"$1\"",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
+	"cargo-pagevalues-tableinfo-numrows": "$ 1 {{PLURAL:$1|linha é armazenada|linhas são armazenadas}} para esta página",
 	"drilldown": "Detalhar",
 	"cargo-drilldown-choosetable": "Escolha uma tabela",
 	"cargo-drilldown-allpages": "Todas as páginas",
