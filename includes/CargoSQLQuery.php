@@ -1572,7 +1572,7 @@ class CargoSQLQuery {
 
 				$curValue = $row->$alias;
 				if ( $curValue instanceof DateTime ) {
-					// MSSQL dates only?
+					// @TODO - This code may no longer be necessary.
 					$resultsRow[$alias] = $curValue->format( DateTime::W3C );
 				} else {
 					// It's a string.

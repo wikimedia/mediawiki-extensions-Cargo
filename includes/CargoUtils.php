@@ -466,16 +466,15 @@ class CargoUtils {
 
 		// Unfortunately, date handling in general - and date extraction
 		// specifically - is done differently in almost every DB
-		// system. If support were ever added for SQLite or Oracle,
-		// those would require special handling as well.
+		// system. If support was ever added for SQLite,
+		// that would require special handling as well.
 		if ( $wgCargoDBtype == 'postgres' ) {
 			$yearValue = "EXTRACT(YEAR FROM $dateDBField)";
 			$monthValue = "EXTRACT(MONTH FROM $dateDBField)";
 			$dayValue = "EXTRACT(DAY FROM $dateDBField)";
-		} else { // MySQL, MS SQL Server
+		} else { // MySQL
 			$yearValue = "YEAR($dateDBField)";
 			$monthValue = "MONTH($dateDBField)";
-			// SQL Server only supports DAY(), not DAYOFMONTH().
 			$dayValue = "DAY($dateDBField)";
 		}
 		return [ $yearValue, $monthValue, $dayValue ];
@@ -706,51 +705,37 @@ class CargoUtils {
 	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
 		global $wgCargoDefaultStringBytes;
 
-		// Possible values for $dbType: "mssql", "mysql", "oracle",
-		// "postgres", "sqlite"
+		// Possible values for $dbType: "mysql", "postgres", "sqlite"
 		// @TODO - make sure it's one of these.
 		if ( $fieldType == 'Integer' ) {
 			switch ( $dbType ) {
-				case "mssql":
 				case "mysql":
 				case "postgres":
 					return 'Int';
 				case "sqlite":
 					return 'INTEGER';
-				case "oracle":
-					return 'Number';
 			}
 		} elseif ( $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			switch ( $dbType ) {
-				case "mssql":
-					return 'Float';
 				case "mysql":
 					return 'Double';
 				case "postgres":
 					return 'Numeric';
 				case "sqlite":
 					return 'REAL';
-				case "oracle":
-					return 'Number';
 			}
 		} elseif ( $fieldType == 'Boolean' ) {
 			switch ( $dbType ) {
-				case "mssql":
-					return 'Bit';
 				case "mysql":
 				case "postgres":
 					return 'Boolean';
 				case "sqlite":
 					return 'INTEGER';
-				case "oracle":
-					return 'Byte';
 			}
 		} elseif ( $fieldType == 'Date' || $fieldType == 'Start date' || $fieldType == 'End date' ) {
 			switch ( $dbType ) {
-				case "mssql":
 				case "mysql":
 				case "postgres":
-				case "oracle":
 					return 'Date';
 				case "sqlite":
 					// Should really be 'REAL', with
@@ -763,12 +748,9 @@ class CargoUtils {
 			// so the best solution for time zones is probably
 			// to have a separate field for them.
 			switch ( $dbType ) {
-				case "mssql":
-					return 'Datetime2';
 				case "mysql":
 					return 'Datetime';
 				case "postgres":
-				case "oracle":
 					return 'Timestamp';
 				case "sqlite":
 					// Should really be 'REAL', with
@@ -777,14 +759,10 @@ class CargoUtils {
 			}
 		} elseif ( $fieldType == 'Text' || $fieldType == 'Wikitext' ) {
 			switch ( $dbType ) {
-				case "mssql":
-					return 'Varchar(Max)';
 				case "mysql":
 				case "postgres":
 				case "sqlite":
 					return 'Text';
-				case "oracle":
-					return 'Varchar2(4000)';
 			}
 		} elseif ( $fieldType == 'Searchtext' ) {
 			if ( $dbType != 'mysql' ) {
@@ -796,8 +774,6 @@ class CargoUtils {
 				$size = $wgCargoDefaultStringBytes;
 			}
 			switch ( $dbType ) {
-				case "mssql":
-					return "Varchar($size)";
 				case "mysql":
 				case "postgres":
 					// For at least MySQL, there's a limit
@@ -811,8 +787,6 @@ class CargoUtils {
 					} else {
 						return "Varchar($size)";
 					}
-				case "oracle":
-					return "Varchar2($size)";
 				case "sqlite":
 					return 'TEXT';
 			}

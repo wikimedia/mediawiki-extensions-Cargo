@@ -39,7 +39,7 @@ class CargoFilter {
 	}
 
 	public function getDateParts( $dateFromDB ) {
-		// Does this only happen for MS SQL Server DBs?
+		// @TODO - This code may no longer be necessary.
 		if ( $dateFromDB instanceof DateTime ) {
 			$year = $dateFromDB->format( 'Y' );
 			$month = $dateFromDB->format( 'm' );
@@ -233,8 +233,6 @@ class CargoFilter {
 			}
 		}
 
-		// We call array_values(), and not array_keys(), because
-		// SQL Server can't group by aliases.
 		$selectOptions = [ 'GROUP BY' => array_values( $fields ), 'ORDER BY' => array_values( $fields ) ];
 		$pageIDField = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 		$fields['total'] = "COUNT(DISTINCT $pageIDField)";
