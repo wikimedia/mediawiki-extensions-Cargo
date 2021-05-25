@@ -14,7 +14,77 @@ $(document).ready(function() {
 		var pair = queryVarStrings[i].split("=");
 		queryVars[pair[0]] = pair[1];
 	}
+	function getInfoMessage( inputName ) {
+		if ( inputName == 'tables' ) {
+			return mediaWiki.msg( 'cargo-viewdata-tablestooltip', "Cities=city, Countries" );
+		} else if ( inputName == 'fields' ) {
+			return mediaWiki.msg( 'cargo-viewdata-fieldstooltip', "_pageName", "Cities.Population=P, Countries.Capital" );
+		} else if ( inputName == 'where' ) {
+			return mediaWiki.msg( 'cargo-viewdata-wheretooltip', "Country.Continent = 'North America' AND City.Population > 100000" );
+		} else if ( inputName == 'join_on' ) {
+			return mediaWiki.msg( 'cargo-viewdata-joinontooltip', "Cities.Country=Countries._pageName" );
+		} else if ( inputName == 'group_by' ) {
+			return mediaWiki.msg( 'cargo-viewdata-groupbytooltip', "Countries.Continent" );
+		} else if ( inputName == 'having' ) {
+			return mediaWiki.msg( 'cargo-viewdata-havingtooltip', "COUNT(*) > 10" );
+		} else if ( inputName == 'order_by' ) {
+			return mediaWiki.msg( 'cargo-viewdata-orderbytooltip' );
+		} else if ( inputName == 'limit' ) {
+			return mediaWiki.msg( 'cargo-viewdata-limittooltip', mediaWiki.config.get('wgCargoDefaultQueryLimit') );
+		} else if ( inputName == 'offset' ) {
+			return mediaWiki.msg( 'cargo-viewdata-offsettooltip', "0" );
+		} else if ( inputName == 'format' ) {
+			return mediaWiki.msg( 'cargo-viewdata-offsettooltip' );
+		}
+	}
+	popupMessage = {
+		padded: true,
+		align: 'force-right',
+	}
+	infoBox = {
+		icon: 'info',
+		framed: false,
+		label: 'More information',
+		invisibleLabel: true,
+		popup: popupMessage
+	}
 
+	var fieldName = [ 'tables', 'fields', 'where', 'join_on','group_by', 'having', 'limit', 'offset', 'format' ];
+	fieldName.forEach( function(item) {
+		popupMessage.$content = $( '<p align=left>' + getInfoMessage( item ) + '</p>' );
+		infoBox.popup = popupMessage;
+		var info = new OO.ui.PopupButtonWidget(infoBox);
+		$('tr.ext-cargo-tr-'+item+' td:eq(0)').append(info.$element);
+		if (item == 'where' || item == 'join_on' || item == 'having') {
+			$('tr.ext-cargo-tr-' + item+ ' td:eq(1)').find('textarea').attr('id',item);
+			classes = 'form-control cargo-query-textarea';
+		} else if (item !== 'format') {
+			$('tr.ext-cargo-tr-' + item + ' td:eq(1)').find('input').attr('id',item);
+			classes = 'form-control cargo-query-input';
+		}
+		$( '#' + item ).addClass( classes );
+		$( '#' + item ).attr( {'name': item, 'multiple': true } );
+	});
+
+	$('table.cargoQueryTable').css( 'border-spacing', '0 5px' );
+	// handling for name='order_by'
+
+	var firstOrderByRow = $('.orderByRow').first();
+	var orderByFirstRowNum = parseInt(firstOrderByRow.attr('data-order-by-num'));
+	var lastOrderByRow = $('.orderByRow').last();
+	var orderBylastRowNum = parseInt(lastOrderByRow.attr('data-order-by-num'));
+	adjustSizeOfOrderBy( orderByFirstRowNum, orderBylastRowNum, 'form-control order_by' );
+
+	//adding the styles
+	$('.ext-cargo-tables').css( 'width', '600px' );
+	$('.ext-cargo-fields').css( 'width', '600px' );
+	$('.ext-cargo-where').css( 'width', '600px' );
+	$('.ext-cargo-join_on').css( 'width', '600px' );
+	$('.ext-cargo-group_by').css( 'width', '600px' );
+	$('.ext-cargo-having').css( 'width', '600px' );
+	$('.ext-cargo-limit').css( 'width', '100px' )
+	$('.ext-cargo-offset').css( 'width', '100px' );
+	$('#format').css( 'width', '200px' );
 	function split( val ) {
 		return val.split(/,\s*/);
 	}
@@ -174,7 +244,7 @@ $(document).ready(function() {
 	$('.order_by').autocompleteOnSearchString("");
 
 	// Display row for 'having' input only if 'group by' has been entered
-	$('#group_by').on('change', function(){
+	$('#group_by').on('autocompletechange', function(){
 		if ($(this).val().length == 0 ) {
 			$('#having').parents('tr').hide();
 		} else {
@@ -186,30 +256,74 @@ $(document).ready(function() {
 	}
 
 	// Code to handle multiple "order by" rows
-	$('.addButton').on('click', function(){
+	$('#addButton').on('click', function(){
 		var lastRow = $('.orderByRow').last();
 		var orderByNum = parseInt(lastRow.attr('data-order-by-num')) + 1;
-		var newRow = $('<tr class="mw-htmlform-field-HTMLTextField orderByRow" data-order-by-num=' + orderByNum + '><td></td>' +
-			'<td class="mw-input"><input class="form-control order_by" size="50 !important" name="order_by[' + orderByNum + ']"/>' +
-			'&nbsp&nbsp<select name="order_by_options[' + orderByNum + ']">' +
-			'\t\t<option value="ASC">ASC</option>\n' +
-			'\t\t<option value="DESC">DESC</option>\n' +
-			'\t</select>&nbsp&nbsp<button class="deleteButton" name="delete" type="button"></button></td></tr>');
+		var orderByInput = new OO.ui.TextInputWidget( {
+			id: 'order_by[' + orderByNum + ']'
+		} );
+		var directionSelect = new OO.ui.DropdownInputWidget( {
+			options: [
+				{
+					data: 'ASC',
+					label: 'ASC'
+				},
+				{
+					data: 'DESC',
+					label: 'DESC'
+				}
+			],
+			name: 'order_by_options[' + orderByNum + ']'
+		} );
+		var button = new OO.ui.ButtonWidget( {
+			id: 'deleteButton',
+			icon: 'subtract'
+		} );
+		var orderByRow = new OO.ui.HorizontalLayout( {
+			items: [ orderByInput, directionSelect, button ]
+		} );
+		var newRow = $('<tr data-order-by-num=' + orderByNum + '><td></td>' +
+			'<td></td></tr>');
 		newRow.insertAfter(lastRow);
-		newRow.find("input").autocompleteOnSearchString("");
+		$("tr[data-order-by-num='"+ orderByNum +"'] td:eq(1)").append(orderByRow.$element)
+		classes = 'form-control order_by';
+		adjustSizeOfOrderBy( orderByNum, orderByNum, classes );		
+		$("tr[data-order-by-num='"+ orderByNum +"']").find("input").autocompleteOnSearchString("");
 	});
 
-	$("#cargoQueryTable").on("click", ".deleteButton", function() {
+	$("#cargoQueryTable").on("click", "#deleteButton", function() {
 		$(this).closest("tr").remove();
 	});
 
-	function printCargoQueryInput( paramName, size ) {
-		var text = '<input name="' + paramName + '" type="text" size=' + size;
+	function printCargoQueryInput( paramName, paramLabel ) {
+		var value = '';
 		if ( queryVars.hasOwnProperty(paramName) ) {
-			text += ' value="' + queryVars[paramName] + '"';
+			value = queryVars[paramName];
 		}
-		text += ' />';
+		var text = new OO.ui.TextInputWidget( {
+			classes: [ 'ext-cargo-div-' + paramLabel.slice(0,-1).replace(/\s+/g, '') ],
+			value: value,
+			name: paramName
+		} );
 		return text;
+	}
+	function adjustSizeOfOrderBy( orderByFirstRowNum, orderBylastRowNum, classes ) {
+
+		// giving negative margin-bottom to each div of OOUI-HorizontalLayout used in 'Order by' row.
+		$('.oo-ui-horizontalLayout').css( 'margin-bottom', '-8px' );
+		for ( i=orderByFirstRowNum; i<=orderBylastRowNum; i++ ) {
+			if ( i==0 ) {
+				popupMessage.$content = $( '<p align=left>' + getInfoMessage( 'order_by' ) + '</p>' );
+				infoBox.popup = popupMessage;
+				var info = new OO.ui.PopupButtonWidget(infoBox);
+				$("tr.orderByRow td:eq(0)").append(info.$element);
+			}
+			var name = $("tr[data-order-by-num='"+ i +"']").find("div.oo-ui-textInputWidget").attr('id');
+			$("tr[data-order-by-num='"+ i +"']").find("div.oo-ui-textInputWidget").css('width', '300px');
+			$("tr[data-order-by-num='"+ i +"']").find("div.oo-ui-dropdownInputWidget").css('width', '100px');
+			$("tr[data-order-by-num='"+ i +"']").find("div.oo-ui-textInputWidget input").attr('name', name);
+			$("tr[data-order-by-num='"+ i +"']").find("div.oo-ui-textInputWidget input").addClass(classes);
+		}
 	}
 
 	$.fn.addCargoQueryInput = function( paramName, paramAttrs ) {
@@ -218,37 +332,59 @@ $(document).ready(function() {
 		} else {
 			var paramLabel = paramName.charAt(0).toUpperCase() + paramName.slice(1) + ":";
 		}
-		var inputHTML = '';
+		var classForFormatParamRow = paramLabel.slice(0,-1).replace(/\s+/g, '');
 		if ( paramAttrs.hasOwnProperty('values') ) {
-			inputHTML = '<select name="' + paramName + '">';
+			var options = [],
+				value = '',
+				size = '';
 			for ( i in paramAttrs['values'] ) {
 				var curValue = paramAttrs['values'][i];
-				inputHTML += '<option';
+				options.push( {
+					data: curValue,
+					label: curValue
+				} );
 				if ( queryVars.hasOwnProperty(paramName) && queryVars[paramName] == curValue ) {
-					inputHTML += ' selected ';
+					value = curValue;
 				}
 				inputHTML += '>' + curValue + '</option>';
 			}
-			inputHTML += '</select>';
+			var inputHTML = new OO.ui.DropdownInputWidget( {
+				options: options,
+				classes: [ 'ext-cargo-div-' + classForFormatParamRow ],
+				name: paramName,
+				value: value
+			} );
+			size = '150px';
 		} else if ( paramAttrs.type == 'string' ) {
-			inputHTML = printCargoQueryInput( paramName, 30 );
+			var inputHTML = printCargoQueryInput( paramName, paramLabel );
+			size = '200px'
 		} else if ( paramAttrs.type == 'int' ) {
-			inputHTML = printCargoQueryInput( paramName, 5 );
+			var inputHTML = printCargoQueryInput( paramName, paramLabel );
+			size = '50px';
 		} else if ( paramAttrs.type == 'date' ) {
 			// Put a date or datetime input here?
-			inputHTML = printCargoQueryInput( paramName, 15 );
+			var inputHTML = printCargoQueryInput( paramName, paramLabel );
+			size = '100px';
 		} else if ( paramAttrs.type == 'boolean' ) {
-			inputHTML = '<input name="' + paramName + '" type="checkbox" value="yes"';
+			var selected = false;
 			if ( queryVars.hasOwnProperty(paramName) ) {
-				inputHTML += ' checked';
+				selected = true;
 			}
-			inputHTML += ' />';
+			var inputHTML = new OO.ui.CheckboxInputWidget( {
+				name: paramName,
+				selected: selected,
+				value: "yes"
+			} );
 		} else {
-			inputHTML = printCargoQueryInput( paramName, 30 );
+			var inputHTML = printCargoQueryInput( paramName, paramLabel );
+			size = '200px'
 		}
-		var rowHTML = '<tr class="mw-htmlform-field-HTMLTextField formatParam"><td class="mw-label">' + paramLabel + '&nbsp;&nbsp;</td>' +
-			'<td class="mw-input">' + inputHTML + '</td></tr>';
+
+		var rowHTML = '<tr class="formatParam ext-cargo-formatParam-'+classForFormatParamRow+'"><td class="mw-label">' + paramLabel + '&nbsp;&nbsp;</td>' +
+			'<td></td></tr>';
 		$(this).append(rowHTML);
+		$('tr.ext-cargo-formatParam-'+classForFormatParamRow+' td:eq(1)').append(inputHTML.$element);
+		$('.ext-cargo-div-'+classForFormatParamRow).css('width', size);
 	}
 
 	$.fn.showInputsForFormat = function() {
@@ -277,16 +413,21 @@ $(document).ready(function() {
 		return $(this);
 	}
 
-	$('#format').showInputsForFormat();
-	$('#format').change(function(){
+	$('select[name="format"]').showInputsForFormat();
+	$('select[name="format"]').change(function(){
 		$(this).showInputsForFormat();
 	});
 
 	// Form validations
 	$.fn.addErrorMessage = function( className, errorMsg ) {
-		$(this).after('<tr class="mw-htmlform-field-HTMLTextField ' + className + '"><td></td>' +
-			'<td style="color: red; margin-bottom: 20px; text-align: left">' +
-			errorMsg + '</td></tr>');
+		errorWidget = new OO.ui.MessageWidget( {
+			type: 'error',
+			inline: true,
+			label: errorMsg
+		} )
+		$(this).after('<tr class="' + className + '"><td></td>' +
+			'<td></td></tr>');
+		$('tr.' + className +' td:eq(1)').append(errorWidget.$element);
 	}
 
 	$('form#queryform').on('submit', function (e) {

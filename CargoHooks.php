@@ -81,11 +81,20 @@ class CargoHooks {
 			"ext.cargo.cargoquery" => [
 				'localBasePath' => $cargoDir,
 				'remoteExtPath' => 'Cargo',
-				'styles' => "libs/balloon.css",
 				'scripts' => "libs/ext.cargo.query.js",
 				'messages' => [
 					"cargo-viewdata-tablesrequired",
-					"cargo-viewdata-joinonrequired"
+					"cargo-viewdata-joinonrequired",
+					"cargo-viewdata-tablestooltip",
+					"cargo-viewdata-fieldstooltip",
+					"cargo-viewdata-wheretooltip",
+					"cargo-viewdata-joinontooltip",
+					"cargo-viewdata-groupbytooltip",
+					"cargo-viewdata-havingtooltip",
+					"cargo-viewdata-orderbytooltip",
+					"cargo-viewdata-limittooltip",
+					"cargo-viewdata-offsettooltip",
+					"cargo-viewdata-offsettooltip"
 				],
 				'dependencies' => $cargoQueryDependencies
 			]
@@ -104,6 +113,9 @@ class CargoHooks {
 	 */
 	public static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
 		global $wgCargoMapClusteringMinimum;
+		global $wgCargoDefaultQueryLimit;
+
+		$vars['wgCargoDefaultQueryLimit'] = $wgCargoDefaultQueryLimit;
 
 		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
 
