@@ -139,7 +139,7 @@ class CargoPageData {
 					__METHOD__
 				);
 				foreach ( $res as $row ) {
-					$pageCategories[] = $row->cl_to;
+					$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
 				}
 			}
 
