@@ -9,5 +9,6 @@
 	"cargo-cargotables-header-templates": "Shabloni",
 	"cargo-cargotables-action-deletereplacement": "Efacar",
 	"cargo-cargotables-action-delete": "Efacar",
-	"cargo-cargotables-action-recreate": "Rikrear"
+	"cargo-cargotables-action-recreate": "Rikrear",
+	"cargo-pagevalues-tablevalues": "\"$1\" valui"
 }
