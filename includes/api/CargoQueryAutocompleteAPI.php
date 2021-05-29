@@ -6,6 +6,9 @@
  *
  * @author Ankita Mandal
  */
+
+use MediaWiki\MediaWikiServices;
+
 class CargoQueryAutocompleteAPI extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {
@@ -75,7 +78,8 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 	}
 
 	public function getTables( $substr ) {
-		$dbr = wfGetDB( DB_MASTER );
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$tables = [];
 		if ( $substr === null || $substr == '' ) {
 			$res = $dbr->select(
@@ -101,7 +105,8 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$fields = [];
 		foreach ( $tables as &$table ) {
 			$tableSchemas = [];
-			$dbr = wfGetDB( DB_REPLICA );
+			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+			$dbr = $lb->getConnectionRef( DB_REPLICA );
 			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 				[ 'main_table' => $table ] );
 			foreach ( $res as $row ) {

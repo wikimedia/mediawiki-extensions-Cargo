@@ -7,6 +7,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 
 	public function __construct() {
@@ -97,7 +99,8 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		}
 
 		// Make sure that this table, and its replacement, both exist.
-		$dbr = wfGetDB( DB_REPLICA );
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $tableName ] );
 		if ( $res->numRows() == 0 ) {

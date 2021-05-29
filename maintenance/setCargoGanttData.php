@@ -32,6 +32,8 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
+use MediaWiki\MediaWikiServices;
+
 $maintClass = SetCargoGanttData::class;
 
 class SetCargoGanttData extends Maintenance {
@@ -49,7 +51,8 @@ class SetCargoGanttData extends Maintenance {
 		$createReplacement = $this->hasOption( 'replacement' );
 		$ganttDataTable = $createReplacement ? '_ganttData__NEXT' : '_ganttData';
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $ganttDataTable ] );
 

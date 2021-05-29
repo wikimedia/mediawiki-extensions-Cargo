@@ -7,6 +7,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
 	public function __construct() {
@@ -71,7 +73,8 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		}
 
 		// Make sure that this table exists.
-		$dbr = wfGetDB( DB_REPLICA );
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $tableName ] );
 		if ( $res->numRows() == 0 ) {

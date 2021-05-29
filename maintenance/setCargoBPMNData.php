@@ -32,6 +32,8 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
+use MediaWiki\MediaWikiServices;
+
 $maintClass = SetCargoBPMNData::class;
 
 class SetCargoBPMNData extends Maintenance {
@@ -49,7 +51,8 @@ class SetCargoBPMNData extends Maintenance {
 		$createReplacement = $this->hasOption( 'replacement' );
 		$bpmnDataTable = $createReplacement ? '_bpmnData__NEXT' : '_bpmnData';
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $bpmnDataTable ] );
 
