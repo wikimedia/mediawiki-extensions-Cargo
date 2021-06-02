@@ -94,7 +94,7 @@ class CargoHooks {
 					"cargo-viewdata-orderbytooltip",
 					"cargo-viewdata-limittooltip",
 					"cargo-viewdata-offsettooltip",
-					"cargo-viewdata-offsettooltip"
+					"cargo-viewdata-formattooltip"
 				],
 				'dependencies' => $cargoQueryDependencies
 			]

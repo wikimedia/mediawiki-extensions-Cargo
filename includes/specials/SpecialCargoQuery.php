@@ -189,7 +189,6 @@ $formatLabel
 
 END;
 		$submitButton = new OOUI\ButtonInputWidget( [
-			'useInputTag' => true,
 			'label' => $this->msg( 'htmlform-submit' )->parse(),
 			'type' => 'submit',
 			'flags' => [ 'primary', 'progressive' ]

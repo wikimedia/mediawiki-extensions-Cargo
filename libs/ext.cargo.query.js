@@ -34,7 +34,7 @@ $(document).ready(function() {
 		} else if ( inputName == 'offset' ) {
 			return mediaWiki.msg( 'cargo-viewdata-offsettooltip', "0" );
 		} else if ( inputName == 'format' ) {
-			return mediaWiki.msg( 'cargo-viewdata-offsettooltip' );
+			return mediaWiki.msg( 'cargo-viewdata-formattooltip' );
 		}
 	}
 	popupMessage = {
