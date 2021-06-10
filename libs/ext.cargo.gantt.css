@@ -1,0 +1,15 @@
+/*
+ * Copied from the file FlexDiagrams.css in the Flex Diagrams extension.
+ */
+
+#ganttid {
+	width: 100%;
+	height: 292px;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+div#ganttZoomInput {
+	float: right;
+	font-weight: bold;
+}

@@ -134,6 +134,7 @@
 		"CargoCalendarFormat": "includes/formats/CargoCalendarFormat.php",
 		"CargoICalendarFormat": "includes/formats/CargoICalendarFormat.php",
 		"CargoTimelineFormat": "includes/formats/CargoTimelineFormat.php",
+		"CargoGanttFormat": "includes/formats/CargoGanttFormat.php",
 		"CargoCategoryFormat": "includes/formats/CargoCategoryFormat.php",
 		"CargoBarChartFormat": "includes/formats/CargoBarChartFormat.php",
 		"CargoPieChartFormat": "includes/formats/CargoPieChartFormat.php",
@@ -206,6 +207,26 @@
 			],
 			"dependencies": [
 				"moment"
+			]
+		},
+		"ext.cargo.gantt": {
+			"styles": [
+				"libs/dhtmlxgantt/dhtmlxgantt.css",
+				"libs/ext.cargo.gantt.css"
+			],
+			"scripts": [
+				"libs/dhtmlxgantt/dhtmlxgantt.js",
+				"libs/ext.cargo.gantt.js"
+			],
+			"dependencies": [
+				"oojs-ui-widgets"
+			],
+			"messages": [
+				"cargo-gantt-zoomlevel",
+				"cargo-gantt-hours",
+				"cargo-gantt-days",
+				"cargo-gantt-months",
+				"cargo-gantt-years"
 			]
 		},
 		"ext.cargo.timelinebase": {

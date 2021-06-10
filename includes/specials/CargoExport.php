@@ -60,6 +60,8 @@ class CargoExport extends UnlistedSpecialPage {
 			$this->displayCalendarData( $sqlQueries );
 		} elseif ( $format == 'timeline' ) {
 			$this->displayTimelineData( $sqlQueries );
+		} elseif ( $format == 'gantt' ) {
+			$this->displayGanttData( $sqlQueries );
 		} elseif ( $format == 'nvd3chart' ) {
 			$this->displayNVD3ChartData( $sqlQueries );
 		} elseif ( $format == 'csv' ) {
@@ -232,6 +234,106 @@ class CargoExport extends UnlistedSpecialPage {
 			}
 		}
 
+		print json_encode( $displayedArray );
+	}
+
+	/**
+	 * Used for gantt format
+	 */
+	private function displayGanttData( $sqlQueries ) {
+		$req = $this->getRequest();
+
+		$displayedArray['data'] = [];
+		$displayedArray['links'] = [];
+		foreach ( $sqlQueries as $i => $sqlQuery ) {
+			$dateFieldRealNames = [];
+			$startDateFieldAliases = [];
+			$endDateFieldAliases = [];
+			$dateFieldAliases = [];
+			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
+				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
+					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+					$dateFieldAliases[] = $alias;
+					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
+					$dateFieldRealNames[] = $realFieldName;
+					if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+						$startDateFieldAliases[] = $alias;
+					}
+				}
+				if ( $description->mType == 'End date' || $description->mType == 'End datetime' ) {
+					$endDateFieldAliases[] = $alias;
+				}
+			}
+
+			$queryResults = $sqlQuery->run();
+			$tasks = [];
+			$links = [];
+			$n = 1;
+			foreach ( $queryResults as $queryResult ) {
+				if ( array_key_exists( 'name', $queryResult ) ) {
+					$eventTitle = $queryResult['name'];
+				} else {
+					$eventTitle = reset( $queryResult );
+				}
+				if ( array_key_exists( '_pageID', $queryResult ) ) {
+					$eventID = $queryResult['_pageID'];
+				} else {
+					$eventID = $n;
+					$n++;
+				}
+				if ( array_key_exists( 'start', $queryResult ) ) {
+					$eventStart = $queryResult['start'];
+				} elseif ( !empty( $startDateFieldAliases ) && array_key_exists( $startDateFieldAliases[0], $queryResult ) ) {
+					$eventStart = $queryResult[$startDateFieldAliases[0]];
+				} elseif ( array_key_exists( $dateFieldAliases[0], $queryResult ) ) {
+					$eventStart = $queryResult[$dateFieldAliases[0]];
+				} else {
+					continue;
+				}
+				if ( array_key_exists( 'end', $queryResult ) ) {
+					$eventEnd = $queryResult['end'];
+				} elseif ( !empty( $endDateFieldAliases ) && array_key_exists( $endDateFieldAliases[0], $queryResult ) ) {
+					$eventEnd = $queryResult[$endDateFieldAliases[0]];
+				} elseif ( count( $dateFieldAliases ) > 1 && array_key_exists( $dateFieldAliases[1], $queryResult ) ) {
+					$eventEnd = $queryResult[$dateFieldAliases[1]];
+				} else {
+					$eventEnd = null;
+				}
+				if ( array_key_exists( 'duration', $queryResult ) ) {
+					$eventDuration = $queryResult['duration'];
+				} else {
+					$eventDuration = 1;
+				}
+				if ( array_key_exists( 'target', $queryResult ) ) {
+					$target = $queryResult['target'];
+				} else {
+					$target = null;
+				}
+
+				$data = [
+					'id' => $eventID,
+					'text' => $eventTitle,
+					'start_date' => $eventStart,
+					'end_date' => $eventEnd,
+					'duration' => $eventDuration
+				];
+				$links = [
+					'id' => $eventID,
+					'source' => $eventID,
+					'target' => $target,
+					'type' => "0"
+				];
+				array_push( $displayedArray['data'], $data );
+				array_push( $displayedArray['links'], $links );
+			}
+			for ( $t = 0; $t < count( $displayedArray['links'] ); $t++ ) {
+				if ( $displayedArray['links'][$t]['target'] != null ) {
+					$temp = $displayedArray['links'][$t]['target'];
+					$key = array_search( $temp, array_column( $displayedArray['data'], 'text' ) );
+					$displayedArray['links'][$t]['target'] = $displayedArray['links'][$key]['id'];
+				}
+			}
+		}
 		print json_encode( $displayedArray );
 	}
 

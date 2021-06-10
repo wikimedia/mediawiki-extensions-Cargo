@@ -47,6 +47,7 @@ class CargoQueryDisplayer {
 			'calendar' => 'CargoCalendarFormat',
 			'icalendar' => 'CargoICalendarFormat',
 			'timeline' => 'CargoTimelineFormat',
+			'gantt' => 'CargoGanttFormat',
 			'category' => 'CargoCategoryFormat',
 			'bar chart' => 'CargoBarChartFormat',
 			'pie chart' => 'CargoPieChartFormat',
