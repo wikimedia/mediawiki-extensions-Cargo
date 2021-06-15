@@ -129,6 +129,18 @@ class CargoTables extends IncludableSpecialPage {
 			$out->addWikiText( $numRowsMessage->parse() . "\n" );
 		}
 
+		// Display "Recreate data" link.
+		$templatesThatDeclareThisTable = $this->templatesThatDeclareTables[$tableName];
+		if ( count( $templatesThatDeclareThisTable ) > 0 ) {
+			// Most likely, there's only one.
+			$templateID = $templatesThatDeclareThisTable[0];
+			$templateTitle = Title::newFromID( $templateID );
+			$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
+			$recreateDataMessage = $this->msg( 'recreatedata' )->parse();
+			$recreateDataLink = Html::element( 'a', [ 'href' => $recreateDataURL ], $recreateDataMessage );
+			$out->addHTML( '<p>' . $recreateDataLink . '.</p>' );
+		}
+
 		// Then, show the actual table, via a query.
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mTablesStr = $tableName;
