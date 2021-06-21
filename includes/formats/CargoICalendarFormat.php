@@ -133,7 +133,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 				$end ? 'DTEND:' . $end : '',
 			],
 			$desc ? $this->text( 'DESCRIPTION', $desc ) : [],
-			$location ? $this->text( 'LOCATION:', $location ) : [],
+			$location ? $this->text( 'LOCATION', $location ) : [],
 			[
 				'END:VEVENT',
 			]
