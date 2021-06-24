@@ -4,6 +4,7 @@
 			"A Chinese Wikipedian",
 			"Angrydog001",
 			"Fanjiayi",
+			"GuoPC",
 			"Liuxinyu970226",
 			"Nemo bis",
 			"Phenolla",
@@ -146,5 +147,10 @@
 	"cargo-purgecache-failed": "缓存清除失败",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo字段",
-	"cargo-pageschemas-tablename": "表格名称："
+	"cargo-pageschemas-tablename": "表格名称：",
+	"cargo-gantt-zoomlevel": "缩放级别：",
+	"cargo-gantt-hours": "小时",
+	"cargo-gantt-days": "日",
+	"cargo-gantt-months": "月",
+	"cargo-gantt-years": "年"
 }

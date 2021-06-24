@@ -105,6 +105,7 @@
 	"pagevalues": "Seitenwerte",
 	"cargo-pagevaluesfor": "Seitenwerte für „$1“",
 	"cargo-pagevalues-tablevalues": "Werte von „$1“",
+	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|Zeile ist|Zeilen sind}} für diese Seite gespeichert",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Eine Tabelle auswählen",
 	"cargo-drilldown-allpages": "Alle Seiten",
@@ -131,11 +132,17 @@
 	"cargo-viewxls": "XLS ansehen",
 	"cargo-viewjson": "JSON ansehen",
 	"cargo-viewbibtex": "BibTeX ansehen",
+	"cargo-viewicalendar": "iCalendar anzeigen",
 	"cargo-dynamictables-togglecolumns": "Spalten wechseln:",
 	"cargo-dynamictables-searchcolumn": "$1 durchsuchen",
 	"cargo-purgecache": "Cache leeren",
 	"cargo-purgecache-failed": "Das Leeren des Caches ist fehlgeschlagen",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-Feld",
-	"cargo-pageschemas-tablename": "Tabellenname:"
+	"cargo-pageschemas-tablename": "Tabellenname:",
+	"cargo-gantt-zoomlevel": "Zoomstufe:",
+	"cargo-gantt-hours": "Stunden",
+	"cargo-gantt-days": "Tage",
+	"cargo-gantt-months": "Monate",
+	"cargo-gantt-years": "Jahre"
 }
