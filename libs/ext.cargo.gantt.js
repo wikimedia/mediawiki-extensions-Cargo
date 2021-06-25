@@ -7,6 +7,7 @@ $(document).ready(function() {
 	$('.cargoGantt').each( function() {
         var dataURL = decodeURI( $(this).attr('dataurl') );
         gantt.config.date_format = "%Y-%m-%d %H:%i";
+        gantt.config.readonly = true;
         gantt.init("ganttid");
         gantt.load(dataURL);
 
