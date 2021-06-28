@@ -145,5 +145,10 @@
 	"cargo-purgecache-failed": "Falha na limpeza de cache",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
-	"cargo-pageschemas-tablename": "Nome da tabela:"
+	"cargo-pageschemas-tablename": "Nome da tabela:",
+	"cargo-gantt-zoomlevel": "Nível de zoom:",
+	"cargo-gantt-hours": "Horas",
+	"cargo-gantt-days": "Dias",
+	"cargo-gantt-months": "Meses",
+	"cargo-gantt-years": "Anos"
 }

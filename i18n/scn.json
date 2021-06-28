@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"cargo-gantt-hours": "Ura",
+	"cargo-gantt-days": "Jorna",
+	"cargo-gantt-months": "Misi",
+	"cargo-gantt-years": "Anni"
+}

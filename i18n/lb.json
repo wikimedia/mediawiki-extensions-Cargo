@@ -66,5 +66,10 @@
 	"cargo-dynamictables-searchcolumn": "Sichen a(n) $1",
 	"cargo-purgecache": "Tëschespäicher (Cache) eidelmaachen",
 	"specialpages-group-cargo": "Cargo",
-	"cargo-pageschemas-tablename": "Numm vun der Tabell:"
+	"cargo-pageschemas-tablename": "Numm vun der Tabell:",
+	"cargo-gantt-zoomlevel": "Niveau vum Zoom:",
+	"cargo-gantt-hours": "Stonnen",
+	"cargo-gantt-days": "Deeg",
+	"cargo-gantt-months": "Méint",
+	"cargo-gantt-years": "Joer"
 }

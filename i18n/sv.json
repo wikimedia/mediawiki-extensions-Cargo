@@ -73,5 +73,9 @@
 	"cargo-purgecache-failed": "Misslyckades att rensa cachen",
 	"specialpages-group-cargo": "Fraktgods",
 	"cargo-pageschemas-cargofield": "Fraktområdet",
-	"cargo-pageschemas-tablename": "Tabellnamn:"
+	"cargo-pageschemas-tablename": "Tabellnamn:",
+	"cargo-gantt-hours": "Timmar",
+	"cargo-gantt-days": "Dagar",
+	"cargo-gantt-months": "Månader",
+	"cargo-gantt-years": "År"
 }

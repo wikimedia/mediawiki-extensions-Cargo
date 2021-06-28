@@ -62,5 +62,10 @@
 	"cargo-viewicalendar": "Vedi iCalendar",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
-	"cargo-pageschemas-tablename": "Nome tabella:"
+	"cargo-pageschemas-tablename": "Nome tabella:",
+	"cargo-gantt-zoomlevel": "Livello di ingrandimento:",
+	"cargo-gantt-hours": "Ore",
+	"cargo-gantt-days": "Giorni",
+	"cargo-gantt-months": "Mesi",
+	"cargo-gantt-years": "Anni"
 }

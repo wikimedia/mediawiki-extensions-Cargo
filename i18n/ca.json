@@ -3,7 +3,8 @@
 		"authors": [
 			"Fitoschido",
 			"Mguix",
-			"Toniher"
+			"Toniher",
+			"Vfc"
 		]
 	},
 	"cargo-desc": "Emmagatzemament i consulta de les dades de plantilla",
@@ -53,5 +54,9 @@
 	"cargo-purgecache": "Purga la memòria cau",
 	"cargo-purgecache-failed": "Ha fallat la purga de la memòria cau",
 	"specialpages-group-cargo": "Cargo",
-	"cargo-pageschemas-cargofield": "Camp de Cargo"
+	"cargo-pageschemas-cargofield": "Camp de Cargo",
+	"cargo-gantt-hours": "Hores",
+	"cargo-gantt-days": "Dies",
+	"cargo-gantt-months": "Mesos",
+	"cargo-gantt-years": "Anys"
 }

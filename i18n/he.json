@@ -4,6 +4,7 @@
 			"Amire80",
 			"Erelon",
 			"Guycn2",
+			"Leononon",
 			"Nemo bis",
 			"Or",
 			"Steeve815",
@@ -94,5 +95,8 @@
 	"cargo-purgecache": "ניקוי המטמון",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "שדה Cargo",
-	"cargo-pageschemas-tablename": "שם הטבלה:"
+	"cargo-pageschemas-tablename": "שם הטבלה:",
+	"cargo-gantt-zoomlevel": "זום",
+	"cargo-gantt-days": "ימים",
+	"cargo-gantt-months": "חודשים"
 }

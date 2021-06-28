@@ -160,5 +160,10 @@
 	"cargo-purgecache-failed": "La purge du cache a échoué",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Champ de Cargo",
-	"cargo-pageschemas-tablename": "Nom de table :"
+	"cargo-pageschemas-tablename": "Nom de table :",
+	"cargo-gantt-zoomlevel": "Niveau de zoom :",
+	"cargo-gantt-hours": "Heures",
+	"cargo-gantt-days": "Jours",
+	"cargo-gantt-months": "Mois",
+	"cargo-gantt-years": "Années"
 }

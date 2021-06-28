@@ -36,5 +36,9 @@
 	"cargo-drilldown-mapformat": "Kort",
 	"cargo-drilldown-timelineformat": "Tidslinje",
 	"cargo-drilldown-galleryformat": "Galleri",
-	"cargo-drilldown-calendarformat": "Kalender"
+	"cargo-drilldown-calendarformat": "Kalender",
+	"cargo-gantt-hours": "Timer",
+	"cargo-gantt-days": "Dage",
+	"cargo-gantt-months": "Måneder",
+	"cargo-gantt-years": "År"
 }
