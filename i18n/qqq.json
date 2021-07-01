@@ -4,6 +4,7 @@
 			"BaRaN6161 TURK",
 			"Jeeputer",
 			"Liuxinyu970226",
+			"Pikne",
 			"Raymond",
 			"Robby",
 			"Seb35",
@@ -152,9 +153,9 @@
 	"specialpages-group-cargo": "{{Doc-special-group|that=are related to the extension Cargo}}\n{{doc-cargo}}",
 	"cargo-pageschemas-cargofield": "The label for the input field of the database column.",
 	"cargo-pageschemas-tablename": "The label for the input field of the database table name.",
-	"cargo-gantt-zoomlevel": "سطح بزرگ‌نمایی:",
-	"cargo-gantt-hours": "ساعت",
+	"cargo-gantt-zoomlevel": "Label for a group of buttons",
+	"cargo-gantt-hours": "An option for a timeline zoom level\n{{identical|Hour}}",
 	"cargo-gantt-days": "An option for a timeline zoom level\n{{identical|Day}}",
 	"cargo-gantt-months": "An option for a timeline zoom level\n{{identical|Month}}",
-	"cargo-gantt-years": "سال"
+	"cargo-gantt-years": "An option for a timeline zoom level\n{{Identical|Year}}"
 }

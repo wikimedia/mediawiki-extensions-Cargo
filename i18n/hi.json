@@ -13,5 +13,9 @@
 	"cargo-cargotables-action-delete": "हटाएँ",
 	"cargo-cargotables-action-recreate": "फिरसे बनायें",
 	"cargo-cargotables-notdeclared": "किसी भी रूपरेखा द्वारा परिभाषित नहीं",
-	"cargo-drilldown-mapformat": "নক্সা"
+	"cargo-drilldown-mapformat": "নক্সা",
+	"cargo-gantt-hours": "घंटे",
+	"cargo-gantt-days": "दिन",
+	"cargo-gantt-months": "महीने",
+	"cargo-gantt-years": "वर्ष"
 }
