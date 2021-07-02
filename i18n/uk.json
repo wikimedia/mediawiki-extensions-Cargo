@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Dars",
 			"Movses",
 			"Nemo bis",
@@ -148,5 +149,9 @@
 	"cargo-purgecache-failed": "Очищення кешу не вдалося",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",
-	"cargo-pageschemas-tablename": "Назва таблиці:"
+	"cargo-pageschemas-tablename": "Назва таблиці:",
+	"cargo-gantt-zoomlevel": "Рівень масштабування:",
+	"cargo-gantt-hours": "Години",
+	"cargo-gantt-days": "Дні",
+	"cargo-gantt-months": "Місяці"
 }
