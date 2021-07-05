@@ -91,6 +91,7 @@
 		"CargoFileData": "includes/CargoFileData.php",
 		"CargoBPMNData": "includes/CargoBPMNData.php",
 		"CargoGanttData": "includes/CargoGanttData.php",
+		"CargoBPMNFormat": "includes/formats/CargoBPMNFormat.php",
 		"CargoRecurringEvent": "includes/parserfunctions/CargoRecurringEvent.php",
 		"CargoDisplayMap": "includes/parserfunctions/CargoDisplayMap.php",
 		"CargoPopulateTableJob": "includes/CargoPopulateTableJob.php",
@@ -238,6 +239,15 @@
 				"cargo-gantt-days",
 				"cargo-gantt-months",
 				"cargo-gantt-years"
+			]
+		},
+		"ext.cargo.bpmn": {
+			"scripts": [
+				"libs/bpmn-js/bpmn-navigated-viewer.development.js",
+				"libs/ext.cargo.bpmn.js"
+			],
+			"styles": [
+				"libs/ext.cargo.bpmn.css"
 			]
 		},
 		"ext.cargo.timelinebase": {

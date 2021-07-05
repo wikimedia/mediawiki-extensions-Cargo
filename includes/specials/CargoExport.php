@@ -62,6 +62,8 @@ class CargoExport extends UnlistedSpecialPage {
 			$this->displayTimelineData( $sqlQueries );
 		} elseif ( $format == 'gantt' ) {
 			$this->displayGanttData( $sqlQueries );
+		} elseif ( $format == 'bpmn' ) {
+			$this->displayBPMNData( $sqlQueries );
 		} elseif ( $format == 'nvd3chart' ) {
 			$this->displayNVD3ChartData( $sqlQueries );
 		} elseif ( $format == 'csv' ) {
@@ -361,6 +363,174 @@ class CargoExport extends UnlistedSpecialPage {
 			}
 		}
 		print json_encode( $displayedArray );
+	}
+
+	/**
+	 * Used for bpmn format
+	 */
+	private function displayBPMNData( $sqlQueries ) {
+		$req = $this->getRequest();
+		$displayedArray = [];
+		$displayedArray['sequenceFlow'] = [];
+		$displayedArray['elements'] = [];
+		$t = 1;
+		foreach ( $sqlQueries as $i => $sqlQuery ) {
+			$queryResults = $sqlQuery->run();
+			foreach ( $queryResults as $queryResult ) {
+				if ( array_key_exists( 'name', $queryResult ) ) {
+					$name = $queryResult['name'];
+				} else {
+					$name = reset( $queryResult );
+				}
+				if ( array_key_exists( 'label', $queryResult ) ) {
+					$label = $queryResult['label'];
+				} else {
+					$label = "";
+				}
+				if ( array_key_exists( 'type', $queryResult ) ) {
+					$eventType = $queryResult['type'];
+				} else {
+					continue;
+				}
+				if ( array_key_exists( 'source', $queryResult ) ) {
+					$source = $queryResult['source'];
+				} else {
+					$source = "";
+				}
+				if ( array_key_exists( 'target', $queryResult ) ) {
+					$target = $queryResult['target'];
+				} else {
+					$target = "";
+				}
+				if ( array_key_exists( 'x', $queryResult ) ) {
+					$x = $queryResult['x'];
+				} else {
+					$x = "";
+				}
+				if ( array_key_exists( 'y', $queryResult ) ) {
+					$y = $queryResult['y'];
+				} else {
+					$y = "";
+				}
+				if ( array_key_exists( 'linked', $queryResult ) ) {
+					$linkedpage = $queryResult['linked'];
+				} else {
+					$linkedpage = "";
+				}
+
+				$curEvent = [
+					'name' => $name,
+					'label' => $label,
+					'type' => $eventType,
+					'source' => $source,
+					'target' => $target,
+					'x' => $x,
+					'y' => $y,
+					'linkedpage' => $linkedpage
+				];
+
+				if ( str_contains( $curEvent['type'], 'Event' ) ) {
+					$curEvent['height'] = "36";
+					$curEvent['width'] = "36";
+				} elseif ( str_contains( $curEvent['type'], 'Gateway' ) ) {
+					$curEvent['height'] = "50";
+					$curEvent['width'] = "50";
+				} else {
+					$curEvent['height'] = "80";
+					$curEvent['width'] = "100";
+				}
+				$curEvent['id'] = $curEvent['type'] . $t;
+				$t++;
+				if ( $curEvent['type'] == "sequenceFlow" ) {
+					array_push( $displayedArray['sequenceFlow'], $curEvent );
+				} else {
+					array_push( $displayedArray['elements'], $curEvent );
+				}
+			}
+		}
+
+		for ( $it = 0; $it < count( $displayedArray['sequenceFlow'] ); $it++ ) {
+			if ( $displayedArray['sequenceFlow'][$it]['source'] != "" ) {
+				$temp = $displayedArray['sequenceFlow'][$it]['source'];
+				$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
+				$displayedArray['sequenceFlow'][$it]['source'] = $displayedArray['elements'][$key]['id'];
+			}
+			if ( $displayedArray['sequenceFlow'][$it]['target'] != "" ) {
+				$temp = $displayedArray['sequenceFlow'][$it]['target'];
+				$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
+				$displayedArray['sequenceFlow'][$it]['target'] = $displayedArray['elements'][$key]['id'];
+			}
+		   // Calculating 'x' and 'y' for sequence flow elements
+		   if ( $displayedArray['sequenceFlow'][$it]['x'] != "" || $displayedArray['sequenceFlow'][$it]['y'] != "" ) {
+			$temp = $displayedArray['sequenceFlow'][$it]['source'];
+			$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
+			$tempx = (int)$displayedArray['elements'][$key]['x'] + (int)$displayedArray['elements'][$key]['width'];
+			$tempy = (int)$displayedArray['elements'][$key]['y'] + ( (int)$displayedArray['elements'][$key]['height'] ) / 2;
+			$displayedArray['sequenceFlow'][$it]['x'] = (string)$tempx;
+			$displayedArray['sequenceFlow'][$it]['y'] = (string)$tempy;
+		   }
+		}
+
+		header( 'Content-Type: text/xml' );
+		$XML = '<?xml version="1.0" encoding="UTF-8"?>';
+		$XML .= '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+		xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" 
+		id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"><bpmn:process id="Process_1" isExecutable="false">';
+
+		// XML for BPMN Process
+		foreach ( $displayedArray['elements'] as $i => $task ) {
+			if ( is_array( $task ) && $task['type'] != "" ) {
+				$XML .= '<bpmn:' . $task[ 'type' ] . ' id="' . $task['id'];
+				if ( $task['name'] != "" ) {
+					$XML .= '" name="' . $task['name'];
+				}
+				if ( $task[ 'linkedpage' ] != "" ) {
+					$XML .= '&#10;[[' . $task['linkedpage'] . ']]';
+				}
+				$XML .= '"></bpmn:' . $task['type'] . '>';
+			}
+		}
+
+		foreach ( $displayedArray['sequenceFlow'] as $i => $task ) {
+			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
+				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" />';
+			}
+		}
+
+		$XML .= '</bpmn:process><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">';
+
+		// XML for BPMN Diagram
+		foreach ( $displayedArray['elements'] as $i => $task ) {
+			if ( is_array( $task ) && $task['type'] != "sequenceFlow" ) {
+				$XML .= '<bpmndi:BPMNShape id="' . $task['id'] . '_di" bpmnElement="' . $task['id'] . '"';
+				if ( $task['type'] == "exclusiveGateway" ) {
+					$XML .= ' isMarkerVisible="true"';
+				}
+				$XML .= '><dc:Bounds x="' . $task['x'] . '" y="' . $task['y'] . '" width="' . $task['width'] . '" height="' . $task['height'] . '" />';
+
+				if ( $task['label'] != "" ) {
+				$XML .= '<bpmndi:BPMNLabel><dc:Bounds x="' . $task['label']['x'] . '" y="' . $task['label']['y'] .
+				'" width="' . $task['label']['width'] . '" height="' . $task['label']['height'] . '" /></bpmndi:BPMNLabel>';
+				}
+				$XML .= '</bpmndi:BPMNShape>';
+			}
+		}
+		foreach ( $displayedArray['sequenceFlow'] as $i => $task ) {
+			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
+				$XML .= '<bpmndi:BPMNEdge id="' . $task['id'] . '_di" bpmnElement="' . $task['id'] . '">
+				<di:waypoint x="' . $task['x'] . '" y="' . $task['y'] . '" />';
+
+				if ( $task['label'] != "" ) {
+				$XML .= '<bpmndi:BPMNLabel><dc:Bounds x="' . $task['label']['x'] . '" y="' . $task['label']['y'] .
+				'" width="' . $task['label']['width'] . '" height="' . $task['label']['height'] . '" /></bpmndi:BPMNLabel>';
+				}
+				$XML .= '</bpmndi:BPMNEdge>';
+			}
+		}
+
+		$XML .= '</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>';
+
+		print $XML;
 	}
 
 	/**

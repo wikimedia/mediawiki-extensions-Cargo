@@ -1,0 +1,23 @@
+/*
+ * Copied from file FD_BPMN.css in the Flex Diagrams extension.
+ */
+
+#canvas {
+	height: /*100%;*/ 40em;
+}
+
+.diagram-note {
+	background-color: rgba(66, 180, 21, 0.7);
+	color: White;
+	border-radius: 5px;
+	font-family: Arial;
+	font-size: 12px;
+	padding: 5px;
+	min-height: 16px;
+	width: 50px;
+	text-align: center;
+}
+
+.needs-discussion:not(.djs-connection) .djs-visual > :nth-child(1) {
+	stroke: rgba(66, 180, 21, 0.7) !important; /* color elements as red */
+}

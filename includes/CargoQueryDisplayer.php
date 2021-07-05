@@ -48,6 +48,7 @@ class CargoQueryDisplayer {
 			'icalendar' => 'CargoICalendarFormat',
 			'timeline' => 'CargoTimelineFormat',
 			'gantt' => 'CargoGanttFormat',
+			'bpmn' => 'CargoBPMNFormat',
 			'category' => 'CargoCategoryFormat',
 			'bar chart' => 'CargoBarChartFormat',
 			'pie chart' => 'CargoPieChartFormat',
