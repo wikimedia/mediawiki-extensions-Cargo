@@ -3,4 +3,10 @@
 	position: sticky;
 	top: 0;
 	border-bottom: 1px solid #a2a9b1;
+	z-index: 100;
+}
+
+.cargo-pagevalues-fieldinfo {
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }

@@ -99,13 +99,14 @@ class CargoPageValues extends IncludableSpecialPage {
 
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
+				$fieldInfo = $this->getInfoForAllFields( $tableName );
 				foreach ( $rowValues as $field => $value ) {
 					// @HACK - this check should ideally
 					// be done earlier.
 					if ( strpos( $field, '__precision' ) !== false ) {
 						continue;
 					}
-					$tableContents .= $this->printRow( $field, $value );
+					$tableContents .= $this->printRow( $field, $value, $fieldInfo[ $field ] );
 				}
 				$text .= $this->printTable( $tableContents );
 			}
@@ -126,7 +127,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$out->addHTML( $text );
-		$out->addModuleStyles( 'ext.cargo.pagevalues' );
+		$out->addModules( 'ext.cargo.pagevalues' );
 
 		return true;
 	}
@@ -141,6 +142,31 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		return Html::element( 'a', [ 'href' => $viewURL ], $tableName );
+	}
+
+	/**
+	 * Used to get the information about field type and the list
+	 * of allowed values(if any) of all fields of a table
+	 *
+	 */
+	private function getInfoForAllFields( $tableName ) {
+		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		$fieldDescriptions = $tableSchemas[ $tableName ]->mFieldDescriptions;
+		$fieldInfo = [];
+		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+			$typeDesc = $fieldDescription->mType;
+			if ( $fieldDescription->mIsList ) {
+				$typeDesc = $this->msg( 'cargo-cargotables-listof', $typeDesc )->parse();
+			}
+			$fieldInfo[ $fieldName ][ 'field type' ] = $typeDesc;
+			$delimiter = strlen( $fieldDescription->getDelimiter() ) ? $fieldDescription->getDelimiter() : ',';
+			if ( is_array( $fieldDescription->mAllowedValues ) ) {
+				$fieldInfo[ $fieldName ][ 'allowed values' ] = implode( $delimiter . " ", $fieldDescription->mAllowedValues );
+			} else {
+				$fieldInfo[ $fieldName ][ 'allowed values' ] = '';
+			}
+		}
+		return $fieldInfo;
 	}
 
 	public function getRowsForPageInTable( $tableName ) {
@@ -185,12 +211,17 @@ class CargoPageValues extends IncludableSpecialPage {
 	/**
 	 * Based on MediaWiki's InfoAction::addRow()
 	 */
-	public function printRow( $name, $value ) {
+	public function printRow( $name, $value, $fieldInfo ) {
 		if ( $name == '_fullText' && strlen( $value ) > 300 ) {
 			$value = substr( $value, 0, 300 ) . ' ...';
 		}
 		return Html::rawElement( 'tr', [],
-			Html::rawElement( 'td', [ 'style' => 'vertical-align: top;' ], $name ) .
+			Html::rawElement( 'td',
+			[
+				'class' => 'cargo-pagevalues-fieldinfo',
+				'data-field-type' => $fieldInfo[ 'field type' ],
+				'data-allowed-values' => $fieldInfo[ 'allowed values' ]
+			], $name . "&nbsp;&nbsp;&nbsp;" ) .
 			Html::rawElement( 'td', [], $value )
 		);
 	}

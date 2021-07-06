@@ -166,7 +166,15 @@
 			]
 		},
 		"ext.cargo.pagevalues": {
-			"styles": "resources/CargoPageValues.css"
+			"scripts": "libs/CargoPageValues.js",
+			"styles": "resources/CargoPageValues.css",
+			"dependencies": [
+				"oojs-ui-widgets"
+			],
+			"messages": [
+				"cargo-field-type",
+				"cargo-allowed-values"
+			]
 		},
 		"ext.cargo.cargotables": {
 			"styles": "resources/CargoTables.css"

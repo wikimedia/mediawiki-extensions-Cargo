@@ -148,5 +148,7 @@
 	"cargo-gantt-hours": "Hours",
 	"cargo-gantt-days": "Days",
 	"cargo-gantt-months": "Months",
-	"cargo-gantt-years": "Years"
+	"cargo-gantt-years": "Years",
+	"cargo-field-type": "Field type:",
+	"cargo-allowed-values": "Allowed values:"
 }
