@@ -10,5 +10,10 @@
 	"cargo-cargotables-action-deletereplacement": "Efacar",
 	"cargo-cargotables-action-delete": "Efacar",
 	"cargo-cargotables-action-recreate": "Rikrear",
-	"cargo-pagevalues-tablevalues": "\"$1\" valui"
+	"cargo-pagevalues-tablevalues": "\"$1\" valui",
+	"cargo-gantt-zoomlevel": "Nivelo di augmento:",
+	"cargo-gantt-hours": "Hori",
+	"cargo-gantt-days": "Dii",
+	"cargo-gantt-months": "Monati",
+	"cargo-gantt-years": "Yari"
 }
