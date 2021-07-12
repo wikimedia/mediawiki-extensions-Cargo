@@ -130,8 +130,10 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		// Display "Recreate data" link.
-		$templatesThatDeclareThisTable = $this->templatesThatDeclareTables[$tableName];
-		if ( count( $templatesThatDeclareThisTable ) > 0 ) {
+		if ( array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {
+			$templatesThatDeclareThisTable = $this->templatesThatDeclareTables[$tableName];
+		}
+		if ( isset( $templatesThatDeclareThisTable ) && count( $templatesThatDeclareThisTable ) > 0 ) {
 			// Most likely, there's only one.
 			$templateID = $templatesThatDeclareThisTable[0];
 			$templateTitle = Title::newFromID( $templateID );
