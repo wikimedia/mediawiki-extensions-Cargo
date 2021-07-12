@@ -113,9 +113,12 @@
 	"switchcargotable": "Перейти до замінної таблиці Cargo",
 	"cargo-switchtables-confirm": "Перейти до замінної таблиці Cargo $1?",
 	"cargo-switchtables-switch": "Переключити",
+	"cargo-switchtables-success": "Заміна таблиці \"$1\" була включена.",
+	"cargotablediagram": "Схема вантажної таблиці",
 	"pagevalues": "Значення сторінок",
 	"cargo-pagevaluesfor": "Значення сторінки «$1»",
 	"cargo-pagevalues-tablevalues": "Значення «$1»",
+	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|рядок|рядки}} зберігаються для цієї сторінки",
 	"drilldown": "Перегляд ієрархії",
 	"cargo-drilldown-choosetable": "Вибрати таблицю",
 	"cargo-drilldown-allpages": "Усі сторінки",
@@ -153,5 +156,6 @@
 	"cargo-gantt-zoomlevel": "Рівень масштабування:",
 	"cargo-gantt-hours": "Години",
 	"cargo-gantt-days": "Дні",
-	"cargo-gantt-months": "Місяці"
+	"cargo-gantt-months": "Місяці",
+	"cargo-gantt-years": "Роки"
 }

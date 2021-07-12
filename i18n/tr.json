@@ -4,6 +4,7 @@
 			"BaRaN6161 TURK",
 			"Botansahin",
 			"HakanIST",
+			"Hedda",
 			"Joseph",
 			"Mirzali"
 		]
@@ -147,5 +148,10 @@
 	"cargo-purgecache-failed": "Önbellek temizleme işlemi başarısız oldu",
 	"specialpages-group-cargo": "Kargo",
 	"cargo-pageschemas-cargofield": "Kargo alanı",
-	"cargo-pageschemas-tablename": "Tablo adı:"
+	"cargo-pageschemas-tablename": "Tablo adı:",
+	"cargo-gantt-zoomlevel": "Yakınlaştırma düzeyi:",
+	"cargo-gantt-hours": "Saat",
+	"cargo-gantt-days": "Gün",
+	"cargo-gantt-months": "Ay",
+	"cargo-gantt-years": "Yıl"
 }
