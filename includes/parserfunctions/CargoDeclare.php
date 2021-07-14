@@ -7,7 +7,11 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoDeclare {
+
+	public static $settings = [];
 
 	/**
 	 * "Reserved words" - terms that should not be used as table or field
@@ -337,6 +341,40 @@ class CargoDeclare {
 			$viewURL .= "_replacement";
 			$viewReplacementTableMsg = wfMessage( 'cargo-cargotables-viewreplacementlink' )->parse();
 			$text .= "; [$viewURL $viewReplacementTableMsg].";
+		}
+
+		// For use by the Page Exchange extension and possibly others,
+		// to automatically generate a Cargo table after the template
+		// that declares it is created.
+		if ( array_key_exists( 'createData', self::$settings ) ) {
+			$userID = self::$settings['userID'];
+			if ( class_exists( 'MediaWiki\User\UserFactory' ) ) {
+				// MW 1.35+
+				$user = MediaWikiServices::getInstance()
+					->getUserFactory()
+					->newFromId( (int)$userID );
+			} else {
+				$user = User::newFromId( (int)$userID );
+			}
+			$title = $parser->getTitle();
+			$templatePageID = $title->getArticleID();
+			try {
+				CargoUtils::recreateDBTablesForTemplate(
+					$templatePageID,
+					$createReplacement = false,
+					$user,
+					$tableName,
+					$tableSchema,
+					$parentTables
+				);
+			} catch ( MWException $e ) {
+				print wfMessage( 'edit-error-short', $e->getMessage() )->text() . "\n";
+				return;
+			}
+
+			// Ensure that this code doesn't get called more than
+			// once per page save.
+			unset( self::$settings['createData'] );
 		}
 
 		return $text;

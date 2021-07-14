@@ -607,25 +607,33 @@ class CargoUtils {
 		$templatePageID,
 		$createReplacement,
 		User $user,
-		$tableName = null
+		$tableName = null,
+		$tableSchema = null,
+		$parentTables = null
 	) {
-		$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
-		// First, see if there even is DB storage for this template -
-		// if not, exit.
-		if ( $tableSchemaString === null ) {
-			return false;
-		}
-		$tableSchema = CargoTableSchema::newFromDBString( $tableSchemaString );
-
 		if ( $tableName == null ) {
 			$tableName = self::getPageProp( $templatePageID, 'CargoTableName' );
 		}
 
-		$parentTablesStr = self::getPageProp( $templatePageID, 'CargoParentTables' );
-		if ( $parentTablesStr ) {
-			$parentTables = unserialize( $parentTablesStr );
+		if ( $tableSchema == null ) {
+			$tableSchemaString = self::getPageProp( $templatePageID, 'CargoFields' );
+			// First, see if there even is DB storage for this template -
+			// if not, exit.
+			if ( $tableSchemaString === null ) {
+				return false;
+			}
+			$tableSchema = CargoTableSchema::newFromDBString( $tableSchemaString );
 		} else {
-			$parentTables = [];
+			$tableSchemaString = $tableSchema->toDBString();
+		}
+
+		if ( $parentTables == null ) {
+			$parentTablesStr = self::getPageProp( $templatePageID, 'CargoParentTables' );
+			if ( $parentTablesStr ) {
+				$parentTables = unserialize( $parentTablesStr );
+			} else {
+				$parentTables = [];
+			}
 		}
 
 		$dbw = wfGetDB( DB_MASTER );
