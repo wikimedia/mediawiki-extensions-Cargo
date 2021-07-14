@@ -2,12 +2,13 @@
 	"@metadata": {
 		"authors": [
 			"Anthonymodec",
-			"Hunpatinjob"
+			"Hunpatinjob",
+			"Misteld"
 		]
 	},
 	"cargo-gantt-zoomlevel": "Oten adagbigblo ton:",
 	"cargo-gantt-hours": "Ganme",
-	"cargo-gantt-days": "Azan le",
-	"cargo-gantt-months": "Osun le",
-	"cargo-gantt-years": "Owhe le"
+	"cargo-gantt-days": "Azán lẹ",
+	"cargo-gantt-months": "Osun lẹ",
+	"cargo-gantt-years": "Owhe lẹ"
 }
