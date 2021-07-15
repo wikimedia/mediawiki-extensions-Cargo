@@ -11,6 +11,9 @@
 		"MediaWiki": ">= 1.30"
 	},
 	"callback": "CargoHooks::registerExtension",
+	"ExtensionFunctions": [
+		"CargoHooks::initialize"
+	],
 	"AvailableRights": [
 		"recreatecargodata",
 		"deletecargodata",

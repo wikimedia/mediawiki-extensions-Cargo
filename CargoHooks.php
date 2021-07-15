@@ -11,9 +11,11 @@ use MediaWiki\Revision\SlotRecord;
 class CargoHooks {
 
 	public static function registerExtension() {
-		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgHooks;
-
 		define( 'CARGO_VERSION', '2.8' );
+	}
+
+	public static function initialize() {
+		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgHooks;
 
 		// Script path.
 		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
