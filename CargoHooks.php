@@ -15,10 +15,10 @@ class CargoHooks {
 	}
 
 	public static function initialize() {
-		global $cgScriptPath, $wgScriptPath, $wgCargoFieldTypes, $wgHooks;
+		global $cgScriptPath, $wgExtensionAssetsPath, $wgCargoFieldTypes, $wgHooks;
 
 		// Script path.
-		$cgScriptPath = $wgScriptPath . '/extensions/Cargo';
+		$cgScriptPath = $wgExtensionAssetsPath . '/Cargo';
 
 		$wgCargoFieldTypes = [
 			'Page', 'String', 'Text', 'Integer', 'Float', 'Date',
