@@ -22,8 +22,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 	}
 
 	public function execute( $query ) {
-		global $cgScriptPath, $wgCargoPageDataColumns;
-		global $wgCargoFileDataColumns;
+		global $wgCargoPageDataColumns, $wgCargoFileDataColumns;
 
 		$this->checkPermissions();
 
@@ -36,8 +35,6 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		}
 		$this->setHeaders();
 		$out->addModules( 'ext.cargo.drilldown' );
-		$out->addScript( '<!--[if IE]><link rel="stylesheet" href="' . $cgScriptPath .
-			'/drilldown/resources/CargoDrilldownIEFixes.css" media="screen" /><![endif]-->' );
 
 		$queryparts = explode( '/', $query, 1 );
 		$mainTable = isset( $queryparts[0] ) ? $queryparts[0] : '';
