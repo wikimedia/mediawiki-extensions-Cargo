@@ -165,7 +165,7 @@ END;
 		$formatLabel = '<label for="format">' . $this->msg( 'cargo-viewdata-format' )->parse();
 		$options = [];
 		$formatOptionDefault = $this->msg( 'cargo-viewdata-defaultformat' )->parse();
-		array_push( $options, [ 'data' => $formatOptionDefault, 'label' => '(' . $formatOptionDefault . ')' ] );
+		array_push( $options, [ 'data' => '', 'label' => '(' . $formatOptionDefault . ')' ] );
 		$value = '';
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
 		foreach ( $formatClasses as $formatName => $formatClass ) {
