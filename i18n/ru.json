@@ -15,6 +15,7 @@
 			"Shaleych",
 			"Smigles",
 			"Sunpriat",
+			"Thothsum",
 			"Vlad5250",
 			"Дмитрий"
 		]
@@ -141,5 +142,7 @@
 	"cargo-purgecache-failed": "Очистка кэша не удалась",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Поле Cargo",
-	"cargo-pageschemas-tablename": "Название таблицы:"
+	"cargo-pageschemas-tablename": "Название таблицы:",
+	"cargo-gantt-hours": "Часы",
+	"cargo-gantt-years": "Годы"
 }

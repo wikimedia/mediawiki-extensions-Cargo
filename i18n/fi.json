@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"MITO",
 			"Nike",
 			"Silvonen",
 			"Valtlait"
@@ -11,5 +12,10 @@
 	"cargo-drilldown-allfiles": "Kaikki tiedostot",
 	"cargo-drilldown-or": "tai",
 	"cargo-drilldown-filename": "Tiedostonimi",
-	"cargo-drilldown-galleryformat": "Galleria"
+	"cargo-drilldown-galleryformat": "Galleria",
+	"cargo-gantt-zoomlevel": "Zoomaustaso:",
+	"cargo-gantt-hours": "Tuntia",
+	"cargo-gantt-days": "Päivää",
+	"cargo-gantt-months": "Kuukautta",
+	"cargo-gantt-years": "Vuotta"
 }
