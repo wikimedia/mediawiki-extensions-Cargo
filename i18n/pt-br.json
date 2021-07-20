@@ -150,5 +150,6 @@
 	"cargo-gantt-hours": "Horas",
 	"cargo-gantt-days": "Dias",
 	"cargo-gantt-months": "Meses",
-	"cargo-gantt-years": "Anos"
+	"cargo-gantt-years": "Anos",
+	"cargo-allowed-values": "Valores permitidos:"
 }
