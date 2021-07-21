@@ -245,6 +245,9 @@ class CargoStore {
 		}
 
 		$seconds = strtotime( $dateStr );
+		if ( $seconds === false ) {
+			return [ null, null ];
+		}
 		// If the precision has already been set, then we know it
 		// doesn't include a time value - we can set the value already.
 		if ( $precision != null ) {
