@@ -87,6 +87,7 @@ class CargoFilter {
 		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
+		$conds[] = "$date_field != 0";
 		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds, null,
 			null, $joinConds );
 		$row = $cdb->fetchRow( $res );
