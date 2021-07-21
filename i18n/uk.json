@@ -157,5 +157,7 @@
 	"cargo-gantt-hours": "Години",
 	"cargo-gantt-days": "Дні",
 	"cargo-gantt-months": "Місяці",
-	"cargo-gantt-years": "Роки"
+	"cargo-gantt-years": "Роки",
+	"cargo-field-type": "Тип поля:",
+	"cargo-allowed-values": "Допустимі значення:"
 }

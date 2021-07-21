@@ -150,5 +150,7 @@
 	"cargo-gantt-hours": "Часови",
 	"cargo-gantt-days": "Денови",
 	"cargo-gantt-months": "Месеци",
-	"cargo-gantt-years": "Години"
+	"cargo-gantt-years": "Години",
+	"cargo-field-type": "Вид на поле:",
+	"cargo-allowed-values": "Дозволени вредности:"
 }

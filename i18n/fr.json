@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Boniface",
 			"Brenloch56",
 			"Dinoxel",
@@ -165,5 +166,7 @@
 	"cargo-gantt-hours": "Heures",
 	"cargo-gantt-days": "Jours",
 	"cargo-gantt-months": "Mois",
-	"cargo-gantt-years": "Années"
+	"cargo-gantt-years": "Années",
+	"cargo-field-type": "Type de champ :",
+	"cargo-allowed-values": "Valeurs autorisées :"
 }
