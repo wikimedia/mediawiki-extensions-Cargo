@@ -100,7 +100,9 @@ class CargoFilter {
 		list( $maxYear, $maxMonth, $maxDay ) = $this->getDateParts( $maxDate );
 		$yearDifference = $maxYear - $minYear;
 		$monthDifference = ( 12 * $yearDifference ) + ( $maxMonth - $minMonth );
-		if ( $yearDifference > 30 ) {
+		if ( $yearDifference > 200 ) {
+			return 'century';
+		} elseif ( $yearDifference > 30 ) {
 			return 'decade';
 		} elseif ( $yearDifference > 2 ) {
 			return 'year';
@@ -260,7 +262,7 @@ class CargoFilter {
 			} elseif ( $timePeriod == 'year' ) {
 				$date_string = $row->year_field;
 				$possible_dates[$date_string] = $row->total;
-			} else { // if ( $timePeriod == 'decade' )
+			} elseif ( $timePeriod == 'decade' ) {
 				// Unfortunately, there's no SQL DECADE()
 				// function - so we have to take these values,
 				// which are grouped into year "buckets", and
@@ -273,6 +275,17 @@ class CargoFilter {
 					$possible_dates[$decade_string] = $row->total;
 				} else {
 					$possible_dates[$decade_string] += $row->total;
+				}
+			} else { // if ( $timePeriod == 'century' ) {
+				// Same as with 'decade'.
+				$year_string = $row->year_field;
+				$start_of_century = $year_string - ( $year_string % 100 );
+				$end_of_century = $start_of_century + 99;
+				$century_string = $start_of_century . ' - ' . $end_of_century;
+				if ( !array_key_exists( $century_string, $possible_dates ) ) {
+					$possible_dates[$century_string] = $row->total;
+				} else {
+					$possible_dates[$century_string] += $row->total;
 				}
 			}
 		}
