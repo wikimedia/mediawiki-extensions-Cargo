@@ -10,6 +10,7 @@
 			"Phenolla",
 			"SolidBlock",
 			"Yfdyh000",
+			"Zhang8569",
 			"佛壁灯",
 			"列维劳德"
 		]
@@ -152,5 +153,7 @@
 	"cargo-gantt-hours": "小时",
 	"cargo-gantt-days": "日",
 	"cargo-gantt-months": "月",
-	"cargo-gantt-years": "年"
+	"cargo-gantt-years": "年",
+	"cargo-field-type": "字段类型：",
+	"cargo-allowed-values": "允许取值："
 }
