@@ -14,7 +14,7 @@
 	],
 	"support": {
 		"issues": "https://phabricator.wikimedia.org/tag/mediawiki-extensions-cargo/",
-		"irc": "irc://irc.freenode.net/mediawiki",
+		"irc": "irc://irc.libera.chat/mediawiki",
 		"source": "https://phabricator.wikimedia.org/diffusion/ECRG/"
 	},
 	"require-dev": {
