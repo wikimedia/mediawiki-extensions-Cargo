@@ -120,22 +120,36 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
+			$startDateFieldRealNames = [];
+			$endDateFieldRealNames = [];
 			$dateFieldRealNames = [];
 			$startDateFieldAliases = [];
 			$endDateFieldAliases = [];
 			$dateFieldAliases = [];
 			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
+				$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
 				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
 					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 					$dateFieldAliases[] = $alias;
-					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
-					$dateFieldRealNames[] = $realFieldName;
 					if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+						$startDateFieldRealNames[] = $realFieldName;
 						$startDateFieldAliases[] = $alias;
+					} else {
+						$dateFieldRealNames[] = $realFieldName;
 					}
 				}
 				if ( $description->mType == 'End date' || $description->mType == 'End datetime' ) {
+					$endDateFieldRealNames[] = $realFieldName;
 					$endDateFieldAliases[] = $alias;
+				}
+			}
+
+			$startEndDatePairs = [];
+			foreach ( $startDateFieldRealNames as $i => $startDateField ) {
+				if ( isset( $endDateFieldRealNames[$i] ) ) {
+					$startEndDatePairs[] = [ $startDateField, $endDateFieldRealNames[$i] ];
+				} else {
+					$dateFieldRealNames[] = $startDateField;
 				}
 			}
 
@@ -144,11 +158,23 @@ class CargoExport extends UnlistedSpecialPage {
 				$where .= " AND ";
 			}
 			$where .= "(";
-			foreach ( $dateFieldRealNames as $j => $dateField ) {
-				if ( $j > 0 ) {
+			$firstField = true;
+			foreach ( $dateFieldRealNames as $dateField ) {
+				if ( $firstField ) {
+					$firstField = false;
+				} else {
 					$where .= " OR ";
 				}
 				$where .= "($dateField >= '$datesLowerLimit' AND $dateField <= '$datesUpperLimit')";
+			}
+			foreach ( $startEndDatePairs as $datePair ) {
+				list( $startDateField, $endDateField ) = $datePair;
+				if ( $firstField ) {
+					$firstField = false;
+				} else {
+					$where .= " OR ";
+				}
+				$where .= "($endDateField > '$datesLowerLimit' AND $startDateField < '$datesUpperLimit')";
 			}
 			$where .= ")";
 			$sqlQuery->mWhereStr = $where;
