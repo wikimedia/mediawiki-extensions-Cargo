@@ -64,8 +64,7 @@ class CargoCategoryFormat extends CargoListFormat {
 			if ( $rowindex % $rows_per_column == 0 ) {
 				$result .= "\n\t\t\t<div style=\"float: left; width: $column_width%;\">\n";
 				if ( $cur_first_char == $prev_first_char ) {
-					$result .= "\t\t\t\t<h3>$cur_first_char " .
-						wfMessage( 'listingcontinuesabbrev' )->text() . "</h3>\n				<ul>\n";
+					$result .= "\t\t\t\t<ul>\n";
 				}
 			}
 
