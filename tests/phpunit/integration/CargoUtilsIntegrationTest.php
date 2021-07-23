@@ -3,7 +3,7 @@
 use MediaWiki\MediaWikiServices;
 
 class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
-	public function setUp() : void {
+	public function setUp(): void {
 		$this->setMwGlobals(
 			[
 				'wgDisableInternalSearch' => true,

@@ -5,7 +5,7 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	 * @covers CargoDeclare::validateFieldOrTableName
 	 * @dataProvider provideInvalidFieldOrTableName
 	 */
-	public function testValidateInvalidFieldOrTableName( $name, $type ) : void {
+	public function testValidateInvalidFieldOrTableName( $name, $type ): void {
 		$actual = CargoDeclare::validateFieldOrTableName( $name, $type );
 
 		// We will need to check the strings returned, maybe we should
@@ -15,7 +15,7 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideInvalidFieldOrTableName() : array {
+	public function provideInvalidFieldOrTableName(): array {
 		return [
 			[ 'table name', 'String' ],
 			[ '_table_name', 'String' ],
@@ -42,14 +42,14 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	 * @covers CargoDeclare::validateFieldOrTableName
 	 * @dataProvider provideValidFieldOrTableName
 	 */
-	public function testValidateValidFieldOrTableName( $name, $type ) : void {
+	public function testValidateValidFieldOrTableName( $name, $type ): void {
 		$actual = CargoDeclare::validateFieldOrTableName( $name, $type );
 
 		$this->assertNull( $actual );
 	}
 
 	/** @return array */
-	public function provideValidFieldOrTableName() : array {
+	public function provideValidFieldOrTableName(): array {
 		return [
 			[ 'table_name', 'String' ],
 		];

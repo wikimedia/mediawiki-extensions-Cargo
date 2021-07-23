@@ -6,7 +6,7 @@ class CargoSearchMySQLIntegrationTest extends MediaWikiIntegrationTestCase {
 	/** @var CargoSearchMySQL */
 	private $cargoSearchMysql;
 
-	public function setUp() : void {
+	public function setUp(): void {
 		$this->setMwGlobals(
 			[ 'wgMainStash' => true ]
 		);

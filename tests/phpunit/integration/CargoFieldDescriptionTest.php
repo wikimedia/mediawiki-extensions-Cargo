@@ -3,7 +3,7 @@
 class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	private $cargoFieldDescription;
 
-	public function setUp() : void {
+	public function setUp(): void {
 		$this->cargoFieldDescription = new CargoFieldDescription();
 	}
 
