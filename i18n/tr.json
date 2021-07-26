@@ -153,5 +153,7 @@
 	"cargo-gantt-hours": "Saat",
 	"cargo-gantt-days": "Gün",
 	"cargo-gantt-months": "Ay",
-	"cargo-gantt-years": "Yıl"
+	"cargo-gantt-years": "Yıl",
+	"cargo-field-type": "Alan türü:",
+	"cargo-allowed-values": "İzin verilen değerler:"
 }
