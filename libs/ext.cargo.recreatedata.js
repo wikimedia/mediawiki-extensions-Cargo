@@ -69,7 +69,8 @@
 				} else {
 					// We're done.
 					if ( createReplacement ) {
-						viewTableURL += "?_replacement";
+						viewTableURL += ( viewTableURL.indexOf('?') === -1 ) ? '?' : '&';
+						viewTableURL += "_replacement";
 					}
 					var linkMsg = createReplacement ? 'cargo-cargotables-viewreplacementlink' : 'cargo-cargotables-viewtablelink';
 					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p><p><a href=\"" + viewTableURL + "\">" + mw.msg( linkMsg ) + "</a>.</p>" );
