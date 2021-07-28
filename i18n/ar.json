@@ -145,5 +145,6 @@
 	"cargo-purgecache-failed": "فشل تطهير ذاكرة التخزين المؤقت",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
-	"cargo-pageschemas-tablename": "اسم الجدول:"
+	"cargo-pageschemas-tablename": "اسم الجدول:",
+	"cargo-allowed-values": "القيم المسموح بها:"
 }
