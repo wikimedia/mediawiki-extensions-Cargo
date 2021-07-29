@@ -73,7 +73,7 @@ CargoMap.prototype.display = function( mapService, doMarkerClustering ) {
 	if ( mapService == 'Google Maps' ) {
 		this.displayWithGoogleMaps( doMarkerClustering );
 	} else if ( mapService == 'Leaflet' ) {
-		this.displayWithLeaflet();
+		this.displayWithLeaflet( doMarkerClustering );
 	} else { // default is OpenLayers
 		this.displayWithOpenLayers();
 	}
@@ -148,7 +148,8 @@ CargoMap.toOpenLayersLonLat = function( map, lat, lon ) {
 	);
 }
 
-CargoMap.prototype.displayWithLeaflet = function() {
+CargoMap.prototype.displayWithLeaflet = function( doMarkerClustering ) {
+	var imageHeight, imageWidth, markers;
 	var mapCanvas = document.getElementById(this.divID);
 	var mapOptions = {};
 	var layerOptions = {
@@ -179,6 +180,10 @@ CargoMap.prototype.displayWithLeaflet = function() {
 		map.setZoom( this.zoomLevel );
 	}
 
+	if ( doMarkerClustering ) {
+		markers = L.markerClusterGroup();
+	}
+
 	var numItems = this.allItemValues.length;
 	for ( var i = 0; i < numItems; i++ ) {
 		var curItem = this.allItemValues[i];
@@ -188,7 +193,7 @@ CargoMap.prototype.displayWithLeaflet = function() {
 			lat *= imageWidth / 100;
 			lon *= imageWidth / 100;
 		}
-		var marker = L.marker([lat, lon]).addTo( map );
+		var marker = L.marker([lat, lon]);
 		if ( curItem.hasOwnProperty('icon') ) {
 			var icon = L.icon({iconUrl: curItem.icon});
 			marker.setIcon( icon );
@@ -196,6 +201,14 @@ CargoMap.prototype.displayWithLeaflet = function() {
 		if ( this.allItemValues[ i ].title !== null ) {
 			marker.bindPopup( CargoMap.createPopupHTMLForRow( curItem ) );
 		}
+		if ( doMarkerClustering ) {
+			markers.addLayer( marker );
+		} else {
+			marker.addTo( map );
+		}
+	}
+	if ( doMarkerClustering ) {
+		map.addLayer( markers );
 	}
 }
 
