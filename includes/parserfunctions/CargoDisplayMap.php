@@ -28,6 +28,7 @@ class CargoDisplayMap {
 		$widthStr = null;
 		$zoomStr = null;
 		$imageStr = null;
+		$clusterStr = null;
 
 		foreach ( $params as $param ) {
 			$parts = explode( '=', $param, 2 );
@@ -48,6 +49,8 @@ class CargoDisplayMap {
 				$zoomStr = $value;
 			} elseif ( $key == 'image' ) {
 				$imageStr = $value;
+			} elseif ( $key == 'cluster' ) {
+				$clusterStr = $value;
 			}
 		}
 
@@ -97,6 +100,9 @@ class CargoDisplayMap {
 		}
 		if ( $imageStr != null ) {
 			$displayParams['image'] = $imageStr;
+		}
+		if ( $clusterStr != null ) {
+			$displayParams['cluster'] = $clusterStr;
 		}
 
 		try {
