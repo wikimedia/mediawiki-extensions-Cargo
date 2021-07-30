@@ -20,7 +20,8 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
 			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ],
 			'icon' => [ 'type' => 'string' ],
-			'zoom' => [ 'type' => 'int' ]
+			'zoom' => [ 'type' => 'int' ],
+			'cluster' => [ 'type' => 'string' ]
 		];
 	}
 
@@ -266,6 +267,9 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		];
 		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['data-zoom'] = $displayParams['zoom'];
+		}
+		if ( array_key_exists( 'cluster', $displayParams ) ) {
+			$mapDataAttrs['data-cluster'] = strtolower( $displayParams['cluster'] );
 		}
 		if ( $fileName !== null ) {
 			$mapDataAttrs['data-image-path'] = $imageURL;

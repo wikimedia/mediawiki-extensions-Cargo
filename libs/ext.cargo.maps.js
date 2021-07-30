@@ -287,6 +287,12 @@ jQuery(document).ready( function() {
 		var mappingService = $(this).find(".cargoMapData").attr('data-mapping-service');
 		var zoomLevel = $(this).find(".cargoMapData").attr('data-zoom');
 		var doMarkerClustering = valuesForMap.length >= mw.config.get( 'wgCargoMapClusteringMinimum' );
+		var clustering = $(this).find(".cargoMapData").attr('data-cluster');
+		if ( clustering == "yes" ) {
+			doMarkerClustering = true;
+		} else if ( clustering == "no" ) {
+			doMarkerClustering = false;
+		}
 		var cargoMap = new CargoMap( valuesForMap, $(this).attr('id'), zoomLevel );
 		cargoMap.display( mappingService, doMarkerClustering );
 	});
