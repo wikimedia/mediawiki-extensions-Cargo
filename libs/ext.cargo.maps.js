@@ -10,10 +10,11 @@
  * (also written by Yaron Koren)
  */
 
-function CargoMap( allItemValues, divID, zoomLevel ) {
+function CargoMap( allItemValues, divID, zoomLevel, center ) {
 	this.allItemValues = allItemValues;
 	this.divID = divID;
 	this.zoomLevel = zoomLevel;
+	this.center = center;
 
 	// Calculate center, and bounds, of map
 	var numItems = allItemValues.length;
@@ -80,10 +81,17 @@ CargoMap.prototype.display = function( mapService, doMarkerClustering ) {
 }
 
 CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
-	var centerLatLng = new google.maps.LatLng( this.averageLatitude, this.averageLongitude );
-	var northEastLatLng = new google.maps.LatLng( this.northLatitude, this.eastLongitude );
-	var southWestLatLng = new google.maps.LatLng( this.southLatitude, this.westLongitude );
-	var mapBounds = new google.maps.LatLngBounds( southWestLatLng, northEastLatLng );
+	var centerLatLng;
+
+	if ( this.center != null ) {
+		var centerLocation = this.center.split(",");
+		centerLatLng = new google.maps.LatLng( centerLocation[0], centerLocation[1] );
+		if ( this.zoomLevel == null ) { // Supply a zoom level if one isn't specified.
+			this.zoomLevel = 10;
+		}
+	} else {
+		centerLatLng = new google.maps.LatLng( this.averageLatitude, this.averageLongitude );
+	}
 
 	var mapOptions = {
 		center: centerLatLng,
@@ -94,6 +102,9 @@ CargoMap.prototype.displayWithGoogleMaps = function( doMarkerClustering ) {
 	}
 	var map = new google.maps.Map(document.getElementById(this.divID), mapOptions);
 	if ( this.zoomLevel == null ) {
+		var northEastLatLng = new google.maps.LatLng( this.northLatitude, this.eastLongitude );
+		var southWestLatLng = new google.maps.LatLng( this.southLatitude, this.westLongitude );
+		var mapBounds = new google.maps.LatLngBounds( southWestLatLng, northEastLatLng );
 		map.fitBounds( mapBounds );
 	}
 
@@ -158,6 +169,12 @@ CargoMap.prototype.displayWithLeaflet = function( doMarkerClustering ) {
 
 	var mapDataDiv = $(mapCanvas).find(".cargoMapData");
 	var imageUrl = mapDataDiv.attr('data-image-path');
+	var center = mapDataDiv.attr('data-center');
+
+	if ( center !== undefined ){
+		var centerLocation = center.split(",");
+	}
+
 	if ( imageUrl !== undefined ) {
 		imageHeight = mapDataDiv.attr('data-height');
 		imageWidth = mapDataDiv.attr('data-width');
@@ -170,10 +187,16 @@ CargoMap.prototype.displayWithLeaflet = function( doMarkerClustering ) {
 		var imageBounds = [[0, 0], [imageHeight, imageWidth]];
 		L.imageOverlay(imageUrl, imageBounds).addTo(map);
 		map.fitBounds(imageBounds);
-	} else {
+	} else if ( centerLocation == undefined ) {
 		new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions).addTo(map);
 		var imageBounds = [[this.southLatitude, this.westLongitude], [this.northLatitude, this.eastLongitude]];
 		map.fitBounds(imageBounds);
+	} else { // normal map, with center defined
+		if ( this.zoomLevel == null ) {
+			this.zoomLevel = 10;
+		}
+		map.setView(centerLocation,this.zoomLevel);
+		new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', layerOptions).addTo(map);
 	}
 
 	if ( this.zoomLevel != null ) {
@@ -225,13 +248,22 @@ CargoMap.prototype.displayWithOpenLayers = function() {
 		null
 	) );
 
-	// Center coordinates are not used by OpenLayers.
-	var southWestLonLat = CargoMap.toOpenLayersLonLat( map, this.southLatitude, this.westLongitude );
-	var northEastLonLat = CargoMap.toOpenLayersLonLat( map, this.northLatitude, this.eastLongitude );
-	var mapBounds = new OpenLayers.Bounds();
-	mapBounds.extend( southWestLonLat );
-	mapBounds.extend( northEastLonLat );
-	map.zoomToExtent( mapBounds );
+	if ( this.center != null ) {
+		var centerLocation = this.center.split( "," );
+		centerLat = parseFloat( centerLocation[0] );
+		centerLon = parseFloat( centerLocation[1] );
+		map.setCenter( CargoMap.toOpenLayersLonLat( map, centerLat, centerLon ) );
+		if (this.zoomLevel == null) {
+			this.zoomLevel = 10;
+		}
+        } else {
+		var southWestLonLat = CargoMap.toOpenLayersLonLat( map, this.southLatitude, this.westLongitude );
+		var northEastLonLat = CargoMap.toOpenLayersLonLat( map, this.northLatitude, this.eastLongitude );
+		var mapBounds = new OpenLayers.Bounds();
+		mapBounds.extend( southWestLonLat );
+		mapBounds.extend( northEastLonLat );
+		map.zoomToExtent( mapBounds );
+	}
 	if ( this.zoomLevel != null ) {
 		map.zoomTo( this.zoomLevel );
 	}
@@ -286,6 +318,7 @@ jQuery(document).ready( function() {
 		var valuesForMap = jQuery.parseJSON(mapDataText);
 		var mappingService = $(this).find(".cargoMapData").attr('data-mapping-service');
 		var zoomLevel = $(this).find(".cargoMapData").attr('data-zoom');
+		var center = $(this).find(".cargoMapData").attr('data-center');
 		var doMarkerClustering = valuesForMap.length >= mw.config.get( 'wgCargoMapClusteringMinimum' );
 		var clustering = $(this).find(".cargoMapData").attr('data-cluster');
 		if ( clustering == "yes" ) {
@@ -293,7 +326,7 @@ jQuery(document).ready( function() {
 		} else if ( clustering == "no" ) {
 			doMarkerClustering = false;
 		}
-		var cargoMap = new CargoMap( valuesForMap, $(this).attr('id'), zoomLevel );
+		var cargoMap = new CargoMap( valuesForMap, $(this).attr('id'), zoomLevel, center );
 		cargoMap.display( mappingService, doMarkerClustering );
 	});
 });

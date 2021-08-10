@@ -21,6 +21,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ],
 			'icon' => [ 'type' => 'string' ],
 			'zoom' => [ 'type' => 'int' ],
+			'center' => [ 'type' => 'string' ],
 			'cluster' => [ 'type' => 'string' ]
 		];
 	}
@@ -267,6 +268,9 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		];
 		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['data-zoom'] = $displayParams['zoom'];
+		}
+		if ( array_key_exists( 'center', $displayParams ) && $displayParams['center'] != '' ) {
+			$mapDataAttrs['data-center'] = $displayParams['center'];
 		}
 		if ( array_key_exists( 'cluster', $displayParams ) ) {
 			$mapDataAttrs['data-cluster'] = strtolower( $displayParams['cluster'] );
