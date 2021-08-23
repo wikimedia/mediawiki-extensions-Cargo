@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Liuxinyu970226"
+			"Liuxinyu970226",
+			"SolidBlock"
 		]
 	},
 	"apihelp-cargoquery-description": "在Cargo数据上运行一次查询。",
@@ -32,5 +33,8 @@
 	"apihelp-cargoautocomplete-param-table": "要搜索值的Cargo表格",
 	"apihelp-cargoautocomplete-param-field": "要搜索值的Cargo字段",
 	"apihelp-cargoautocomplete-param-field_is_array": "字段是否保留值的列表",
-	"apihelp-cargoautocomplete-param-where": "用于查询的“where”条款，基于其他指定的过滤器"
+	"apihelp-cargoautocomplete-param-where": "用于查询的“where”条款，基于其他指定的过滤器",
+	"apihelp-cargoqueryautocomplete-description": "CargoQuery（之前是ViewData）特殊页面使用的自动完成调用。",
+	"apihelp-cargoqueryautocomplete-param-limit": "返回结果数量的限制",
+	"apihelp-cargoqueryautocomplete-param-search": "搜索子字符串"
 }
