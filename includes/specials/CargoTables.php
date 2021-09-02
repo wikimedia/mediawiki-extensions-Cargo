@@ -173,7 +173,7 @@ class CargoTables extends IncludableSpecialPage {
 				$fieldName =
 					"IF (" . $cdb->addIdentifierQuotes( $fieldName ) . " <> '', " .
 					"CONCAT('[', " . $cdb->addIdentifierQuotes( $fieldName ) . ", ' " .
-					$this->msg( 'version-entrypoints-header-url' )->parse() . "]', '')";
+					$this->msg( 'version-entrypoints-header-url' )->parse() . "]'), '')";
 			}
 
 			if ( $fieldDescription->mIsList ) {
