@@ -21,7 +21,7 @@ class CargoOutlineFormat extends CargoListFormat {
 		return [ 'outline fields' => [ 'type' => 'string' ] ];
 	}
 
-	private function printTree( $outlineTree, $level = 0 ) {
+	protected function printTree( $outlineTree, $level = 0 ) {
 		$text = "";
 		if ( $outlineTree->mUnsortedRows !== null ) {
 			$text .= "<ul>\n";

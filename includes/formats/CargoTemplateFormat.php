@@ -14,7 +14,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		];
 	}
 
-	private function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
+	protected function displayRow( $templateName, $row, $fieldDescriptions, $namedArgs ) {
 		$wikiText = '{{' . $templateName;
 		// If we're not using named arguments, we add the field number
 		// in to the template call, to not mess up values that contain '='.

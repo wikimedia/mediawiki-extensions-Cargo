@@ -21,7 +21,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		];
 	}
 
-	private function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
+	protected function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $altField, $linkField ) {
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {

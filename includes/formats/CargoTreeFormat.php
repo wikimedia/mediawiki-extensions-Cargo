@@ -66,7 +66,7 @@ class CargoTreeFormat extends CargoListFormat {
 		return $result;
 	}
 
-	private function printNode( $tree, $nodeName, $level ) {
+	protected function printNode( $tree, $nodeName, $level ) {
 		$node = $tree->getNode( $nodeName );
 		$text = str_repeat( '*', $level );
 		if ( $level == 1 ) {
@@ -80,7 +80,7 @@ class CargoTreeFormat extends CargoListFormat {
 		return $text;
 	}
 
-	private function printTree( $tree ) {
+	protected function printTree( $tree ) {
 		// Print subtree for each top-level node.
 		$text = '';
 		foreach ( $tree->getNodes() as $nodeName => $node ) {

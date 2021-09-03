@@ -20,7 +20,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 		];
 	}
 
-	private function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {
+	protected function getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField ) {
 		$fileField = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' ) {
