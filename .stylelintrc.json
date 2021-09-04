@@ -13,6 +13,7 @@
 		"no-descending-specificity": null,
 		"selector-max-id": null,
 		"string-quotes": null,
-		"declaration-property-value-disallowed-list": null
+		"declaration-property-value-disallowed-list": null,
+		"declaration-property-unit-disallowed-list": null
 	}
 }
