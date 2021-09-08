@@ -254,6 +254,12 @@ class CargoFieldDescription {
 		// CargoStore::getDateValueAndPrecision() could move there too.
 		$fieldValue = trim( $fieldValue );
 		if ( $fieldValue == '' ) {
+			if ( $this->isDateOrDatetime() ) {
+				// If it's a date field, it has to be null,
+				// not blank, for DB storage to work correctly.
+				// Possibly this is true for other types as well.
+				return [ 'value' => null ];
+			}
 			return [ 'value' => $fieldValue ];
 		}
 
