@@ -32,6 +32,7 @@ class CargoSQLQuery {
 	public $mQueryLimit;
 	public $mOffset;
 	public $mSearchTerms = [];
+	public $mDateFieldPairs = [];
 
 	public function __construct() {
 		$this->mCargoDB = CargoUtils::getDB();
@@ -1617,6 +1618,88 @@ class CargoSQLQuery {
 			return $beforeText . $this->mCargoDB->tableName( $tableName ) . "." .
 				   $this->mCargoDB->addIdentifierQuotes( $fieldName );
 		}
+	}
+
+	/**
+	 * Figure out which fields, if any, in this query are supposed to
+	 * represent start and end dates, based on a combination of field types,
+	 * order (start is expected to be listed before end) and alias.
+	 * @todo - this logic currently allows for any number of start/end
+	 * date pairs, but that may be overly complicated - it may be safe to
+	 * assume that any query contains no more than one start date and end
+	 * date, and any other dates can just be ignored, i.e. treated as
+	 * display fields.
+	 */
+	public function determineDateFields() {
+		foreach ( $this->mFieldDescriptions as $alias => $description ) {
+			if ( isset( $this->mAliasedFieldNames[$alias] ) ) {
+				$realFieldName = $this->mAliasedFieldNames[$alias];
+			} else {
+				$realFieldName = $alias;
+			}
+			$curNameAndAlias = [ $realFieldName, $alias ];
+			if ( $alias == 'start' || $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
+				$foundMatch = false;
+				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+					if ( array_key_exists( 'end', $datePair ) && !array_key_exists( 'start', $datePair ) ) {
+						$datePair['start'] = $curNameAndAlias;
+						$foundMatch = true;
+						break;
+					}
+				}
+				if ( !$foundMatch ) {
+					$this->mDateFieldPairs[] = [ 'start' => $curNameAndAlias ];
+				}
+			} elseif ( $alias == 'end' || $description->mType == 'End date' || $description->mType == 'End datetime' ) {
+				$foundMatch = false;
+				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+					if ( array_key_exists( 'start', $datePair ) && !array_key_exists( 'end', $datePair ) ) {
+						$datePair['end'] = $curNameAndAlias;
+						$foundMatch = true;
+						break;
+					}
+				}
+				if ( !$foundMatch ) {
+					$this->mDateFieldPairs[] = [ 'end' => $curNameAndAlias ];
+				}
+			} elseif ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
+				$foundMatch = false;
+				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+					if ( array_key_exists( 'end', $datePair ) && !array_key_exists( 'start', $datePair ) ) {
+						$datePair['start'] = $curNameAndAlias;
+						$foundMatch = true;
+						break;
+					} elseif ( array_key_exists( 'start', $datePair ) && !array_key_exists( 'end', $datePair ) ) {
+						$datePair['end'] = $curNameAndAlias;
+						$foundMatch = true;
+						break;
+					}
+				}
+				if ( !$foundMatch ) {
+					$this->mDateFieldPairs[] = [ 'start' => $curNameAndAlias ];
+				}
+			}
+		}
+
+		// Error-checking.
+		if ( count( $this->mDateFieldPairs ) == 0 ) {
+			throw new MWException( "Error: No date fields were found in this query." );
+		}
+		foreach ( $this->mDateFieldPairs as $datePair ) {
+			if ( !array_key_exists( 'start', $datePair ) ) {
+				throw new MWException( "Error: No corresponding start date field was found for the end date field {$datePair['end'][0]}." );
+			}
+		}
+	}
+
+	public function getMainStartAndEndDateFields() {
+		if ( count( $this->mDateFieldPairs ) == 0 ) {
+			$this->determineDateFields();
+		}
+		$firstFieldPair = $this->mDateFieldPairs[0];
+		$startDateField = $firstFieldPair['start'][1];
+		$endDateField = ( array_key_exists( 'end', $firstFieldPair ) ) ? $firstFieldPair['end'][1] : null;
+		return [ $startDateField, $endDateField ];
 	}
 
 }

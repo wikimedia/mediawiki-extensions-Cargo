@@ -56,55 +56,59 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$format = $req->getVal( 'format' );
 
-		if ( $format == 'fullcalendar' ) {
-			$this->displayCalendarData( $sqlQueries );
-		} elseif ( $format == 'timeline' ) {
-			$this->displayTimelineData( $sqlQueries );
-		} elseif ( $format == 'gantt' ) {
-			$this->displayGanttData( $sqlQueries );
-		} elseif ( $format == 'bpmn' ) {
-			$this->displayBPMNData( $sqlQueries );
-		} elseif ( $format == 'nvd3chart' ) {
-			$this->displayNVD3ChartData( $sqlQueries );
-		} elseif ( $format == 'csv' ) {
-			$delimiter = $req->getVal( 'delimiter' );
-			if ( $delimiter == '' ) {
-				$delimiter = ',';
-			} elseif ( $delimiter == '\t' ) {
-				$delimiter = "\t";
+		try {
+			if ( $format == 'fullcalendar' ) {
+				$this->displayCalendarData( $sqlQueries );
+			} elseif ( $format == 'timeline' ) {
+				$this->displayTimelineData( $sqlQueries );
+			} elseif ( $format == 'gantt' ) {
+				$this->displayGanttData( $sqlQueries );
+			} elseif ( $format == 'bpmn' ) {
+				$this->displayBPMNData( $sqlQueries );
+			} elseif ( $format == 'nvd3chart' ) {
+				$this->displayNVD3ChartData( $sqlQueries );
+			} elseif ( $format == 'csv' ) {
+				$delimiter = $req->getVal( 'delimiter' );
+				if ( $delimiter == '' ) {
+					$delimiter = ',';
+				} elseif ( $delimiter == '\t' ) {
+					$delimiter = "\t";
+				}
+				$filename = $req->getVal( 'filename' );
+				if ( $filename == '' ) {
+					$filename = 'results.csv';
+				}
+				$parseValues = $req->getCheck( 'parse_values' );
+				$this->displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues );
+			} elseif ( $format == 'excel' ) {
+				$filename = $req->getVal( 'filename' );
+				if ( $filename == '' ) {
+					$filename = 'results.xls';
+				}
+				$parseValues = $req->getCheck( 'parse_values' );
+				$this->displayExcelData( $sqlQueries, $filename, $parseValues );
+			} elseif ( $format == 'json' ) {
+				$parseValues = $req->getCheck( 'parse_values' );
+				$this->displayJSONData( $sqlQueries, $parseValues );
+			} elseif ( $format == 'bibtex' ) {
+				$defaultEntryType = $req->getVal( 'default_entry_type' );
+				if ( $defaultEntryType == '' ) {
+					$defaultEntryType = 'article';
+				}
+				$this->displayBibtexData( $sqlQueries, $defaultEntryType );
+			} elseif ( $format === 'icalendar' ) {
+				$this->displayIcalendarData( $sqlQueries );
+			} else {
+				// Let other extensions display the data if they have defined their own "deferred"
+				// formats. This is an unusual hook in that functions that use it have to return false;
+				// otherwise the error message will be displayed.
+				$result = Hooks::run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
+				if ( $result ) {
+					print $this->msg( "cargo-query-missingformat" )->parse();
+				}
 			}
-			$filename = $req->getVal( 'filename' );
-			if ( $filename == '' ) {
-				$filename = 'results.csv';
-			}
-			$parseValues = $req->getCheck( 'parse_values' );
-			$this->displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues );
-		} elseif ( $format == 'excel' ) {
-			$filename = $req->getVal( 'filename' );
-			if ( $filename == '' ) {
-				$filename = 'results.xls';
-			}
-			$parseValues = $req->getCheck( 'parse_values' );
-			$this->displayExcelData( $sqlQueries, $filename, $parseValues );
-		} elseif ( $format == 'json' ) {
-			$parseValues = $req->getCheck( 'parse_values' );
-			$this->displayJSONData( $sqlQueries, $parseValues );
-		} elseif ( $format == 'bibtex' ) {
-			$defaultEntryType = $req->getVal( 'default_entry_type' );
-			if ( $defaultEntryType == '' ) {
-				$defaultEntryType = 'article';
-			}
-			$this->displayBibtexData( $sqlQueries, $defaultEntryType );
-		} elseif ( $format === 'icalendar' ) {
-			$this->displayIcalendarData( $sqlQueries );
-		} else {
-			// Let other extensions display the data if they have defined their own "deferred"
-			// formats. This is an unusual hook in that functions that use it have to return false;
-			// otherwise the error message will be displayed.
-			$result = Hooks::run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
-			if ( $result ) {
-				print $this->msg( "cargo-query-missingformat" )->parse();
-			}
+		} catch ( Exception $e ) {
+			print $e->getMessage();
 		}
 	}
 
@@ -122,61 +126,24 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$startDateFieldRealNames = [];
-			$endDateFieldRealNames = [];
-			$dateFieldRealNames = [];
-			$startDateFieldAliases = [];
-			$endDateFieldAliases = [];
-			$dateFieldAliases = [];
-			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
-				$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
-				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
-					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
-					$dateFieldAliases[] = $alias;
-					if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
-						$startDateFieldRealNames[] = $realFieldName;
-						$startDateFieldAliases[] = $alias;
-					} else {
-						$dateFieldRealNames[] = $realFieldName;
-					}
-				}
-				if ( $description->mType == 'End date' || $description->mType == 'End datetime' ) {
-					$endDateFieldRealNames[] = $realFieldName;
-					$endDateFieldAliases[] = $alias;
-				}
-			}
-
-			$startEndDatePairs = [];
-			foreach ( $startDateFieldRealNames as $i => $startDateField ) {
-				if ( isset( $endDateFieldRealNames[$i] ) ) {
-					$startEndDatePairs[] = [ $startDateField, $endDateFieldRealNames[$i] ];
-				} else {
-					$dateFieldRealNames[] = $startDateField;
-				}
-			}
+			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$where = $sqlQuery->mWhereStr;
 			if ( $where != '' ) {
 				$where .= " AND ";
 			}
 			$where .= "(";
-			$firstField = true;
-			foreach ( $dateFieldRealNames as $dateField ) {
-				if ( $firstField ) {
-					$firstField = false;
-				} else {
+			foreach ( $sqlQuery->mDateFieldPairs as $j => $dateFieldPair ) {
+				if ( $j > 0 ) {
 					$where .= " OR ";
 				}
-				$where .= "($dateField >= '$datesLowerLimit' AND $dateField <= '$datesUpperLimit')";
-			}
-			foreach ( $startEndDatePairs as $datePair ) {
-				list( $startDateField, $endDateField ) = $datePair;
-				if ( $firstField ) {
-					$firstField = false;
+				$startDateFieldName = $dateFieldPair['start'][0];
+				if ( array_key_exists( 'end', $dateFieldPair ) ) {
+					$endDateFieldName = $dateFieldPair['end'][0];
 				} else {
-					$where .= " OR ";
+					$endDateFieldName = $startDateFieldName;
 				}
-				$where .= "($endDateField > '$datesLowerLimit' AND $startDateField < '$datesUpperLimit')";
+				$where .= "($endDateFieldName > '$datesLowerLimit' AND $startDateFieldName < '$datesUpperLimit')";
 			}
 			$where .= ")";
 			$sqlQuery->mWhereStr = $where;
@@ -203,30 +170,14 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$eventTextColor = null;
 				}
-				if ( array_key_exists( 'start', $queryResult ) ) {
-					$eventStart = $queryResult['start'];
-				} elseif ( !empty( $startDateFieldAliases ) ) {
-					$eventStart = $queryResult[$startDateFieldAliases[0]];
-				} else {
-					$eventStart = $queryResult[$dateFieldAliases[0]];
-				}
-				if ( array_key_exists( 'end', $queryResult ) ) {
-					$eventEnd = $queryResult['end'];
-				} elseif ( !empty( $endDateFieldAliases ) ) {
-					$eventEnd = $queryResult[$endDateFieldAliases[0]];
-				} elseif ( count( $dateFieldAliases ) > 1 && array_key_exists( $dateFieldAliases[1], $queryResult ) ) {
-					$eventEnd = $queryResult[$dateFieldAliases[1]];
-				} else {
-					$eventEnd = null;
-				}
+				$eventStart = $queryResult[$startDateField];
+				$eventEnd = ( $endDateField !== null ) ? $queryResult[$endDateField] : null;
 				if ( array_key_exists( 'description', $queryResult ) ) {
 					$eventDescription = $queryResult['description'];
 				} else {
 					$eventDescription = null;
 				}
 
-				$startDateField = $dateFieldAliases[0];
-				$startDate = $queryResult[$startDateField];
 				$startDatePrecisionField = $startDateField . '__precision';
 				// There might not be a precision field, if,
 				// for instance, the date field is an SQL
@@ -274,24 +225,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray['data'] = [];
 		$displayedArray['links'] = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$dateFieldRealNames = [];
-			$startDateFieldAliases = [];
-			$endDateFieldAliases = [];
-			$dateFieldAliases = [];
-			foreach ( $sqlQuery->mFieldDescriptions as $alias => $description ) {
-				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
-					$description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
-					$dateFieldAliases[] = $alias;
-					$realFieldName = $sqlQuery->mAliasedFieldNames[$alias];
-					$dateFieldRealNames[] = $realFieldName;
-					if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
-						$startDateFieldAliases[] = $alias;
-					}
-				}
-				if ( $description->mType == 'End date' || $description->mType == 'End datetime' ) {
-					$endDateFieldAliases[] = $alias;
-				}
-			}
+			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
 			$tasks = [];
@@ -309,24 +243,12 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventID = $n;
 					$n++;
 				}
-				if ( array_key_exists( 'start', $queryResult ) ) {
-					$eventStart = $queryResult['start'];
-				} elseif ( !empty( $startDateFieldAliases ) && array_key_exists( $startDateFieldAliases[0], $queryResult ) ) {
-					$eventStart = $queryResult[$startDateFieldAliases[0]];
-				} elseif ( array_key_exists( $dateFieldAliases[0], $queryResult ) ) {
-					$eventStart = $queryResult[$dateFieldAliases[0]];
-				} else {
+
+				if ( !isset( $queryResult[$startDateField] ) ) {
 					continue;
 				}
-				if ( array_key_exists( 'end', $queryResult ) ) {
-					$eventEnd = $queryResult['end'];
-				} elseif ( !empty( $endDateFieldAliases ) && array_key_exists( $endDateFieldAliases[0], $queryResult ) ) {
-					$eventEnd = $queryResult[$endDateFieldAliases[0]];
-				} elseif ( count( $dateFieldAliases ) > 1 && array_key_exists( $dateFieldAliases[1], $queryResult ) ) {
-					$eventEnd = $queryResult[$dateFieldAliases[1]];
-				} else {
-					$eventEnd = null;
-				}
+				$eventStart = $queryResult[$startDateField];
+				$eventEnd = ( $endDateField !== null && isset( $queryResult[$endDateField] ) ) ? $queryResult[$endDateField] : null;
 				if ( array_key_exists( 'duration', $queryResult ) ) {
 					$eventDuration = $queryResult['duration'];
 				} else {
@@ -547,60 +469,13 @@ class CargoExport extends UnlistedSpecialPage {
 	private function displayTimelineData( $sqlQueries ) {
 		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			$dateFields = [];
-			// Make sure the Start date/datetime type field, if any,
-			// shows up before the End date/datetime type field in
-			// the $dateFields array.
-			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
-				if ( $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
-					$dateFields[] = $field;
-				}
-			}
-			foreach ( $sqlQuery->mFieldDescriptions as $field => $description ) {
-				if ( $description->mType == 'Date' || $description->mType == 'Datetime' ||
-					$description->mType == 'End date' || $description->mType == 'End datetime' ) {
-					$dateFields[] = $field;
-				}
-			}
+			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
 
 			foreach ( $queryResults as $queryResult ) {
 				$eventDescription = '';
 				$firstField = true;
-				$startDateValue = null;
-				$endDateValue = null;
-				foreach ( $sqlQuery->mFieldDescriptions as $fieldName => $fieldDescription ) {
-					if ( $dateFields[0] == $fieldName ) {
-						$startDateValue = $queryResult[$fieldName];
-						if ( !( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) ) {
-							continue;
-						}
-						foreach ( $sqlQuery->mFieldDescriptions as $fieldName2 => $fieldDescription2 ) {
-							if ( $fieldDescription2->mType == "End date" || $fieldDescription2->mType == "End datetime" ) {
-								$endDateValue = $queryResult[$fieldName2];
-								break;
-							}
-						}
-					}
-					// Don't display the first field (it'll
-					// be the title), or date fields.
-					if ( $firstField ) {
-						$firstField = false;
-						continue;
-					}
-					if ( in_array( $fieldName, $dateFields ) ) {
-						continue;
-					}
-					if ( !array_key_exists( $fieldName, $queryResult ) ) {
-						continue;
-					}
-					$fieldValue = $queryResult[$fieldName];
-					if ( trim( $fieldValue ) == '' ) {
-						continue;
-					}
-					$eventDescription .= "<strong>$fieldName:</strong> $fieldValue<br />\n";
-				}
 
 				if ( array_key_exists( 'name', $queryResult ) ) {
 					$eventTitle = $queryResult['name'];
@@ -610,18 +485,22 @@ class CargoExport extends UnlistedSpecialPage {
 					$eventTitle = reset( $queryResult );
 				}
 
+				if ( !isset( $queryResult[$startDateField] ) ) {
+					continue;
+				}
+				$startDateValue = $queryResult[$startDateField];
+				if ( $endDateField !== null && isset( $queryResult[$endDateField] ) ) {
+					$endDateValue = $queryResult[$endDateField];
+				} else {
+					$endDateValue = $startDateValue;
+				}
+
 				$eventDisplayDetails = [
 					'title' => $eventTitle,
 					'description' => $eventDescription,
 					'start' => $startDateValue,
+					'end' => $endDateValue
 				];
-				if ( $endDateValue !== null ) {
-					$eventDisplayDetails['end'] = $endDateValue;
-				} else {
-					// If there's no end date, set the
-					// end date to the start date.
-					$eventDisplayDetails['end'] = $startDateValue;
-				}
 
 				// If we have the name of the page on which
 				// the event is defined, link to that -
