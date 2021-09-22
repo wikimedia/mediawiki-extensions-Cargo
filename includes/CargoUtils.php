@@ -165,12 +165,7 @@ class CargoUtils {
 	}
 
 	public static function displayErrorMessage( OutputPage $out, Message $message ) {
-		if ( method_exists( $out, 'wrapWikiTextAsInterface' ) ) {
-			// MW 1.32+
-			$out->wrapWikiTextAsInterface( 'error', $message->plain() );
-		} else {
-			$out->addHTML( self::formatError( $message->parse() ) );
-		}
+		$out->wrapWikiTextAsInterface( 'error', $message->plain() );
 	}
 
 	public static function getTables() {
@@ -558,12 +553,6 @@ class CargoUtils {
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
 			$parserOptions = ParserOptions::newFromAnon();
-			if ( !defined( 'ParserOutput::SUPPORTS_UNWRAP_TRANSFORM' ) ) {
-				// Remove '<div class="mw-parser-output">' from around
-				// the value, if it was parsed - this method was
-				// deprecated in MW 1.31.
-				$parserOptions->setWrapOutputClass( false );
-			}
 			$parserOutput = $parser->parse( $value, $title, $parserOptions, false );
 			$value = $parserOutput->getText( [ 'unwrap' => true ] );
 		} else {
@@ -1245,31 +1234,17 @@ class CargoUtils {
 	}
 
 	public static function getSpecialPage( $pageName ) {
-		if ( class_exists( 'MediaWiki\Special\SpecialPageFactory' ) ) {
-			// MW 1.32+
-			return MediaWikiServices::getInstance()
-				->getSpecialPageFactory()
-				->getPage( $pageName );
-		} else {
-			return SpecialPageFactory::getPage( $pageName );
-		}
+		return MediaWikiServices::getInstance()->getSpecialPageFactory()
+			->getPage( $pageName );
 	}
 
 	/**
 	 * Get the wiki's content language.
-	 * This is a wrapper to maintain backwards-compatibility for MediaWiki 1.31 and earlier.
 	 * @since 2.6
 	 * @return Language
 	 */
 	public static function getContentLang() {
-		if ( method_exists( MediaWikiServices::class, 'getContentLanguage' ) ) {
-			// MW >= 1.32
-			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		} else {
-			global $wgContLang;
-			$contLang = $wgContLang;
-		}
-		return $contLang;
+		return MediaWikiServices::getInstance()->getContentLanguage();
 	}
 
 	public static function logTableAction( $actionName, $tableName, User $user ) {

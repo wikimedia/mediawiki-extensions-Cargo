@@ -122,12 +122,7 @@ class CargoTables extends IncludableSpecialPage {
 		$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
 		$numRowsMessage =
 			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows );
-		if ( method_exists( $out, 'addWikiTextAsInterface' ) ) {
-			// MW 1.32+
-			$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
-		} else {
-			$out->addWikiText( $numRowsMessage->parse() . "\n" );
-		}
+		$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
 
 		// Display "Recreate data" link.
 		if ( array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {

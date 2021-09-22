@@ -7,8 +7,8 @@ use MediaWiki\MediaWikiServices;
  * because both filter() and, more importantly, $searchTerms are currently
  * "protected".
  *
- * Unfortunately, in MW 1.31, the methods parseQuery(), regexTerm() and
- * getIndexField() were made private, which means that they need to be
+ * Unfortunately, the SearchMySQL methods parseQuery(), regexTerm() and
+ * getIndexField() are private, which means that they need to be
  * copied over here (but declared as public).
  */
 class CargoSearchMySQL extends SearchMySQL {
@@ -48,14 +48,9 @@ class CargoSearchMySQL extends SearchMySQL {
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
 			foreach ( $m as $bits ) {
-				if ( function_exists( 'Wikimedia\suppressWarnings' ) ) {
-					// MW >= 1.31
-					Wikimedia\suppressWarnings();
-				}
+				Wikimedia\suppressWarnings();
 				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
-				if ( function_exists( 'Wikimedia\restoreWarnings' ) ) {
-					Wikimedia\restoreWarnings();
-				}
+				Wikimedia\restoreWarnings();
 
 				if ( $nonQuoted != '' ) {
 					$term = $nonQuoted;

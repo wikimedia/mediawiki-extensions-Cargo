@@ -116,14 +116,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		if ( count( $tableNames ) >= 3 ) {
 			$toc = Linker::tocList( $toc );
 			$out->addHTML( $toc );
-
-			global $wgVersion;
-			// This check will be necessary as long as MW <= 1.31 is supported.
-			if ( version_compare( $wgVersion, '1.32', '<' ) ) {
-				$out->addModules( 'mediawiki.toc' );
-			} else {
-				$out->addModuleStyles( 'mediawiki.toc.styles' );
-			}
+			$out->addModuleStyles( 'mediawiki.toc.styles' );
 		}
 
 		$out->addHTML( $text );

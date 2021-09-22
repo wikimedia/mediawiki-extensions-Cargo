@@ -47,15 +47,9 @@ class CargoBPMNData {
 			return;
 		}
 
-		if ( class_exists( 'MediaWiki\Revision\SlotRecord' ) ) {
-			// MW 1.32+
-			$revisionRecord = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
-			$role = MediaWiki\Revision\SlotRecord::MAIN;
-			$pageText = $revisionRecord->getContent( $role )->getNativeData();
-		} else {
-			$revision = Revision::newFromTitle( $title );
-			$pageText = $revision->getContent()->getNativeData();
-		}
+		$revisionRecord = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
+		$role = MediaWiki\Revision\SlotRecord::MAIN;
+		$pageText = $revisionRecord->getContent( $role )->getNativeData();
 		$xml = new SimpleXMLElement( $pageText );
 
 		$allBPMNValues = [];
