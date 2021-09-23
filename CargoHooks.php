@@ -11,7 +11,7 @@ use MediaWiki\Revision\SlotRecord;
 class CargoHooks {
 
 	public static function registerExtension() {
-		define( 'CARGO_VERSION', '2.8' );
+		define( 'CARGO_VERSION', '3.0' );
 	}
 
 	public static function initialize() {
