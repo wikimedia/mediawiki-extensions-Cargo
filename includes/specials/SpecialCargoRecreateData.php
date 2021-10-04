@@ -110,26 +110,19 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		// Simple form.
 		$text .= '<div id="recreateDataCanvas">' . "\n";
 		if ( $tableExists ) {
-			// Possibly disable checkbox, to avoid problems if the
-			// DB hasn't been updated for version 1.5+.
-			$indexExists = $dbw->indexExists( 'cargo_tables', 'cargo_tables_template_id' );
-			if ( $indexExists ) {
-				$text .= '<p><em>The checkbox intended to go here is temporarily disabled; please run <tt>update.php</tt> to see it.</em></p>';
-			} else {
-				$checkBox = new OOUI\FieldLayout(
-					new OOUI\CheckboxInputWidget( [
-						'name' => 'createReplacement',
-						'selected' => true,
-						'value' => 1,
-					] ),
-					[
-						'label' => $this->msg( 'cargo-recreatedata-createreplacement' )->parse(),
-						'align' => 'inline',
-						'infusable' => true,
-					]
-				);
-				$text .= Html::rawElement( 'p', null, $checkBox );
-			}
+			$checkBox = new OOUI\FieldLayout(
+				new OOUI\CheckboxInputWidget( [
+					'name' => 'createReplacement',
+					'selected' => true,
+					'value' => 1,
+				] ),
+				[
+					'label' => $this->msg( 'cargo-recreatedata-createreplacement' )->parse(),
+					'align' => 'inline',
+					'infusable' => true,
+				]
+			);
+			$text .= Html::rawElement( 'p', null, $checkBox );
 		}
 		$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
 		$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
