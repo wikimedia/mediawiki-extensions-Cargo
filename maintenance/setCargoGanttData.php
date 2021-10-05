@@ -42,7 +42,7 @@ class SetCargoGanttData extends Maintenance {
 		parent::__construct();
 
 		$this->requireExtension( 'Cargo' );
-		$this->addDescription( "Stores a set of data for each page in the BPMN namespace (defined by Flex Diagrams), for use within Cargo queries." );
+		$this->addDescription( "Stores a set of data for each page in the Gantt namespace (defined by Flex Diagrams), for use within Cargo queries." );
 		$this->addOption( "delete", "Delete the Gantt data DB table(s)", false, false );
 		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
 	}
