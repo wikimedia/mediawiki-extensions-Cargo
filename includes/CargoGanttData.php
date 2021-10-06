@@ -39,15 +39,17 @@ class CargoGanttData {
 		return $tableSchema;
 	}
 
-	public static function storeGanttValues( $title ) {
+	public static function storeGanttValues( $title, $createReplacement ) {
 		if ( $title == null ) {
 			return;
 		}
 
-		// If there is no _ganttData table, getTableSchemas() will
+		$tableName = $createReplacement ? '_ganttData__NEXT' : '_ganttData';
+
+		// If this table does not exist, getTableSchemas() will
 		// throw an error.
 		try {
-			$tableSchemas = CargoUtils::getTableSchemas( [ '_ganttData' ] );
+			$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 		} catch ( MWException $e ) {
 			return;
 		}
@@ -90,7 +92,7 @@ class CargoGanttData {
 		}
 
 		foreach ( $allGanttValues as $ganttValues ) {
-			CargoStore::storeAllData( $title, '_ganttData', $ganttValues, $tableSchemas['_ganttData'] );
+			CargoStore::storeAllData( $title, $tableName, $ganttValues, $tableSchemas[$tableName] );
 		}
 	}
 

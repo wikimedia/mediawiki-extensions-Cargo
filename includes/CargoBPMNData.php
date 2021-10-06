@@ -34,15 +34,17 @@ class CargoBPMNData {
 		return $tableSchema;
 	}
 
-	public static function storeBPMNValues( $title ) {
+	public static function storeBPMNValues( $title, $createReplacement ) {
 		if ( $title == null ) {
 			return;
 		}
 
-		// If there is no _bpmnData table, getTableSchemas() will
+		$tableName = $createReplacement ? '_bpmnData__NEXT' : '_bpmnData';
+
+		// If this table does not exist, getTableSchemas() will
 		// throw an error.
 		try {
-			$tableSchemas = CargoUtils::getTableSchemas( [ '_bpmnData' ] );
+			$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 		} catch ( MWException $e ) {
 			return;
 		}
@@ -122,7 +124,7 @@ class CargoBPMNData {
 
 		foreach ( $allBPMNValues as $bpmnValues ) {
 			$bpmnValues['_connectsTo'] = implode( '|', $bpmnValues['_connectsTo'] );
-			CargoStore::storeAllData( $title, '_bpmnData', $bpmnValues, $tableSchemas['_bpmnData'] );
+			CargoStore::storeAllData( $title, $tableName, $bpmnValues, $tableSchemas[$tableName] );
 		}
 	}
 
