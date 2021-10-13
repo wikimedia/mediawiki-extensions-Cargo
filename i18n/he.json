@@ -29,6 +29,8 @@
 	"cargo-recreatedata-desc": "ליצור מחדש נתוני Cargo לתבנית הזאת?",
 	"cargo-recreatedata-createdata": "ליצור נתוני Cargo לתבנית הזאת?",
 	"cargo-recreatedata-tablecreated": "ליצור טבלת Cargo בשם \"$1\".",
+	"cargo-recreatedata-table-creation-failed": " נכשלה יצירת הטבלה $1",
+	"cargo-recreatedata-job-creation-failed": "יצירת רשומות עבור הטבלה $1 נכשלה",
 	"cargo-recreatedata-success": "הנתונים מיוצרים מחדש.",
 	"cargoquery": "שאילתת Cargo",
 	"cargo-viewdata-tables": "טבלה / טבלאות:",

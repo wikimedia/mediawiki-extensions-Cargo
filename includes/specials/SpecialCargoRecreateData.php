@@ -20,7 +20,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	}
 
 	public function execute( $query = null ) {
-		global $wgScriptPath, $cgScriptPath;
+		global $cgScriptPath;
 
 		$this->checkPermissions();
 
@@ -94,13 +94,10 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		$text = Html::element( 'div', [
 				'hidden' => 'true',
 				'id' => 'recreateDataData',
-				// These two variables are not data-
+				// 'cargoscriptpath' is not data-
 				// specific, but this seemed like the
-				// easiest way to pass them over without
+				// easiest way to pass it over without
 				// interfering with any other pages.
-				// (Is this the best way to get the
-				// API URL?)
-				'apiurl' => $wgScriptPath . "/api.php",
 				'cargoscriptpath' => $cgScriptPath,
 				'tablename' => $this->mTableName,
 				'isdeclared' => $this->mIsDeclared,

@@ -198,7 +198,9 @@
 				"cargo-recreatedata-replacementcreated",
 				"cargo-recreatedata-success",
 				"cargo-cargotables-viewtablelink",
-				"cargo-cargotables-viewreplacementlink"
+				"cargo-cargotables-viewreplacementlink",
+				"cargo-recreatedata-job-creation-failed",
+				"cargo-recreatedata-table-creation-failed"
 			]
 		},
 		"ext.cargo.maps": {

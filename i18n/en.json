@@ -27,6 +27,8 @@
 	"cargo-recreatedata-desc": "Recreate Cargo data for this template?",
 	"cargo-recreatedata-createdata": "Create Cargo data for this template?",
 	"cargo-recreatedata-tablecreated": "Recreated Cargo table \"$1\".",
+	"cargo-recreatedata-table-creation-failed": "Creation of Cargo table \"$1\" failed.",
+	"cargo-recreatedata-job-creation-failed": "Creating jobs to populate Cargo table \"$1\" failed.",
 	"cargo-recreatedata-replacementcreated": "Recreated replacement table for Cargo table \"$1\".",
 	"cargo-recreatedata-success": "The data is being recreated.",
 	"cargoquery": "Cargo query",
