@@ -6,6 +6,8 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoRecreateDataAPI extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {
@@ -24,7 +26,10 @@ class CargoRecreateDataAPI extends ApiBase {
 		$tableStr = $params['table'];
 
 		if ( $templateStr == '' ) {
-			$this->dieWithError( 'The template must be specified', 'param_substr' );
+			$specialTableNames = CargoUtils::specialTableNames();
+			if ( !in_array( $tableStr, $specialTableNames ) ) {
+				$this->dieWithError( 'The template must be specified', 'param_substr' );
+			}
 		}
 
 		if ( $tableStr == '' ) {
@@ -37,11 +42,37 @@ class CargoRecreateDataAPI extends ApiBase {
 			'replaceOldRows' => $params['replaceOldRows']
 		];
 		$jobs = [];
-		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
-		$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( [
-			'LIMIT' => 500, 'OFFSET' => $params['offset'] ] );
-		foreach ( $titlesWithThisTemplate as $titleWithThisTemplate ) {
-			$jobs[] = new CargoPopulateTableJob( $titleWithThisTemplate, $jobParams );
+		if ( $templateStr != '' ) {
+			$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
+			$titlesToStore = $templateTitle->getTemplateLinksTo( [
+				'LIMIT' => 500, 'OFFSET' => $params['offset'] ] );
+		} else {
+			if ( $tableStr == '_pageData' ) {
+				$conds = null;
+			} elseif ( $tableStr == '_fileData' ) {
+				$conds = 'page_namespace = ' . NS_FILE;
+			} elseif ( $tableStr == '_bpmnData' ) {
+				$conds = 'page_namespace = ' . FD_NS_BPMN;
+			} else { // if ( $tableStr == '_ganttData' ) {
+				$conds = 'page_namespace = ' . FD_NS_GANTT;
+			}
+			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+			$dbr = $lb->getConnectionRef( DB_REPLICA );
+			$pages = $dbr->select(
+				'page', [ 'page_id' ], $conds, __METHOD__,
+				[ 'LIMIT' => 500, 'OFFSET' => $params['offset'] ]
+			);
+			foreach ( $pages as $page ) {
+				$title = Title::newFromID( $page->page_id );
+				if ( $title == null ) {
+					continue;
+				}
+				$titlesToStore[] = $title;
+			}
+		}
+
+		foreach ( $titlesToStore as $titleToStore ) {
+			$jobs[] = new CargoPopulateTableJob( $titleToStore, $jobParams );
 		}
 		JobQueueGroup::singleton()->push( $jobs );
 

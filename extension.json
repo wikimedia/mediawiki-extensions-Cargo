@@ -33,6 +33,7 @@
 		"CargoTableDiagram": "CargoTableDiagram",
 		"DeleteCargoTable": "SpecialDeleteCargoTable",
 		"SwitchCargoTable": "SpecialSwitchCargoTable",
+		"RecreateCargoData": "SpecialCargoRecreateData",
 		"CargoQuery": "SpecialCargoQuery",
 		"CargoExport": "CargoExport",
 		"PageValues": "CargoPageValues",
@@ -45,6 +46,7 @@
 		"cargoquery": "CargoQueryAPI",
 		"cargorecreatetables": "CargoRecreateTablesAPI",
 		"cargorecreatedata": "CargoRecreateDataAPI",
+		"cargorecreatespecialtable": "CargoRecreateSpecialTableAPI",
 		"cargoautocomplete": "CargoAutocompleteAPI",
 		"cargoqueryautocomplete": "CargoQueryAutocompleteAPI",
 		"cargoformatparams": "CargoFormatParamsAPI"
@@ -109,6 +111,7 @@
 		"CargoQueryAPI": "includes/api/CargoQueryAPI.php",
 		"CargoRecreateTablesAPI": "includes/api/CargoRecreateTablesAPI.php",
 		"CargoRecreateDataAPI": "includes/api/CargoRecreateDataAPI.php",
+		"CargoRecreateSpecialTableAPI": "includes/api/CargoRecreateSpecialTableAPI.php",
 		"CargoAutocompleteAPI": "includes/api/CargoAutocompleteAPI.php",
 		"CargoQueryAutocompleteAPI": "includes/api/CargoQueryAutocompleteAPI.php",
 		"CargoFormatParamsAPI": "includes/api/CargoFormatParamsAPI.php",

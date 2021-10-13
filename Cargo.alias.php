@@ -18,4 +18,5 @@ $specialPageAliases['en'] = [
 	'PageValues' => [ 'PageValues' ],
 	'CargoQuery' => [ 'CargoQuery', 'ViewData' ],
 	'SwitchCargoTable' => [ 'SwitchCargoTable' ],
+	'RecreateCargoData' => [ 'RecreateCargoData' ],
 ];

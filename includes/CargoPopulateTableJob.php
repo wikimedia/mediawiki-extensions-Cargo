@@ -28,6 +28,26 @@ class CargoPopulateTableJob extends Job {
 			return false;
 		}
 
+		$tableName = $this->params['dbTableName'];
+		if ( substr( $tableName, 0, 1 ) == '_' ) {
+			$cdb = CargoUtils::getDB();
+			$possibleReplacementTable = $tableName . '__NEXT';
+			$createReplacement = $cdb->tableExists( $possibleReplacementTable );
+			if ( $tableName == '_pageData' ) {
+				CargoPageData::storeValuesForPage( $this->title, $createReplacement );
+			} elseif ( $tableName == '_fileData' ) {
+				CargoFileData::storeValuesForFile( $this->title, $createReplacement );
+			} elseif ( $tableName == '_bpmnData' ) {
+				CargoBPMNData::storeBPMNValues( $this->title, $createReplacement );
+			} elseif ( $tableName == '_ganttData' ) {
+				CargoGanttData::storeGanttValues( $this->title, $createReplacement );
+			} else {
+				$this->error = "cargoPopulateTable: Invalid table " . $tableName;
+				return false;
+			}
+			return true;
+		}
+
 		$page = WikiPage::factory( $this->title );
 
 		// If it was requested, delete all the existing rows for

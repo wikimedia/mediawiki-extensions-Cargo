@@ -1019,6 +1019,16 @@ class CargoUtils {
 		}
 	}
 
+	public static function specialTableNames() {
+		$specialTableNames = [ '_pageData', '_fileData' ];
+		if ( class_exists( 'FDGanttContent' ) ) {
+			// The Flex Diagrams extension is installed.
+			$specialTableNames[] = '_bpmnData';
+			$specialTableNames[] = '_ganttData';
+		}
+		return $specialTableNames;
+	}
+
 	public static function fullTextMatchSQL( $cdb, $tableName, $fieldName, $searchTerm ) {
 		$fullFieldName = self::escapedFieldName( $cdb, $tableName, $fieldName );
 		$searchTerm = $cdb->addQuotes( $searchTerm );

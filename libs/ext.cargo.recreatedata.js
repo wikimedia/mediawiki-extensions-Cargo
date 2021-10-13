@@ -15,16 +15,19 @@
 	var dataDiv = $("div#recreateDataData");
 	var cargoScriptPath = dataDiv.attr("cargoscriptpath");
 	var tableName = dataDiv.attr("tablename");
+	var isSpecialTable = dataDiv.attr("isspecialtable");
 	var isDeclared = dataDiv.attr("isdeclared");
+	var numTotalPages = dataDiv.attr("totalpages");
 	var viewTableURL = dataDiv.attr("viewtableurl");
 	var createReplacement = false;
 	var templateData = jQuery.parseJSON( dataDiv.html() );
-
-	var numTotalPages = 0;
 	var numTotalPagesHandled = 0;
 
-	for ( var i = 0; i < templateData.length; i++ ) {
-		numTotalPages += parseInt( templateData[i].numPages );
+	if ( numTotalPages == null ) {
+		numTotalPages = 0;
+		for ( var i = 0; i < templateData.length; i++ ) {
+			numTotalPages += parseInt( templateData[i].numPages );
+		}
 	}
 
 	recreateData.replaceForm = function() {
@@ -48,7 +51,7 @@
 			action: "cargorecreatedata",
 			format: "json",
 			table: tableName,
-			template: curTemplate.name,
+			template: curTemplate ? curTemplate.name : '',
 			offset: numPagesHandled
 		};
 		if ( replaceOldRows ) {
@@ -58,9 +61,10 @@
 		let mwApi = new mw.Api();
 		mwApi.get(queryStringData)
 		.done(function( msg ) {
-			var newNumPagesHandled = Math.min( numPagesHandled + 500, curTemplate.numPages );
+			var curNumPages = curTemplate ? curTemplate.numPages : numTotalPages;
+			var newNumPagesHandled = Math.min( numPagesHandled + 500, curNumPages );
 			numTotalPagesHandled += newNumPagesHandled - numPagesHandled;
-			if ( newNumPagesHandled < curTemplate.numPages ) {
+			if ( newNumPagesHandled < curNumPages ) {
 				recreateData.createJobs( templateNum, newNumPagesHandled, replaceOldRows );
 			} else {
 				if ( templateNum + 1 < templateData.length ) {
@@ -86,13 +90,20 @@
 
 		recreateData.replaceForm();
 
-		if ( isDeclared ) {
+		if ( isDeclared || isSpecialTable ) {
 			$("#recreateTableProgress").html( "<img src=\"" + cargoScriptPath + "/resources/images/loading.gif\" />" );
-			var queryStringData = {
-				action: "cargorecreatetables",
-				format: 'json',
-				template: templateData[0].name,
-			};
+			if ( isDeclared ) {
+				var queryStringData = {
+					action: "cargorecreatetables",
+					format: 'json',
+					template: templateData[0].name,
+				};
+			} else {
+				var queryStringData = {
+					action: "cargorecreatespecialtable",
+					table: tableName
+				};
+			}
 			if ( createReplacement ) {
 				queryStringData.createReplacement = true;
 			}

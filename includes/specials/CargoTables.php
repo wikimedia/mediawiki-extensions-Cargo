@@ -300,6 +300,13 @@ class CargoTables extends IncludableSpecialPage {
 					"ooui-title" => "cargo-cargotables-action-switchreplacement",
 					"parent" => "recreate",
 				];
+			// Should this have a separate permission?
+			$allowedActions['create'] =
+				[
+					"ooui-icon" => "add",
+					"ooui-title" => "cargo-cargotables-action-create",
+					"parent" => "recreate",
+				];
 		}
 
 		// deletecargodata allows deleting live tables & their replacements
@@ -332,13 +339,12 @@ class CargoTables extends IncludableSpecialPage {
 		return $columns;
 	}
 
-	private function getActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable ) {
+	private function getActionLinksForTable( $tableName, $isReplacementTable, $hasReplacementTable, $isSpecialTable = false ) {
 		$user = $this->getUser();
 
 		$canBeRecreated =
 			!$isReplacementTable && !$hasReplacementTable &&
-			array_key_exists( $tableName, $this->templatesThatDeclareTables );
-		$templateID = $canBeRecreated ? $this->templatesThatDeclareTables[$tableName][0] : null;
+			( $isSpecialTable || array_key_exists( $tableName, $this->templatesThatDeclareTables ) );
 
 		$actionLinks = [];
 
@@ -362,10 +368,17 @@ class CargoTables extends IncludableSpecialPage {
 			// them), but for standard setups, this makes things more
 			// convenient.
 			if ( $canBeRecreated ) {
-				$templateTitle = Title::newFromID( $templateID );
-				if ( $templateTitle !== null ) {
-					$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
-					$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
+				if ( $isSpecialTable ) {
+					$recreateURL =
+						SpecialPage::getTitleFor( 'RecreateCargoData' )->getFullURL() . "/$tableName";
+					$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateURL );
+				} else {
+					$templateID = $this->templatesThatDeclareTables[$tableName][0];
+					$templateTitle = Title::newFromID( $templateID );
+					if ( $templateTitle !== null ) {
+						$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
+						$actionLinks['recreate'] = $this->getActionButton( 'recreate', $recreateDataURL );
+					}
 				}
 			} elseif ( $isReplacementTable ) {
 				// switch will be in the same column as recreate
@@ -474,6 +487,15 @@ class CargoTables extends IncludableSpecialPage {
 		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();
 
+		// Move the "special" tables into a separate array.
+		$existingSpecialTables = [];
+		foreach ( $tableNames as $tableIndex => $tableName ) {
+			if ( substr( $tableName, 0, 1 ) === '_' ) {
+				unset( $tableNames[$tableIndex] );
+				$existingSpecialTables[] = $tableName;
+			}
+		}
+
 		// reorder table list so tables with replacements are first,
 		// but only if the preference is set to do so
 		if ( $wgCargoTablesPrioritizeReplacements ) {
@@ -553,6 +575,91 @@ class CargoTables extends IncludableSpecialPage {
 				[ 'class' => 'cargo-tablelist-replacement-row' ], $replacementRowText );
 		}
 		$text .= Html::rawElement( 'table', [ 'class' => 'mw-datatable cargo-tablelist' ],
+			$wikitableText );
+
+		// Now display the table for the special Cargo tables.
+		$text .= '<br />';
+		$text .= Html::element( 'p', null, $this->msg( 'cargo-cargotables-specialtables' )->parse() );
+		$specialTableNames = CargoUtils::specialTableNames();
+		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText .= Html::element( 'th', null,
+			$this->msg( "cargo-cargotables-header-rowcount" ) );
+
+		$invalidActionsForSpecialTables = [ 'edit' ];
+		foreach ( $listOfColumns as $i => $action ) {
+			if ( in_array( $action, $invalidActionsForSpecialTables ) ) {
+				unset( $listOfColumns[$i] );
+				continue;
+			}
+			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action, null ) );
+		}
+		$wikitableText = Html::rawElement( 'tr', null, $headerText );
+
+		foreach ( $specialTableNames as $specialTableName ) {
+			$rowText = '';
+			$tableExists = in_array( $specialTableName, $existingSpecialTables );
+			if ( $tableExists ) {
+				$possibleReplacementTable = $specialTableName . '__NEXT';
+				$hasReplacementTable = CargoUtils::tableFullyExists( $possibleReplacementTable );
+				$actionLinks = $this->getActionLinksForTable( $specialTableName, false, $hasReplacementTable, true );
+			} else {
+				$hasReplacementTable = false;
+				$actionLinks = [];
+				if ( array_key_exists( 'recreate', self::$actionList ) ) {
+					$recreateURL =
+						SpecialPage::getTitleFor( 'RecreateCargoData' )->getFullURL() . "/$specialTableName";
+					$actionLinks['recreate'] = $this->getActionButton( 'create', $recreateURL );
+				}
+			}
+			foreach ( $actionLinks as $action => $actionLink ) {
+				if ( in_array( $action, $invalidActionsForSpecialTables ) ) {
+					unset( $actionLinks[$action] );
+				}
+			}
+			if ( $tableExists ) {
+				$tableLink = $this->getTableLinkedToView( $specialTableName, false );
+			} else {
+				$tableLink = $specialTableName;
+			}
+			$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-tablename' ],
+				$tableLink );
+			if ( $tableExists ) {
+				$numRowsText = $this->displayNumRowsForTable( $cdb, $specialTableName );
+			} else {
+				$numRowsText = '';
+			}
+			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
+				$numRowsText );
+
+			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
+			$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+
+			if ( !$hasReplacementTable ) {
+				continue;
+			}
+
+			// if there's a replacement table, the template links need to span 2 rows
+			$replacementRowText = '';
+			$tableLink = $this->getTableLinkedToView( $specialTableName, true );
+
+			$numRowsText = $this->displayNumRowsForTable( $cdb, $specialTableName . '__NEXT' );
+			$actionLinks = $this->getActionLinksForTable( $specialTableName, true, false );
+
+			$replacementRowText .= Html::rawElement( 'td',
+				[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
+			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
+				$numRowsText );
+
+			$this->displayActionLinks( $listOfColumns, $actionLinks, $replacementRowText );
+
+			$wikitableText .= Html::rawElement( 'tr',
+				[ 'class' => 'cargo-tablelist-replacement-row' ], $replacementRowText );
+		}
+
+		$text .= Html::rawElement( 'table', [
+				'class' => 'mw-datatable cargo-tablelist',
+				'style' => 'min-width: auto;'
+			],
 			$wikitableText );
 
 		return $text;
