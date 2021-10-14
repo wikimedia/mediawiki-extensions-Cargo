@@ -79,9 +79,33 @@ class CargoQuery {
 		try {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
+			// the query not always would include _pageID.
+			// Let's add _pageID entry for each table, with namespace to prevent collision with the fields in query
+			// Then, not modify the main query, just clone everything.
+			// (we can't just replace the $fieldsStr, because it can affect $havingStr part).
+			// Also remove limit so we'll include all potential results
+			$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
+			$allTables = array_filter( $allTables );
+			$newFieldsStr = $fieldsStr;
+			// $fieldsToCollectForPageIds allow as to collect all those special fields' values in the results
+			$fieldsToCollectForPageIds = [];
+			foreach ( $allTables as $table ) {
+				$fieldFullName = "cargo_backlink_page_id_$table";
+				$fieldsToCollectForPageIds[] = $fieldFullName;
+				$newFieldsStr = "$table._pageID=$fieldFullName, " . $newFieldsStr;
+			}
+			$sqlQueryJustForResultsTitle = CargoSQLQuery::newFromValues( $tablesStr, $newFieldsStr, $whereStr, $joinOnStr,
+				$groupByStr, $havingStr, $orderByStr, '', $offsetStr );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
+		$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
+		// Let's collect all special _pageID entries
+		$pageIdForBacklinks = [];
+		foreach ( $fieldsToCollectForPageIds as $fieldToCollectForPageIds ) {
+			$pageIdForBacklinks = array_merge( $pageIdForBacklinks, array_column( $queryResultsJustForResultsTitle, $fieldToCollectForPageIds ) );
+		}
+		$pageIdForBacklinks = array_unique( $pageIdForBacklinks );
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
@@ -108,6 +132,7 @@ class CargoQuery {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 			$text = $formatter->queryAndDisplay( [ $sqlQuery ], $displayParams );
+			CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIdForBacklinks );
 			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
@@ -132,6 +157,8 @@ class CargoQuery {
 		if ( count( $queryResults ) == 0 ) {
 			return $text;
 		}
+		// no errors? Let's save our revers links
+		CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIdForBacklinks );
 
 		// The 'template' format gets special parsing, because
 		// it can be used to display a larger component, like a table,

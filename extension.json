@@ -79,6 +79,7 @@
 	"AutoloadClasses": {
 		"CargoHooks": "CargoHooks.php",
 		"CargoUtils": "includes/CargoUtils.php",
+		"CargoBackLinks": "includes/CargoBackLinks.php",
 		"CargoFieldDescription": "includes/CargoFieldDescription.php",
 		"CargoTableSchema": "includes/CargoTableSchema.php",
 		"CargoHierarchyTree": "includes/CargoHierarchyTree.php",
@@ -365,6 +366,7 @@
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
 		"ArticleDeleteComplete": "CargoHooks::onArticleDeleteComplete",
+		"MultiContentSave": "CargoHooks::onMultiContentSave",
 		"UploadComplete": "CargoHooks::onUploadComplete",
 		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
 		"CategoryAfterPageRemoved": "CargoHooks::removeCategoryFromPageData",

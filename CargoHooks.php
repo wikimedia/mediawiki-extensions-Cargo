@@ -1,6 +1,8 @@
 <?php
 
+use MediaWiki\Revision\RenderedRevision;
 use MediaWiki\Revision\SlotRecord;
+use MediaWiki\User\UserIdentity;
 
 /**
  * CargoHooks class
@@ -269,6 +271,7 @@ class CargoHooks {
 
 		// Finally, delete from cargo_pages.
 		$dbw->delete( 'cargo_pages', [ 'page_id' => $pageID ] );
+		CargoBackLinks::managePageDeletion( $pageID );
 
 		// End transaction and apply DB changes.
 		$cdb->commit();
@@ -302,6 +305,25 @@ class CargoHooks {
 			);
 		}
 		$cdb->delete( $specialTableName, $cdbPageIDCheck );
+	}
+
+	/**
+	 * Each content edit
+	 *
+	 * We use that hook to delete all reverse links entries, in case cargo_query deleted from page
+	 *
+	 * @param RenderedRevision $renderedRevision
+	 * @param UserIdentity $user
+	 * @param CommentStoreComment $summary
+	 * @param array $flags
+	 * @param Status $hookStatus
+	 *
+	 * @return bool|void
+	 */
+	public static function onMultiContentSave( RenderedRevision $renderedRevision, UserIdentity $user, CommentStoreComment $summary, $flags, Status $hookStatus ) {
+		$pageId = $renderedRevision->getRevision()->getPageId();
+		CargoBackLinks::removeBackLinks( $pageId );
+		CargoBackLinks::purgePagesThatQueryThisPage( $pageId );
 	}
 
 	/**
@@ -660,6 +682,7 @@ class CargoHooks {
 		if ( $updater->getDB()->getType() == 'mysql' || $updater->getDB()->getType() == 'sqlite' ) {
 			$updater->addExtensionTable( 'cargo_tables', __DIR__ . "/sql/Cargo.sql" );
 			$updater->addExtensionTable( 'cargo_pages', __DIR__ . "/sql/Cargo.sql" );
+			$updater->addExtensionTable( 'cargo_backlinks', __DIR__ . "/sql/cargo_backlinks.sql" );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
 			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ] );
 			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ] );
