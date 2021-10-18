@@ -108,10 +108,12 @@
 	"switchcargotable": "在替換 Cargo 表格裡切換",
 	"cargo-switchtables-confirm": "切換 Cargo 表格 $1 的替換嗎？",
 	"cargo-switchtables-switch": "切換",
+	"cargo-switchtables-success": "用於表格「$1」的替換已接通。",
 	"cargotablediagram": "Cargo 表格圖表",
 	"pagevalues": "頁面值",
 	"cargo-pagevaluesfor": "用於「$1」的頁面值",
 	"cargo-pagevalues-tablevalues": "「$1」值",
+	"cargo-pagevalues-tableinfo-numrows": "$1 個{{PLURAL:$1|列}}儲存在此頁面",
 	"drilldown": "向下擷取",
 	"cargo-drilldown-choosetable": "挑選表格",
 	"cargo-drilldown-allpages": "所有頁面",
@@ -145,5 +147,12 @@
 	"cargo-purgecache-failed": "快取清除失敗",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo 欄位",
-	"cargo-pageschemas-tablename": "表格名稱："
+	"cargo-pageschemas-tablename": "表格名稱：",
+	"cargo-gantt-zoomlevel": "縮放層級：",
+	"cargo-gantt-hours": "時",
+	"cargo-gantt-days": "日",
+	"cargo-gantt-months": "月",
+	"cargo-gantt-years": "年",
+	"cargo-field-type": "欄位類型：",
+	"cargo-allowed-values": "允許的數值："
 }
