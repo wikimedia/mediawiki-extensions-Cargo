@@ -47,7 +47,7 @@
 	"cargo-viewdata-tablestooltip": "רשימה של טבלה אחת או יותר להרצת שאילתה. ניתן להגדיר כינויים לטבלאות על־ידי \"TableName=Alias\". דוגמה: $1",
 	"cargo-viewdata-tablesrequired": "נא להזין לפחות טבלה אחת.",
 	"cargo-viewdata-fields": "שדה / שדות:",
-	"cargo-viewdata-fieldstooltip": "רשימת שדות להצגה. ערך ברירת־המחדל הוא \"$1\". ניתן להגדיר כינויים לשדות על־ידי \"FieldName=Alias\". דוגמה: $1",
+	"cargo-viewdata-fieldstooltip": "רשימת שדות להצגה. ערך ברירת־המחדל הוא \"$1\". ניתן להגדיר כינויים לשדות על־ידי \"FieldName=Alias\". דוגמה: $2",
 	"cargo-viewdata-where": "איפה:",
 	"cargo-viewdata-wheretooltip": "נא לזין תנאים. אפשר להפריד תנאים מרובים באמצעות AND/OR. דוגמה: $1",
 	"cargo-viewdata-joinon": "איחוב ב־(JOIN ON):",

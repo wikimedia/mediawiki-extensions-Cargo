@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"DDPAT",
 			"Piramidion"
 		]
 	},
@@ -25,6 +26,10 @@
 	"apihelp-cargorecreatedata-param-table": "Таблиця бази даних Cargo, яку треба повторно заповнити",
 	"apihelp-cargorecreatedata-param-offset": "Сторінок, що викликають цей шаблон, кількість, з якої починати надсилання запитів",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Чи замінювати старі рядки для кожної сторінки при повторному заповненні таблиці",
+	"apihelp-cargorecreatespecialtable-description": "Створює спеціальну таблицю Cargo.",
+	"apihelp-cargorecreatespecialtable-summary": "Створює спеціальну таблицю Cargo.",
+	"apihelp-cargorecreatespecialtable-param-table": "Спеціальна таблиця, яку потрібно відтворити",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "Чи варто розміщувати дані в таблиці заміни",
 	"apihelp-cargoautocomplete-description": "Запит на автодоповнення, що використовується розширенням Cargo.",
 	"apihelp-cargoautocomplete-summary": "Запит на автодоповнення, що використовується розширенням Cargo.",
 	"apihelp-cargoautocomplete-param-limit": "Обмеження на кількість виведених результатів",
