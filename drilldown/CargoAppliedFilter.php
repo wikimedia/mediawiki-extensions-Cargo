@@ -69,23 +69,11 @@ class CargoAppliedFilter {
 		}
 		$sql = "(";
 		if ( $this->search_terms != null ) {
-			$quoteReplace = ( $cdb->getType() == 'postgres' ? "''" : "\'" );
 			foreach ( $this->search_terms as $i => $search_term ) {
-				$search_term = str_replace( "'", $quoteReplace, $search_term );
 				if ( $i > 0 ) {
 					$sql .= ' OR ';
 				}
-				if ( $this->filter->fieldType === 'page' ) {
-					// FIXME: 'LIKE' is supposed to be
-					// case-insensitive, but it's not acting
-					// that way here.
-					// $search_term = strtolower( $search_term );
-					// $search_term = str_replace( ' ', '\_', $search_term );
-					$sql .= $value_field . ' ' . $cdb->buildLike( $cdb->anyString(), $search_term, $cdb->anyString() );
-				} else {
-					// $search_term = strtolower( $search_term );
-					$sql .= $value_field . ' ' . $cdb->buildLike( $cdb->anyString(), $search_term, $cdb->anyString() );
-				}
+				$sql .= $value_field . ' ' . $cdb->buildLike( $cdb->anyString(), $search_term, $cdb->anyString() );
 			}
 		}
 		if ( $this->lower_date != null ) {
