@@ -5,7 +5,8 @@
 			"Cwlin0416",
 			"Kly",
 			"Liuxinyu970226",
-			"Nemo bis"
+			"Nemo bis",
+			"Weather Top Wizard"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
@@ -16,6 +17,7 @@
 	"cargo-notable": "錯誤：必須指定表格名稱。",
 	"cargo-unknowntable": "錯誤：查無表格 $1。",
 	"recreatedata": "重新建立資料",
+	"recreatecargodata": "重建資料",
 	"action-recreatecargodata": "重新建立Cargo資料",
 	"right-recreatecargodata": "重建包含在 Cargo 表格的資料",
 	"action-deletecargodata": "刪除Cargo資料",
