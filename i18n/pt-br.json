@@ -3,7 +3,8 @@
 		"authors": [
 			"Eduardo Addad de Oliveira",
 			"Eduardoaddad",
-			"Nemo bis"
+			"Nemo bis",
+			"Svjatysberega"
 		]
 	},
 	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",
@@ -14,6 +15,7 @@
 	"cargo-notable": "Erro: o nome da tabela tem de ser especificado.",
 	"cargo-unknowntable": "Erro: a tabela $1 não foi encontrada.",
 	"recreatedata": "Recriar dados",
+	"recreatecargodata": "Recriar dados",
 	"action-recreatecargodata": "recriar dados Cargo",
 	"right-recreatecargodata": "Recriar dados contidos nas tabelas Cargo",
 	"action-deletecargodata": "eliminar dados Cargo",

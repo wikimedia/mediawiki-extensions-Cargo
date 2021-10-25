@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Eduardoaddad"
+			"Eduardoaddad",
+			"Svjatysberega"
 		]
 	},
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
@@ -26,6 +27,7 @@
 	"apihelp-cargorecreatedata-param-table": "A tabela da base de dados Cargo para voltar a ser populada",
 	"apihelp-cargorecreatedata-param-offset": "De entre as páginas que chamam esta predefinição, o número daquela onde começar a consulta",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Substituir, ou não, as linhas antigas de cada página ao voltar a popular a tabela",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "Colocar ou não os dados numa tabela substituta",
 	"apihelp-cargoautocomplete-description": "Chamada de preenchimento automático usada pela extensão Cargo.",
 	"apihelp-cargoautocomplete-summary": "Chamada de preenchimento automático usada pela extensão Cargo.",
 	"apihelp-cargoautocomplete-param-limit": "Um limite para o número de resultados devolvidos",
