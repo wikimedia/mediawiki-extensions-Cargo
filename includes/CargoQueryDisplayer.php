@@ -258,6 +258,7 @@ class CargoQueryDisplayer {
 		} elseif ( $type == 'Wikitext' || $type == 'Wikitext string' || $type == '' ) {
 			return CargoUtils::smartParse( $value, $parser );
 		} elseif ( $type == 'Searchtext' ) {
+			$value = htmlspecialchars( $value );
 			if ( strlen( $value ) > 300 ) {
 				return substr( $value, 0, 300 ) . ' ...';
 			} else {
