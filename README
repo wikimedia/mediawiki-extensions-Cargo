@@ -89,20 +89,27 @@ clarify the subject matter.
 
 == Credits to other projects ==
 
-* Cargo includes the DataTables JavaScript library (http:/datatables.net),
-available under the MIT License.
+Cargo contains the following JavaScript libraries:
 
-* Cargo includes the FullCalendar JavaScript library (http://fullcalendar.io),
-available under the MIT License.
+* bpmn-js (https://bpmn.io/toolkit/bpmn-js/), available under a custom
+open source license.
 
-* Cargo includes the Slick JS library (http://kenwheeler.github.io/slick/),
-available under the MIT License.
-
-* Cargo includes the Dagre JS library (https://github.com/dagrejs/dagre),
-available under the MIT License.
-
-* Cargo includes the markerclusterer.js file, available under the Apache
+* dagre (https://github.com/dagrejs/dagre), available under the MIT
 License.
+
+* DataTables (https://datatables.net), available under the MIT License.
+
+* DHTMLX Gantt (https://dhtmlx.com/docs/products/dhtmlxGantt/), available
+under the GNU General Public License.
+
+* FullCalendar (https://fullcalendar.io), available under the MIT License.
+
+* markerclusterer.js, available under the Apache License.
+
+* slick (http://kenwheeler.github.io/slick/), available under the MIT
+License.
+
+Cargo makes the following additional uses of outside code:
 
 * A significant portion of the drill-down code was copied from the
 Semantic Drilldown extension, also written (for the most part) by Yaron
