@@ -256,9 +256,15 @@ class CargoHooks {
 			// Now, delete from the "main" table.
 			$cdb->delete( $curMainTable, $cdbPageIDCheck );
 		}
-		$res3 = $dbw->select( 'cargo_tables', 'field_tables', [ 'main_table' => '_pageData' ] );
-		if ( $dbw->numRows( $res3 ) > 0 ) {
-			$cdb->delete( '_pageData', $cdbPageIDCheck );
+
+		self::deletePageFromSpecialTable( $pageID, '_pageData' );
+		$title = Title::newFromID( $pageID );
+		if ( $title->getNamespace() == NS_FILE ) {
+			self::deletePageFromSpecialTable( $pageID, '_fileData' );
+		} elseif ( defined( 'FD_NS_BPMN' ) && $title->getNamespace() == FD_NS_BPMN ) {
+			self::deletePageFromSpecialTable( $pageID, '_bpmnData' );
+		} elseif ( defined( 'FD_NS_GANTT' ) && $title->getNamespace() == FD_NS_GANTT ) {
+			self::deletePageFromSpecialTable( $pageID, '_ganttData' );
 		}
 
 		// Finally, delete from cargo_pages.
@@ -266,6 +272,36 @@ class CargoHooks {
 
 		// End transaction and apply DB changes.
 		$cdb->commit();
+	}
+
+	public static function deletePageFromSpecialTable( $pageID, $specialTableName ) {
+		$cdb = CargoUtils::getDB();
+		// There's a reasonable chance that this table doesn't exist
+		// at all - if so, exit.
+		if ( !$cdb->tableExists( $specialTableName ) ) {
+			return;
+		}
+		$replacementTableName = $specialTableName . '__NEXT';
+		if ( $cdb->tableExists( $replacementTableName ) ) {
+			$specialTableName = $replacementTableName;
+		}
+
+		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
+
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ] );
+		$row = $dbr->fetchRow( $res );
+		$fieldTableNames = unserialize( $row['field_tables'] );
+		foreach ( $fieldTableNames as $curFieldTable ) {
+			$cdb->deleteJoin(
+				$curFieldTable,
+				$specialTableName,
+				$cdb->addIdentifierQuotes( '_rowID' ),
+				$cdb->addIdentifierQuotes( '_ID' ),
+				$cdbPageIDCheck
+			);
+		}
+		$cdb->delete( $specialTableName, $cdbPageIDCheck );
 	}
 
 	/**
@@ -309,12 +345,9 @@ class CargoHooks {
 		CargoStore::$settings['origin'] = 'page save';
 		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getNativeData() );
 
-		// Also, save the "page data" and (if appropriate) "file data".
-		$cdb = CargoUtils::getDB();
-		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable, false );
-		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
-		CargoFileData::storeValuesForFile( $wikiPage->getTitle(), $useReplacementTable );
+		// Also, save data to any relevant "special tables", if they
+		// exist.
+		self::saveToSpecialTables( $wikiPage->getTitle() );
 
 		return true;
 	}
@@ -354,14 +387,27 @@ class CargoHooks {
 			$revisionRecord->getContent( SlotRecord::MAIN )->getNativeData()
 		);
 
-		// Also, save the "page data" and (if appropriate) "file data".
-		$cdb = CargoUtils::getDB();
-		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-		CargoPageData::storeValuesForPage( $wikiPage->getTitle(), $useReplacementTable, false );
-		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
-		CargoFileData::storeValuesForFile( $wikiPage->getTitle(), $useReplacementTable );
+		// Also, save data to any relevant "special tables", if they
+		// exist.
+		self::saveToSpecialTables( $wikiPage->getTitle() );
 
 		return true;
+	}
+
+	public static function saveToSpecialTables( $title ) {
+		$cdb = CargoUtils::getDB();
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable, false );
+		if ( $title->getNamespace() == NS_FILE ) {
+			$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+			CargoFileData::storeValuesForFile( $title, $useReplacementTable );
+		} elseif ( defined( 'FD_NS_BPMN' ) && $title->getNamespace() == FD_NS_BPMN ) {
+			$useReplacementTable = $cdb->tableExists( '_bpmnData__NEXT' );
+			CargoBPMNData::storeBPMNValues( $title, $useReplacementTable );
+		} elseif ( defined( 'FD_NS_GANTT' ) && $title->getNamespace() == FD_NS_GANTT ) {
+			$useReplacementTable = $cdb->tableExists( '_ganttData__NEXT' );
+			CargoGanttData::storeGanttValues( $title, $useReplacementTable );
+		}
 	}
 
 	/**
