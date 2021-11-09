@@ -8,10 +8,12 @@ class CargoBackLinks {
 		$pageTitle = $page ? $page->getTitle() : null;
 		if ( $pageTitle ) {
 			$pageId = $pageTitle->getArticleID();
-			// purge all page related, if the cargo result
+			// Purge the cache of all pages that may have this
+			// page in their displayed query results.
 			self::purgePagesThatQueryThisPage( $pageId );
 		}
-		// remove all entries if it source page
+		// Remove all entries that are based on queries that were
+		// on this page.
 		self::removeBackLinks( $pageId );
 	}
 
@@ -52,18 +54,18 @@ class CargoBackLinks {
 		if ( !$dbr->tableExists( 'cargo_backlinks' ) ) {
 			return;
 		}
-		$pageIdsResults = $dbr->select( 'cargo_backlinks', [ 'cbl_query_page_id' ], [
-			'cbl_result_page_id' => $resultPageId,
-		] );
-		foreach ( $pageIdsResults as $pageIdResult ) {
-			$queryPageId = $pageIdResult->cbl_query_page_id;
+
+		$res = $dbr->select( 'cargo_backlinks',
+			[ 'cbl_query_page_id' ],
+			[ 'cbl_result_page_id' => $resultPageId ] );
+		foreach ( $res as $row ) {
+			$queryPageId = $row->cbl_query_page_id;
 			if ( $queryPageId ) {
 				$page = \WikiPage::newFromID( $queryPageId );
 				if ( $page ) {
 					$page->doPurge();
 				}
 			}
-
 		}
 	}
 }
