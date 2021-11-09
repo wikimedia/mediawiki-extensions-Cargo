@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Ajeje Brazorf",
 			"Beta16",
 			"Greis",
 			"JackLantern",
@@ -29,6 +30,7 @@
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
 	"cargo-cargotables-header-table": "Tabella",
 	"cargo-cargotables-header-rowcount": "Righe",
+	"cargo-cargotables-header-templates": "Template",
 	"cargo-cargotables-action-deletereplacement": "Cancella",
 	"cargo-cargotables-action-delete": "Cancella",
 	"cargo-cargotables-action-recreate": "Ricrea",
