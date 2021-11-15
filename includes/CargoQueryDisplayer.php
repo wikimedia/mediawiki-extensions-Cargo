@@ -372,7 +372,16 @@ class CargoQueryDisplayer {
 
 		$formattedQueryResults = $this->getFormattedQueryResults( $queryResults );
 		$text = '';
-		if ( array_key_exists( 'intro', $this->mDisplayParams ) ) {
+
+		// If this is the 'template' format, let the formatter print
+		// out the intro and outro, so they can be parsed at the same
+		// time as the main body. In theory, this should be done for
+		// every result format, but in practice, probably only with
+		// 'template' could there be complex formatting (like a table
+		// with a header and footer) where this approach to parsing
+		// would make a difference.
+		$formatClass = get_class( $formatter );
+		if ( array_key_exists( 'intro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
 			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], $formatter->mParser );
 		}
 		try {
@@ -381,7 +390,7 @@ class CargoQueryDisplayer {
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
-		if ( array_key_exists( 'outro', $this->mDisplayParams ) ) {
+		if ( array_key_exists( 'outro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
 			$text .= CargoUtils::smartParse( $this->mDisplayParams['outro'], $formatter->mParser );
 		}
 		return $text;
