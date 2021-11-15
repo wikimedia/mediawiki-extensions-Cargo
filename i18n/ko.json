@@ -56,6 +56,7 @@
 	"cargo-cargotables-action-deletereplacement": "삭제",
 	"cargo-cargotables-action-delete": "삭제",
 	"cargo-cargotables-action-recreate": "다시 만들기",
+	"cargo-cargotables-specialtables": "다음의 특수 테이블이 존재합니다:",
 	"cargo-cargotables-viewreplacement": "$1의 대체 테이블 보기",
 	"cargo-cargotables-viewreplacementlink": "대체 테이블 보기",
 	"cargo-cargotables-tablestructure": "테이블 구조:",
