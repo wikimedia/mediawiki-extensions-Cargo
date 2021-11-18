@@ -260,14 +260,12 @@ class CargoHooks {
 		}
 
 		self::deletePageFromSpecialTable( $pageID, '_pageData' );
-		$title = Title::newFromID( $pageID );
-		if ( $title->getNamespace() == NS_FILE ) {
-			self::deletePageFromSpecialTable( $pageID, '_fileData' );
-		} elseif ( defined( 'FD_NS_BPMN' ) && $title->getNamespace() == FD_NS_BPMN ) {
-			self::deletePageFromSpecialTable( $pageID, '_bpmnData' );
-		} elseif ( defined( 'FD_NS_GANTT' ) && $title->getNamespace() == FD_NS_GANTT ) {
-			self::deletePageFromSpecialTable( $pageID, '_ganttData' );
-		}
+		// Unfortunately, once a page has been deleted we can no longer
+		// get its namespace (or can we?), so we need to call these
+		// deletion methods for all tables every time.
+		self::deletePageFromSpecialTable( $pageID, '_fileData' );
+		self::deletePageFromSpecialTable( $pageID, '_bpmnData' );
+		self::deletePageFromSpecialTable( $pageID, '_ganttData' );
 
 		// Finally, delete from cargo_pages.
 		$dbw->delete( 'cargo_pages', [ 'page_id' => $pageID ] );
