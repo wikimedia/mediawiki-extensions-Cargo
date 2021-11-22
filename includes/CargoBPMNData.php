@@ -60,14 +60,15 @@ class CargoBPMNData {
 		foreach ( $xml->children( 'bpmn', true ) as $key => $value ) {
 			if ( $key == 'process' ) {
 				foreach ( $value->children( 'bpmn', true ) as $k2 => $v2 ) {
-					if ( in_array( $k2, [ 'task', 'exclusiveGateway', 'sequenceFlow', 'startEvent' ] ) ) {
+					if ( in_array( $k2, [ 'task', 'exclusiveGateway', 'sequenceFlow', 'startEvent', 'endEvent' ] ) ) {
 						$bpmnValues = [ '_type' => $k2, '_connectsTo' => [] ];
 						foreach ( $v2->attributes() as $ak1 => $av1 ) {
 							if ( $ak1 == 'id' ) {
 								$bpmnValues['_BPMNID'] = (string)$av1;
-							}
-							if ( $ak1 == 'name' ) {
+							} elseif ( $ak1 == 'name' ) {
 								$bpmnValues['_name'] = (string)$av1;
+							} elseif ( $k2 == 'sequenceFlow' && $ak1 == 'targetRef' ) {
+								$bpmnValues['_connectsTo'][] = (string)$av1;
 							}
 						}
 						foreach ( $v2->children( 'bpmn', true ) as $k3 => $v3 ) {
