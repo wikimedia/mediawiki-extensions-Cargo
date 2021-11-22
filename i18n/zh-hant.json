@@ -6,12 +6,13 @@
 			"Kly",
 			"Liuxinyu970226",
 			"Nemo bis",
-			"Weather Top Wizard"
+			"Weather Top Wizard",
+			"Winston Sung"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
 	"cargo-definestable": "此模板定義表格「$1」。",
-	"cargo-tablenotcreated": "此表格尚未創建。",
+	"cargo-tablenotcreated": "尚未建立此表格。",
 	"cargo-addsrows": "此模板為表格「$1」添加了列，該聲明自模板 $2。",
 	"cargo-addsrows-missingdeclare": "此模板添加了列到表格「$1」裡，這並沒有被任何模版聲明。",
 	"cargo-notable": "錯誤：必須指定表格名稱。",
