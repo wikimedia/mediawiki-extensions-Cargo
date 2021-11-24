@@ -48,7 +48,12 @@ class CargoPopulateTableJob extends Job {
 			return true;
 		}
 
-		$page = WikiPage::factory( $this->title );
+		if ( class_exists( 'WikiPageFactory' ) ) {
+			// MW 1.36+
+			$page = WikiPageFactory::newFromTitle( $this->title );
+		} else {
+			$page = WikiPage::factory( $this->title );
+		}
 
 		// If it was requested, delete all the existing rows for
 		// this page in this Cargo table. This is only necessary
