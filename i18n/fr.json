@@ -18,7 +18,8 @@
 			"Verdy p",
 			"Weft",
 			"Wladek92",
-			"Əric"
+			"Əric",
+			"McDutchie"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -64,7 +65,7 @@
 	"cargo-viewdata-having": "Ayant :",
 	"cargo-viewdata-havingtooltip": "Saisir les conditions pour ne retourner que les lignes avec certaines valeurs d’agrégat. Exemple : $1",
 	"cargo-viewdata-orderby": "Trier par :",
-	"cargo-viewdata-orderbytooltip": "Lister les critères de tri des résultats (noms de champs suivis de la direction ASC par défaut pour un tri ascendant, ou DESC pour un tri descendant). La valeur par défaut est _pageName ASC.",
+	"cargo-viewdata-orderbytooltip": "Les champs de liste selon lesquels trier les résultats de la requête (noms de champs suivis de la direction ASC par défaut pour un tri ascendant, ou DESC pour un tri descendant). La valeur par défaut est _pageName ASC.",
 	"cargo-viewdata-limit": "Limite :",
 	"cargo-viewdata-limittooltip": "Saisir le nombre maximum de résultats à afficher. La valeur par défaut est $1.",
 	"cargo-viewdata-offset": "Décalage :",

@@ -82,6 +82,7 @@
 	"cargo-cargotables-header-templates": "Шаблоны",
 	"cargo-cargotables-action-deletereplacement": "Удалить",
 	"cargo-cargotables-action-delete": "Удалить",
+	"cargo-cargotables-action-recreate": "Создать заново",
 	"cargo-cargotables-beingpopulated": "<strong>Примечание:</strong> Одна или несколько из этих таблиц в настоящее время заполняются через очередь заданий.",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Определена следующая таблица|Определены следующие таблицы}}:",
 	"cargo-cargotables-viewtable": "Просмотр таблицы: $1",
@@ -144,6 +145,8 @@
 	"cargo-pageschemas-cargofield": "Поле Cargo",
 	"cargo-pageschemas-tablename": "Название таблицы:",
 	"cargo-gantt-hours": "Часы",
+	"cargo-gantt-days": "Дни",
+	"cargo-gantt-months": "Месяцы",
 	"cargo-gantt-years": "Годы",
 	"cargo-field-type": "Тип поля:",
 	"cargo-allowed-values": "Допустимые значения:"

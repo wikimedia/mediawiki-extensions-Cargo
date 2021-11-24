@@ -5,12 +5,14 @@
 			"Cwlin0416",
 			"Kly",
 			"Liuxinyu970226",
-			"Nemo bis"
+			"Nemo bis",
+			"Weather Top Wizard",
+			"Winston Sung"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
 	"cargo-definestable": "此模板定義表格「$1」。",
-	"cargo-tablenotcreated": "此表格尚未創建。",
+	"cargo-tablenotcreated": "尚未建立此表格。",
 	"cargo-addsrows": "此模板為表格「$1」添加了列，該聲明自模板 $2。",
 	"cargo-addsrows-missingdeclare": "此模板添加了列到表格「$1」裡，這並沒有被任何模版聲明。",
 	"cargo-notable": "錯誤：必須指定表格名稱。",
@@ -108,10 +110,12 @@
 	"switchcargotable": "在替換 Cargo 表格裡切換",
 	"cargo-switchtables-confirm": "切換 Cargo 表格 $1 的替換嗎？",
 	"cargo-switchtables-switch": "切換",
+	"cargo-switchtables-success": "用於表格「$1」的替換已接通。",
 	"cargotablediagram": "Cargo 表格圖表",
 	"pagevalues": "頁面值",
 	"cargo-pagevaluesfor": "用於「$1」的頁面值",
 	"cargo-pagevalues-tablevalues": "「$1」值",
+	"cargo-pagevalues-tableinfo-numrows": "$1 個{{PLURAL:$1|列}}儲存在此頁面",
 	"drilldown": "向下擷取",
 	"cargo-drilldown-choosetable": "挑選表格",
 	"cargo-drilldown-allpages": "所有頁面",
@@ -145,5 +149,12 @@
 	"cargo-purgecache-failed": "快取清除失敗",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo 欄位",
-	"cargo-pageschemas-tablename": "表格名稱："
+	"cargo-pageschemas-tablename": "表格名稱：",
+	"cargo-gantt-zoomlevel": "縮放層級：",
+	"cargo-gantt-hours": "時",
+	"cargo-gantt-days": "日",
+	"cargo-gantt-months": "月",
+	"cargo-gantt-years": "年",
+	"cargo-field-type": "欄位類型：",
+	"cargo-allowed-values": "允許的數值："
 }

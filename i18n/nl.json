@@ -10,7 +10,8 @@
 			"Robin van der Vliet",
 			"Robin0van0der0vliet",
 			"SPQRobin",
-			"Sjoerddebruin"
+			"Sjoerddebruin",
+			"Romaine"
 		]
 	},
 	"cargo-desc": "Opslag en opvragen van sjabloongegevens",
@@ -28,6 +29,7 @@
 	"cargo-recreatedata-tablecreated": "De Cargo-tabel \"$1\" is opnieuw aangemaakt.",
 	"cargo-recreatedata-success": "De gegevens worden opnieuw aangemaakt.",
 	"cargo-viewdata-tables": "Tabel(len):",
+	"cargo-viewdata-tablesrequired": "Voer minimaal één tabel in.",
 	"cargo-viewdata-fields": "Veld(en):",
 	"cargo-viewdata-where": "Waar:",
 	"cargo-viewdata-joinon": "Samenvoegen op:",
@@ -76,6 +78,7 @@
 	"cargo-drilldown-or": "of",
 	"cargo-drilldown-removefilter": "Dit filter verwijderen",
 	"cargo-drilldown-resetfilters": "Filters opnieuw instellen",
+	"cargo-drilldown-hierarchy-within": "binnen $1",
 	"cargo-drilldown-hierarchy-only": "alleen \"$1\"",
 	"cargo-drilldown-addanothervalue": "Klik op de pijl om nog een waarde toe te voegen",
 	"cargo-drilldown-othervalues": "Andere waarden:",
@@ -84,14 +87,26 @@
 	"cargo-drilldown-pagetext": "Paginatekst",
 	"cargo-drilldown-filename": "Bestandsnaam",
 	"cargo-drilldown-filetext": "Bestandstekst",
+	"cargo-drilldown-mapformat": "Kaart",
 	"cargo-drilldown-timelineformat": "Tijdlijn",
 	"cargo-drilldown-galleryformat": "Galerij",
 	"cargo-drilldown-calendarformat": "Kalender",
 	"cargo-viewcsv": "CSV bekijken",
 	"cargo-viewxls": "XLS bekijken",
 	"cargo-viewjson": "JSON bekijken",
+	"cargo-viewbibtex": "Bekijk BibTeX",
+	"cargo-viewicalendar": "Bekijk iCalendar",
+	"cargo-dynamictables-togglecolumns": "Selecteer kolommen:",
 	"cargo-purgecache": "Verversen",
+	"cargo-purgecache-failed": "Opschonen van cache mislukt",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-veld",
-	"cargo-pageschemas-tablename": "Tabelnaam:"
+	"cargo-pageschemas-tablename": "Tabelnaam:",
+	"cargo-gantt-zoomlevel": "Zoomniveau:",
+	"cargo-gantt-hours": "Uren",
+	"cargo-gantt-days": "Dagen",
+	"cargo-gantt-months": "Maanden",
+	"cargo-gantt-years": "Jaren",
+	"cargo-field-type": "Veldtype:",
+	"cargo-allowed-values": "Toegestane waarden:"
 }

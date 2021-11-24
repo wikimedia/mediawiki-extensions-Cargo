@@ -5,7 +5,8 @@
 			"Greis",
 			"JackLantern",
 			"Macofe",
-			"Stefano"
+			"Stefano",
+			"Ajeje Brazorf"
 		]
 	},
 	"cargo-definestable": "Questo template definisce la tabella \"$1\".",
@@ -29,6 +30,7 @@
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
 	"cargo-cargotables-header-table": "Tabella",
 	"cargo-cargotables-header-rowcount": "Righe",
+	"cargo-cargotables-header-templates": "Template",
 	"cargo-cargotables-action-deletereplacement": "Cancella",
 	"cargo-cargotables-action-delete": "Cancella",
 	"cargo-cargotables-action-recreate": "Ricrea",
