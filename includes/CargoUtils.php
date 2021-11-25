@@ -1308,4 +1308,41 @@ class CargoUtils {
 		}
 	}
 
+	/**
+	 * A helper function, because Title::getTemplateLinksTo() is broken in
+	 * MW 1.37.
+	 */
+	public static function getTemplateLinksTo( $templateTitle, $options = [] ) {
+		$db = wfGetDB( DB_REPLICA );
+
+		$selectFields = LinkCache::getSelectFields();
+		$selectFields[] = 'page_namespace';
+		$selectFields[] = 'page_title';
+
+		$res = $db->select(
+			[ 'page', 'templatelinks' ],
+			$selectFields,
+			[
+				"tl_from=page_id",
+				"tl_namespace" => NS_TEMPLATE,
+				"tl_title" => $templateTitle->mDbkeyform
+			],
+			__METHOD__,
+			$options
+		);
+
+		$retVal = [];
+		if ( $res->numRows() ) {
+			$linkCache = MediaWikiServices::getInstance()->getLinkCache();
+			foreach ( $res as $row ) {
+				$titleObj = Title::makeTitle( $row->page_namespace, $row->page_title );
+				if ( $titleObj ) {
+					$linkCache->addGoodLinkObjFromRow( $titleObj, $row );
+					$retVal[] = $titleObj;
+				}
+			}
+		}
+		return $retVal;
+	}
+
 }
