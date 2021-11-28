@@ -324,16 +324,6 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$target = "";
 				}
-				if ( array_key_exists( 'x', $queryResult ) ) {
-					$x = $queryResult['x'];
-				} else {
-					$x = "";
-				}
-				if ( array_key_exists( 'y', $queryResult ) ) {
-					$y = $queryResult['y'];
-				} else {
-					$y = "";
-				}
 				if ( array_key_exists( 'linked', $queryResult ) ) {
 					$linkedpage = $queryResult['linked'];
 				} else {
@@ -346,8 +336,6 @@ class CargoExport extends UnlistedSpecialPage {
 					'type' => $eventType,
 					'source' => $source,
 					'target' => $target,
-					'x' => $x,
-					'y' => $y,
 					'linkedpage' => $linkedpage
 				];
 
@@ -382,23 +370,19 @@ class CargoExport extends UnlistedSpecialPage {
 				$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
 				$displayedArray['sequenceFlow'][$it]['target'] = $displayedArray['elements'][$key]['id'];
 			}
-		   // Calculating 'x' and 'y' for sequence flow elements
-		   if ( $displayedArray['sequenceFlow'][$it]['x'] != "" || $displayedArray['sequenceFlow'][$it]['y'] != "" ) {
-			$temp = $displayedArray['sequenceFlow'][$it]['source'];
-			$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
-			$tempx = (int)$displayedArray['elements'][$key]['x'] + (int)$displayedArray['elements'][$key]['width'];
-			$tempy = (int)$displayedArray['elements'][$key]['y'] + ( (int)$displayedArray['elements'][$key]['height'] ) / 2;
-			$displayedArray['sequenceFlow'][$it]['x'] = (string)$tempx;
-			$displayedArray['sequenceFlow'][$it]['y'] = (string)$tempy;
-		   }
 		}
 
 		header( 'Content-Type: text/xml' );
 		$XML = '<?xml version="1.0" encoding="UTF-8"?>';
 		// Needed to restore highlighting in vi - <?
-		$XML .= '<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
-		xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" 
-		id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn"><bpmn:process id="Process_1" isExecutable="false">';
+		$XML .= '<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
+		xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
+		xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
+		id="Definitions_18vnora" 
+		targetNamespace="http://bpmn.io/schema/bpmn" 
+		exporter="bpmn-js (https://demo.bpmn.io)" 
+		exporterVersion="4.0.3">
+		<bpmn:process id="Process_1" isExecutable="false">';
 
 		// XML for BPMN Process
 		foreach ( $displayedArray['elements'] as $i => $task ) {
@@ -419,40 +403,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" />';
 			}
 		}
-
-		$XML .= '</bpmn:process><bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">';
-
-		// XML for BPMN Diagram
-		foreach ( $displayedArray['elements'] as $i => $task ) {
-			if ( is_array( $task ) && $task['type'] != "sequenceFlow" ) {
-				$XML .= '<bpmndi:BPMNShape id="' . $task['id'] . '_di" bpmnElement="' . $task['id'] . '"';
-				if ( $task['type'] == "exclusiveGateway" ) {
-					$XML .= ' isMarkerVisible="true"';
-				}
-				$XML .= '><dc:Bounds x="' . $task['x'] . '" y="' . $task['y'] . '" width="' . $task['width'] . '" height="' . $task['height'] . '" />';
-
-				if ( $task['label'] != "" ) {
-				$XML .= '<bpmndi:BPMNLabel><dc:Bounds x="' . $task['label']['x'] . '" y="' . $task['label']['y'] .
-				'" width="' . $task['label']['width'] . '" height="' . $task['label']['height'] . '" /></bpmndi:BPMNLabel>';
-				}
-				$XML .= '</bpmndi:BPMNShape>';
-			}
-		}
-		foreach ( $displayedArray['sequenceFlow'] as $i => $task ) {
-			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
-				$XML .= '<bpmndi:BPMNEdge id="' . $task['id'] . '_di" bpmnElement="' . $task['id'] . '">
-				<di:waypoint x="' . $task['x'] . '" y="' . $task['y'] . '" />';
-
-				if ( $task['label'] != "" ) {
-				$XML .= '<bpmndi:BPMNLabel><dc:Bounds x="' . $task['label']['x'] . '" y="' . $task['label']['y'] .
-				'" width="' . $task['label']['width'] . '" height="' . $task['label']['height'] . '" /></bpmndi:BPMNLabel>';
-				}
-				$XML .= '</bpmndi:BPMNEdge>';
-			}
-		}
-
-		$XML .= '</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>';
-
+		$XML .= '</bpmn:process></bpmn:definitions>';
 		print $XML;
 	}
 

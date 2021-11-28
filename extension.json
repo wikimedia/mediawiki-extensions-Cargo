@@ -254,6 +254,24 @@
 			],
 			"styles": [
 				"libs/ext.cargo.bpmn.css"
+			],
+			"dependencies": [
+				"bpmn-auto-layout"
+			]
+		},
+		"bpmn-auto-layout": {
+			"localBasePath": "libs/bpmn-auto-layout",
+			"remoteExtPath": "Cargo/libs/bpmn-auto-layout",
+			"packageFiles": [
+				"AutoLayout.js",
+				"DiFactory.js",
+				"DiUtil.js",
+				"Tree.js",
+				"bpmn-moddle.js",
+				"min-dash.js",
+				"moddle.js",
+				"moddle-xml.js",
+				"saxen.js"
 			]
 		},
 		"ext.cargo.timelinebase": {

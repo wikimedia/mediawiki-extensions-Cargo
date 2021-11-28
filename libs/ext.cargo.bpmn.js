@@ -1,66 +1,41 @@
 /*
  * Copied from file ext.flexdiagrams.bpmn.js in the Flex Diagrams extension.
  */
-
 $(document).ready(function() {
 
   var gLinkedPages = {};
 
 	$('.cargoBPMN').each( function() {
     var dataURL = decodeURI( $(this).attr('dataurl') );
-    var bpmnJS = new BpmnJS({
-      container: '#canvas',
-      keyboard: {
-        bindTo: window
-      }
-    });
-
-    $.get(dataURL, function(url) {
-
-      // Before the diagram gets displayed, go through the BPMN XML
-      // to find all labels with the structure "X [[Y]]" - which is
-      // the special Flex Diagrams syntax for specifying a linked
-      // element - and replace them with just "X", while storing "Y"
-      // in a global array so that they can be linked during the
-      // display.
-      // We could change the names later, during the display - but
-      // it's better to do it now, so that bpmn-js can correctly set
-      // the placement of each text label, given its correct size.
-      var elementRegExp = /bpmn:.* id="([^"]*)" name="([^"]*)"/g;
-      var elementMatches = url.matchAll(elementRegExp);
-      for ( var elementMatch of elementMatches ) {
-        var elementLine = elementMatch[0];
-        var elementID = elementMatch[1];
-        var elementName = elementMatch[2];
-
-        var finalLinkRegExp = /\[\[([^\[]*)\]\]$/;
-        var linkMatch = elementName.match(finalLinkRegExp);
-        if ( linkMatch == null ) {
-          continue;
+    // Code for extracting the XML from the URL as a string
+    var xmlCode = "";
+    var request = new XMLHttpRequest();
+    request.open("GET", dataURL, false);
+    request.send();
+    xmlCode = request.responseText;
+    // Code for auto-layouting the BPMN-XML
+    var AutoLayout = require('bpmn-auto-layout');
+    var autoLayout = new AutoLayout();
+    (async () => {
+      var layoutedDiagramXML = await autoLayout.layoutProcess(xmlCode);
+      var bpmnJS = new BpmnJS({
+        container: '#canvas',
+        keyboard: {
+          bindTo: window
         }
-        var newName = elementName.replace(linkMatch[0], '')
-          .replace('&#10;', "\n")
-          .trim();
-        var newElementLine = elementLine.replace( elementName, newName );
-        url = url.replace( elementLine, newElementLine );
-
-        var pageName = linkMatch[1];
-        gLinkedPages[elementID] = pageName;
-      }
-
-      bpmnJS.importXML(url, function(err) {
-          if (err) {
-              return console.error('could not import BPMN 2.0 diagram', err);
-          }
-          // access modeler components
-          var canvas = bpmnJS.get('canvas');
-          // zoom to fit full viewport
-          canvas.zoom('fit-viewport');
-          applyLinks();
+      });  
+      bpmnJS.importXML(layoutedDiagramXML, function(err) {
+        if (err) {
+            return console.error('could not import BPMN 2.0 diagram', err);
+        }
+        // access modeler components
+        var canvas = bpmnJS.get('canvas');
+        // zoom to fit full viewport
+        canvas.zoom('fit-viewport');
+        applyLinks();
       });
-    }, 'text');
-
-
+    })();
+    
     /**
      * Go through the gLinkedPages array and turn each element there into
      * a link to its respective wiki page. Also add graphical elements to
