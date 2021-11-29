@@ -410,6 +410,7 @@ class CargoTables extends IncludableSpecialPage {
 			$this->templatesThatDeclareTables,
 			$this->templatesThatAttachToTables,
 			self::$actionList,
+			$user
 		] );
 
 		return $actionLinks;
