@@ -319,11 +319,6 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$source = "";
 				}
-				if ( array_key_exists( 'target', $queryResult ) ) {
-					$target = $queryResult['target'];
-				} else {
-					$target = "";
-				}
 				if ( array_key_exists( 'linked', $queryResult ) ) {
 					$linkedpage = $queryResult['linked'];
 				} else {
@@ -335,7 +330,6 @@ class CargoExport extends UnlistedSpecialPage {
 					'label' => $label,
 					'type' => $eventType,
 					'source' => $source,
-					'target' => $target,
 					'linkedpage' => $linkedpage
 				];
 
@@ -397,7 +391,38 @@ class CargoExport extends UnlistedSpecialPage {
 				$XML .= '"></bpmn:' . $task['type'] . '>';
 			}
 		}
-
+		foreach ( $displayedArray['elements'] as $elementNum => $element ) {
+			if ( !array_key_exists( 'source', $element ) ) {
+				continue;
+			}
+			$sources = explode( ", ", $element['source'] );
+			if ( count( $sources ) == 1 ) {
+				$sourceElementName = $element['source'];
+				$key = array_search( $sourceElementName, array_column( $displayedArray['elements'], 'name' ) );
+				if ( $key === false ) {
+						continue;
+				}
+				$displayedArray['sequenceFlow'][] = [
+						'type' => 'sequenceFlow',
+						'source' => $displayedArray['elements'][$key]['id'],
+						'target' => $element['id'],
+						'id' => 'sequenceFlow' . ( count( $displayedArray['sequenceFlow'] ) + 1 )
+				];
+			} else {
+				foreach ( $sources as $sourceElementName ) {
+					$key = array_search( $sourceElementName, array_column( $displayedArray['elements'], 'name' ) );
+					if ( $key === false ) {
+							continue;
+					}
+					$displayedArray['sequenceFlow'][] = [
+						'type' => 'sequenceFlow',
+						'source' => $displayedArray['elements'][$key]['id'],
+						'target' => $element['id'],
+						'id' => 'sequenceFlow' . ( count( $displayedArray['sequenceFlow'] ) + 1 )
+					];
+				}
+			}
+		}
 		foreach ( $displayedArray['sequenceFlow'] as $i => $task ) {
 			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
 				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" />';
