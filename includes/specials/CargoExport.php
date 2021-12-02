@@ -383,7 +383,11 @@ class CargoExport extends UnlistedSpecialPage {
 			if ( is_array( $task ) && $task['type'] != "" ) {
 				$XML .= '<bpmn:' . $task[ 'type' ] . ' id="' . $task['id'];
 				if ( $task['name'] != "" ) {
-					$XML .= '" name="' . $task['name'];
+					if ( $task['label'] != "" ) {
+						$XML .= '" name="' . $task['label'];
+					} else {
+						$XML .= '" name="' . $task['name'];
+					}
 				}
 				if ( $task[ 'linkedpage' ] != "" ) {
 					$XML .= '&#10;[[' . $task['linkedpage'] . ']]';
