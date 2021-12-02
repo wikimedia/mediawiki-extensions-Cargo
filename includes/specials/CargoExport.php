@@ -292,9 +292,8 @@ class CargoExport extends UnlistedSpecialPage {
 	 */
 	private function displayBPMNData( $sqlQueries ) {
 		$req = $this->getRequest();
-		$displayedArray = [];
-		$displayedArray['sequenceFlow'] = [];
-		$displayedArray['elements'] = [];
+		$sequenceFlows = [];
+		$elements = [];
 		$t = 1;
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
@@ -314,10 +313,15 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					continue;
 				}
-				if ( array_key_exists( 'source', $queryResult ) ) {
-					$source = $queryResult['source'];
+				if ( array_key_exists( 'sources', $queryResult ) ) {
+					$source = $queryResult['sources'];
 				} else {
 					$source = "";
+				}
+				if ( array_key_exists( 'flowLabels', $queryResult ) ) {
+					$flowLabels = $queryResult['flowLabels'];
+				} else {
+					$flowLabels = "";
 				}
 				if ( array_key_exists( 'linked', $queryResult ) ) {
 					$linkedpage = $queryResult['linked'];
@@ -330,7 +334,8 @@ class CargoExport extends UnlistedSpecialPage {
 					'label' => $label,
 					'type' => $eventType,
 					'source' => $source,
-					'linkedpage' => $linkedpage
+					'linkedpage' => $linkedpage,
+					'flowLabels' => $flowLabels
 				];
 
 				if ( str_contains( $curEvent['type'], 'Event' ) ) {
@@ -345,24 +350,7 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 				$curEvent['id'] = $curEvent['type'] . $t;
 				$t++;
-				if ( $curEvent['type'] == "sequenceFlow" ) {
-					array_push( $displayedArray['sequenceFlow'], $curEvent );
-				} else {
-					array_push( $displayedArray['elements'], $curEvent );
-				}
-			}
-		}
-
-		for ( $it = 0; $it < count( $displayedArray['sequenceFlow'] ); $it++ ) {
-			if ( $displayedArray['sequenceFlow'][$it]['source'] != "" ) {
-				$temp = $displayedArray['sequenceFlow'][$it]['source'];
-				$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
-				$displayedArray['sequenceFlow'][$it]['source'] = $displayedArray['elements'][$key]['id'];
-			}
-			if ( $displayedArray['sequenceFlow'][$it]['target'] != "" ) {
-				$temp = $displayedArray['sequenceFlow'][$it]['target'];
-				$key = array_search( $temp, array_column( $displayedArray['elements'], 'name' ) );
-				$displayedArray['sequenceFlow'][$it]['target'] = $displayedArray['elements'][$key]['id'];
+				array_push( $elements, $curEvent );
 			}
 		}
 
@@ -379,7 +367,7 @@ class CargoExport extends UnlistedSpecialPage {
 		<bpmn:process id="Process_1" isExecutable="false">';
 
 		// XML for BPMN Process
-		foreach ( $displayedArray['elements'] as $i => $task ) {
+		foreach ( $elements as $i => $task ) {
 			if ( is_array( $task ) && $task['type'] != "" ) {
 				$XML .= '<bpmn:' . $task[ 'type' ] . ' id="' . $task['id'];
 				if ( $task['name'] != "" ) {
@@ -395,41 +383,44 @@ class CargoExport extends UnlistedSpecialPage {
 				$XML .= '"></bpmn:' . $task['type'] . '>';
 			}
 		}
-		foreach ( $displayedArray['elements'] as $elementNum => $element ) {
+		foreach ( $elements as $elementNum => $element ) {
 			if ( !array_key_exists( 'source', $element ) ) {
 				continue;
 			}
 			$sources = explode( ", ", $element['source'] );
+			$labels = explode( ", ", $element['flowLabels'] );
 			if ( count( $sources ) == 1 ) {
 				$sourceElementName = $element['source'];
-				$key = array_search( $sourceElementName, array_column( $displayedArray['elements'], 'name' ) );
+				$key = array_search( $sourceElementName, array_column( $elements, 'name' ) );
 				if ( $key === false ) {
 						continue;
 				}
-				$displayedArray['sequenceFlow'][] = [
+				$sequenceFlows[] = [
 						'type' => 'sequenceFlow',
-						'source' => $displayedArray['elements'][$key]['id'],
+						'source' => $elements[$key]['id'],
 						'target' => $element['id'],
-						'id' => 'sequenceFlow' . ( count( $displayedArray['sequenceFlow'] ) + 1 )
+						'name' => $element['flowLabels'],
+						'id' => 'sequenceFlow' . ( count( $sequenceFlows ) + 1 )
 				];
 			} else {
-				foreach ( $sources as $sourceElementName ) {
-					$key = array_search( $sourceElementName, array_column( $displayedArray['elements'], 'name' ) );
+				foreach ( $sources as $sourceNum => $sourceElementName ) {
+					$key = array_search( $sourceElementName, array_column( $elements, 'name' ) );
 					if ( $key === false ) {
 							continue;
 					}
-					$displayedArray['sequenceFlow'][] = [
+					$sequenceFlows[] = [
 						'type' => 'sequenceFlow',
-						'source' => $displayedArray['elements'][$key]['id'],
+						'source' => $elements[$key]['id'],
 						'target' => $element['id'],
-						'id' => 'sequenceFlow' . ( count( $displayedArray['sequenceFlow'] ) + 1 )
+						'name' => $labels[$sourceNum],
+						'id' => 'sequenceFlow' . ( count( $sequenceFlows ) + 1 )
 					];
 				}
 			}
 		}
-		foreach ( $displayedArray['sequenceFlow'] as $i => $task ) {
+		foreach ( $sequenceFlows as $i => $task ) {
 			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
-				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" />';
+				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" name="' . $task['name'] . '"/>';
 			}
 		}
 		$XML .= '</bpmn:process></bpmn:definitions>';

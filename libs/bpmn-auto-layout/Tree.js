@@ -83,9 +83,9 @@ TreeNode.prototype._getLastChild = function() {
 function Tree() {
   this.config = {
     iMaxDepth: 1000,
-    iLevelSeparation: 80,
-    iSiblingSeparation: 60,
-    iSubtreeSeparation: 60,
+    iLevelSeparation: 100,
+    iSiblingSeparation: 100,
+    iSubtreeSeparation: 100,
     topXAdjustment: 0,
     topYAdjustment: 0
   };
