@@ -17,16 +17,47 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 
 	/**
 	 * @covers CargoFieldDescription::newFromString
+	 * @dataProvider provideValidDescriptionString
 	 */
-	public function testNewFromString() {
-		$fieldDescStr = '{{#cargo_declare:_table=Test|Name='
-			. 'String (size=10;dependent on=size;delimiter=\;allowed values=*One**Oneone;mandatory;'
-			. 'unique;regex=xxx;hidden;hierarchy;)}}';
-
+	public function testNewFromString( $fieldDescStr ) {
 		$actual = CargoFieldDescription::newFromString( $fieldDescStr );
 		$this->assertInstanceOf(
 			CargoFieldDescription::class, $actual
 		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provideValidDescriptionString() {
+		return [
+			[ 'URL' ],
+			[ 'list (;) of String (size=10;dependent on=size;allowed values=*,)' ],
+			[
+				'{{#cargo_declare:_table=Test|Name='
+				. 'String (size=10;dependent on=size;delimiter=\;allowed values=*One**Oneone;mandatory;'
+				. 'unique;regex=xxx;hidden;hierarchy;)}}'
+			]
+		];
+	}
+
+	/**
+	 * @covers CargoFieldDescription::newFromString
+	 * @dataProvider provideInValidDescriptionString
+	 */
+	public function testExceptionNewFromString( $fieldDescStr ) {
+		$this->expectException( MWException::class );
+		$actual = CargoFieldDescription::newFromString( $fieldDescStr );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function provideInValidDescriptionString() {
+		return [
+			[ 'list (;) of BOOLEAN' ],
+			[ 'TEXT (unique;)' ],
+		];
 	}
 
 	/**
