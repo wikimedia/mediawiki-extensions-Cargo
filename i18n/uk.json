@@ -8,7 +8,8 @@
 			"Shaleych",
 			"Vlad5250",
 			"Ата",
-			"Максим Підліснюк"
+			"Максим Підліснюк",
+			"DDPAT"
 		]
 	},
 	"cargo-extensionname": "Вантаж",
@@ -112,6 +113,8 @@
 	"switchcargotable": "Перейти до замінної таблиці Cargo",
 	"cargo-switchtables-confirm": "Перейти до замінної таблиці Cargo $1?",
 	"cargo-switchtables-switch": "Переключити",
+	"cargo-switchtables-success": "Заміна таблиці \"$1\" була включена.",
+	"cargotablediagram": "Схема вантажної таблиці",
 	"pagevalues": "Значення сторінок",
 	"cargo-pagevaluesfor": "Значення сторінки «$1»",
 	"cargo-pagevalues-tablevalues": "Значення «$1»",

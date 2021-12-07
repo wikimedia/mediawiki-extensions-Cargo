@@ -10,7 +10,10 @@
 			"SolidBlock",
 			"Yfdyh000",
 			"佛壁灯",
-			"列维劳德"
+			"列维劳德",
+			"GuoPC",
+			"Tranve",
+			"Zhang8569"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -68,7 +71,7 @@
 	"cargo-viewdata-hidelegendparam": "隐藏图例：",
 	"cargo-viewdata-delimiterparam": "定界符：",
 	"cargo-viewdata-modifyquery": "修改查询",
-	"cargo-viewdata-viewwikitext": "查看维基文本",
+	"cargo-viewdata-viewwikitext": "查看wikitext",
 	"cargo-query-missingformat": "错误：必须设置格式。",
 	"cargo-query-badsqlfunction": "错误：SQL函数“$1”不允许。",
 	"cargo-query-badalias": "错误：无效表别名“$1”。",

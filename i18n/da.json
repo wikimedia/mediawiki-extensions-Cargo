@@ -5,6 +5,7 @@
 			"Saederup92"
 		]
 	},
+	"cargo-unknowntable": "Fejl: Tabellen $1 blev ikke fundet.",
 	"cargo-viewdata-tables": "Tabel(ler):",
 	"cargo-viewdata-fields": "Felt(er):",
 	"cargo-viewdata-where": "Hvor:",

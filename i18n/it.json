@@ -4,12 +4,15 @@
 			"Beta16",
 			"Greis",
 			"JackLantern",
-			"Macofe"
+			"Macofe",
+			"Ajeje Brazorf",
+			"Stefano"
 		]
 	},
 	"cargo-definestable": "Questo template definisce la tabella \"$1\".",
 	"cargo-tablenotcreated": "Questa tabella non è stata ancora creata.",
 	"cargo-addsrows": "Questo template aggiunge righe alla tabella \"$1\", che è dichiarata dal template $2.",
+	"cargo-unknowntable": "Errore: Tabella $1 non trovata.",
 	"recreatedata": "Ricrea i dati",
 	"action-recreatecargodata": "ricreare i dati Cargo",
 	"action-deletecargodata": "cancellare i dati Cargo",
@@ -27,6 +30,7 @@
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
 	"cargo-cargotables-header-table": "Tabella",
 	"cargo-cargotables-header-rowcount": "Righe",
+	"cargo-cargotables-header-templates": "Template",
 	"cargo-cargotables-action-deletereplacement": "Cancella",
 	"cargo-cargotables-action-delete": "Cancella",
 	"cargo-cargotables-action-recreate": "Ricrea",
@@ -58,8 +62,12 @@
 	"cargo-drilldown-timelineformat": "Linea temporale",
 	"cargo-drilldown-galleryformat": "Galleria",
 	"cargo-drilldown-calendarformat": "Calendario",
+	"cargo-viewcsv": "Visualizza CSV",
+	"cargo-viewxls": "Visualizza XLS",
+	"cargo-viewjson": "Visualizza JSON",
 	"cargo-viewbibtex": "Vedi BibTeX",
 	"cargo-viewicalendar": "Vedi iCalendar",
+	"cargo-dynamictables-searchcolumn": "Ricerca $1",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Campo Cargo",
 	"cargo-pageschemas-tablename": "Nome tabella:"

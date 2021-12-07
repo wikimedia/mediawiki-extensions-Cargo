@@ -6,7 +6,9 @@
 			"Raymond",
 			"Robby",
 			"Seb35",
-			"Umherirrender"
+			"Umherirrender",
+			"Jeeputer",
+			"Pikne"
 		]
 	},
 	"cargo-extensionname": "{{name}}",
@@ -114,7 +116,7 @@
 	"cargotablediagram": "{{doc-special|CargoTableDiagram}}",
 	"pagevalues": "{{doc-special|PageValues}}",
 	"cargo-pagevaluesfor": "Parameters:\n* $1 - a page name.",
-	"cargo-pagevalues-tablevalues": "Parameters:\n* $1 - a database table name.\n{{Identical|Value}}",
+	"cargo-pagevalues-tablevalues": "Parameters:\n* $1 - a database table name (or link to Special:CargoTables for it).\n{{Identical|Value}}",
 	"drilldown": "{{doc-special|Drilldown}}",
 	"cargo-drilldown-choosetable": "This is the title of the box in [[Special:Drilldown]] that displays the tables that may be browsed.",
 	"cargo-drilldown-allpages": "The text of a link.\n{{Identical|All pages}}",
