@@ -51,5 +51,18 @@ $(document).ready(function() {
 
 		$(this).fullCalendar( calendarSettings );
 	});
-
+	// Date Picker
+	$( '.fc-left' ).each( function (index) {
+		var dateInput = new mw.widgets.DateInputWidget();
+		$label = $( '<p>' + mw.message( 'cargo-calendar-datepicker-label' ) + '</p>' );
+		$(this).append($label, dateInput.$element);
+		dateInput.on( 'change', function () {
+			var date = dateInput.getValue();
+			// Navigates only when a valid date is selected
+			if(date) {
+			var calendar = $('.cargoCalendar').eq(index);
+			calendar.fullCalendar("gotoDate", date);
+			}
+		} );
+	} );
 });

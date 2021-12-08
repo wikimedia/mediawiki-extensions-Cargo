@@ -84,6 +84,7 @@
 	"cargo-query-missingparam": "An error message. Parameters:\n* $1 - a #cargo_query parameter name\n* $2 - a display format name",
 	"cargo-query-specifiedfieldmissing": "An error message. Parameters:\n* $1 - a database field name\n* $2 - a #cargo_query parameter name",
 	"cargotables": "{{doc-special|CargoTables}}\n{{doc-cargo}}",
+	"cargo-calendar-datepicker-label": "Label for datepicker",
 	"cargo-cargotables-header-table": "A column label\n{{identical|Table}}",
 	"cargo-cargotables-header-rowcount": "A column label\n{{identical|Row}}",
 	"cargo-cargotables-header-templates": "A column label\n{{identical|Template}}",

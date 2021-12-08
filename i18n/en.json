@@ -75,6 +75,7 @@
 	"cargo-query-missingparam": "Error: The \"$1\" parameter must be set for the \"$2\" format.",
 	"cargo-query-specifiedfieldmissing": "Error: the field \"$1\", specified as the \"$2\", must be among this query's fields.",
 	"cargotables": "Cargo tables",
+	"cargo-calendar-datepicker-label": "Go to date:",
 	"cargo-cargotables-header-table": "Table",
 	"cargo-cargotables-header-rowcount": "Rows",
 	"cargo-cargotables-header-templates": "Templates",

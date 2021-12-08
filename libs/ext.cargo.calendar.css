@@ -2,6 +2,11 @@
 	white-space: normal;
 }
 
+.mw-widget-dateInputWidget {
+	position: absolute;
+	z-index: 2;
+}
+
 a.fc-event:visited {
 	color: #EAEAEA;
 }

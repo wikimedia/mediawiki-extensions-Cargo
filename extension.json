@@ -223,8 +223,13 @@
 				"libs/FullCalendar/locale-all.js",
 				"libs/ext.cargo.calendar.js"
 			],
+			"messages": [
+				"cargo-calendar-datepicker-label"
+			],
 			"dependencies": [
-				"moment"
+				"moment",
+				"mediawiki.widgets.DateInputWidget",
+				"mediawiki.jqueryMsg"
 			]
 		},
 		"ext.cargo.gantt": {
