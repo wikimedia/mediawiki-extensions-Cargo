@@ -95,6 +95,7 @@
 	"cargo-query-missingparam": "Erreur : le paramètre « $1 » doit être défini pour le format « $2 ».",
 	"cargo-query-specifiedfieldmissing": "Erreur : le champ « $1 », spécifié en tant que « $2 », doit faire partie des champs de cette requête.",
 	"cargotables": "Tables de Cargo",
+	"cargo-calendar-datepicker-label": "Aller à la date :",
 	"cargo-cargotables-header-table": "Table",
 	"cargo-cargotables-header-rowcount": "Lignes",
 	"cargo-cargotables-header-templates": "Modèles",
