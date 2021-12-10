@@ -78,6 +78,7 @@
 	"cargo-query-missingparam": "Грешка: Параметарот „$1“ мора да е зададен за форматот „$2“.",
 	"cargo-query-specifiedfieldmissing": "Грешка: полето „$1“, укажано како „$2“, мора да биде меѓу полињата на ова барање.",
 	"cargotables": "Табели во „Карго“",
+	"cargo-calendar-datepicker-label": "Оди на датумот:",
 	"cargo-cargotables-header-table": "Табела",
 	"cargo-cargotables-header-rowcount": "Редови",
 	"cargo-cargotables-header-templates": "Предлошки",
