@@ -310,6 +310,17 @@ class CargoSQLQuery {
 				throw new MWException( "Table and field name must both be specified in '$joinPart2'." );
 			}
 			list( $table2, $field2 ) = $tableAndField2;
+
+			$tableAliases = array_keys( $this->mAliasedTableNames );
+			// Order the tables in the join condition by their relative positions in table names.
+			$position1 = array_search( $table1, $tableAliases );
+			$position2 = array_search( $table2, $tableAliases );
+			if ( $position2 < $position1 ) {
+				// Swap tables and fields if table2 comes before table1 in table names.
+				[ $table1, $table2 ] = [ $table2, $table1 ];
+				[ $field1, $field2 ] = [ $field2, $field1 ];
+			}
+
 			$joinCond = [
 				'joinType' => 'LEFT OUTER JOIN',
 				'table1' => $table1,
@@ -320,6 +331,15 @@ class CargoSQLQuery {
 			];
 			$this->mCargoJoinConds[] = $joinCond;
 		}
+
+		// Sort the join conditions by the table names.
+		usort( $this->mCargoJoinConds, static function ( $joinCond1, $joinCond2 ) use( $tableAliases ) {
+			$index1 = array_search( $joinCond1['table1'], $tableAliases );
+			$index2 = array_search( $joinCond2['table1'], $tableAliases );
+			if ( $index1 == $index2 ) { return 0;
+			}
+			return $index1 < $index2 ? -1 : 1;
+		} );
 
 		// Now validate, to make sure that all the tables
 		// are "joined" together. There's probably some more
