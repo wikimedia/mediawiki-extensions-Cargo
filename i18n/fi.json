@@ -4,10 +4,12 @@
 			"MITO",
 			"Nike",
 			"Silvonen",
-			"Valtlait"
+			"Valtlait",
+			"Veikk0.ma"
 		]
 	},
 	"cargo-logname": "Cargo-loki",
+	"cargo-calendar-datepicker-label": "Mene ajankohtaan:",
 	"cargo-drilldown-allpages": "Kaikki sivut",
 	"cargo-drilldown-allfiles": "Kaikki tiedostot",
 	"cargo-drilldown-or": "tai",

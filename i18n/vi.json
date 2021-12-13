@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Awdsweq123"
+			"Awdsweq123",
+			"Keo010122"
 		]
 	},
 	"cargo-viewdata-heightparam": "Chiều cao:",
-	"cargo-viewdata-columnsparam": "Số cột:"
+	"cargo-viewdata-columnsparam": "Số cột:",
+	"cargo-calendar-datepicker-label": "Đi đến ngày:"
 }
