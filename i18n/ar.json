@@ -6,7 +6,8 @@
 			"Sonic N800",
 			"Tala Ali",
 			"ديفيد",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"Michel Bakni"
 		]
 	},
 	"cargo-extensionname": "كارجو",
@@ -140,7 +141,7 @@
 	"cargo-viewbibtex": "عرض بب تخ",
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
-	"cargo-purgecache": "إفراغ الكاش",
+	"cargo-purgecache": "محو الاختزان",
 	"cargo-purgecache-failed": "فشل تطهير ذاكرة التخزين المؤقت",
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",

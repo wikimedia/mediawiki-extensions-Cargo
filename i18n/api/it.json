@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Beta16"
+			"Beta16",
+			"Stefano"
 		]
 	},
 	"apihelp-cargoquery-param-fields": "I campi della tabella da recuperare",
-	"apihelp-cargorecreatedata-param-template": "Il modello con i dati da utilizzare"
+	"apihelp-cargorecreatedata-param-template": "Il modello con i dati da utilizzare",
+	"apihelp-cargoqueryautocomplete-param-search": "Ricerca sottostringa"
 }

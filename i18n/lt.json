@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eitvys200"
+			"Eitvys200",
+			"Manvydasz"
 		]
 	},
 	"cargo-definestable": "Šis šablonas apibrėžia lentelę „$1“.",
@@ -20,7 +21,7 @@
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|Ši lentelė yra apibrėžta|Šios lentelės yra apibrėžtos}}:",
 	"cargo-cargotables-viewtable": "Žiūrėti lentelę: $1",
 	"cargo-cargotables-viewtablelink": "Žiūrėti lentelę",
-	"cargo-cargotables-notdeclared": "nėra apibrėžtas jokio šablono",
+	"cargo-cargotables-notdeclared": "Nėra apibrėžtas jokio šablono",
 	"cargo-cargotables-totalrows": "Iš viso šį lentelė turi '''$1''' {{PLURAL:$1|eilutę|eilutes}}.",
 	"pagevalues": "Puslapio reikšmės",
 	"cargo-pagevaluesfor": "Puslapio „$1“ reikšmės",

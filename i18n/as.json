@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sagsag"
+			"Sagsag",
+			"Simbu123"
 		]
 	},
+	"cargo-drilldown-allpages": "সকলো পৃষ্ঠা",
 	"cargo-drilldown-mapformat": "নক্সা",
 	"cargo-drilldown-galleryformat": "গেলেৰী"
 }

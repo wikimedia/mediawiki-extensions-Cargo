@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Ajeje Brazorf"
+		]
+	},
+	"cargo-viewdata-fields": "Campu/i:",
+	"cargo-viewdata-format": "Furmatu:",
+	"cargo-viewdata-colorsparam": "Culura:",
+	"cargo-viewdata-viewwikitext": "Talìa wikitestu",
+	"cargo-cargotables-action-deletereplacement": "Cancella",
+	"cargo-cargotables-action-delete": "Cancella",
+	"cargo-drilldown-allpages": "Tutti li pàggini",
+	"cargo-drilldown-allfiles": "Tutti li file",
+	"cargo-drilldown-or": "o",
+	"cargo-drilldown-hierarchy-only": "sulu \"$1\"",
+	"cargo-drilldown-pagetext": "Testu dâ pàggina",
+	"cargo-drilldown-filename": "Nomu dû file",
+	"cargo-drilldown-filetext": "Testu dû file",
+	"cargo-drilldown-mapformat": "Mappa"
+}
