@@ -26,6 +26,7 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	public function provideSmartSplitData() {
 		return [
 			[ '', '', [] ],
+			[ '', 'one', [ 'one' ] ],
 			[ ',', 'one,two', [ 'one', 'two' ] ],
 			[ '|', 'one||0|', [ 'one', '0' ] ],
 		];
@@ -84,12 +85,24 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 		return [
 			[ $linkRenderer, null, null, [], [], null ],
 			[ $linkRenderer, null, '', [], [], null ],
-			[ $linkRenderer, $title, null, [], [],
-				'<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Test</a>'
-			],
-			[ $linkRenderer, $title, 'Link text', [], [],
-				'<a href="/index.php?title=Test&amp;action=edit&amp;redlink=1" class="new" title="Test (page does not exist)">Link text</a>'
-			],
 		];
+	}
+
+	/**
+	 * @covers CargoUtils::getPageProp
+	 * @covers CargoUtils::getAllPageProps
+	 * @dataProvider provideGetPagePropData
+	 */
+	public function testGetPageProp( $pageID, $pageProp, $expected ) {
+		$actual = CargoUtils::getPageProp( $pageID, $pageProp );
+
+		$this->assertSame( $expected, $actual );
+	}
+
+	/**
+	 * @return bool|string
+	 */
+	public function provideGetPagePropData() {
+		return null ? ( $this->testGetPageProp() === null ) : 'test';
 	}
 }
