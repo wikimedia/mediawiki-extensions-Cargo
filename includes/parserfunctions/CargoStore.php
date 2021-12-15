@@ -100,6 +100,11 @@ class CargoStore {
 			if ( $curFieldValue == null ) {
 				$unescapedFieldName = str_replace( '_', ' ', $fieldName );
 				$curFieldValue = $frame->getArgument( $unescapedFieldName );
+				// For some reason, getArgument() returns false,
+				// and not null, for missing values.
+				if ( $curFieldValue === false ) {
+					$curFieldValue = null;
+				}
 			}
 			$tableFieldValues[$fieldName] = $curFieldValue;
 		}
