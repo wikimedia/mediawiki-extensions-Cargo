@@ -44,4 +44,8 @@ class CargoTableDiagram extends IncludableSpecialPage {
 
 		return true;
 	}
+
+	protected function getGroupName() {
+		return 'cargo';
+	}
 }
