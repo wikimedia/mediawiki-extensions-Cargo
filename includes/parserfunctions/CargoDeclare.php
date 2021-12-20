@@ -167,6 +167,9 @@ class CargoDeclare {
 										$parentTable['_remoteField'] = $extraParamValue;
 									} elseif ( $extraParamKey == '_alias' ) {
 										$parentTableAlias = $extraParamValue;
+									} else {
+										// It shouldn't be anything else.
+										return CargoUtils::formatError( "Error: \"$extraParamKey\" is not an allowed name for a _parentTables parameter." );
 									}
 								}
 							}
@@ -304,10 +307,45 @@ class CargoDeclare {
 		if ( $validationError !== null ) {
 			return CargoUtils::formatError( $validationError );
 		}
+
+		// Validate table name.
+
 		$cdb = CargoUtils::getDB();
+
 		foreach ( $parentTables as $parentTableAlias => $extraParams ) {
-			if ( !$cdb->tableExists( $extraParams['Name'] ) ) {
-				return CargoUtils::formatError( "Error: Parent table \"$parentTable\" doesn't exist." );
+			$parentTableName = $extraParams['Name'];
+			$localField = $extraParams['_localField'];
+			$remoteField = $extraParams['_remoteField'];
+
+			// Validate that parent table exists.
+			if ( !$cdb->tableExists( $parentTableName ) ) {
+				// orig, gives wrong tablename
+				return CargoUtils::formatError( "Error: Parent table \"$parentTableName\" doesn't exist." );
+			}
+
+			// Validate that remote field exists.
+			if ( !$cdb->fieldExists( $parentTableName, $remoteField ) ) {
+				return CargoUtils::formatError( "Error: Parent table \"$parentTableName\" doesn't have a field \"$remoteField\"." );
+			}
+
+			// Validate that local field exists;
+			// this needs to be validated against what is declared
+			// rather than against the DB, since the table may
+			// not be built yet.
+			$parentLocalFieldOK = false;
+			// Declared field names are stored in CargoTableSchema()
+			// object $tableSchema - check declared field names.
+			foreach ( $tableSchema->mFieldDescriptions as $a => $b ) {
+				if ( $a == $localField ) {
+					$parentLocalFieldOK = true;
+				}
+			}
+			// Check implied field name _pageName.
+			if ( $localField == "_pageName" ) {
+				$parentLocalFieldOK = true;
+			}
+			if ( !$parentLocalFieldOK ) {
+				return CargoUtils::formatError( "Error: Parent table _localField \"$localField\" is not declared or implied." );
 			}
 		}
 		$parserOutput = $parser->getOutput();
