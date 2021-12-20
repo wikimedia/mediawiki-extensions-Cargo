@@ -16,6 +16,7 @@
 	"cargo-notable": "Feil: Tabellnavnet må angis.",
 	"cargo-unknowntable": "Feil: Tabell $1 ikke funnet.",
 	"recreatedata": "Gjenoppbygg data",
+	"recreatecargodata": "Gjenopprett data",
 	"action-recreatecargodata": "gjenoppbygg Cargo-data",
 	"right-recreatecargodata": "Gjenoppbygg data som finnes i Cargo-tabeller",
 	"action-deletecargodata": "slette Cargo-data",
@@ -146,5 +147,12 @@
 	"cargo-purgecache-failed": "Rensking av mellomlageret feilet",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-felt",
-	"cargo-pageschemas-tablename": "Tabellnavn:"
+	"cargo-pageschemas-tablename": "Tabellnavn:",
+	"cargo-gantt-zoomlevel": "Zoomnivå:",
+	"cargo-gantt-hours": "Timer",
+	"cargo-gantt-days": "Dager",
+	"cargo-gantt-months": "Måneder",
+	"cargo-gantt-years": "År",
+	"cargo-field-type": "Felttype:",
+	"cargo-allowed-values": "Tillatte verdier:"
 }
