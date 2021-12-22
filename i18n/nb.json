@@ -146,5 +146,12 @@
 	"cargo-purgecache-failed": "Rensking av mellomlageret feilet",
 	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "Cargo-felt",
-	"cargo-pageschemas-tablename": "Tabellnavn:"
+	"cargo-pageschemas-tablename": "Tabellnavn:",
+	"cargo-gantt-zoomlevel": "Zoomnivå:",
+	"cargo-gantt-hours": "Timer",
+	"cargo-gantt-days": "Dager",
+	"cargo-gantt-months": "Måneder",
+	"cargo-gantt-years": "År",
+	"cargo-field-type": "Felttype:",
+	"cargo-allowed-values": "Tillatte verdier:"
 }
