@@ -24,7 +24,8 @@ class CargoHooks {
 
 		$wgCargoFieldTypes = [
 			'Page', 'String', 'Text', 'Integer', 'Float', 'Date',
-			'Datetime', 'Boolean', 'Coordinates', 'Wikitext',
+			'Start date', 'End date', 'Datetime', 'Start datetime',
+			'End datetime', 'Boolean', 'Coordinates', 'Wikitext',
 			'Searchtext', 'File', 'URL', 'Email', 'Rating'
 		];
 
