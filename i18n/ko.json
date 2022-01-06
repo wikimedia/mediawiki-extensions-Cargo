@@ -7,7 +7,8 @@
 			"Nemo bis",
 			"Revi",
 			"SeoJeongHo",
-			"Ykhwong"
+			"Ykhwong",
+			"Yunbj"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",
@@ -53,6 +54,7 @@
 	"cargo-query-missingparam": "오류: \"$2\" 포맷의 경우 \"$1\" 변수를 설정해야 합니다.",
 	"cargo-query-specifiedfieldmissing": "오류: \"$2\"(으)로 지정된 \"$1\" 필드는 이 쿼리 필드 중 하나여야 합니다.",
 	"cargo-calendar-datepicker-label": "날짜로 이동:",
+	"cargo-cargotables-header-table": "표",
 	"cargo-cargotables-header-templates": "틀",
 	"cargo-cargotables-action-deletereplacement": "삭제",
 	"cargo-cargotables-action-delete": "삭제",

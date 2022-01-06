@@ -95,7 +95,7 @@
 	"cargo-cargotables-action-drilldown": "Drilldown",
 	"cargo-cargotables-action-delete": "Löschen",
 	"cargo-cargotables-action-recreate": "Wieder erstellen",
-	"cargo-cargotables-specialtables": "Die folgenden Spezialtabellen existieren: ",
+	"cargo-cargotables-specialtables": "Die folgenden Spezialtabellen existieren:",
 	"cargo-cargotables-beingpopulated": "<strong>Hinweis:</strong> Eine oder mehrere dieser Tabellen werden derzeit über die Auftragswarteschlange befüllt.",
 	"cargo-cargotables-tablelist": "Die {{PLURAL:$1|folgende Tabelle ist|folgenden Tabellen sind}} definiert:",
 	"cargo-cargotables-viewtable": "Tabelle ansehen: $1",
@@ -149,7 +149,6 @@
 	"cargo-drilldown-timelineformat": "Zeitleiste",
 	"cargo-drilldown-galleryformat": "Galerie",
 	"cargo-drilldown-calendarformat": "Kalender",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV ansehen",
 	"cargo-viewxls": "XLS ansehen",
 	"cargo-viewjson": "JSON ansehen",
@@ -185,7 +184,7 @@
 	"cargo-declare-validate-starts-underscore": "Fehler: $1 Name „$2“ darf nicht mit einem Unterstrich anfangen.",
 	"cargo-declare-validate-ends-underscore": "Fehler: $1 Name „$2“ darf nicht mit einem Unterstrich enden.",
 	"cargo-declare-validate-gt1-underscore": "Fehler: $1 Name „$2“ darf nicht mehr als einen Unterstrich in der Reihe enthalten.",
-	"cargo-declare-validate-bad-character": "Fehler: $1 Name „$2“ darf keines der folgenden Zeichen enthalten: .,-<>(){}[]\/",
+	"cargo-declare-validate-bad-character": "Fehler: $1 Name „$2“ darf keines der folgenden Zeichen enthalten: .,-<>(){}[]/",
 	"cargo-declare-validate-name-sql-kw": "Fehler: „$1“ darf nicht als Cargo $2 Name benutzt werden, da es ein SQL keyword ist.",
 	"cargo-declare-validate-name-cargo-kw": "Fehler: „$1“ darf nicht als Cargo $2 Name benutzt werden, da es ein Cargo keyword ist."
 }
