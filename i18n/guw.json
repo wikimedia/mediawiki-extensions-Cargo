@@ -3,6 +3,7 @@
 		"authors": [
 			"Anthonymodec",
 			"Hunpatinjob",
+			"Joshateji",
 			"Misteld"
 		]
 	},
@@ -10,5 +11,12 @@
 	"cargo-gantt-hours": "Ganme",
 	"cargo-gantt-days": "Azán lẹ",
 	"cargo-gantt-months": "Osun lẹ",
-	"cargo-gantt-years": "Owhe lẹ"
+	"cargo-gantt-years": "Owhe lẹ",
+	"cargo-declare-parenttable-bad-parameter": "Nuṣiwa: \"$1\" e ma yin nue yin alọkẹyi.",
+	"cargo-declare-parenttable-not-exist": "Nuṣiwa: Nue din a te \"$1\" ehe ma tin.",
+	"cargo-declare-validate-has-whitespace": "Nuṣiwa: $1 yinkọ \"$2\" lọ gọna nue ma yin alọkẹyi. Nue ma yin alọkẹyi depope ma dona yin yiyizan; a sọgan gbọ bo zan owhì odò tọn ehe (\"_\").",
+	"cargo-declare-validate-starts-underscore": "Nuṣiwa: $1 yinkọ \"$2\" lọ bẹjẹeji po owhì odò tọn po; ehe ma yin alọkẹyi.",
+	"cargo-declare-validate-ends-underscore": "Nuṣiwa: $1 yinkọ \"$2\" lọ tindo owhì odò tọn to vivọnu ; ehe ma yin alọkẹyi.",
+	"cargo-declare-validate-gt1-underscore": "Nuṣiwa: $1 yinkọ \"$2\" lọ gọ̀ na owhì odò tọn he hugan awè to ofi dopolọ; ehe ma yin alọkẹyi.",
+	"cargo-declare-validate-bad-character": "Nuṣiwa: depope to wekun ehelẹ mẹ ma dona sọawuhia to $1 yinkọ \"$2\" mẹ: .,-<>(){}[]/"
 }

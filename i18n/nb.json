@@ -136,6 +136,7 @@
 	"cargo-drilldown-timelineformat": "Tidslinje",
 	"cargo-drilldown-galleryformat": "Galleri",
 	"cargo-drilldown-calendarformat": "Kalender",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Vis CSV",
 	"cargo-viewxls": "Vis XLS",
 	"cargo-viewjson": "Vis JSON",

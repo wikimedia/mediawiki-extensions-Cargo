@@ -141,6 +141,7 @@
 	"cargo-drilldown-timelineformat": "Времеслед",
 	"cargo-drilldown-galleryformat": "Галерија",
 	"cargo-drilldown-calendarformat": "Календар",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Погл. JSON",
@@ -159,5 +160,10 @@
 	"cargo-gantt-months": "Месеци",
 	"cargo-gantt-years": "Години",
 	"cargo-field-type": "Вид на поле:",
-	"cargo-allowed-values": "Дозволени вредности:"
+	"cargo-allowed-values": "Дозволени вредности:",
+	"cargo-declare-must-from-template": "Грешка: #cargo_declare мора да се повика од предложна страница.",
+	"cargo-declare-tablenm-is-sql-kw": "Грешка: „$1“ не може да се употреби како име на табелата во Карго, бидејќи претставува клучен збор од SQL.",
+	"cargo-declare-tablenm-is-cargo-kw": "Грешка: „$1“ не може да се употреби како име на табелата во Карго, бидејќи веќе претставува клучен збор од Карго.",
+	"cargo-declare-parenttable-bad-parameter": "Грешка: „$1“ не е допуштен параметар за _parentTables.",
+	"cargo-declare-field-parse-fail": "Грешка: не можев да го расчленам видот за полето „$1“."
 }

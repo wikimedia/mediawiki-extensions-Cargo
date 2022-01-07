@@ -91,6 +91,7 @@
 	"cargo-drilldown-timelineformat": "타임라인",
 	"cargo-drilldown-galleryformat": "갤러리",
 	"cargo-drilldown-calendarformat": "달력",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV 보기",
 	"cargo-viewxls": "XLS 보기",
 	"cargo-viewjson": "JSON 보기",
