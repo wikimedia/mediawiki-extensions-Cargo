@@ -174,7 +174,7 @@
 	"cargo-declare-validate-starts-underscore": "Error: $1 name \"$2\" begins with an underscore; this is not allowed.",
 	"cargo-declare-validate-ends-underscore": "Error: $1 name \"$2\" ends with an underscore; this is not allowed.",
 	"cargo-declare-validate-gt1-underscore": "Error: $1 name \"$2\" contains more than one underscore in a row; this is not allowed.",
-	"cargo-declare-validate-bad-character": "Error: $1 name \"$2\" cannot contain any of the following characters: .,-<>(){}[]\/",
+	"cargo-declare-validate-bad-character": "Error: $1 name \"$2\" cannot contain any of the following characters: $3",
 	"cargo-declare-validate-name-sql-kw": "Error: \"$1\" cannot be used as a Cargo $2 name, because it is an SQL keyword.",
 	"cargo-declare-validate-name-cargo-kw": "Error: \"$1\" cannot be used as a Cargo $2 name, because it is already a Cargo keyword."
 }

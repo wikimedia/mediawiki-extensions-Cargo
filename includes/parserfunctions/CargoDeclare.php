@@ -101,7 +101,7 @@ class CargoDeclare {
 		} elseif ( strpos( $name, '__' ) !== false ) {
 			return wfMessage( "cargo-declare-validate-gt1-underscore", $type, $name )->parse();
 		} elseif ( preg_match( '/[\.,\-<>(){}\[\]\\\\\/]/', $name ) ) {
-			return wfMessage( "cargo-declare-validate-badcharacter", $type, $name )->parse();
+			return wfMessage( "cargo-declare-validate-bad-character", $type, $name, '.,-<>(){}[]\/' )->parse();
 		} elseif ( in_array( strtolower( $name ), self::$sqlReservedWords ) ) {
 			return wfMessage( "cargo-declare-validate-name-sql-kw", $name, $type )->parse();
 		} elseif ( in_array( strtolower( $name ), self::$cargoReservedWords ) ) {

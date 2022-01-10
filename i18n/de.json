@@ -185,7 +185,7 @@
 	"cargo-declare-validate-starts-underscore": "Fehler: $1 Name „$2“ darf nicht mit einem Unterstrich anfangen.",
 	"cargo-declare-validate-ends-underscore": "Fehler: $1 Name „$2“ darf nicht mit einem Unterstrich enden.",
 	"cargo-declare-validate-gt1-underscore": "Fehler: $1 Name „$2“ darf nicht mehr als einen Unterstrich in der Reihe enthalten.",
-	"cargo-declare-validate-bad-character": "Fehler: $1 Name „$2“ darf keines der folgenden Zeichen enthalten: .,-<>(){}[]/",
+	"cargo-declare-validate-bad-character": "Fehler: $1 Name „$2“ darf keines der folgenden Zeichen enthalten: $3",
 	"cargo-declare-validate-name-sql-kw": "Fehler: „$1“ darf nicht als Cargo $2 Name benutzt werden, da es ein SQL keyword ist.",
 	"cargo-declare-validate-name-cargo-kw": "Fehler: „$1“ darf nicht als Cargo $2 Name benutzt werden, da es ein Cargo keyword ist."
 }

@@ -183,7 +183,7 @@
 	"cargo-declare-validate-starts-underscore": "An error message. Parameters:\n* $1 - a field type\n* $2 - a field name",
 	"cargo-declare-validate-ends-underscore": "An error message. Parameters:\n* $1 - a field type\n* $2 - a field name",
 	"cargo-declare-validate-gt1-underscore": "An error message. Parameters:\n* $1 - a field type\n* $2 - a field name",
-	"cargo-declare-validate-bad-character": "An error message. Parameters:\n* $1 - a field type\n* $2 - a field name",
+	"cargo-declare-validate-bad-character": "An error message. Parameters:\n* $1 - a field type\n* $2 - a field name\n* $3 - a string of characters",
 	"cargo-declare-validate-name-sql-kw": "An error message. Parameters:\n* $1 - a field name\n* $2 - a field type",
 	"cargo-declare-validate-name-cargo-kw": "An error message. Parameters:\n* $1 - a field name\n* $2 - a field type"
 }
