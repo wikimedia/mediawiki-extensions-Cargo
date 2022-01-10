@@ -637,7 +637,12 @@ class CargoSQLQuery {
 			$useListTable = ( $fieldName == '_value' );
 			if ( $useListTable ) {
 				if ( $tableName != null ) {
-					list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
+					if ( strpos( $tableName, '__' ) !== false ) {
+						list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
+					} else {
+						// Support directly operating on list table fields
+						$fieldName = null;
+					}
 				} else {
 					// We'll assume that there's exactly one
 					// "field table" in the list of tables -
