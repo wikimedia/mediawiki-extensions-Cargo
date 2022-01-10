@@ -131,6 +131,7 @@
 	"cargo-drilldown-timelineformat": "Времеслед",
 	"cargo-drilldown-galleryformat": "Галерија",
 	"cargo-drilldown-calendarformat": "Календар",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-viewjson": "Погл. JSON",

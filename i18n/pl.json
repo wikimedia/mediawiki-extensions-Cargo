@@ -46,6 +46,7 @@
 	"cargo-drilldown-mapformat": "Mapa",
 	"cargo-drilldown-galleryformat": "Galeria",
 	"cargo-drilldown-calendarformat": "Kalendarz",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Zobacz CSV",
 	"cargo-viewxls": "Zobacz XLS",
 	"cargo-viewjson": "Zobacz JSON",
