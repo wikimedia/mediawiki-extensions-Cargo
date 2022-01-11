@@ -26,6 +26,10 @@
 	"apihelp-cargorecreatedata-param-table": "要重新填充的Cargo数据库表单",
 	"apihelp-cargorecreatedata-param-offset": "调用此模板的页面中，开始查询的数字",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "当重新填充表格时，是否覆盖每个页面的旧行",
+	"apihelp-cargorecreatespecialtable-description": "创建Cargo特殊表。",
+	"apihelp-cargorecreatespecialtable-summary": "创建特殊Cargo表。",
+	"apihelp-cargorecreatespecialtable-param-table": "需要重新创建的特殊表",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "是否放置数据至替换表格",
 	"apihelp-cargoautocomplete-description": "由Cargo扩展使用的自动完成调用。",
 	"apihelp-cargoautocomplete-summary": "由Cargo扩展使用的自动完成调用。",
 	"apihelp-cargoautocomplete-param-limit": "返回结果数量的限制",
@@ -35,6 +39,11 @@
 	"apihelp-cargoautocomplete-param-field_is_array": "字段是否保留值的列表",
 	"apihelp-cargoautocomplete-param-where": "用于查询的“where”条款，基于其他指定的过滤器",
 	"apihelp-cargoqueryautocomplete-description": "CargoQuery（之前是ViewData）特殊页面使用的自动完成调用。",
+	"apihelp-cargoqueryautocomplete-summary": "CargoQuery（之前是ViewData）特殊页面使用的自动完成调用。",
 	"apihelp-cargoqueryautocomplete-param-limit": "返回结果数量的限制",
-	"apihelp-cargoqueryautocomplete-param-search": "搜索子字符串"
+	"apihelp-cargoqueryautocomplete-param-search": "搜索子字符串",
+	"apihelp-cargoqueryautocomplete-param-tables": "基于自动完成的字段、分组依据和排序依据的一系列选中的Cargo表。",
+	"apihelp-cargoformatparams-description": "获取每个Cargo查询格式的显示参数的集合。",
+	"apihelp-cargoformatparams-summary": "获取每个Cargo查询格式的显示参数的集合。",
+	"apihelp-cargoformatparams-param-queryformat": "一个Cargo查询格式"
 }
