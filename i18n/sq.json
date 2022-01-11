@@ -8,5 +8,6 @@
 	"cargo-switchtables-success": "Zëvendësimi për tabelën \"$1\" u aktivizua.",
 	"cargo-drilldown-mapformat": "Harta",
 	"cargo-drilldown-timelineformat": "Nje pershkrim i ngjarrjeve ne menyre kronologjike",
-	"cargo-drilldown-galleryformat": "Galeri"
+	"cargo-drilldown-galleryformat": "Galeri",
+	"cargo-drilldown-gallerycaption": "[[$1]]"
 }

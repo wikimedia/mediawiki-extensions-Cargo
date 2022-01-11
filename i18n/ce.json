@@ -6,5 +6,6 @@
 	},
 	"cargo-drilldown-or": "йа",
 	"cargo-drilldown-mapformat": "Карта",
-	"cargo-drilldown-galleryformat": "Галерей"
+	"cargo-drilldown-galleryformat": "Галерей",
+	"cargo-drilldown-gallerycaption": "[[$1]]"
 }

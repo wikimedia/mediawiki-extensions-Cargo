@@ -8,7 +8,8 @@
 			"Sujiniku",
 			"Surgical21",
 			"Yusuke1109",
-			"つぶあん派"
+			"つぶあん派",
+			"MathXplore"
 		]
 	},
 	"cargo-desc": "テンプレートデータの保存とクエリ",
@@ -44,5 +45,6 @@
 	"cargo-drilldown-allfiles": "すべてのファイル",
 	"cargo-drilldown-or": "または",
 	"cargo-drilldown-galleryformat": "ギャラリー",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-pageschemas-tablename": "テーブル名:"
 }
