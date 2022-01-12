@@ -120,6 +120,7 @@
 	"cargo-drilldown-timelineformat": "Cronograma",
 	"cargo-drilldown-galleryformat": "Galería",
 	"cargo-drilldown-calendarformat": "Calendariu",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Ver como CSV",
 	"cargo-viewxls": "Ver como XLS",
 	"cargo-viewjson": "Ver como JSON",

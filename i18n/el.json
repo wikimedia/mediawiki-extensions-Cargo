@@ -115,6 +115,7 @@
 	"cargo-drilldown-timelineformat": "Χρονολόγιο",
 	"cargo-drilldown-galleryformat": "Γκαλερί",
 	"cargo-drilldown-calendarformat": "Ημερολόγιο",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Προβολή CSV",
 	"cargo-viewxls": "Προβολή XLS",
 	"cargo-viewjson": "Προβολή JSON",

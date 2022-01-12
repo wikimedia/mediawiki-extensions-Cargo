@@ -7,7 +7,8 @@
 			"Nemo bis",
 			"Revi",
 			"SeoJeongHo",
-			"Ykhwong"
+			"Ykhwong",
+			"Yunbj"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",
@@ -52,6 +53,7 @@
 	"cargo-query-unknownfield": "오류: 지정된 데이터베이스 테이블 중 어느 곳에서도 \"$1\" 필드를 찾을 수 없습니다.",
 	"cargo-query-missingparam": "오류: \"$2\" 포맷의 경우 \"$1\" 변수를 설정해야 합니다.",
 	"cargo-query-specifiedfieldmissing": "오류: \"$2\"(으)로 지정된 \"$1\" 필드는 이 쿼리 필드 중 하나여야 합니다.",
+	"cargo-cargotables-header-table": "표",
 	"cargo-cargotables-header-templates": "틀",
 	"cargo-cargotables-action-deletereplacement": "삭제",
 	"cargo-cargotables-action-delete": "삭제",
@@ -87,6 +89,7 @@
 	"cargo-drilldown-timelineformat": "타임라인",
 	"cargo-drilldown-galleryformat": "갤러리",
 	"cargo-drilldown-calendarformat": "달력",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV 보기",
 	"cargo-viewxls": "XLS 보기",
 	"cargo-viewjson": "JSON 보기",
