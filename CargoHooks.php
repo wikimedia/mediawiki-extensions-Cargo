@@ -38,6 +38,13 @@ class CargoHooks {
 			$wgHooks['BaseTemplateToolbox'][] = "CargoPageValuesAction::addLinkOld";
 			$wgHooks['PageContentSaveComplete'][] = "CargoHooks::onPageContentSaveComplete";
 		}
+
+		if ( interface_exists( 'MediaWiki\Page\Hook\PageDeleteCompleteHook' ) ) {
+			// MW 1.37+
+			$wgHooks['PageDeleteComplete'][] = "CargoHooks::onPageDeleteComplete";
+		} else {
+			$wgHooks['ArticleDeleteComplete'][] = "CargoHooks::onArticleDeleteComplete";
+		}
 	}
 
 	public static function registerParserFunctions( &$parser ) {
@@ -544,6 +551,21 @@ class CargoHooks {
 
 	/**
 	 * Deletes all Cargo data about a page, if the page has been deleted.
+	 *
+	 * Called by the MediaWiki PageDeleteComplete hook (MW 1.37+).
+	 */
+	public static function onPageDeleteComplete(
+		MediaWiki\Page\ProperPageIdentity $page, MediaWiki\Permissions\Authority $deleter, string $reason,
+		int $pageID, MediaWiki\Revision\RevisionRecord $deletedRev, ManualLogEntry $logEntry, int $archivedRevisionCount
+	) {
+		self::deletePageFromSystem( $pageID );
+		return true;
+	}
+
+	/**
+	 * Deletes all Cargo data about a page, if the page has been deleted.
+	 *
+	 * Called by the MediaWiki ArticleDeleteComplete hook.
 	 */
 	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content,
 		$logEntry ) {

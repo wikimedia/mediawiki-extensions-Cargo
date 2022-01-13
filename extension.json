@@ -388,7 +388,6 @@
 		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
-		"ArticleDeleteComplete": "CargoHooks::onArticleDeleteComplete",
 		"MultiContentSave": "CargoHooks::onMultiContentSave",
 		"UploadComplete": "CargoHooks::onUploadComplete",
 		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
