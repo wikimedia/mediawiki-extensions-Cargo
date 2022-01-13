@@ -43,7 +43,7 @@ class CargoAttach {
 
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ] );
-		$row = $dbw->fetchRow( $res );
+		$row = $res->fetchRow();
 		if ( !empty( $row ) && $row['total'] == 0 ) {
 			return CargoUtils::formatError( "Error: The specified table, \"$tableName\", does not exist." );
 		}

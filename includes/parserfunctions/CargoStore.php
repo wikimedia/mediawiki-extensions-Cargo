@@ -121,7 +121,7 @@ class CargoStore {
 		// Get the declaration of the table.
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
-		$row = $dbw->fetchRow( $res );
+		$row = $res->fetchRow();
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.
@@ -168,7 +168,7 @@ class CargoStore {
 		$dbw = wfGetDB( DB_MASTER );
 		$res = $dbw->select( 'cargo_pages', 'page_id',
 			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
-		if ( !$dbw->fetchRow( $res ) ) {
+		if ( !$res->fetchRow() ) {
 			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		}
 	}
@@ -196,7 +196,7 @@ class CargoStore {
 			}
 			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
 				$res = $cdb->select( $tableName, 'COUNT(*)', [ $fieldName => $fieldValue ] );
-				$row = $cdb->fetchRow( $res );
+				$row = $res->fetchRow();
 				$numExistingValues = $row['COUNT(*)'];
 				if ( $numExistingValues == 1 ) {
 					$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );

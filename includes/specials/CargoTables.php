@@ -224,7 +224,7 @@ class CargoTables extends IncludableSpecialPage {
 		global $wgCargoDigitGroupingCharacter;
 
 		$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
-		$row = $cdb->fetchRow( $res );
+		$row = $res->fetchRow();
 
 		return number_format( intval( $row['total'] ), 0, $wgCargoDecimalMark,
 			$wgCargoDigitGroupingCharacter );

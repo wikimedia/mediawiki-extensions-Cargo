@@ -181,7 +181,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 						}
 						$res = $cdb->select( $queriedTableName,
 							"$daysSpanQuery / COUNT(*) as avgDaysPerEvent" );
-						$row = $cdb->fetchRow( $res );
+						$row = $res->fetchRow();
 						if ( $row['avgDaysPerEvent'] < 8 ) {
 							$calendarFields[$fieldName] = '';
 						}

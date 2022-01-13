@@ -236,7 +236,7 @@ END;
 				continue;
 			}
 			$res = $cdb->select( $table, 'COUNT(*) AS total' );
-			$row = $cdb->fetchRow( $res );
+			$row = $res->fetchRow();
 			$tableRows = $row['total'];
 			// FIXME: hardcoded ()
 			$tableStr = $this->displayTableName( $table ) . " ($tableRows)";
@@ -1766,7 +1766,7 @@ END;
 				$cdb->select( $tableNames,
 					"MAX( $calendarFieldTableAlias.$calendarFieldName ) as start_date", $conds,
 					null, [], $joinConds );
-			$row = $cdb->fetchRow( $res );
+			$row = $res->fetchRow();
 			if ( $row['start_date'] ) {
 				if ( $this->drilldownTabsParams ) {
 					if ( !array_key_exists( 'start date', $currentTabParams ) ) {

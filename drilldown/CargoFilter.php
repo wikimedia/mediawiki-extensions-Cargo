@@ -90,7 +90,7 @@ class CargoFilter {
 		$conds[] = "$date_field != 0";
 		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds, null,
 			null, $joinConds );
-		$row = $cdb->fetchRow( $res );
+		$row = $res->fetchRow();
 		$minDate = $row['min_date'];
 		if ( $minDate === null ) {
 			return null;

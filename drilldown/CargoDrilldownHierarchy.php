@@ -56,15 +56,15 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		// within hierarchy tree value count
 		$res = $cdb->select( $tableNames, [ $countClause ], array_merge( $conds, $withinTreeHierarchyConds ),
 			null, null, $joinConds );
-		$row = $cdb->fetchRow( $res );
+		$row = $res->fetchRow();
 		$node->mWithinTreeMatchCount = $row['total'];
-		$cdb->freeResult( $res );
+		$res->free();
 		// exact hierarchy node value count
 		$res = $cdb->select( $tableNames, [ $countClause ], array_merge( $conds, $exactRootHierarchyConds ),
 			null, null, $joinConds );
-		$row = $cdb->fetchRow( $res );
+		$row = $res->fetchRow();
 		$node->mExactRootMatchCount = $row['total'];
-		$cdb->freeResult( $res );
+		$res->free();
 	}
 
 	/**
