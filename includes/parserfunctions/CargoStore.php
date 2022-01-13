@@ -22,8 +22,6 @@ class CargoStore {
 	 * Handles the #cargo_store parser function - saves data for one
 	 * template call.
 	 *
-	 * @global string $wgCargoDigitGroupingCharacter
-	 * @global string $wgCargoDecimalMark
 	 * @param Parser &$parser
 	 * @throws MWException
 	 */

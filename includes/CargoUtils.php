@@ -15,14 +15,6 @@ class CargoUtils {
 	private static $CargoDB = null;
 
 	/**
-	 * @global string $wgDBuser
-	 * @global string $wgDBpassword
-	 * @global string $wgCargoDBserver
-	 * @global string $wgCargoDBname
-	 * @global string $wgCargoDBuser
-	 * @global string $wgCargoDBpasswordd
-	 * @global string $wgCargoDBprefix
-	 * @global string $wgCargoDBtype
 	 * @return Database or DatabaseBase
 	 */
 	public static function getDB() {
@@ -487,7 +479,6 @@ class CargoUtils {
 	 * Parses a piece of wikitext differently depending on whether
 	 * we're in a special or regular page.
 	 *
-	 * @global WebRequest $wgRequest
 	 * @param string $value
 	 * @param Parser $parser
 	 * @return string

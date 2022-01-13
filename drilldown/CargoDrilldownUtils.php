@@ -12,7 +12,6 @@ class CargoDrilldownUtils {
 	/**
 	 * Appears to be unused
 	 *
-	 * @global string $cgScriptPath
 	 * @param array &$vars
 	 * @return bool
 	 */
@@ -27,7 +26,6 @@ class CargoDrilldownUtils {
 	/**
 	 * Return the month represented by the given number.
 	 *
-	 * @global Language $wgLang
 	 * @param int $month
 	 * @return string Month name in user language
 	 * @todo This function should be replaced with direct calls to Language::getMonthName()
@@ -45,7 +43,6 @@ class CargoDrilldownUtils {
 	/**
 	 * Return the month number (1-12) which precisely matches the string sent in the user's language
 	 *
-	 * @global Language $wgLang
 	 * @param string $str
 	 * @param Language|null $language
 	 * @return int|bool

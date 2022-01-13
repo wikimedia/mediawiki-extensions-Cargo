@@ -111,7 +111,6 @@ class CargoHooks {
 	/**
 	 * Add date-related messages to Global JS vars in user language
 	 *
-	 * @global int $wgCargoMapClusteringMinimum
 	 * @param array &$vars Global JS vars
 	 * @param OutputPage $out
 	 * @return bool

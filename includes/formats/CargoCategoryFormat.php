@@ -13,7 +13,6 @@ class CargoCategoryFormat extends CargoListFormat {
 	}
 
 	/**
-	 * @global Language $wgContLang
 	 * @param array $valuesTable
 	 * @param array $formattedValuesTable
 	 * @param array $fieldDescriptions

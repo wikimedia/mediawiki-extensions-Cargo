@@ -22,7 +22,6 @@ class CargoRecurringEvent {
 	 * Handles the #recurring_event parser function - prints out a
 	 * string that is a delimited list of recurring events.
 	 *
-	 * @global int $wgCargoRecurringEventMaxInstances
 	 * @param Parser &$parser Unused
 	 * @return string
 	 */
