@@ -59,7 +59,7 @@
 		}
 
 		let mwApi = new mw.Api();
-		mwApi.get(queryStringData)
+		mwApi.postWithToken( 'csrf', queryStringData )
 		.done(function( msg ) {
 			var curNumPages = curTemplate ? curTemplate.numPages : numTotalPages;
 			var newNumPagesHandled = Math.min( numPagesHandled + 500, curNumPages );
@@ -109,7 +109,7 @@
 			}
 
 			let mwApi = new mw.Api();
-			mwApi.get(queryStringData)
+			mwApi.postWithToken( 'csrf', queryStringData )
 			.then(function( msg ) {
 				var displayMsg = createReplacement ? 'cargo-recreatedata-replacementcreated' : 'cargo-recreatedata-tablecreated';
 				$("#recreateTableProgress").html( "<p>" + mw.msg( displayMsg, tableName ) + "</p>" );
