@@ -1,15 +1,37 @@
 <?php
 
+/**
+ * Class for exposing the parser functions for Cargo to Lua.
+ * The functions are available via mw.ext.cargo Lua table.
+ *
+ * @author Yaron Koren.
+ * @author Alexander Mashin.
+ */
 class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 
+	/**
+	 * Register two Lua bindings: mw.ext.cargo.query and mw.ext.cargo.format
+	 * @return array|null
+	 */
 	public function register() {
 		$lib = [
-			'query' => [ $this, 'cargoQuery' ]
+			'query' => [ $this, 'cargoQuery' ],
+			'format' => [ $this, 'cargoFormat' ]
 		];
 		return $this->getEngine()->registerInterface( __DIR__ . '/../cargo.lua', $lib, [] );
 	}
 
-	public function cargoQuery( $tables, $fields, $args ) {
+	/**
+	 * Implementation of mw.ext.cargo.query.
+	 *
+	 * @param string $tables
+	 * @param string $fields
+	 * @param array $args
+	 * @return array[]
+	 * @throws MWException
+	 * @throws Scribunto_LuaError
+	 */
+	public function cargoQuery( $tables, $fields, array $args ): array {
 		$this->checkType( 'query', 1, $tables, 'string' );
 		$this->checkType( 'query', 2, $fields, 'string' );
 		$this->checkTypeOptional( 'query', 3, $args, 'table', [] );
@@ -79,5 +101,51 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		}
 
 		return [ $result ];
+	}
+
+	/**
+	 * Implementation of mw.ext.cargo.formatTable().
+	 *
+	 * @param array[] $values A 2D row-based array of associative arrays corresponding to a Lua table.
+	 * @param array $params Parameters, as passed to {{#cargo_query:}}.
+	 * @return array [ [ 0 => string, 'noparse' => bool, 'isHTML' => bool ] ].
+	 */
+	public function cargoFormat( array $values, array $params ): array {
+		$mappings = [];
+		$rows = [];
+		foreach ( self::convertLuaTableToArray( $values ) as $row ) {
+			if ( is_array( $row ) ) {
+				$rows[] = $row;
+				foreach ( $row as $key => $value ) {
+					if ( !isset( $mappings[$key] ) ) {
+						$mappings[$key] = $key;
+					}
+				}
+			}
+		}
+		return [
+			CargoDisplayFormat::formatArray( $this->getParser(), $rows, $mappings, self::convertLuaTableToArray( $params ) )
+		];
+	}
+
+	/**
+	 * Convert 1-based Lua table to 0-based PHP array.
+	 *
+	 * @param mixed $table
+	 *
+	 * @return mixed
+	 */
+	private static function convertLuaTableToArray( $table ) {
+		if ( is_array( $table ) ) {
+			$converted = [];
+			foreach ( $table as $key => $value ) {
+				if ( is_int( $key ) || is_string( $key ) ) {
+					$new_key = is_int( $key ) ? $key - 1 : $key;
+					$converted[$new_key] = self::convertLuaTableToArray( $value );
+				}
+			}
+			return $converted;
+		}
+		return $table;
 	}
 }

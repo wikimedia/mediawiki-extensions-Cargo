@@ -24,4 +24,9 @@ function cargo.query(tables, fields, args)
     return php.query(tables, fields, args)
 end
 
+function cargo.formatTable(table, args)
+	local result = php.format(table or {}, args or {})
+	return result[0], result.noparse, result.isHtml
+end
+
 return cargo
