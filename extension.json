@@ -131,6 +131,7 @@
 		"CargoTreeFormatTree": "includes/formats/CargoTreeFormatTree.php",
 		"CargoEmbeddedFormat": "includes/formats/CargoEmbeddedFormat.php",
 		"CargoCSVFormat": "includes/formats/CargoCSVFormat.php",
+		"CargoZipFormat": "includes/formats/CargoZipFormat.php",
 		"CargoExcelFormat": "includes/formats/CargoExcelFormat.php",
 		"CargoJSONFormat": "includes/formats/CargoJSONFormat.php",
 		"CargoTableFormat": "includes/formats/CargoTableFormat.php",
@@ -250,6 +251,17 @@
 				"cargo-gantt-days",
 				"cargo-gantt-months",
 				"cargo-gantt-years"
+			]
+		},
+		"ext.cargo.zip": {
+			"styles": [
+				"libs/ext.cargo.zip.css"
+			],
+			"scripts": [
+				"libs/ext.cargo.zip.js",
+				"libs/jszip/jszip.js",
+				"libs/jszip/jszip-utils.js",
+				"libs/jszip/FileSaver.js"
 			]
 		},
 		"ext.cargo.bpmn": {

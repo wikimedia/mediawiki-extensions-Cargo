@@ -141,6 +141,8 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "View CSV",
 	"cargo-viewxls": "View XLS",
+	"cargo-downloadzip": "Download ZIP",
+	"cargo-downloadzip-invalidformat": "The queried field does not contain File-type values",
 	"cargo-viewjson": "View JSON",
 	"cargo-viewbibtex": "View BibTeX",
 	"cargo-viewicalendar": "View iCalendar",

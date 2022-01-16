@@ -57,6 +57,7 @@ class CargoQueryDisplayer {
 			'tag cloud' => 'CargoTagCloudFormat',
 			'exhibit' => 'CargoExhibitFormat',
 			'bibtex' => 'CargoBibtexFormat',
+			'zip' => 'CargoZipFormat'
 		];
 
 		// Let other extensions add their own formats - or even
