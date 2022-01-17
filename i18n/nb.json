@@ -155,5 +155,6 @@
 	"cargo-gantt-months": "Måneder",
 	"cargo-gantt-years": "År",
 	"cargo-field-type": "Felttype:",
-	"cargo-allowed-values": "Tillatte verdier:"
+	"cargo-allowed-values": "Tillatte verdier:",
+	"cargo-declare-validate-bad-character": "Feil: $1-navnet «$2» kan ikke inneholde følgende tegn: $3"
 }

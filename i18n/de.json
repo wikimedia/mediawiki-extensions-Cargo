@@ -152,6 +152,8 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV ansehen",
 	"cargo-viewxls": "XLS ansehen",
+	"cargo-downloadzip": "ZIP herunterladen",
+	"cargo-downloadzip-invalidformat": "Das abgefragte Feld enthält keine Dateitypwerte",
 	"cargo-viewjson": "JSON ansehen",
 	"cargo-viewbibtex": "BibTeX ansehen",
 	"cargo-viewicalendar": "iCalendar anzeigen",

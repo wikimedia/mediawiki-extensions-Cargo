@@ -6,6 +6,7 @@
 			"Kly",
 			"Liuxinyu970226",
 			"Nemo bis",
+			"Tranve",
 			"Weather Top Wizard",
 			"Winston Sung"
 		]
@@ -72,7 +73,7 @@
 	"cargo-viewdata-hidelegendparam": "隱藏圖例：",
 	"cargo-viewdata-delimiterparam": "分隔符號：",
 	"cargo-viewdata-modifyquery": "變動查詢",
-	"cargo-viewdata-viewwikitext": "檢視 wiki 語法",
+	"cargo-viewdata-viewwikitext": "檢視 wikitext",
 	"cargo-query-missingformat": "錯誤：必須設定格式。",
 	"cargo-query-badsqlfunction": "錯誤：不允許 SQL 函式「$1」。",
 	"cargo-query-badalias": "錯誤：無效表格別名「$1」。",
