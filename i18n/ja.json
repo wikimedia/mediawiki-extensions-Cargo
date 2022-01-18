@@ -46,6 +46,7 @@
 	"cargo-drilldown-or": "または",
 	"cargo-drilldown-galleryformat": "ギャラリー",
 	"cargo-drilldown-gallerycaption": "[[$1]]",
+	"cargo-downloadzip": "ZIPをダウンロード",
 	"cargo-pageschemas-tablename": "テーブル名:",
 	"cargo-field-type": "フィールドの種類:",
 	"cargo-allowed-values": "許容値："

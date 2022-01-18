@@ -62,6 +62,7 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV weisen",
 	"cargo-viewxls": "XLS weisen",
+	"cargo-downloadzip": "ZIP eroflueden",
 	"cargo-viewjson": "JSON weisen",
 	"cargo-viewicalendar": "iCalendar weisen",
 	"cargo-dynamictables-searchcolumn": "Sichen a(n) $1",

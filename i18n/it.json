@@ -64,6 +64,7 @@
 	"cargo-drilldown-calendarformat": "Calendario",
 	"cargo-viewcsv": "Visualizza CSV",
 	"cargo-viewxls": "Visualizza XLS",
+	"cargo-downloadzip": "Scarica ZIP",
 	"cargo-viewjson": "Visualizza JSON",
 	"cargo-viewbibtex": "Vedi BibTeX",
 	"cargo-viewicalendar": "Vedi iCalendar",

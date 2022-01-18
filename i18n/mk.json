@@ -144,6 +144,8 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Погл. CSV",
 	"cargo-viewxls": "Преглед на XLS",
+	"cargo-downloadzip": "Преземи ZIP",
+	"cargo-downloadzip-invalidformat": "Побараното поле не содржи вредности за податотечен тип.",
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-viewbibtex": "Погл. BibTeX",
 	"cargo-viewicalendar": "Погл. iCalendar",

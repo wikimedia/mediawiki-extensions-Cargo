@@ -15,6 +15,7 @@
 	"cargo-drilldown-or": "tai",
 	"cargo-drilldown-filename": "Tiedostonimi",
 	"cargo-drilldown-galleryformat": "Galleria",
+	"cargo-downloadzip": "Lataa ZIP-tiedosto",
 	"cargo-gantt-zoomlevel": "Zoomaustaso:",
 	"cargo-gantt-hours": "Tuntia",
 	"cargo-gantt-days": "Päivää",
