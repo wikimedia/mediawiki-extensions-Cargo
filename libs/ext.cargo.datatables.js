@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$('.cargoDynamicTable').each( function() {
+	$('.cargoDynamicTable').each( function( index ) {
 		var params = {};
 		var pageLength = $(this).attr( 'data-page-length' );
 		if ( pageLength != '' && pageLength > 0 && parseInt( pageLength ) == pageLength ) {
@@ -17,6 +17,20 @@ $(document).ready(function() {
 		var detailsFields = $(this).attr( 'data-details-fields' );
 		if ( detailsFields ) {
 			params['columnDefs'] = [{ "orderable":false, "targets": 0 }];
+		}
+		// Specify column widths if provided in display parameters
+		$columnWidths = $( '#columns_widths' );
+		if ( $columnWidths.length ) {
+			params[ 'bAutoWidth' ] = false;
+			var widths = $columnWidths.attr( 'data-widths' );
+			widths = widths.split( ',' );
+			params[ 'aoColumns' ] = [ { 'sWidth': '1%' } ];
+			widths.forEach( function ( value ) {
+				params[ 'aoColumns' ].push( {
+					'sWidth': value
+				} );
+			} );
+			$( this ).attr( 'style', 'table-layout: fixed; word-wrap:break-word;' );
 		}
 		var table = $(this).DataTable( params );
 
@@ -64,6 +78,27 @@ $(document).ready(function() {
 				tr.addClass('shown');
 			}
 		} );
+
+		// Add popup tooltip for all column headers
+		$headerTooltips = $( '#header_tooltips' );
+		if ( $headerTooltips.length ) {
+			var tooltipTexts = $headerTooltips.attr( 'data-tooltips' );
+			tooltipTexts = tooltipTexts.split( ',' );
+			$( 'th[aria-controls=DataTables_Table_' + index + ']' ).each( function ( idx ) {
+				if ( tooltipTexts[idx] != undefined && tooltipTexts[idx].trim() != '' ) {
+					var popupButton = new OO.ui.PopupButtonWidget( {
+						icon: 'info',
+						framed: false,
+						popup: {
+							$content: $('<p>' + tooltipTexts[ idx ] + '</p>')
+						}
+					} );
+					$( this ).append( '&nbsp;' );
+					$( this ).append( popupButton.$element );
+				}
+			} );
+			$( '.oo-ui-popupWidget-body p' ).attr( 'style', 'font-weight: normal;' );
+		}
 	} );
 
 } );

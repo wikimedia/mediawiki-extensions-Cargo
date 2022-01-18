@@ -14,7 +14,9 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		return [
 			'rows per page' => [ 'type' => 'int' ],
 			'details fields' => [ 'type' => 'string' ],
-			'hidden fields' => [ 'type' => 'string' ]
+			'hidden fields' => [ 'type' => 'string' ],
+			'column widths' => [ 'type' => 'string' ],
+			'header tooltips' => [ 'type' => 'string' ]
 		];
 	}
 
@@ -92,6 +94,24 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 			$pageLengthString = '';
 		}
 		$text = '';
+		if ( array_key_exists( 'column widths', $displayParams ) ) {
+			if ( trim( $displayParams['column widths'] ) != '' ) {
+				$text .= Html::rawElement( 'div', [
+					'id' => 'columns_widths',
+					'data-widths' => $displayParams['column widths'],
+					'style' => 'display:none;'
+				], null );
+			}
+		}
+		if ( array_key_exists( 'header tooltips', $displayParams ) ) {
+			if ( trim( $displayParams['header tooltips'] ) != '' ) {
+				$text .= Html::rawElement( 'div', [
+					'id' => 'header_tooltips',
+					'data-tooltips' => $displayParams[ 'header tooltips' ],
+					'style' => 'display:none;'
+				], null );
+			}
+		}
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
 			$hiddenFields = array_map( 'trim', explode( ',', $displayParams['hidden fields'] ) );
 			$text .= wfMessage( 'cargo-dynamictables-togglecolumns' )->text() . ' ';
