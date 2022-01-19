@@ -377,7 +377,7 @@
 				"drilldown/resources/CargoDrilldown.js"
 			],
 			"messages": [
-				"searchresultshead",
+				"cargo-drilldown-search",
 				"cargo-drilldown-othervalues"
 			],
 			"dependencies": [

@@ -993,7 +993,7 @@ END;
 		] );
 
 		$comboboxButton = new OOUI\ButtonInputWidget( [
-			'label' => $this->msg( 'searchresultshead' )->parse(),
+			'label' => $this->msg( 'cargo-drilldown-search' )->parse(),
 			'type' => 'submit',
 			'flags' => 'progressive'
 		] );

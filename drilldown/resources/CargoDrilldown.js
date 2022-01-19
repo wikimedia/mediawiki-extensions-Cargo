@@ -43,7 +43,7 @@
 		} );
 		var searchButton = new OO.ui.ButtonInputWidget( {
 			type: 'submit',
-			label: mw.msg( 'searchresultshead' ),
+			label: mw.msg( 'cargo-drilldown-search' ),
 			flags: 'progressive'
 		} );
 		var searchLayout = new OO.ui.ActionFieldLayout(
@@ -65,7 +65,7 @@
 		var autocompleteInput = new CargoSearchAutocompleteWidget( config );
 		var searchButton = new OO.ui.ButtonInputWidget( {
 			type: 'submit',
-			label: mw.msg( 'searchresultshead' ),
+			label: mw.msg( 'cargo-drilldown-search' ),
 			flags: 'progressive'
 		} );
 		var autocompleteLayout = new OO.ui.ActionFieldLayout(
