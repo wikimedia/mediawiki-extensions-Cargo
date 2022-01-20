@@ -3,6 +3,7 @@
 		"authors": [
 			"BaRaN6161 TURK",
 			"Botansahin",
+			"Can",
 			"HakanIST",
 			"Hedda",
 			"Joseph",
@@ -17,6 +18,7 @@
 	"cargo-notable": "Hata: Tablo adı belirtilmelidir.",
 	"cargo-unknowntable": "Hata: Tablo $1 bulunamadı.",
 	"recreatedata": "Verileri yeniden oluştur",
+	"recreatecargodata": "Veriyi yeniden-oluştur",
 	"action-recreatecargodata": "Kargo verilerini yeniden oluştur",
 	"right-recreatecargodata": "Kargo tablolarında yer alan verileri yeniden oluşturun",
 	"action-deletecargodata": "Kargo verilerini sil",
@@ -76,6 +78,7 @@
 	"cargo-query-missingparam": "Hata: \"$1\" parametresi \"$2\" biçimi için ayarlanmalıdır.",
 	"cargo-query-specifiedfieldmissing": "Hata: \"$2\" olarak belirtilen \"$1\" alanı bu sorgunun alanları arasında olmalıdır.",
 	"cargotables": "Kargo tabloları",
+	"cargo-calendar-datepicker-label": "Şu tarihe git:",
 	"cargo-cargotables-header-table": "Tablo",
 	"cargo-cargotables-header-rowcount": "Satırlar",
 	"cargo-cargotables-header-templates": "Şablonlar",
@@ -139,6 +142,7 @@
 	"cargo-drilldown-calendarformat": "Takvim",
 	"cargo-viewcsv": "CSV'yi görüntüle",
 	"cargo-viewxls": "XLS'yi görüntüle",
+	"cargo-downloadzip": "ZIP'i indir",
 	"cargo-viewjson": "JSON'yi görüntüle",
 	"cargo-viewbibtex": "BibTeX'i görüntüle",
 	"cargo-viewicalendar": "iCalendar'ı görüntüle",
@@ -155,5 +159,9 @@
 	"cargo-gantt-months": "Ay",
 	"cargo-gantt-years": "Yıl",
 	"cargo-field-type": "Alan türü:",
-	"cargo-allowed-values": "İzin verilen değerler:"
+	"cargo-allowed-values": "İzin verilen değerler:",
+	"cargo-declare-ne1-startdttm": "Hata: Sadece bir tane Başlangıç tarihi veya Başlangıç tarih zamanı alanı olabilir.",
+	"cargo-declare-ne1-enddttm": "Hata: Sadece bir tane Bitiş tarihi veya Bitiş tarih zamanı alanı olabilir.",
+	"cargo-declare-validate-ends-underscore": "Hata: $1 adı \"$2\" alt çizgi ile bitiyor; bu yasaktır.",
+	"cargo-declare-validate-bad-character": "Hata: $1 ismi $2, aşağıdaki karakter(ler)i içeremez: $3"
 }
