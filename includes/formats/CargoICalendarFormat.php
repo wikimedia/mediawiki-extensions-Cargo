@@ -82,8 +82,17 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 				$startDateField = 'start';
 			}
 			$queryResults = $sqlQuery->run();
+			$nameField = '_pageName';
+			if ( !array_key_exists( '_pageName', $queryResults[0] ) ) {
+				foreach ( array_keys( $queryResults[0] ) as $resField ) {
+					if ( ( $resField !== $startDateField ) && ( $resField !== $endDateField ) ) {
+						$nameField = $resField;
+						break;
+					}
+				}
+			}
 			foreach ( $queryResults as $result ) {
-				$eventLines = $this->getEvent( $result, $startDateField, $endDateField );
+				$eventLines = $this->getEvent( $result, $startDateField, $endDateField, $nameField );
 				$calLines = array_merge( $calLines, $eventLines );
 			}
 		}
@@ -96,8 +105,8 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 	 * @param string[] $result
 	 * @return string[]
 	 */
-	public function getEvent( $result, $startDateField, $endDateField ) {
-		$title = Title::newFromText( $result['_pageName'] );
+	public function getEvent( $result, $startDateField, $endDateField, $nameField ) {
+		$title = Title::newFromText( $result[$nameField] );
 		// Only re-query the Page if its ID or modification date are not included in the original query.
 		if ( !isset( $result['_pageID'] ) || !isset( $result['_modificationDate'] ) ) {
 			$page = WikiPage::factory( $title );

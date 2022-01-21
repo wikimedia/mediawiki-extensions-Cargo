@@ -89,7 +89,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 			$this->setMwGlobals( 'wgLocaltimezone', $localtimezone );
 		}
 		$format = new CargoICalendarFormat( $this->createMock( OutputPage::class ) );
-		static::assertSame( $icalLines, $format->getEvent( $dbRow, 'start', 'end' ) );
+		static::assertSame( $icalLines, $format->getEvent( $dbRow, 'start', 'end', '_pageName' ) );
 	}
 
 	public function provideGetEvent() {
