@@ -13,6 +13,7 @@
 	"cargo-drilldown-allpages": "Kaikki sivut",
 	"cargo-drilldown-allfiles": "Kaikki tiedostot",
 	"cargo-drilldown-or": "tai",
+	"cargo-drilldown-search": "Hae",
 	"cargo-drilldown-filename": "Tiedostonimi",
 	"cargo-drilldown-galleryformat": "Galleria",
 	"cargo-downloadzip": "Lataa ZIP-tiedosto",
