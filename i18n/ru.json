@@ -135,6 +135,7 @@
 	"cargo-drilldown-calendarformat": "Календарь",
 	"cargo-viewcsv": "Просмотр CSV",
 	"cargo-viewxls": "Просмотреть XLS",
+	"cargo-downloadzip": "Скачать ZIP",
 	"cargo-viewjson": "Просмотр JSON",
 	"cargo-viewbibtex": "Просмотреть BibTeX",
 	"cargo-dynamictables-togglecolumns": "Переключить столбцы:",

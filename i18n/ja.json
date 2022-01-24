@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"A2y4",
 			"MathXplore",
 			"Nemo bis",
 			"Omotecho",
@@ -44,6 +45,7 @@
 	"cargo-drilldown-allpages": "すべてのページ",
 	"cargo-drilldown-allfiles": "すべてのファイル",
 	"cargo-drilldown-or": "または",
+	"cargo-drilldown-search": "検索",
 	"cargo-drilldown-galleryformat": "ギャラリー",
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-downloadzip": "ZIPをダウンロード",

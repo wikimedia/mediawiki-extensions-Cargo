@@ -5,7 +5,8 @@
 			"Emilbk",
 			"Fredrilj",
 			"Jon Harald Søby",
-			"Kingu"
+			"Kingu",
+			"Vukky"
 		]
 	},
 	"cargo-desc": "Lagring og spørring av data i maler",
@@ -126,6 +127,7 @@
 	"cargo-drilldown-hierarchy-within": "innen $1",
 	"cargo-drilldown-hierarchy-only": "kun «$1»",
 	"cargo-drilldown-addanothervalue": "Klikk på pilen for å legge til flere verdier",
+	"cargo-drilldown-search": "Søk",
 	"cargo-drilldown-othervalues": "Andre verdier:",
 	"cargo-drilldown-novalues": "Det finnes ingen verdier for dette filteret",
 	"cargo-drilldown-fulltext": "Full tekst",

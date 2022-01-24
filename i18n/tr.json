@@ -162,8 +162,12 @@
 	"cargo-field-type": "Alan türü:",
 	"cargo-allowed-values": "İzin verilen değerler:",
 	"cargo-declare-must-from-template": "Hata: #cargo_declare taslak sayfasından çağrılmak zorundadır.",
+	"cargo-declare-parenttable-bad-parameter": "Hata: \"$1\", _parentTables için izin verilen bir parametre değildir.",
 	"cargo-declare-ne1-startdttm": "Hata: Sadece bir tane Başlangıç tarihi veya Başlangıç tarih zamanı alanı olabilir.",
 	"cargo-declare-ne1-enddttm": "Hata: Sadece bir tane Bitiş tarihi veya Bitiş tarih zamanı alanı olabilir.",
+	"cargo-declare-parenttable-not-exist": "Hata: Temel tablo \"$1\" mevcut değil.",
+	"cargo-declare-invalid-localfield": "Hata: _localField için belirtilen geçersiz alan adı \"$1\"",
+	"cargo-declare-validate-starts-underscore": "Hata: $1 ismi \"$2\" alt çizgi ile başlıyor; bu yasaktır.",
 	"cargo-declare-validate-ends-underscore": "Hata: $1 adı \"$2\" alt çizgi ile bitiyor; bu yasaktır.",
 	"cargo-declare-validate-bad-character": "Hata: $1 ismi $2, aşağıdaki karakter(ler)i içeremez: $3"
 }

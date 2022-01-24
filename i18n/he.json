@@ -8,6 +8,7 @@
 			"Nemo bis",
 			"Or",
 			"Steeve815",
+			"YaronSh",
 			"חיים"
 		]
 	},
@@ -135,6 +136,7 @@
 	"cargo-drilldown-hierarchy-within": "בטווח $1",
 	"cargo-drilldown-hierarchy-only": "רק \"$1\"",
 	"cargo-drilldown-addanothervalue": "יש ללחוץ על חץ כדי להוסיף ערך אחר",
+	"cargo-drilldown-search": "חיפוש",
 	"cargo-drilldown-othervalues": "ערכים אחרים:",
 	"cargo-drilldown-novalues": "אין ערכים למסנן הזה",
 	"cargo-drilldown-fulltext": "הטקסט המלא",

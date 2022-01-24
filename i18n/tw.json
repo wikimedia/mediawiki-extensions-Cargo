@@ -1,8 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Daniella Damptey",
 			"Rberchie"
 		]
 	},
+	"cargo-drilldown-search": "Hwehwɛ",
 	"cargo-dynamictables-searchcolumn": "Hwehwε $1"
 }
