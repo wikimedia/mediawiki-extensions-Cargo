@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * Defines a special page that shows the contents of a single table in
  * the Cargo database.
@@ -475,7 +478,12 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Show a note if there are currently Cargo populate-data jobs
 		// that haven't been run, to make troubleshooting easier.
-		$group = JobQueueGroup::singleton();
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			$group = MediaWikiServices::getInstance()->getJobQueueGroup();
+		} else {
+			$group = JobQueueGroup::singleton();
+		}
 		// The following line would have made more sense to call, but
 		// it seems to return true if there are *any* jobs in the
 		// queue - a bug in MediaWiki?

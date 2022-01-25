@@ -74,7 +74,12 @@ class CargoRecreateDataAPI extends ApiBase {
 		foreach ( $titlesToStore as $titleToStore ) {
 			$jobs[] = new CargoPopulateTableJob( $titleToStore, $jobParams );
 		}
-		JobQueueGroup::singleton()->push( $jobs );
+		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+			// MW 1.37+
+			MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
+		} else {
+			JobQueueGroup::singleton()->push( $jobs );
+		}
 
 		// Set top-level elements.
 		$result = $this->getResult();
