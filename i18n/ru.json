@@ -123,6 +123,7 @@
 	"cargo-drilldown-hierarchy-within": "в пределах $1",
 	"cargo-drilldown-hierarchy-only": "только \"$1\"",
 	"cargo-drilldown-addanothervalue": "Нажмите на стрелку, чтобы добавить другое значение.",
+	"cargo-drilldown-search": "Найти",
 	"cargo-drilldown-othervalues": "Другие значения:",
 	"cargo-drilldown-novalues": "Для этого фильтра нет значений",
 	"cargo-drilldown-fulltext": "Полный текст",
