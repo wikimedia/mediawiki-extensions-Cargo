@@ -166,7 +166,9 @@ class CargoPageData {
 			if ( $title->isRedirect() ) {
 				$page = WikiPage::factory( $title );
 				$redirTitle = $page->getRedirectTarget();
-				$pageDataValues['_pageNameOrRedirect'] = $redirTitle->getPrefixedText();
+				if ( $redirTitle !== null ) {
+					$pageDataValues['_pageNameOrRedirect'] = $redirTitle->getPrefixedText();
+				}
 			} else {
 				$pageDataValues['_pageNameOrRedirect'] = $title->getPrefixedText();
 			}
