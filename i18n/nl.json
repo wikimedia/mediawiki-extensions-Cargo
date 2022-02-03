@@ -81,6 +81,7 @@
 	"cargo-drilldown-hierarchy-within": "binnen $1",
 	"cargo-drilldown-hierarchy-only": "alleen \"$1\"",
 	"cargo-drilldown-addanothervalue": "Klik op de pijl om nog een waarde toe te voegen",
+	"cargo-drilldown-search": "Zoeken",
 	"cargo-drilldown-othervalues": "Andere waarden:",
 	"cargo-drilldown-novalues": "Er zijn geen waarden voor dit filter",
 	"cargo-drilldown-fulltext": "Volledige tekst",
