@@ -359,10 +359,9 @@ class CargoStore {
 		// single DB transaction, to avoid "collisions".
 		$cdb->begin();
 
-		$res = $cdb->select( $tableName, 'MAX(' .
-			$cdb->addIdentifierQuotes( '_ID' ) . ') AS "ID"' );
-		$row = $cdb->fetchRow( $res );
-		$curRowID = $row['ID'] + 1;
+		$maxID = $cdb->selectField( $tableName,
+			'MAX(' . $cdb->addIdentifierQuotes( '_ID' ) . ')' );
+		$curRowID = $maxID + 1;
 		$tableFieldValues['_ID'] = $curRowID;
 		$fieldTableFieldValues = [];
 
@@ -526,8 +525,7 @@ class CargoStore {
 
 			$tableFieldValuesForCheck[$quotedFieldName] = $fieldValue;
 		}
-		$res = $cdb->select( $tableName, 'COUNT(*)', $tableFieldValuesForCheck );
-		$row = $cdb->fetchRow( $res );
-		return ( $row[0] > 0 );
+		$count = $cdb->selectRowCount( $tableName, '*', $tableFieldValuesForCheck, __METHOD__ );
+		return ( $count > 0 );
 	}
 }

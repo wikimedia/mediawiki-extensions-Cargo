@@ -241,9 +241,8 @@ class CargoHooks {
 			}
 
 			// First, delete from the "field" tables.
-			$res2 = $dbw->select( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ] );
-			$row2 = $dbw->fetchRow( $res2 );
-			$fieldTableNames = unserialize( $row2['field_tables'] );
+			$fieldTablesValue = $dbw->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ] );
+			$fieldTableNames = unserialize( $fieldTablesValue );
 			foreach ( $fieldTableNames as $curFieldTable ) {
 				// Thankfully, the MW DB API already provides a
 				// nice method for deleting based on a join.
@@ -297,9 +296,8 @@ class CargoHooks {
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
 		$dbr = wfGetDB( DB_REPLICA );
-		$res = $dbr->select( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ] );
-		$row = $dbr->fetchRow( $res );
-		$fieldTableNames = unserialize( $row['field_tables'] );
+		$fieldTablesValue = $dbr->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ] );
+		$fieldTableNames = unserialize( $fieldTablesValue );
 		foreach ( $fieldTableNames as $curFieldTable ) {
 			$cdb->deleteJoin(
 				$curFieldTable,
@@ -651,7 +649,7 @@ class CargoHooks {
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
 		$res = $cdb->select( $pageDataTable, '_ID', [ '_pageID' => $pageID ] );
-		if ( $cdb->numRows( $res ) == 0 ) {
+		if ( $res->numRows() == 0 ) {
 			$cdb->commit();
 			return true;
 		}

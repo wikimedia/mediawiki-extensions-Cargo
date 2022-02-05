@@ -150,14 +150,12 @@ class CargoPageData {
 		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 			$dbr = $lb->getConnectionRef( DB_REPLICA );
-			$res = $dbr->select(
+			$pageDataValues['_numRevisions'] = $dbr->selectRowCount(
 				'revision',
-				'COUNT(*) as total',
+				'*',
 				[ 'rev_page' => $title->getArticleID() ],
 				__METHOD__
 			);
-			$row = $dbr->fetchRow( $res );
-			$pageDataValues['_numRevisions'] = intval( $row['total'] );
 		}
 		if ( in_array( 'isRedirect', $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_isRedirect'] = ( $title->isRedirect() ? 1 : 0 );
