@@ -23,6 +23,7 @@
 		"es/no-object-assign": "warn",
 		"no-shadow": "warn",
 		"compat/compat": "warn",
-		"block-scoped-var": "warn"
+		"block-scoped-var": "warn",
+		"unicorn/prefer-string-slice": "warn"
 	}
 }
