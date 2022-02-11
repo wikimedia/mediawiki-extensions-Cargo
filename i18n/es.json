@@ -129,10 +129,5 @@
 	"cargo-purgecache": "Vaciar antememoria",
 	"cargo-purgecache-failed": "Falló la purga de la antememoria",
 	"cargo-pageschemas-cargofield": "campo Cargo",
-	"cargo-pageschemas-tablename": "Nombre de la tabla:",
-	"cargo-gantt-zoomlevel": "Nivel de escala:",
-	"cargo-gantt-hours": "horas",
-	"cargo-gantt-days": "días",
-	"cargo-gantt-months": "Mes",
-	"cargo-gantt-years": "Año"
+	"cargo-pageschemas-tablename": "Nombre de la tabla:"
 }
