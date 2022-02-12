@@ -49,7 +49,7 @@ class CargoAttach {
 		}
 
 		$parserOutput = $parser->getOutput();
-		$parserOutput->setProperty( 'CargoAttachedTable', $tableName );
+		CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoAttachedTable', $tableName );
 
 		// Link to the Special:ViewTable page for this table, and to the template that
 		// declares it.

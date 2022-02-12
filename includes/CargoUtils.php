@@ -1336,4 +1336,12 @@ class CargoUtils {
 		return $retVal;
 	}
 
+	public static function setParserOutputPageProperty( $parserOutput, $property, $value ) {
+		if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
+			// MW 1.38
+			$parserOutput->setPageProperty( $property, $value );
+		} else {
+			$parserOutput->setProperty( $property, $value );
+		}
+	}
 }
