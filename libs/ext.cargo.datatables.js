@@ -14,22 +14,36 @@ $(document).ready(function() {
 				params['lengthMenu'] = lengthOptions;
 			}
 		}
+		params[ 'aoColumns' ] = [];
 		var detailsFields = $(this).attr( 'data-details-fields' );
 		if ( detailsFields ) {
 			params['columnDefs'] = [{ "orderable":false, "targets": 0 }];
+			params[ 'aoColumns' ].push( { 'sWidth': '5px' } );
 		}
 		// Specify column widths if provided in display parameters
+		var columns  = [];
+		$( this ).find( 'th' ).each( function () {
+			if ( $( this ).text() !== "" )
+				columns.push( $( this ).text() );
+		} );
+		columns = [...new Set(columns)];
 		$columnWidths = $( '#columns_widths' );
 		if ( $columnWidths.length ) {
 			params[ 'bAutoWidth' ] = false;
 			var widths = $columnWidths.attr( 'data-widths' );
 			widths = widths.split( ',' );
-			params[ 'aoColumns' ] = [ { 'sWidth': '1%' } ];
 			widths.forEach( function ( value ) {
+				columns.shift();
 				params[ 'aoColumns' ].push( {
 					'sWidth': value
 				} );
 			} );
+			while ( columns.length !== 0 ) {
+				params[ 'aoColumns' ].push( {
+					'sWidth': 'auto'
+				} );
+				columns.shift();
+			}
 			$( this ).attr( 'style', 'table-layout: fixed; word-wrap:break-word;' );
 		}
 		var table = $(this).DataTable( params );
