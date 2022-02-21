@@ -26,7 +26,8 @@ class CargoHooks {
 			'Page', 'String', 'Text', 'Integer', 'Float', 'Date',
 			'Start date', 'End date', 'Datetime', 'Start datetime',
 			'End datetime', 'Boolean', 'Coordinates', 'Wikitext',
-			'Searchtext', 'File', 'URL', 'Email', 'Rating'
+			'Wikitext string', 'Searchtext', 'File', 'URL', 'Email',
+			'Rating'
 		];
 
 		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
