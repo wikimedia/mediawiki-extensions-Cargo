@@ -334,6 +334,9 @@
 			"scripts": [
 				"libs/DataTables/js/jquery.dataTables.js",
 				"libs/ext.cargo.datatables.js"
+			],
+			"dependencies": [
+				"oojs-ui-widgets"
 			]
 		},
 		"ext.cargo.nvd3": {

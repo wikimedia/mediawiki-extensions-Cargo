@@ -21,31 +21,30 @@ $(document).ready(function() {
 			params[ 'aoColumns' ].push( { 'sWidth': '5px' } );
 		}
 		// Specify column widths if provided in display parameters
+		var columnWidths = $( this ).attr( 'data-widths' );
 		var columns  = [];
 		$( this ).find( 'th' ).each( function () {
 			if ( $( this ).text() !== "" )
 				columns.push( $( this ).text() );
 		} );
 		columns = [...new Set(columns)];
-		$columnWidths = $( '#columns_widths' );
-		if ( $columnWidths.length ) {
+		if ( columnWidths !== undefined ) {
+			columnWidths = columnWidths.split( ',' );
 			params[ 'bAutoWidth' ] = false;
-			var widths = $columnWidths.attr( 'data-widths' );
-			widths = widths.split( ',' );
-			widths.forEach( function ( value ) {
+			columnWidths.forEach( function ( value ) {
 				columns.shift();
 				params[ 'aoColumns' ].push( {
-					'sWidth': value
+					'sWidth': value.trim()
 				} );
 			} );
-			while ( columns.length !== 0 ) {
-				params[ 'aoColumns' ].push( {
-					'sWidth': 'auto'
-				} );
-				columns.shift();
-			}
-			$( this ).attr( 'style', 'table-layout: fixed; word-wrap:break-word;' );
 		}
+		while ( columns.length !== 0 ) {
+			params[ 'aoColumns' ].push( {
+				'sWidth': 'auto'
+			} );
+			columns.shift();
+		}
+		$( this ).attr( 'style', 'table-layout: fixed; word-wrap:break-word;' );
 		var table = $(this).DataTable( params );
 
 		// searchable columns
@@ -94,17 +93,16 @@ $(document).ready(function() {
 		} );
 
 		// Add popup tooltip for all column headers
-		$headerTooltips = $( '#header_tooltips' );
-		if ( $headerTooltips.length ) {
-			var tooltipTexts = $headerTooltips.attr( 'data-tooltips' );
-			tooltipTexts = tooltipTexts.split( ',' );
+		var headerTooltips = $( this ).attr( 'data-tooltips' );
+		if ( headerTooltips !== undefined ) {
+			headerTooltips = headerTooltips.split( ',' );
 			$( 'th[aria-controls=DataTables_Table_' + index + ']' ).each( function ( idx ) {
-				if ( tooltipTexts[idx] != undefined && tooltipTexts[idx].trim() != '' ) {
+				if ( headerTooltips[idx] != undefined && headerTooltips[idx].trim() != '' ) {
 					var popupButton = new OO.ui.PopupButtonWidget( {
 						icon: 'info',
 						framed: false,
 						popup: {
-							$content: $('<p>' + tooltipTexts[ idx ] + '</p>')
+							$content: $('<p>' + headerTooltips[ idx ].trim() + '</p>')
 						}
 					} );
 					$( this ).append( '&nbsp;' );

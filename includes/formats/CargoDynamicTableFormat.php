@@ -94,22 +94,16 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 			$pageLengthString = '';
 		}
 		$text = '';
+		$columnWidthsString = '';
 		if ( array_key_exists( 'column widths', $displayParams ) ) {
 			if ( trim( $displayParams['column widths'] ) != '' ) {
-				$text .= Html::rawElement( 'div', [
-					'id' => 'columns_widths',
-					'data-widths' => $displayParams['column widths'],
-					'style' => 'display:none;'
-				], null );
+				$columnWidthsString = 'data-widths="' . $displayParams[ 'column widths' ] . '"';
 			}
 		}
+		$headerTooltipsString = '';
 		if ( array_key_exists( 'header tooltips', $displayParams ) ) {
 			if ( trim( $displayParams['header tooltips'] ) != '' ) {
-				$text .= Html::rawElement( 'div', [
-					'id' => 'header_tooltips',
-					'data-tooltips' => $displayParams[ 'header tooltips' ],
-					'style' => 'display:none;'
-				], null );
+				$headerTooltipsString = 'data-tooltips="' . $displayParams[ 'header tooltips' ] . '"';
 			}
 		}
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
@@ -146,7 +140,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		}
 
 		$text .= <<<END
-	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $detailsFieldsString $dataOrderString $pageLengthString>
+	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $detailsFieldsString $headerTooltipsString $columnWidthsString $dataOrderString $pageLengthString>
 		<thead>
 			<tr>
 
