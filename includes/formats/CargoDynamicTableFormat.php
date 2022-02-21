@@ -32,7 +32,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 
 		$detailsFields = [];
 		$detailsFieldsString = '';
-		if ( array_key_exists( 'details fields', $displayParams ) ) {
+		if ( array_key_exists( 'details fields', $displayParams ) && !empty( $displayParams[ 'details fields' ] ) ) {
 			$detailsFields = explode( ',', $displayParams['details fields'] );
 			// The field names in the $fieldDescriptions lack table names, and they
 			// have spaces instead of underscores. Since we need to compare these
