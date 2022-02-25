@@ -211,7 +211,7 @@ END;
 	public function getWikitextForQuery() {
 		$req = $this->getRequest();
 
-		$wikitext = "<pre>{{#cargo_query:\n";
+		$wikitext = "{{#cargo_query:\n";
 		$vals = $req->getValues();
 		$firstParam = true;
 		foreach ( $vals as $key => $val ) {
@@ -248,7 +248,7 @@ END;
 		}
 		$wikitext .= "}}";
 
-		return $wikitext;
+		return '<pre>' . htmlspecialchars( $wikitext ) . '</pre>';
 	}
 
 	private function displayBottomPane( $paneName, $paneText ) {

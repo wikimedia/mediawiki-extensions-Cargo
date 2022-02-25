@@ -30,8 +30,9 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
 		$this->mOutput->addModules( 'ext.cargo.datatables' );
 
+		$tableAttrs = [ 'class' => 'cargoDynamicTable display', 'cellspacing' => '0', 'width' => '100%' ];
+
 		$detailsFields = [];
-		$detailsFieldsString = '';
 		if ( array_key_exists( 'details fields', $displayParams ) && !empty( $displayParams[ 'details fields' ] ) ) {
 			$detailsFields = explode( ',', $displayParams['details fields'] );
 			// The field names in the $fieldDescriptions lack table names, and they
@@ -47,7 +48,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 					$detailsField = str_replace( '_', ' ', $detailsField );
 				}
 			}
-			$detailsFieldsString = "data-details-fields=1";
+			$tableAttrs['data-details-fields'] = "1";
 		}
 		// Special handlng for ordering.
 		$dataTableOrderByParams = [];
@@ -85,25 +86,20 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		// single quotes outside, double quotes inside -
 		// for the jQuery part to work, and the Html
 		// class won't do it that way.
-		$dataOrderString = "data-order='" . json_encode( $dataTableOrderByParams ) . "'";
+		$tableAttrs['data-order'] = json_encode( $dataTableOrderByParams );
 
 		if ( array_key_exists( 'rows per page', $displayParams ) && $displayParams['rows per page'] != '' ) {
-			// See $dataOrderString above for why it's done this way.
-			$pageLengthString = 'data-page-length="' . $displayParams['rows per page'] . '"';
-		} else {
-			$pageLengthString = '';
+			$tableAttrs['data-page-length'] = $displayParams['rows per page'];
 		}
 		$text = '';
-		$columnWidthsString = '';
 		if ( array_key_exists( 'column widths', $displayParams ) ) {
 			if ( trim( $displayParams['column widths'] ) != '' ) {
-				$columnWidthsString = 'data-widths="' . $displayParams[ 'column widths' ] . '"';
+				$tableAttrs['data-widths'] = $displayParams['column widths'];
 			}
 		}
-		$headerTooltipsString = '';
 		if ( array_key_exists( 'header tooltips', $displayParams ) ) {
 			if ( trim( $displayParams['header tooltips'] ) != '' ) {
-				$headerTooltipsString = 'data-tooltips="' . $displayParams[ 'header tooltips' ] . '"';
+				$tableAttrs['data-tooltips'] = $displayParams['header tooltips'];
 			}
 		}
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
@@ -138,38 +134,25 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		if ( array_key_exists( 'searchable columns', $displayParams ) ) {
 			$searchableColumns = strtolower( $displayParams['searchable columns'] ) == 'yes';
 		}
-
-		$text .= <<<END
-	<table class="cargoDynamicTable display" cellspacing="0" width="100%" $detailsFieldsString $headerTooltipsString $columnWidthsString $dataOrderString $pageLengthString>
-		<thead>
-			<tr>
-
-END;
+		$tableContents = '<thead><tr>';
 		if ( $detailsFields ) {
-			$text .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
+			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
 		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( in_array( $fieldName, $detailsFields ) ) {
 				continue;
 			}
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
-				$text .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
 			} else {
-				$text .= "\t\t\t\t" . Html::element( 'th', null, null );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', null, null );
 			}
 		}
 
-		$text .= <<<END
-			</tr>
-		</thead>
-
-		<tfoot>
-			<tr>
-
-END;
+		$tableContents .= '</tr></thead><tfoot><tr>';
 
 		if ( $detailsFields ) {
-			$text .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
+			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
 		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( in_array( $fieldName, $detailsFields ) ) {
@@ -182,19 +165,13 @@ END;
 				$attribs = null;
 			}
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
-				$text .= "\t\t\t\t" . Html::element( 'th', $attribs, $fieldName );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', $attribs, $fieldName );
 			} else {
-				$text .= "\t\t\t\t" . Html::element( 'th', $attribs, null );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', $attribs, null );
 			}
 		}
 
-		$text .= <<<END
-			</tr>
-		</tfoot>
-
-		<tbody>
-
-END;
+		$tableContents .= '</tr></tfoot><tbody>';
 
 		foreach ( $formattedValuesTable as $rowNum => $row ) {
 			if ( $detailsFields ) {
@@ -226,15 +203,13 @@ END;
 				Html::rawElement( 'table', [ 'border' => '0', 'cellspacing' => '0' ],
 					Html::rawElement( 'tbody', null, $details ) );
 
-			$text .= Html::rawElement( 'tr', [ 'data-details' => $detailsTable ],
+			$tableContents .= Html::rawElement( 'tr', [ 'data-details' => $detailsTable ],
 				$tableData );
 		}
 
-		$text .= <<<END
-		</tbody>
-	</table>
+		$tableContents .= '</tbody>';
 
-END;
+		$text .= Html::rawElement( 'table', $tableAttrs, $tableContents );
 
 		return $text;
 	}
