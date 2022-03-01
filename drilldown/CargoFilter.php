@@ -72,6 +72,7 @@ class CargoFilter {
 		}
 
 		$cdb = CargoUtils::getDB();
+		$dbType = $cdb->getType();
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;
 			$fieldTableAlias = $this->tableAlias . '__' . $this->name;
@@ -87,7 +88,10 @@ class CargoFilter {
 		}
 		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
-		$conds[] = "$date_field != 0";
+		if ( $dbType == "mysql" ) {
+			// Until July 2021, invalid date values were stored in MySQL as 0 instead of null
+			$conds[] = "$date_field != 0";
+		}
 		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds, null,
 			null, $joinConds );
 		$row = $res->fetchRow();
