@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Esraa Ismail",
+			"FiberAhmed",
 			"Meno25",
 			"Michel Bakni",
 			"Sonic N800",
@@ -147,5 +148,9 @@
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
 	"cargo-pageschemas-tablename": "اسم الجدول:",
+	"cargo-gantt-hours": "ساعات",
+	"cargo-gantt-days": "أيام",
+	"cargo-gantt-months": "أشهر",
+	"cargo-gantt-years": "سنوات",
 	"cargo-allowed-values": "القيم المسموح بها:"
 }
