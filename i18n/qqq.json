@@ -8,7 +8,8 @@
 			"Raymond",
 			"Robby",
 			"Seb35",
-			"Umherirrender"
+			"Umherirrender",
+			"Verdy p"
 		]
 	},
 	"cargo-extensionname": "{{name}}",
@@ -58,7 +59,7 @@
 	"cargo-viewdata-groupbytooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Group By info icon.",
 	"cargo-viewdata-having": "Label in a form to set the equivalent of an SQL 'HAVING' clause.",
 	"cargo-viewdata-havingtooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Having info icon.",
-	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.",
+	"cargo-viewdata-orderby": "Label in a form to set the sort order for query results.\n{{Identical|Order}}",
 	"cargo-viewdata-orderbytooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Order By info icon.",
 	"cargo-viewdata-limit": "Label in a form to set the limit on the number of results of a query.\n{{Identical|Limit}}",
 	"cargo-viewdata-limittooltip": "This is the content of a tooltip on [[Special:CargoQuery]] when you hover your mouse over a Limit info icon.",
