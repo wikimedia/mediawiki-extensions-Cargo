@@ -43,6 +43,13 @@ class CargoFieldDescription {
 			$fieldDescriptionStr = $matches[2];
 		}
 
+		// Validate parentheses
+		$openCount = substr_count( $fieldDescriptionStr, '(' );
+		$closeCount = substr_count( $fieldDescriptionStr, ')' );
+		if ( !( ( $openCount == 1 && $closeCount == 1 ) || ( $openCount == 0 && $closeCount == 0 ) )
+		|| ( strpos( $fieldDescriptionStr, '(' ) > strpos( $fieldDescriptionStr, ')' ) ) ) {
+			throw new MWException( 'Invalid field description - "' . $fieldDescriptionStr . '"' );
+		}
 		// There may be additional parameters, in/ parentheses.
 		$matches = [];
 		$foundMatch2 = preg_match( '/([^(]*)\s*\((.*)\)/s', $fieldDescriptionStr, $matches );
@@ -114,7 +121,6 @@ class CargoFieldDescription {
 				}
 				$fieldDescription->mAllowedValues = $allowedValuesArray;
 			}
-
 		}
 
 		// What's left will be the type, hopefully.
