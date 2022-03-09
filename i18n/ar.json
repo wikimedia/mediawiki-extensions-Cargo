@@ -7,7 +7,8 @@
 			"Sonic N800",
 			"Tala Ali",
 			"ديفيد",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"FiberAhmed"
 		]
 	},
 	"cargo-extensionname": "كارجو",
@@ -146,5 +147,9 @@
 	"specialpages-group-cargo": "حمولة",
 	"cargo-pageschemas-cargofield": "حقل الحمولة",
 	"cargo-pageschemas-tablename": "اسم الجدول:",
+	"cargo-gantt-hours": "ساعات",
+	"cargo-gantt-days": "أيام",
+	"cargo-gantt-months": "أشهر",
+	"cargo-gantt-years": "سنوات",
 	"cargo-allowed-values": "القيم المسموح بها:"
 }
