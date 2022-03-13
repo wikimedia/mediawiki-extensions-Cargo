@@ -51,6 +51,9 @@ class CargoPageData {
 		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_pageNameOrRedirect'] = [ 'String', false ];
 		}
+		if ( in_array( 'lastEditor', $wgCargoPageDataColumns ) ) {
+			$fieldTypes['_lastEditor'] = [ 'String', false ];
+		}
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
@@ -169,6 +172,14 @@ class CargoPageData {
 				}
 			} else {
 				$pageDataValues['_pageNameOrRedirect'] = $title->getPrefixedText();
+			}
+		}
+		if ( in_array( 'lastEditor', $wgCargoPageDataColumns ) ) {
+			$latestRevision = MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
+			if ( $latestRevision == null ) {
+				$pageDataValues['_lastEditor'] = null;
+			} else {
+				$pageDataValues['_lastEditor'] = $latestRevision->getUser()->getName();
 			}
 		}
 
