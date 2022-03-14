@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Yupik"
+			"Yupik",
+			"Seipinne"
 		]
 	},
 	"cargo-viewdata-tables": "Tavlustâh/tavlustuvah:",
-	"cargo-drilldown-filename": "Tiätuvuárkkánommâ"
+	"cargo-drilldown-filename": "Tiätuvuárkkánommâ",
+	"cargo-drilldown-calendarformat": "Kalender"
 }
