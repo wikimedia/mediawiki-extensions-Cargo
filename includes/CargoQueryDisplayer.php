@@ -94,6 +94,7 @@ class CargoQueryDisplayer {
 	public function getFormattedQueryResults( $queryResults ) {
 		// The assignment will do a copy.
 		global $wgScriptPath, $wgServer;
+		$queryResults = CargoUtils::replaceRedirectWithTarget( $queryResults, $this->mFieldDescriptions );
 		$formattedQueryResults = $queryResults;
 		foreach ( $queryResults as $rowNum => $row ) {
 			foreach ( $row as $fieldName => $value ) {
