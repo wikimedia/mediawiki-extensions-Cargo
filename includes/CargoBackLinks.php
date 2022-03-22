@@ -2,6 +2,11 @@
 
 use MediaWiki\MediaWikiServices;
 
+if ( !defined( 'DB_PRIMARY' ) ) {
+	// MW < 1.37
+	define( 'DB_PRIMARY', DB_MASTER );
+}
+
 class CargoBackLinks {
 	public static function managePageDeletion( $pageId ) {
 		$page = \WikiPage::newFromID( $pageId );
