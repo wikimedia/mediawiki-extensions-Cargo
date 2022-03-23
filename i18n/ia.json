@@ -132,6 +132,7 @@
 	"cargo-drilldown-timelineformat": "Chronologia",
 	"cargo-drilldown-galleryformat": "Galeria",
 	"cargo-drilldown-calendarformat": "Calendario",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Vider CSV",
 	"cargo-viewxls": "Vider XLS",
 	"cargo-viewjson": "Vider JSON",
