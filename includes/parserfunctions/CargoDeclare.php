@@ -396,19 +396,14 @@ class CargoDeclare {
 			}
 			$title = $parser->getTitle();
 			$templatePageID = $title->getArticleID();
-			try {
-				CargoUtils::recreateDBTablesForTemplate(
-					$templatePageID,
-					$createReplacement = false,
-					$user,
-					$tableName,
-					$tableSchema,
-					$parentTables
-				);
-			} catch ( MWException $e ) {
-				print wfMessage( 'edit-error-short', $e->getMessage() )->text() . "\n";
-				return;
-			}
+			CargoUtils::recreateDBTablesForTemplate(
+				$templatePageID,
+				$createReplacement = false,
+				$user,
+				$tableName,
+				$tableSchema,
+				$parentTables
+			);
 
 			// Ensure that this code doesn't get called more than
 			// once per page save.
