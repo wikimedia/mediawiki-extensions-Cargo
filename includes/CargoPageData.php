@@ -51,6 +51,9 @@ class CargoPageData {
 		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_pageNameOrRedirect'] = [ 'String', false ];
 		}
+		if ( in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
+			$fieldTypes['_pageIDOrRedirect'] = [ 'Integer', false ];
+		}
 		if ( in_array( 'lastEditor', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_lastEditor'] = [ 'String', false ];
 		}
@@ -163,15 +166,29 @@ class CargoPageData {
 		if ( in_array( 'isRedirect', $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_isRedirect'] = ( $title->isRedirect() ? 1 : 0 );
 		}
-		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
+		// Check whether the page is a redirect only once,
+		// and evaluate pageNameOrRedirect and pageIDOrRedirect at the same time
+		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) || in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
+			// case when redirect
 			if ( $title->isRedirect() ) {
 				$page = WikiPage::factory( $title );
 				$redirTitle = $page->getRedirectTarget();
 				if ( $redirTitle !== null ) {
-					$pageDataValues['_pageNameOrRedirect'] = $redirTitle->getPrefixedText();
+					if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
+						$pageDataValues['_pageNameOrRedirect'] = $redirTitle->getPrefixedText();
+					}
+					if ( in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
+						$pageDataValues['_pageIDOrRedirect'] = $redirTitle->getArticleID();
+					}
 				}
+			// case when not a redirect
 			} else {
-				$pageDataValues['_pageNameOrRedirect'] = $title->getPrefixedText();
+				if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
+					$pageDataValues['_pageNameOrRedirect'] = $title->getPrefixedText();
+				}
+				if ( in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
+					$pageDataValues['_pageIDOrRedirect'] = $title->getArticleID();
+				}
 			}
 		}
 		if ( in_array( 'lastEditor', $wgCargoPageDataColumns ) ) {
