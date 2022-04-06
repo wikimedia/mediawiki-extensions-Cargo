@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"BaRaN6161 TURK"
+			"BaRaN6161 TURK",
+			"SaldırganSincap"
 		]
 	},
 	"apihelp-cargoquery-description": "Kargo verilerinde bir sorgu çalıştırır.",
@@ -25,6 +26,10 @@
 	"apihelp-cargorecreatedata-param-table": "Yeniden doldurmak için Kargo veritabanı tablosu",
 	"apihelp-cargorecreatedata-param-offset": "Bu şablonu çağıran sayfalardan, sorgulamaya başlanacak numara",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Tabloyu yeniden doldururken her sayfa için eski satırların değiştirilip değiştirilmeyeceği",
+	"apihelp-cargorecreatespecialtable-description": "Bir Cargo özel tablosu oluşturur.",
+	"apihelp-cargorecreatespecialtable-summary": "Bir Cargo özel tablosu oluşturur.",
+	"apihelp-cargorecreatespecialtable-param-table": "Yeniden oluşturulacak özel tablo",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "Verilerin yedek tabloya koyulup koyulmayacağı",
 	"apihelp-cargoautocomplete-description": "Kargo uzantısı tarafından kullanılan otomatik tamamlama çağrısı.",
 	"apihelp-cargoautocomplete-summary": "Kargo uzantısı tarafından kullanılan otomatik tamamlama çağrısı.",
 	"apihelp-cargoautocomplete-param-limit": "Döndürülen sonuç sayısında bir sınır",
