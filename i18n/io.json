@@ -5,6 +5,7 @@
 		]
 	},
 	"cargo-viewdata-tables": "Tabelo/Tabeli:",
+	"cargo-viewdata-defaultformat": "Predeterminita",
 	"cargo-cargotables-header-table": "Tabelo",
 	"cargo-cargotables-header-templates": "Shabloni",
 	"cargo-cargotables-action-deletereplacement": "Efacar",
