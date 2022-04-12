@@ -5,7 +5,10 @@
 			"Botansahin",
 			"HakanIST",
 			"Joseph",
-			"Mirzali"
+			"Mirzali",
+			"Can",
+			"Hedda",
+			"SaldırganSincap"
 		]
 	},
 	"cargo-desc": "Şablon verilerinin saklanması ve sorgulanması",
@@ -135,6 +138,7 @@
 	"cargo-drilldown-timelineformat": "Zaman çizelgesi",
 	"cargo-drilldown-galleryformat": "Galeri",
 	"cargo-drilldown-calendarformat": "Takvim",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV'yi görüntüle",
 	"cargo-viewxls": "XLS'yi görüntüle",
 	"cargo-viewjson": "JSON'yi görüntüle",
