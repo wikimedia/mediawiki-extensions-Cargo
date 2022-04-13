@@ -79,33 +79,48 @@ class CargoQuery {
 		try {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
-			// the query not always would include _pageID.
-			// Let's add _pageID entry for each table, with namespace to prevent collision with the fields in query
-			// Then, not modify the main query, just clone everything.
-			// (we can't just replace the $fieldsStr, because it can affect $havingStr part).
-			// Also remove limit so we'll include all potential results
-			$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
-			$allTables = array_filter( $allTables );
-			$newFieldsStr = $fieldsStr;
-			// $fieldsToCollectForPageIds allow as to collect all those special fields' values in the results
-			$fieldsToCollectForPageIds = [];
-			foreach ( $allTables as $table ) {
-				$fieldFullName = "cargo_backlink_page_id_$table";
-				$fieldsToCollectForPageIds[] = $fieldFullName;
-				$newFieldsStr = "$table._pageID=$fieldFullName, " . $newFieldsStr;
+			// If this is a non-grouped query, make a 2nd query just
+			// for _pageID (since the original query won't always
+			// have a _pageID field) in order to populate the
+			// cargo_backlinks table.
+			// Also remove the limit from this 2nd query so that it
+			// can include all results.
+			if ( $groupByStr == '' ) {
+				$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
+				$allTables = array_filter( $allTables );
+				$newFieldsStr = $fieldsStr;
+				// $fieldsToCollectForPageIDs allows us to
+				// collect all those special fields' values in
+				// the results
+				$fieldsToCollectForPageIDs = [];
+				foreach ( $allTables as $table ) {
+					// Ignore helper tables.
+					if ( strpos( $table, '__' ) !== false ) {
+						continue;
+					}
+					$fieldFullName = "cargo_backlink_page_id_$table";
+					$fieldsToCollectForPageIDs[] = $fieldFullName;
+					$newFieldsStr = "$table._pageID=$fieldFullName, " . $newFieldsStr;
+				}
+				$sqlQueryJustForResultsTitle = CargoSQLQuery::newFromValues(
+					$tablesStr, $newFieldsStr, $whereStr, $joinOnStr,
+					$groupByStr, $havingStr, $orderByStr, '', $offsetStr
+				);
 			}
-			$sqlQueryJustForResultsTitle = CargoSQLQuery::newFromValues( $tablesStr, $newFieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, '', $offsetStr );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
-		$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
-		// Let's collect all special _pageID entries
-		$pageIdForBacklinks = [];
-		foreach ( $fieldsToCollectForPageIds as $fieldToCollectForPageIds ) {
-			$pageIdForBacklinks = array_merge( $pageIdForBacklinks, array_column( $queryResultsJustForResultsTitle, $fieldToCollectForPageIds ) );
+
+		$pageIDsForBacklinks = [];
+		if ( isset( $sqlQueryJustForResultsTitle ) ) {
+			$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
+			// Collect all special _pageID entries.
+			foreach ( $fieldsToCollectForPageIDs as $fieldToCollectForPageIds ) {
+				$pageIDsForBacklinks = array_merge( $pageIDsForBacklinks, array_column( $queryResultsJustForResultsTitle, $fieldToCollectForPageIds ) );
+			}
+			$pageIDsForBacklinks = array_unique( $pageIDsForBacklinks );
 		}
-		$pageIdForBacklinks = array_unique( $pageIdForBacklinks );
+
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
@@ -132,7 +147,7 @@ class CargoQuery {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 			$text = $formatter->queryAndDisplay( [ $sqlQuery ], $displayParams );
-			CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIdForBacklinks );
+			CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIDsForBacklinks );
 			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
@@ -157,8 +172,8 @@ class CargoQuery {
 		if ( count( $queryResults ) == 0 ) {
 			return $text;
 		}
-		// no errors? Let's save our revers links
-		CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIdForBacklinks );
+		// No errors? Let's save our reverse links.
+		CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIDsForBacklinks );
 
 		// The 'template' format gets special parsing, because
 		// it can be used to display a larger component, like a table,
