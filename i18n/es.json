@@ -7,6 +7,7 @@
 			"Bruno44101",
 			"Ciencia Al Poder",
 			"Dgstranz",
+			"DiegoAmbrocio",
 			"Fitoschido",
 			"Irus",
 			"Jackiezelaya",
@@ -47,6 +48,7 @@
 	"cargo-viewdata-having": "Que contengan:",
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
+	"cargo-viewdata-offset": "Desplazamiento:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-viewdata-defaultformat": "Predeterminado",
 	"cargo-viewdata-heightparam": "Altura:",
@@ -65,6 +67,7 @@
 	"cargo-query-missingparam": "Error: el parámetro «$1» debe configurarse para el formato «$2».",
 	"cargo-query-specifiedfieldmissing": "Error: el campo «$1», especificado como «$2», debe figurar entre los campos de esta consulta.",
 	"cargotables": "Tablas de Cargo",
+	"cargo-calendar-datepicker-label": "Ir a la fecha:",
 	"cargo-cargotables-header-table": "Tabla",
 	"cargo-cargotables-header-rowcount": "Filas",
 	"cargo-cargotables-header-templates": "Plantillas",
@@ -129,5 +132,12 @@
 	"cargo-purgecache": "Vaciar antememoria",
 	"cargo-purgecache-failed": "Falló la purga de la antememoria",
 	"cargo-pageschemas-cargofield": "campo Cargo",
-	"cargo-pageschemas-tablename": "Nombre de la tabla:"
+	"cargo-pageschemas-tablename": "Nombre de la tabla:",
+	"cargo-gantt-zoomlevel": "Nivel de acercamiento:",
+	"cargo-gantt-hours": "Horas",
+	"cargo-gantt-days": "Días",
+	"cargo-gantt-months": "Meses",
+	"cargo-gantt-years": "Años",
+	"cargo-field-type": "Tipo de campo:",
+	"cargo-allowed-values": "Valores permitidos:"
 }

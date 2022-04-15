@@ -3,6 +3,7 @@
 		"authors": [
 			"Avengium",
 			"Dgstranz",
+			"DiegoAmbrocio",
 			"Fitoschido",
 			"KATRINE1992",
 			"Lmorillas",
@@ -19,6 +20,7 @@
 	"apihelp-cargoquery-param-group_by": "Campo o campos en los que agrupar los resultados, correspondientes a una cláusula GROUP BY de SQL",
 	"apihelp-cargoquery-param-having": "Condiciones para valores agrupados, correspondientes a una cláusula HAVING de SQL",
 	"apihelp-cargoquery-param-limit": "Un límite en el número de resultados devueltos",
+	"apihelp-cargoquery-param-offset": "El desplazamiento de la consulta",
 	"apihelp-cargorecreatetables-description": "Recrea una o más tablas de Cargo.",
 	"apihelp-cargorecreatetables-summary": "Recrea una o más tablas de Cargo.",
 	"apihelp-cargorecreatetables-param-createReplacement": "Si debemos reemplazar los dados a una otra lista",
