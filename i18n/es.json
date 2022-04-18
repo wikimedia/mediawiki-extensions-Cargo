@@ -15,7 +15,9 @@
 			"ArenaL5",
 			"Avengium",
 			"Bruno44101",
-			"Jackiezelaya"
+			"Jackiezelaya",
+			"DiegoAmbrocio",
+			"MarcoAurelio"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -41,6 +43,7 @@
 	"cargo-viewdata-having": "Que contengan:",
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
+	"cargo-viewdata-offset": "Desplazamiento:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-viewdata-defaultformat": "Predeterminado",
 	"cargo-viewdata-heightparam": "Altura:",
