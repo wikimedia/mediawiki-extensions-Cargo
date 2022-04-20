@@ -13,7 +13,11 @@
 			"Macofe",
 			"Madamebiblio",
 			"Nemo bis",
-			"Ryo567"
+			"Ryo567",
+			"Avengium",
+			"Bruno44101",
+			"DiegoAmbrocio",
+			"MarcoAurelio"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -39,6 +43,7 @@
 	"cargo-viewdata-having": "Que contengan:",
 	"cargo-viewdata-orderby": "Ordenar por:",
 	"cargo-viewdata-limit": "Límite:",
+	"cargo-viewdata-offset": "Desplazamiento:",
 	"cargo-viewdata-format": "Formato:",
 	"cargo-viewdata-defaultformat": "Predeterminado",
 	"cargo-viewdata-heightparam": "Altura:",
@@ -115,14 +120,18 @@
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
 	"cargo-viewbibtex": "Ver BibTeX",
+	"cargo-dynamictables-togglecolumns": "Alternar columnas:",
 	"cargo-dynamictables-searchcolumn": "Buscar en $1",
 	"cargo-purgecache": "Vaciar antememoria",
 	"cargo-purgecache-failed": "Falló la purga de la antememoria",
+	"specialpages-group-cargo": "Cargo",
 	"cargo-pageschemas-cargofield": "campo Cargo",
 	"cargo-pageschemas-tablename": "Nombre de la tabla:",
-	"cargo-gantt-zoomlevel": "Nivel de escala:",
-	"cargo-gantt-hours": "horas",
-	"cargo-gantt-days": "días",
-	"cargo-gantt-months": "Mes",
-	"cargo-gantt-years": "Año"
+	"cargo-gantt-zoomlevel": "Nivel de acercamiento:",
+	"cargo-gantt-hours": "Horas",
+	"cargo-gantt-days": "Días",
+	"cargo-gantt-months": "Meses",
+	"cargo-gantt-years": "Años",
+	"cargo-field-type": "Tipo de campo:",
+	"cargo-allowed-values": "Valores permitidos:"
 }
