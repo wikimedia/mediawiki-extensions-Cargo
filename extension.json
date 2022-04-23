@@ -448,6 +448,7 @@
 		"CargoDrilldownNumRangesForNumbers": 5,
 		"CargoMaxVisibleHierarchyDrilldownValues": 30,
 		"CargoTablesPrioritizeReplacements": false,
+		"CargoLegacyStoreNullAsEmptyString": false,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [

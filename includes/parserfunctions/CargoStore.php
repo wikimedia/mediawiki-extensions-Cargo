@@ -100,7 +100,7 @@ class CargoStore {
 				$curFieldValue = $frame->getArgument( $unescapedFieldName );
 				// For some reason, getArgument() returns false,
 				// and not null, for missing values.
-				if ( $curFieldValue === false ) {
+				if ( $curFieldValue === false && !$GLOBALS["wgCargoLegacyStoreNullAsEmptyString"] ) {
 					$curFieldValue = null;
 				}
 			}
