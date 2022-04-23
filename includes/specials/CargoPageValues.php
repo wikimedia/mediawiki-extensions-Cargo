@@ -150,11 +150,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		$fieldDescriptions = $tableSchemas[ $tableName ]->mFieldDescriptions;
 		$fieldInfo = [];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			$typeDesc = $fieldDescription->mType;
-			if ( $fieldDescription->mIsList ) {
-				$typeDesc = $this->msg( 'cargo-cargotables-listof', $typeDesc )->parse();
-			}
-			$fieldInfo[ $fieldName ][ 'field type' ] = $typeDesc;
+			$fieldInfo[ $fieldName ][ 'field type' ] = $fieldDescription->prettyPrintType();
 			$delimiter = strlen( $fieldDescription->getDelimiter() ) ? $fieldDescription->getDelimiter() : ',';
 			if ( is_array( $fieldDescription->mAllowedValues ) ) {
 				$fieldInfo[ $fieldName ][ 'allowed values' ] = implode( $delimiter . " ", $fieldDescription->mAllowedValues );

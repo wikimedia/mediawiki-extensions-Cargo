@@ -370,4 +370,14 @@ class CargoFieldDescription {
 		return $valueArray;
 	}
 
+	public function prettyPrintType() {
+		$typeDesc = '<tt>' . $this->mType . '</tt>';
+		if ( $this->mIsList ) {
+			$delimiter = '<tt>' . $this->mDelimiter . '</tt>';
+			$typeDesc = wfMessage( 'cargo-cargotables-listof',
+				$typeDesc, $delimiter )->parse();
+		}
+		return $typeDesc;
+	}
+
 }
