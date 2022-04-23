@@ -1369,4 +1369,26 @@ class CargoUtils {
 		}
 		return $valuesArray;
 	}
+
+	public static function globalFields() {
+		return [
+			'_pageID' => [ 'type' => 'Integer', 'isList' => false ],
+			'_pageName' => [ 'type' => 'Page', 'isList' => false ],
+			'_pageTitle' => [ 'type' => 'String', 'isList' => false ],
+			'_pageNamespace' => [ 'type' => 'Integer', 'isList' => false ],
+		];
+	}
+
+	public static function addGlobalFieldsToSchema( $schema ) {
+		foreach ( self::globalFields() as $field => $fieldInfo ) {
+			$fieldDesc = new CargoFieldDescription();
+			$fieldDesc->mType = $fieldInfo["type"];
+			$fieldDesc->mIsList = $fieldInfo["isList"];
+			if ( $fieldInfo["isList"] ) {
+				$fieldDesc->setDelimiter( '|' );
+			}
+			$schema->addField( $field, $fieldDesc );
+		}
+	}
+
 }

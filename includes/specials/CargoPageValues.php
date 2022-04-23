@@ -144,6 +144,9 @@ class CargoPageValues extends IncludableSpecialPage {
 	 */
 	private function getInfoForAllFields( $tableName ) {
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		if ( $tableName == '_pageData' ) {
+			CargoUtils::addGlobalFieldsToSchema( $tableSchemas[$tableName] );
+		}
 		$fieldDescriptions = $tableSchemas[ $tableName ]->mFieldDescriptions;
 		$fieldInfo = [];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
@@ -169,6 +172,11 @@ class CargoPageValues extends IncludableSpecialPage {
 		$sqlQuery->mAliasedTableNames = [ $tableName => $tableName ];
 
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+
+		if ( $tableName == '_pageData' ) {
+			CargoUtils::addGlobalFieldsToSchema( $tableSchemas[$tableName] );
+		}
+
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
 		$aliasedFieldNames = [];
