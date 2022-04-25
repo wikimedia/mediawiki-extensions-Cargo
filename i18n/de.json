@@ -106,7 +106,7 @@
 	"cargo-cargotables-notdeclared": "Nicht durch irgendeine Vorlage definiert",
 	"cargo-cargotables-replacementlink": "Ersatztabelle",
 	"cargo-cargotables-tablestructure": "Tabellenstruktur:",
-	"cargo-cargotables-listof": "Liste von $1",
+	"cargo-cargotables-listof": "Liste von $1, Begrenzer: $2",
 	"cargo-cargotables-totalrows": "Diese Tabelle hat insgesamt {{PLURAL:$1|'''eine''' Zeile|'''$1''' Zeilen}}.",
 	"cargo-cargotables-replacementgenerated": "Für diese Tabelle wurde eine Ersetzungstabelle erstellt",
 	"cargo-cargotables-switch": "Auf die Verwendung dieser Tabelle wechseln.",
