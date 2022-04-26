@@ -102,7 +102,7 @@
 	"cargo-cargotables-notdeclared": "לא מוגדר בשום תבנית",
 	"cargo-cargotables-replacementlink": "טבלה חליפית",
 	"cargo-cargotables-tablestructure": "מבנה הטבלה:",
-	"cargo-cargotables-listof": "רשימה של $1",
+	"cargo-cargotables-listof": "רשימה של $1, תו מפריד: $2",
 	"cargo-cargotables-totalrows": "בטבלה הזאת יש {{PLURAL:$1|שורה '''אחת'''|'''$1''' שורות}} בסך הכול.",
 	"cargo-cargotables-replacementgenerated": "טבלה חליפית נוצרה עבור הטבלה הזאת",
 	"cargo-cargotables-switch": "לעבור לשימוש בטבלה הזאת.",
