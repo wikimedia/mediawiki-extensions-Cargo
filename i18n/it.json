@@ -36,7 +36,7 @@
 	"cargo-cargotables-action-recreate": "Ricrea",
 	"cargo-cargotables-tablelist": "{{PLURAL:$1|La seguente tabella è definita|Le seguenti tabelle sono definite}}:",
 	"cargo-cargotables-tablestructure": "Struttura della tabella:",
-	"cargo-cargotables-listof": "Elenco di $1",
+	"cargo-cargotables-listof": "Elenco di $1, delimitatore: $2",
 	"cargo-cargotables-totalrows": "Questa tabella ha complessivamente '''$1''' {{PLURAL:$1|riga|righe}}.",
 	"deletecargotable": "Cancella tabella Cargo",
 	"pagevalues": "Valori pagina",
