@@ -32,5 +32,13 @@
 	"apihelp-cargoautocomplete-param-table": "Tabela Cargo para a qual pesquisar valores",
 	"apihelp-cargoautocomplete-param-field": "Tabela Cargo para a qual pesquisar valores",
 	"apihelp-cargoautocomplete-param-field_is_array": "Se o campo contém uma lista de valores",
-	"apihelp-cargoautocomplete-param-where": "A cláusula \"where\" para a consulta, baseada nos outros filtros especificados"
+	"apihelp-cargoautocomplete-param-where": "A cláusula \"where\" para a consulta, baseada nos outros filtros especificados",
+	"apihelp-cargoqueryautocomplete-description": "Chamada de preenchimento automático usada pela página especial CargoQuery (anteriormente ViewData).",
+	"apihelp-cargoqueryautocomplete-summary": "Chamada de preenchimento automático usada pela página especial CargoQuery (anteriormente ViewData).",
+	"apihelp-cargoqueryautocomplete-param-limit": "Um limite para o número de resultados devolvidos.",
+	"apihelp-cargoqueryautocomplete-param-search": "Pesquisar o subtexto",
+	"apihelp-cargoqueryautocomplete-param-tables": "Matriz de tabelas Cargo selecionadas, com base em que campos, agrupamentos e ordenamentos são preenchidos automaticamente.",
+	"apihelp-cargoformatparams-description": "Obtém o conjunto de parâmetros de apresentação para cada formato de consulta de Cargo.",
+	"apihelp-cargoformatparams-summary": "Obtém o conjunto de parâmetros de apresentação para cada formato de consulta de Cargo.",
+	"apihelp-cargoformatparams-param-queryformat": "Um formato de consulta de Cargo"
 }
