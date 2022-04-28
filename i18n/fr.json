@@ -114,7 +114,7 @@
 	"cargo-cargotables-notdeclared": "Défini par aucun modèle",
 	"cargo-cargotables-replacementlink": "Table de remplacement",
 	"cargo-cargotables-tablestructure": "Structure de la table :",
-	"cargo-cargotables-listof": "Liste de $1",
+	"cargo-cargotables-listof": "Liste de $1, délimiteur : $2",
 	"cargo-cargotables-totalrows": "Cette table contient '''$1''' ligne{{PLURAL:$1||ls}} au total.",
 	"cargo-cargotables-replacementgenerated": "Une table de remplacement a été générée pour cette table",
 	"cargo-cargotables-switch": "Passer à l'utilisation de cette table.",
