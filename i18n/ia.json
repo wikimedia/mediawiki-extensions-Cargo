@@ -95,7 +95,7 @@
 	"cargo-cargotables-notdeclared": "Non definite per alcun patrono",
 	"cargo-cargotables-replacementlink": "Tabella de substitution",
 	"cargo-cargotables-tablestructure": "Structura del tabella:",
-	"cargo-cargotables-listof": "Lista de $1",
+	"cargo-cargotables-listof": "Lista de $1, delimitator: $2",
 	"cargo-cargotables-totalrows": "Iste tabella ha '''$1''' linea{{PLURAL:$1||s}} in total.",
 	"cargo-cargotables-replacementgenerated": "Un tabella de reimplaciamento ha essite generate pro iste tabella",
 	"cargo-cargotables-switch": "Passar a usar iste tabella.",
