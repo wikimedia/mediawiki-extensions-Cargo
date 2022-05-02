@@ -28,6 +28,8 @@
 	"right-deletecargodata": "{{doc-right|deletecargodata}}",
 	"action-runcargoqueries": "{{doc-action|runcargoqueries}}",
 	"right-runcargoqueries": "{{doc-right|runcargoqueries}}",
+	"grant-group-cargo": "{{Related|Grant-group}}",
+	"grant-cargo": "Name for grant \"cargo\".\n{{Related|Grant}}",
 	"cargo-logname": "{{doc-logpage}}",
 	"cargo-logdesc": "Used as heading in [[Special:Log]]/cargo.",
 	"cargo-createtableaction": "This is a log entry.\n\nParameters:\n* $2 - name of a table of data defined by the Cargo extension (parameter $1 is not used)",

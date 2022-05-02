@@ -18,6 +18,8 @@
 	"right-deletecargodata": "Delete a Cargo table",
 	"action-runcargoqueries": "run arbitrary Cargo queries",
 	"right-runcargoqueries": "Run arbitrary Cargo queries",
+	"grant-group-cargo": "Create, query and delete data through the Cargo extension",
+	"grant-cargo": "Create, query and delete data through the Cargo extension",
 	"cargo-logname": "Cargo log",
 	"cargo-logdesc": "This is the log of actions related to the Cargo extension.",
 	"cargo-createtableaction": "created the Cargo table $2",

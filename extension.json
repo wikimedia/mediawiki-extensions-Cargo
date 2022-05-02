@@ -28,6 +28,16 @@
 			"deletecargodata": true
 		}
 	},
+	"GrantPermissions": {
+		"cargo": {
+			"recreatecargodata": true,
+			"deletecargodata": true,
+			"runcargoqueries": true
+		}
+	},
+	"GrantPermissionGroups": {
+		"cargo": "cargo"
+	},
 	"SpecialPages": {
 		"CargoTables": "CargoTables",
 		"CargoTableDiagram": "CargoTableDiagram",
