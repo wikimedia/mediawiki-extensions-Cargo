@@ -30,6 +30,8 @@
 	"right-deletecargodata": "Eine Cargo-Tabelle löschen",
 	"action-runcargoqueries": "beliebige Cargo-Abfragen auszuführen",
 	"right-runcargoqueries": "Beliebige Cargo-Abfragen ausführen",
+	"grant-group-cargo": "Erstellen, Abfragen und Löschen von Daten über die Cargo-Erweiterung",
+	"grant-cargo": "Erstellen, Abfragen und Löschen von Daten über die Cargo-Erweiterung",
 	"cargo-logname": "Cargo-Logbuch",
 	"cargo-logdesc": "Dies ist das Logbuch der Aktionen bezüglich der Softwareerweiterung „Cargo“.",
 	"cargo-createtableaction": "erstellte die Cargo-Tabelle $2",

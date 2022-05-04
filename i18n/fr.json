@@ -38,6 +38,8 @@
 	"right-deletecargodata": "Supprimer une table de Cargo",
 	"action-runcargoqueries": "exécuter des requêtes de Cargo arbitraires",
 	"right-runcargoqueries": "Exécuter des requêtes de Cargo arbitraires",
+	"grant-group-cargo": "Créer, demander et supprimer des données au moyen de l’extension Cargo",
+	"grant-cargo": "Créer, demander et supprimer des données au moyen de l’extension Cargo",
 	"cargo-logname": "Journal de Cargo",
 	"cargo-logdesc": "Ceci est le journal des actions concernant l’extension Cargo.",
 	"cargo-createtableaction": "table de Cargo « $2 » créée",
