@@ -20,6 +20,7 @@
 	"action-runcargoqueries": "exequer consultas arbitrari de Cargo",
 	"right-runcargoqueries": "Exequer consultas arbitrari de Cargo",
 	"grant-group-cargo": "Crear, consultar e deler datos per medio del extension Cargo",
+	"grant-cargo": "Crear, consultar e deler datos per medio del extension Cargo",
 	"cargo-logname": "Registro de Cargo",
 	"cargo-logdesc": "Isto es le registro de actiones associate al extension Cargo.",
 	"cargo-createtableaction": "ha create le tabella Cargo $2",
