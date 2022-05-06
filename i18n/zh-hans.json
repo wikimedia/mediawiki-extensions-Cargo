@@ -12,6 +12,7 @@
 			"Tranve",
 			"Willy1018",
 			"Yfdyh000",
+			"Yining Chen",
 			"Zhang8569",
 			"佛壁灯",
 			"列维劳德"
@@ -33,6 +34,8 @@
 	"right-deletecargodata": "删除Cargo表格",
 	"action-runcargoqueries": "运行任意 Cargo 查询",
 	"right-runcargoqueries": "运行任意 Cargo 查询",
+	"grant-group-cargo": "通过Cargo扩展创建，查询或删除数据",
+	"grant-cargo": "通过Cargo扩展创建，查询或删除数据",
 	"cargo-logname": "Cargo日志",
 	"cargo-logdesc": "这是与 Cargo 扩展相关的操作日志。",
 	"cargo-createtableaction": "创建了 Cargo 表 $2",
