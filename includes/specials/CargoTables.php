@@ -161,12 +161,19 @@ class CargoTables extends IncludableSpecialPage {
 			// @TODO - something similar should be done for lists
 			// of URLs.
 			if ( $fieldType == 'URL' && !$fieldDescription->mIsList ) {
+				$quotedFieldName = $cdb->addIdentifierQuotes( $fieldName );
 				// Thankfully, there's a message in core
 				// MediaWiki that seems to just be "URL".
 				$fieldName =
-					"IF (" . $cdb->addIdentifierQuotes( $fieldName ) . " <> '', " .
-					"CONCAT('[', " . $cdb->addIdentifierQuotes( $fieldName ) . ", ' " .
-					$this->msg( 'version-entrypoints-header-url' )->parse() . "]'), '')";
+					"CONCAT('[', $quotedFieldName, ' " .
+					$this->msg( 'version-entrypoints-header-url' )->parse() . "]')";
+				// Only display this if the URL is not blank.
+				// Unfortunately, IF is not consistently
+				// supported in PostgreSQL - just leave this
+				// logic out if we're using Postgres.
+				if ( $cdb->getType() !== 'postgres' ) {
+					$fieldName = "IF ($quotedFieldName <> '', $fieldName, '')";
+				}
 			}
 
 			if ( $fieldDescription->mIsList ) {
