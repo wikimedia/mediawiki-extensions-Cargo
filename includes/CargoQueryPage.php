@@ -135,6 +135,8 @@ class CargoQueryPage extends QueryPage {
 		foreach ( $possibleParams as $possibleParam ) {
 			if ( $req->getCheck( $possibleParam ) ) {
 				$linkParams[$possibleParam] = $req->getVal( $possibleParam );
+			} elseif ( $req->getArray( $possibleParam ) ) {
+				$linkParams[$possibleParam] = $req->getArray( $possibleParam );
 			}
 		}
 
