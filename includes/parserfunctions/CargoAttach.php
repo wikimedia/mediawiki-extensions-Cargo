@@ -31,7 +31,7 @@ class CargoAttach {
 			}
 			$key = trim( $parts[0] );
 			$value = trim( $parts[1] );
-			if ( $key == '_table' ) {
+			if ( $key == '_table' || $key == 'table' ) {
 				$tableName = $value;
 			}
 		}
