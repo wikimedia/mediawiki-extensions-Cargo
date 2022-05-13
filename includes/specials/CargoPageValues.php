@@ -39,7 +39,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$text = '';
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbr = wfGetDB( DB_REPLICA );
 
 		$tableNames = [];
 
@@ -52,7 +52,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			$tableNames[] = '_fileData';
 		}
 
-		$res = $dbw->select(
+		$res = $dbr->select(
 			'cargo_pages', 'table_name', [ 'page_id' => $this->mTitle->getArticleID() ] );
 		foreach ( $res as $row ) {
 			$tableNames[] = $row->table_name;
