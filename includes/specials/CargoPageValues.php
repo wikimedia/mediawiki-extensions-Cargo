@@ -102,15 +102,21 @@ class CargoPageValues extends IncludableSpecialPage {
 			foreach ( $queryResults as $rowValues ) {
 				$tableContents = '';
 				$fieldInfo = $this->getInfoForAllFields( $tableName );
+				$anyFieldHasAllowedValues = false;
+				foreach ( $fieldInfo as $field => $info ) {
+					if ( $info['allowed values'] !== '' ) {
+						$anyFieldHasAllowedValues = true;
+					}
+				}
 				foreach ( $rowValues as $field => $value ) {
 					// @HACK - this check should ideally
 					// be done earlier.
 					if ( strpos( $field, '__precision' ) !== false ) {
 						continue;
 					}
-					$tableContents .= $this->printRow( $field, $value, $fieldInfo[ $field ] );
+					$tableContents .= $this->printRow( $field, $value, $fieldInfo[$field], $anyFieldHasAllowedValues );
 				}
-				$text .= $this->printTable( $tableContents );
+				$text .= $this->printTable( $tableContents, $anyFieldHasAllowedValues );
 			}
 		}
 
@@ -212,27 +218,35 @@ class CargoPageValues extends IncludableSpecialPage {
 	/**
 	 * Based on MediaWiki's InfoAction::addRow()
 	 */
-	public function printRow( $name, $value, $fieldInfo ) {
+	public function printRow( $name, $value, $fieldInfo, $fieldHasAnyAllowedValues ) {
 		if ( $name == '_fullText' && strlen( $value ) > 300 ) {
 			$value = substr( $value, 0, 300 ) . ' ...';
 		}
-		return Html::rawElement( 'tr', [],
-			Html::rawElement( 'td',
-			[
-				'class' => 'cargo-pagevalues-fieldinfo',
-				'data-field-type' => $fieldInfo[ 'field type' ],
-				'data-allowed-values' => $fieldInfo[ 'allowed values' ]
-			], $name . "&nbsp;&nbsp;&nbsp;" ) .
-			Html::rawElement( 'td', [], $value )
-		);
+		$text = Html::element( 'td', [ 'class' => 'cargo-pagevalues-table-field' ], $name ) .
+			Html::rawElement( 'td', [ 'class' => 'cargo-pagevalues-table-type' ], $fieldInfo['field type'] );
+		if ( $fieldHasAnyAllowedValues ) {
+			$allowedValuesText = $fieldInfo['allowed values'];
+			if ( strlen( $allowedValuesText ) > 25 ) {
+				$allowedValuesText = '<span class="cargoMinimizedText">' . $fieldInfo['allowed values'] . '</span>';
+			}
+			$text .= Html::rawElement( 'td', [ 'class' => 'cargo-pagevalues-table-allowedvalues' ], $allowedValuesText );
+		}
+		$text .= Html::rawElement( 'td', [ 'class' => 'cargo-pagevalues-table-value' ], $value );
+
+		return Html::rawElement( 'tr', [], $text );
 	}
 
 	/**
 	 * Based on MediaWiki's InfoAction::addTable()
 	 */
-	public function printTable( $tableContents ) {
+	public function printTable( $tableContents, $anyFieldHasAllowedValues ) {
+		$headerRow = '<tr><th>Field</th><th>' . $this->msg( 'cargo-field-type' )->text() . '</th>';
+		if ( $anyFieldHasAllowedValues ) {
+			$headerRow .= '<th>' . $this->msg( 'cargo-allowed-values' )->text() . '</th>';
+		}
+		$headerRow .= '<th>Value</th></tr>';
 		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
-			$tableContents ) . "\n";
+			$headerRow . $tableContents ) . "\n";
 	}
 
 	/**

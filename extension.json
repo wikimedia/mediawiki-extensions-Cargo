@@ -185,6 +185,7 @@
 			"scripts": "libs/CargoPageValues.js",
 			"styles": "resources/CargoPageValues.css",
 			"dependencies": [
+				"ext.cargo.main",
 				"oojs-ui-widgets"
 			],
 			"messages": [
