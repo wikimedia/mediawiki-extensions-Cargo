@@ -53,7 +53,9 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$res = $dbr->select(
-			'cargo_pages', 'table_name', [ 'page_id' => $this->mTitle->getArticleID() ] );
+			'cargo_pages', 'table_name',
+			[ 'page_id' => $this->mTitle->getArticleID() ]
+		);
 		foreach ( $res as $row ) {
 			$tableNames[] = $row->table_name;
 		}
@@ -139,23 +141,24 @@ class CargoPageValues extends IncludableSpecialPage {
 
 	/**
 	 * Used to get the information about field type and the list
-	 * of allowed values(if any) of all fields of a table
+	 * of allowed values (if any) of all fields of a table.
 	 *
+	 * @param string $tableName
 	 */
 	private function getInfoForAllFields( $tableName ) {
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 		if ( $tableName == '_pageData' ) {
 			CargoUtils::addGlobalFieldsToSchema( $tableSchemas[$tableName] );
 		}
-		$fieldDescriptions = $tableSchemas[ $tableName ]->mFieldDescriptions;
+		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
 		$fieldInfo = [];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
-			$fieldInfo[ $fieldName ][ 'field type' ] = $fieldDescription->prettyPrintType();
+			$fieldInfo[$fieldName]['field type'] = $fieldDescription->prettyPrintType();
 			$delimiter = strlen( $fieldDescription->getDelimiter() ) ? $fieldDescription->getDelimiter() : ',';
 			if ( is_array( $fieldDescription->mAllowedValues ) ) {
-				$fieldInfo[ $fieldName ][ 'allowed values' ] = implode( $delimiter . " ", $fieldDescription->mAllowedValues );
+				$fieldInfo[$fieldName]['allowed values'] = implode( $delimiter . " ", $fieldDescription->mAllowedValues );
 			} else {
-				$fieldInfo[ $fieldName ][ 'allowed values' ] = '';
+				$fieldInfo[$fieldName]['allowed values'] = '';
 			}
 		}
 		return $fieldInfo;
@@ -197,7 +200,8 @@ class CargoPageValues extends IncludableSpecialPage {
 		$sqlQuery->mOrigAliasedFieldNames = $aliasedFieldNames;
 		$sqlQuery->setDescriptionsAndTableNamesForFields();
 		$sqlQuery->handleDateFields();
-		$sqlQuery->mWhereStr = $cdb->addIdentifierQuotes( '_pageID' ) . " = " . $this->mTitle->getArticleID();
+		$sqlQuery->mWhereStr = $cdb->addIdentifierQuotes( '_pageID' ) . " = " .
+			$this->mTitle->getArticleID();
 
 		$queryResults = $sqlQuery->run();
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
