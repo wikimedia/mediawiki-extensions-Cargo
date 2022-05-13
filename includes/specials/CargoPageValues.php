@@ -162,7 +162,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			$fieldInfo[$fieldName]['field type'] = $fieldDescription->prettyPrintType();
 			$delimiter = strlen( $fieldDescription->getDelimiter() ) ? $fieldDescription->getDelimiter() : ',';
 			if ( is_array( $fieldDescription->mAllowedValues ) ) {
-				$fieldInfo[$fieldName]['allowed values'] = implode( $delimiter . " ", $fieldDescription->mAllowedValues );
+				$fieldInfo[$fieldName]['allowed values'] = implode( ' &middot; ', $fieldDescription->mAllowedValues );
 			} else {
 				$fieldInfo[$fieldName]['allowed values'] = '';
 			}
@@ -226,7 +226,9 @@ class CargoPageValues extends IncludableSpecialPage {
 			Html::rawElement( 'td', [ 'class' => 'cargo-pagevalues-table-type' ], $fieldInfo['field type'] );
 		if ( $fieldHasAnyAllowedValues ) {
 			$allowedValuesText = $fieldInfo['allowed values'];
-			if ( strlen( $allowedValuesText ) > 25 ) {
+			// Count "middot" as only one character, not eight, when counting the string length.
+			$allowedValuesDisplayText = str_replace( '&middot;', '.', $allowedValuesText );
+			if ( strlen( $allowedValuesDisplayText ) > 25 ) {
 				$allowedValuesText = '<span class="cargoMinimizedText">' . $fieldInfo['allowed values'] . '</span>';
 			}
 			$text .= Html::rawElement( 'td', [ 'class' => 'cargo-pagevalues-table-allowedvalues' ], $allowedValuesText );
