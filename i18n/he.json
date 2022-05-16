@@ -165,6 +165,6 @@
 	"cargo-gantt-days": "ימים",
 	"cargo-gantt-months": "חודשים",
 	"cargo-gantt-years": "שנים",
-	"cargo-field-type": "סוג השדה:",
-	"cargo-allowed-values": "ערכים מורשים:"
+	"cargo-field-type": "סוג השדה",
+	"cargo-allowed-values": "ערכים מורשים"
 }

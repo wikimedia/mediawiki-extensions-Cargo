@@ -151,6 +151,6 @@
 	"cargo-gantt-days": "Дни",
 	"cargo-gantt-months": "Месяцы",
 	"cargo-gantt-years": "Годы",
-	"cargo-field-type": "Тип поля:",
-	"cargo-allowed-values": "Допустимые значения:"
+	"cargo-field-type": "Тип поля",
+	"cargo-allowed-values": "Допустимые значения"
 }

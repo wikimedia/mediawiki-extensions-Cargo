@@ -110,6 +110,6 @@
 	"cargo-gantt-days": "Dagen",
 	"cargo-gantt-months": "Maanden",
 	"cargo-gantt-years": "Jaren",
-	"cargo-field-type": "Veldtype:",
-	"cargo-allowed-values": "Toegestane waarden:"
+	"cargo-field-type": "Veldtype",
+	"cargo-allowed-values": "Toegestane waarden"
 }
