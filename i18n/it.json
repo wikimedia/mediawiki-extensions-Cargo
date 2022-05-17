@@ -78,6 +78,6 @@
 	"cargo-gantt-days": "Giorni",
 	"cargo-gantt-months": "Mesi",
 	"cargo-gantt-years": "Anni",
-	"cargo-field-type": "Tipo di campo:",
-	"cargo-allowed-values": "Valori consentiti:"
+	"cargo-field-type": "Tipo di campo",
+	"cargo-allowed-values": "Valori consentiti"
 }

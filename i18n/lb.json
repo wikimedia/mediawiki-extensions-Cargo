@@ -74,5 +74,6 @@
 	"cargo-gantt-hours": "Stonnen",
 	"cargo-gantt-days": "Deeg",
 	"cargo-gantt-months": "Méint",
-	"cargo-gantt-years": "Joer"
+	"cargo-gantt-years": "Joer",
+	"cargo-allowed-values": "Erlaabt Wäerter"
 }
