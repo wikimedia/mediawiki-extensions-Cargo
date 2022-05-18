@@ -106,14 +106,14 @@ class CargoQuery {
 					$tablesStr, $newFieldsStr, $whereStr, $joinOnStr,
 					$groupByStr, $havingStr, $orderByStr, '', $offsetStr
 				);
+				$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
 			}
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
 
 		$pageIDsForBacklinks = [];
-		if ( isset( $sqlQueryJustForResultsTitle ) ) {
-			$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
+		if ( isset( $queryResultsJustForResultsTitle ) ) {
 			// Collect all special _pageID entries.
 			foreach ( $fieldsToCollectForPageIDs as $fieldToCollectForPageIds ) {
 				$pageIDsForBacklinks = array_merge( $pageIDsForBacklinks, array_column( $queryResultsJustForResultsTitle, $fieldToCollectForPageIds ) );
