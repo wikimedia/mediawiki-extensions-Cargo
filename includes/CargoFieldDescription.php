@@ -380,4 +380,37 @@ class CargoFieldDescription {
 		return $typeDesc;
 	}
 
+	public function prettyPrintTypeAndAttributes() {
+		$text = $this->prettyPrintType();
+
+		$attributesStrings = [];
+		if ( $this->mIsMandatory ) {
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-mandatory' )->text() ];
+		}
+		if ( $this->mIsUnique ) {
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-unique' )->text() ];
+		}
+		if ( $this->mAllowedValues !== null ) {
+			$allowedValuesStr = implode( ' &middot; ', $this->mAllowedValues );
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-allowedvalues' )->text(),
+				$allowedValuesStr ];
+		}
+		if ( count( $attributesStrings ) == 0 ) {
+			return $text;
+		}
+
+		$attributeDisplayStrings = [];
+		foreach ( $attributesStrings as $attributesStrs ) {
+			$displayString = '<span class="cargoFieldName">' .
+				$attributesStrs[0] . '</span>';
+			if ( count( $attributesStrs ) > 1 ) {
+				$displayString .= ' ' . $attributesStrs[1];
+			}
+			$attributeDisplayStrings[] = $displayString;
+		}
+		$text .= ' (' . implode( '; ', $attributeDisplayStrings ) . ')';
+
+		return $text;
+	}
+
 }

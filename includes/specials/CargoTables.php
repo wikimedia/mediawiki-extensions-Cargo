@@ -109,7 +109,7 @@ class CargoTables extends IncludableSpecialPage {
 		$structureDesc .= '<ul>';
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldDesc = '<strong>' . $fieldName . '</strong> - ';
-			$fieldDesc .= $fieldDescription->prettyPrintType();
+			$fieldDesc .= $fieldDescription->prettyPrintTypeAndAttributes();
 			$structureDesc .= Html::rawElement( 'li', null, $fieldDesc ) . "\n";
 		}
 		$structureDesc .= '</ul>';
