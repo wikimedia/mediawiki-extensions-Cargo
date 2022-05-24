@@ -106,7 +106,7 @@
 	"cargo-cargotables-notdeclared": "Descriptive message placed in [[Special:CargoTables]].",
 	"cargo-cargotables-replacementlink": "Text in the Table column when table is a replacement",
 	"cargo-cargotables-tablestructure": "A header for a list of fields",
-	"cargo-cargotables-listof": "An informational message",
+	"cargo-cargotables-listof": "An informational message. Parameters:\n* $1 - a database field type\n* $2 - a delimiter character or string",
 	"cargo-cargotables-allowedvalues": "A header for a list of allowed values",
 	"cargo-cargotables-mandatory": "A description of a database field",
 	"cargo-cargotables-unique": "A description of a database field (each of the field's values must be unique)",
