@@ -42,6 +42,8 @@
 	"cargo-cargotables-action-delete": "削除",
 	"cargo-cargotables-action-recreate": "再作成",
 	"cargo-cargotables-tablelist": "以下の{{PLURAL:$1|テーブル}}が定義されています:",
+	"cargo-cargotables-allowedvalues": "許可される値:",
+	"cargo-cargotables-mandatory": "必須",
 	"cargo-drilldown-allpages": "すべてのページ",
 	"cargo-drilldown-allfiles": "すべてのファイル",
 	"cargo-drilldown-or": "または",

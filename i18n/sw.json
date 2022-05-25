@@ -1,10 +1,12 @@
 {
 	"@metadata": {
 		"authors": [
-			"Rance"
+			"Rance",
+			"Wangombe"
 		]
 	},
 	"right-recreatecargodata": "Rejesha tena taarifa zilizokuwamo katika majedwali yenye taarifa ya mzigo",
 	"right-deletecargodata": "Futa jedwali lenye taarifa ya mzigo",
+	"cargo-cargotables-mandatory": "lazima",
 	"cargo-drilldown-calendarformat": "Kalenda"
 }
