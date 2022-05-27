@@ -1594,6 +1594,7 @@ class CargoSQLQuery {
 			$resultsRow = [];
 			foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 				if ( !isset( $row->$alias ) ) {
+					$resultsRow[$alias] = null;
 					continue;
 				}
 
