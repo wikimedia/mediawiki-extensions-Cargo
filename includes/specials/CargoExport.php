@@ -220,6 +220,10 @@ class CargoExport extends UnlistedSpecialPage {
 	 * Used for gantt format
 	 */
 	private function displayGanttData( $sqlQueries ) {
+		print self::getGanttJSONData( $sqlQueries );
+	}
+
+	public static function getGanttJSONData( $sqlQueries ) {
 		$displayedArray['data'] = [];
 		$displayedArray['links'] = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
@@ -280,7 +284,7 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 			}
 		}
-		print json_encode( $displayedArray );
+		return json_encode( $displayedArray );
 	}
 
 	/**

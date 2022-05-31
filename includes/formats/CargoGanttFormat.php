@@ -43,9 +43,15 @@ class CargoGanttFormat extends CargoDeferredFormat {
 		$attrs = [
 			'id' => 'ganttid',
 			'class' => 'cargoGantt',
-			'dataurl' => $ce->getFullURL( $queryParams ),
 			'style' => "height: $height; width: $width; border: 1px solid #aaa;"
 		];
+
+		if ( array_key_exists( 'inline', $displayParams ) ) {
+			// Make this a non-"deferred" display.
+			$attrs['datafull'] = CargoExport::getGanttJSONData( $sqlQueries );
+		} else {
+			$attrs['dataurl'] = $ce->getFullURL( $queryParams );
+		}
 
 		$text = Html::rawElement( 'div', $attrs, '' );
 

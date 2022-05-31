@@ -5,11 +5,16 @@
 $(document).ready(function() {
 
 	$('.cargoGantt').each( function() {
-        var dataURL = decodeURI( $(this).attr('dataurl') );
         gantt.config.date_format = "%Y-%m-%d %H:%i";
         gantt.config.readonly = true;
         gantt.init("ganttid");
-        gantt.load(dataURL);
+	if ( $(this).attr('dataurl') !== undefined ) {
+		var dataURL = decodeURI( $(this).attr('dataurl') );
+		gantt.load(dataURL);
+	} else {
+		var dataFull = decodeURI( $(this).attr('datafull') );
+		gantt.parse(dataFull);
+	}
 
         function setGanttZoom( evt ) {
             switch (evt.data) {
@@ -63,7 +68,7 @@ $(document).ready(function() {
         $('#ganttid').after( '<div id="ganttZoomInput"></div><br style="clear: both;" />' );
         $('#ganttZoomInput').append( zoomLayout.$element );
 
-        gantt.attachEvent("onLoadEnd", function() {
+        gantt.attachEvent("onGanttRender", function() {
             var earliestDate = gantt.getSubtaskDates().start_date;
             var latestDate = gantt.getSubtaskDates().end_date;
             // Duration in milliseconds.
