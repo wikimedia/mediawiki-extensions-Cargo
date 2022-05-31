@@ -220,16 +220,12 @@ class CargoExport extends UnlistedSpecialPage {
 	 * Used for gantt format
 	 */
 	private function displayGanttData( $sqlQueries ) {
-		$req = $this->getRequest();
-
 		$displayedArray['data'] = [];
 		$displayedArray['links'] = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
 			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
-			$tasks = [];
-			$links = [];
 			$n = 1;
 			foreach ( $queryResults as $queryResult ) {
 				if ( array_key_exists( 'name', $queryResult ) ) {
