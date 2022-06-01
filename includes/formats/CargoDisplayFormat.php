@@ -36,6 +36,15 @@ class CargoDisplayFormat {
 		$class = isset( $classes[$format] ) ? $classes[$format] : 'CargoListFormat';
 		$formatter = new $class( $parser->getOutput(), $parser );
 
+		// This cannot yet be called for "deferred" formats, where the
+		// processing is done via JavaScript and not PHP - in theory,
+		// it could be done, but it would require being able to pass
+		// in a data set to the JavaScript, instead of query
+		// information.
+		if ( $formatter->isDeferred() ) {
+			throw new MWException( "formatArray() cannot be called for the $format format because it is a \"deferred format\"." );
+		}
+
 		$query_displayer = new CargoQueryDisplayer();
 		$field_descriptions = [];
 		foreach ( $mappings as $local => $external ) {
