@@ -124,7 +124,6 @@ class CargoPageValues extends IncludableSpecialPage {
 		if ( count( $tableNames ) >= 3 ) {
 			$toc = Linker::tocList( $toc );
 			$out->addHTML( $toc );
-			$out->addModuleStyles( 'mediawiki.toc.styles' );
 		}
 
 		$out->addHTML( $text );
