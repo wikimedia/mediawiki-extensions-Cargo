@@ -1299,6 +1299,39 @@ class CargoUtils {
 		}
 	}
 
+	public static function validateFieldDescriptionString( $fieldDescriptionStr ) {
+		$hasParameterFormat = preg_match( '/^([^(]*)\s*\((.*)\)$/s', $fieldDescriptionStr, $matches );
+
+		if ( !$hasParameterFormat ) {
+			if ( self::stringContainsParentheses( $fieldDescriptionStr ) ) {
+				throw new MWException( 'Invalid field description - Parentheses do not match: "' . $fieldDescriptionStr . '"' );
+			}
+		} else {
+			if ( count( $matches ) == 3 ) {
+				$extraParamsString = $matches[2];
+				$extraParams = explode( ';', $extraParamsString );
+
+				foreach ( $extraParams as $extraParam ) {
+					$extraParamParts = explode( '=', $extraParam, 2 );
+					$paramKey = strtolower( trim( $extraParamParts[0] ) );
+					$paramValue = isset( $extraParamParts[1] ) ? trim( $extraParamParts[1] ) : '';
+
+					if ( self::stringContainsParentheses( $paramKey ) ) {
+						throw new MWException( 'Invalid field description - Parameter name "' . $paramKey . '" must not include parentheses: "' . $fieldDescriptionStr . '"' );
+					}
+
+					if ( $paramKey == 'allowed values' ) {
+						continue;
+					}
+
+					if ( self::stringContainsParentheses( $paramValue ) ) {
+						throw new MWException( 'Invalid field description - Parameter value "' . $paramValue . '" must not include parentheses: "' . $fieldDescriptionStr . '"' );
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	 * A helper function, because Title::getTemplateLinksTo() is broken in
 	 * MW 1.37.
@@ -1389,6 +1422,10 @@ class CargoUtils {
 			}
 			$schema->addField( $field, $fieldDesc );
 		}
+	}
+
+	public static function stringContainsParentheses( $str ) {
+		return substr_count( $str, ')' ) > 0 || substr_count( $str, '(' ) > 0;
 	}
 
 }

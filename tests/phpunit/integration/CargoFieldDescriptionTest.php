@@ -32,12 +32,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	public function provideValidDescriptionString() {
 		return [
 			[ 'URL' ],
-			[ 'list (;) of String (size=10;dependent on=size;allowed values=*,)' ],
-			[
-				'{{#cargo_declare:_table=Test|Name='
-				. 'String (size=10;dependent on=size;delimiter=\;allowed values=*One**Oneone;mandatory;'
-				. 'unique;regex=xxx;hidden;hierarchy;)}}'
-			]
+			[ 'list (;) of String (size=10;dependent on=size;allowed values=*,)' ]
 		];
 	}
 
@@ -57,6 +52,10 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 		return [
 			[ 'list (;) of BOOLEAN' ],
 			[ 'TEXT (unique;)' ],
+			[ 'String (size=(10))' ],
+			[ 'String (allowed values)=monday,tuesday,wednesday,thursday,friday)' ],
+			[ 'String (' ],
+			[ 'String )' ],
 		];
 	}
 
@@ -260,6 +259,26 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 				"String (allowed values=monday,tuesday,wednesday,thursday,friday)",
 				'tuesday',
 				[ 'value' => 'tuesday' ]
+			],
+			[
+				"String (ALLOWED VALUES=Group A (female), Group B (male)",
+				"Group B (male",
+				[ 'value' => "Group B (male" ]
+			],
+			[
+				"String (allowed values=Group A (female), Group B (male)",
+				"Group B (male",
+				[ 'value' => "Group B (male" ]
+			],
+			[
+				"String (allowed values=Group A (female), Group B (male))",
+				"Group B (male)",
+				[ 'value' => "Group B (male)" ]
+			],
+			[
+				"String (size=100; allowed values=Group A (female), Group B (male))",
+				"Group B (male)",
+				[ 'value' => "Group B (male)" ]
 			],
 
 			[
