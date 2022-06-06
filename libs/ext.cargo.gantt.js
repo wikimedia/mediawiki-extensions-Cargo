@@ -4,9 +4,16 @@
 
 $(document).ready(function() {
 
+	gantt.config.date_format = "%Y-%m-%d %H:%i";
+	gantt.config.readonly = true;
+	// Remove the 'add'/'+' column.
+	for ( var i = gantt.config.columns.length - 1; i >= 0; i-- ) {
+		if ( gantt.config.columns[i].name == 'add' ) {
+			gantt.config.columns.splice( i, 1 );
+		}
+	}
+
 	$('.cargoGantt').each( function() {
-        gantt.config.date_format = "%Y-%m-%d %H:%i";
-        gantt.config.readonly = true;
         gantt.init("ganttid");
 	if ( $(this).attr('dataurl') !== undefined ) {
 		var dataURL = decodeURI( $(this).attr('dataurl') );
