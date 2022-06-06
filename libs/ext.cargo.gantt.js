@@ -75,7 +75,19 @@ $(document).ready(function() {
         $('#ganttid').after( '<div id="ganttZoomInput"></div><br style="clear: both;" />' );
         $('#ganttZoomInput').append( zoomLayout.$element );
 
+	// @hack - we need to use the "onGanttRender" event in order to set
+	// the zoom correctly, whether the Gantt chart is loaded or passed.
+	// (For loading, there's the "onLoadEnd" event, but there doesn't seem
+	// to be a usable equvalent for parsing.) Unfortunately, "onGanttRender"
+	// is called a lot - not just when the chart is first rendered. So, in
+	// order to make sure the zoom is only set once, we add a "zoom set"
+	// attribute once it's set, then escape every time afterwards.
+	// There's probably a better way to do this.
         gantt.attachEvent("onGanttRender", function() {
+		if ( $(this).attr('data-zoom-set') !== undefined ) {
+			return;
+		}
+
             var earliestDate = gantt.getSubtaskDates().start_date;
             var latestDate = gantt.getSubtaskDates().end_date;
             // Duration in milliseconds.
@@ -91,6 +103,7 @@ $(document).ready(function() {
             }
 
             buttonSelect.selectItemByData(selectedZoom);
+		$(this).attr('data-zoom-set', true);
         });
 
 	});
