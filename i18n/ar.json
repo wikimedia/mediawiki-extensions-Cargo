@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Asma",
 			"Esraa Ismail",
 			"FiberAhmed",
 			"Meno25",
@@ -97,6 +98,9 @@
 	"cargo-cargotables-notdeclared": "غير محدد من قبل أي قالب",
 	"cargo-cargotables-tablestructure": "هيكل الجدول:",
 	"cargo-cargotables-listof": "قائمة $1",
+	"cargo-cargotables-allowedvalues": "القيم المسموح بها:",
+	"cargo-cargotables-mandatory": "إلزامي",
+	"cargo-cargotables-unique": "فريدة من نوعها",
 	"cargo-cargotables-totalrows": "يحتوي هذا الجدول على '''$1''' {{PLURAL:$1|صف}} تماما.",
 	"cargo-cargotables-replacementgenerated": "تم إنشاء جدول بديل لهذا الجدول",
 	"cargo-cargotables-switch": "التبديل إلى استخدام هذا الجدول.",
@@ -153,5 +157,6 @@
 	"cargo-gantt-days": "أيام",
 	"cargo-gantt-months": "أشهر",
 	"cargo-gantt-years": "سنوات",
-	"cargo-allowed-values": "القيم المسموح بها:"
+	"cargo-field-type": "نوع المجال",
+	"cargo-allowed-values": "القيم المسموحة"
 }
