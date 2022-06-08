@@ -17,7 +17,8 @@
 			"Avengium",
 			"Bruno44101",
 			"DiegoAmbrocio",
-			"MarcoAurelio"
+			"MarcoAurelio",
+			"OriginReboot"
 		]
 	},
 	"cargo-desc": "Almacenamiento y consulta de datos de plantilla",
@@ -53,6 +54,7 @@
 	"cargo-viewdata-hidelegendparam": "Ocultar leyenda:",
 	"cargo-viewdata-delimiterparam": "Delimitador:",
 	"cargo-viewdata-modifyquery": "Modifique consulta",
+	"cargo-viewdata-viewwikitext": "Ver wikitexto",
 	"cargo-query-missingformat": "Error: debe establecerse el formato.",
 	"cargo-query-badsqlfunction": "Error: no se permite la función de SQL «$1».",
 	"cargo-query-badalias": "Error: el alias de la tabla «$1» no es válido.",
