@@ -6,6 +6,7 @@
 			"Danialbehzadi",
 			"Ebraminio",
 			"FarsiNevis",
+			"Jeeputer",
 			"Nemo bis",
 			"Reza1615"
 		]
@@ -38,7 +39,7 @@
 	"cargo-cargotables-viewreplacement": "جدول جایگزین $1 را مشاهده کنید",
 	"cargo-cargotables-viewreplacementlink": "جدول جایگزین را مشاهده کنید",
 	"cargo-cargotables-tablestructure": "ساختار جدول:",
-	"cargo-cargotables-listof": "فهرست $1",
+	"cargo-cargotables-listof": "فهرست $1، جداکننده: $2",
 	"cargo-cargotables-replacementgenerated": "یک جدول جایگزین برای این جدول ساخته شد",
 	"cargo-pagevalues-tablevalues": "مقادیر «$1»",
 	"cargo-drilldown-choosetable": "انتخاب جدول",
