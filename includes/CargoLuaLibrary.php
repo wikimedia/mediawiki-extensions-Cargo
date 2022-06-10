@@ -91,7 +91,10 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			foreach ( $fieldArray as $fieldString ) {
 				$alias = $query->getAliasForFieldString( $fieldString );
 				if ( !isset( $row[$alias] ) ) {
-					continue;
+					if ( !$GLOBALS["wgCargoLegacyNullLuaFieldsAsEmptyString"] ) {
+						continue;
+					}
+					$row[$alias] = "";
 				}
 				$nameArray = CargoUtils::smartSplit( '=', $fieldString );
 				$name = $nameArray[ count( $nameArray ) - 1 ];

@@ -459,7 +459,7 @@
 		"CargoDrilldownNumRangesForNumbers": 5,
 		"CargoMaxVisibleHierarchyDrilldownValues": 30,
 		"CargoTablesPrioritizeReplacements": false,
-		"CargoLegacyStoreNullAsEmptyString": false,
+		"CargoLegacyNullLuaFieldsAsEmptyString": false,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [
