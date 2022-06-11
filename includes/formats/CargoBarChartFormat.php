@@ -19,7 +19,7 @@ class CargoBarChartFormat extends CargoDeferredFormat {
 	 * @return string HTML
 	 */
 	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
-		$this->mOutput->addModules( 'ext.cargo.nvd3' );
+		$this->mOutput->addModules( [ 'ext.cargo.nvd3' ] );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'nvd3chart';

@@ -28,7 +28,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModules( 'ext.cargo.datatables' );
+		$this->mOutput->addModules( [ 'ext.cargo.datatables' ] );
 
 		$tableAttrs = [ 'class' => 'cargoDynamicTable display', 'cellspacing' => '0', 'width' => '100%' ];
 

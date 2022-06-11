@@ -84,7 +84,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModules( 'ext.cargo.slick' );
+		$this->mOutput->addModules( [ 'ext.cargo.slick' ] );
 
 		if ( array_key_exists( 'caption field', $displayParams ) ) {
 			$captionField = str_replace( '_', ' ', $displayParams['caption field'] );

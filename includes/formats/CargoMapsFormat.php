@@ -119,7 +119,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		}
 		$this->mOutput->addHeadItem( $scriptsHTML, $scriptsHTML );
 		$this->mOutput->addHeadItem( $stylesHTML, $stylesHTML );
-		$this->mOutput->addModules( 'ext.cargo.maps' );
+		$this->mOutput->addModules( [ 'ext.cargo.maps' ] );
 
 		// Construct the table of data we will display.
 		$valuesForMap = [];

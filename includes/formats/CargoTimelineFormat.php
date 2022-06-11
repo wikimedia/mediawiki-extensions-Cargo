@@ -20,7 +20,7 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 	 * @return string HTML
 	 */
 	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
-		$this->mOutput->addModules( 'ext.cargo.timeline' );
+		$this->mOutput->addModules( [ 'ext.cargo.timeline' ] );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'timeline';

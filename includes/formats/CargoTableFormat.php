@@ -58,9 +58,8 @@ class CargoTableFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModules( 'ext.cargo.main' );
-		$this->mOutput->addModuleStyles( 'jquery.tablesorter.styles' );
-		$this->mOutput->addModules( 'jquery.tablesorter' );
+		$this->mOutput->addModules( [ 'ext.cargo.main', 'jquery.tablesorter' ] );
+		$this->mOutput->addModuleStyles( [ 'jquery.tablesorter.styles' ] );
 
 		$mergeSimilarCells = false;
 		if ( array_key_exists( 'merge similar cells', $displayParams ) ) {

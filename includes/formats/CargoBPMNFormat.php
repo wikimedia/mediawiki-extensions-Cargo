@@ -20,7 +20,7 @@ class CargoBPMNFormat extends CargoDeferredFormat {
 	 * @return string HTML
 	 */
 	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
-		$this->mOutput->addModules( 'ext.cargo.bpmn' );
+		$this->mOutput->addModules( [ 'ext.cargo.bpmn' ] );
 		$ce = SpecialPage::getTitleFor( 'CargoExport' );
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'bpmn';

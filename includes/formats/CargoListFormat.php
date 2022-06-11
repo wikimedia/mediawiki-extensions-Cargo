@@ -11,7 +11,7 @@ class CargoListFormat extends CargoDisplayFormat {
 
 	public function __construct( $output, $parser = null ) {
 		parent::__construct( $output, $parser );
-		$this->mOutput->addModules( 'ext.cargo.main' );
+		$this->mOutput->addModules( [ 'ext.cargo.main' ] );
 	}
 
 	public static function allowedParameters() {

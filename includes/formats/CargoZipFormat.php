@@ -54,7 +54,7 @@ class CargoZipFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModules( 'ext.cargo.zip' );
+		$this->mOutput->addModules( [ 'ext.cargo.zip' ] );
 
 		$files = self::getFiles( $valuesTable, $fieldDescriptions );
 

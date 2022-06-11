@@ -22,7 +22,7 @@ class CargoTagCloudFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTagCloud, $formattedValuesTagCloud, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
+		$this->mOutput->addModuleStyles( [ 'ext.cargo.main' ] );
 
 		if ( count( $fieldDescriptions ) < 2 ) {
 			return '';

@@ -88,8 +88,8 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 	 * @return string HTML
 	 */
 	public function display( $valuesTable, $formattedValuesTable, $fieldDescriptions, $displayParams ) {
-		$this->mOutput->addModules( 'mediawiki.page.gallery' );
-		$this->mOutput->addModuleStyles( 'mediawiki.page.gallery.styles' );
+		$this->mOutput->addModules( [ 'mediawiki.page.gallery' ] );
+		$this->mOutput->addModuleStyles( [ 'mediawiki.page.gallery.styles' ] );
 
 		$valuesTable = CargoUtils::replaceRedirectWithTarget( $valuesTable, $fieldDescriptions );
 		if ( array_key_exists( 'caption field', $displayParams ) ) {

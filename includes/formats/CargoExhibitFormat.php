@@ -173,8 +173,8 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	public function queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams = null ) {
 		global $cgScriptPath;
 
-		$this->mOutput->addModules( 'ext.cargo.exhibit' );
-		$this->mOutput->addModuleStyles( 'ext.cargo.main' );
+		$this->mOutput->addModules( [ 'ext.cargo.exhibit' ] );
+		$this->mOutput->addModuleStyles( [ 'ext.cargo.main' ] );
 
 		$exhibit_busy = $cgScriptPath . "/resources/images/loading.gif";
 		// The "loading" message is just alt-text, so it doesn't really
