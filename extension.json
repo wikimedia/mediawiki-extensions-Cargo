@@ -422,7 +422,7 @@
 			"CargoHooks::describeDBSchema",
 			"CargoHooks::cargoSchemaUpdates"
 		],
-		"SkinTemplateNavigation": [
+		"SkinTemplateNavigation::Universal": [
 			"CargoRecreateDataAction::displayTab",
 			"CargoHooks::addPurgeCacheTab"
 		],
