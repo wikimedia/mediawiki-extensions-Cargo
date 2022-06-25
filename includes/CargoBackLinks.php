@@ -9,7 +9,11 @@ if ( !defined( 'DB_PRIMARY' ) ) {
 
 class CargoBackLinks {
 	public static function managePageDeletion( $pageId ) {
-		$page = \WikiPage::newFromID( $pageId );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromID( $pageId );
+		} else {
+			$page = \WikiPage::newFromID( $pageId );
+		}
 		$pageTitle = $page ? $page->getTitle() : null;
 		if ( $pageTitle ) {
 			$pageId = $pageTitle->getArticleID();
@@ -63,10 +67,21 @@ class CargoBackLinks {
 		$res = $dbr->select( 'cargo_backlinks',
 			[ 'cbl_query_page_id' ],
 			[ 'cbl_result_page_id' => $resultPageId ] );
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
+		} else {
+			$wikiPageFactory = null;
+		}
 		foreach ( $res as $row ) {
 			$queryPageId = $row->cbl_query_page_id;
 			if ( $queryPageId ) {
-				$page = \WikiPage::newFromID( $queryPageId );
+				if ( $wikiPageFactory !== null ) {
+					// MW 1.36+
+					$page = $wikiPageFactory->newFromID( $queryPageId );
+				} else {
+					$page = \WikiPage::newFromID( $queryPageId );
+				}
 				if ( $page ) {
 					$page->doPurge();
 				}

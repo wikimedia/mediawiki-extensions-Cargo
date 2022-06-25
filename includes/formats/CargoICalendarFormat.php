@@ -109,7 +109,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 		$title = Title::newFromText( $result[$nameField] );
 		// Only re-query the Page if its ID or modification date are not included in the original query.
 		if ( !isset( $result['_pageID'] ) || !isset( $result['_modificationDate'] ) ) {
-			$page = WikiPage::factory( $title );
+			$page = CargoUtils::makeWikiPage( $title );
 		}
 		$pageId = isset( $result['_pageID'] ) ? $result['_pageID'] : $page->getId();
 		$permalink = SpecialPage::getTitleFor( 'Redirect', 'page/' . $pageId, $result['_ID'] ?? '' );

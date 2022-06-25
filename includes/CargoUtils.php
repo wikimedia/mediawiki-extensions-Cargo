@@ -1391,7 +1391,7 @@ class CargoUtils {
 				$fieldDescriptions[ $key ]->mType == "File" ) {
 					$title = Title::newFromText( $val );
 					if ( $title != null && $title->isRedirect() ) {
-						$page = WikiPage::factory( $title );
+						$page = self::makeWikiPage( $title );
 						$target = $page->getRedirectTarget();
 						if ( $target != null ) {
 							$val = $target->getText();
@@ -1428,4 +1428,12 @@ class CargoUtils {
 		return substr_count( $str, ')' ) > 0 || substr_count( $str, '(' ) > 0;
 	}
 
+	public static function makeWikiPage( $title ) {
+		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
+			// MW 1.36+
+			return MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
+		} else {
+			return WikiPage::factory( $title );
+		}
+	}
 }

@@ -103,7 +103,7 @@ class CargoPageData {
 			return;
 		}
 
-		$wikiPage = WikiPage::factory( $title );
+		$wikiPage = CargoUtils::makeWikiPage( $title );
 		$pageDataValues = [];
 
 		if ( in_array( 'creationDate', $wgCargoPageDataColumns ) ) {
@@ -130,7 +130,7 @@ class CargoPageData {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
-				$page = WikiPage::factory( $title );
+				$page = CargoUtils::makeWikiPage( $title );
 				$pageDataValues['_fullText'] = ContentHandler::getContentText( $page->getContent() );
 			}
 		}
@@ -171,7 +171,7 @@ class CargoPageData {
 		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) || in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
 			// case when redirect
 			if ( $title->isRedirect() ) {
-				$page = WikiPage::factory( $title );
+				$page = CargoUtils::makeWikiPage( $title );
 				$redirTitle = $page->getRedirectTarget();
 				if ( $redirTitle !== null ) {
 					if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
