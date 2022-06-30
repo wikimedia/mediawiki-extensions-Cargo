@@ -98,7 +98,7 @@ $(document).ready(function() {
                 selectedZoom = 'hours';
             } else if ( numDays < 90 ) {
                 return;
-            } else if ( numDays < 1080 ) {
+            } else if ( numDays < 730 ) {
                 selectedZoom = 'months';
             }
 
