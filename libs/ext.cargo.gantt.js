@@ -22,6 +22,10 @@ $(document).ready(function() {
 		var dataFull = decodeURI( $(this).attr('datafull') );
 		gantt.parse(dataFull);
 	}
+	// @todo - add support for values other than ''.
+	if ( $(this).attr('data-columns') === '' ) {
+		gantt.config.columns = [];
+	}
 
         function setGanttZoom( evt ) {
             switch (evt.data) {
@@ -109,5 +113,3 @@ $(document).ready(function() {
 	});
 
 });
-
-

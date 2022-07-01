@@ -6,6 +6,7 @@ class CargoGanttFormat extends CargoDeferredFormat {
 		return [
 			'height' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-heightparam' )->parse() ],
 			'width' => [ 'type' => 'int', 'label' => wfMessage( 'cargo-viewdata-widthparam' )->parse() ],
+			'columns' => [ 'type' => 'string', 'label' => wfMessage( 'cargo-gantt-columns' )->parse() ],
 		];
 	}
 
@@ -45,6 +46,10 @@ class CargoGanttFormat extends CargoDeferredFormat {
 			'class' => 'cargoGantt',
 			'style' => "height: $height; width: $width; border: 1px solid #aaa;"
 		];
+
+		if ( array_key_exists( 'columns', $displayParams ) ) {
+			$attrs['data-columns'] = $displayParams['columns'];
+		}
 
 		if ( array_key_exists( 'inline', $displayParams ) ) {
 			// Make this a non-"deferred" display.
