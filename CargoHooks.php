@@ -369,7 +369,7 @@ class CargoHooks {
 		// we need to parse it here anyway, for the settings we
 		// added to remain set.
 		CargoStore::$settings['origin'] = 'page save';
-		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getNativeData() );
+		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getText() );
 
 		// Also, save data to any relevant "special tables", if they
 		// exist.
@@ -410,7 +410,7 @@ class CargoHooks {
 		CargoStore::$settings['origin'] = 'page save';
 		CargoUtils::parsePageForStorage(
 			$wikiPage->getTitle(),
-			$revisionRecord->getContent( SlotRecord::MAIN )->getNativeData()
+			$revisionRecord->getContent( SlotRecord::MAIN )->getText()
 		);
 
 		// Also, save data to any relevant "special tables", if they

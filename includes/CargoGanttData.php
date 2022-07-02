@@ -56,7 +56,7 @@ class CargoGanttData {
 
 		$revisionRecord = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
 		$role = MediaWiki\Revision\SlotRecord::MAIN;
-		$pageText = $revisionRecord->getContent( $role )->getNativeData();
+		$pageText = $revisionRecord->getContent( $role )->getText();
 		$data = json_decode( $pageText );
 
 		$allGanttValues = [];

@@ -51,7 +51,7 @@ class CargoBPMNData {
 
 		$revisionRecord = MediaWiki\MediaWikiServices::getInstance()->getRevisionLookup()->getRevisionByTitle( $title );
 		$role = MediaWiki\Revision\SlotRecord::MAIN;
-		$pageText = $revisionRecord->getContent( $role )->getNativeData();
+		$pageText = $revisionRecord->getContent( $role )->getText();
 		$xml = new SimpleXMLElement( $pageText );
 
 		$allBPMNValues = [];
