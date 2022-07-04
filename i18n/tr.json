@@ -172,6 +172,7 @@
 	"cargo-gantt-days": "Gün",
 	"cargo-gantt-months": "Ay",
 	"cargo-gantt-years": "Yıl",
+	"cargo-gantt-columns": "Sütunlar",
 	"cargo-field-type": "Alan türü",
 	"cargo-allowed-values": "İzin verilen değerler",
 	"cargo-declare-must-from-template": "Hata: #cargo_declare taslak sayfasından çağrılmak zorundadır.",

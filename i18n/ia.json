@@ -165,6 +165,7 @@
 	"cargo-gantt-days": "Dies",
 	"cargo-gantt-months": "Menses",
 	"cargo-gantt-years": "Annos",
+	"cargo-gantt-columns": "Columnas",
 	"cargo-field-type": "Typo de campo",
 	"cargo-allowed-values": "Valores permittite",
 	"cargo-declare-must-from-template": "Error: #cargo_declare debe esser appellate a partir de un pagina de patrono.",

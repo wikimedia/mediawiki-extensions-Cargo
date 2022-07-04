@@ -184,6 +184,7 @@
 	"cargo-gantt-days": "Jours",
 	"cargo-gantt-months": "Mois",
 	"cargo-gantt-years": "Années",
+	"cargo-gantt-columns": "Colonnes",
 	"cargo-field-type": "Type de champ",
 	"cargo-allowed-values": "Valeurs autorisées",
 	"cargo-declare-must-from-template": "Erreur : #cargo_declare doit être appelé depuis une page de modèle.",

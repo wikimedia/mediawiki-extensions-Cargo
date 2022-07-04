@@ -176,6 +176,7 @@
 	"cargo-gantt-days": "Tage",
 	"cargo-gantt-months": "Monate",
 	"cargo-gantt-years": "Jahre",
+	"cargo-gantt-columns": "Spalten",
 	"cargo-field-type": "Feldtyp",
 	"cargo-allowed-values": "Erlaubte Werte",
 	"cargo-declare-must-from-template": "Fehler: #cargo_declare muss aus einer Vorlage aufgerufen werden.",

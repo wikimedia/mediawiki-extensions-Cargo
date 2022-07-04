@@ -167,6 +167,7 @@
 	"cargo-gantt-days": "Денови",
 	"cargo-gantt-months": "Месеци",
 	"cargo-gantt-years": "Години",
+	"cargo-gantt-columns": "Столбови",
 	"cargo-field-type": "Вид на поле",
 	"cargo-allowed-values": "Дозволени вредности",
 	"cargo-declare-must-from-template": "Грешка: #cargo_declare мора да се повика од предложна страница.",
