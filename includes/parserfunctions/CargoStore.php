@@ -447,7 +447,8 @@ class CargoStore {
 		$fileTableName = $tableName . '___files';
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldType = $fieldDescription->mType;
-			if ( $fieldType != 'File' ) {
+			// Only handle this field if it's of type File, and if it exists in the table records.
+			if ( $fieldType != 'File' || !array_key_exists( $fieldName, $tableFieldValues ) ) {
 				continue;
 			}
 			if ( $fieldDescription->mIsList ) {
