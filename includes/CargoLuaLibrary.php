@@ -26,12 +26,12 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 	 *
 	 * @param string $tables
 	 * @param string $fields
-	 * @param array $args
+	 * @param array|null $args
 	 * @return array[]
 	 * @throws MWException
 	 * @throws Scribunto_LuaError
 	 */
-	public function cargoQuery( $tables, $fields, array $args ): array {
+	public function cargoQuery( $tables, $fields, $args ): array {
 		$this->checkType( 'query', 1, $tables, 'string' );
 		$this->checkType( 'query', 2, $fields, 'string' );
 		$this->checkTypeOptional( 'query', 3, $args, 'table', [] );
