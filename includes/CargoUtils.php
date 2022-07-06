@@ -1349,7 +1349,7 @@ class CargoUtils {
 			[
 				"tl_from=page_id",
 				"tl_namespace" => NS_TEMPLATE,
-				"tl_title" => $templateTitle->mDbkeyform
+				"tl_title" => $templateTitle->getDBkey()
 			],
 			__METHOD__,
 			$options
