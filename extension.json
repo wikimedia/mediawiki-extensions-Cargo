@@ -59,7 +59,9 @@
 		"cargorecreatespecialtable": "CargoRecreateSpecialTableAPI",
 		"cargoautocomplete": "CargoAutocompleteAPI",
 		"cargoqueryautocomplete": "CargoQueryAutocompleteAPI",
-		"cargoformatparams": "CargoFormatParamsAPI"
+		"cargoformatparams": "CargoFormatParamsAPI",
+		"cargotables": "CargoTablesAPI",
+		"cargofields": "CargoFieldsAPI"
 	},
 	"LogTypes": [
 		"cargo"
@@ -120,6 +122,8 @@
 		"CargoPageValuesAction": "includes/CargoPageValuesAction.php",
 		"CargoPageValues": "includes/specials/CargoPageValues.php",
 		"CargoQueryAPI": "includes/api/CargoQueryAPI.php",
+		"CargoTablesAPI": "includes/api/CargoTablesAPI.php",
+		"CargoFieldsAPI": "includes/api/CargoFieldsAPI.php",
 		"CargoRecreateTablesAPI": "includes/api/CargoRecreateTablesAPI.php",
 		"CargoRecreateDataAPI": "includes/api/CargoRecreateDataAPI.php",
 		"CargoRecreateSpecialTableAPI": "includes/api/CargoRecreateSpecialTableAPI.php",
