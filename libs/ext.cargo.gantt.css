@@ -13,3 +13,14 @@ div#ganttZoomInput {
 	float: right;
 	font-weight: bold;
 }
+
+/* Changes to make bar labels visible even if they're wider than the bars. */
+.gantt_task_content {
+	color: #000;
+	overflow: visible;
+}
+
+.gantt_task_line {
+	background-color: #b7fab1;
+	border-color: #97da9a;
+}
