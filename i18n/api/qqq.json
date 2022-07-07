@@ -5,12 +5,17 @@
 			"Raymond",
 			"Robby",
 			"Seb35",
-			"Umherirrender",
-			"Techwizzie"
+			"Techwizzie",
+			"Umherirrender"
 		]
 	},
 	"apihelp-cargoquery-description": "{{doc-apihelp-description|cargoquery}}",
 	"apihelp-cargoquery-summary": "{{doc-apihelp-summary|cargoquery}}",
+	"apihelp-cargotables-description": "{{doc-apihelp-description|cargotables}}",
+	"apihelp-cargotables-summary": "{{doc-apihelp-summary|cargotables}}",
+	"apihelp-cargofields-summary": "{{doc-apihelp-summary|cargofields}}",
+	"apihelp-cargofields-description": "{{doc-apihelp-description|cargofields}}",
+	"apihelp-cargofields-param-table": "{{doc-apihelp-param|cargofields|table}}",
 	"apihelp-cargoquery-param-tables": "{{doc-apihelp-param|cargoquery|tables}}",
 	"apihelp-cargoquery-param-fields": "{{doc-apihelp-param|cargoquery|fields}}",
 	"apihelp-cargoquery-param-where": "{{doc-apihelp-param|cargoquery|where}}",
@@ -49,10 +54,5 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "{{doc-apihelp-param|cargoqueryautocomplete|tables}}",
 	"apihelp-cargoformatparams-description": "{{doc-apihelp-description|cargoformatparams}}",
 	"apihelp-cargoformatparams-summary": "{{doc-apihelp-summary|cargoformatparams}}",
-	"apihelp-cargoformatparams-param-queryformat": "{{doc-apihelp-param|cargoformatparams|queryformat}}",
-	"apihelp-cargotables-description": "{{doc-apihelp-description|cargotables}}",
-	"apihelp-cargotables-summary": "{{doc-apihelp-summary|cargotables}}",
-	"apihelp-cargofields-param-table": "{{doc-apihelp-param|cargofields|table}}",
-	"apihelp-cargofields-description": "{{doc-apihelp-description|cargofields}}",
-	"apihelp-cargofields-summary": "{{doc-apihelp-summary|cargofields}}"
+	"apihelp-cargoformatparams-param-queryformat": "{{doc-apihelp-param|cargoformatparams|queryformat}}"
 }
