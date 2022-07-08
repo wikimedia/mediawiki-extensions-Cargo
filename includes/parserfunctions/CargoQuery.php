@@ -5,6 +5,7 @@
  * @author Yaron Koren
  * @ingroup Cargo
  */
+use MediaWiki\MediaWikiServices;
 
 class CargoQuery {
 
@@ -85,7 +86,10 @@ class CargoQuery {
 			// cargo_backlinks table.
 			// Also remove the limit from this 2nd query so that it
 			// can include all results.
-			if ( $groupByStr == '' ) {
+			// Fetch results title only if "cargo_backlinks" table exists
+			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+			$dbr = $lb->getConnectionRef( DB_REPLICA );
+			if ( $groupByStr == '' && $dbr->tableExists( 'cargo_backlinks' ) ) {
 				$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
 				$allTables = array_filter( $allTables );
 				$newFieldsStr = $fieldsStr;
