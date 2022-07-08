@@ -1,0 +1,11 @@
+{
+	"@metadata": {
+		"authors": [
+			"Teitei Para"
+		]
+	},
+	"apihelp-cargotables-description": "System lia table zydua patu teh",
+	"apihelp-cargotables-summary": "System lia table zydua patu teh",
+	"apihelp-cargofields-summary": "Apy hawpa table liata kao zydua patu teh",
+	"apihelp-cargofields-param-table": "Cargo table liata patu awpa kaozy"
+}
