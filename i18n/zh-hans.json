@@ -13,7 +13,11 @@
 			"Yfdyh000",
 			"Zhang8569",
 			"佛壁灯",
-			"列维劳德"
+			"列维劳德",
+			"Diskdance",
+			"Lakejason0",
+			"Willy1018",
+			"Yining Chen"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -122,7 +126,7 @@
 	"pagevalues": "页面值",
 	"cargo-pagevaluesfor": "用于“$1”的页面值",
 	"cargo-pagevalues-tablevalues": "“$1”值",
-	"cargo-pagevalues-tableinfo-numrows": "本页存储了$1行",
+	"cargo-pagevalues-tableinfo-numrows": "本页存储了$1{{PLURAL:$1|行}}",
 	"drilldown": "钻取",
 	"cargo-drilldown-choosetable": "选择一个表格",
 	"cargo-drilldown-allpages": "所有页面",
