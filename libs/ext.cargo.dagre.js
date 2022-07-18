@@ -59,12 +59,8 @@ for ( const tableName in tableSchemas ) {
 		{ name: '_pageName', type: 'String' },
 		{ name: '_pageID', type: 'Integer' }
 	];
-	for ( const fieldName in tableSchemas[tableName]['mFieldDescriptions'] ) {
-		var fieldIsList = tableSchemas[tableName]['mFieldDescriptions'][fieldName]['mIsList'];
-		var fieldType = tableSchemas[tableName]['mFieldDescriptions'][fieldName]['mType'];
-		if ( fieldIsList ) {
-			fieldType = 'List of ' + fieldType;
-		}
+	for ( const fieldName in tableSchemas[tableName] ) {
+		var fieldType = tableSchemas[tableName][fieldName]['type'];
 		tableFields.push( { name: fieldName, type: fieldType } );
 	}
 	addTable( g, tableName, tableFields );

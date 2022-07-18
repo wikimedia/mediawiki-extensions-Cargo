@@ -27,8 +27,26 @@ class CargoTableDiagram extends IncludableSpecialPage {
 			}
 		}
 
+		// Create a minimal array of schema data, since we only need
+		// a small fraction of the overall schema information.
 		$tableSchemas = CargoUtils::getTableSchemas( $userDefinedTables );
-		$tableSchemasJSON = json_encode( $tableSchemas );
+		$tableSchemaData = [];
+		foreach ( $tableSchemas as $tableName => $tableSchema ) {
+			$curTableSchemaData = [];
+			foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDesc ) {
+				$typeString = $fieldDesc->mType;
+				if ( $fieldDesc->mIsList ) {
+					// @todo - i18n this?
+					$typeString = "List of $typeString";
+				}
+				$curTableSchemaData[$fieldName] = [
+					'type' => $typeString
+				];
+			}
+			$tableSchemaData[$tableName] = $curTableSchemaData;
+		}
+		$tableSchemasJSON = json_encode( $tableSchemaData );
+
 		$allParentTables = [];
 		foreach ( $userDefinedTables as $tableName ) {
 			$parentTables = CargoUtils::getParentTables( $tableName );
