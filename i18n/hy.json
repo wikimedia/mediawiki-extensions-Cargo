@@ -13,5 +13,6 @@
 	"cargo-drilldown-or": "կամ",
 	"cargo-drilldown-mapformat": "Քարտեզ",
 	"cargo-drilldown-galleryformat": "Պատկերասրահ",
-	"cargo-drilldown-calendarformat": "Օրացույց"
+	"cargo-drilldown-calendarformat": "Օրացույց",
+	"cargo-gantt-columns": "Սյունակներ"
 }

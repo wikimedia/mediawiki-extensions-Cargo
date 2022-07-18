@@ -106,7 +106,7 @@
 	"cargo-cargotables-notdeclared": "не визначено жодним шаблоном",
 	"cargo-cargotables-replacementlink": "Таблиця замін",
 	"cargo-cargotables-tablestructure": "Структура таблиці:",
-	"cargo-cargotables-listof": "Список $1",
+	"cargo-cargotables-listof": "Список $1, роздільник: $2",
 	"cargo-cargotables-totalrows": "Ця таблиця має загалом '''$1''' {{PLURAL:$1|рядок|рядки|рядків}}.",
 	"cargo-cargotables-replacementgenerated": "Створена заміна для цієї таблиці",
 	"cargo-cargotables-switch": "Перейти до використання цієї таблиці.",
@@ -169,6 +169,6 @@
 	"cargo-gantt-days": "Дні",
 	"cargo-gantt-months": "Місяці",
 	"cargo-gantt-years": "Роки",
-	"cargo-field-type": "Тип поля:",
-	"cargo-allowed-values": "Допустимі значення:"
+	"cargo-field-type": "Тип поля",
+	"cargo-allowed-values": "Допустимі значення"
 }

@@ -62,5 +62,6 @@
 	"cargo-drilldown-galleryformat": "نگارخانه",
 	"cargo-drilldown-calendarformat": "تقویم",
 	"cargo-viewxls": "مشاهده XML",
-	"cargo-pageschemas-tablename": "نام جدول:"
+	"cargo-pageschemas-tablename": "نام جدول:",
+	"cargo-gantt-columns": "ستون‌ها"
 }
