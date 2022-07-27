@@ -153,8 +153,8 @@ class CargoSQLQuery {
 				preg_match( $regexp, $noQuotesGroupByStr ) ||
 				preg_match( $regexp, $noQuotesHavingStr ) ||
 				preg_match( $regexp, $noQuotesOrderByStr ) ||
-				preg_match( $regexp, $limitStr ) ||
-				preg_match( $regexp, $offsetStr ) ) {
+				preg_match( $regexp, (string)$limitStr ) ||
+				preg_match( $regexp, (string)$offsetStr ) ) {
 				throw new MWException( "Error: the string \"$displayString\" cannot be used within #cargo_query." );
 			}
 		}
