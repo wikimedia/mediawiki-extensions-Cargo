@@ -129,6 +129,6 @@
 	"cargo-gantt-months": "Месеци",
 	"cargo-gantt-years": "Години",
 	"cargo-gantt-columns": "Колони",
-	"cargo-field-type": "Тип поле",
-	"cargo-allowed-values": "Позволени стойности"
+	"cargo-field-type": "Тип на полето",
+	"cargo-allowed-values": "Допустими стойности"
 }
