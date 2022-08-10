@@ -501,15 +501,6 @@ class CargoUtils {
 			$value = "\n" . $value;
 		}
 
-		// Add a __NOEDITSECTION__ "behavior switch" to the beginning
-		// of this value, so that, on the off chance that it contains
-		// section headers, edit links will not appear in the parsed
-		// output. (It would be nice to add __NOTOC__ as well, but
-		// that could remove a *wanted* table of contents.)
-		// We avoid newlines and extra spaces here (we don't need
-		// them) to not mess up the formatting.
-		$value = "__NOEDITSECTION__$value";
-
 		// Parse it as if it's wikitext. The exact call
 		// depends on whether we're in a special page or not.
 		if ( $parser === null ) {
