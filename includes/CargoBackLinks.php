@@ -44,8 +44,11 @@ class CargoBackLinks {
 		}
 		// Sanity check
 		$resultsPageIds = array_unique( $resultsPageIds );
+
 		$pageId = $title->getArticleID();
-		self::removeBackLinks( $pageId );
+		$dbw->delete( 'cargo_backlinks', [
+			'cbl_query_page_id' => $pageId
+		], __METHOD__ );
 
 		foreach ( $resultsPageIds as $resultPageId ) {
 			if ( $resultPageId ) {
