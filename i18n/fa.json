@@ -7,7 +7,8 @@
 			"Ebraminio",
 			"FarsiNevis",
 			"Nemo bis",
-			"Reza1615"
+			"Reza1615",
+			"Jeeputer"
 		]
 	},
 	"cargo-definestable": "این الگو جدول «$1» را تعریف می‌کند.",
@@ -58,6 +59,7 @@
 	"cargo-drilldown-filename": "نام پرونده",
 	"cargo-drilldown-filetext": "متن پرونده",
 	"cargo-drilldown-mapformat": "نقشه",
+	"cargo-drilldown-timelineformat": "خط زمان",
 	"cargo-drilldown-galleryformat": "نگارخانه",
 	"cargo-drilldown-calendarformat": "تقویم",
 	"cargo-viewxls": "مشاهده XML",
