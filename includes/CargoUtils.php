@@ -397,6 +397,10 @@ class CargoUtils {
 	 * is not closed.
 	 */
 	public static function removeQuotedStrings( $string ) {
+		if ( $string === null ) {
+			return null;
+		}
+
 		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
 		$string = preg_replace( $noQuotesPattern, '', $string );
 		if ( strpos( $string, '"' ) !== false || strpos( $string, "'" ) !== false ) {

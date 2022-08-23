@@ -270,7 +270,7 @@ class CargoSQLQuery {
 
 		$this->mCargoJoinConds = [];
 
-		if ( trim( $joinOnStr ) == '' ) {
+		if ( $joinOnStr === null || trim( $joinOnStr ) === '' ) {
 			if ( count( $this->mAliasedTableNames ) > 1 ) {
 				throw new MWException( "Error: join conditions must be set for tables." );
 			}
@@ -505,6 +505,10 @@ class CargoSQLQuery {
 
 	private static function getAndValidateSQLFunctions( $str ) {
 		global $wgCargoAllowedSQLFunctions;
+
+		if ( $str === null ) {
+			return [];
+		}
 
 		$sqlFunctionMatches = [];
 		$sqlFunctionRegex = '/(\b|\W)(\w*?)\s*\(/';
@@ -1525,9 +1529,7 @@ class CargoSQLQuery {
 		foreach ( $this->mAliasedFieldNames as $alias => $fieldName ) {
 			$this->mAliasedFieldNames[$alias] = $this->addTablePrefixes( $fieldName );
 		}
-		if ( $this->mWhereStr !== null ) {
-			$this->mWhereStr = $this->addTablePrefixes( $this->mWhereStr );
-		}
+		$this->mWhereStr = $this->addTablePrefixes( $this->mWhereStr );
 		$this->mGroupByStr = $this->addTablePrefixes( $this->mGroupByStr );
 		$this->mHavingStr = $this->addTablePrefixes( $this->mHavingStr );
 		foreach ( $this->mOrderBy as &$orderByElem ) {
@@ -1616,6 +1618,10 @@ class CargoSQLQuery {
 	}
 
 	private function addTablePrefixes( $string ) {
+		if ( $string === null ) {
+			return null;
+		}
+
 		// Create arrays for doing replacements of table names within
 		// the SQL by their "real" equivalents.
 		$tableNamePatterns = [];
