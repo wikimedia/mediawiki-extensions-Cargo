@@ -104,7 +104,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		}
 
 		$ct = SpecialPage::getTitleFor( 'CargoTables' );
-		$viewTableURL = $ct->getInternalURL() . '/' . $this->mTableName;
+		$viewTableURL = $ct->getLocalURL() . '/' . $this->mTableName;
 
 		// Store all the necesssary data on the page.
 		$text = Html::element( 'div', [
