@@ -14,7 +14,7 @@
 	"cargo-notable": "Грешка: Трябва да се укаже име на таблицата.",
 	"cargo-unknowntable": "Грешка: Таблица $1 не е намерена.",
 	"recreatedata": "Пресъздаване на данни",
-	"recreatecargodata": "Пресъздаване на данни",
+	"recreatecargodata": "Пресъздаване на данните",
 	"action-recreatecargodata": "пресъздаване на данни на „Карго“",
 	"right-recreatecargodata": "Пресъздаване данни в таблиците на „Карго“",
 	"action-deletecargodata": "изтриване на данни от „Карго“",
