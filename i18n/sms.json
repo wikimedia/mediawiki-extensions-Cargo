@@ -8,11 +8,13 @@
 	"cargo-viewdata-tables": "Taullõk/Taullõõǥǥ:",
 	"cargo-viewdata-heightparam": "Õllâdvuõtt:",
 	"cargo-viewdata-widthparam": "Kobddâdvuõtt:",
+	"cargo-viewdata-hidelegendparam": "Čiõǥǥ čiʹlǧǧtõõzz:",
 	"cargo-cargotables-action-deletereplacement": "Jaukkâd",
 	"cargo-cargotables-action-delete": "Jaukkâd",
 	"cargo-drilldown-allpages": "Puk seeid",
 	"cargo-drilldown-allfiles": "Puk teâttõõzz",
 	"cargo-drilldown-search": "Ooʒʒ",
 	"cargo-drilldown-filename": "Teâttõsnõmm",
-	"cargo-viewcsv": "Čuäʹjet CSV-teâttõõzz"
+	"cargo-viewcsv": "Čuäʹjet CSV-teâttõõzz",
+	"cargo-downloadzip": "Laadd ZIP-teâttõõzz"
 }
