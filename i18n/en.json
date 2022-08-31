@@ -179,7 +179,7 @@
 	"cargo-declare-parenttable-not-exist": "Error: Parent table \"$1\" does not exist.",
 	"cargo-declare-parenttable-no-field": "Error: Parent table \"$1\" does not have a field \"$2\".",
 	"cargo-declare-invalid-localfield": "Error: Invalid field name \"$1\" specified for _localField.",
-	"cargo-declare-validate-has-whitespace": "Error: $1 name \"$2\" contains whitespaces. Whitepaces of any kind are not allowed; consider using underscores (\"_\") instead.",
+	"cargo-declare-validate-has-whitespace": "Error: $1 name \"$2\" contains whitespaces. Whitespaces of any kind are not allowed; consider using underscores (\"_\") instead.",
 	"cargo-declare-validate-starts-underscore": "Error: $1 name \"$2\" begins with an underscore; this is not allowed.",
 	"cargo-declare-validate-ends-underscore": "Error: $1 name \"$2\" ends with an underscore; this is not allowed.",
 	"cargo-declare-validate-gt1-underscore": "Error: $1 name \"$2\" contains more than one underscore in a row; this is not allowed.",
