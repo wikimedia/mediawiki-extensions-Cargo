@@ -8,8 +8,8 @@
 			"Wladek92"
 		]
 	},
-	"apihelp-cargoquery-description": "Lance une requête sur les données de Cargo.",
-	"apihelp-cargoquery-summary": "Lance une requête sur les données de Cargo.",
+	"apihelp-cargoquery-description": "Exécute une requête sur les données de Cargo.",
+	"apihelp-cargoquery-summary": "Exécute une requête sur les données de Cargo.",
 	"apihelp-cargotables-description": "Récupère toutes les tables du système",
 	"apihelp-cargotables-summary": "Récupère toutes les tables du système",
 	"apihelp-cargofields-summary": "Récupère tous les champs de la table spécifiée",
