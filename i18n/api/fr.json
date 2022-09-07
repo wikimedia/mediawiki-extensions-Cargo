@@ -8,8 +8,8 @@
 			"Wladek92"
 		]
 	},
-	"apihelp-cargoquery-description": "Lance une requête sur les données de Cargo.",
-	"apihelp-cargoquery-summary": "Lance une requête sur les données de Cargo.",
+	"apihelp-cargoquery-description": "Exécute une requête sur les données de Cargo.",
+	"apihelp-cargoquery-summary": "Exécute une requête sur les données de Cargo.",
 	"apihelp-cargoquery-param-tables": "La ou les tables de la base de données de Cargo sur lesquelles chercher",
 	"apihelp-cargoquery-param-fields": "Le(s) champ(s) de table à récupérer",
 	"apihelp-cargoquery-param-where": "Les conditions de la requête, correspondant à une clause SQL « WHERE »",
