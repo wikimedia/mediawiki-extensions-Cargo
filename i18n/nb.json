@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Citadell",
+			"EdoAug",
 			"Emilbk",
 			"Fredrilj",
 			"Jon Harald Søby",
@@ -156,7 +157,7 @@
 	"cargo-gantt-days": "Dager",
 	"cargo-gantt-months": "Måneder",
 	"cargo-gantt-years": "År",
-	"cargo-field-type": "Felttype:",
-	"cargo-allowed-values": "Tillatte verdier:",
+	"cargo-field-type": "Felttype",
+	"cargo-allowed-values": "Tillatte verdier",
 	"cargo-declare-validate-bad-character": "Feil: $1-navnet «$2» kan ikke inneholde følgende tegn: $3"
 }
