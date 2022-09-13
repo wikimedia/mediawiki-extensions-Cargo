@@ -57,16 +57,9 @@ class CargoRecreateDataAction extends Action {
 		}
 
 		$user = $obj->getUser();
-		if ( method_exists( 'MediaWiki\Permissions\PermissionManager', 'userCan' ) ) {
-			// MW 1.33+
-			$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-			if ( !$permissionManager->userCan( 'recreatecargodata', $user, $title ) ) {
-				return true;
-			}
-		} else {
-			if ( !$title->userCan( 'recreatecargodata', $user ) ) {
-				return true;
-			}
+		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
+		if ( !$permissionManager->userCan( 'recreatecargodata', $user, $title ) ) {
+			return true;
 		}
 
 		$request = $obj->getRequest();
