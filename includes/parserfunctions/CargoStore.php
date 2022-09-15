@@ -395,6 +395,11 @@ class CargoStore {
 					if ( $hasPositionField ) {
 						$fieldValues['_position'] = $valueNum++;
 					}
+					if ( $fieldDescription->isDateOrDatetime() ) {
+						list( $dateValue, $precision ) = self::getDateValueAndPrecision( $individualValue, $fieldType );
+						$fieldValues['_value'] = $dateValue;
+						$fieldValues['_value__precision'] = $precision;
+					}
 					// For coordinates, there are two more
 					// fields, for latitude and longitude.
 					if ( $fieldType == 'Coordinates' ) {

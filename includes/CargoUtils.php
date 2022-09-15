@@ -849,6 +849,9 @@ class CargoUtils {
 				} else {
 					$fieldsInTable['_value'] = $fieldType;
 				}
+				if ( $fieldDescription->isDateOrDateTime() ) {
+					$fieldsInTable['_value__precision'] = 'Integer';
+				}
 				$fieldsInTable['_position'] = 'Integer';
 
 				self::createTable( $cdb, $fieldTableName, $fieldsInTable );
