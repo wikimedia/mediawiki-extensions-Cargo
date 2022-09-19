@@ -50,9 +50,10 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 		}
 		$withinTreeHierarchyConds = [];
 		$exactRootHierarchyConds = [];
-		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._left >= $node->mLeft";
-		$withinTreeHierarchyConds[] = "$hierarchyTableAlias._right <= $node->mRight";
-		$exactRootHierarchyConds[] = "$hierarchyTableAlias._left = $node->mLeft";
+		$quotedHierarchyTableAlias = $cdb->addIdentifierQuotes( $hierarchyTableAlias );
+		$withinTreeHierarchyConds[] = "$quotedHierarchyTableAlias._left >= $node->mLeft";
+		$withinTreeHierarchyConds[] = "$quotedHierarchyTableAlias._right <= $node->mRight";
+		$exactRootHierarchyConds[] = "$quotedHierarchyTableAlias._left = $node->mLeft";
 		// within hierarchy tree value count
 		$res = $cdb->select( $tableNames, [ $countClause ], array_merge( $conds, $withinTreeHierarchyConds ),
 			null, null, $joinConds );
