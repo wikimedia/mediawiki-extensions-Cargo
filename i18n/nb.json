@@ -6,7 +6,8 @@
 			"Fredrilj",
 			"Jon Harald Søby",
 			"Kingu",
-			"Vukky"
+			"Vukky",
+			"EdoAug"
 		]
 	},
 	"cargo-desc": "Lagring og spørring av data i maler",
@@ -141,6 +142,7 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Vis CSV",
 	"cargo-viewxls": "Vis XLS",
+	"cargo-downloadzip": "Last ned ZIP",
 	"cargo-viewjson": "Vis JSON",
 	"cargo-viewbibtex": "Med BibTeX",
 	"cargo-viewicalendar": "Vis iCalendar",
