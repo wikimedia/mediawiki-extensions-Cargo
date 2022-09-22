@@ -6,7 +6,8 @@
 			"Fredrilj",
 			"Jon Harald Søby",
 			"Kingu",
-			"Vukky"
+			"Vukky",
+			"EdoAug"
 		]
 	},
 	"cargo-desc": "Lagring og spørring av data i maler",
@@ -141,6 +142,7 @@
 	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Vis CSV",
 	"cargo-viewxls": "Vis XLS",
+	"cargo-downloadzip": "Last ned ZIP",
 	"cargo-viewjson": "Vis JSON",
 	"cargo-viewbibtex": "Med BibTeX",
 	"cargo-viewicalendar": "Vis iCalendar",
@@ -156,7 +158,8 @@
 	"cargo-gantt-days": "Dager",
 	"cargo-gantt-months": "Måneder",
 	"cargo-gantt-years": "År",
-	"cargo-field-type": "Felttype:",
-	"cargo-allowed-values": "Tillatte verdier:",
+	"cargo-gantt-columns": "Kolonner",
+	"cargo-field-type": "Felttype",
+	"cargo-allowed-values": "Tillatte verdier",
 	"cargo-declare-validate-bad-character": "Feil: $1-navnet «$2» kan ikke inneholde følgende tegn: $3"
 }
