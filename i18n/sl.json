@@ -8,6 +8,7 @@
 	"cargo-viewdata-defaultformat": "Privzeto",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-delete": "Izbriši",
+	"cargo-gantt-days": "Dnevi",
 	"cargo-gantt-months": "Meseci",
 	"cargo-gantt-years": "Leta"
 }
