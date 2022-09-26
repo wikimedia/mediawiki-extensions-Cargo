@@ -4,6 +4,7 @@
 			"Eleassar"
 		]
 	},
+	"cargo-viewdata-format": "Oblika:",
 	"cargo-viewdata-defaultformat": "Privzeto",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-delete": "Izbriši"
