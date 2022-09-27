@@ -451,13 +451,13 @@ class CargoSQLQuery {
 		if ( $orderByStr != '' ) {
 			$orderByElements = CargoUtils::smartSplit( ',', $orderByStr );
 			foreach ( $orderByElements as $elem ) {
-				// Get rid of 'ASC' - it's never needed.
-				if ( substr( $elem, -4 ) == ' ASC' ) {
+				// Get rid of "ASC" - it's never needed.
+				if ( strtolower( substr( $elem, -4 ) ) == ' asc' ) {
 					$elem = trim( substr( $elem, 0, strlen( $elem ) - 4 ) );
 				}
 				// If it has "DESC" at the end, remove it, then
 				// add it back in later.
-				$hasDesc = ( substr( $elem, -5 ) == ' DESC' );
+				$hasDesc = ( strtolower( substr( $elem, -5 ) ) == ' desc' );
 				if ( $hasDesc ) {
 					$elem = trim( substr( $elem, 0, strlen( $elem ) - 5 ) );
 				}
