@@ -4,8 +4,10 @@
 			"Eleassar"
 		]
 	},
+	"cargo-viewdata-offset": "Zamik:",
 	"cargo-viewdata-format": "Oblika:",
 	"cargo-viewdata-defaultformat": "Privzeto",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
-	"cargo-cargotables-action-delete": "Izbriši"
+	"cargo-cargotables-action-delete": "Izbriši",
+	"cargo-drilldown-filename": "Ime datoteke"
 }
