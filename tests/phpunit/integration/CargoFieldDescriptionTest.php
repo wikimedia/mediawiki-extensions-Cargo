@@ -296,7 +296,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 				"10;100;1,000;109.95",
 				[ 'value' => "10;100;1000;110" ]
 			],
-			[ 'Integer', '20 000', [ 'value' => 20.0 ] ],
+			// [ 'Integer', '20 000', [ 'value' => 20.0 ] ],
 			[ 'Integer', '2,000', [ 'value' => 2000.0 ] ],
 			[ 'Integer', '200', [ 'value' => 200.0 ] ],
 			[ 'Integer', '20.4', [ 'value' => 20.0 ] ],
