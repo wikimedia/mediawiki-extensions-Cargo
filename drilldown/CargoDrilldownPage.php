@@ -338,9 +338,9 @@ END;
 			} else {
 				return $this->msg( 'htmlform-no' )->text();
 			}
-		} elseif ( $filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $value ) ) {
+		} elseif ( $filter->fieldDescription->mIsHierarchy && preg_match( "/^~within_(.+)/", $value ) ) {
 			$matches = [];
-			preg_match( "/^~within (.+)/", $value, $matches );
+			preg_match( "/^~within_(.+)/", $value, $matches );
 			return $this->msg( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
 		} else {
 			return $value;
@@ -493,7 +493,7 @@ END;
 		if ( count( $af->values ) > 0 ) {
 			$filter_value = $af->values[0]->text;
 			$matches = [];
-			preg_match( "/^~within (.+)/", $filter_value, $matches );
+			preg_match( "/^~within_(.+)/", $filter_value, $matches );
 			if ( count( $matches ) > 0 ) {
 				$filter_value = $matches[1];
 			} else {

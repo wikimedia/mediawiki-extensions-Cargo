@@ -106,9 +106,9 @@ class CargoAppliedFilter {
 					$sql .= " OR " . $paf->checkSQL();
 				}
 				$sql .= "))";
-			} elseif ( $this->filter->fieldDescription->mIsHierarchy && preg_match( "/^~within (.+)/", $fv->text ) ) {
+			} elseif ( $this->filter->fieldDescription->mIsHierarchy && preg_match( "/^~within_(.+)/", $fv->text ) ) {
 				$matches = [];
-				if ( preg_match( "/^~within (.+)/", $fv->text, $matches ) ) {
+				if ( preg_match( "/^~within_(.+)/", $fv->text, $matches ) ) {
 					$value = $matches[1];
 					$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
 					$hierarchyTableAlias = $this->filter->tableAlias . '__' . $this->filter->name . '__hierarchy';
