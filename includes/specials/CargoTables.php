@@ -106,13 +106,13 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Display the table structure.
 		$structureDesc = '<p>' . $this->msg( 'cargo-cargotables-tablestructure' )->parse() . '</p>';
-		$structureDesc .= '<ul>';
+		$structureDesc .= '<ol>';
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldDesc = '<strong>' . $fieldName . '</strong> - ';
 			$fieldDesc .= $fieldDescription->prettyPrintTypeAndAttributes();
 			$structureDesc .= Html::rawElement( 'li', null, $fieldDesc ) . "\n";
 		}
-		$structureDesc .= '</ul>';
+		$structureDesc .= '</ol>';
 		$out->addHTML( $structureDesc );
 
 		// Then, display a count.
