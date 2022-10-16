@@ -98,7 +98,7 @@ class CargoQueryDisplayer {
 		$formattedQueryResults = $queryResults;
 		foreach ( $queryResults as $rowNum => $row ) {
 			foreach ( $row as $fieldName => $value ) {
-				if ( trim( $value ) == '' ) {
+				if ( $value === null || trim( $value ) === '' ) {
 					continue;
 				}
 
@@ -118,8 +118,8 @@ class CargoQueryDisplayer {
 					// this, using array_map().
 					$delimiter = $fieldDescription->getDelimiter();
 					// We need to decode it in case the delimiter is ;
-					$value = html_entity_decode( $value );
-					$fieldValues = explode( $delimiter, $value );
+					$valueDecoded = html_entity_decode( $value );
+					$fieldValues = explode( $delimiter, $valueDecoded );
 					foreach ( $fieldValues as $i => $fieldValue ) {
 						if ( trim( $fieldValue ) == '' ) {
 							continue;
