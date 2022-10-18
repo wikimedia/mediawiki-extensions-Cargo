@@ -68,22 +68,23 @@ class CargoFilterValue {
 				}
 			}
 		} else {
-			if ( $fv->text == '' ) {
+			$fvText = (string)$fv->text;
+			if ( $fvText == '' ) {
 				// do nothing
-			} elseif ( $fv->text[ 0 ] == '<' ) {
-				$possible_number = str_replace( ',', '', trim( substr( $fv->text, 1 ) ) );
+			} elseif ( $fvText[ 0 ] == '<' ) {
+				$possible_number = str_replace( ',', '', trim( substr( $fvText, 1 ) ) );
 				if ( is_numeric( $possible_number ) ) {
 					$fv->upper_limit = $possible_number;
 					$fv->is_numeric = true;
 				}
-			} elseif ( $fv->text[ 0 ] == '>' ) {
-				$possible_number = str_replace( ',', '', trim( substr( $fv->text, 1 ) ) );
+			} elseif ( $fvText[ 0 ] == '>' ) {
+				$possible_number = str_replace( ',', '', trim( substr( $fvText, 1 ) ) );
 				if ( is_numeric( $possible_number ) ) {
 					$fv->lower_limit = $possible_number;
 					$fv->is_numeric = true;
 				}
 			} else {
-				$elements = explode( '-', $fv->text );
+				$elements = explode( '-', $fvText );
 				if ( count( $elements ) == 2 ) {
 					$first_elem = str_replace( ',', '', trim( $elements[0] ) );
 					$second_elem = str_replace( ',', '', trim( $elements[1] ) );
