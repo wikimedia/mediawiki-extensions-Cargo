@@ -1338,15 +1338,18 @@ class CargoUtils {
 		$selectFields = LinkCache::getSelectFields();
 		$selectFields[] = 'page_namespace';
 		$selectFields[] = 'page_title';
+		$conds = [ 'tl_from=page_id' ];
+		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
+			// MW 1.38+
+			$conds['tl_target_id'] = $templateTitle->getID();
+		} else {
+			$conds['tl_namespace'] = NS_TEMPLATE;
+			$conds['tl_title'] = $templateTitle->getDBkey();
+		}
 
 		$res = $db->select(
 			[ 'page', 'templatelinks' ],
-			$selectFields,
-			[
-				"tl_from=page_id",
-				"tl_namespace" => NS_TEMPLATE,
-				"tl_title" => $templateTitle->getDBkey()
-			],
+			$conds,
 			__METHOD__,
 			$options
 		);

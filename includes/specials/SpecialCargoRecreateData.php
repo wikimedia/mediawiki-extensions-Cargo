@@ -161,14 +161,19 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	}
 
 	public function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
+		$conds = [ "tl_from=page_id" ];
+		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
+			// MW 1.38+
+			$conds['tl_target_id'] = $templateTitle->getID();
+		} else {
+			$conds['tl_namespace'] = $templateTitle->getNamespace();
+			$conds['tl_title'] = $templateTitle->getDBkey();
+		}
+
 		$res = $dbw->select(
 			[ 'page', 'templatelinks' ],
 			'COUNT(*) AS total',
-			[
-				"tl_from=page_id",
-				"tl_namespace" => $templateTitle->getNamespace(),
-				"tl_title" => $templateTitle->getDBkey()
-			],
+			$conds,
 			__METHOD__,
 			[]
 		);
