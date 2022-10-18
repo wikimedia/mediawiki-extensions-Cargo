@@ -1349,6 +1349,7 @@ class CargoUtils {
 
 		$res = $db->select(
 			[ 'page', 'templatelinks' ],
+			$selectFields,
 			$conds,
 			__METHOD__,
 			$options
