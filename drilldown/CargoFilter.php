@@ -92,8 +92,8 @@ class CargoFilter {
 			// Until July 2021, invalid date values were stored in MySQL as 0 instead of null
 			$conds[] = "$date_field != 0";
 		}
-		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds, null,
-			null, $joinConds );
+		$res = $cdb->select( $tableNames, [ "MIN($date_field) AS min_date", "MAX($date_field) AS max_date" ], $conds,
+			__METHOD__, null, $joinConds );
 		$row = $res->fetchRow();
 		$minDate = $row['min_date'];
 		if ( $minDate === null ) {
@@ -340,7 +340,7 @@ class CargoFilter {
 		}
 		$pageIDField = $cdb->addIdentifierQuotes( $mainTableAlias ) . '.' . $cdb->addIdentifierQuotes( '_pageID' );
 		$countClause = "COUNT(DISTINCT $pageIDField) AS total";
-		$res = $cdb->select( $tableNames, [ "$fieldName AS value", $countClause ], $conds, null,
+		$res = $cdb->select( $tableNames, [ "$fieldName AS value", $countClause ], $conds, __METHOD__,
 			[ 'GROUP BY' => $fieldName ], $joinConds );
 		$possible_values = [];
 		foreach ( $res as $row ) {
