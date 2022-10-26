@@ -7,7 +7,7 @@
 		"color-named": null,
 		"declaration-block-no-duplicate-properties": null,
 		"declaration-no-important": null,
-		"declaration-property-value-blacklist": null,
+		"declaration-property-value-disallowed-list": null,
 		"function-url-quotes": null,
 		"length-zero-no-unit": null,
 		"no-descending-specificity": null,
