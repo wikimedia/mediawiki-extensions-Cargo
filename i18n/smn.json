@@ -7,6 +7,8 @@
 	},
 	"cargo-viewdata-tables": "Tavlustâh/tavlustuvah:",
 	"cargo-viewdata-orderby": "Šlajâttâl:",
+	"cargo-cargotables-action-deletereplacement": "Siho",
+	"cargo-cargotables-action-delete": "Siho",
 	"cargo-drilldown-filename": "Tiätuvuárkkánommâ",
 	"cargo-drilldown-calendarformat": "Kalender"
 }
