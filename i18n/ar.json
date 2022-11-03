@@ -97,7 +97,7 @@
 	"cargo-cargotables-viewreplacementlink": "عرض الجدول البديل",
 	"cargo-cargotables-notdeclared": "غير محدد من قبل أي قالب",
 	"cargo-cargotables-tablestructure": "هيكل الجدول:",
-	"cargo-cargotables-listof": "قائمة $1",
+	"cargo-cargotables-listof": "قائمة $1, delimiter: $2",
 	"cargo-cargotables-allowedvalues": "القيم المسموح بها:",
 	"cargo-cargotables-mandatory": "إلزامي",
 	"cargo-cargotables-unique": "فريدة من نوعها",

@@ -1,11 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
-			"ديفيد"
+			"ديفيد",
+			"Meno25"
 		]
 	},
 	"apihelp-cargoquery-description": "تشغيل استعلام على بيانات الحمولة.",
 	"apihelp-cargoquery-summary": "تشغيل استعلام على بيانات الحمولة.",
+	"apihelp-cargotables-description": "يجلب جميع الجداول في النظام",
+	"apihelp-cargotables-summary": "يجلب جميع الجداول في النظام",
+	"apihelp-cargofields-summary": "يجلب جميع الحقول في الجدول المحدد",
+	"apihelp-cargofields-description": "يجلب جميع الحقول في الجدول المحدد",
+	"apihelp-cargofields-param-table": "جدول قاعدة بيانات الشحن الذي يجب جلب الحقول عليه",
 	"apihelp-cargoquery-param-tables": "جدول قاعدة بيانات الحمولة أو الجداول التي تبحث عنها",
 	"apihelp-cargoquery-param-fields": "حقل(حقول) الجدول لاسترداده",
 	"apihelp-cargoquery-param-where": "شروط الاستعلام ، المقابلة لعبارة WHERE SQL",
@@ -25,6 +31,10 @@
 	"apihelp-cargorecreatedata-param-table": "جدول قاعدة بيانات الحمولة لإعادة ملئه",
 	"apihelp-cargorecreatedata-param-offset": "من الصفحات التي تستدعي هذا القالب، الرقم الذي يبدأ عنده الاستعلام",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "ما إذا كان سيتم استبدال الصفوف القديمة لكل صفحة أثناء إعادة ملء الجدول",
+	"apihelp-cargorecreatespecialtable-description": "يقوم بإنشاء جدول خاص للشحن.",
+	"apihelp-cargorecreatespecialtable-summary": "ينشئ جدول شحن خاص.",
+	"apihelp-cargorecreatespecialtable-param-table": "الجدول الخاص المراد إعادة إنشائه",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "ما إذا كان سيتم وضع البيانات في جدول بديل",
 	"apihelp-cargoautocomplete-description": "الإكمال التلقائي المستخدم من قبل ملحق الحمولة.",
 	"apihelp-cargoautocomplete-summary": "الإكمال التلقائي المستخدم من قبل ملحق الحمولة.",
 	"apihelp-cargoautocomplete-param-limit": "هناك حد على عدد النتائج التي تم إرجاعها",
