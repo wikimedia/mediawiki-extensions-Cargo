@@ -3,11 +3,14 @@
 		"authors": [
 			"Nirajan pant",
 			"Nirjal stha",
+			"पर्वत सुबेदी",
 			"हिमाल सुबेदी"
 		]
 	},
 	"cargo-viewdata-groupby": "का अनुसार समूह:",
 	"cargo-viewdata-having": "भएकोः",
+	"cargo-cargotables-action-deletereplacement": "मेट्ने",
+	"cargo-cargotables-action-delete": "मेट्ने",
 	"cargo-drilldown-othervalues": "अन्य मानहरू:",
 	"cargo-drilldown-calendarformat": "पात्रो"
 }
