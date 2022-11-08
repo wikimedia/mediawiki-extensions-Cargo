@@ -1333,24 +1333,25 @@ class CargoUtils {
 	 * MW 1.37.
 	 */
 	public static function getTemplateLinksTo( $templateTitle, $options = [] ) {
+		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
+			// MW 1.38+ - just use the standard function again.
+			return $templateTitle->getTemplateLinksTo( $options );
+		}
+
 		$db = wfGetDB( DB_REPLICA );
 
 		$selectFields = LinkCache::getSelectFields();
 		$selectFields[] = 'page_namespace';
 		$selectFields[] = 'page_title';
-		$conds = [ 'tl_from=page_id' ];
-		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
-			// MW 1.38+
-			$conds['tl_target_id'] = $templateTitle->getID();
-		} else {
-			$conds['tl_namespace'] = NS_TEMPLATE;
-			$conds['tl_title'] = $templateTitle->getDBkey();
-		}
 
 		$res = $db->select(
 			[ 'page', 'templatelinks' ],
 			$selectFields,
-			$conds,
+			[
+				"tl_from=page_id",
+				"tl_namespace" => NS_TEMPLATE,
+				"tl_title" => $templateTitle->getDBkey()
+			],
 			__METHOD__,
 			$options
 		);
