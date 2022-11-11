@@ -247,8 +247,8 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 
 	public function provideFieldValueData() {
 		return [
-			[ '', null, [ 'value' => '' ] ],
-			[ 'Date', null, [ 'value' => null ] ],
+			[ '', '', [ 'value' => '' ] ],
+			[ 'Date', '', [ 'value' => null ] ],
 
 			[
 				"list (;) of String (allowed values=monday,tuesday,wednesday,thursday,friday)",
