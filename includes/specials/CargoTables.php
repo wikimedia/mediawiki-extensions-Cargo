@@ -309,7 +309,7 @@ class CargoTables extends IncludableSpecialPage {
 			$allowedActions['create'] =
 				[
 					"ooui-icon" => "add",
-					"ooui-title" => "cargo-cargotables-action-create",
+					"ooui-title" => "create",
 					"parent" => "recreate",
 				];
 		}
