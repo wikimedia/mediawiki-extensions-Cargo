@@ -17,7 +17,7 @@ class CargoRecreateDataAPI extends ApiBase {
 	public function execute() {
 		$user = $this->getUser();
 
-		if ( !$user->isAllowed( 'recreatecargodata' ) || $user->isBlocked() ) {
+		if ( !$user->isAllowed( 'recreatecargodata' ) || $user->getBlock() !== null ) {
 			$this->dieWithError( [ 'badaccess-groups' ] );
 		}
 
