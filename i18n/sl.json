@@ -9,5 +9,6 @@
 	"cargo-viewdata-defaultformat": "Privzeto",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-delete": "Izbriši",
+	"cargo-pagevalues-tablevalues": "Vrednosti »$1«",
 	"cargo-drilldown-filename": "Ime datoteke"
 }
