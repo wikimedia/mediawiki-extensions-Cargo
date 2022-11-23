@@ -4,5 +4,6 @@
 			"Sveinn í Felli"
 		]
 	},
-	"cargo-drilldown-mapformat": "Landakort"
+	"cargo-drilldown-mapformat": "Landakort",
+	"cargo-dynamictables-togglecolumns": "Víxla dálkum:"
 }
