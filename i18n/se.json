@@ -1,10 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Yupik"
+			"Yupik",
+			"Kimberli Mäkäräinen (WMNO)"
 		]
 	},
 	"cargo-viewdata-tables": "Tabealla(t):",
+	"cargo-cargotables-action-deletereplacement": "Sihko",
+	"cargo-cargotables-action-delete": "Sihko",
+	"cargo-drilldown-allpages": "Buot siiddut",
 	"cargo-drilldown-search": "Oza",
 	"cargo-drilldown-filename": "Fiilanamma"
 }
