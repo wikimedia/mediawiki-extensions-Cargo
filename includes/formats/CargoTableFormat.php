@@ -4,10 +4,15 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoTableFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
-		return [ 'merge similar cells' => [ 'type' => 'boolean' ] ];
+		return [
+			'merge similar cells' => [ 'type' => 'boolean' ],
+			'edit link' => [ 'type' => 'boolean' ],
+		];
 	}
 
 	/**
@@ -64,6 +69,12 @@ class CargoTableFormat extends CargoDisplayFormat {
 		$mergeSimilarCells = false;
 		if ( array_key_exists( 'merge similar cells', $displayParams ) ) {
 			$mergeSimilarCells = strtolower( $displayParams['merge similar cells'] ) == 'yes';
+		}
+		$editLink = false;
+		$linkRenderer = null;
+		if ( array_key_exists( 'edit link', $displayParams ) ) {
+			$editLink = strtolower( $displayParams['edit link'] ) == 'yes';
+			$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 		}
 
 		$tableClass = 'cargoTable';
@@ -142,7 +153,24 @@ class CargoTableFormat extends CargoDisplayFormat {
 					$value = null;
 				}
 
-				$text .= Html::rawElement( 'td', $attrs, $value ) . "\n";
+				$valueText = $value == null ? '' : $value;
+
+				// Cargo reuses the "Page" system message of the main namespace
+				$pageMsg = wfMessage( "nstab-main" )->text();
+				if ( ( $field == "Page" || $field == $pageMsg || $field == '_pageName' ) &&
+				$editLink ) {
+					$rawValue = $valuesTable[$rowNum][$field];
+					$title = Title::newFromText( $rawValue );
+					if ( $title === null ) {
+						continue;
+					}
+					$link = CargoUtils::makeLink(
+						$linkRenderer, $title, wfMessage( 'editold' ), [], [ 'action' => 'edit', ]
+					);
+					$valueText .= ' (' . $link . ')';
+				}
+
+				$text .= Html::rawElement( 'td', $attrs, $valueText ) . "\n";
 			}
 			$text .= "</tr>\n";
 		}

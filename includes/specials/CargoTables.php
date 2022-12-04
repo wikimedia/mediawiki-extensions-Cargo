@@ -205,6 +205,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$displayParams = [];
 		$displayParams['max display chars'] = 300;
+		$displayParams['edit link'] = 'yes';
 
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
 		$queryDisplayer->mDisplayParams = $displayParams;
