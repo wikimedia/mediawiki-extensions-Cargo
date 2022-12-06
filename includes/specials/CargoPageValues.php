@@ -17,8 +17,6 @@ class CargoPageValues extends IncludableSpecialPage {
 	}
 
 	public function execute( $subpage = null ) {
-		global $wgCargoPageDataColumns, $wgCargoFileDataColumns;
-
 		if ( $subpage ) {
 			// Allow inclusion with e.g. {{Special:PageValues/Book}}
 			$this->mTitle = Title::newFromText( $subpage );
@@ -42,15 +40,10 @@ class CargoPageValues extends IncludableSpecialPage {
 		$dbr = wfGetDB( DB_REPLICA );
 
 		$tableNames = [];
-
-		// Make _pageData and _fileData the first two tables, if
-		// either of them hold any real data.
-		if ( count( $wgCargoPageDataColumns ) > 0 ) {
-			$tableNames[] = '_pageData';
-		}
-		if ( count( $wgCargoFileDataColumns ) > 0 ) {
-			$tableNames[] = '_fileData';
-		}
+		// There is an exception check later on when we query for rows, so it's safe not to
+		// check for existence yet
+		$tableNames[] = '_pageData';
+		$tableNames[] = '_fileData';
 
 		$res = $dbr->select(
 			'cargo_pages', 'table_name',
