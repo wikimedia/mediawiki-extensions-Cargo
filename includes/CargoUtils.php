@@ -1248,7 +1248,7 @@ class CargoUtils {
 	}
 
 	public static function logTableAction( $actionName, $tableName, User $user ) {
-		$log = new LogPage( 'cargo', false );
+		$log = new LogPage( 'cargo' );
 		$ctPage = self::getSpecialPage( 'CargoTables' );
 		$ctTitle = $ctPage->getPageTitle();
 		if ( $actionName == 'deletetable' ) {
