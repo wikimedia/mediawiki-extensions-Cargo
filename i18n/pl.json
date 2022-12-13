@@ -8,8 +8,8 @@
 			"Railfail536"
 		]
 	},
-	"cargo-logname": "Dziennik Cargo",
-	"cargo-logdesc": "To jest dziennik akcji związanych z rozszerzeniem Cargo.",
+	"cargo-logname": "Rejestr Cargo",
+	"cargo-logdesc": "To jest rejestr akcji związanych z rozszerzeniem Cargo.",
 	"cargo-createtableaction": "utworzono tabelę Cargo $2",
 	"cargo-recreatetableaction": "utworzono na nowo tabelę Cargo $2",
 	"cargo-replacetableaction": "zastąpiono tabelę Cargo $2 nową wersją",
@@ -53,5 +53,5 @@
 	"cargo-viewjson": "Zobacz JSON",
 	"cargo-purgecache": "Odśwież cache",
 	"cargo-pageschemas-tablename": "Nazwa tabeli:",
-	"cargo-allowed-values": "Dozwolone wartości:"
+	"cargo-allowed-values": "Dozwolone wartości"
 }
