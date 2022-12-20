@@ -1,8 +1,17 @@
 {
 	"@metadata": {
 		"authors": [
+			"Afalau",
 			"Robin Owain"
 		]
 	},
+	"cargo-viewdata-colorsparam": "Lliwiau:",
+	"cargo-cargotables-header-table": "Tabl",
+	"cargo-cargotables-header-rowcount": "Rhesi",
+	"cargo-cargotables-header-templates": "Nodiadau",
+	"cargo-cargotables-action-deletereplacement": "Dileu",
+	"cargo-drilldown-or": "neu",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
+	"cargo-downloadzip": "Lawrlwytho ZIP",
 	"cargo-pageschemas-tablename": "Enw'r Tabl:"
 }
