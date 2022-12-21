@@ -167,6 +167,13 @@ class CargoHooks {
 	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
 		global $wgVersion;
 
+		$title = $skinTemplate->getTitle();
+
+		// Skip special pages.
+		if ( $title->isSpecialPage() ) {
+			return true;
+		}
+
 		// Only add this tab if neither the Purge nor SemanticMediaWiki extension
 		// (which has its own "purge link") is installed.
 		$extReg = ExtensionRegistry::getInstance();
@@ -179,7 +186,7 @@ class CargoHooks {
 			$links['actions']['cargo-purge'] = [
 				'class' => false,
 				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),
-				'href' => $skinTemplate->getTitle()->getLocalUrl( [ 'action' => 'purge' ] )
+				'href' => $title->getLocalUrl( [ 'action' => 'purge' ] )
 			];
 			// The mediawiki.notify module is always loaded in MW 1.35 and later,
 			// so we set a DOM flag here so the ext.cargo.purge module
