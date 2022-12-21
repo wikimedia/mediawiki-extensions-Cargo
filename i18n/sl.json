@@ -9,6 +9,7 @@
 	"cargo-viewdata-defaultformat": "Privzeto",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-delete": "Izbriši",
+	"cargo-deletetable-replacementconfirm": "Želite izbrisati [$1 nadomestno tabelo] za Cargo tabelo $2? To ne bo vplivalo na aktivno tabelo.",
 	"cargo-pagevalues-tablevalues": "Vrednosti »$1«",
 	"cargo-drilldown-or": "ali",
 	"cargo-drilldown-filename": "Ime datoteke",
