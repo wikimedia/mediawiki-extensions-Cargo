@@ -14,13 +14,8 @@ use MediaWiki\MediaWikiServices;
 class CargoSearchMySQL extends SearchMySQL {
 
 	public function __construct() {
-		if ( property_exists( 'SearchMySQL', 'lb' ) ) {
-			// MW 1.34+
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			parent::__construct( $lb );
-		} else {
-			parent::__construct();
-		}
+		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		parent::__construct( $lb );
 	}
 
 	public function getSearchTerms( $searchString ) {

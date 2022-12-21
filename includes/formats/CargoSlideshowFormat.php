@@ -111,12 +111,7 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$linkField = null;
 		}
 
-		if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
-			// MediaWiki 1.34+
-			$localRepo = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo();
-		} else {
-			$localRepo = RepoGroup::singleton()->getLocalRepo();
-		}
+		$localRepo = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo();
 		$bodyText = '';
 		$files = self::getFileTitles( $valuesTable, $fieldDescriptions, $captionField, $linkField );
 		foreach ( $files as $file ) {

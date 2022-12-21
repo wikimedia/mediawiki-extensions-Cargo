@@ -228,12 +228,7 @@ class CargoQueryDisplayer {
 			if ( $title == null || !$title->exists() ) {
 				return $value;
 			}
-			if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
-				// MediaWiki 1.34+
-				$file = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
-			} else {
-				$file = wfLocalFile( $title );
-			}
+			$file = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
 			return Linker::makeThumbLinkObj(
 				$title,
 				$file,
@@ -323,16 +318,6 @@ class CargoQueryDisplayer {
 	 * Based heavily on MediaWiki's SearchResult::getTextSnippet()
 	 */
 	public function getTextSnippet( $text, $terms ) {
-		if ( defined( '\SearchHighlighter::DEFAULT_CONTEXT_LINES' ) ) {
-			// MW 1.34+
-			// TODO: once the else block is removed simply drop these vars
-			// SearchHighlighter methods take these same values as defaults.
-			$contextlines = SearchHighlighter::DEFAULT_CONTEXT_LINES;
-			$contextchars = SearchHighlighter::DEFAULT_CONTEXT_CHARS;
-		} else {
-			list( $contextlines, $contextchars ) = SearchEngine::userHighlightPrefs();
-		}
-
 		foreach ( $terms as $i => $term ) {
 			// Try to map from a MySQL search to a PHP one -
 			// this code could probably be improved.
@@ -354,9 +339,9 @@ class CargoQueryDisplayer {
 			// call the more expensive function, highlightText()
 			// rather than highlightSimple(), because we're not
 			// that concerned about performance.
-			$snippet = $h->highlightText( $text, $terms, $contextlines, $contextchars );
+			$snippet = $h->highlightText( $text, $terms );
 		} else {
-			$snippet = $h->highlightNone( $text, $contextlines, $contextchars );
+			$snippet = $h->highlightNone( $text );
 		}
 
 		// Why is this necessary for Cargo, but not for MediaWiki?
