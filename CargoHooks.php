@@ -169,8 +169,8 @@ class CargoHooks {
 
 		$title = $skinTemplate->getTitle();
 
-		// Skip special pages.
-		if ( $title->isSpecialPage() ) {
+		// Skip special and nonexistent pages.
+		if ( $title->isSpecialPage() || !$title->exists() ) {
 			return true;
 		}
 
