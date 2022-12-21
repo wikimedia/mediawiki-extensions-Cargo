@@ -9,7 +9,8 @@
 			"Tranve",
 			"Weather Top Wizard",
 			"Winston Sung",
-			"Diskdance"
+			"Diskdance",
+			"捍粵者"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
@@ -115,7 +116,7 @@
 	"deletecargotable": "刪除 Cargo 表格",
 	"cargo-deletetable-confirm": "刪除 Cargo 表格 $1 嗎？",
 	"cargo-deletetable-replacementconfirm": "刪除用於 Cargo 表格 $2 的[$1 替換表格]嗎？",
-	"cargo-deletetable-success": "表格「$1」已被刪除。",
+	"cargo-deletetable-success": "表格「$1」已刪除。",
 	"switchcargotable": "在替換 Cargo 表格裡切換",
 	"cargo-switchtables-confirm": "切換 Cargo 表格 $1 的替換嗎？",
 	"cargo-switchtables-switch": "切換",
