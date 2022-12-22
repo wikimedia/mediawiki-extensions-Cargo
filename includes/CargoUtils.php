@@ -511,8 +511,8 @@ class CargoUtils {
 			$parser = MediaWikiServices::getInstance()->getParser();
 		}
 
-		// Since MW 1.35, Parser::getTitle() throws a TypeError if it
-		// would have returned null, so just catch the error.
+		// Parser::getTitle() throws a TypeError if it would have
+		// returned null, so just catch the error.
 		// Why would the title be null? It's not clear, but it seems to
 		// happen in at least once case: in "action=pagevalues" for a
 		// page with non-ASCII characters in its name.

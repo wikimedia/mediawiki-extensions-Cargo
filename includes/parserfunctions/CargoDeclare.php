@@ -386,14 +386,9 @@ class CargoDeclare {
 		// that declares it is created.
 		if ( array_key_exists( 'createData', self::$settings ) ) {
 			$userID = self::$settings['userID'];
-			if ( class_exists( 'MediaWiki\User\UserFactory' ) ) {
-				// MW 1.35+
-				$user = MediaWikiServices::getInstance()
-					->getUserFactory()
-					->newFromId( (int)$userID );
-			} else {
-				$user = User::newFromId( (int)$userID );
-			}
+			$user = MediaWikiServices::getInstance()
+				->getUserFactory()
+				->newFromId( (int)$userID );
 			$title = $parser->getTitle();
 			$templatePageID = $title->getArticleID();
 			CargoUtils::recreateDBTablesForTemplate(

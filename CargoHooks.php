@@ -30,16 +30,6 @@ class CargoHooks {
 			'Rating'
 		];
 
-		if ( class_exists( 'MediaWiki\HookContainer\HookContainer' ) ) {
-			// MW 1.35+
-			$wgHooks['SidebarBeforeOutput'][] = "CargoPageValuesAction::addLink";
-			$wgHooks['PageSaveComplete'][] = "CargoHooks::onPageSaveComplete";
-		} else {
-			// MW < 1.35
-			$wgHooks['BaseTemplateToolbox'][] = "CargoPageValuesAction::addLinkOld";
-			$wgHooks['PageContentSaveComplete'][] = "CargoHooks::onPageContentSaveComplete";
-		}
-
 		if ( interface_exists( 'MediaWiki\Page\Hook\PageDeleteCompleteHook' ) ) {
 			// MW 1.37+
 			$wgHooks['PageDeleteComplete'][] = "CargoHooks::onPageDeleteComplete";
@@ -56,63 +46,6 @@ class CargoHooks {
 		$parser->setFunctionHook( 'cargo_compound_query', [ 'CargoCompoundQuery', 'run' ] );
 		$parser->setFunctionHook( 'recurring_event', [ 'CargoRecurringEvent', 'run' ] );
 		$parser->setFunctionHook( 'cargo_display_map', [ 'CargoDisplayMap', 'run' ] );
-		return true;
-	}
-
-	/**
-	 * ResourceLoaderRegisterModules hook handler
-	 *
-	 * @see https://www.mediawiki.org/wiki/Manual:Hooks/ResourceLoaderRegisterModules
-	 *
-	 * @param ResourceLoader &$resourceLoader The ResourceLoader object
-	 * @return bool Always true
-	 */
-	public static function registerModules( ResourceLoader &$resourceLoader ) {
-		global $wgVersion;
-
-		$cargoDir = __DIR__;
-
-		// Between MW 1.34 and 1.35, all the jquery.ui.* modules were
-		// merged into one big module, "jquery.ui".
-		if ( version_compare( $wgVersion, '1.35', '>=' ) ) {
-			$cargoQueryDependencies = [
-				"jquery.ui",
-				"mediawiki.util",
-				"mediawiki.htmlform.ooui"
-			];
-		} else {
-			$cargoQueryDependencies = [
-				"jquery.ui.autocomplete",
-				"mediawiki.util",
-				"mediawiki.htmlform.ooui"
-			];
-		}
-
-		$cargoQueryDependencies[] = 'ext.cargo.main';
-
-		$resourceLoader->register( [
-			"ext.cargo.cargoquery" => [
-				'localBasePath' => $cargoDir,
-				'remoteExtPath' => 'Cargo',
-				'scripts' => "libs/ext.cargo.query.js",
-				'messages' => [
-					"cargo-viewdata-tablesrequired",
-					"cargo-viewdata-joinonrequired",
-					"cargo-viewdata-tablestooltip",
-					"cargo-viewdata-fieldstooltip",
-					"cargo-viewdata-wheretooltip",
-					"cargo-viewdata-joinontooltip",
-					"cargo-viewdata-groupbytooltip",
-					"cargo-viewdata-havingtooltip",
-					"cargo-viewdata-orderbytooltip",
-					"cargo-viewdata-limittooltip",
-					"cargo-viewdata-offsettooltip",
-					"cargo-viewdata-formattooltip"
-				],
-				'dependencies' => $cargoQueryDependencies
-			]
-		] );
-
 		return true;
 	}
 
@@ -165,8 +98,6 @@ class CargoHooks {
 	 * @return bool
 	 */
 	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
-		global $wgVersion;
-
 		$title = $skinTemplate->getTitle();
 
 		// Skip special and nonexistent pages.
@@ -188,12 +119,6 @@ class CargoHooks {
 				'text' => $skinTemplate->msg( 'cargo-purgecache' )->text(),
 				'href' => $title->getLocalUrl( [ 'action' => 'purge' ] )
 			];
-			// The mediawiki.notify module is always loaded in MW 1.35 and later,
-			// so we set a DOM flag here so the ext.cargo.purge module
-			// knows to load it for versions earlier than that.
-			if ( version_compare( $wgVersion, '1.35', '<' ) ) {
-				$links['actions']['cargo-purge']['data-ext-cargo-notify'] = true;
-			}
 		}
 
 		return true;
@@ -335,54 +260,6 @@ class CargoHooks {
 		$pageId = $renderedRevision->getRevision()->getPageId();
 		CargoBackLinks::removeBackLinks( $pageId );
 		CargoBackLinks::purgePagesThatQueryThisPage( $pageId );
-	}
-
-	/**
-	 * Called by the MediaWiki 'PageContentSaveComplete' hook.
-	 *
-	 * We use that hook, instead of 'PageContentSave', because we need
-	 * the page ID to have been set already for newly-created pages.
-	 *
-	 * @param WikiPage $wikiPage
-	 * @param User $user Unused
-	 * @param Content $content
-	 * @param string $summary Unused
-	 * @param bool $isMinor Unused
-	 * @param null $isWatch Unused
-	 * @param null $section Unused
-	 * @param int $flags Unused
-	 * @param Status $status Unused
-	 *
-	 * @return bool
-	 */
-	public static function onPageContentSaveComplete(
-		WikiPage $wikiPage,
-		$user,
-		$content,
-		$summary,
-		$isMinor,
-		$isWatch,
-		$section,
-		$flags,
-		$status
-	) {
-		// First, delete the existing data.
-		$pageID = $wikiPage->getID();
-		self::deletePageFromSystem( $pageID );
-
-		// Now parse the page again, so that #cargo_store will be
-		// called.
-		// Even though the page will get parsed again after the save,
-		// we need to parse it here anyway, for the settings we
-		// added to remain set.
-		CargoStore::$settings['origin'] = 'page save';
-		CargoUtils::parsePageForStorage( $wikiPage->getTitle(), $content->getText() );
-
-		// Also, save data to any relevant "special tables", if they
-		// exist.
-		self::saveToSpecialTables( $wikiPage->getTitle() );
-
-		return true;
 	}
 
 	/**

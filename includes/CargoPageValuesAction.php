@@ -39,33 +39,7 @@ class CargoPageValuesAction extends Action {
 	/**
 	 * Add the "Page values" link to the toolbox.
 	 *
-	 * Called for MW versions before 1.35, with the (now-deprecated)
-	 * BaseTemplateToolbox hook.
-	 *
-	 * @param BaseTemplate $skinTemplate
-	 * @param array &$toolbox
-	 * @return bool
-	 */
-	public static function addLinkOld( BaseTemplate $skinTemplate, array &$toolbox ) {
-		$title = $skinTemplate->getSkin()->getTitle();
-		// This function doesn't usually get called for special pages,
-		// but sometimes it is.
-		if ( $title->isSpecialPage() ) {
-			return true;
-		}
-
-		$toolbox['cargo-pagevalues'] =
-			self::getPageValuesActionArray( $title );
-
-		return true;
-	}
-
-	/**
-	 * Add the "Page values" link to the toolbox.
-	 *
-	 * Called for MW version 1.35 and higher, with the SidebarBeforeOutput
-	 * hook. This function can run with earlier versions as well, but it
-	 * doesn't add anything to the sidebar.
+	 * Called with the SidebarBeforeOutput hook.
 	 *
 	 * @param Skin $skin
 	 * @param array &$sidebar

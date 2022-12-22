@@ -8,7 +8,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.34"
+		"MediaWiki": ">= 1.35"
 	},
 	"callback": "CargoHooks::registerExtension",
 	"ExtensionFunctions": [
@@ -354,6 +354,29 @@
 				"oojs-ui-widgets"
 			]
 		},
+		"ext.cargo.cargoquery": {
+			"scripts": "libs/ext.cargo.query.js",
+			"messages": [
+				"cargo-viewdata-tablesrequired",
+				"cargo-viewdata-joinonrequired",
+				"cargo-viewdata-tablestooltip",
+				"cargo-viewdata-fieldstooltip",
+				"cargo-viewdata-wheretooltip",
+				"cargo-viewdata-joinontooltip",
+				"cargo-viewdata-groupbytooltip",
+				"cargo-viewdata-havingtooltip",
+				"cargo-viewdata-orderbytooltip",
+				"cargo-viewdata-limittooltip",
+				"cargo-viewdata-offsettooltip",
+				"cargo-viewdata-formattooltip"
+			],
+			"dependencies": [
+				"ext.cargo.main",
+				"jquery.ui",
+				"mediawiki.util",
+				"mediawiki.htmlform.ooui"
+			]
+		},
 		"ext.cargo.nvd3": {
 			"scripts": [
 				"libs/d3.js",
@@ -415,6 +438,7 @@
 	"Hooks": {
 		"ParserFirstCallInit": "CargoHooks::registerParserFunctions",
 		"MakeGlobalVariablesScript": "CargoHooks::setGlobalJSVariables",
+		"PageSaveComplete": "CargoHooks::onPageSaveComplete",
 		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
@@ -430,11 +454,11 @@
 			"CargoRecreateDataAction::displayTab",
 			"CargoHooks::addPurgeCacheTab"
 		],
+		"SidebarBeforeOutput": "CargoPageValuesAction::addLink",
 		"PageForms::TemplateFieldStart": "CargoHooks::addTemplateFieldStart",
 		"PageForms::TemplateFieldEnd": "CargoHooks::addTemplateFieldEnd",
 		"AdminLinks": "CargoHooks::addToAdminLinks",
 		"PageSchemasRegisterHandlers": "CargoPageSchemas::registerClass",
-		"ResourceLoaderRegisterModules": "CargoHooks::registerModules",
 		"ResourceLoaderGetConfigVars": "CargoHooks::onResourceLoaderGetConfigVars",
 		"ScribuntoExternalLibraries": "CargoHooks::addLuaLibrary"
 	},

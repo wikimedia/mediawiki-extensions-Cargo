@@ -197,16 +197,11 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		} else {
 			$numResultsPerPage = 250;
 		}
-		if ( method_exists( $request, 'getLimitOffsetForUser' ) ) {
-			// MW 1.35+
-			list( $limit, $offset ) = $request->getLimitOffsetForUser(
-				$this->getUser(),
-				$numResultsPerPage,
-				'limit'
-			);
-		} else {
-			list( $limit, $offset ) = $request->getLimitOffset( $numResultsPerPage, 'limit' );
-		}
+		list( $limit, $offset ) = $request->getLimitOffsetForUser(
+			$this->getUser(),
+			$numResultsPerPage,
+			'limit'
+		);
 
 		$filter_used = [];
 		foreach ( $all_filters as $i => $filter ) {
