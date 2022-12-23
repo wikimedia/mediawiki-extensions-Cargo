@@ -4,6 +4,7 @@
 			"Eleassar"
 		]
 	},
+	"cargo-recreatedata-job-creation-failed": "Ustvarjanje opravil za zapolnitev tabele Cargo »$1« ni uspela.",
 	"cargo-viewdata-offset": "Zamik:",
 	"cargo-viewdata-format": "Oblika:",
 	"cargo-viewdata-defaultformat": "Privzeto",
@@ -14,6 +15,7 @@
 	"cargo-pagevalues-tablevalues": "Vrednosti »$1«",
 	"cargo-drilldown-or": "ali",
 	"cargo-drilldown-filename": "Ime datoteke",
+	"cargo-purgecache-failed": "Počiščenje predpomnjenja ni uspelo",
 	"cargo-gantt-days": "Dnevi",
 	"cargo-gantt-months": "Meseci",
 	"cargo-gantt-years": "Leta"
