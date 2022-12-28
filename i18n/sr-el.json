@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": []
+	},
+	"right-runcargoqueries": "pokretanje proizvoljnih Cargo upita",
+	"cargo-logname": "Cargo dnevnik",
+	"cargo-logdesc": "Ovo je dnevnik radnji u vezi s dodatkom Cargo.",
+	"cargo-createtableaction": "je napravio/la Cargo tabelu $2",
+	"cargo-recreatetableaction": "je ponovo napravio/la Cargo tabelu $2",
+	"cargo-replacetableaction": "je zamenio/la Cargo tabelu $2 novom verzijom",
+	"cargo-deletetableaction": "je izbrisao/la Cargo tabelu $2",
+	"cargo-drilldown-allpages": "Sve stranice",
+	"cargo-drilldown-allfiles": "Sve datoteke",
+	"cargo-downloadzip": "Preuzmi ZIP",
+	"cargo-dynamictables-searchcolumn": "Pretražite $1",
+	"cargo-purgecache-failed": "Čišćenje keša nije uspelo"
+}
