@@ -22,7 +22,7 @@ class CargoPageValuesAction extends Action {
 	 * $this->getOutput(), etc.
 	 */
 	public function show() {
-		$title = $this->page->getTitle();
+		$title = $this->getTitle();
 		$pageValuesPage = new CargoPageValues( $title );
 		$pageValuesPage->execute();
 	}

@@ -24,7 +24,7 @@ class CargoRecreateDataAction extends Action {
 	 * $this->getOutput(), etc.
 	 */
 	public function show() {
-		$title = $this->page->getTitle();
+		$title = $this->getTitle();
 
 		// These tabs should only exist for template pages, that
 		// either call (or called) #cargo_declare, or call
