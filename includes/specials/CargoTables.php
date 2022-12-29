@@ -78,15 +78,12 @@ class CargoTables extends IncludableSpecialPage {
 						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
 				}
 			}
-			$out->addHtml( Html::rawElement( 'div', [ 'class' => 'warningbox plainlinks' ],
-				$text ) );
+			$out->addHtml( Html::warningBox( $text ) );
 			$tableName .= '__NEXT';
 		} else {
 			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
 			if ( CargoUtils::tableFullyExists( $tableName . '__NEXT' ) ) {
-				$text =
-					Html::rawElement( 'div', [ 'class' => 'warningbox' ],
-						$this->msg( 'cargo-cargotables-hasreplacement' )->parse() );
+				$text = Html::warningBox( $this->msg( 'cargo-cargotables-hasreplacement' )->parse() );
 				$out->addHtml( $text );
 			}
 		}
@@ -492,8 +489,9 @@ class CargoTables extends IncludableSpecialPage {
 		// queue - a bug in MediaWiki?
 		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
 		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
-			$text .= '<div class="warningbox">' .
-				$this->msg( 'cargo-cargotables-beingpopulated' )->text() . "</div>\n";
+			$text .= Html::warningBox(
+				$this->msg( 'cargo-cargotables-beingpopulated' )->text()
+			);
 		}
 
 		$cdb = CargoUtils::getDB();

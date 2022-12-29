@@ -1115,8 +1115,7 @@ END;
 			$ctURL = $ctPage->getPageTitle()->getFullText();
 			$viewURL = "$ctURL/" . $this->tableName;
 			$viewLink = "[[$viewURL|{$this->tableName}]]";
-			$header .= Html::rawElement( 'div',
-				[ 'class' => 'warningbox' ],
+			$header .= Html::warningBox(
 				$this->msg( 'cargo-cargotables-replacementtable', $viewLink )->parse()
 			);
 		}
