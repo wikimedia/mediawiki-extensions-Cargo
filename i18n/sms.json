@@ -10,13 +10,17 @@
 	"cargo-viewdata-heightparam": "Õllâdvuõtt:",
 	"cargo-viewdata-widthparam": "Kobddâdvuõtt:",
 	"cargo-viewdata-hidelegendparam": "Čiõǥǥ čiʹlǧǧtõõzz:",
+	"cargo-cargotables-header-table": "Taullõk",
 	"cargo-cargotables-action-deletereplacement": "Jaukkâd",
 	"cargo-cargotables-action-delete": "Jaukkâd",
+	"cargo-cargotables-viewtable": "Čuäʹjet taullõõǥǥ: $1",
+	"cargo-cargotables-viewtablelink": "Čuäʹjet taullõõǥǥ",
 	"cargo-drilldown-allpages": "Puk seeid",
 	"cargo-drilldown-allfiles": "Puk teâttõõzz",
 	"cargo-drilldown-search": "Ooʒʒ",
 	"cargo-drilldown-filename": "Teâttõsnõmm",
 	"cargo-viewcsv": "Čuäʹjet CSV-teâttõõzz",
 	"cargo-downloadzip": "Laadd ZIP-teâttõõzz",
+	"cargo-pageschemas-tablename": "Taullõõǥǥ nõmm:",
 	"cargo-gantt-months": "Mp"
 }
