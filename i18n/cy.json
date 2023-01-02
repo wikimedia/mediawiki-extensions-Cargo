@@ -5,6 +5,10 @@
 			"Afalau"
 		]
 	},
+	"cargo-viewdata-tables": "Tabl(au):",
+	"cargo-viewdata-limit": "Terfyn:",
+	"cargo-viewdata-heightparam": "Uchder:",
+	"cargo-viewdata-widthparam": "Lled:",
 	"cargo-viewdata-colorsparam": "Lliwiau:",
 	"cargo-cargotables-header-table": "Tabl",
 	"cargo-cargotables-header-rowcount": "Rhesi",

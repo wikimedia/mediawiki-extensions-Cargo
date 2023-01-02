@@ -10,9 +10,15 @@
 	"cargo-viewdata-viewwikitext": "Ogled vikibesedila",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-delete": "Izbriši",
+	"cargo-cargotables-viewtablelink": "Ogled tabele",
 	"cargo-deletetable-replacementconfirm": "Želite izbrisati [$1 nadomestno tabelo] za Cargo tabelo $2? To ne bo vplivalo na aktivno tabelo.",
 	"cargo-pagevalues-tablevalues": "Vrednosti »$1«",
 	"cargo-drilldown-or": "ali",
 	"cargo-drilldown-filename": "Ime datoteke",
+	"cargo-viewcsv": "Ogled CSV",
+	"cargo-viewxls": "Ogled XLS",
+	"cargo-viewjson": "Ogled JSON-a",
+	"cargo-viewbibtex": "Ogled BibTeX",
+	"cargo-viewicalendar": "Ogled iCalendar",
 	"cargo-purgecache-failed": "Počiščenje predpomnjenja ni uspelo"
 }
