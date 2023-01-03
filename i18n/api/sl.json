@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"apihelp-cargoquery-param-offset": "Odmik poizvedbe",
+	"apihelp-cargoautocomplete-param-substr": "Iskalni podniz",
+	"apihelp-cargoqueryautocomplete-param-search": "Iskalni podniz"
+}

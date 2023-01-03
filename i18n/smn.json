@@ -7,9 +7,13 @@
 	},
 	"cargo-viewdata-tables": "Tavlustâh/tavlustuvah:",
 	"cargo-viewdata-orderby": "Šlajâttâl:",
+	"cargo-cargotables-header-table": "Tavlustâh",
 	"cargo-cargotables-action-deletereplacement": "Siho",
 	"cargo-cargotables-action-delete": "Siho",
+	"cargo-cargotables-viewtable": "Čääiti tavlustuv: $1",
+	"cargo-cargotables-viewtablelink": "Čääiti tavlustuv",
 	"cargo-drilldown-search": "Uusâ",
 	"cargo-drilldown-filename": "Tiätuvuárkkánommâ",
-	"cargo-drilldown-calendarformat": "Kalender"
+	"cargo-drilldown-calendarformat": "Kalender",
+	"cargo-pageschemas-tablename": "Tavlustuv nommâ:"
 }
