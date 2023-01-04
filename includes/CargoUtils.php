@@ -540,7 +540,8 @@ class CargoUtils {
 			// The 'pagevalues' action is also a Cargo special page.
 			$wgRequest->getVal( 'action' ) == 'pagevalues' ) {
 			$parserOptions = ParserOptions::newFromAnon();
-			$parserOutput = $parser->parse( $value, $title, $parserOptions, false );
+			$parserForInnerParse = MediaWikiServices::getInstance()->getParserFactory()->create();
+			$parserOutput = $parserForInnerParse->parse( $value, $title, $parserOptions );
 			$value = $parserOutput->getText( [ 'unwrap' => true ] );
 		} else {
 			$value = $parser->internalParse( $value );
