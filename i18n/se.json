@@ -6,9 +6,13 @@
 		]
 	},
 	"cargo-viewdata-tables": "Tabealla(t):",
+	"cargo-cargotables-header-table": "Tabealla",
 	"cargo-cargotables-action-deletereplacement": "Sihko",
 	"cargo-cargotables-action-delete": "Sihko",
+	"cargo-cargotables-viewtable": "Čájet tabealla: $1",
+	"cargo-cargotables-viewtablelink": "Čájet tabealla",
 	"cargo-drilldown-allpages": "Buot siiddut",
 	"cargo-drilldown-search": "Oza",
-	"cargo-drilldown-filename": "Fiilanamma"
+	"cargo-drilldown-filename": "Fiilanamma",
+	"cargo-pageschemas-tablename": "Tabealla namma:"
 }
