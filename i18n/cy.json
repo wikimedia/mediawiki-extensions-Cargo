@@ -5,6 +5,7 @@
 			"Afalau"
 		]
 	},
+	"cargo-createdatatable": "Creu tabl data",
 	"cargo-viewdata-tables": "Tabl(au):",
 	"cargo-viewdata-limit": "Terfyn:",
 	"cargo-viewdata-heightparam": "Uchder:",
@@ -15,6 +16,13 @@
 	"cargo-cargotables-header-templates": "Nodiadau",
 	"cargo-cargotables-action-deletereplacement": "Dileu",
 	"cargo-drilldown-or": "neu",
+	"cargo-drilldown-galleryformat": "Oriel",
+	"cargo-drilldown-calendarformat": "Calendr",
 	"cargo-drilldown-gallerycaption": "[[$1]]",
+	"cargo-viewcsv": "Gweld CSV",
+	"cargo-viewxls": "Gweld XLS",
+	"cargo-viewjson": "Gweld JSON",
+	"cargo-viewbibtex": "Gweld BibTeX",
+	"cargo-viewicalendar": "Gweld iCalendar",
 	"cargo-pageschemas-tablename": "Enw'r Tabl:"
 }
