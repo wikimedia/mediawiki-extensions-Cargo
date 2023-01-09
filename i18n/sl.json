@@ -4,6 +4,8 @@
 			"Eleassar"
 		]
 	},
+	"cargo-unknowntable": "Napaka: Tabela $1 ni bila najdena.",
+	"cargo-logname": "Dnevnik Cargo",
 	"cargo-createdatatable": "Ustvari podatkovno tabelo",
 	"cargo-recreatedata-job-creation-failed": "Ustvarjanje opravil za zapolnitev tabele Cargo »$1« ni uspela.",
 	"cargo-recreatedata-replacementcreated": "Ponovno ustvarjena nadomestna tabela za tabelo Cargo »$1«.",
@@ -17,6 +19,8 @@
 	"cargo-viewdata-columnsparam": "Število stolpcev:",
 	"cargo-viewdata-modifyquery": "Spremeni poizvedbo",
 	"cargo-viewdata-viewwikitext": "Ogled vikibesedila",
+	"cargo-query-missingformat": "Napaka: Treba je določiti format.",
+	"cargo-query-badalias": "Napaka: Neveljaven vzdevek tabele »$1«.",
 	"cargo-cargotables-header-table": "Tabela",
 	"cargo-cargotables-header-rowcount": "Vrstice",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
