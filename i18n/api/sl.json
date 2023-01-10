@@ -5,6 +5,7 @@
 		]
 	},
 	"apihelp-cargoquery-param-offset": "Odmik poizvedbe",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "Ali naj se stare vrstice pri ponovnem polnjenju tabele pri vsaki strani zamenjajo",
 	"apihelp-cargoautocomplete-param-substr": "Iskalni podniz",
 	"apihelp-cargoqueryautocomplete-param-search": "Iskalni podniz"
 }
