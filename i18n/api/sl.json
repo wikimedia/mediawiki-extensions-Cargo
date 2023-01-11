@@ -4,6 +4,12 @@
 			"Eleassar"
 		]
 	},
+	"apihelp-cargoquery-description": "Zažene poizvedbo o podatkih Cargo.",
+	"apihelp-cargoquery-summary": "Zažene poizvedbo o podatkih Cargo.",
+	"apihelp-cargotables-description": "Pridobi vse tabele v sistemu",
+	"apihelp-cargotables-summary": "Pridobi vse tabele v sistemu",
+	"apihelp-cargofields-summary": "Pridobi vsa polja v navedeni tabeli",
+	"apihelp-cargofields-description": "Pridobi vsa polja v navedeni tabeli",
 	"apihelp-cargoquery-param-offset": "Odmik poizvedbe",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Ali naj se stare vrstice pri ponovnem polnjenju tabele pri vsaki strani zamenjajo",
 	"apihelp-cargoautocomplete-param-substr": "Iskalni podniz",

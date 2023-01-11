@@ -57,6 +57,7 @@
 	"cargo-purgecache": "Počisti predpomnilnik",
 	"cargo-purgecache-failed": "Počiščenje predpomnjenja ni uspelo",
 	"cargo-pageschemas-tablename": "Ime tabele:",
+	"cargo-gantt-zoomlevel": "Raven povečave:",
 	"cargo-gantt-days": "Dnevi",
 	"cargo-gantt-months": "Meseci",
 	"cargo-gantt-years": "Leta",
