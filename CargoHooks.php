@@ -13,7 +13,7 @@ use MediaWiki\User\UserIdentity;
 class CargoHooks {
 
 	public static function registerExtension() {
-		define( 'CARGO_VERSION', '3.4-alpha' );
+		define( 'CARGO_VERSION', '3.4' );
 	}
 
 	public static function initialize() {
