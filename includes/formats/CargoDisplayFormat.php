@@ -8,6 +8,8 @@ class CargoDisplayFormat {
 
 	/** @var ParserOutput */
 	protected $mOutput;
+	/** @var Parser */
+	protected $mParser;
 
 	public function __construct( $output, $parser = null ) {
 		$this->mOutput = $output;

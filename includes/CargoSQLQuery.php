@@ -495,7 +495,7 @@ class CargoSQLQuery {
 		// done with $mOrderBy.
 		$this->mOrigGroupByStr = $groupByStr;
 		if ( $groupByStr == '' ) {
-			$this->mGroupByStr = null;
+			$this->mGroupByStr = '';
 		} elseif ( strpos( $groupByStr, '(' ) === false && strpos( $groupByStr, '.' ) === false && strpos( $groupByStr, ',' ) === false ) {
 			$this->mGroupByStr = $this->mCargoDB->addIdentifierQuotes( $groupByStr );
 		} else {

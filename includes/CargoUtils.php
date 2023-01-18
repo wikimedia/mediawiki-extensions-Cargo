@@ -396,9 +396,9 @@ class CargoUtils {
 	 * Deletes text within quotes and raises and exception if a quoted string
 	 * is not closed.
 	 */
-	public static function removeQuotedStrings( $string ) {
+	public static function removeQuotedStrings( ?string $string ): string {
 		if ( $string === null ) {
-			return null;
+			return '';
 		}
 
 		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
