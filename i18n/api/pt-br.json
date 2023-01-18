@@ -3,11 +3,16 @@
 		"authors": [
 			"Eduardo Addad de Oliveira",
 			"Eduardoaddad",
+			"Mello25",
 			"Svjatysberega"
 		]
 	},
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
 	"apihelp-cargoquery-summary": "Executa uma consulta nos dados Cargo.",
+	"apihelp-cargotables-description": "Obtém todas as tabelas do sistema",
+	"apihelp-cargotables-summary": "Obtém todas as tabelas do sistema",
+	"apihelp-cargofields-summary": "Obtém todos os campos da tabela especificada",
+	"apihelp-cargofields-description": "Obtém todos os campos da tabela especificada",
 	"apihelp-cargoquery-param-tables": "A base de dados ou a tabela Cargo a consultar",
 	"apihelp-cargoquery-param-fields": "O campo, ou campos, a obter",
 	"apihelp-cargoquery-param-where": "As condições para a consulta, correspondentes a uma cláusula WHERE de SQL",
