@@ -15,7 +15,7 @@ class CargoQueryDisplayer {
 	public $mFormat;
 	public $mDisplayParams = [];
 	public $mParser = null;
-	public $mFieldDescriptions;
+	public $mFieldDescriptions = [];
 	public $mFieldTables;
 
 	public static function newFromSQLQuery( $sqlQuery ) {
