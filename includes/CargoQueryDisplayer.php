@@ -369,7 +369,7 @@ class CargoQueryDisplayer {
 		// would make a difference.
 		$formatClass = get_class( $formatter );
 		if ( array_key_exists( 'intro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
-			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], $formatter->mParser );
+			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], null );
 		}
 		try {
 			$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions,
@@ -378,7 +378,7 @@ class CargoQueryDisplayer {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
 		if ( array_key_exists( 'outro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
-			$text .= CargoUtils::smartParse( $this->mDisplayParams['outro'], $formatter->mParser );
+			$text .= CargoUtils::smartParse( $this->mDisplayParams['outro'], null );
 		}
 		return $text;
 	}

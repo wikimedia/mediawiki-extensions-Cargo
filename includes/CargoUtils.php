@@ -484,7 +484,7 @@ class CargoUtils {
 	 * we're in a special or regular page.
 	 *
 	 * @param string $value
-	 * @param Parser $parser
+	 * @param Parser|null $parser
 	 * @return string
 	 */
 	public static function smartParse( $value, $parser ) {
