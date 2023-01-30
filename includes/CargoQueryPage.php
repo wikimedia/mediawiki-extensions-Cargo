@@ -74,9 +74,7 @@ class CargoQueryPage extends QueryPage {
 	// @todo - declare a getPageHeader() function, to show some
 	// information about the query?
 
-	/**
-	 * @return string
-	 */
+	/** @inheritDoc */
 	public function getRecacheDB() {
 		return CargoUtils::getDB();
 	}
@@ -97,14 +95,12 @@ class CargoQueryPage extends QueryPage {
 		$cdb = CargoUtils::getDB();
 		$aliasedFieldNames = [];
 		foreach ( $this->sqlQuery->mAliasedFieldNames as $alias => $fieldName ) {
-			foreach ( $this->sqlQuery->mAliasedFieldNames as $alias => $fieldName ) {
-				// If it's really a field name, add quotes around it.
-				if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false &&
-					!$cdb->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
-					$fieldName = $cdb->addIdentifierQuotes( $fieldName );
-				}
-				$aliasedFieldNames[$alias] = $fieldName;
+			// If it's really a field name, add quotes around it.
+			if ( strpos( $fieldName, '(' ) === false && strpos( $fieldName, '.' ) === false &&
+				!$cdb->isQuotedIdentifier( $fieldName ) && !CargoUtils::isSQLStringLiteral( $fieldName ) ) {
+				$fieldName = $cdb->addIdentifierQuotes( $fieldName );
 			}
+			$aliasedFieldNames[$alias] = $fieldName;
 		}
 
 		$queryInfo = [
