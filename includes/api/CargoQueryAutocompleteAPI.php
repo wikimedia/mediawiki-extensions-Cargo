@@ -81,17 +81,16 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$tables = [];
-		if ( $substr === null || $substr == '' ) {
-			$res = $dbr->select(
-				'cargo_tables',
-				[ 'main_table' ],
-				"main_table NOT LIKE '%__NEXT'"
-				);
+		$conds = [
+			'main_table NOT' . $dbr->buildLike( $dbr->anyString(), '\_\_NEXT' ),
+		];
+		if ( $substr !== null && $substr !== '' ) {
+			$conds[] = 'main_table' . $dbr->buildLike( $dbr->anyString(), $substr, $dbr->anyString() );
 		}
 		$res = $dbr->select(
 			'cargo_tables',
 			[ 'main_table' ],
-			[ "main_table LIKE '%$substr%'","main_table NOT LIKE '%__NEXT'" ]
+			$conds
 		);
 		foreach ( $res as $row ) {
 			array_push( $tables, $row );
