@@ -42,6 +42,9 @@ class CargoSearchMySQL extends SearchMySQL {
 		$m = [];
 		if ( preg_match_all( '/([-+<>~]?)(([' . $lc . ']+)(\*?)|"[^"]*")/',
 				$filteredText, $m, PREG_SET_ORDER ) ) {
+			$contLang = CargoUtils::getContentLang();
+			$langConverter = MediaWikiServices::getInstance()->getLanguageConverterFactory()
+				->getLanguageConverter( $contLang );
 			foreach ( $m as $bits ) {
 				Wikimedia\suppressWarnings();
 				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
@@ -63,10 +66,9 @@ class CargoSearchMySQL extends SearchMySQL {
 					$modifier = '+';
 				}
 
-				$contLang = CargoUtils::getContentLang();
 				// Some languages such as Serbian store the input form in the search index,
 				// so we may need to search for matches in multiple writing system variants.
-				$convertedVariants = $contLang->autoConvertToAllVariants( $term );
+				$convertedVariants = $langConverter->autoConvertToAllVariants( $term );
 				if ( is_array( $convertedVariants ) ) {
 					$variants = array_unique( array_values( $convertedVariants ) );
 				} else {
