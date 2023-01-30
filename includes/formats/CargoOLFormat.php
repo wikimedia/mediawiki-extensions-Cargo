@@ -31,7 +31,7 @@ class CargoOLFormat extends CargoListFormat {
 			$offset = 0;
 		}
 		$text = '';
-		foreach ( $formattedValuesTable as $i => $row ) {
+		foreach ( $formattedValuesTable as $row ) {
 			$text .= Html::rawElement( 'li', null, $this->displayRow( $row, $fieldDescriptions ) ) . "\n";
 		}
 		$olAttribs = [ 'start' => $offset + 1 ];

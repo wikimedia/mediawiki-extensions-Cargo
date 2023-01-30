@@ -105,7 +105,7 @@ class CargoFieldDescription {
 					$delimiter = ',';
 					$allowedValuesStr = str_replace( "\\$delimiter", "\a", $allowedValuesParam );
 					$allowedValuesTempArray = explode( $delimiter, $allowedValuesStr );
-					foreach ( $allowedValuesTempArray as $i => $value ) {
+					foreach ( $allowedValuesTempArray as $value ) {
 						if ( $value == '' ) {
 							continue;
 						}
@@ -264,8 +264,6 @@ class CargoFieldDescription {
 			return [ 'value' => $fieldValue ];
 		}
 
-		$newValue = $precision = null;
-
 		$fieldType = $this->mType;
 		if ( $this->mAllowedValues != null ) {
 			$allowedValues = $this->mAllowedValues;
@@ -279,14 +277,17 @@ class CargoFieldDescription {
 						$valuesToBeKept[] = $realIndividualVal;
 					}
 				}
+				// FIXME: This is dead code, it's overwritten immediately
 				$newValue = implode( $delimiter, $valuesToBeKept );
 			} else {
 				if ( in_array( $fieldValue, $allowedValues ) ) {
+					// FIXME: This is dead code, it's overwritten immediately
 					$newValue = $fieldValue;
 				}
 			}
 		}
 
+		$precision = null;
 		if ( $this->isDateOrDatetime() ) {
 			if ( $this->mIsList ) {
 				$delimiter = $this->getDelimiter();

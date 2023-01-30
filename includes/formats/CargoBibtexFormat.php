@@ -107,20 +107,20 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 
 		// We check here the existing fields so that we do not need later
 		// to call the array_key_exists function in the for loop
-		$bibtexkeyExists = array_key_exists( 'bibtexkey', $fieldDescriptions ) ? true : false;
-		$entryTypeExists = array_key_exists( 'entrytype', $fieldDescriptions ) ? true : false;
+		$bibtexkeyExists = array_key_exists( 'bibtexkey', $fieldDescriptions );
+		$entryTypeExists = array_key_exists( 'entrytype', $fieldDescriptions );
 
-		$dateExists = array_key_exists( 'date', $fieldDescriptions ) ? true : false;
-		$yearExists = array_key_exists( 'year', $fieldDescriptions ) ? true : false;
-		$monthExists = array_key_exists( 'month', $fieldDescriptions ) ? true : false;
+		$dateExists = array_key_exists( 'date', $fieldDescriptions );
+		$yearExists = array_key_exists( 'year', $fieldDescriptions );
+		$monthExists = array_key_exists( 'month', $fieldDescriptions );
 
-		$authorExists = array_key_exists( 'author', $fieldDescriptions ) ? true : false;
-		$editorExists = array_key_exists( 'editor', $fieldDescriptions ) ? true : false;
-		$titleExists = array_key_exists( 'title', $fieldDescriptions ) ? true : false;
+		$authorExists = array_key_exists( 'author', $fieldDescriptions );
+		$editorExists = array_key_exists( 'editor', $fieldDescriptions );
+		$titleExists = array_key_exists( 'title', $fieldDescriptions );
 
-		$pagesExists = array_key_exists( 'pages', $fieldDescriptions ) ? true : false;
-		$initialPageExists = array_key_exists( 'initialpage', $fieldDescriptions ) ? true : false;
-		$lastPageExists = array_key_exists( 'lastpage', $fieldDescriptions ) ? true : false;
+		$pagesExists = array_key_exists( 'pages', $fieldDescriptions );
+		$initialPageExists = array_key_exists( 'initialpage', $fieldDescriptions );
+		$lastPageExists = array_key_exists( 'lastpage', $fieldDescriptions );
 
 		// generate array of bibtex fields to output
 		$bibtexOutputFields = [];

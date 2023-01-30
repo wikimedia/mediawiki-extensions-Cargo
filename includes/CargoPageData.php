@@ -89,10 +89,6 @@ class CargoPageData {
 	) {
 		global $wgCargoPageDataColumns;
 
-		if ( $title == null ) {
-			return;
-		}
-
 		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
 
 		// If this table does not exist, getTableSchemas() will

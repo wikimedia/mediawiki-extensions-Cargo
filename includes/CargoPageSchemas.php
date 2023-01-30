@@ -176,7 +176,6 @@ class CargoPageSchemas extends PSExtensionHandler {
 		global $wgRequest;
 
 		$xmlPerTemplate = [];
-		$templateNum = -1;
 		foreach ( $wgRequest->getValues() as $var => $val ) {
 			$val = str_replace( [ '<', '>' ], [ '&lt;', '&gt;' ], $val );
 			if ( substr( $var, 0, 26 ) == 'cargo_template_table_name_' ) {

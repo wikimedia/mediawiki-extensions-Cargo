@@ -42,7 +42,6 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			foreach ( $fieldTables as $fieldTable ) {
 				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
 				$cdb->dropTable( $origFieldTable );
-				$fieldTableName = $cdb->tableName( $fieldTable );
 				$cdb->query( 'ALTER TABLE ' .
 					$cdb->tableName( $fieldTable ) .
 					' RENAME TO ' .
@@ -88,7 +87,6 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$this->checkPermissions();
 
 		$out = $this->getOutput();
-		$req = $this->getRequest();
 		$tableName = $subpage;
 		$out->enableOOUI();
 

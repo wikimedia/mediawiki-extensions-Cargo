@@ -45,11 +45,10 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 			$tableNames = CargoUtils::getTables();
 			if ( count( $tableNames ) == 0 ) {
 				// There are no tables - just exit now.
-				return 0;
+				return;
 			}
 			$mainTable = $tableNames[0];
 		}
-		$parentTables = [];
 		$parentTables = CargoUtils::getParentTables( $mainTable );
 		$drilldownTabsParams = CargoUtils::getDrilldownTabsParams( $mainTable );
 		if ( $parentTables ) {
@@ -204,7 +203,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		);
 
 		$filter_used = [];
-		foreach ( $all_filters as $i => $filter ) {
+		foreach ( $all_filters as $filter ) {
 			$filter_used[] = false;
 		}
 		$applied_filters = [];
@@ -274,7 +273,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 			$fullTextSearchTerm, $coordsFields, $dateFields, $calendarFields, $fileFields,
 			$searchablePages, $searchableFiles, $dependentFieldsArray, $offset, $limit, $format,
 			$formatBy, $formatByFieldIsList, $curTabName );
-		$num = $rep->execute( $query );
+		$rep->execute( $query );
 		$out->addHTML( "\n\t\t\t</div> <!-- drilldown-results -->\n" );
 
 		// This has to be set last, because otherwise the QueryPage
@@ -287,8 +286,6 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 				$rep->displayTableName( $mainTable );
 		}
 		$out->setPageTitle( $tableTitle );
-
-		return $num;
 	}
 
 	protected function getGroupName() {

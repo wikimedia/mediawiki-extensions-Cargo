@@ -190,7 +190,7 @@ class CargoSQLQuery {
 
 		// Quick error-checking: for now, just disallow "DISTINCT",
 		// and require "GROUP BY" instead.
-		foreach ( $fieldStrings as $i => $fieldString ) {
+		foreach ( $fieldStrings as $fieldString ) {
 			if ( strtolower( substr( $fieldString, 0, 9 ) ) == 'distinct ' ) {
 				throw new MWException( "Error: The DISTINCT keyword is not allowed by Cargo; "
 				. "please use \"group by=\" instead." );
@@ -202,7 +202,7 @@ class CargoSQLQuery {
 		// "Blank value X" - it will get replaced back before being
 		// displayed.
 		$blankAliasCount = 0;
-		foreach ( $fieldStrings as $i => $fieldString ) {
+		foreach ( $fieldStrings as $fieldString ) {
 			$fieldStringParts = CargoUtils::smartSplit( '=', $fieldString, true );
 			if ( count( $fieldStringParts ) == 2 ) {
 				$fieldName = trim( $fieldStringParts[0] );
@@ -238,7 +238,7 @@ class CargoSQLQuery {
 		$this->mAliasedTableNames = [];
 		$tableStrings = CargoUtils::smartSplit( ',', $this->mTablesStr );
 
-		foreach ( $tableStrings as $i => $tableString ) {
+		foreach ( $tableStrings as $tableString ) {
 			$tableStringParts = CargoUtils::smartSplit( '=', $tableString );
 			if ( count( $tableStringParts ) == 2 ) {
 				$tableName = trim( $tableStringParts[0] );
@@ -888,9 +888,7 @@ class CargoSQLQuery {
 			$isHierarchy = $virtualField['isHierarchy'];
 
 			$fieldTableName = $tableName . '__' . $fieldName;
-			$fieldTableAlias = $tableAlias . '__' . $fieldName;
 			$fieldReplaced = false;
-			$throwException = false;
 
 			$patternSimple = [
 				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName ),
@@ -1673,7 +1671,7 @@ class CargoSQLQuery {
 			$curNameAndAlias = [ $realFieldName, $alias ];
 			if ( $alias == 'start' || $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 				$foundMatch = false;
-				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+				foreach ( $this->mDateFieldPairs as &$datePair ) {
 					if ( array_key_exists( 'end', $datePair ) && !array_key_exists( 'start', $datePair ) ) {
 						$datePair['start'] = $curNameAndAlias;
 						$foundMatch = true;
@@ -1685,7 +1683,7 @@ class CargoSQLQuery {
 				}
 			} elseif ( $alias == 'end' || $description->mType == 'End date' || $description->mType == 'End datetime' ) {
 				$foundMatch = false;
-				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+				foreach ( $this->mDateFieldPairs as &$datePair ) {
 					if ( array_key_exists( 'start', $datePair ) && !array_key_exists( 'end', $datePair ) ) {
 						$datePair['end'] = $curNameAndAlias;
 						$foundMatch = true;
@@ -1697,7 +1695,7 @@ class CargoSQLQuery {
 				}
 			} elseif ( $description->mType == 'Date' || $description->mType == 'Datetime' ) {
 				$foundMatch = false;
-				foreach ( $this->mDateFieldPairs as $i => &$datePair ) {
+				foreach ( $this->mDateFieldPairs as &$datePair ) {
 					if ( array_key_exists( 'end', $datePair ) && !array_key_exists( 'start', $datePair ) ) {
 						$datePair['start'] = $curNameAndAlias;
 						$foundMatch = true;

@@ -25,7 +25,7 @@ class CargoULFormat extends CargoListFormat {
 		}
 
 		$text = '';
-		foreach ( $formattedValuesTable as $i => $row ) {
+		foreach ( $formattedValuesTable as $row ) {
 			$text .= Html::rawElement( 'li', null, $this->displayRow( $row, $fieldDescriptions ) ) . "\n";
 		}
 		$ulAttribs = [];

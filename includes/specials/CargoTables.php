@@ -472,10 +472,6 @@ class CargoTables extends IncludableSpecialPage {
 
 		$listOfColumns = $this->deriveListOfColumnsFromUserAllowedActions();
 
-		// if there's an error message, it needs to span all of the action columns
-		// plus the number of rows column
-		$colspanOfErrorMessage = 1 + count( $listOfColumns );
-
 		// Show a note if there are currently Cargo populate-data jobs
 		// that haven't been run, to make troubleshooting easier.
 		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
@@ -527,7 +523,7 @@ class CargoTables extends IncludableSpecialPage {
 			$this->msg( "cargo-cargotables-header-rowcount" ) );
 
 		foreach ( $listOfColumns as $action ) {
-			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action, null ) );
+			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action ) );
 		}
 
 		$headerText .= Html::element( 'th', null,
@@ -601,7 +597,7 @@ class CargoTables extends IncludableSpecialPage {
 				unset( $listOfColumns[$i] );
 				continue;
 			}
-			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action, null ) );
+			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action ) );
 		}
 		$wikitableText = Html::rawElement( 'tr', null, $headerText );
 

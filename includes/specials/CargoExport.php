@@ -226,7 +226,7 @@ class CargoExport extends UnlistedSpecialPage {
 	public static function getGanttJSONData( $sqlQueries ) {
 		$displayedArray['data'] = [];
 		$displayedArray['links'] = [];
-		foreach ( $sqlQueries as $i => $sqlQuery ) {
+		foreach ( $sqlQueries as $sqlQuery ) {
 			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
@@ -291,11 +291,10 @@ class CargoExport extends UnlistedSpecialPage {
 	 * Used for bpmn format
 	 */
 	private function displayBPMNData( $sqlQueries ) {
-		$req = $this->getRequest();
 		$sequenceFlows = [];
 		$elements = [];
 		$t = 1;
-		foreach ( $sqlQueries as $i => $sqlQuery ) {
+		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
 			foreach ( $queryResults as $queryResult ) {
 				if ( array_key_exists( 'name', $queryResult ) ) {
@@ -357,17 +356,17 @@ class CargoExport extends UnlistedSpecialPage {
 		header( 'Content-Type: text/xml' );
 		$XML = '<?xml version="1.0" encoding="UTF-8"?>';
 		// Needed to restore highlighting in vi - <?
-		$XML .= '<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" 
-		xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" 
-		xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" 
-		id="Definitions_18vnora" 
-		targetNamespace="http://bpmn.io/schema/bpmn" 
-		exporter="bpmn-js (https://demo.bpmn.io)" 
+		$XML .= '<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+		xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+		xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+		id="Definitions_18vnora"
+		targetNamespace="http://bpmn.io/schema/bpmn"
+		exporter="bpmn-js (https://demo.bpmn.io)"
 		exporterVersion="4.0.3">
 		<bpmn:process id="Process_1" isExecutable="false">';
 
 		// XML for BPMN Process
-		foreach ( $elements as $i => $task ) {
+		foreach ( $elements as $task ) {
 			if ( is_array( $task ) && $task['type'] != "" ) {
 				$XML .= '<bpmn:' . $task[ 'type' ] . ' id="' . $task['id'];
 				if ( $task['name'] != "" ) {
@@ -383,7 +382,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$XML .= '"></bpmn:' . $task['type'] . '>';
 			}
 		}
-		foreach ( $elements as $elementNum => $element ) {
+		foreach ( $elements as $element ) {
 			if ( !array_key_exists( 'source', $element ) ) {
 				continue;
 			}
@@ -418,7 +417,7 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 			}
 		}
-		foreach ( $sequenceFlows as $i => $task ) {
+		foreach ( $sequenceFlows as $task ) {
 			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
 				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] . '" targetRef="' . $task['target'] . '" name="' . $task['name'] . '"/>';
 			}
@@ -439,14 +438,13 @@ class CargoExport extends UnlistedSpecialPage {
 
 	private function displayTimelineData( $sqlQueries ) {
 		$displayedArray = [];
-		foreach ( $sqlQueries as $i => $sqlQuery ) {
+		foreach ( $sqlQueries as $sqlQuery ) {
 			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
 
 			foreach ( $queryResults as $queryResult ) {
 				$eventDescription = '';
-				$firstField = true;
 
 				if ( array_key_exists( 'name', $queryResult ) ) {
 					$eventTitle = $queryResult['name'];
@@ -493,8 +491,6 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	private function displayNVD3ChartData( $sqlQueries ) {
-		$req = $this->getRequest();
-
 		// We'll only use the first query, if there's more than one.
 		$sqlQuery = $sqlQueries[0];
 		$queryResults = $sqlQuery->run();
@@ -523,12 +519,9 @@ class CargoExport extends UnlistedSpecialPage {
 		// Initialize everything, using the field names.
 		$firstRow = reset( $queryResults );
 		$displayedArray = [];
-		$labelNames = [];
 		$fieldNum = 0;
 		foreach ( $firstRow as $fieldName => $value ) {
-			if ( $fieldNum == 0 ) {
-				$labelNames[] = $value;
-			} else {
+			if ( $fieldNum > 0 ) {
 				$curSeries = [
 					'key' => $fieldName,
 					'color' => $colorsArray[$fieldNum - 1],
@@ -539,9 +532,9 @@ class CargoExport extends UnlistedSpecialPage {
 			$fieldNum++;
 		}
 
-		foreach ( $queryResults as $i => $queryResult ) {
+		foreach ( $queryResults as $queryResult ) {
 			$fieldNum = 0;
-			foreach ( $queryResult as $fieldName => $value ) {
+			foreach ( $queryResult as $value ) {
 				if ( $fieldNum == 0 ) {
 					$labelName = $value;
 					if ( trim( $value ) == '' ) {

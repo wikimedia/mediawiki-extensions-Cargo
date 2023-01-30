@@ -476,7 +476,7 @@ END;
 	private function printAppliedFilterLineForHierarchy( $af ) {
 		$applied_filters = $this->applied_filters;
 		$applied_filters_no_hierarchy = [];
-		foreach ( $applied_filters as $key => $af2 ) {
+		foreach ( $applied_filters as $af2 ) {
 			if ( !$af2->filter->fieldDescription->mIsHierarchy ) {
 				$applied_filters_no_hierarchy[] = $af2;
 			}
@@ -1374,7 +1374,7 @@ END;
 				$params['tab'] = $this->curTabName;
 			}
 		}
-		foreach ( $this->applied_filters as $i => $af ) {
+		foreach ( $this->applied_filters as $af ) {
 			if ( count( $af->values ) == 1 ) {
 				if ( $af->filter->tableAlias == $this->tableAlias ) {
 					$key_string = str_replace( ' ', '_', $af->filter->name );
@@ -1574,7 +1574,7 @@ END;
 			$whereStr = array_merge( $whereStr, $whereConds );
 		}
 
-		foreach ( $this->applied_filters as $i => $af ) {
+		foreach ( $this->applied_filters as $af ) {
 			list( $curTableNames, $curConds, $curJoinConds ) = $af->getQueryParts( $this->tableName );
 			$conds = array_merge( $conds, $curConds );
 			$whereStr = array_merge( $whereStr, $curConds );
@@ -1856,7 +1856,7 @@ END;
 		$whereStr = str_replace( 'DAY', 'DAYOFMONTH', $whereStr );
 		$joinOnStr = [];
 		$cdbPrefix = $cdb->tablePrefix();
-		foreach ( $joinConds as $table => $joinCond ) {
+		foreach ( $joinConds as $joinCond ) {
 			$joinCondStr = str_replace( '`', '', $joinCond[1] );
 			$joinCondStr = str_replace( $cdbPrefix, '', $joinCondStr );
 			$joinOnStr[] = $joinCondStr;

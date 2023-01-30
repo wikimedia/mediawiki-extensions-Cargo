@@ -22,10 +22,10 @@ class CargoStore {
 	 * Handles the #cargo_store parser function - saves data for one
 	 * template call.
 	 *
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @throws MWException
 	 */
-	public static function run( &$parser, $frame, $args ) {
+	public static function run( $parser, $frame, $args ) {
 		// Get page-related information early on, so we can exit
 		// quickly if there's a problem.
 		$title = $parser->getTitle();
@@ -351,7 +351,7 @@ class CargoStore {
 			if ( $fieldDescription->mIsList ) {
 				$listFieldTableName = $tableName . '__' . $fieldName;
 				try {
-					$res = $cdb->select( $listFieldTableName, 'COUNT(' .
+					$cdb->select( $listFieldTableName, 'COUNT(' .
 						$cdb->addIdentifierQuotes( '_position' ) . ')' );
 				} catch ( Exception $e ) {
 					$hasPositionField = false;

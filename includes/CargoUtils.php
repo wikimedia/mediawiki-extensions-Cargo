@@ -196,7 +196,7 @@ class CargoUtils {
 		$allParentTablesInfo = self::getAllPageProps( 'CargoParentTables' );
 		foreach ( $allParentTablesInfo as $parentTablesInfoStr => $templateIDs ) {
 			$parentTablesInfo = unserialize( $parentTablesInfoStr );
-			foreach ( $parentTablesInfo as $alias => $parentTableInfo ) {
+			foreach ( $parentTablesInfo as $parentTableInfo ) {
 				$remoteTable = $parentTableInfo['Name'];
 				if ( $remoteTable !== $tableName ) {
 					continue;
@@ -604,15 +604,6 @@ class CargoUtils {
 			$tableSchemaString = $tableSchema->toDBString();
 		}
 
-		if ( $parentTables == null ) {
-			$parentTablesStr = self::getPageProp( $templatePageID, 'CargoParentTables' );
-			if ( $parentTablesStr ) {
-				$parentTables = unserialize( $parentTablesStr );
-			} else {
-				$parentTables = [];
-			}
-		}
-
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = self::getDB();
 
@@ -789,7 +780,6 @@ class CargoUtils {
 
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
 		$cdb->begin();
-		$cdbTableName = $cdb->addIdentifierQuotes( $cdb->tableName( $tableName, 'plain' ) );
 		$fieldsInMainTable = [
 			'_ID' => 'Integer',
 			'_pageName' => 'String',
@@ -800,7 +790,6 @@ class CargoUtils {
 
 		$containsFileType = false;
 		foreach ( $tableSchema->mFieldDescriptions as $fieldName => $fieldDescription ) {
-			$size = $fieldDescription->mSize;
 			$isList = $fieldDescription->mIsList;
 			$fieldType = $fieldDescription->mType;
 
@@ -1091,7 +1080,8 @@ class CargoUtils {
 	 */
 	public static function parseCoordinatesString( $coordinatesString ) {
 		$coordinatesString = trim( $coordinatesString );
-		if ( $coordinatesString == null ) {
+		if ( $coordinatesString === '' ) {
+			// FIXME: No caller expects this!
 			return;
 		}
 

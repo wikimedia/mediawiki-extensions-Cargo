@@ -18,10 +18,10 @@ class CargoCompoundQuery {
 	 * parser function defined by the Semantic Compound Queries
 	 * extension.
 	 *
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return string
 	 */
-	public static function run( &$parser ) {
+	public static function run( $parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 

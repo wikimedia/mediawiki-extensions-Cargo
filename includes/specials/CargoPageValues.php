@@ -96,7 +96,7 @@ class CargoPageValues extends IncludableSpecialPage {
 				$tableContents = '';
 				$fieldInfo = $this->getInfoForAllFields( $tableName );
 				$anyFieldHasAllowedValues = false;
-				foreach ( $fieldInfo as $field => $info ) {
+				foreach ( $fieldInfo as $info ) {
 					if ( $info['allowed values'] !== '' ) {
 						$anyFieldHasAllowedValues = true;
 					}
@@ -152,7 +152,6 @@ class CargoPageValues extends IncludableSpecialPage {
 		$fieldInfo = [];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldInfo[$fieldName]['field type'] = $fieldDescription->prettyPrintType();
-			$delimiter = strlen( $fieldDescription->getDelimiter() ) ? $fieldDescription->getDelimiter() : ',';
 			if ( is_array( $fieldDescription->mAllowedValues ) ) {
 				$fieldInfo[$fieldName]['allowed values'] = implode( ' &middot; ', $fieldDescription->mAllowedValues );
 			} else {

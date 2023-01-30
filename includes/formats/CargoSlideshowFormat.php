@@ -129,8 +129,6 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			$bodyText .= "<div>$slideText</div>\n";
 		}
 
-		$sliderAttrs = [ 'class' => 'cargoSlider' ];
-
 		$slickData = [];
 		if ( array_key_exists( 'slides per screen', $displayParams ) ) {
 			$slickData['slidesToShow'] = $displayParams['slides per screen'];

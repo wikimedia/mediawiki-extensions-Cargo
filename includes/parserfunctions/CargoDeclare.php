@@ -311,7 +311,7 @@ class CargoDeclare {
 
 		$cdb = CargoUtils::getDB();
 
-		foreach ( $parentTables as $parentTableAlias => $extraParams ) {
+		foreach ( $parentTables as $extraParams ) {
 			$parentTableName = $extraParams['Name'];
 			$localField = $extraParams['_localField'];
 			$remoteField = $extraParams['_remoteField'];

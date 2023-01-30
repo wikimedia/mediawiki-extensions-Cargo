@@ -13,10 +13,10 @@ class CargoQuery {
 	 * Handles the #cargo_query parser function - calls a query on the
 	 * Cargo data stored in the database.
 	 *
-	 * @param Parser &$parser
+	 * @param Parser $parser
 	 * @return string
 	 */
-	public static function run( &$parser ) {
+	public static function run( $parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 

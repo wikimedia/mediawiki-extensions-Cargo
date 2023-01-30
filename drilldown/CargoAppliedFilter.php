@@ -110,7 +110,6 @@ class CargoAppliedFilter {
 				$matches = [];
 				if ( preg_match( "/^~within_(.+)/", $fv->text, $matches ) ) {
 					$value = $matches[1];
-					$hierarchyTableName = $this->filter->tableName . '__' . $this->filter->name . '__hierarchy';
 					$hierarchyTableAlias = $this->filter->tableAlias . '__' . $this->filter->name . '__hierarchy';
 					$drilldownHierarchyRoot =
 						CargoDrilldownHierarchy::newFromWikiText( $this->filter->fieldDescription->mHierarchyStructure );

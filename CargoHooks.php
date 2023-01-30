@@ -1,7 +1,9 @@
 <?php
 
 use MediaWiki\Revision\RenderedRevision;
+use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
+use MediaWiki\Storage\EditResult;
 use MediaWiki\User\UserIdentity;
 
 /**
@@ -38,7 +40,7 @@ class CargoHooks {
 		}
 	}
 
-	public static function registerParserFunctions( &$parser ) {
+	public static function registerParserFunctions( $parser ) {
 		$parser->setFunctionHook( 'cargo_declare', [ 'CargoDeclare', 'run' ] );
 		$parser->setFunctionHook( 'cargo_attach', [ 'CargoAttach', 'run' ] );
 		$parser->setFunctionHook( 'cargo_store', [ 'CargoStore', 'run' ], Parser::SFH_OBJECT_ARGS );
@@ -46,7 +48,6 @@ class CargoHooks {
 		$parser->setFunctionHook( 'cargo_compound_query', [ 'CargoCompoundQuery', 'run' ] );
 		$parser->setFunctionHook( 'recurring_event', [ 'CargoRecurringEvent', 'run' ] );
 		$parser->setFunctionHook( 'cargo_display_map', [ 'CargoDisplayMap', 'run' ] );
-		return true;
 	}
 
 	/**
@@ -54,7 +55,6 @@ class CargoHooks {
 	 *
 	 * @param array &$vars Global JS vars
 	 * @param OutputPage $out
-	 * @return bool
 	 */
 	public static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
 		global $wgCargoMapClusteringMinimum;
@@ -85,8 +85,6 @@ class CargoHooks {
 			$vars['wgCargoWeekDays'][] = $out->getLanguage()->getWeekdayName( $i );
 			$vars['wgCargoWeekDaysShort'][] = $out->getLanguage()->getWeekdayAbbreviation( $i );
 		}
-
-		return true;
 	}
 
 	/**
@@ -95,21 +93,20 @@ class CargoHooks {
 	 * @link https://www.mediawiki.org/wiki/Manual:Hooks/SkinTemplateNavigation
 	 * @param SkinTemplate $skinTemplate
 	 * @param mixed[] &$links
-	 * @return bool
 	 */
 	public static function addPurgeCacheTab( SkinTemplate $skinTemplate, array &$links ) {
 		$title = $skinTemplate->getTitle();
 
 		// Skip special and nonexistent pages.
 		if ( $title->isSpecialPage() || !$title->exists() ) {
-			return true;
+			return;
 		}
 
 		// Only add this tab if neither the Purge nor SemanticMediaWiki extension
 		// (which has its own "purge link") is installed.
 		$extReg = ExtensionRegistry::getInstance();
 		if ( $extReg->isLoaded( 'SemanticMediaWiki' ) || $extReg->isLoaded( 'Purge' ) ) {
-			return true;
+			return;
 		}
 
 		if ( $skinTemplate->getUser()->isAllowed( 'purge' ) ) {
@@ -120,8 +117,6 @@ class CargoHooks {
 				'href' => $title->getLocalUrl( [ 'action' => 'purge' ] )
 			];
 		}
-
-		return true;
 	}
 
 	public static function addTemplateFieldStart( $field, &$fieldStart ) {
@@ -131,7 +126,6 @@ class CargoHooks {
 		if ( $field->getFieldType() == 'Coordinates' ) {
 			$fieldStart .= '{{#cargo_display_map:point=';
 		}
-		return true;
 	}
 
 	public static function addTemplateFieldEnd( $field, &$fieldEnd ) {
@@ -141,7 +135,6 @@ class CargoHooks {
 		if ( $field->getFieldType() == 'Coordinates' ) {
 			$fieldEnd .= '}}';
 		}
-		return true;
 	}
 
 	/**
@@ -253,8 +246,6 @@ class CargoHooks {
 	 * @param CommentStoreComment $summary
 	 * @param array $flags
 	 * @param Status $hookStatus
-	 *
-	 * @return bool|void
 	 */
 	public static function onMultiContentSave( RenderedRevision $renderedRevision, UserIdentity $user, CommentStoreComment $summary, $flags, Status $hookStatus ) {
 		$pageId = $renderedRevision->getRevision()->getPageId();
@@ -271,16 +262,14 @@ class CargoHooks {
 	 * @param int $flags
 	 * @param RevisionRecord $revisionRecord
 	 * @param EditResult $editResult
-	 *
-	 * @return bool true
 	 */
 	public static function onPageSaveComplete(
 		WikiPage $wikiPage,
 		MediaWiki\User\UserIdentity $user,
 		string $summary,
 		int $flags,
-		MediaWiki\Revision\RevisionRecord $revisionRecord,
-		MediaWiki\Storage\EditResult $editResult
+		RevisionRecord $revisionRecord,
+		EditResult $editResult
 	) {
 		// First, delete the existing data.
 		$pageID = $wikiPage->getID();
@@ -300,8 +289,6 @@ class CargoHooks {
 		// Also, save data to any relevant "special tables", if they
 		// exist.
 		self::saveToSpecialTables( $wikiPage->getTitle() );
-
-		return true;
 	}
 
 	public static function saveToSpecialTables( $title ) {
@@ -342,8 +329,6 @@ class CargoHooks {
 		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
 		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
-
-		return true;
 	}
 
 	/**
@@ -362,21 +347,18 @@ class CargoHooks {
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
 		CargoPageData::storeValuesForPage( $title, $useReplacementTable, true, $egApprovedRevsBlankIfUnapproved );
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
-		CargoFileData::storeValuesForFile( $title, $useReplacementTable, $egApprovedRevsBlankIfUnapproved );
-
-		return true;
+		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
 	}
 
 	/**
-	 * @param Title &$title Unused
-	 * @param Title &$newtitle
-	 * @param User &$user Unused
+	 * @param Title $title Unused
+	 * @param Title $newtitle
+	 * @param User $user Unused
 	 * @param int $oldid
 	 * @param int $newid Unused
 	 * @param string $reason Unused
-	 * @return bool
 	 */
-	public static function onTitleMoveComplete( Title &$title, Title &$newtitle, User &$user, $oldid,
+	public static function onTitleMoveComplete( Title $title, Title $newtitle, User $user, $oldid,
 		$newid, $reason ) {
 		// For each main data table to which this page belongs, change
 		// the page name-related fields.
@@ -428,8 +410,6 @@ class CargoHooks {
 			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
 			CargoPageData::storeValuesForPage( $title, $useReplacementTable );
 		}
-
-		return true;
 	}
 
 	/**
@@ -442,7 +422,6 @@ class CargoHooks {
 		int $pageID, MediaWiki\Revision\RevisionRecord $deletedRev, ManualLogEntry $logEntry, int $archivedRevisionCount
 	) {
 		self::deletePageFromSystem( $pageID );
-		return true;
 	}
 
 	/**
@@ -453,7 +432,6 @@ class CargoHooks {
 	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content,
 		$logEntry ) {
 		self::deletePageFromSystem( $id );
-		return true;
 	}
 
 	/**
@@ -463,12 +441,11 @@ class CargoHooks {
 	 * uploaded or re-uploaded.
 	 *
 	 * @param Image $image
-	 * @return bool true
 	 */
 	public static function onUploadComplete( $image ) {
 		$cdb = CargoUtils::getDB();
 		if ( !$cdb->tableExists( '_fileData' ) ) {
-			return true;
+			return;
 		}
 		$title = $image->getLocalFile()->getTitle();
 		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
@@ -512,7 +489,7 @@ class CargoHooks {
 	public static function addOrRemoveCategoryData( $category, $wikiPage, $isAdd ) {
 		global $wgCargoPageDataColumns;
 		if ( !in_array( 'categories', $wgCargoPageDataColumns ) ) {
-			return true;
+			return;
 		}
 
 		$cdb = CargoUtils::getDB();
@@ -525,7 +502,7 @@ class CargoHooks {
 		} elseif ( $cdb->tableExists( '_pageData___categories' ) ) {
 			$pageDataTable = '_pageData';
 		} else {
-			return true;
+			return;
 		}
 		$categoriesTable = $pageDataTable . '___categories';
 		$categoryName = $category->getName();
@@ -536,7 +513,7 @@ class CargoHooks {
 		$res = $cdb->select( $pageDataTable, '_ID', [ '_pageID' => $pageID ] );
 		if ( $res->numRows() == 0 ) {
 			$cdb->commit();
-			return true;
+			return;
 		}
 		$row = $res->fetchRow();
 		$rowID = $row['_ID'];
@@ -549,7 +526,7 @@ class CargoHooks {
 		// This can be done with a NOT XOR (i.e. XNOR), but let's not make it more confusing.
 		if ( ( $isAdd && $categoryAlreadyListed ) || ( !$isAdd && !$categoryAlreadyListed ) ) {
 			$cdb->commit();
-			return true;
+			return;
 		}
 
 		// The real operation is here.
@@ -575,7 +552,6 @@ class CargoHooks {
 
 		// End transaction and apply DB changes.
 		$cdb->commit();
-		return true;
 	}
 
 	public static function describeDBSchema( DatabaseUpdater $updater ) {
@@ -590,16 +566,14 @@ class CargoHooks {
 			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ] );
 			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ] );
 		}
-		return true;
 	}
 
 	/**
 	 * Called by a hook in the Admin Links extension.
 	 *
-	 * @param ALTree &$adminLinksTree
-	 * @return bool
+	 * @param ALTree $adminLinksTree
 	 */
-	public static function addToAdminLinks( &$adminLinksTree ) {
+	public static function addToAdminLinks( $adminLinksTree ) {
 		$browseSearchSection = $adminLinksTree->getSection(
 			wfMessage( 'adminlinks_browsesearch' )->text() );
 		$cargoRow = new ALRow( 'cargo' );
@@ -607,8 +581,6 @@ class CargoHooks {
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'Drilldown' ) );
 		$cargoRow->addItem( ALItem::newFromSpecialPage( 'CargoQuery' ) );
 		$browseSearchSection->addRow( $cargoRow );
-
-		return true;
 	}
 
 	/**
@@ -621,24 +593,20 @@ class CargoHooks {
 
 		$vars['cgDownArrowImage'] = "$cgScriptPath/drilldown/resources/down-arrow.png";
 		$vars['cgRightArrowImage'] = "$cgScriptPath/drilldown/resources/right-arrow.png";
-
-		return true;
 	}
 
 	public static function addLuaLibrary( $engine, &$extraLibraries ) {
 		$extraLibraries['mw.ext.cargo'] = CargoLuaLibrary::class;
-		return true;
 	}
 
 	public static function cargoSchemaUpdates( DatabaseUpdater $updater ) {
 		if ( $updater->getDB()->getType() == 'mysql' || $updater->getDB()->getType() == 'sqlite' ) {
-			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.sql', true );
-			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.sql', true );
+			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.sql' );
+			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.sql' );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
-			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.pg.sql', true );
-			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.pg.sql', true );
+			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.pg.sql' );
+			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.pg.sql' );
 		}
-		return true;
 	}
 
 }

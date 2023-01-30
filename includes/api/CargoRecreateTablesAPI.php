@@ -28,7 +28,7 @@ class CargoRecreateTablesAPI extends ApiBase {
 
 		$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
 		$templatePageID = $templateTitle->getArticleID();
-		$success = CargoUtils::recreateDBTablesForTemplate(
+		CargoUtils::recreateDBTablesForTemplate(
 			$templatePageID,
 			$createReplacement,
 			$user

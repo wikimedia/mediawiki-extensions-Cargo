@@ -81,7 +81,6 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function provideMakeLinkData() {
 		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-		$title = Title::newFromText( 'Test' );
 		return [
 			[ $linkRenderer, null, null, [], [], null ],
 			[ $linkRenderer, null, '', [], [], null ],

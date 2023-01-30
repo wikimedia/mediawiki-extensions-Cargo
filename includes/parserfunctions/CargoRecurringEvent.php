@@ -22,10 +22,10 @@ class CargoRecurringEvent {
 	 * Handles the #recurring_event parser function - prints out a
 	 * string that is a delimited list of recurring events.
 	 *
-	 * @param Parser &$parser Unused
+	 * @param Parser $parser Unused
 	 * @return string
 	 */
-	public static function run( &$parser ) {
+	public static function run( $parser ) {
 		global $wgCargoRecurringEventMaxInstances;
 
 		// Code based in large part on the code for Semantic
@@ -177,12 +177,14 @@ class CargoRecurringEvent {
 
 						do {
 							$nextWeekJD += 7;
+							// FIXME: This method doesn't exist!
 							$nextWeekDate = self::getJulianDayTimeValue( $nextWeekJD );
 							$rightWeek = ( $nextWeekDate['month'] != $newMonth ) ||
 								( $nextWeekDate['year'] != $newYear );
 						} while ( !$rightWeek );
 
 						$curDateJD = $nextWeekJD + ( 7 * $weekNum );
+						// FIXME: This method doesn't exist!
 						$curDate = self::getJulianDayTimeValue( $curDateJD );
 					} else {
 						$curWeekNum = ceil( $curDate['day'] / 7 );
@@ -190,6 +192,7 @@ class CargoRecurringEvent {
 
 						if ( $weekNum == 5 && ( $curDate['month'] % 12 == ( $newMonth + 1 ) % 12 ) ) {
 							$curDateJD -= 7;
+							// FIXME: This method doesn't exist!
 							$curDate = self::getJulianDayTimeValue( $curDateJD );
 							$rightMonth = $rightWeek = true;
 						}
