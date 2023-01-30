@@ -1606,13 +1606,6 @@ END;
 		if ( $this->drilldownTabsParams && array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
 			$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
 			$this->format = strtolower( $currentTabParams['format'] );
-			$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
-			if ( array_key_exists( $this->format, $formatClasses ) ) {
-				$formatClass = $formatClasses[$this->format];
-			} else {
-				$formatClass = $formatClasses['category'];
-			}
-			$isDeferred = $formatClass::isDeferred();
 			$fields = $currentTabParams['fields'];
 			$calendarFieldFound = false;
 			$coordsFieldFound = false;
