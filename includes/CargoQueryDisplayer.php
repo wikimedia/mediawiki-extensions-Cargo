@@ -26,6 +26,9 @@ class CargoQueryDisplayer {
 		return $cqd;
 	}
 
+	/**
+	 * @return string[] List of {@see CargoDisplayFormat} subclasses
+	 */
 	public static function getAllFormatClasses() {
 		$formatClasses = [
 			'list' => 'CargoListFormat',
@@ -69,7 +72,8 @@ class CargoQueryDisplayer {
 
 	/**
 	 * Given a format name, and a list of the fields, returns the name
-	 * of the function to call for that format.
+	 * of the class to instantiate for that format.
+	 * @return string
 	 */
 	public function getFormatClass() {
 		$formatClasses = self::getAllFormatClasses();
@@ -85,6 +89,11 @@ class CargoQueryDisplayer {
 		return $formatClasses[$format];
 	}
 
+	/**
+	 * @param ParserOutput $out
+	 * @param Parser|null $parser
+	 * @return CargoDisplayFormat
+	 */
 	public function getFormatter( $out, $parser = null ) {
 		$formatClass = $this->getFormatClass();
 		$formatObject = new $formatClass( $out, $parser );
@@ -348,6 +357,11 @@ class CargoQueryDisplayer {
 		return html_entity_decode( $snippet );
 	}
 
+	/**
+	 * @param CargoDisplayFormat $formatter
+	 * @param array[] $queryResults
+	 * @return mixed|string
+	 */
 	public function displayQueryResults( $formatter, $queryResults ) {
 		if ( count( $queryResults ) == 0 ) {
 			if ( array_key_exists( 'default', $this->mDisplayParams ) ) {

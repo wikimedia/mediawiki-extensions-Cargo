@@ -18,6 +18,7 @@ class CargoFormatParamsAPI extends ApiBase {
 		if ( !array_key_exists( $queryFormat, $formatClasses ) ) {
 			$this->dieWithError( "Format \"$queryFormat\" not found." );
 		}
+		/** @var CargoDisplayFormat $formatClass */
 		$formatClass = $formatClasses[$queryFormat];
 		$data = $formatClass::allowedParameters();
 

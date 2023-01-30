@@ -2091,11 +2091,8 @@ END;
 			$currentTabParams = [];
 		}
 		$formatClasses = CargoQueryDisplayer::getAllFormatClasses();
-		if ( array_key_exists( $this->format, $formatClasses ) ) {
-			$formatClass = $formatClasses[$this->format];
-		} else {
-			$formatClass = $formatClasses['category'];
-		}
+		/** @var CargoDisplayFormat $formatClass */
+		$formatClass = $formatClasses[$this->format] ?? $formatClasses['category'];
 		$isDeferred = $formatClass::isDeferred();
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery );
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
