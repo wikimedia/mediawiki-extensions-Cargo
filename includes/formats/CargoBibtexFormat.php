@@ -161,7 +161,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 					$author = $value['author'];
 				}
 			} else {
-				$author == '';
+				$author = '';
 			}
 
 			if ( $editorExists && $value['editor'] != '' ) {
