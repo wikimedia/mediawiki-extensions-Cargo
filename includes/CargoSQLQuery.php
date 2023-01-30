@@ -1663,11 +1663,7 @@ class CargoSQLQuery {
 	 */
 	public function determineDateFields() {
 		foreach ( $this->mFieldDescriptions as $alias => $description ) {
-			if ( isset( $this->mAliasedFieldNames[$alias] ) ) {
-				$realFieldName = $this->mAliasedFieldNames[$alias];
-			} else {
-				$realFieldName = $alias;
-			}
+			$realFieldName = $this->mAliasedFieldNames[$alias] ?? $alias;
 			$curNameAndAlias = [ $realFieldName, $alias ];
 			if ( $alias == 'start' || $description->mType == 'Start date' || $description->mType == 'Start datetime' ) {
 				$foundMatch = false;

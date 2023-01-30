@@ -71,7 +71,7 @@ class CargoDisplayFormat {
 			$query_displayer->mFieldDescriptions,
 			$params
 		);
-		$no_html = isset( $params['no html'] ) ? $params['no html'] : false;
+		$no_html = $params['no html'] ?? false;
 		return !$no_html && $format !== 'template'
 			? [ $html, 'noparse' => true, 'isHTML' => true ]
 			: [ $html, 'noparse' => false ];

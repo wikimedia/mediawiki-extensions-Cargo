@@ -36,41 +36,13 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		$this->checkType( 'query', 2, $fields, 'string' );
 		$this->checkTypeOptional( 'query', 3, $args, 'table', [] );
 
-		if ( isset( $args['where'] ) ) {
-			$where = $args['where'];
-		} else {
-			$where = null;
-		}
-		if ( isset( $args['join'] ) ) {
-			$join = $args['join'];
-		} else {
-			$join = null;
-		}
-		if ( isset( $args['groupBy'] ) ) {
-			$groupBy = $args['groupBy'];
-		} else {
-			$groupBy = null;
-		}
-		if ( isset( $args['having'] ) ) {
-			$having = $args['having'];
-		} else {
-			$having = null;
-		}
-		if ( isset( $args['orderBy'] ) ) {
-			$orderBy = $args['orderBy'];
-		} else {
-			$orderBy = null;
-		}
-		if ( isset( $args['limit'] ) ) {
-			$limit = $args['limit'];
-		} else {
-			$limit = null;
-		}
-		if ( isset( $args['offset'] ) ) {
-			$offset = $args['offset'];
-		} else {
-			$offset = null;
-		}
+		$where = $args['where'] ?? null;
+		$join = $args['join'] ?? null;
+		$groupBy = $args['groupBy'] ?? null;
+		$having = $args['having'] ?? null;
+		$orderBy = $args['orderBy'] ?? null;
+		$limit = $args['limit'] ?? null;
+		$offset = $args['offset'] ?? null;
 
 		try {
 			$query = CargoSQLQuery::newFromValues( $tables, $fields, $where, $join,

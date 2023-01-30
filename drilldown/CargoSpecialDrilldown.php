@@ -37,7 +37,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		$out->addModules( 'ext.cargo.drilldown' );
 
 		$queryparts = explode( '/', $query, 1 );
-		$mainTable = isset( $queryparts[0] ) ? $queryparts[0] : '';
+		$mainTable = $queryparts[0] ?? '';
 
 		// If no table was specified, go with the first table,
 		// alphabetically.

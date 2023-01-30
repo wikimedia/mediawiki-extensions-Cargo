@@ -99,11 +99,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 		'school', 'series', 'type', 'volume' ];
 
 	public static function generateBibtexEntries( $valuesTable, $fieldDescriptions, $displayParams ) {
-		if ( array_key_exists( 'default entry type', $displayParams ) ) {
-			$defaultEntryType = strtolower( $displayParams['default entry type'] );
-		} else {
-			$defaultEntryType = 'article';
-		}
+		$defaultEntryType = strtolower( $displayParams['default entry type'] ?? 'article' );
 
 		// We check here the existing fields so that we do not need later
 		// to call the array_key_exists function in the for loop

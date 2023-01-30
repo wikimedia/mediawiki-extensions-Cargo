@@ -111,7 +111,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 		if ( !isset( $result['_pageID'] ) || !isset( $result['_modificationDate'] ) ) {
 			$page = CargoUtils::makeWikiPage( $title );
 		}
-		$pageId = isset( $result['_pageID'] ) ? $result['_pageID'] : $page->getId();
+		$pageId = $result['_pageID'] ?? $page->getId();
 		$permalink = SpecialPage::getTitleFor( 'Redirect', 'page/' . $pageId, $result['_ID'] ?? '' );
 		$uid = $permalink->getCanonicalURL();
 		// Page values are stored in the wiki's timezone.
