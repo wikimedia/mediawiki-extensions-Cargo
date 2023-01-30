@@ -118,7 +118,7 @@ class CargoFilterValue {
 
 		if ( $fv1->year != null && $fv2->year != null ) {
 			if ( $fv1->year == $fv2->year ) {
-				if ( $fv1->month == $fv1->month ) {
+				if ( $fv1->month == $fv2->month ) {
 					return 0;
 				}
 				return ( $fv1->month > $fv2->month ) ? 1 : -1;
