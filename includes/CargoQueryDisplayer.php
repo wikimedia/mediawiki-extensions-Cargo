@@ -11,6 +11,39 @@ use MediaWiki\MediaWikiServices;
 
 class CargoQueryDisplayer {
 
+	private const FORMAT_CLASSES = [
+		'list' => CargoListFormat::class,
+		'ul' => CargoULFormat::class,
+		'ol' => CargoOLFormat::class,
+		'template' => CargoTemplateFormat::class,
+		'embedded' => CargoEmbeddedFormat::class,
+		'csv' => CargoCSVFormat::class,
+		'excel' => CargoExcelFormat::class,
+		'json' => CargoJSONFormat::class,
+		'outline' => CargoOutlineFormat::class,
+		'tree' => CargoTreeFormat::class,
+		'table' => CargoTableFormat::class,
+		'dynamic table' => CargoDynamicTableFormat::class,
+		'map' => CargoMapsFormat::class,
+		'googlemaps' => CargoGoogleMapsFormat::class,
+		'leaflet' => CargoLeafletFormat::class,
+		'openlayers' => CargoOpenLayersFormat::class,
+		'calendar' => CargoCalendarFormat::class,
+		'icalendar' => CargoICalendarFormat::class,
+		'timeline' => CargoTimelineFormat::class,
+		'gantt' => CargoGanttFormat::class,
+		'bpmn' => CargoBPMNFormat::class,
+		'category' => CargoCategoryFormat::class,
+		'bar chart' => CargoBarChartFormat::class,
+		'pie chart' => CargoPieChartFormat::class,
+		'gallery' => CargoGalleryFormat::class,
+		'slideshow' => CargoSlideshowFormat::class,
+		'tag cloud' => CargoTagCloudFormat::class,
+		'exhibit' => CargoExhibitFormat::class,
+		'bibtex' => CargoBibtexFormat::class,
+		'zip' => CargoZipFormat::class,
+	];
+
 	public $mSQLQuery;
 	public $mFormat;
 	public $mDisplayParams = [];
@@ -30,38 +63,7 @@ class CargoQueryDisplayer {
 	 * @return string[] List of {@see CargoDisplayFormat} subclasses
 	 */
 	public static function getAllFormatClasses() {
-		$formatClasses = [
-			'list' => 'CargoListFormat',
-			'ul' => 'CargoULFormat',
-			'ol' => 'CargoOLFormat',
-			'template' => 'CargoTemplateFormat',
-			'embedded' => 'CargoEmbeddedFormat',
-			'csv' => 'CargoCSVFormat',
-			'excel' => 'CargoExcelFormat',
-			'json' => 'CargoJSONFormat',
-			'outline' => 'CargoOutlineFormat',
-			'tree' => 'CargoTreeFormat',
-			'table' => 'CargoTableFormat',
-			'dynamic table' => 'CargoDynamicTableFormat',
-			'map' => 'CargoMapsFormat',
-			'googlemaps' => 'CargoGoogleMapsFormat',
-			'leaflet' => 'CargoLeafletFormat',
-			'openlayers' => 'CargoOpenLayersFormat',
-			'calendar' => 'CargoCalendarFormat',
-			'icalendar' => 'CargoICalendarFormat',
-			'timeline' => 'CargoTimelineFormat',
-			'gantt' => 'CargoGanttFormat',
-			'bpmn' => 'CargoBPMNFormat',
-			'category' => 'CargoCategoryFormat',
-			'bar chart' => 'CargoBarChartFormat',
-			'pie chart' => 'CargoPieChartFormat',
-			'gallery' => 'CargoGalleryFormat',
-			'slideshow' => 'CargoSlideshowFormat',
-			'tag cloud' => 'CargoTagCloudFormat',
-			'exhibit' => 'CargoExhibitFormat',
-			'bibtex' => 'CargoBibtexFormat',
-			'zip' => 'CargoZipFormat'
-		];
+		$formatClasses = self::FORMAT_CLASSES;
 
 		// Let other extensions add their own formats - or even
 		// remove formats, if they want to.
@@ -381,8 +383,7 @@ class CargoQueryDisplayer {
 		// 'template' could there be complex formatting (like a table
 		// with a header and footer) where this approach to parsing
 		// would make a difference.
-		$formatClass = get_class( $formatter );
-		if ( array_key_exists( 'intro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
+		if ( array_key_exists( 'intro', $this->mDisplayParams ) && !( $formatter instanceof CargoTemplateFormat ) ) {
 			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], null );
 		}
 		try {
@@ -391,7 +392,7 @@ class CargoQueryDisplayer {
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}
-		if ( array_key_exists( 'outro', $this->mDisplayParams ) && $formatClass !== 'CargoTemplateFormat' ) {
+		if ( array_key_exists( 'outro', $this->mDisplayParams ) && !( $formatter instanceof CargoTemplateFormat ) ) {
 			$text .= CargoUtils::smartParse( $this->mDisplayParams['outro'], null );
 		}
 		return $text;

@@ -40,9 +40,10 @@ class CargoDisplayFormat {
 	 * @return array [ string, 'noparse' => bool, 'isHTML' => bool ].
 	 */
 	public static function formatArray( Parser $parser, array $values, array $mappings, array $params ): array {
-		$format = isset( $params['format'] ) ? $params['format'] : 'list';
+		$format = $params['format'] ?? 'list';
 		$classes = CargoQueryDisplayer::getAllFormatClasses();
-		$class = isset( $classes[$format] ) ? $classes[$format] : 'CargoListFormat';
+		/** @var CargoDisplayFormat $class */
+		$class = $classes[ $format ] ?? CargoListFormat::class;
 		$formatter = new $class( $parser->getOutput(), $parser );
 
 		// This cannot yet be called for "deferred" formats, where the
