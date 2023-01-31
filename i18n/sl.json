@@ -73,7 +73,7 @@
 	"cargo-query-badsqlfunction": "Napaka: SQL-funkcija »$1« ni dovoljena.",
 	"cargo-query-badalias": "Napaka: Neveljaven vzdevek tabele »$1«.",
 	"cargo-query-unknowndbtable": "Napaka: Tabela podatkovne zbirke z imenom »$1« ne obstaja.",
-	"cargo-query-unknownfieldfortable": "Napaka: Za tabelo podatkovne zbirke »$2« ni bilo mogoče najti nobenega polja »$1«",
+	"cargo-query-unknownfieldfortable": "Napaka: Za tabelo podatkovne zbirke »$2« ni bilo mogoče najti nobenega polja »$1«.",
 	"cargo-query-unknownfield": "Napaka: Za določene tabele podatkovne zbirke ni bilo mogoče najti nobenega polja »$1«.",
 	"cargo-query-missingparam": "Napaka: Parameter »$1« mora biti nastavljen za format »$2«.",
 	"cargo-query-specifiedfieldmissing": "Napaka: Polje »$1«, določeno kot »$2«, mora biti med polji te poizvedbe.",

@@ -10,7 +10,7 @@
 	"apihelp-cargotables-summary": "Pridobi vse tabele v sistemu",
 	"apihelp-cargofields-summary": "Pridobi vsa polja v navedeni tabeli",
 	"apihelp-cargofields-description": "Pridobi vsa polja v navedeni tabeli",
-	"apihelp-cargofields-param-table": "Tabela podatkovne zbirke Cargo, iz katere je treba pridobiti polja",
+	"apihelp-cargofields-param-table": "Tabela podatkovne zbirke Cargo, iz katere naj se pridobijo polja",
 	"apihelp-cargoquery-param-tables": "Tabela ali tabele podatkovne zbirke Cargo, ki naj bodo preiskane",
 	"apihelp-cargoquery-param-fields": "Polje(a) teabele za pridobitev",
 	"apihelp-cargoquery-param-where": "Pogoji za pozivedbo, ki ustrezajo klavzuli SQL WHERE",
