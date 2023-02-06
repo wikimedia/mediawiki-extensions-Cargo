@@ -98,6 +98,8 @@ class CargoExport extends UnlistedSpecialPage {
 				$this->displayBibtexData( $sqlQueries, $defaultEntryType );
 			} elseif ( $format === 'icalendar' ) {
 				$this->displayIcalendarData( $sqlQueries );
+			} elseif ( $format === 'feed' ) {
+				$this->displayFeedData( $sqlQueries );
 			} else {
 				// Let other extensions display the data if they have defined their own "deferred"
 				// formats. This is an unusual hook in that functions that use it have to return false;
@@ -684,6 +686,16 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$filename = $req->getText( 'filename', 'export.ics' );
 		$this->outputFile( 'text/calendar', $filename, 'ics', $calendar );
+	}
+
+	/**
+	 * Output an RSS or Atom feed.
+	 *
+	 * @param CargoSQLQuery[] $sqlQueries
+	 */
+	private function displayFeedData( $sqlQueries ) {
+		$format = new CargoFeedFormat( $this->getOutput() );
+		$format->outputFeed( $this->getRequest(), $sqlQueries );
 	}
 
 	/**

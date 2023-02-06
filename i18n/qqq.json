@@ -161,6 +161,7 @@
 	"cargo-downloadzip-invalidformat": "Message for indicating that queried field for \"zip\" format is not a File",
 	"cargo-viewjson": "The text of a link.",
 	"cargo-viewbibtex": "The text of a link.",
+	"cargo-viewfeed": "The text of a link to an Atom or RSS feed.\n\nParameter:\n* $1 — The value of {{msg-mw|feed-atom}} or {{msg-mw|feed-rss}}.",
 	"cargo-viewicalendar": "The text of a link.",
 	"cargo-dynamictables-togglecolumns": "Label for toggle columns in dynamic tables",
 	"cargo-dynamictables-searchcolumn": "Placeholder for searchable columns. Parameters:\n* $1 - field Name",

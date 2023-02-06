@@ -151,6 +151,7 @@
 	"cargo-downloadzip-invalidformat": "The queried field does not contain File-type values",
 	"cargo-viewjson": "View JSON",
 	"cargo-viewbibtex": "View BibTeX",
+	"cargo-viewfeed": "View $1 feed",
 	"cargo-viewicalendar": "View iCalendar",
 	"cargo-dynamictables-togglecolumns": "Toggle columns:",
 	"cargo-dynamictables-searchcolumn": "Search $1",

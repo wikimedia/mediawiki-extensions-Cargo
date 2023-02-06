@@ -166,6 +166,7 @@
 		"CargoTagCloudFormat": "includes/formats/CargoTagCloudFormat.php",
 		"CargoExhibitFormat": "includes/formats/CargoExhibitFormat.php",
 		"CargoBibtexFormat": "includes/formats/CargoBibtexFormat.php",
+		"CargoFeedFormat": "includes/formats/CargoFeedFormat.php",
 		"CargoSearchMySQL": "includes/search/CargoSearchMySQL.php",
 		"CargoPageSchemas": "includes/CargoPageSchemas.php",
 		"CargoAppliedFilter": "drilldown/CargoAppliedFilter.php",

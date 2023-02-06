@@ -35,13 +35,14 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 				. "NAME;LANGUAGE=en:Calendar\r\n"
 				. "X-WR-CALNAME;LANGUAGE=en:Calendar\r\n"
 				. "BEGIN:VEVENT\r\n"
-				. "UID:cargotest/Special:Redirect/page/0\r\n"
+				. "UID:cargotest/Special:Redirect/page/3\r\n"
 				. "DTSTAMP:20200102T030405Z\r\n"
 				. "SUMMARY;LANGUAGE=en:Lorem ipsum\r\n"
 				. "DTSTART:20200102T030405Z\r\n"
 				. "END:VEVENT\r\n"
 				. "END:VCALENDAR",
 				[
+					'_pageID' => '3',
 					'_pageName' => 'Lorem ipsum',
 					'start' => '2020-01-02 03:04:05',
 					'_modificationDate' => '2020-01-02 03:04:05',
@@ -59,13 +60,14 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 				. "DESCRIPTION;LANGUAGE=en:Lorem ipsum consectetur adipiscing elit. Etiam plac\r\n"
 				. " erat nisi lorem ipsum.\r\n"
 				. "BEGIN:VEVENT\r\n"
-				. "UID:cargotest/Special:Redirect/page/0\r\n"
+				. "UID:cargotest/Special:Redirect/page/3\r\n"
 				. "DTSTAMP:20200102T030405Z\r\n"
 				. "SUMMARY;LANGUAGE=en:Lorem ipsum\r\n"
 				. "DTSTART:20200102T030405Z\r\n"
 				. "END:VEVENT\r\n"
 				. "END:VCALENDAR",
 				[
+					'_pageID' => '3',
 					'_pageName' => 'Lorem ipsum',
 					'start' => '2020-01-02 03:04:05',
 					'_modificationDate' => '2020-01-02 03:04:05',
@@ -96,13 +98,14 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 		return [
 			'simple' => [
 				[
+					'_pageID' => '3',
 					'_pageName' => 'Lorem ipsum',
 					'start' => '2020-01-02 03:04:05',
 					'_modificationDate' => '2020-01-02 03:04:05',
 				],
 				[
 					'BEGIN:VEVENT',
-					'UID:cargotest/Special:Redirect/page/0',
+					'UID:cargotest/Special:Redirect/page/3',
 					'DTSTAMP:20200102T030405Z',
 					'SUMMARY;LANGUAGE=en:Lorem ipsum',
 					'DTSTART:20200102T030405Z',
@@ -111,6 +114,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 			],
 			'start and end, long name, description' => [
 				[
+					'_pageID' => '3',
 					'_pageName' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
 						. 'Etiam placerat nisi non metus porta, ac tincidunt quam molestie.',
 					'_modificationDate' => '2020-01-02 03:04:05',
@@ -120,7 +124,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 				],
 				[
 					'BEGIN:VEVENT',
-					'UID:cargotest/Special:Redirect/page/0',
+					'UID:cargotest/Special:Redirect/page/3',
 					'DTSTAMP:20200102T030405Z',
 					'SUMMARY;LANGUAGE=en:Lorem ipsum dolor sit amet\, consectetur adipiscing eli',
 					' t. Etiam placerat nisi non metus porta\, ac tincidunt quam molestie.',
@@ -132,13 +136,14 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 			],
 			'different wiki timezone' => [
 				[
+					'_pageID' => '3',
 					'_pageName' => 'Lorem ipsum',
 					'start' => '2020-01-02 23:04:05',
 					'_modificationDate' => '2020-01-02 03:04:05',
 				],
 				[
 					'BEGIN:VEVENT',
-					'UID:cargotest/Special:Redirect/page/0',
+					'UID:cargotest/Special:Redirect/page/3',
 					'DTSTAMP:20200102T030405Z',
 					'SUMMARY;LANGUAGE=en:Lorem ipsum',
 					// 2020-01-02 in Melbourne was +1100

@@ -19,6 +19,7 @@ class CargoQueryDisplayer {
 		'embedded' => CargoEmbeddedFormat::class,
 		'csv' => CargoCSVFormat::class,
 		'excel' => CargoExcelFormat::class,
+		'feed' => CargoFeedFormat::class,
 		'json' => CargoJSONFormat::class,
 		'outline' => CargoOutlineFormat::class,
 		'tree' => CargoTreeFormat::class,
