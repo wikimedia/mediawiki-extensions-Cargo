@@ -2,7 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Eduardo Addad de Oliveira",
-			"Nemo bis"
+			"Nemo bis",
+			"Eduardoaddad",
+			"Mello25",
+			"Svjatysberega",
+			"YuriNikolai"
 		]
 	},
 	"cargo-desc": "Armazenamento e pesquisa de dados usados em predefinições",
@@ -130,6 +134,7 @@
 	"cargo-drilldown-timelineformat": "Linha do tempo",
 	"cargo-drilldown-galleryformat": "Galeria",
 	"cargo-drilldown-calendarformat": "Calendário",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Ver CSV",
 	"cargo-viewxls": "Ver XLS",
 	"cargo-viewjson": "Ver JSON",
