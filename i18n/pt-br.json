@@ -5,6 +5,7 @@
 			"Eduardoaddad",
 			"Mello25",
 			"Nemo bis",
+			"Re demz",
 			"Svjatysberega",
 			"YuriNikolai"
 		]
@@ -185,5 +186,5 @@
 	"cargo-declare-parenttable-not-exist": "Erro: a tabela-mãe \"$1\" não existe.",
 	"cargo-declare-parenttable-no-field": "Erro: a tabela-mãe \"$1\" não tem um campo \"$2\".",
 	"cargo-declare-invalid-localfield": "Erro: nome de campo inválido \"$1\" especificado para _localField.",
-	"cargo-declare-validate-has-whitespace": "Erro: $1 nome \"$2\" contém espaços em branco. Não são permitidos espaços em branco de nenhum tipo; considere antes usar sublinhados (\"_\")."
+	"cargo-declare-validate-has-whitespace": "Erro: $1 nome \"$2\" contém espaços em branco. Não são permitidos espaços em branco de nenhum tipo; considere usar sublinhados (\"_\")."
 }
