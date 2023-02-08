@@ -3,7 +3,8 @@
 		"authors": [
 			"Eduardo Addad de Oliveira",
 			"Eduardoaddad",
-			"Svjatysberega"
+			"Svjatysberega",
+			"Mello25"
 		]
 	},
 	"apihelp-cargoquery-description": "Executa uma consulta nos dados Cargo.",
@@ -27,6 +28,9 @@
 	"apihelp-cargorecreatedata-param-table": "A tabela da base de dados Cargo para voltar a ser populada",
 	"apihelp-cargorecreatedata-param-offset": "De entre as páginas que chamam esta predefinição, o número daquela onde começar a consulta",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Substituir, ou não, as linhas antigas de cada página ao voltar a popular a tabela",
+	"apihelp-cargorecreatespecialtable-description": "Cria uma tabela especial Cargo.",
+	"apihelp-cargorecreatespecialtable-summary": "Cria uma tabela especial Cargo.",
+	"apihelp-cargorecreatespecialtable-param-table": "A tabela especial a ser recriada",
 	"apihelp-cargorecreatespecialtable-param-createReplacement": "Colocar ou não os dados numa tabela substituta",
 	"apihelp-cargoautocomplete-description": "Chamada de preenchimento automático usada pela extensão Cargo.",
 	"apihelp-cargoautocomplete-summary": "Chamada de preenchimento automático usada pela extensão Cargo.",
