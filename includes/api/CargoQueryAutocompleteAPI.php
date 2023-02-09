@@ -82,7 +82,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$tables = [];
 		$conds = [
-			'main_table NOT' . $dbr->buildLike( $dbr->anyString(), '\_\_NEXT' ),
+			'main_table NOT' . $dbr->buildLike( $dbr->anyString(), '__NEXT' ),
 		];
 		if ( $substr !== null && $substr !== '' ) {
 			$conds[] = 'main_table' . $dbr->buildLike( $dbr->anyString(), $substr, $dbr->anyString() );
