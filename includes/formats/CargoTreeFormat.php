@@ -37,7 +37,7 @@ class CargoTreeFormat extends CargoListFormat {
 		if ( !array_key_exists( $this->mParentField, $fieldDescriptions ) ) {
 			throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $this->mParentField, "parent field" )->parse() );
 		}
-		if ( array_key_exists( 'isList', $fieldDescriptions[$this->mParentField] ) ) {
+		if ( $fieldDescriptions[$this->mParentField]->mIsList ) {
 			throw new MWException( "Error: 'parent field' is declared to hold a list of values; "
 			. "only one parent value is allowed for the 'tree' format." );
 		}
@@ -45,11 +45,12 @@ class CargoTreeFormat extends CargoListFormat {
 		// For each result row, get the main name, the parent value,
 		// and all additional display values, and add it to the tree.
 		$tree = new CargoTreeFormatTree();
-		foreach ( $formattedValuesTable as $queryResultsRow ) {
+		foreach ( $valuesTable as $queryResultsRow ) {
 			$name = null;
 			$parentName = null;
 			$values = [];
 			foreach ( $queryResultsRow as $fieldName => $value ) {
+				$value = "[[$value]]";
 				if ( $name == null ) {
 					$name = $value;
 				}
@@ -63,7 +64,7 @@ class CargoTreeFormat extends CargoListFormat {
 		}
 
 		$result = self::printTree( $tree );
-		return $result;
+		return CargoUtils::smartParse( $result, $this->mParser );
 	}
 
 	protected function printNode( $tree, $nodeName, $level ) {
