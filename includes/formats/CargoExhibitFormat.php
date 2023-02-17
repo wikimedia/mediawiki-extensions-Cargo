@@ -6,6 +6,10 @@
  */
 
 class CargoExhibitFormat extends CargoDeferredFormat {
+	/** @var array */
+	private $displayParams;
+	/** @var array */
+	private $views;
 
 	public static function allowedParameters() {
 		return [

@@ -41,7 +41,6 @@ $config['suppress_issue_types'] = array_merge(
 		'PhanUndeclaredConstant',
 		'PhanUndeclaredExtendedClass',
 		'PhanUndeclaredMethod',
-		'PhanUndeclaredProperty',
 		'PhanUndeclaredStaticMethod',
 		'PhanUndeclaredTypeThrowsType',
 		'PhanUndeclaredVariable',

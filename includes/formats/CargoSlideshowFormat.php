@@ -94,7 +94,6 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			if ( count( $valuesTable ) > 0 && !array_key_exists( $captionField, $valuesTable[0] ) ) {
 				throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $captionField, "caption field" )->parse() );
 			}
-			$this->undisplayedFields[] = $captionField;
 		} else {
 			$captionField = null;
 		}
@@ -106,7 +105,6 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 			if ( count( $valuesTable ) > 0 && !array_key_exists( $linkField, $valuesTable[0] ) ) {
 				throw new MWException( wfMessage( "cargo-query-specifiedfieldmissing", $linkField, "link field" )->parse() );
 			}
-			$this->undisplayedFields[] = $linkField;
 		} else {
 			$linkField = null;
 		}

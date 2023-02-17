@@ -1,6 +1,13 @@
 <?php
 
 class CargoQueryPage extends QueryPage {
+	/** @var CargoSQLQuery */
+	private $sqlQuery;
+	/** @var array */
+	private $displayParams;
+	/** @var string */
+	private $format;
+
 	public function __construct( $name = 'CargoQuery' ) {
 		parent::__construct( $name );
 

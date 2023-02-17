@@ -37,6 +37,10 @@ use MediaWiki\MediaWikiServices;
 $maintClass = CargoRecreateData::class;
 
 class CargoRecreateData extends Maintenance {
+	/** @var array */
+	private $templatesThatDeclareTables;
+	/** @var array */
+	private $templatesThatAttachToTables;
 
 	public function __construct() {
 		parent::__construct();
