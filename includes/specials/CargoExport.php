@@ -426,16 +426,6 @@ class CargoExport extends UnlistedSpecialPage {
 		print $XML;
 	}
 
-	/**
-	 * Used by displayTimelineData().
-	 */
-	private function timelineDatesCmp( $a, $b ) {
-		if ( $a['start'] == $b['start'] ) {
-			return 0;
-		}
-		return ( $a['start'] < $b['start'] ) ? -1 : 1;
-	}
-
 	private function displayTimelineData( $sqlQueries ) {
 		$displayedArray = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
@@ -484,7 +474,9 @@ class CargoExport extends UnlistedSpecialPage {
 			}
 		}
 		// Sort by date, ascending.
-		usort( $displayedArray, 'self::timelineDatesCmp' );
+		usort( $displayedArray, static function ( $a, $b ) {
+			return $a['start'] <=> $b['start'];
+		} );
 
 		$displayedArray = [ 'events' => $displayedArray ];
 		print json_encode( $displayedArray, JSON_HEX_TAG | JSON_HEX_QUOT );
