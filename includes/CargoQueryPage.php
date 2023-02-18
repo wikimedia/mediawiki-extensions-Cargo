@@ -1,5 +1,8 @@
 <?php
 
+use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IResultWrapper;
+
 class CargoQueryPage extends QueryPage {
 	/** @var CargoSQLQuery */
 	private $sqlQuery;
@@ -168,8 +171,8 @@ class CargoQueryPage extends QueryPage {
 	 *
 	 * @param OutputPage $out OutputPage to print to
 	 * @param Skin $skin User skin to use
-	 * @param DatabaseBase $dbr Database (read) connection to use
-	 * @param int $res Result pointer
+	 * @param IDatabase $dbr Database (read) connection to use
+	 * @param IResultWrapper $res Result pointer
 	 * @param int $num Number of available result rows
 	 * @param int $offset Paging offset
 	 */

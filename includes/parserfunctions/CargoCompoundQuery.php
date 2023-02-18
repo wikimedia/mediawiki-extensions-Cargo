@@ -125,7 +125,7 @@ class CargoCompoundQuery {
 	 * @todo - this should probably be streamlined and renamed.
 	 */
 	public static function getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams,
-		$format = null, $displayParams = null, $parser = null ) {
+		$format, $displayParams, Parser $parser ) {
 		$queryDisplayer = new CargoQueryDisplayer();
 		$queryDisplayer->mParser = $parser;
 		$queryDisplayer->mFormat = $format;
