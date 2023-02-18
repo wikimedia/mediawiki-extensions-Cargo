@@ -17,7 +17,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 	 * query string parameters.
 	 *
 	 * @param array $sqlQueries
-	 * @return array
+	 * @return array|null
 	 */
 	public function sqlQueriesToQueryParams( $sqlQueries ) {
 		$queryParams = [

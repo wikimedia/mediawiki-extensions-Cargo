@@ -19,7 +19,7 @@ class CargoCompoundQuery {
 	 * extension.
 	 *
 	 * @param Parser $parser
-	 * @return string
+	 * @return string|array Error message string, or an array holding output text and format flags
 	 */
 	public static function run( $parser ) {
 		$params = func_get_args();
