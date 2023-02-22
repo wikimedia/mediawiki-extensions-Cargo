@@ -29,7 +29,7 @@ class CargoBackLinks {
 	public static function removeBackLinks( $pageId ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbw = $lb->getConnectionRef( DB_PRIMARY );
-		if ( $dbw->tableExists( 'cargo_backlinks' ) ) {
+		if ( $dbw->tableExists( 'cargo_backlinks' ) && !$dbw->isReadOnly() ) {
 			$dbw->delete( 'cargo_backlinks', [
 				'cbl_query_page_id' => $pageId
 			], __METHOD__ );
@@ -39,7 +39,7 @@ class CargoBackLinks {
 	public static function setBackLinks( $title, $resultsPageIds ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbw = $lb->getConnectionRef( DB_PRIMARY );
-		if ( !$dbw->tableExists( 'cargo_backlinks' ) ) {
+		if ( !$dbw->tableExists( 'cargo_backlinks' ) || $dbw->isReadOnly() ) {
 			return;
 		}
 		// Sanity check
