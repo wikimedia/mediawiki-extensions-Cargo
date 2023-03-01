@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\Linker\LinkTarget;
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Revision\RenderedRevision;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
@@ -351,26 +353,36 @@ class CargoHooks {
 	}
 
 	/**
-	 * @param Title $title Unused
-	 * @param Title $newtitle
-	 * @param User $user Unused
-	 * @param int $oldid
-	 * @param int $newid Unused
+	 * Called by the PageMoveComplete hook.
+	 *
+	 * Updates the entries for a page within all Cargo tables, if the page is renamed/moved.
+	 *
+	 * @param LinkTarget $old
+	 * @param LinkTarget $new
+	 * @param UserIdentity $userIdentity Unused
+	 * @param int $pageid
+	 * @param int $redirid
 	 * @param string $reason Unused
+	 * @param RevisionRecord $revision Unused
 	 */
-	public static function onTitleMoveComplete( Title $title, Title $newtitle, User $user, $oldid,
-		$newid, $reason ) {
+	public static function onPageMoveComplete( LinkTarget $old, LinkTarget $new, UserIdentity $userIdentity,
+		int $pageid, int $redirid, string $reason, RevisionRecord $revision ) {
 		// For each main data table to which this page belongs, change
 		// the page name-related fields.
-		$newPageName = $newtitle->getPrefixedText();
-		$newPageTitle = $newtitle->getText();
-		$newPageNamespace = $newtitle->getNamespace();
+		$newPageTitle = $new->getText();
+		$newPageNamespace = $new->getNamespace();
+		if ( $newPageNamespace === NS_MAIN ) {
+			$newPageName = $newPageTitle;
+		} else {
+			$nsText = MediaWikiServices::getInstance()->getNamespaceInfo()->
+				getCanonicalName( $newPageNamespace );
+			$newPageName = $nsText . ':' . $newPageTitle;
+		}
 		$dbw = wfGetDB( DB_MASTER );
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
-		// We use $oldid, because that's the page ID - $newid is the
-		// ID of the redirect page.
-		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $oldid ] );
+
+		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageid ] );
 		foreach ( $res as $row ) {
 			$curMainTable = $row->table_name;
 			$cdb->update( $curMainTable,
@@ -379,7 +391,7 @@ class CargoHooks {
 					$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 					$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 				],
-				[ $cdb->addIdentifierQuotes( '_pageID' ) => $oldid ]
+				[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ]
 			);
 		}
 
@@ -397,7 +409,7 @@ class CargoHooks {
 						$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 						$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 					],
-					[ $cdb->addIdentifierQuotes( '_pageID' ) => $oldid ]
+					[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ]
 				);
 			}
 		}
@@ -406,7 +418,7 @@ class CargoHooks {
 		$cdb->commit();
 
 		// Save data for the original page (now a redirect).
-		if ( $newid != 0 ) {
+		if ( $redirid != 0 ) {
 			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
 			CargoPageData::storeValuesForPage( $title, $useReplacementTable );
 		}

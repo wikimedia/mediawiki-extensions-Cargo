@@ -441,7 +441,7 @@
 		"PageSaveComplete": "CargoHooks::onPageSaveComplete",
 		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
-		"TitleMoveComplete": "CargoHooks::onTitleMoveComplete",
+		"PageMoveComplete": "CargoHooks::onPageMoveComplete",
 		"MultiContentSave": "CargoHooks::onMultiContentSave",
 		"UploadComplete": "CargoHooks::onUploadComplete",
 		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
