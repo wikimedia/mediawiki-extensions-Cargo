@@ -267,7 +267,7 @@ class CargoHooks {
 	 */
 	public static function onPageSaveComplete(
 		WikiPage $wikiPage,
-		MediaWiki\User\UserIdentity $user,
+		UserIdentity $user,
 		string $summary,
 		int $flags,
 		RevisionRecord $revisionRecord,
