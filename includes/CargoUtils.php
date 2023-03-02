@@ -25,7 +25,8 @@ class CargoUtils {
 		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype;
 
-		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
+		$services = MediaWikiServices::getInstance();
+		$lb = $services->getDBLoadBalancer();
 		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		$server = $dbr->getServer();
 		$name = $dbr->getDBname();
@@ -79,7 +80,12 @@ class CargoUtils {
 			$params['port'] = $wgDBport;
 		}
 
-		self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
+		if ( method_exists( $services, 'getDatabaseFactory' ) ) {
+			// MW 1.39+
+			self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );
+		} else {
+			self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
+		}
 		return self::$CargoDB;
 	}
 
