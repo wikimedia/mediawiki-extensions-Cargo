@@ -195,6 +195,10 @@ class CargoQueryPage extends QueryPage {
 		$this->displayParams['offset'] = $offset;
 		$queryDisplayer->mDisplayParams = $this->displayParams;
 		$html = $queryDisplayer->displayQueryResults( $formatter, $valuesTable );
-		$out->addHTML( $html );
+		if ( $this->format === 'template' ) {
+			$out->addWikiTextAsContent( $html );
+		} else {
+			$out->addHTML( $html );
+		}
 	}
 }

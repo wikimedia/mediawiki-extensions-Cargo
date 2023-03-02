@@ -78,12 +78,7 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 		if ( array_key_exists( 'outro', $displayParams ) ) {
 			$text .= "\n" . $displayParams['outro'] . "\n";
 		}
-		global $wgTitle;
-		if ( $wgTitle != null && $wgTitle->isSpecialPage() ) {
-			return CargoUtils::smartParse( $text, $this->mParser );
-		} else {
-			return $text;
-		}
+		return $text;
 	}
 
 }
