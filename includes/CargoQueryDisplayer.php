@@ -247,7 +247,11 @@ class CargoQueryDisplayer {
 				''
 			);
 		} elseif ( $type == 'URL' ) {
-			if ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
+			// Validate URL - regexp code copied from Sanitizer::validateAttributes().
+			$hrefExp = '/^(' . wfUrlProtocols() . ')[^\s]+$/';
+			if ( !preg_match( $hrefExp, $value ) ) {
+				return $value;
+			} elseif ( array_key_exists( 'link text', $fieldDescription->mOtherParams ) ) {
 				return Html::element( 'a', [ 'href' => $value ],
 						$fieldDescription->mOtherParams['link text'] );
 			} else {
