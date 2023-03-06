@@ -102,7 +102,7 @@ class CargoQueryDisplayer {
 		return $formatObject;
 	}
 
-	public function getFormattedQueryResults( $queryResults ) {
+	public function getFormattedQueryResults( $queryResults, $escapeValues = false ) {
 		// The assignment will do a copy.
 		global $wgScriptPath, $wgServer;
 		$queryResults = CargoUtils::replaceRedirectWithTarget( $queryResults, $this->mFieldDescriptions );
@@ -147,7 +147,7 @@ class CargoQueryDisplayer {
 							// list parsing worked.
 							$text .= ' <span class="CargoDelimiter">&bull;</span> ';
 						}
-						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser );
+						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser, $escapeValues );
 					}
 				} elseif ( $fieldDescription->isDateOrDatetime() ) {
 					$datePrecisionField = $fieldName . '__precision';
@@ -184,7 +184,7 @@ class CargoQueryDisplayer {
 					$text = '<span style="display: block; width: 65px; height: 13px; background: url(\'' . $url . '\') 0 0;">
 						<span style="display: block; width: ' . $rate . '%; height: 13px; background: url(\'' . $url . '\') 0 -13px;"></span>';
 				} else {
-					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser );
+					$text = self::formatFieldValue( $value, $fieldType, $fieldDescription, $this->mParser, $escapeValues );
 				}
 
 				if ( array_key_exists( 'max display chars', $this->mDisplayParams ) && ( $fieldType == 'Text' || $fieldType == 'Wikitext' ) ) {
@@ -202,7 +202,7 @@ class CargoQueryDisplayer {
 		return $formattedQueryResults;
 	}
 
-	public static function formatFieldValue( $value, $type, $fieldDescription, $parser ) {
+	public static function formatFieldValue( $value, $type, $fieldDescription, $parser, $escapeValue ) {
 		if ( $type == 'Integer' ) {
 			global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 			return number_format( $value, 0, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
@@ -266,7 +266,9 @@ class CargoQueryDisplayer {
 		} elseif ( $type == 'Wikitext' || $type == 'Wikitext string' || $type == '' ) {
 			return CargoUtils::smartParse( $value, $parser );
 		} elseif ( $type == 'Searchtext' ) {
-			$value = htmlspecialchars( $value );
+			if ( $escapeValue ) {
+				$value = htmlspecialchars( $value );
+			}
 			if ( strlen( $value ) > 300 ) {
 				return substr( $value, 0, 300 ) . ' ...';
 			} else {
@@ -276,6 +278,9 @@ class CargoQueryDisplayer {
 
 		// If it's not any of these specially-handled types, just
 		// return the value.
+		if ( $escapeValue ) {
+			$value = htmlspecialchars( $value );
+		}
 		return $value;
 	}
 
@@ -373,7 +378,7 @@ class CargoQueryDisplayer {
 			}
 		}
 
-		$formattedQueryResults = $this->getFormattedQueryResults( $queryResults );
+		$formattedQueryResults = $this->getFormattedQueryResults( $queryResults, true );
 		$text = '';
 
 		// If this is the 'template' format, let the formatter print
