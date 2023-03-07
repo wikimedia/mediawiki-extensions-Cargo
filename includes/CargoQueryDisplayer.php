@@ -339,7 +339,7 @@ class CargoQueryDisplayer {
 	}
 
 	/**
-	 * Based heavily on MediaWiki's SearchResult::getTextSnippet()
+	 * Based on MediaWiki's SqlSearchResult::getTextSnippet()
 	 */
 	public function getTextSnippet( $text, $terms ) {
 		foreach ( $terms as $i => $term ) {
@@ -363,13 +363,10 @@ class CargoQueryDisplayer {
 			// call the more expensive function, highlightText()
 			// rather than highlightSimple(), because we're not
 			// that concerned about performance.
-			$snippet = $h->highlightText( $text, $terms );
+			return $h->highlightText( $text, $terms );
 		} else {
-			$snippet = $h->highlightNone( $text );
+			return $h->highlightNone( $text );
 		}
-
-		// Why is this necessary for Cargo, but not for MediaWiki?
-		return html_entity_decode( $snippet );
 	}
 
 	/**
