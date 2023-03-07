@@ -2,24 +2,39 @@
 	"@metadata": {
 		"authors": [
 			"Ameisenigel",
-			"Metalhead64"
+			"Metalhead64",
+			"*Surak*"
 		]
 	},
 	"apihelp-cargoquery-description": "Führt eine Abfrage zu den Cargo-Daten aus.",
 	"apihelp-cargoquery-summary": "Führt eine Abfrage zu den Cargo-Daten aus.",
+	"apihelp-cargotables-description": "Ruft alle Tabellen im System ab",
+	"apihelp-cargotables-summary": "Ruft alle Tabellen im System ab",
+	"apihelp-cargofields-summary": "Ruft alle Felder in der angegebenen Tabelle ab",
+	"apihelp-cargofields-description": "Ruft alle Felder in der angegebenen Tabelle ab",
+	"apihelp-cargofields-param-table": "Die Cargo-Datenbanktabelle, aus der die Felder abgerufen werden sollen",
 	"apihelp-cargoquery-param-tables": "Die Cargo-Datenbanktabelle(n), die durchsucht werden soll(en).",
 	"apihelp-cargoquery-param-fields": "Die abzurufenden Tabellenfelder",
+	"apihelp-cargoquery-param-where": "Die Bedingungen für die Abfrage, die einer SQL-WHERE-Klausel entsprechen",
+	"apihelp-cargoquery-param-join_on": "Bedingungen für den Join mehrerer Tabellen, die einer SQL JOIN-ON-Klausel entsprechen",
 	"apihelp-cargoquery-param-order_by": "Die Reihenfolge der Ergebnisse, entsprechend einer SQL-ORDER-BY-Klausel",
+	"apihelp-cargoquery-param-group_by": "Feld(er) für das Gruppieren von Ergebnissen entsprechend einer SQL GROUP-BY-Klausel",
+	"apihelp-cargoquery-param-having": "Bedingungen für gruppierte Werte, die einer SQL HAVING-Klausel entsprechen",
 	"apihelp-cargoquery-param-limit": "Die maximale Anzahl der zurückgegebenen Ergebnisse",
 	"apihelp-cargoquery-param-offset": "Der Abfrage-Offset",
 	"apihelp-cargorecreatetables-description": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
 	"apihelp-cargorecreatetables-summary": "Erstellt eine oder mehrere Cargo-Tabellen neu.",
+	"apihelp-cargorecreatetables-param-template": "Die Vorlage, deren deklarierte Cargo-Tabelle(n) neu erstellt werden soll(en).",
 	"apihelp-cargorecreatetables-param-createReplacement": "Ob Daten in eine Ersetzungstabelle eingesetzt werden sollen",
 	"apihelp-cargorecreatedata-description": "Wiederbefüllt die Daten in eine Cargo-Tabelle.",
 	"apihelp-cargorecreatedata-summary": "Befüllt die Daten in einer Cargo-Tabelle neu.",
 	"apihelp-cargorecreatedata-param-template": "Die Vorlage, deren Daten verwendet werden sollen.",
 	"apihelp-cargorecreatedata-param-table": "Die wiederzubefüllende Cargo-Datenbanktabelle",
 	"apihelp-cargorecreatedata-param-replaceOldRows": "Ob alte Zeilen für jede Seite bei der Neubefüllung der Tabelle ersetzt werden sollen",
+	"apihelp-cargorecreatespecialtable-description": "Erstellt eine Cargo-Spezialtabelle.",
+	"apihelp-cargorecreatespecialtable-summary": "Erstellt eine spezielle Cargo-Tabelle.",
+	"apihelp-cargorecreatespecialtable-param-table": "Die neu zu erstellende spezielle Tabelle",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "Ob Daten in eine Ersetzungstabelle eingefügt werden sollen",
 	"apihelp-cargoautocomplete-description": "Der von der Erweiterung „Cargo“ verwendete Autovervollständigungs-Aufruf.",
 	"apihelp-cargoautocomplete-summary": "Von der Cargo-Erweiterung verwendeter Autovervollständigungs-Aufruf.",
 	"apihelp-cargoautocomplete-param-limit": "Ein Limit für die Anzahl der zurückgegebenen Ergebnisse",
@@ -28,5 +43,11 @@
 	"apihelp-cargoautocomplete-param-field": "Cargo-Feld, für das die Werte gesucht werden sollen.",
 	"apihelp-cargoautocomplete-param-field_is_array": "Ob das Feld eine Liste mit Werten enthält",
 	"apihelp-cargoautocomplete-param-where": "Die Klausel „where“ für die Abfrage, basierend auf den anderen angegebenen Filtern.",
-	"apihelp-cargoqueryautocomplete-param-search": "Such-Teilzeichenfolge"
+	"apihelp-cargoqueryautocomplete-description": "Aufruf zur automatischen Vervollständigung, der von der Spezialseite von CargoQuery (früher ViewData) verwendet wird.",
+	"apihelp-cargoqueryautocomplete-summary": "Aufruf zur automatischen Vervollständigung, der von der Spezialseite von CargoQuery (früher ViewData) verwendet wird.",
+	"apihelp-cargoqueryautocomplete-param-search": "Such-Teilzeichenfolge",
+	"apihelp-cargoqueryautocomplete-param-tables": "Array der ausgewählten Cargo-Tabelle(n), basierend darauf, welche Felder, Group-by und Order-by automatisch vervollständigt werden.",
+	"apihelp-cargoformatparams-description": "Ruft den Satz von Anzeigeparametern für jedes Cargo-Abfrageformat ab.",
+	"apihelp-cargoformatparams-summary": "Ruft den Satz von Anzeigeparametern für jedes Cargo-Abfrageformat ab.",
+	"apihelp-cargoformatparams-param-queryformat": "Ein Cargo-Abfrageformat"
 }
