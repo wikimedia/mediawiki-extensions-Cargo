@@ -27,6 +27,11 @@ class CargoBackLinks {
 	}
 
 	public static function removeBackLinks( $pageId ) {
+		global $wgCargoIgnoreBacklinks;
+		if ( $wgCargoIgnoreBacklinks ) {
+			return;
+		}
+
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbw = $lb->getConnectionRef( DB_PRIMARY );
 		if ( $dbw->tableExists( 'cargo_backlinks' ) && !$dbw->isReadOnly() ) {
@@ -37,6 +42,11 @@ class CargoBackLinks {
 	}
 
 	public static function setBackLinks( $title, $resultsPageIds ) {
+		global $wgCargoIgnoreBacklinks;
+		if ( $wgCargoIgnoreBacklinks ) {
+			return;
+		}
+
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbw = $lb->getConnectionRef( DB_PRIMARY );
 		if ( !$dbw->tableExists( 'cargo_backlinks' ) || $dbw->isReadOnly() ) {
@@ -61,6 +71,11 @@ class CargoBackLinks {
 	}
 
 	public static function purgePagesThatQueryThisPage( $resultPageId ) {
+		global $wgCargoIgnoreBacklinks;
+		if ( $wgCargoIgnoreBacklinks ) {
+			return;
+		}
+
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 		$dbr = $lb->getConnectionRef( DB_REPLICA );
 		if ( !$dbr->tableExists( 'cargo_backlinks' ) ) {

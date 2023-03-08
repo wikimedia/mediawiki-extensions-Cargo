@@ -17,6 +17,8 @@ class CargoQuery {
 	 * @return string|array Error message string, or an array holding output text and format flags
 	 */
 	public static function run( $parser ) {
+		global $wgCargoIgnoreBacklinks;
+
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 
@@ -89,7 +91,7 @@ class CargoQuery {
 			// Fetch results title only if "cargo_backlinks" table exists
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 			$dbr = $lb->getConnectionRef( DB_REPLICA );
-			if ( $groupByStr == '' && $dbr->tableExists( 'cargo_backlinks' ) ) {
+			if ( $groupByStr == '' && !$wgCargoIgnoreBacklinks && $dbr->tableExists( 'cargo_backlinks' ) ) {
 				$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
 				$allTables = array_filter( $allTables );
 				$newFieldsStr = $fieldsStr;

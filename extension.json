@@ -489,6 +489,7 @@
 		"CargoTablesPrioritizeReplacements": false,
 		"CargoLegacyNullLuaFieldsAsEmptyString": false,
 		"CargoStoreUseTemplateArgsFallback": true,
+		"CargoIgnoreBacklinks": false,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
 		"CargoHideNamespaceName": [
