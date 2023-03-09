@@ -407,7 +407,7 @@ class CargoUtils {
 			return '';
 		}
 
-		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/';
+		$noQuotesPattern = '/("|\')([^\\1\\\\]|\\\\.)*?\\1/s';
 		$string = preg_replace( $noQuotesPattern, '', $string );
 		if ( strpos( $string, '"' ) !== false || strpos( $string, "'" ) !== false ) {
 			throw new MWException( "Error: unclosed string literal." );
