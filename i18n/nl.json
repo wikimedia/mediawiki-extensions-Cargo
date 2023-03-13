@@ -29,7 +29,7 @@
 	"action-runcargoqueries": "willekeurige Cargo-query's uit te voeren",
 	"right-runcargoqueries": "Willekeurige Cargo-query's uitvoeren",
 	"cargo-logname": "Cargo-logboek",
-	"cargo-logdesc": "Dit is het logboek van acties met betrekking tot de Cargo-extensie.",
+	"cargo-logdesc": "Dit is het logboek van handelingen met betrekking tot de uitbreiding Cargo.",
 	"cargo-createtableaction": "heeft de Cargo-tabel $2 aangemaakt",
 	"cargo-recreatetableaction": "heeft de Cargo-tabel $2 opnieuw aangemaakt",
 	"cargo-replacetableaction": "heeft de Cargo-tabel $2 vervangen door een nieuwe versie",
