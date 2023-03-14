@@ -28,6 +28,7 @@ class CargoSQLQuery {
 	public $mGroupByStr;
 	public $mOrigHavingStr;
 	public $mHavingStr;
+	public $mOrigOrderBy;
 	public $mOrderBy;
 	public $mQueryLimit;
 	public $mOffset;
@@ -68,6 +69,7 @@ class CargoSQLQuery {
 		$sqlQuery->setCargoJoinConds( $joinOnStr );
 		$sqlQuery->setAliasedFieldNames();
 		$sqlQuery->mTableSchemas = CargoUtils::getTableSchemas( $sqlQuery->mAliasedTableNames );
+		$sqlQuery->mOrigOrderBy = $orderByStr;
 		$sqlQuery->setOrderBy( $orderByStr );
 		$sqlQuery->setGroupBy( $groupByStr );
 		$sqlQuery->mOrigHavingStr = $havingStr;

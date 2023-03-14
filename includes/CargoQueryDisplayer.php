@@ -439,7 +439,7 @@ class CargoQueryDisplayer {
 		if ( $sqlQuery->mOrigHavingStr != '' ) {
 			$queryStringParams['having'] = $sqlQuery->mOrigHavingStr;
 		}
-		$queryStringParams['order_by'] = $sqlQuery->mOrderBy;
+		$queryStringParams['order_by'] = $sqlQuery->mOrigOrderBy;
 		if ( $this->mFormat != '' ) {
 			$queryStringParams['format'] = $this->mFormat;
 		}

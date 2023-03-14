@@ -219,7 +219,8 @@ END;
 				continue;
 			}
 			$key = str_replace( '_', ' ', $key );
-			if ( $key == 'order by' ) {
+			if ( $key == 'order by' && is_array( $val ) ) {
+				// Possibly no longer necessary.
 				$orderByVal = '';
 				foreach ( $val as $i => $orderByField ) {
 					if ( $orderByField == '' ) {
