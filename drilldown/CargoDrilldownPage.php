@@ -1871,7 +1871,7 @@ END;
 		$offsetStr = $this->offset;
 		$this->sqlQuery =
 			CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
+				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr, true );
 
 		// @HACK - the result set may contain both pages and files that
 		// match the search term. So how do we know, for each result

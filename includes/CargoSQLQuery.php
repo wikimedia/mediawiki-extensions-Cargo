@@ -44,7 +44,7 @@ class CargoSQLQuery {
 	 * object can be created without any values.
 	 */
 	public static function newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
+		$havingStr, $orderByStr, $limitStr, $offsetStr, $allowFieldEscaping = false ) {
 		global $wgCargoDefaultQueryLimit, $wgCargoMaxQueryLimit;
 
 		// "table(s)" is the only mandatory value.
@@ -53,7 +53,7 @@ class CargoSQLQuery {
 		}
 
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-			$havingStr, $orderByStr, $limitStr, $offsetStr );
+			$havingStr, $orderByStr, $limitStr, $offsetStr, $allowFieldEscaping );
 
 		$sqlQuery = new CargoSQLQuery();
 		$sqlQuery->mCargoDB = CargoUtils::getDB();
@@ -106,7 +106,7 @@ class CargoSQLQuery {
 	 * "fields=" parameter.
 	 */
 	public static function validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
-		$havingStr, $orderByStr, $limitStr, $offsetStr ) {
+		$havingStr, $orderByStr, $limitStr, $offsetStr, $allowFieldEscaping ) {
 		// Remove quoted strings from "where" parameter, to avoid
 		// unnecessary false positives from words like "from"
 		// being included in string comparisons.
@@ -146,8 +146,12 @@ class CargoSQLQuery {
 			'/\-\-/' => '--',
 			'/\/\*/' => '/*',
 			'/#/' => '#',
-			'/`/' => '`',
 		];
+		// Bypass this particular check, for Special:Drilldown and possibly
+		// other query locations.
+		if ( !$allowFieldEscaping ) {
+			$regexps['/`/'] = '`';
+		}
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
 				preg_match( $regexp, $noQuotesFieldsStr ) ||
