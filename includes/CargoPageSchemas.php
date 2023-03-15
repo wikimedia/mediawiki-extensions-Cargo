@@ -93,7 +93,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 	}
 
 	public static function getFieldDisplayString() {
-		return wfMessage( 'cargo-pageschemas-cargofield' )->text();
+		return wfMessage( 'cargo-pageschemas-cargofield' )->escaped();
 	}
 
 	public static function isTemplateDataMultipleInstanceOnly() {
@@ -111,7 +111,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 			}
 		}
 
-		$text = "\t<p>" . wfMessage( 'cargo-pageschemas-tablename' )->text() . ' ' .
+		$text = "\t<p>" . wfMessage( 'cargo-pageschemas-tablename' )->escaped() . ' ' .
 			Html::input( 'cargo_template_table_name_num', $tableName, 'text', [ 'size' => 30 ] ) . "</p>\n";
 
 		return [ $text, $hasExistingValues ];

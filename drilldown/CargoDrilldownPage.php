@@ -202,8 +202,8 @@ class CargoDrilldownPage extends QueryPage {
 	private function printTablesList( $tables ) {
 		global $wgCargoDrilldownUseTabs;
 
-		$chooseTableText = $this->msg( 'cargo-drilldown-choosetable' )->text() .
-			$this->msg( 'colon-separator' )->text();
+		$chooseTableText = $this->msg( 'cargo-drilldown-choosetable' )->escaped() .
+			$this->msg( 'colon-separator' )->escaped();
 		if ( $wgCargoDrilldownUseTabs ) {
 			$cats_wrapper_class = "drilldown-tables-tabs-wrapper";
 			$cats_list_class = "drilldown-tables-tabs";
@@ -304,7 +304,7 @@ END;
 		}
 		$text .= "\t\t\t\t\t$filterLabel:";
 		if ( $isApplied ) {
-			$add_another_str = $this->msg( 'cargo-drilldown-addanothervalue' )->text();
+			$add_another_str = $this->msg( 'cargo-drilldown-addanothervalue' )->escaped();
 			$text .= " <span class=\"drilldown-filter-notes\">($add_another_str)</span>";
 		}
 		$displayText = ( $isApplied ) ? 'style="display: none;"' : '';
@@ -327,16 +327,16 @@ END;
 		// If it's boolean, display something nicer than "0" or "1".
 		if ( $value === '_other' ) {
 			return Html::element( 'span', [ 'style' => 'font-style: italic;' ],
-				$this->msg( 'htmlform-selectorother-other' )->text() );
+				$this->msg( 'htmlform-selectorother-other' )->escaped() );
 		} elseif ( $value === '_none' ) {
 			return Html::element( 'span', [ 'style' => 'font-style: italic;' ],
-				$this->msg( 'powersearch-togglenone' )->text() );
+				$this->msg( 'powersearch-togglenone' )->escaped() );
 		} elseif ( $filter->fieldDescription->mType === 'Boolean' ) {
 			// Use existing MW messages for "Yes" and "No".
 			if ( $value == true ) {
-				return $this->msg( 'htmlform-yes' )->text();
+				return $this->msg( 'htmlform-yes' )->escaped();
 			} else {
-				return $this->msg( 'htmlform-no' )->text();
+				return $this->msg( 'htmlform-no' )->escaped();
 			}
 		} elseif ( $filter->fieldDescription->mIsHierarchy && preg_match( "/^~within_(.+)/", $value ) ) {
 			$matches = [];
@@ -456,7 +456,7 @@ END;
 					[ 'format' => $this->format, 'formatBy' => $this->formatBy ] );
 				$results_line .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 					[ 'href' => $filter_url,
-					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text() ], $filter_text );
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->escaped() ], $filter_text );
 			}
 			foreach ( $applied_filters as $af2 ) {
 				if ( $af->filter->tableAlias == $af2->filter->tableAlias &&
@@ -653,13 +653,13 @@ END;
 			}
 			$result_line_part .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 				[ 'href' => $filter_url,
-					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text(),
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->escaped(),
 					'style' => "font-size: {$font_size}px"
 					], $filter_text );
 		} else {
 			$result_line_part .= "\n\t\t\t\t\t\t" . Html::rawElement( 'a',
 				[ 'href' => $filter_url,
-					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->text()
+					'title' => $this->msg( 'cargo-drilldown-filterbyvalue' )->escaped()
 				], $filter_text );
 		}
 		return $result_line_part;
@@ -1071,7 +1071,7 @@ END;
 		$filter_name = urlencode( str_replace( ' ', '_', $f->name ) );
 		$normal_filter = true;
 		if ( count( $filter_values ) == 0 ) {
-			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->text() . ')';
+			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->escaped() . ')';
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
@@ -1139,7 +1139,7 @@ END;
 					( $this->drilldownTabsParams ) ? [ 'tab' => $this->curTabName ] :
 					[ 'format' => $this->format, 'formatBy' => $this->formatBy ] );
 			$appliedFiltersHTML .= '<a href="' . $tableURL . '" title="' .
-								   $this->msg( 'cargo-drilldown-resetfilters' )->text() . '">' .
+								   $this->msg( 'cargo-drilldown-resetfilters' )->escaped() . '">' .
 								   $this->displayTableName() . '</a>';
 		} else {
 			$appliedFiltersHTML .= $this->displayTableName();
@@ -1147,7 +1147,7 @@ END;
 
 		if ( $this->fullTextSearchTerm != null ) {
 			$appliedFiltersHTML .= " > ";
-			$appliedFiltersHTML .= $this->msg( 'cargo-drilldown-fulltext' )->text() . ': ';
+			$appliedFiltersHTML .= $this->msg( 'cargo-drilldown-fulltext' )->escaped() . ': ';
 
 			$remove_filter_url = $this->makeBrowseURL( $this->tableName, null,
 				$this->applied_filters, [],
@@ -1156,7 +1156,7 @@ END;
 			$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' .
 				$this->fullTextSearchTerm .
 				'\'</span> <a href="' . $remove_filter_url . '" title="' .
-				$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
+				$this->msg( 'cargo-drilldown-removefilter' )->escaped() . '"><img src="' .
 				$cgScriptPath . '/drilldown/resources/filter-x.png" /></a> ';
 		}
 
@@ -1185,13 +1185,13 @@ END;
 				array_splice( $temp_filters_array, $i, 0 );
 				if ( $af->filter->tableAlias == $this->tableAlias ) {
 					$appliedFiltersHTML .= $filter_label . ' <a href="' . $remove_filter_url . '" title="' .
-						$this->msg( 'cargo-drilldown-removefilter' )->text() .
+						$this->msg( 'cargo-drilldown-removefilter' )->escaped() .
 						'"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a> : ';
 				} else {
 					$appliedFiltersHTML .= "\n\t\t\t\t<span class=\"drilldown-parent-tables-value\"
 						id=\"$id\"> $filter_label" . ' <a href="' . $remove_filter_url
 										   . '" title="' .
-						$this->msg( 'cargo-drilldown-removefilter' )->text() .
+						$this->msg( 'cargo-drilldown-removefilter' )->escaped() .
 						'"><img src="' . $cgScriptPath . '/drilldown/resources/filter-x.png" /></a> : ';
 				}
 			} else {
@@ -1206,7 +1206,7 @@ END;
 			foreach ( $af->values as $j => $fv ) {
 				if ( $j > 0 ) {
 					$appliedFiltersHTML .= " <span class=\"drilldown-or\">" .
-						$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+						$this->msg( 'cargo-drilldown-or' )->escaped() . '</span> ';
 				}
 				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
 				$temp_filters_array = $this->applied_filters;
@@ -1226,19 +1226,19 @@ END;
 				array_splice( $temp_filters_array[$i]->values, $j, 0, $removed_values );
 				$appliedFiltersHTML .= "\n	" . "<span class=\"drilldown-header-value\">" .
 					$filter_text . '</span> <a href="' . $remove_filter_url . '" title="' .
-					$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
+					$this->msg( 'cargo-drilldown-removefilter' )->escaped() . '"><img src="' .
 					$cgScriptPath . '/drilldown/resources/filter-x.png" /></a>';
 			}
 
 			if ( $af->search_terms != null ) {
 				if ( count( $af->values ) > 0 ) {
 					$appliedFiltersHTML .= " <span class=\"drilldown-or\">" .
-						$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+						$this->msg( 'cargo-drilldown-or' )->escaped() . '</span> ';
 				}
 				foreach ( $af->search_terms as $j => $search_term ) {
 					if ( $j > 0 ) {
 						$appliedFiltersHTML .= " <span class=\"drilldown-or\">" .
-							$this->msg( 'cargo-drilldown-or' )->text() . '</span> ';
+							$this->msg( 'cargo-drilldown-or' )->escaped() . '</span> ';
 					}
 					$temp_filters_array = $this->applied_filters;
 					$removed_values = array_splice( $temp_filters_array[$i]->search_terms, $j, 1 );
@@ -1249,7 +1249,7 @@ END;
 					array_splice( $temp_filters_array[$i]->search_terms, $j, 0, $removed_values );
 					$appliedFiltersHTML .= "\n\t" . "<span class=\"drilldown-header-value\">~ '" .
 						$search_term . '\'</span> <a href="' . $remove_filter_url . '" title="' .
-						$this->msg( 'cargo-drilldown-removefilter' )->text() . '"><img src="' .
+						$this->msg( 'cargo-drilldown-removefilter' )->escaped() . '"><img src="' .
 						$cgScriptPath . '/drilldown/resources/filter-x.png" /> </a>';
 				}
 			} elseif ( $af->lower_date != null || $af->upper_date != null ) {
@@ -1265,7 +1265,7 @@ END;
 		$appliedFiltersHTML .= "</div>\n";
 		$header .= $appliedFiltersHTML;
 		$header .= "<div class='drilldown-filters-wrapper'>\n";
-		$drilldown_description = $this->msg( 'cargo-drilldown-docu' )->text();
+		$drilldown_description = $this->msg( 'cargo-drilldown-docu' )->escaped();
 		$header .= "				<p>$drilldown_description</p>\n";
 
 		// Display every filter, each on its own line; each line will
@@ -1285,7 +1285,7 @@ END;
 			], '&nbsp;' );
 			$hiddenInputs = $this->printHiddenInputs( '_search' );
 			$fullTextSearchForm = Html::rawElement( 'form', [], $hiddenInputs . $fullTextSearchInput );
-			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->text(), false, false, $fullTextSearchForm );
+			$filtersHTML .= self::printFilterLine( $this->msg( 'cargo-drilldown-fulltext' )->escaped(), false, false, $fullTextSearchForm );
 		}
 		// For each filter check if it has been applied or not. If it hasn't been applied, then
 		// don't show the filters which depends(i.e. "dependent fields" parameter values) on it.
@@ -1794,24 +1794,24 @@ END;
 			$pageDataTableName = '_pageData';
 			$pageDataTableAlias = CargoUtils::makeDifferentAlias( $pageDataTableName );
 			if ( $this->tableName == '_fileData' || !$this->searchablePages ) {
-				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->text();
+				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->escaped();
 				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, [
 					$fileDataTableAlias => $fileDataTableName ],
 					'_fullText' );
 				$extraAliasedFields['foundFileMatch'] = '1';
 				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
 			} else {
-				$pageTextAlias = $this->msg( 'cargo-drilldown-pagetext' )->text();
+				$pageTextAlias = $this->msg( 'cargo-drilldown-pagetext' )->escaped();
 				$aliasedFieldNames[$pageTextAlias] = CargoUtils::escapedFieldName( $cdb, [
 					$pageDataTableAlias => $pageDataTableName ], '_fullText' );
 				$fieldsStr[] = "$pageDataTableAlias._fullText=$pageTextAlias";
 			}
 			if ( $this->searchableFiles ) {
-				$fileNameAlias = $this->msg( 'cargo-drilldown-filename' )->text();
+				$fileNameAlias = $this->msg( 'cargo-drilldown-filename' )->escaped();
 				$aliasedFieldNames[$fileNameAlias] = CargoUtils::escapedFieldName( $cdb, [
 					$fileDataTableAlias => $fileDataTableName ], '_pageName' );
 				$fieldsStr[] = "$fileDataTableAlias._pageName=$fileNameAlias";
-				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->text();
+				$fileTextAlias = $this->msg( 'cargo-drilldown-filetext' )->escaped();
 				$aliasedFieldNames[$fileTextAlias] = CargoUtils::escapedFieldName( $cdb, [
 					$fileDataTableAlias => $fileDataTableName ], '_fullText' );
 				$fieldsStr[] = "$fileDataTableAlias._fullText=$fileTextAlias";
@@ -2038,7 +2038,7 @@ END;
 					], Html::rawElement( 'a', [
 						'role' => 'tab',
 						'href' => $url . 'format=map&formatBy=' . $coordsField,
-					], $this->msg( 'cargo-drilldown-mapformat' )->text() . ': ' .
+					], $this->msg( 'cargo-drilldown-mapformat' )->escaped() . ': ' .
 					   str_replace( '_', ' ', $coordsField ) ) );
 				}
 				foreach ( $this->dateFields as $i => $dateField ) {
@@ -2049,7 +2049,7 @@ END;
 					], Html::rawElement( 'a', [
 						'role' => 'tab',
 						'href' => $url . 'format=timeline&formatBy=' . $dateField,
-					], $this->msg( 'cargo-drilldown-timelineformat' )->text() . ': ' .
+					], $this->msg( 'cargo-drilldown-timelineformat' )->escaped() . ': ' .
 					   str_replace( '_', ' ', $dateField ) ) );
 				}
 				foreach ( $this->calendarFields as $calendarField => $startDate ) {
@@ -2060,7 +2060,7 @@ END;
 					], Html::rawElement( 'a', [
 						'role' => 'tab',
 						'href' => $url . 'format=calendar&formatBy=' . $calendarField,
-					], $this->msg( 'cargo-drilldown-calendarformat' )->text() . ': ' .
+					], $this->msg( 'cargo-drilldown-calendarformat' )->escaped() . ': ' .
 					   str_replace( '_', ' ', $calendarField ) ) );
 				}
 				foreach ( $this->fileFields as $fileField => $fieldDescription ) {
@@ -2071,7 +2071,7 @@ END;
 					], Html::rawElement( 'a', [
 						'role' => 'tab',
 						'href' => $url . 'format=gallery&formatBy=' . $fileField,
-					], $this->msg( 'cargo-drilldown-galleryformat' )->text() . ': ' .
+					], $this->msg( 'cargo-drilldown-galleryformat' )->escaped() . ': ' .
 					   str_replace( '_', ' ', $fileField ) ) );
 				}
 				$out->addHTML( Html::rawElement( 'div', [

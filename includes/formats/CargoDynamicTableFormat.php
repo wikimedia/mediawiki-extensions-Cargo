@@ -104,7 +104,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		}
 		if ( array_key_exists( 'hidden fields', $displayParams ) ) {
 			$hiddenFields = array_map( 'trim', explode( ',', $displayParams['hidden fields'] ) );
-			$text .= wfMessage( 'cargo-dynamictables-togglecolumns' )->text() . ' ';
+			$text .= wfMessage( 'cargo-dynamictables-togglecolumns' )->escaped() . ' ';
 			$matchFound = 0;
 			foreach ( $hiddenFields as $hiddenField ) {
 				if ( $detailsFields ) {

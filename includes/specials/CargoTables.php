@@ -116,8 +116,8 @@ class CargoTables extends IncludableSpecialPage {
 		$cdb = CargoUtils::getDB();
 		$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
 		$numRowsMessage =
-			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows );
-		$out->addWikiTextAsInterface( $numRowsMessage->plain() . "\n" );
+			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows )->parse();
+		$out->addWikiTextAsInterface( $numRowsMessage . "\n" );
 
 		// Display "Recreate data" link.
 		if ( array_key_exists( $tableName, $this->templatesThatDeclareTables ) ) {

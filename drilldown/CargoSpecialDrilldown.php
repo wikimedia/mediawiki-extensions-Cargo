@@ -279,10 +279,10 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		// This has to be set last, because otherwise the QueryPage
 		// code will overwrite it.
 		if ( !$mainTable ) {
-			$tableTitle = $this->msg( 'drilldown' )->text();
+			$tableTitle = $this->msg( 'drilldown' )->escaped();
 		} else {
-			$tableTitle = $this->msg( 'drilldown' )->text() .
-				html_entity_decode( $this->msg( 'colon-separator' )->text() ) .
+			$tableTitle = $this->msg( 'drilldown' )->escaped() .
+				html_entity_decode( $this->msg( 'colon-separator' )->escaped() ) .
 				$rep->displayTableName( $mainTable );
 		}
 		$out->setPageTitle( $tableTitle );
