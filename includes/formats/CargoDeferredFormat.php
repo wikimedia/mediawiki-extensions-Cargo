@@ -46,7 +46,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 			if ( $sqlQuery->mHavingStr != '' ) {
 				$queryParams['having'] = $sqlQuery->mHavingStr;
 			}
-			$queryParams['order by'] = implode( ',', $sqlQuery->mOrderBy );
+			$queryParams['order by'] = $sqlQuery->mOrigOrderBy;
 			if ( $sqlQuery->mQueryLimit != '' ) {
 				$queryParams['limit'] = $sqlQuery->mQueryLimit;
 			}
@@ -57,7 +57,7 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 				$queryParams['fields'][] = $sqlQuery->mFieldsStr;
 				$queryParams['where'][] = $sqlQuery->mOrigWhereStr;
 				$queryParams['group by'][] = $sqlQuery->mOrigGroupByStr;
-				$queryParams['order by'][] = implode( ',', $sqlQuery->mOrderBy );
+				$queryParams['order by'][] = $sqlQuery->mOrigOrderBy;
 				$queryParams['limit'][] = $sqlQuery->mQueryLimit;
 			}
 		}
