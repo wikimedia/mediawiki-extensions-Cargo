@@ -420,7 +420,8 @@ class CargoHooks {
 		// Save data for the original page (now a redirect).
 		if ( $redirid != 0 ) {
 			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-			CargoPageData::storeValuesForPage( $title, $useReplacementTable );
+			$oldTitle = Title::newFromLinkTarget( $old );
+			CargoPageData::storeValuesForPage( $oldTitle, $useReplacementTable );
 		}
 	}
 
@@ -452,7 +453,7 @@ class CargoHooks {
 	 * Updates a file's entry in the _fileData table if it has been
 	 * uploaded or re-uploaded.
 	 *
-	 * @param Image $image
+	 * @param UploadBase $image
 	 */
 	public static function onUploadComplete( $image ) {
 		$cdb = CargoUtils::getDB();
@@ -571,12 +572,12 @@ class CargoHooks {
 		// For now, there's just a single SQL file for all DB types.
 
 		if ( $updater->getDB()->getType() == 'mysql' || $updater->getDB()->getType() == 'sqlite' ) {
-			$updater->addExtensionTable( 'cargo_tables', __DIR__ . "/sql/Cargo.sql" );
-			$updater->addExtensionTable( 'cargo_pages', __DIR__ . "/sql/Cargo.sql" );
-			$updater->addExtensionTable( 'cargo_backlinks', __DIR__ . "/sql/cargo_backlinks.sql" );
+			$updater->addExtensionTable( 'cargo_tables', __DIR__ . "/../sql/Cargo.sql" );
+			$updater->addExtensionTable( 'cargo_pages', __DIR__ . "/../sql/Cargo.sql" );
+			$updater->addExtensionTable( 'cargo_backlinks', __DIR__ . "/../sql/cargo_backlinks.sql" );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
-			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/sql/Cargo.pg.sql", true ] );
-			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/sql/Cargo.pg.sql", true ] );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_tables', __DIR__ . "/../sql/Cargo.pg.sql", true ] );
+			$updater->addExtensionUpdate( [ 'addTable', 'cargo_pages', __DIR__ . "/../sql/Cargo.pg.sql", true ] );
 		}
 	}
 
@@ -613,11 +614,11 @@ class CargoHooks {
 
 	public static function cargoSchemaUpdates( DatabaseUpdater $updater ) {
 		if ( $updater->getDB()->getType() == 'mysql' || $updater->getDB()->getType() == 'sqlite' ) {
-			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.sql' );
-			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.sql' );
+			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/../sql/cargo_tables.patch.field_helper_tables.sql' );
+			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/../sql/cargo_tables.patch.index_template_id.sql' );
 		} elseif ( $updater->getDB()->getType() == 'postgres' ) {
-			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/sql/cargo_tables.patch.field_helper_tables.pg.sql' );
-			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/sql/cargo_tables.patch.index_template_id.pg.sql' );
+			$updater->addExtensionField( 'cargo_tables', 'field_helper_tables', __DIR__ . '/../sql/cargo_tables.patch.field_helper_tables.pg.sql' );
+			$updater->dropExtensionIndex( 'cargo_tables', 'cargo_tables_template_id', __DIR__ . '/../sql/cargo_tables.patch.index_template_id.pg.sql' );
 		}
 	}
 
