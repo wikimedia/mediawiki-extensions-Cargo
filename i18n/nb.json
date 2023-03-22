@@ -116,6 +116,7 @@
 	"pagevalues": "Sideverdier",
 	"cargo-pagevaluesfor": "Sideverdier for «$1»",
 	"cargo-pagevalues-tablevalues": "«$1»-verdier",
+	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|rad|rader}} lagres for denne siden",
 	"drilldown": "Drilldown",
 	"cargo-drilldown-choosetable": "Velg tabell",
 	"cargo-drilldown-allpages": "Alle sider",
