@@ -20,9 +20,7 @@
 		"no-unused-vars": "off",
 		"no-useless-escape": "off",
 		"array-callback-return": "warn",
-		"es/no-object-assign": "warn",
 		"no-shadow": "warn",
-		"compat/compat": "warn",
 		"block-scoped-var": "warn",
 		"unicorn/prefer-string-slice": "warn"
 	}
