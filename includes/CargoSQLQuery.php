@@ -150,7 +150,8 @@ class CargoSQLQuery {
 		// Bypass this particular check, for Special:Drilldown and possibly
 		// other query locations.
 		if ( !$allowFieldEscaping ) {
-			$regexps['/`/'] = '`';
+			// Temporarily removed.
+			// $regexps['/`/'] = '`';
 		}
 		foreach ( $regexps as $regexp => $displayString ) {
 			if ( preg_match( $regexp, $tablesStr ) ||
