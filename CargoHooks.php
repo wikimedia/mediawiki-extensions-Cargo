@@ -420,7 +420,8 @@ class CargoHooks {
 		// Save data for the original page (now a redirect).
 		if ( $redirid != 0 ) {
 			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
-			CargoPageData::storeValuesForPage( $title, $useReplacementTable );
+			$oldTitle = Title::newFromLinkTarget( $old );
+			CargoPageData::storeValuesForPage( $oldTitle, $useReplacementTable );
 		}
 	}
 
