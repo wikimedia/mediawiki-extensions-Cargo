@@ -89,7 +89,7 @@
 		"CargoAlias": "Cargo.alias.php"
 	},
 	"AutoloadClasses": {
-		"CargoHooks": "includes/CargoHooks.php",
+		"CargoHooks": "CargoHooks.php",
 		"CargoUtils": "includes/CargoUtils.php",
 		"CargoBackLinks": "includes/CargoBackLinks.php",
 		"CargoFieldDescription": "includes/CargoFieldDescription.php",
