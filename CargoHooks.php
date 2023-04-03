@@ -21,7 +21,7 @@ class CargoHooks {
 	}
 
 	public static function initialize() {
-		global $cgScriptPath, $wgExtensionAssetsPath, $wgCargoFieldTypes, $wgHooks;
+		global $cgScriptPath, $wgExtensionAssetsPath, $wgCargoFieldTypes;
 
 		// Script path.
 		$cgScriptPath = $wgExtensionAssetsPath . '/Cargo';
@@ -34,11 +34,12 @@ class CargoHooks {
 			'Rating'
 		];
 
+		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
 		if ( interface_exists( 'MediaWiki\Page\Hook\PageDeleteCompleteHook' ) ) {
 			// MW 1.37+
-			$wgHooks['PageDeleteComplete'][] = "CargoHooks::onPageDeleteComplete";
+			$hookContainer->register( 'PageDeleteComplete', 'CargoHooks::onPageDeleteComplete' );
 		} else {
-			$wgHooks['ArticleDeleteComplete'][] = "CargoHooks::onArticleDeleteComplete";
+			$hookContainer->register( 'ArticleDeleteComplete', 'CargoHooks::onArticleDeleteComplete' );
 		}
 	}
 
