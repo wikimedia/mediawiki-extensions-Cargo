@@ -400,6 +400,22 @@ class CargoDeclare {
 				$parentTables
 			);
 
+			// Populate (or re-populate) the table with any
+			// existing data from the wiki.
+			// @todo This should cycle through *all* the pages,
+			// 500 at a time, in case there are a lot.
+			$titlesToStore = CargoUtils::getTemplateLinksTo( $title, [ 'LIMIT' => 1000 ] );
+			$jobs = [];
+			foreach ( $titlesToStore as $titleToStore ) {
+				$jobs[] = new CargoPopulateTableJob( $titleToStore, [ 'dbTableName' => $tableName ] );
+			}
+			if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
+				// MW 1.37+
+				MediaWikiServices::getInstance()->getJobQueueGroup()->push( $jobs );
+			} else {
+				JobQueueGroup::singleton()->push( $jobs );
+			}
+
 			// Ensure that this code doesn't get called more than
 			// once per page save.
 			unset( self::$settings['createData'] );
