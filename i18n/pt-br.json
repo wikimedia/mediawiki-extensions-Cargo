@@ -179,5 +179,11 @@
 	"cargo-declare-def-start-before-end": "Erro: o campo de tipo End date ou End datetime tem de ser declarado depois do campo de tipo Start date ou Start datetime.",
 	"cargo-declare-parenttable-not-exist": "Erro: a tabela-mãe \"$1\" não existe.",
 	"cargo-declare-parenttable-no-field": "Erro: a tabela-mãe \"$1\" não tem um campo \"$2\".",
-	"cargo-declare-invalid-localfield": "Erro: nome de campo inválido \"$1\" especificado para _localField."
+	"cargo-declare-invalid-localfield": "Erro: nome de campo inválido \"$1\" especificado para _localField.",
+	"cargo-declare-validate-starts-underscore": "Erro: o campo de tipo $1 e nome \"$2\" começa por um sublinhado; isto não é permitido.",
+	"cargo-declare-validate-ends-underscore": "Erro: o campo de tipo $1 e nome \"$2\" termina com um sublinhado; isto não é permitido.",
+	"cargo-declare-validate-gt1-underscore": "Erro: o campo de tipo $1 e nome \"$2\" contém mais do que um sublinhado consecutivo; isto não é permitido.",
+	"cargo-declare-validate-bad-character": "Erro: o campo de tipo $1 e nome \"$2\" não pode conter nenhum dos seguintes caracteres: $3",
+	"cargo-declare-validate-name-sql-kw": "Erro: \"$1\" não pode ser usado como nome Cargo de tipo $2, porque é uma palavra-chave de SQL.",
+	"cargo-declare-validate-name-cargo-kw": "Erro: \"$1\" não pode ser usado como nome Cargo de tipo $2, porque já é uma palavra-chave Cargo."
 }
