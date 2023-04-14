@@ -52,6 +52,11 @@ class CargoSQLQuery {
 			throw new MWException( "At least one table must be specified." );
 		}
 
+		// Needed to avoid various warnings.
+		if ( $whereStr === null ) {
+			$whereStr = '';
+		}
+
 		self::validateValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr, $groupByStr,
 			$havingStr, $orderByStr, $limitStr, $offsetStr, $allowFieldEscaping );
 
@@ -117,7 +122,7 @@ class CargoSQLQuery {
 			'/#/' => '#',
 		];
 		// Replace # with corresponding Unicode value to prevent security leaks.
-		$whereStr = str_replace( '#', '\u0023', $whereStr ?? '' );
+		$whereStr = str_replace( '#', '\u0023', $whereStr );
 		// HTML-decode the string - this is necessary if the query
 		// contains a call to {{PAGENAME}} and the page name has any
 		// special characters, because {{PAGENAME]] unfortunately
