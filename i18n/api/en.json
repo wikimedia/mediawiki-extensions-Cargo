@@ -47,5 +47,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Array of selected cargo table(s) based on which Field(s), Group By and Order By are autocompleted.",
 	"apihelp-cargoformatparams-description": "Gets the set of display parameters for each Cargo query format.",
 	"apihelp-cargoformatparams-summary": "Gets the set of display parameters for each Cargo query format.",
-	"apihelp-cargoformatparams-param-queryformat": "A Cargo query format"
+	"apihelp-cargoformatparams-param-queryformat": "A Cargo query format",
+	"apierror-cargoquery-invalidfieldalias": "Error: Field alias \"$1\" starts with an underscore (_). This is not allowed in Cargo API queries."
 }

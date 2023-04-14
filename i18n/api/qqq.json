@@ -54,5 +54,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "{{doc-apihelp-param|cargoqueryautocomplete|tables}}",
 	"apihelp-cargoformatparams-description": "{{doc-apihelp-description|cargoformatparams}}",
 	"apihelp-cargoformatparams-summary": "{{doc-apihelp-summary|cargoformatparams}}",
-	"apihelp-cargoformatparams-param-queryformat": "{{doc-apihelp-param|cargoformatparams|queryformat}}"
+	"apihelp-cargoformatparams-param-queryformat": "{{doc-apihelp-param|cargoformatparams|queryformat}}",
+	"apierror-cargoquery-invalidfieldalias": "{{doc-apierror}}\n\nParameters:\n* $1 - The invalid field name."
 }

@@ -33,7 +33,7 @@ class CargoQueryAPI extends ApiBase {
 
 		foreach ( $sqlQuery->mFieldStringAliases as $fieldStrAlias ) {
 			if ( $fieldStrAlias[0] == '_' ) {
-				throw new MWException( "Error: Field alias \"$fieldStrAlias\" starts with an underscore (_). This is not allowed in Cargo API queries." );
+				$this->dieWithError( [ 'apierror-cargoquery-invalidfieldalias', $fieldStrAlias ] );
 			}
 		}
 
