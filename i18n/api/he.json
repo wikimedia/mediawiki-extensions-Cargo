@@ -51,5 +51,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "מערך של טבלאות cargo נבחרות שמבוסס על אילו Field־ים, Group By־ים ו־Order By־ים מקבלים השלמה אוטומטית.",
 	"apihelp-cargoformatparams-description": "קבלת ערכת פרמטרי תצוגה עבור כל תסדיר שאילתת Cargo.",
 	"apihelp-cargoformatparams-summary": "קבלת ערכת פרמטרי תצוגה עבור כל תסדיר שאילתת Cargo.",
-	"apihelp-cargoformatparams-param-queryformat": "תסדיר שאילתת Cargo"
+	"apihelp-cargoformatparams-param-queryformat": "תסדיר שאילתת Cargo",
+	"apierror-cargoquery-invalidfieldalias": "שגיאה: כינוי השדה \"$1\" מתחיל בקו תחתון (_). זה אסור בשאילתות API של Cargo."
 }

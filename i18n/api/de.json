@@ -3,6 +3,7 @@
 		"authors": [
 			"*Surak*",
 			"Ameisenigel",
+			"Brettchenweber",
 			"Justman10000",
 			"Metalhead64"
 		]
@@ -52,5 +53,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Array der ausgewählten Cargo-Tabelle(n), basierend darauf, welche Felder, Group-by und Order-by automatisch vervollständigt werden.",
 	"apihelp-cargoformatparams-description": "Ruft den Satz von Anzeigeparametern für jedes Cargo-Abfrageformat ab.",
 	"apihelp-cargoformatparams-summary": "Ruft den Satz von Anzeigeparametern für jedes Cargo-Abfrageformat ab.",
-	"apihelp-cargoformatparams-param-queryformat": "Ein Cargo-Abfrageformat"
+	"apihelp-cargoformatparams-param-queryformat": "Ein Cargo-Abfrageformat",
+	"apierror-cargoquery-invalidfieldalias": "Fehler: Der Feldalias „$1“ beginnt mit einem Unterstrich (_). Dies ist in Cargo-API-Abfragen nicht erlaubt."
 }

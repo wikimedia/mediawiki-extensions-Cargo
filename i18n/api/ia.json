@@ -49,5 +49,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Serie de tabella(s) Cargo seligite a base del qual(es) le campo(s), gruppamentos e ordinationes es autocompletate.",
 	"apihelp-cargoformatparams-description": "Obtene le insimul de parametros de visualisation pro cata formato de consulta Cargo.",
 	"apihelp-cargoformatparams-summary": "Obtene le insimul de parametros de visualisation pro cata formato de consulta Cargo.",
-	"apihelp-cargoformatparams-param-queryformat": "Un formato de consulta Cargo"
+	"apihelp-cargoformatparams-param-queryformat": "Un formato de consulta Cargo",
+	"apierror-cargoquery-invalidfieldalias": "Error: Le alias de campo \"$1\" comencia con un tracto de sublineamento (_). Isto non es permittite in consultas API de Cargo."
 }

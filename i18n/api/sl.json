@@ -49,5 +49,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Matrika izbrane(ih) tabel(e) Cargo, na podlagi katere se samodokončajo »Field(s)«, »Group By« in »Order By«",
 	"apihelp-cargoformatparams-description": "Pridobi nabor parametrov prikaza za vsak poizvedbeni format Cargo.",
 	"apihelp-cargoformatparams-summary": "Pridobi nabor parametrov prikaza za vsak poizvedbeni nabor Cargo.",
-	"apihelp-cargoformatparams-param-queryformat": "Oblika poizvedbe Cargo"
+	"apihelp-cargoformatparams-param-queryformat": "Oblika poizvedbe Cargo",
+	"apierror-cargoquery-invalidfieldalias": "Napaka: Sopomenka polja »$1« se začne s podčrtajem (_). To v API-poizvedbah Cargo ni dovoljeno."
 }

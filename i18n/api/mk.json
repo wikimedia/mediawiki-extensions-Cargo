@@ -50,5 +50,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Строј од избрани табели на Карго според кои ќе се самодополнуваат полињата, групирањето и подредувањето.",
 	"apihelp-cargoformatparams-description": "Го дава збирот приказни параметри за секој формат на барања до Карго.",
 	"apihelp-cargoformatparams-summary": "Го дава збирот приказни параметри за секој формат на барања до Карго.",
-	"apihelp-cargoformatparams-param-queryformat": "Формат на барањето до Карго"
+	"apihelp-cargoformatparams-param-queryformat": "Формат на барањето до Карго",
+	"apierror-cargoquery-invalidfieldalias": "Грешка: Истозначникот на полето „$1“ почнува со долна црта (_). Ова не е допуштено во барања до извршникот на Карго."
 }

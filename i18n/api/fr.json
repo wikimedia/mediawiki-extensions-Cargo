@@ -53,5 +53,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "Tableau de table(s) ''Cargo'' sélectionnée(s), dont les champs, groupements et ordres de tri sont complétés automatiquement.",
 	"apihelp-cargoformatparams-description": "Obtient l’ensemble des paramètres d’affichage pour chaque format de requête de Cargo.",
 	"apihelp-cargoformatparams-summary": "Obtient l’ensemble des paramètres d’affichage pour chaque format de requête de Cargo.",
-	"apihelp-cargoformatparams-param-queryformat": "Un format de requête de Cargo"
+	"apihelp-cargoformatparams-param-queryformat": "Un format de requête de Cargo",
+	"apierror-cargoquery-invalidfieldalias": "Erreur : l’alias de champ « $1 » commence par un tiret bas (_). Ce n’est pas autorisé dans les requêtes à l’API Cargo."
 }
