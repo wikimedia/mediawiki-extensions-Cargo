@@ -186,5 +186,11 @@
 	"cargo-declare-parenttable-not-exist": "Erro: a tabela-mãe \"$1\" não existe.",
 	"cargo-declare-parenttable-no-field": "Erro: a tabela-mãe \"$1\" não tem um campo \"$2\".",
 	"cargo-declare-invalid-localfield": "Erro: nome de campo inválido \"$1\" especificado para _localField.",
-	"cargo-declare-validate-has-whitespace": "Erro: $1 nome \"$2\" contém espaços em branco. Não são permitidos espaços em branco de nenhum tipo; considere usar sublinhados (\"_\")."
+	"cargo-declare-validate-has-whitespace": "Erro: $1 nome \"$2\" contém espaços em branco. Não são permitidos espaços em branco de nenhum tipo; considere usar sublinhados (\"_\").",
+	"cargo-declare-validate-starts-underscore": "Erro: o campo de tipo $1 e nome \"$2\" começa por um sublinhado; isto não é permitido.",
+	"cargo-declare-validate-ends-underscore": "Erro: o campo de tipo $1 e nome \"$2\" termina com um sublinhado; isto não é permitido.",
+	"cargo-declare-validate-gt1-underscore": "Erro: o campo de tipo $1 e nome \"$2\" contém mais do que um sublinhado consecutivo; isto não é permitido.",
+	"cargo-declare-validate-bad-character": "Erro: o campo de tipo $1 e nome \"$2\" não pode conter nenhum dos seguintes caracteres: $3",
+	"cargo-declare-validate-name-sql-kw": "Erro: \"$1\" não pode ser usado como nome Cargo de tipo $2, porque é uma palavra-chave de SQL.",
+	"cargo-declare-validate-name-cargo-kw": "Erro: \"$1\" não pode ser usado como nome Cargo de tipo $2, porque já é uma palavra-chave Cargo."
 }
