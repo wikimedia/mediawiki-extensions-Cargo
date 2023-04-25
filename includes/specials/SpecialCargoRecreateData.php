@@ -1,4 +1,9 @@
 <?php
+
+use MediaWiki\Linker\LinkTarget;
+use MediaWiki\Linker\LinkTargetLookup;
+use MediaWiki\MediaWikiServices;
+
 /**
  * Displays an interface to let users recreate data via the Cargo
  * extension.
@@ -160,11 +165,12 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		return true;
 	}
 
-	public function getNumPagesThatCallTemplate( $dbw, $templateTitle ) {
+	public function getNumPagesThatCallTemplate( IDatabase $dbw, LinkTarget $templateTitle ) {
 		$conds = [ "tl_from=page_id" ];
-		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
+		if ( interface_exists( LinkTargetLookup::class ) ) {
 			// MW 1.38+
-			$conds['tl_target_id'] = $templateTitle->getID();
+			$linkTargetLookup = MediaWikiServices::getInstance()->getLinkTargetLookup();
+			$conds['tl_target_id'] = $linkTargetLookup->getLinkTargetId( $templateTitle );
 		} else {
 			$conds['tl_namespace'] = $templateTitle->getNamespace();
 			$conds['tl_title'] = $templateTitle->getDBkey();
