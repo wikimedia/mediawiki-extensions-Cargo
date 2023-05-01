@@ -1,10 +1,14 @@
 {
 	"@metadata": {
 		"authors": [
-			"Eitvys200"
+			"Eitvys200",
+			"Nokeoo"
 		]
 	},
 	"apihelp-cargoquery-param-fields": "Kuri(-uos) lentelės laukelį(-ius) gauti",
 	"apihelp-cargoquery-param-limit": "Gražinamų rezultatų skaičiaus limitas",
-	"apihelp-cargorecreatedata-param-template": "Šablonas, kurio duomenis naudoti"
+	"apihelp-cargorecreatedata-param-template": "Šablonas, kurio duomenis naudoti",
+	"apihelp-cargoautocomplete-param-limit": "Grąžinamų rezultatų skaičiaus apribojimas",
+	"apihelp-cargoautocomplete-param-field_is_array": "Ar laukelyje yra reikšmių sąrašas",
+	"apihelp-cargoqueryautocomplete-param-limit": "Gražinamų rezultatų skaičiaus limitas"
 }
