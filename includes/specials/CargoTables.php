@@ -326,7 +326,7 @@ class CargoTables extends IncludableSpecialPage {
 		}
 
 		// allow opportunity for adding additional actions & display info
-		Hooks::run( 'CargoTablesSetAllowedActions', [ $this, &$allowedActions ] );
+		$this->getHookContainer()->run( 'CargoTablesSetAllowedActions', [ $this, &$allowedActions ] );
 		self::$actionList = $allowedActions;
 	}
 
@@ -404,7 +404,7 @@ class CargoTables extends IncludableSpecialPage {
 			$actionLinks['delete'] = $this->getActionButton( $deleteAction, $deleteTableURL );
 		}
 
-		Hooks::run( 'CargoTablesSetActionLinks', [
+		$this->getHookContainer()->run( 'CargoTablesSetActionLinks', [
 			$this,
 			&$actionLinks,
 			$tableName,

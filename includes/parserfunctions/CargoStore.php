@@ -6,6 +6,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoStore {
 
 	public static $settings = [];
@@ -318,7 +320,7 @@ class CargoStore {
 		$tableFieldValues['_pageID'] = $pageID;
 
 		// Allow other hooks to modify the values.
-		Hooks::run( 'CargoBeforeStoreData', [ $title, $tableName, &$tableSchema, &$tableFieldValues ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run( 'CargoBeforeStoreData', [ $title, $tableName, &$tableSchema, &$tableFieldValues ] );
 
 		$cdb = CargoUtils::getDB();
 

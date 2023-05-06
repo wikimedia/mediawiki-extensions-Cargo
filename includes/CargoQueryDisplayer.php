@@ -67,7 +67,7 @@ class CargoQueryDisplayer {
 
 		// Let other extensions add their own formats - or even
 		// remove formats, if they want to.
-		Hooks::run( 'CargoSetFormatClasses', [ &$formatClasses ] );
+		MediaWikiServices::getInstance()->getHookContainer()->run( 'CargoSetFormatClasses', [ &$formatClasses ] );
 
 		return $formatClasses;
 	}

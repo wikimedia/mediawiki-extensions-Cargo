@@ -102,7 +102,7 @@ class CargoExport extends UnlistedSpecialPage {
 				// Let other extensions display the data if they have defined their own "deferred"
 				// formats. This is an unusual hook in that functions that use it have to return false;
 				// otherwise the error message will be displayed.
-				$result = Hooks::run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
+				$result = $this->getHookContainer()->run( 'CargoDisplayExportData', [ $format, $sqlQueries, $req ] );
 				if ( $result ) {
 					print $this->msg( "cargo-query-missingformat" )->parse();
 				}
