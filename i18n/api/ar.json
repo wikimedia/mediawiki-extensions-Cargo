@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Alshamiri1",
 			"Meno25",
 			"ديفيد"
 		]
@@ -50,5 +51,6 @@
 	"apihelp-cargoqueryautocomplete-param-tables": "مصفوفة جدول (جداول) الحمولة المحددة بناءً على أي حقل (حقول)، والتجميع حسب والترتيب حسب يتم إكماله تلقائيا.",
 	"apihelp-cargoformatparams-description": "الحصول على مجموعة وسائط العرض لكل تنسيق استعلام حمولة.",
 	"apihelp-cargoformatparams-summary": "الحصول على مجموعة وسائط العرض لكل تنسيق استعلام حمولة.",
-	"apihelp-cargoformatparams-param-queryformat": "تنسيق استعلام الحمولة"
+	"apihelp-cargoformatparams-param-queryformat": "تنسيق استعلام الحمولة",
+	"apierror-cargoquery-invalidfieldalias": "خطأ: يبدأ الاسم المستعار للحقل \" $1 \" بشرطة سفلية (_). هذا غير مسموح به في استعلامات Cargo API."
 }
