@@ -10,6 +10,7 @@
 	"cargo-drilldown-fulltext": "سمورو متن",
 	"cargo-drilldown-pagetext": "صفحي جو متن",
 	"cargo-drilldown-filetext": "فائيل جو متن",
+	"cargo-purgecache": "ڪيشي صاف ڪريو",
 	"cargo-pageschemas-tablename": "ٽيبل جو نالو:",
 	"cargo-gantt-months": "مھينا"
 }
