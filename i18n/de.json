@@ -163,6 +163,7 @@
 	"cargo-downloadzip-invalidformat": "Das abgefragte Feld enthält keine Dateitypwerte.",
 	"cargo-viewjson": "JSON ansehen",
 	"cargo-viewbibtex": "BibTeX ansehen",
+	"cargo-viewfeed": "$1 Feed ansehen",
 	"cargo-viewicalendar": "iCalendar anzeigen",
 	"cargo-dynamictables-togglecolumns": "Spalten wechseln:",
 	"cargo-dynamictables-searchcolumn": "$1 durchsuchen",
