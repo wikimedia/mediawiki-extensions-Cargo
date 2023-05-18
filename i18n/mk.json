@@ -154,6 +154,7 @@
 	"cargo-downloadzip-invalidformat": "Побараното поле не содржи вредности за податотечен тип.",
 	"cargo-viewjson": "Погл. JSON",
 	"cargo-viewbibtex": "Погл. BibTeX",
+	"cargo-viewfeed": "Погл. тековникот $1",
 	"cargo-viewicalendar": "Погл. iCalendar",
 	"cargo-dynamictables-togglecolumns": "Префрли столбови:",
 	"cargo-dynamictables-searchcolumn": "Пребарување во $1",

@@ -171,6 +171,7 @@
 	"cargo-downloadzip-invalidformat": "Le champ demandé ne contient pas de valeurs File-type",
 	"cargo-viewjson": "Afficher le JSON",
 	"cargo-viewbibtex": "Afficher le BibTeX",
+	"cargo-viewfeed": "Afficher le flux $1",
 	"cargo-viewicalendar": "afficher l’iCalendar",
 	"cargo-dynamictables-togglecolumns": "Basculer les colonnes :",
 	"cargo-dynamictables-searchcolumn": "Rechercher sur « $1 »",

@@ -152,6 +152,7 @@
 	"cargo-downloadzip-invalidformat": "Poizvedovano polje ne vsebuje vrednosti vrste datoteke",
 	"cargo-viewjson": "Ogled JSON-a",
 	"cargo-viewbibtex": "Ogled BibTeX",
+	"cargo-viewfeed": "Ogled vira $1",
 	"cargo-viewicalendar": "Ogled iCalendar",
 	"cargo-dynamictables-togglecolumns": "Preklopi stolpce:",
 	"cargo-dynamictables-searchcolumn": "Išči $1",

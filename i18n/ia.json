@@ -152,6 +152,7 @@
 	"cargo-downloadzip-invalidformat": "Le campo consultate non contine valores \"File-type\"",
 	"cargo-viewjson": "Vider JSON",
 	"cargo-viewbibtex": "Vider BibTeX",
+	"cargo-viewfeed": "Monstrar le fluxo $1",
 	"cargo-viewicalendar": "Vider iCalendar",
 	"cargo-dynamictables-togglecolumns": "Alternar columnas:",
 	"cargo-dynamictables-searchcolumn": "Cercar in $1",
