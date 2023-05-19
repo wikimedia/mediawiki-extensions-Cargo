@@ -16,6 +16,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
 		return [
+			'feed type' => [ 'values' => [ 'atom', 'rss' ] ],
 			'link text' => [ 'type' => 'string' ],
 			'feed title' => [ 'type' => 'string' ],
 			'feed description' => [ 'type' => 'string' ],
