@@ -35,9 +35,9 @@ class CargoTables extends IncludableSpecialPage {
 
 		$out->addModules( [
 			'ext.cargo.main',
+			'ext.cargo.cargotables',
 		] );
 		$out->addModuleStyles( [
-			'ext.cargo.cargotables',
 			'mediawiki.pager.tablePager'
 		] );
 
@@ -231,6 +231,11 @@ class CargoTables extends IncludableSpecialPage {
 
 		return number_format( intval( $row['total'] ), 0, $wgCargoDecimalMark,
 			$wgCargoDigitGroupingCharacter );
+	}
+
+	public function displayNumColumnsForTable( $tableName ) {
+		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
+		return count( $tableSchemas[$tableName]->mFieldDescriptions );
 	}
 
 	private function getTableLinkedToView( $tableName, $isReplacementTable ) {
@@ -521,6 +526,8 @@ class CargoTables extends IncludableSpecialPage {
 		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
 		$headerText .= Html::element( 'th', null,
 			$this->msg( "cargo-cargotables-header-rowcount" ) );
+		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
+			$this->msg( "cargo-cargotables-header-columncount" ) );
 
 		foreach ( $listOfColumns as $action ) {
 			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action ) );
@@ -545,12 +552,15 @@ class CargoTables extends IncludableSpecialPage {
 			$actionLinks = $this->getActionLinksForTable( $tableName, false, $hasReplacementTable );
 
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName );
+			$numColumnsText = $this->displayNumColumnsForTable( $tableName );
 			$templatesText = $this->tableTemplatesText( $tableName );
 
 			$rowText .= Html::rawElement( 'td', [ 'class' => 'cargo-tablelist-tablename' ],
 				$tableLink );
 			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
 				$numRowsText );
+			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numcolumns' ],
+				$numColumnsText );
 
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
 
@@ -568,12 +578,15 @@ class CargoTables extends IncludableSpecialPage {
 			$tableLink = $this->getTableLinkedToView( $tableName, true );
 
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $tableName . '__NEXT' );
+			$numColumnsText = $this->displayNumColumnsForTable( $tableName . '__NEXT' );
 			$actionLinks = $this->getActionLinksForTable( $tableName, true, false );
 
 			$replacementRowText .= Html::rawElement( 'td',
 				[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
 			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
 				$numRowsText );
+			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numcolumns' ],
+				$numColumnsText );
 
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $replacementRowText );
 
@@ -590,6 +603,8 @@ class CargoTables extends IncludableSpecialPage {
 		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
 		$headerText .= Html::element( 'th', null,
 			$this->msg( "cargo-cargotables-header-rowcount" ) );
+		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
+			$this->msg( "cargo-cargotables-header-columncount" ) );
 
 		$invalidActionsForSpecialTables = [ 'edit' ];
 		foreach ( $listOfColumns as $i => $action ) {
@@ -631,8 +646,10 @@ class CargoTables extends IncludableSpecialPage {
 				$tableLink );
 			if ( $tableExists ) {
 				$numRowsText = $this->displayNumRowsForTable( $cdb, $specialTableName );
+				$numColumnsText = $this->displayNumColumnsForTable( $specialTableName );
 			} else {
 				$numRowsText = '';
+				$numColumnsText = '';
 			}
 			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
 				$numRowsText );
@@ -649,12 +666,15 @@ class CargoTables extends IncludableSpecialPage {
 			$tableLink = $this->getTableLinkedToView( $specialTableName, true );
 
 			$numRowsText = $this->displayNumRowsForTable( $cdb, $specialTableName . '__NEXT' );
+			$numColumnsText = $this->displayNumColumnsForTable( $specialTableName . '__NEXT' );
 			$actionLinks = $this->getActionLinksForTable( $specialTableName, true, false );
 
 			$replacementRowText .= Html::rawElement( 'td',
 				[ 'class' => 'cargo-tablelist-tablename' ], $tableLink );
 			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
 				$numRowsText );
+			$replacementRowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numcolumns' ],
+				$numColumnsText );
 
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $replacementRowText );
 

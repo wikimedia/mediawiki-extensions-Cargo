@@ -11,7 +11,8 @@ table.cargo-tablelist.mw-datatable tr.cargo-tablelist-replacement-row > td {
 	font-weight: bold;
 }
 
-.cargo-tablelist-numrows {
+.cargo-tablelist-numrows,
+.cargo-tablelist-numcolumns {
 	text-align: right;
 }
 

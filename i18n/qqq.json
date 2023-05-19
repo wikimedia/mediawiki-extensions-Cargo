@@ -90,6 +90,8 @@
 	"cargo-calendar-datepicker-label": "Label for datepicker",
 	"cargo-cargotables-header-table": "A column label\n{{identical|Table}}",
 	"cargo-cargotables-header-rowcount": "A column label\n{{identical|Row}}",
+	"cargo-cargotables-header-columncount": "A column label, for the number of columns in other tables",
+	"cargo-cargotables-columncountinfo": "Help text to explain the number of columns/fields.",
 	"cargo-cargotables-header-templates": "A column label\n{{identical|Template}}",
 	"cargo-cargotables-action-deletereplacement": "A button tooltip\n{{identical|Delete}}",
 	"cargo-cargotables-action-switchreplacement": "A button tooltip",

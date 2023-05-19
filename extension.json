@@ -199,7 +199,10 @@
 			]
 		},
 		"ext.cargo.cargotables": {
-			"styles": "resources/CargoTables.css"
+			"styles": "resources/CargoTables.css",
+			"messages": [
+				"cargo-cargotables-columncountinfo"
+			]
 		},
 		"ext.cargo.purge": {
 			"scripts": "libs/ext.cargo.purge.js",

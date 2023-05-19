@@ -25,4 +25,19 @@ $('a.cargoToggle').click( function() {
 	}
 });
 
+$('th.cargotables-columncount').each( function() {
+	var columnsHelpText =  mw.msg( 'cargo-cargotables-columncountinfo', '<code>_pageName</code>' );
+	var popup = new OO.ui.PopupButtonWidget( {
+		icon: 'info',
+		framed: false,
+		popup: {
+			padded: true,
+			$content: $( '<p style="font-weight: normal">' + columnsHelpText + '</p>' )
+		}
+	} );
+	popup.$element.css( 'margin-left', '5px' );
+
+	$( this ).append( popup.$element );
+});
+
 }( jQuery, mediaWiki ) );

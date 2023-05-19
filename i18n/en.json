@@ -80,6 +80,8 @@
 	"cargo-calendar-datepicker-label": "Go to date:",
 	"cargo-cargotables-header-table": "Table",
 	"cargo-cargotables-header-rowcount": "Rows",
+	"cargo-cargotables-header-columncount": "Columns",
+	"cargo-cargotables-columncountinfo": "Not counting built-in fields such as $1.",
 	"cargo-cargotables-header-templates": "Templates",
 	"cargo-cargotables-action-deletereplacement": "Delete",
 	"cargo-cargotables-action-switchreplacement": "Switch in",
