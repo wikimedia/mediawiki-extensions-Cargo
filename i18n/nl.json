@@ -3,6 +3,7 @@
 		"authors": [
 			"AdSvS",
 			"Esketti",
+			"HanV",
 			"Mainframe98",
 			"McDutchie",
 			"PonkoSasuke",
@@ -162,6 +163,7 @@
 	"cargo-downloadzip-invalidformat": "Het opgevraagde veld bevat geen \"File-type\"-waarden.",
 	"cargo-viewjson": "JSON bekijken",
 	"cargo-viewbibtex": "Bekijk BibTeX",
+	"cargo-viewfeed": "Feed $1 bekijken",
 	"cargo-viewicalendar": "Bekijk iCalendar",
 	"cargo-dynamictables-togglecolumns": "Selecteer kolommen:",
 	"cargo-dynamictables-searchcolumn": "Zoeken in $1",
