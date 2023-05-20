@@ -8,6 +8,12 @@ if ( !defined( 'DB_PRIMARY' ) ) {
 }
 
 class CargoBackLinks {
+
+	/**
+	 * ParserOutput extension data key for backlinks.
+	 */
+	public const BACKLINKS_DATA_KEY = 'ext-cargo-backlinks';
+
 	public static function managePageDeletion( $pageId ) {
 		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
 			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromID( $pageId );

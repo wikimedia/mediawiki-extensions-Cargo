@@ -92,7 +92,7 @@ class CargoQuery {
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 			$dbr = $lb->getConnectionRef( DB_REPLICA );
 			if ( $groupByStr == '' && !$wgCargoIgnoreBacklinks && $dbr->tableExists( 'cargo_backlinks' ) ) {
-				$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
+				$allTables = array_keys( $sqlQuery->mAliasedTableNames );
 				$allTables = array_filter( $allTables );
 				$newFieldsStr = $fieldsStr;
 				// $fieldsToCollectForPageIDs allows us to
@@ -153,7 +153,7 @@ class CargoQuery {
 			$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 			$text = $formatter->queryAndDisplay( [ $sqlQuery ], $displayParams );
-			CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIDsForBacklinks );
+			self::setBackLinks( $parser, $pageIDsForBacklinks );
 			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		}
 
@@ -179,7 +179,7 @@ class CargoQuery {
 			return $text;
 		}
 		// No errors? Let's save our reverse links.
-		CargoBackLinks::setBackLinks( $parser->getTitle(), $pageIDsForBacklinks );
+		self::setBackLinks( $parser, $pageIDsForBacklinks );
 
 		// The 'template' format gets special parsing, because
 		// it can be used to display a larger component, like a table,
@@ -198,6 +198,32 @@ class CargoQuery {
 			return [ $text, 'noparse' => true, 'isHTML' => true ];
 		} else {
 			return [ $text, 'noparse' => false ];
+		}
+	}
+
+	/**
+	 * Store the list of page IDs referenced by this query in the parser output.
+	 * @param Parser $parser
+	 * @param int[] $backlinkPageIds List of referenced page IDs to store.
+	 */
+	private static function setBacklinks( Parser $parser, array $backlinkPageIds ): void {
+		$parserOutput = $parser->getOutput();
+
+		// MW 1.38 compatibility
+		if ( method_exists( $parserOutput, 'appendExtensionData' ) ) {
+			foreach ( $backlinkPageIds as $pageId ) {
+				$parserOutput->appendExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY, $pageId );
+			}
+		} else {
+			$backlinks = (array)$parserOutput->getExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY );
+			foreach ( $backlinkPageIds as $pageId ) {
+				$backlinks[$pageId] = true;
+			}
+
+			$parserOutput->setExtensionData(
+				CargoBackLinks::BACKLINKS_DATA_KEY,
+				$backlinks
+			);
 		}
 	}
 

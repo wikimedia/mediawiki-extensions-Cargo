@@ -2,7 +2,6 @@
 
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\MediaWikiServices;
-use MediaWiki\Revision\RenderedRevision;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\SlotRecord;
 use MediaWiki\Storage\EditResult;
@@ -240,23 +239,6 @@ class CargoHooks {
 	}
 
 	/**
-	 * Each content edit
-	 *
-	 * We use that hook to delete all reverse links entries, in case cargo_query deleted from page
-	 *
-	 * @param RenderedRevision $renderedRevision
-	 * @param UserIdentity $user
-	 * @param CommentStoreComment $summary
-	 * @param array $flags
-	 * @param Status $hookStatus
-	 */
-	public static function onMultiContentSave( RenderedRevision $renderedRevision, UserIdentity $user, CommentStoreComment $summary, $flags, Status $hookStatus ) {
-		$pageId = $renderedRevision->getRevision()->getPageId();
-		CargoBackLinks::removeBackLinks( $pageId );
-		CargoBackLinks::purgePagesThatQueryThisPage( $pageId );
-	}
-
-	/**
 	 * Called by the MediaWiki 'PageSaveComplete' hook.
 	 *
 	 * @param WikiPage $wikiPage
@@ -292,6 +274,9 @@ class CargoHooks {
 		// Also, save data to any relevant "special tables", if they
 		// exist.
 		self::saveToSpecialTables( $wikiPage->getTitle() );
+
+		// Invalidate pages that reference this page in their Cargo query results.
+		CargoBackLinks::purgePagesThatQueryThisPage( $pageID );
 	}
 
 	public static function saveToSpecialTables( $title ) {
