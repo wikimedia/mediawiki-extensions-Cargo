@@ -4,7 +4,6 @@
  * @file
  */
 
-use MediaWiki\Feed\FeedItem;
 use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 
