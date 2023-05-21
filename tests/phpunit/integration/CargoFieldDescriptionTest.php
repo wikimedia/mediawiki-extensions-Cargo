@@ -29,7 +29,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @return array
 	 */
-	public function provideValidDescriptionString() {
+	public static function provideValidDescriptionString() {
 		return [
 			[ 'URL' ],
 			[ 'list (;) of String (size=10;dependent on=size;allowed values=*,)' ]
@@ -48,7 +48,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @return array
 	 */
-	public function provideInValidDescriptionString() {
+	public static function provideInValidDescriptionString() {
 		return [
 			[ 'list (;) of BOOLEAN' ],
 			[ 'TEXT (unique;)' ],
@@ -86,7 +86,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideDescriptionData() {
+	public static function provideDescriptionData() {
 		return [
 			[
 				[
@@ -134,7 +134,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideDateTimeFormat() {
+	public static function provideDateTimeFormat() {
 		return [
 			[ 'Date' ],
 			[ 'Start date' ],
@@ -156,7 +156,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideNotDateTimeFormat() {
+	public static function provideNotDateTimeFormat() {
 		return [
 			[ 'Da-te' ],
 			[ 'Start-date' ],
@@ -180,7 +180,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideFieldSize() {
+	public static function provideFieldSize() {
 		return [
 			[ 'Date', 100, null ],
 			[ 'Integer', 200, null ],
@@ -245,7 +245,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 		$this->assertArrayEquals( $actual, $expected );
 	}
 
-	public function provideFieldValueData() {
+	public static function provideFieldValueData() {
 		return [
 			[ '', '', [ 'value' => '' ] ],
 			[ 'Date', '', [ 'value' => null ] ],

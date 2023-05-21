@@ -15,7 +15,7 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideInvalidFieldOrTableName(): array {
+	public static function provideInvalidFieldOrTableName(): array {
 		return [
 			[ 'table name', 'String' ],
 			[ '_table_name', 'String' ],
@@ -49,7 +49,7 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideValidFieldOrTableName(): array {
+	public static function provideValidFieldOrTableName(): array {
 		return [
 			[ 'table_name', 'String' ],
 		];

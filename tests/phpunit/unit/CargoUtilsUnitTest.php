@@ -21,7 +21,7 @@ class CargoUtilsUnitTest extends MediaWikiUnitTestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-	public function provideRemoveQuotedStringsValidTestCases(): iterable {
+	public static function provideRemoveQuotedStringsValidTestCases(): iterable {
 		yield 'null value' => [ null, '' ];
 		yield 'empty string' => [ '', '' ];
 		yield 'SQL fragment with single quotes' => [ 'Title=\'Test\'', 'Title=' ];
@@ -42,7 +42,7 @@ class CargoUtilsUnitTest extends MediaWikiUnitTestCase {
 		CargoUtils::removeQuotedStrings( $input );
 	}
 
-	public function provideRemoveQuotedStringsInvalidTestCases(): iterable {
+	public static function provideRemoveQuotedStringsInvalidTestCases(): iterable {
 		yield 'SQL fragment with unterminated single quote substring' => [
 			'Title=\'Test'
 		];

@@ -26,7 +26,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 		static::assertSame( $expected, $cal );
 	}
 
-	public function provideGetCalendar() {
+	public static function provideGetCalendar() {
 		return [
 			'simple' => [
 				"BEGIN:VCALENDAR\r\n"
@@ -94,7 +94,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 		static::assertSame( $icalLines, $format->getEvent( $dbRow, 'start', 'end', '_pageName' ) );
 	}
 
-	public function provideGetEvent() {
+	public static function provideGetEvent() {
 		return [
 			'simple' => [
 				[

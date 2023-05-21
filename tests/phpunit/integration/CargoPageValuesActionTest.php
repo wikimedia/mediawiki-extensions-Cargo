@@ -39,7 +39,7 @@ class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 	}
 
 	/** @return array */
-	public function provideTitle() {
+	public static function provideTitle() {
 		return [
 			// Test any page that is not a special page
 			[ Title::newFromText( 'Test', NS_MAIN ) ],

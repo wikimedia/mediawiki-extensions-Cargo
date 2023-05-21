@@ -24,7 +24,7 @@ class CargoSearchMySQLIntegrationTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @return array
 	 */
-	public function provideRegexTermData() {
+	public static function provideRegexTermData() {
 		return [
 			# '' as wildcard is considered as false (implicitly)
 			[ 'Cargo example', '', '\bCargo example\b' ],
@@ -50,7 +50,7 @@ class CargoSearchMySQLIntegrationTest extends MediaWikiIntegrationTestCase {
 	/**
 	 * @return array
 	 */
-	public function provideGetIndexFieldData() {
+	public static function provideGetIndexFieldData() {
 		return [
 			[ true, 'si_text' ],
 			[ false, 'si_title' ]

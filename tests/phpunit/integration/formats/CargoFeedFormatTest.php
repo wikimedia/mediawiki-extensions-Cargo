@@ -56,7 +56,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		$format->outputFeed( $request, [ $sqlQuery ] );
 	}
 
-	public function provideOutputFeed() {
+	public static function provideOutputFeed() {
 		return [
 			'no items' => [
 				'expected' => '<?xml version="1.0"?>
