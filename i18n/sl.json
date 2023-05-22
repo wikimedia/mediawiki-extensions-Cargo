@@ -81,6 +81,8 @@
 	"cargo-calendar-datepicker-label": "Pojdi na datum:",
 	"cargo-cargotables-header-table": "Tabela",
 	"cargo-cargotables-header-rowcount": "Vrstice",
+	"cargo-cargotables-header-columncount": "Stolpci",
+	"cargo-cargotables-columncountinfo": "Brez upoštevanja vgrajenih polj, kot npr. $1.",
 	"cargo-cargotables-header-templates": "Predloge",
 	"cargo-cargotables-action-deletereplacement": "Izbriši",
 	"cargo-cargotables-action-switchreplacement": "Preklopi",

@@ -81,6 +81,8 @@
 	"cargo-calendar-datepicker-label": "Ir al data:",
 	"cargo-cargotables-header-table": "Tabella",
 	"cargo-cargotables-header-rowcount": "Lineas",
+	"cargo-cargotables-header-columncount": "Columnas",
+	"cargo-cargotables-columncountinfo": "Campos integrate como $1 non es contate.",
 	"cargo-cargotables-header-templates": "Patronos",
 	"cargo-cargotables-action-deletereplacement": "Deler",
 	"cargo-cargotables-action-switchreplacement": "Commutar in",

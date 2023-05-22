@@ -83,6 +83,8 @@
 	"cargo-calendar-datepicker-label": "Оди на датумот:",
 	"cargo-cargotables-header-table": "Табела",
 	"cargo-cargotables-header-rowcount": "Редови",
+	"cargo-cargotables-header-columncount": "Столбови",
+	"cargo-cargotables-columncountinfo": "Не броејќи вградени полиња како $1.",
 	"cargo-cargotables-header-templates": "Предлошки",
 	"cargo-cargotables-action-deletereplacement": "Избриши",
 	"cargo-cargotables-action-switchreplacement": "Префрли на",

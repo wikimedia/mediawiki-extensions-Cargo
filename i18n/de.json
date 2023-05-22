@@ -92,6 +92,8 @@
 	"cargo-calendar-datepicker-label": "Datum wählen:",
 	"cargo-cargotables-header-table": "Tabelle",
 	"cargo-cargotables-header-rowcount": "Zeilen",
+	"cargo-cargotables-header-columncount": "Spalten",
+	"cargo-cargotables-columncountinfo": "Integrierte Felder wie $1 nicht mitgezählt.",
 	"cargo-cargotables-header-templates": "Vorlagen",
 	"cargo-cargotables-action-deletereplacement": "Löschen",
 	"cargo-cargotables-action-switchreplacement": "Wechseln in",

@@ -160,6 +160,7 @@
 	"cargo-downloadzip-invalidformat": "השדה שהשאילתה רצה עליו אינו מכיל ערכים מסוג File",
 	"cargo-viewjson": "הצגת JSON",
 	"cargo-viewbibtex": "הצגת BibTeX",
+	"cargo-viewfeed": "צפייה בהזנת $1",
 	"cargo-viewicalendar": "הצגת iCalendar",
 	"cargo-dynamictables-togglecolumns": "החלפת העמודות:",
 	"cargo-dynamictables-searchcolumn": "חיפוש $1",

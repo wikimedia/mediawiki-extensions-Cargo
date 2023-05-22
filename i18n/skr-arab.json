@@ -8,6 +8,7 @@
 	"cargo-viewdata-colorsparam": "رنگ:",
 	"cargo-cargotables-header-table": "ٹیبل",
 	"cargo-cargotables-header-rowcount": "قطاراں",
+	"cargo-cargotables-header-columncount": "کالم",
 	"cargo-cargotables-header-templates": "سانچے",
 	"cargo-cargotables-action-deletereplacement": "مٹاؤ",
 	"cargo-cargotables-action-delete": "مٹاؤ",

@@ -8,6 +8,7 @@
 			"Hedda",
 			"Joseph",
 			"Mirzali",
+			"MrSchipunov",
 			"SaldırganSincap"
 		]
 	},
@@ -88,6 +89,7 @@
 	"cargo-calendar-datepicker-label": "Şu tarihe git:",
 	"cargo-cargotables-header-table": "Tablo",
 	"cargo-cargotables-header-rowcount": "Satırlar",
+	"cargo-cargotables-header-columncount": "Sütunlar",
 	"cargo-cargotables-header-templates": "Şablonlar",
 	"cargo-cargotables-action-deletereplacement": "Sil",
 	"cargo-cargotables-action-switchreplacement": "Değiştirin",
@@ -159,6 +161,7 @@
 	"cargo-downloadzip-invalidformat": "Sorgulanan alan Dosya türü değerleri içermiyor",
 	"cargo-viewjson": "JSON'yi görüntüle",
 	"cargo-viewbibtex": "BibTeX'i görüntüle",
+	"cargo-viewfeed": "$1 beslemesini görüntüle",
 	"cargo-viewicalendar": "iCalendar'ı görüntüle",
 	"cargo-dynamictables-togglecolumns": "Sütunları aç/kapat:",
 	"cargo-dynamictables-searchcolumn": "$1 ara",
