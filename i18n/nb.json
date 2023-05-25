@@ -148,6 +148,7 @@
 	"cargo-downloadzip": "Last ned ZIP",
 	"cargo-viewjson": "Vis JSON",
 	"cargo-viewbibtex": "Med BibTeX",
+	"cargo-viewfeed": "Vis $1-matingen",
 	"cargo-viewicalendar": "Vis iCalendar",
 	"cargo-dynamictables-togglecolumns": "Vis/skjul kolonner:",
 	"cargo-dynamictables-searchcolumn": "Søk i $1",

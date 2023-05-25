@@ -89,6 +89,8 @@
 	"cargo-calendar-datepicker-label": "מעבר לתאריך:",
 	"cargo-cargotables-header-table": "טבלה",
 	"cargo-cargotables-header-rowcount": "שורות",
+	"cargo-cargotables-header-columncount": "עמודות",
+	"cargo-cargotables-columncountinfo": "לא כולל שדות מובנים כגון $1.",
 	"cargo-cargotables-header-templates": "תבניות",
 	"cargo-cargotables-action-deletereplacement": "מחיקה",
 	"cargo-cargotables-action-switchreplacement": "להכניס למצב פעיל",

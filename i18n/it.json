@@ -30,6 +30,7 @@
 	"cargo-viewdata-modifyquery": "Modifica interrogazione",
 	"cargo-cargotables-header-table": "Tabella",
 	"cargo-cargotables-header-rowcount": "Righe",
+	"cargo-cargotables-header-columncount": "Colonne",
 	"cargo-cargotables-header-templates": "Template",
 	"cargo-cargotables-action-deletereplacement": "Cancella",
 	"cargo-cargotables-action-delete": "Cancella",
