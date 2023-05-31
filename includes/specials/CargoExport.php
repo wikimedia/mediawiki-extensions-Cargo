@@ -41,14 +41,14 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$sqlQueries = [];
 		foreach ( $tableArray as $i => $table ) {
-			$fields = $fieldsArray[$i];
-			$where = $whereArray !== null ? $whereArray[$i] : null;
-			$joinOn = $joinOnArray !== null ? $joinOnArray[$i] : null;
-			$groupBy = $groupByArray !== null ? $groupByArray[$i] : null;
-			$having = $havingArray !== null ? $havingArray[$i] : null;
-			$orderBy = $orderByArray !== null ? $orderByArray[$i] : null;
-			$limit = $limitArray !== null ? $limitArray[$i] : null;
-			$offset = $offsetArray !== null ? $offsetArray[$i] : null;
+			$fields = $fieldsArray[$i] ?? null;
+			$where = $whereArray[$i] ?? null;
+			$joinOn = $joinOnArray[$i] ?? null;
+			$groupBy = $groupByArray[$i] ?? null;
+			$having = $havingArray[$i] ?? null;
+			$orderBy = $orderByArray[$i] ?? null;
+			$limit = $limitArray[$i] ?? null;
+			$offset = $offsetArray[$i] ?? null;
 			$sqlQueries[] = CargoSQLQuery::newFromValues( $table,
 				$fields, $where, $joinOn, $groupBy, $having,
 				$orderBy, $limit, $offset );
