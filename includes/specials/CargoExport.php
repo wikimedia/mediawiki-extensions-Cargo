@@ -613,7 +613,13 @@ class CargoExport extends UnlistedSpecialPage {
 			$queryResults = $this->parseWikitextInQueryResults( $queryResults );
 		}
 
-		$file = new PHPExcel();
+		if ( class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
+			$file = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		} elseif ( class_exists( 'PHPExcel' ) ) {
+			$file = new PHPExcel();
+		} else {
+			die( "Error: Either the PHPExcel or the PhpSpreadsheet library must be installed for this format to work." );
+		}
 		$file->setActiveSheetIndex( 0 );
 
 		// Create array with header row and query results.
@@ -625,7 +631,11 @@ class CargoExport extends UnlistedSpecialPage {
 		header( "Content-Disposition: attachment;filename=$filename" );
 		header( "Cache-Control: max-age=0" );
 
-		$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel5' );
+		if ( class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
+			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter( $file, 'Xlsx' );
+		} elseif ( class_exists( 'PHPExcel' ) ) {
+			$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel5' );
+		}
 
 		$writer->save( 'php://output' );
 	}
