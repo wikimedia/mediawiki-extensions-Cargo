@@ -655,6 +655,9 @@ class CargoTables extends IncludableSpecialPage {
 			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numrows' ],
 				$numRowsText );
 
+			$rowText .= Html::element( 'td', [ 'class' => 'cargo-tablelist-numcolumns' ],
+				$numColumnsText );
+
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
 			$wikitableText .= Html::rawElement( 'tr', null, $rowText );
 
