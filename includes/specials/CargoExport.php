@@ -83,7 +83,7 @@ class CargoExport extends UnlistedSpecialPage {
 			} elseif ( $format == 'excel' ) {
 				$filename = $req->getVal( 'filename' );
 				if ( $filename == '' ) {
-					$filename = 'results.xls';
+					$filename = 'results.xlsx';
 				}
 				$parseValues = $req->getCheck( 'parse_values' );
 				$this->displayExcelData( $sqlQueries, $filename, $parseValues );
@@ -634,7 +634,7 @@ class CargoExport extends UnlistedSpecialPage {
 		if ( class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter( $file, 'Xlsx' );
 		} elseif ( class_exists( 'PHPExcel' ) ) {
-			$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel5' );
+			$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel2007' );
 		}
 
 		$writer->save( 'php://output' );
