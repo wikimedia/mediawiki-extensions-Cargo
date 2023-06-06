@@ -158,6 +158,9 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$eventTitle = reset( $queryResult );
 				}
+				// The FullCalendar JS library will HTML-encode
+				// titles, so avoid a double-encoding.
+				$eventTitle = html_entity_decode( $eventTitle );
 				if ( array_key_exists( 'color', $queryResult ) ) {
 					$eventColor = $queryResult['color'];
 				} elseif ( $colorArray != null && array_key_exists( $i, $colorArray ) ) {
