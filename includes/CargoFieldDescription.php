@@ -128,8 +128,9 @@ class CargoFieldDescription {
 		$fieldDescription->mType = $type;
 
 		// Validation.
-		if ( $fieldDescription->mType == 'Text' && array_key_exists( 'unique', $fieldDescription->mOtherParams ) ) {
-			throw new MWException( "'unique' is not allowed for fields of type 'Text'." );
+		if ( in_array( $type, [ 'Text', 'Wikitext', 'Searchtext' ] ) &&
+			array_key_exists( 'unique', $fieldDescription->mOtherParams ) ) {
+			throw new MWException( "'unique' is not allowed for fields of type '$type'." );
 		}
 		if ( $fieldDescription->mType == 'Boolean' && $fieldDescription->mIsList == true ) {
 			throw new MWException( "Error: 'list' is not allowed for fields of type 'Boolean'." );
