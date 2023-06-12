@@ -91,7 +91,6 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 		$this->mOutput->addModules( [ 'mediawiki.page.gallery' ] );
 		$this->mOutput->addModuleStyles( [ 'mediawiki.page.gallery.styles' ] );
 
-		$valuesTable = CargoUtils::replaceRedirectWithTarget( $valuesTable, $fieldDescriptions );
 		if ( array_key_exists( 'caption field', $displayParams ) ) {
 			$captionField = str_replace( '_', ' ', $displayParams['caption field'] );
 			if ( $captionField[0] == ' ' ) {

@@ -65,8 +65,6 @@ class CargoDisplayFormat {
 		$query_displayer->mFieldDescriptions = $field_descriptions;
 		$query_displayer->mFieldTables = [];
 
-		// Replace redirects with target URLs
-		$values = CargoUtils::replaceRedirectWithTarget( $values, $field_descriptions );
 		$html = $formatter->display(
 			$values,
 			$query_displayer->getFormattedQueryResults( $values ),

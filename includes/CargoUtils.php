@@ -1379,31 +1379,6 @@ class CargoUtils {
 		}
 	}
 
-	/**
-	 * Replace file redirects with the appropriate targets
-	 * @param array $valuesArray
-	 * @param array $fieldDescriptions
-	 * @return array $valuesArray
-	 */
-	public static function replaceRedirectWithTarget( $valuesArray, $fieldDescriptions ) {
-		foreach ( $valuesArray as &$result ) {
-			foreach ( $result as $key => &$val ) {
-				if ( array_key_exists( $key, $fieldDescriptions ) &&
-				$fieldDescriptions[ $key ]->mType == "File" ) {
-					$title = Title::newFromText( $val );
-					if ( $title != null && $title->isRedirect() ) {
-						$page = self::makeWikiPage( $title );
-						$target = $page->getRedirectTarget();
-						if ( $target != null ) {
-							$val = $target->getText();
-						}
-					}
-				}
-			}
-		}
-		return $valuesArray;
-	}
-
 	public static function globalFields() {
 		return [
 			'_pageID' => [ 'type' => 'Integer', 'isList' => false ],
