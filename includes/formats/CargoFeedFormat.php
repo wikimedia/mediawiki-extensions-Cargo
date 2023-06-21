@@ -4,7 +4,6 @@
  * @file
  */
 
-use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -68,7 +67,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 	 */
 	private function getFeedType( string $in = null ): string {
 		$config = MediaWikiServices::getInstance()->getMainConfig();
-		$types = array_keys( $config->get( MainConfigNames::FeedClasses ) );
+		$types = array_keys( $config->get( 'FeedClasses' ) );
 
 		// User-provided (if it's valid).
 		$inType = strtolower( trim( $in ?? '' ) );
@@ -93,7 +92,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		$title = $request->getText( 'feed_title', 'News feed' );
 		$description = $request->getText( 'feed_description', '' );
 
-		$feedClasses = MediaWikiServices::getInstance()->getMainConfig()->get( MainConfigNames::FeedClasses );
+		$feedClasses = MediaWikiServices::getInstance()->getMainConfig()->get( 'FeedClasses' );
 		/** @var RSSFeed|AtomFeed $feed */
 		$feed = new $feedClasses[$feedType]( $title, $description, $request->getFullRequestURL() );
 
