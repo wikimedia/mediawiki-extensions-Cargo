@@ -5,7 +5,6 @@
 			"Vlad5250"
 		]
 	},
-	"apihelp-cargoquery-description": "Изпълняване на заявка за данни от „Карго“.",
 	"apihelp-cargoquery-summary": "Изпълняване на заявка за данни от „Карго“.",
 	"apihelp-cargoquery-param-tables": "Таблиците от базата данни на „Карго“, в които ще се търси",
 	"apihelp-cargoquery-param-fields": "Полетата на таблицата за извличане",
@@ -16,10 +15,8 @@
 	"apihelp-cargoquery-param-having": "Условия за групираните стойности, съответстващо на клаузата HAVING в SQL",
 	"apihelp-cargoquery-param-limit": "Ограничение на броя върнати резултати",
 	"apihelp-cargoquery-param-offset": "Отместване в заявката",
-	"apihelp-cargorecreatetables-description": "Пресъздава една или повече таблици за „Карго“",
 	"apihelp-cargorecreatetables-summary": "Пресъздава една или повече таблици за „Карго“",
 	"apihelp-cargorecreatetables-param-template": "Шаблонът, чиито декларирани таблици в „Карго“ трябва да бъдат пресъздадени",
-	"apihelp-cargorecreatedata-description": "Препопълва данните в таблица на „Карго“.",
 	"apihelp-cargorecreatedata-summary": "Препопълва данните в таблица на „Карго“.",
 	"apihelp-cargorecreatedata-param-template": "Шаблонът, чиито данни ще се използват",
 	"apihelp-cargorecreatedata-param-table": "Таблица в базата данни на „Карго“, която да бъде повторно попълнена.",

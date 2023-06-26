@@ -10,7 +10,6 @@
 			"Macofe"
 		]
 	},
-	"apihelp-cargoquery-description": "Ejecuta una consulta en los datos de Cargo.",
 	"apihelp-cargoquery-summary": "Ejecuta una consulta en los datos de Cargo.",
 	"apihelp-cargoquery-param-tables": "La o las tablas de la base de datos de Cargo en las que se ha de buscar",
 	"apihelp-cargoquery-param-fields": "Campo(s) de la tabla que recuperar",
@@ -21,11 +20,9 @@
 	"apihelp-cargoquery-param-having": "Condiciones para valores agrupados, correspondientes a una cláusula HAVING de SQL",
 	"apihelp-cargoquery-param-limit": "Un límite en el número de resultados devueltos",
 	"apihelp-cargoquery-param-offset": "El desplazamiento de la consulta",
-	"apihelp-cargorecreatetables-description": "Recrea una o más tablas de Cargo.",
 	"apihelp-cargorecreatetables-summary": "Recrea una o más tablas de Cargo.",
 	"apihelp-cargorecreatetables-param-createReplacement": "Si debemos reemplazar los dados a una otra lista",
 	"apihelp-cargorecreatedata-param-template": "La plantilla cuyos datos se usarán",
-	"apihelp-cargorecreatespecialtable-description": "Crea una tabla especial Cargo.",
 	"apihelp-cargorecreatespecialtable-summary": "Crea una tabla especial de Cargo.",
 	"apihelp-cargorecreatespecialtable-param-table": "La tabla especial a recrear",
 	"apihelp-cargoautocomplete-param-limit": "Límite en el número de resultados que devolver",
