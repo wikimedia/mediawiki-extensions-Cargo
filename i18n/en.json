@@ -138,6 +138,7 @@
 	"cargo-drilldown-search": "Search",
 	"cargo-drilldown-othervalues": "Other values:",
 	"cargo-drilldown-novalues": "There are no values for this filter",
+	"cargo-drilldown-nomatches": "No matches",
 	"cargo-drilldown-fulltext": "Full text",
 	"cargo-drilldown-pagetext": "Page text",
 	"cargo-drilldown-filename": "File name",

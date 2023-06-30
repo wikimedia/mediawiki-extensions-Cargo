@@ -148,6 +148,7 @@
 	"cargo-drilldown-search": "The text of a button.\n{{Identical|search}}",
 	"cargo-drilldown-othervalues": "The label for ComboBoxInput and TextBoxInput",
 	"cargo-drilldown-novalues": "This is an informational message on [[Special:Drildown]].",
+	"cargo-drilldown-nomatches": "A message displayed when nothing is matched in autocompletion",
 	"cargo-drilldown-fulltext": "The label for searching on all the text within a page or file.",
 	"cargo-drilldown-pagetext": "The label for searching on all the text within a page.",
 	"cargo-drilldown-filename": "The label for displaying the name of a file uploaded to the wiki.\n{{Identical|Filename}}",

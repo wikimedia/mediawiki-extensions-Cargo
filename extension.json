@@ -427,7 +427,8 @@
 			],
 			"messages": [
 				"cargo-drilldown-search",
-				"cargo-drilldown-othervalues"
+				"cargo-drilldown-othervalues",
+				"cargo-drilldown-nomatches"
 			],
 			"dependencies": [
 				"ext.cargo.main",
