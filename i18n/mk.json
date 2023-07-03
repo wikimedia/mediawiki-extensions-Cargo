@@ -141,6 +141,7 @@
 	"cargo-drilldown-search": "Пребарај",
 	"cargo-drilldown-othervalues": "Други вредности:",
 	"cargo-drilldown-novalues": "Нема зададено вредности за овој филтер",
+	"cargo-drilldown-nomatches": "Нема совпаѓања",
 	"cargo-drilldown-fulltext": "Цел текст",
 	"cargo-drilldown-pagetext": "Текст на страницата",
 	"cargo-drilldown-filename": "Име на податотека",

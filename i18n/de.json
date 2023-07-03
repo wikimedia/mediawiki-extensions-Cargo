@@ -150,6 +150,7 @@
 	"cargo-drilldown-search": "Suchen",
 	"cargo-drilldown-othervalues": "Andere Werte:",
 	"cargo-drilldown-novalues": "Es gibt keine Werte für diesen Filter",
+	"cargo-drilldown-nomatches": "Keine Treffer",
 	"cargo-drilldown-fulltext": "Volltext",
 	"cargo-drilldown-pagetext": "Seitentext",
 	"cargo-drilldown-filename": "Dateiname",

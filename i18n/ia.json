@@ -139,6 +139,7 @@
 	"cargo-drilldown-search": "Cercar",
 	"cargo-drilldown-othervalues": "Altere valores:",
 	"cargo-drilldown-novalues": "Il non ha valores pro iste filtro",
+	"cargo-drilldown-nomatches": "Nihil trovate",
 	"cargo-drilldown-fulltext": "Texto complete",
 	"cargo-drilldown-pagetext": "Texto del pagina",
 	"cargo-drilldown-filename": "Nomine del file",

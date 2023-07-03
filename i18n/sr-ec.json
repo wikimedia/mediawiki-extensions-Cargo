@@ -15,6 +15,7 @@
 	"cargo-deletetableaction": "је избрисао/ла Cargo табелу $2",
 	"cargo-drilldown-allpages": "Све странице",
 	"cargo-drilldown-allfiles": "Све датотеке",
+	"cargo-drilldown-nomatches": "Нема погодака",
 	"cargo-downloadzip": "Преузми ZIP",
 	"cargo-dynamictables-searchcolumn": "Претражите $1",
 	"cargo-purgecache-failed": "Чишћење кеша није успело"

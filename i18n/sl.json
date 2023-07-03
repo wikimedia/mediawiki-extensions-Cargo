@@ -139,6 +139,7 @@
 	"cargo-drilldown-search": "Išči",
 	"cargo-drilldown-othervalues": "Druge vrednosti:",
 	"cargo-drilldown-novalues": "Za ta filter ni vrednosti",
+	"cargo-drilldown-nomatches": "Ni ujemanj",
 	"cargo-drilldown-fulltext": "Celotno besedilo",
 	"cargo-drilldown-pagetext": "Besedilo strani",
 	"cargo-drilldown-filename": "Ime datoteke",

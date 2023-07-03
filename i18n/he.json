@@ -147,6 +147,7 @@
 	"cargo-drilldown-search": "חיפוש",
 	"cargo-drilldown-othervalues": "ערכים אחרים:",
 	"cargo-drilldown-novalues": "אין ערכים למסנן הזה",
+	"cargo-drilldown-nomatches": "אין התאמות",
 	"cargo-drilldown-fulltext": "הטקסט המלא",
 	"cargo-drilldown-pagetext": "טקסט הדף",
 	"cargo-drilldown-filename": "שם הקובץ",
