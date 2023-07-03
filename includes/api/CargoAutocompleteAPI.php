@@ -22,10 +22,9 @@ class CargoAutocompleteAPI extends ApiBase {
 		$substr = $params['substr'];
 		$table = $params['table'];
 		$field = $params['field'];
-		$field_is_array = $params['field_is_array'];
 		$where = $params['where'];
 
-		$data = self::getAllValues( $table, $field, $field_is_array, $where, $substr );
+		$data = self::getAllValues( $table, $field, $where, $substr );
 
 		// If we got back an error message, exit with that message.
 		if ( !is_array( $data ) ) {
@@ -53,7 +52,6 @@ class CargoAutocompleteAPI extends ApiBase {
 			'substr' => null,
 			'table' => null,
 			'field' => null,
-			'field_is_array' => false,
 			'where' => null,
 		];
 	}
@@ -63,7 +61,6 @@ class CargoAutocompleteAPI extends ApiBase {
 			'substr' => 'Search substring',
 			'table' => 'Cargo table for which to search values',
 			'field' => 'Cargo field for which to search values',
-			'field_is_array' => 'Whether the field holds an array/list of values',
 			'where' => 'The "where" clause for the query, based on the other filters specified',
 		];
 	}
@@ -79,20 +76,19 @@ class CargoAutocompleteAPI extends ApiBase {
 		];
 	}
 
-	private static function getAllValues( $table, $field, $fieldIsArray, $where, $substr ) {
+	private static function getAllValues( $table, $field, $where, $substr ) {
 		$values = [];
 
 		if ( $substr !== null ) {
 			if ( $where != '' ) {
 				$where .= " AND ";
 			}
-			$operator = ( $fieldIsArray ) ? "HOLDS LIKE" : "LIKE";
 			// There's no such global variable at the moment -
 			// perhaps there will be in the future.
 			// if ( $wgCargoDrilldownAutocompleteOnAllChars ) {
-			// $where .= "($field $operator \"%$substr%\")";
+			// $where .= "($field LIKE \"%$substr%\")";
 			// } else {
-				$where .= "($field $operator \"$substr%\" OR $field $operator \"% $substr%\")";
+				$where .= "($field LIKE \"$substr%\" OR $field LIKE \"% $substr%\")";
 			// }
 		}
 

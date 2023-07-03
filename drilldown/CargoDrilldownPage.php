@@ -931,11 +931,13 @@ END;
 			'class' => "cargoDrilldownRemoteAutocomplete",
 			'data-input-name' => $inputName,
 			'data-value' => $cur_value,
-			'data-cargo-table' => $this->tableName . '=' . $this->tableAlias,
-			'data-cargo-field' => $filter_name
 		];
 		if ( $filter_is_list ) {
-			$spanAttrs['data-cargo-field-is-list'] = true;
+			$spanAttrs['data-cargo-table'] = $this->tableName . '__' . $filter_name . '=' . $this->tableName . '_alias__' . $filter_name;
+			$spanAttrs['data-cargo-field'] = '_value';
+		} else {
+			$spanAttrs['data-cargo-table'] = $this->tableName . '=' . $this->tableAlias;
+			$spanAttrs['data-cargo-field'] = $filter_name;
 		}
 
 		$whereSQL = '';

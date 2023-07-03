@@ -59,7 +59,6 @@
 			name: $( this ).attr( 'data-input-name' ),
 			table: $( this ).attr( 'data-cargo-table' ),
 			field: $( this ).attr( 'data-cargo-field' ),
-			field_is_array: $( this ).attr( 'data-cargo-field-is-list' ),
 			where: $( this ).attr( 'data-cargo-where' )
 		};
 		var autocompleteInput = new CargoSearchAutocompleteWidget( config );
