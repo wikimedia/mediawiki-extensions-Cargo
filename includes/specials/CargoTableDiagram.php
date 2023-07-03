@@ -20,6 +20,10 @@ class CargoTableDiagram extends IncludableSpecialPage {
 		$out->addModules( 'ext.cargo.diagram' );
 
 		$tableNames = CargoUtils::getTables();
+		if ( count( $tableNames ) == 0 ) {
+			return;
+		}
+
 		$userDefinedTables = [];
 		foreach ( $tableNames as $tableName ) {
 			if ( substr( $tableName, 0, 1 ) !== '_' ) {
