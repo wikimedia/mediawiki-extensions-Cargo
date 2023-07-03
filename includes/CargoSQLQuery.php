@@ -324,16 +324,6 @@ class CargoSQLQuery {
 			}
 			list( $table2, $field2 ) = $tableAndField2;
 
-			$tableAliases = array_keys( $this->mAliasedTableNames );
-			// Order the tables in the join condition by their relative positions in table names.
-			$position1 = array_search( $table1, $tableAliases );
-			$position2 = array_search( $table2, $tableAliases );
-			if ( $position2 < $position1 ) {
-				// Swap tables and fields if table2 comes before table1 in table names.
-				[ $table1, $table2 ] = [ $table2, $table1 ];
-				[ $field1, $field2 ] = [ $field2, $field1 ];
-			}
-
 			$joinCond = [
 				'joinType' => 'LEFT OUTER JOIN',
 				'table1' => $table1,
@@ -344,15 +334,6 @@ class CargoSQLQuery {
 			];
 			$this->mCargoJoinConds[] = $joinCond;
 		}
-
-		// Sort the join conditions by the table names.
-		usort( $this->mCargoJoinConds, static function ( $joinCond1, $joinCond2 ) use( $tableAliases ) {
-			$index1 = array_search( $joinCond1['table1'], $tableAliases );
-			$index2 = array_search( $joinCond2['table1'], $tableAliases );
-			if ( $index1 == $index2 ) { return 0;
-			}
-			return $index1 < $index2 ? -1 : 1;
-		} );
 
 		// Now validate, to make sure that all the tables
 		// are "joined" together. There's probably some more
@@ -763,7 +744,19 @@ class CargoSQLQuery {
 				}
 			}
 			if ( !$foundMatch ) {
-				$this->mCargoJoinConds[] = $newCargoJoinCond;
+				// If this join references another table, insert
+				// this one before the join for that one.
+				$inserted = false;
+				foreach ( $this->mCargoJoinConds as $i => $curJoinCond ) {
+					if ( $newCargoJoinCond['table2'] == $curJoinCond['table1'] ) {
+						array_splice( $this->mCargoJoinConds, $i, 0, [ $newCargoJoinCond ] );
+						$inserted = true;
+						break;
+					}
+				}
+				if ( !$inserted ) {
+					array_unshift( $this->mCargoJoinConds, $newCargoJoinCond );
+				}
 			}
 		}
 	}
@@ -1017,6 +1010,27 @@ class CargoSQLQuery {
 			}
 		}
 		$this->addToCargoJoinConds( $newCargoJoinConds );
+
+		// If there's more than one table, there must be one or more
+		// joins - match the order in $this->mAliasedTableNames to the
+		// order of the tables within the joins.
+		if ( count( $this->mAliasedTableNames ) > 1 ) {
+			$orderedTableAliases = [];
+			foreach ( $this->mCargoJoinConds as $joinCond ) {
+				$table1 = $joinCond['table1'];
+				$table2 = $joinCond['table2'];
+				if ( !in_array( $table1, $orderedTableAliases ) ) {
+					$orderedTableAliases[] = $table1;
+				}
+				if ( !in_array( $table2, $orderedTableAliases ) ) {
+					$orderedTableAliases[] = $table2;
+				}
+			}
+
+			uksort( $this->mAliasedTableNames, static function ( $key1, $key2 ) use ( $orderedTableAliases ) {
+				return ( array_search( $key1, $orderedTableAliases ) > array_search( $key2, $orderedTableAliases ) );
+			} );
+		}
 
 		// "group by" and "having"
 		// We handle these before "fields" and "order by" because,
