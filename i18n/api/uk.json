@@ -32,7 +32,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Підрядок пошуку",
 	"apihelp-cargoautocomplete-param-table": "Таблиця Cargo, для якої слід провести пошук значень",
 	"apihelp-cargoautocomplete-param-field": "Поле Cargo, для якого слід провести пошук значень",
-	"apihelp-cargoautocomplete-param-field_is_array": "Чи містить поле список значень",
 	"apihelp-cargoautocomplete-param-where": "Твердження «where» для цього запиту, на основі інших заданих фільтрів",
 	"apihelp-cargoqueryautocomplete-summary": "Виклик автодоповнення, який використовує спеціальна сторінка CargoQuery (раніше — ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Обмеження кількості результатів, які буде повернуто.",

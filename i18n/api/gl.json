@@ -26,6 +26,5 @@
 	"apihelp-cargoautocomplete-param-substr": "Buscar a subcadea",
 	"apihelp-cargoautocomplete-param-table": "Táboa de Cargo na que buscar os valores",
 	"apihelp-cargoautocomplete-param-field": "Campo de Cargo polo que buscar os valores",
-	"apihelp-cargoautocomplete-param-field_is_array": "Se o campo contén unha lista de valores",
 	"apihelp-cargoautocomplete-param-where": "Cláusula \"where\" para a consulta, baseada nos demais filtros especificados"
 }

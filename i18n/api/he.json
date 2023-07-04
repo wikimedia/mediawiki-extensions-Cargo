@@ -35,7 +35,6 @@
 	"apihelp-cargoautocomplete-param-substr": "חיפוש תת־מחרוזת",
 	"apihelp-cargoautocomplete-param-table": "טבלת Cargo שצריך לחפש בה ערכים",
 	"apihelp-cargoautocomplete-param-field": "שדה Cargo שצריך לחפש ערכים שלו",
-	"apihelp-cargoautocomplete-param-field_is_array": "האם השדה מארח רשימת ערכים",
 	"apihelp-cargoautocomplete-param-where": "פסקת ה־where עבור השאילתה, על סמך מסננים אחרים שצוינו",
 	"apihelp-cargoqueryautocomplete-summary": "קריאת השלמה אוטומטית שמשמשת בדף המיוחד CargoQuery (בעבר ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "מגבלה על מספר התוצאות שתוחזרנה.",

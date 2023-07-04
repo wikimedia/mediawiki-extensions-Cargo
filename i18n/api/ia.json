@@ -33,7 +33,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Le subcatena a cercar",
 	"apihelp-cargoautocomplete-param-table": "Tabella Cargo pro le qual cercar valores",
 	"apihelp-cargoautocomplete-param-field": "Campo Cargo pro le qual cercar valores",
-	"apihelp-cargoautocomplete-param-field_is_array": "Si le campo contine un lista de valores",
 	"apihelp-cargoautocomplete-param-where": "Le clausula \"where\" (ubi) pro le consulta, basate sur le altere filtros specificate",
 	"apihelp-cargoqueryautocomplete-summary": "Appello de autocompletion usate per le pagina special CargoQuery (anteriormente ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Limite del numero de resultatos retornate.",

@@ -11,6 +11,5 @@
 	"apihelp-cargorecreatespecialtable-param-table": "Keičiama speciali lentelė",
 	"apihelp-cargorecreatespecialtable-param-createReplacement": "Ar įkelti duomenis į pakaitinę lentelę",
 	"apihelp-cargoautocomplete-param-limit": "Grąžinamų rezultatų skaičiaus apribojimas",
-	"apihelp-cargoautocomplete-param-field_is_array": "Ar laukelyje yra reikšmių sąrašas",
 	"apihelp-cargoqueryautocomplete-param-limit": "Gražinamų rezultatų skaičiaus limitas"
 }

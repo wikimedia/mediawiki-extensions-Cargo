@@ -33,7 +33,6 @@
 	"apihelp-cargoautocomplete-param-substr": "搜尋子字串",
 	"apihelp-cargoautocomplete-param-table": "要搜尋值的 Cargo 表格",
 	"apihelp-cargoautocomplete-param-field": "要搜尋值的 Cargo 欄位",
-	"apihelp-cargoautocomplete-param-field_is_array": "欄位是否包含值清單",
 	"apihelp-cargoautocomplete-param-where": "基於其它指定篩選所用於查詢的「where」子句",
 	"apihelp-cargoqueryautocomplete-summary": "自動完成呼叫由 CargoQuery（先前的檢視資料）所使用的特殊頁面。",
 	"apihelp-cargoqueryautocomplete-param-limit": "回傳的結果限制數目。",

@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"HanV",
 			"McDutchie"
 		]
 	},
@@ -33,12 +34,12 @@
 	"apihelp-cargoautocomplete-param-substr": "Subtekenreeks om te zoeken",
 	"apihelp-cargoautocomplete-param-table": "Cargo-tabel waarvoor u waarden zoekt",
 	"apihelp-cargoautocomplete-param-field": "Cargo-veld waarvoor u waarden wilt zoeken",
-	"apihelp-cargoautocomplete-param-field_is_array": "Of het veld een lijst met waarden bevat",
 	"apihelp-cargoautocomplete-param-where": "De \"where\"-clausule voor de query, gebaseerd op de andere opgegeven filters",
 	"apihelp-cargoqueryautocomplete-summary": "Aanroep voor automatisch aanvullen gebruikt door de speciale pagina CargoQuery (voorheen ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Een limiet op het aantal geretourneerde resultaten",
 	"apihelp-cargoqueryautocomplete-param-search": "Subtekenreeks om te zoeken",
 	"apihelp-cargoqueryautocomplete-param-tables": "Array van geselecteerde Cargo-tabel(len) op basis waarvan de veld(en), \"groeperen op\" en \"sorteren op\" automatisch worden ingevuld.",
 	"apihelp-cargoformatparams-summary": "Haalt de set weergaveparameters op voor elk Cargo-queryformaat.",
-	"apihelp-cargoformatparams-param-queryformat": "Een Cargo-queryindeling"
+	"apihelp-cargoformatparams-param-queryformat": "Een Cargo-queryindeling",
+	"apierror-cargoquery-invalidfieldalias": "Fout: alias veld \"$1\" begint met een underscore (_). Dit is niet toegestaan in Cargo API-query's."
 }

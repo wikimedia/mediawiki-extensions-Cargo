@@ -33,7 +33,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Iskalni podniz",
 	"apihelp-cargoautocomplete-param-table": "Tabela Cargo, za katero naj se poiščejo vrednosti",
 	"apihelp-cargoautocomplete-param-field": "Polje Cargo, za katero naj se poiščejo vrednosti",
-	"apihelp-cargoautocomplete-param-field_is_array": "Ali polje vsebuje seznam vrednosti",
 	"apihelp-cargoautocomplete-param-where": "Stavek »where« poizvedbe, na podlagi drugih določenih filtrov",
 	"apihelp-cargoqueryautocomplete-summary": "Klic samodokončanja, ki ga uporablja posebna stran CargoQuery (prej ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "Omejitev števila vrnjenih zadetkov.",

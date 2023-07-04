@@ -37,7 +37,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Rechercher la sous-chaîne",
 	"apihelp-cargoautocomplete-param-table": "Table de Cargo pour laquelle rechercher des valeurs",
 	"apihelp-cargoautocomplete-param-field": "Champ de Cargo pour lequel rechercher des valeurs",
-	"apihelp-cargoautocomplete-param-field_is_array": "Si le champ contient une liste de valeurs",
 	"apihelp-cargoautocomplete-param-where": "La clause « where » pour la requête, basée sur les autres filtres spécifiés",
 	"apihelp-cargoqueryautocomplete-summary": "Appel de complétion automatique utilisé par la page spéciale ''CargoQuery'' (précédemment ''ViewData'').",
 	"apihelp-cargoqueryautocomplete-param-limit": "Une limite au nombre de résultats renvoyés.",

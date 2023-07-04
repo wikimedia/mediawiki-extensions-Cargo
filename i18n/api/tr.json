@@ -34,7 +34,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Arama alt dize",
 	"apihelp-cargoautocomplete-param-table": "Değerlerin aranacağı kargo tablosu",
 	"apihelp-cargoautocomplete-param-field": "Değerlerin aranacağı kargo tablosu",
-	"apihelp-cargoautocomplete-param-field_is_array": "Alanın bir değer listesi içerip içermediği",
 	"apihelp-cargoautocomplete-param-where": "Belirtilen diğer filtrelere dayalı olarak sorgunun \"where\" yan tümcesi",
 	"apihelp-cargoqueryautocomplete-summary": "CargoQuery (önceden ViewData) özel sayfası tarafından kullanılan otomatik tamamlama çağrısı.",
 	"apihelp-cargoqueryautocomplete-param-limit": "Döndürülen sonuç sayısı için bir sınır.",

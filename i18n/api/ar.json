@@ -35,7 +35,6 @@
 	"apihelp-cargoautocomplete-param-substr": "بحث سلسلة فرعية",
 	"apihelp-cargoautocomplete-param-table": "جدول حمولة للبحث عن القيم",
 	"apihelp-cargoautocomplete-param-field": "حقل حمولة للبحث عن القيم",
-	"apihelp-cargoautocomplete-param-field_is_array": "ما إذا كان الحقل يحمل قائمة بالقيم",
 	"apihelp-cargoautocomplete-param-where": "شرط \"حيث\" للاستعلام، بناءً على الفلاتر الأخرى المحددة",
 	"apihelp-cargoqueryautocomplete-summary": "استدعاءالإكمال التلقائي المستخدم من قبل الصفحة الخاصة استعلام الحمولة (عرض البيانات سابقا).",
 	"apihelp-cargoqueryautocomplete-param-limit": "حد لعدد النتائج التي يتم إرجاعها.",

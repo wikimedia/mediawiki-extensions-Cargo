@@ -37,7 +37,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Such-Teilzeichenfolge",
 	"apihelp-cargoautocomplete-param-table": "Cargo-Tabellen, für die die Werte gesucht werden sollen.",
 	"apihelp-cargoautocomplete-param-field": "Cargo-Feld, für das die Werte gesucht werden sollen.",
-	"apihelp-cargoautocomplete-param-field_is_array": "Ob das Feld eine Liste mit Werten enthält",
 	"apihelp-cargoautocomplete-param-where": "Die Klausel „where“ für die Abfrage, basierend auf den anderen angegebenen Filtern.",
 	"apihelp-cargoqueryautocomplete-summary": "Aufruf zur automatischen Vervollständigung, der von der Spezialseite von CargoQuery (früher ViewData) verwendet wird.",
 	"apihelp-cargoqueryautocomplete-param-limit": "Eine Begrenzung für die Anzahl der zurückgegebenen Ergebnisse.",

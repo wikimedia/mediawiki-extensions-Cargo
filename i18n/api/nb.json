@@ -28,7 +28,6 @@
 	"apihelp-cargoautocomplete-param-substr": "Søkeunderstreng",
 	"apihelp-cargoautocomplete-param-table": "Cargo-tabell det skal søkes etter verdier i",
 	"apihelp-cargoautocomplete-param-field": "Cargo-felt det skal søkes etter verdier i",
-	"apihelp-cargoautocomplete-param-field_is_array": "Hvorvidt feltet holder en liste over verdier",
 	"apihelp-cargoautocomplete-param-where": "«where»-klausul for spørringen, basert på de andre spesifiserte filtrene",
 	"apihelp-cargoqueryautocomplete-summary": "Autofullføringskall brukt av spesialsiden CargoQuery (tidligere ViewData).",
 	"apihelp-cargoqueryautocomplete-param-limit": "En grense på antall resultater som skal vises.",

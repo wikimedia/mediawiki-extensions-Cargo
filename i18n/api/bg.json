@@ -24,6 +24,5 @@
 	"apihelp-cargoautocomplete-param-substr": "Търсене на подниз",
 	"apihelp-cargoautocomplete-param-table": "Карго-таблица, за която ще се търсят стойности",
 	"apihelp-cargoautocomplete-param-field": "Карго-поле, за което ще се търсят стойности",
-	"apihelp-cargoautocomplete-param-field_is_array": "Дали полето съдържа списък със стойности",
 	"apihelp-cargoautocomplete-param-where": "Клаузата „where“ на заявката, заедно с другите указани филтри"
 }
