@@ -2132,7 +2132,11 @@ END;
 				}
 			}
 			$html = $queryDisplayer->displayQueryResults( $formatter, $queryResults );
-			$out->addHTML( $html );
+			if ( $this->format === 'template' ) {
+				$out->addWikiTextAsContent( $html );
+			} else {
+				$out->addHTML( $html );
+			}
 
 			return;
 		} else {
