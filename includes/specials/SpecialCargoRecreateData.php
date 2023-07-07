@@ -167,7 +167,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 
 	public function getNumPagesThatCallTemplate( IDatabase $dbw, LinkTarget $templateTitle ) {
 		$conds = [ "tl_from=page_id" ];
-		if ( interface_exists( LinkTargetLookup::class ) ) {
+		if ( method_exists( LinkTargetLookup::class, 'getLinkTargetId' ) ) {
 			// MW 1.38+
 			$linkTargetLookup = MediaWikiServices::getInstance()->getLinkTargetLookup();
 			$conds['tl_target_id'] = $linkTargetLookup->getLinkTargetId( $templateTitle );
