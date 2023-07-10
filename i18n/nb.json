@@ -5,7 +5,9 @@
 			"Emilbk",
 			"Jon Harald Søby",
 			"Kingu",
-			"Fredrilj"
+			"Fredrilj",
+			"EdoAug",
+			"Vukky"
 		]
 	},
 	"cargo-desc": "Lagring og spørring av data i maler",
@@ -53,7 +55,7 @@
 	"cargo-viewdata-orderbytooltip": "Velg hvilke felter spørringsresultatet skal sorteres etter. Standardverdien er _pageName ASC.",
 	"cargo-viewdata-limit": "Antall resultater:",
 	"cargo-viewdata-limittooltip": "Skriv inn maksimalt antall resultater som skal vises. Standardverdien er $1.",
-	"cargo-viewdata-offset": "Drop rader:",
+	"cargo-viewdata-offset": "Radforskyvning:",
 	"cargo-viewdata-offsettooltip": "Angi antall rader som skal hoppes over. Standardverdien er $1.",
 	"cargo-viewdata-format": "Velg format:",
 	"cargo-viewdata-formattooltip": "Velg format for visning av resultater.",
