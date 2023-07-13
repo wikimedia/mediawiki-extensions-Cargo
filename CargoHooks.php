@@ -298,7 +298,7 @@ class CargoHooks {
 	/**
 	 * Called by a hook in the Approved Revs extension.
 	 */
-	public static function onARRevisionApproved( $parser, $title, $revID ) {
+	public static function onARRevisionApproved( $output, $title, $revID, $content ) {
 		$pageID = $title->getArticleID();
 		self::deletePageFromSystem( $pageID );
 		// In an unexpected surprise, it turns out that simply adding
@@ -322,7 +322,7 @@ class CargoHooks {
 	/**
 	 * Called by a hook in the Approved Revs extension.
 	 */
-	public static function onARRevisionUnapproved( $parser, $title ) {
+	public static function onARRevisionUnapproved( $output, $title, $content ) {
 		global $egApprovedRevsBlankIfUnapproved;
 
 		$pageID = $title->getArticleID();
