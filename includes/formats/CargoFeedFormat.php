@@ -121,7 +121,11 @@ class CargoFeedFormat extends CargoDeferredFormat {
 					$queryResult['author'] ?? '',
 					$queryResult['comments'] ?? ''
 				);
-				$item->setUniqueId( $title->getCanonicalURL(), true );
+				if ( isset( $queryResult['id'] ) && !empty( $queryResult['id'] ) ) {
+					$item->setUniqueId( $queryResult['id'] );
+				} else {
+					$item->setUniqueId( $title->getCanonicalURL(), true );
+				}
 				$items[$queryResult[$dateFields[0]]] = $item;
 			}
 		}
