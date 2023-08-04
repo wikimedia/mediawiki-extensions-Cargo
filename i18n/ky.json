@@ -7,5 +7,7 @@
 	"cargo-viewdata-limit": "Чек:",
 	"cargo-viewdata-format": "Формат:",
 	"cargo-drilldown-allpages": "Бардык барактар",
-	"cargo-gantt-days": "Күндөр"
+	"cargo-gantt-days": "Күндөр",
+	"cargo-gantt-months": "Айлар",
+	"cargo-gantt-years": "Жыл"
 }
