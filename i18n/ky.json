@@ -4,5 +4,7 @@
 			"Bosogo"
 		]
 	},
-	"cargo-viewdata-format": "Формат:"
+	"cargo-viewdata-limit": "Чек:",
+	"cargo-viewdata-format": "Формат:",
+	"cargo-drilldown-allpages": "Бардык барактар"
 }
