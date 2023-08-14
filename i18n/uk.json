@@ -90,6 +90,7 @@
 	"cargo-calendar-datepicker-label": "Перейти до дати:",
 	"cargo-cargotables-header-table": "Таблиця",
 	"cargo-cargotables-header-rowcount": "Рядки",
+	"cargo-cargotables-header-columncount": "Столбцов",
 	"cargo-cargotables-header-templates": "Шаблони",
 	"cargo-cargotables-action-deletereplacement": "Вилучити",
 	"cargo-cargotables-action-switchreplacement": "Ввімкнути",
@@ -107,6 +108,7 @@
 	"cargo-cargotables-replacementlink": "Таблиця замін",
 	"cargo-cargotables-tablestructure": "Структура таблиці:",
 	"cargo-cargotables-listof": "Список $1, роздільник: $2",
+	"cargo-cargotables-allowedvalues": "допустимые значения:",
 	"cargo-cargotables-totalrows": "Ця таблиця має загалом '''$1''' {{PLURAL:$1|рядок|рядки|рядків}}.",
 	"cargo-cargotables-replacementgenerated": "Створена заміна для цієї таблиці",
 	"cargo-cargotables-switch": "Перейти до використання цієї таблиці.",
@@ -143,6 +145,7 @@
 	"cargo-drilldown-search": "Пошук",
 	"cargo-drilldown-othervalues": "Інші значення:",
 	"cargo-drilldown-novalues": "Немає значень для цього фільтра",
+	"cargo-drilldown-nomatches": "Збігів не знайдено",
 	"cargo-drilldown-fulltext": "Повний текст",
 	"cargo-drilldown-pagetext": "Текст сторінки",
 	"cargo-drilldown-filename": "Назва файлу",
@@ -170,5 +173,6 @@
 	"cargo-gantt-months": "Місяці",
 	"cargo-gantt-years": "Роки",
 	"cargo-field-type": "Тип поля",
-	"cargo-allowed-values": "Допустимі значення"
+	"cargo-allowed-values": "Допустимі значення",
+	"cargo-declare-parenttable-not-exist": "Помилка: Батьківська таблиця \"$1\" не існує."
 }
