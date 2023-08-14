@@ -4,7 +4,10 @@
 			"Bosogo"
 		]
 	},
+	"cargo-viewdata-tables": "Жадыбал(дар):",
 	"cargo-viewdata-limit": "Чек:",
 	"cargo-viewdata-format": "Формат:",
-	"cargo-drilldown-allpages": "Бардык барактар"
+	"cargo-drilldown-allpages": "Бардык барактар",
+	"cargo-drilldown-or": "же",
+	"cargo-drilldown-galleryformat": "Галерея"
 }
