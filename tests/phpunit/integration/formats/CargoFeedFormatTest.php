@@ -9,7 +9,7 @@ use MediaWiki\Request\FauxRequest;
 /**
  * Tests for the feed format.
  *
- * @group database
+ * @group Database
  */
 class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 
