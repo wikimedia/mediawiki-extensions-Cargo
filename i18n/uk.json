@@ -107,6 +107,7 @@
 	"cargo-cargotables-replacementlink": "Таблиця замін",
 	"cargo-cargotables-tablestructure": "Структура таблиці:",
 	"cargo-cargotables-listof": "Список $1, роздільник: $2",
+	"cargo-cargotables-allowedvalues": "допустимые значения:",
 	"cargo-cargotables-totalrows": "Ця таблиця має загалом '''$1''' {{PLURAL:$1|рядок|рядки|рядків}}.",
 	"cargo-cargotables-replacementgenerated": "Створена заміна для цієї таблиці",
 	"cargo-cargotables-switch": "Перейти до використання цієї таблиці.",
@@ -170,5 +171,6 @@
 	"cargo-gantt-months": "Місяці",
 	"cargo-gantt-years": "Роки",
 	"cargo-field-type": "Тип поля",
-	"cargo-allowed-values": "Допустимі значення"
+	"cargo-allowed-values": "Допустимі значення",
+	"cargo-declare-parenttable-not-exist": "Помилка: Батьківська таблиця \"$1\" не існує."
 }
