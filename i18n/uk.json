@@ -170,5 +170,6 @@
 	"cargo-gantt-months": "Місяці",
 	"cargo-gantt-years": "Роки",
 	"cargo-field-type": "Тип поля:",
-	"cargo-allowed-values": "Допустимі значення:"
+	"cargo-allowed-values": "Допустимі значення:",
+	"cargo-declare-parenttable-not-exist": "Помилка: Батьківська таблиця \"$1\" не існує."
 }
