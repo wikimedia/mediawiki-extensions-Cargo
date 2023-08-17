@@ -9,7 +9,8 @@
 			"Matěj Suchánek",
 			"MrJaroslavik",
 			"Patriccck",
-			"Patrik L."
+			"Patrik L.",
+			"Pavreh"
 		]
 	},
 	"cargo-viewdata-where": "KDE:",
@@ -20,6 +21,7 @@
 	"cargo-viewdata-offset": "Posun:",
 	"cargo-viewdata-format": "Formát:",
 	"cargo-viewdata-defaultformat": "Výchozí",
+	"cargo-cargotables-allowedvalues": "povolené hodnoty:",
 	"cargo-drilldown-othervalues": "Další hodnoty:",
 	"cargo-drilldown-timelineformat": "Časová osa",
 	"cargo-drilldown-calendarformat": "Kalendář",
