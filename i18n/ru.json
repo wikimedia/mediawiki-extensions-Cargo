@@ -17,7 +17,8 @@
 			"Дмитрий",
 			"Lopusanski",
 			"MuratTheTurkish",
-			"Thothsum"
+			"Thothsum",
+			"Pacha Tchernof"
 		]
 	},
 	"cargo-desc": "Хранение и запрос данных шаблона",
@@ -68,6 +69,7 @@
 	"cargo-viewdata-colorsparam": "Цвета:",
 	"cargo-viewdata-delimiterparam": "Разделитель:",
 	"cargo-viewdata-modifyquery": "Модифицировать запрос",
+	"cargo-viewdata-viewwikitext": "Просмотреть вики-текст.",
 	"cargo-query-missingformat": "Ошибка: должен быть задан формат.",
 	"cargo-query-badsqlfunction": "Ошибка: функция SQL «$1» не разрешена.",
 	"cargo-query-badalias": "Ошибка: неверный псевдоним таблицы «$1».",
