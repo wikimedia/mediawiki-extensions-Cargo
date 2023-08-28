@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ainali",
+			"Bengtsson96",
 			"Jenniesarina",
 			"Jopparn",
 			"Josve05a",
@@ -43,7 +44,7 @@
 	"cargo-cargotables-tablelist": "Följande {{PLURAL:$1|tabell är definierad|tabeller är definierade}}:",
 	"cargo-cargotables-viewtable": "Visa tabell: $1",
 	"cargo-cargotables-viewtablelink": "Visa tabell",
-	"cargo-cargotables-listof": "Lista med $1",
+	"cargo-cargotables-listof": "Lista med $1, avgränsare: $2",
 	"cargo-cargotables-totalrows": "Denna tabell har totalt '''$1''' {{PLURAL:$1|rad|rader}}.",
 	"cargo-switchtables-success": "Ersättningen för tabellen \"$1\" byttes in.",
 	"cargo-drilldown-choosetable": "Välj en tabell",
