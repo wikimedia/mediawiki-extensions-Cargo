@@ -165,7 +165,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		return true;
 	}
 
-	public function getNumPagesThatCallTemplate( IDatabase $dbw, LinkTarget $templateTitle ) {
+	public function getNumPagesThatCallTemplate( $dbw, LinkTarget $templateTitle ) {
 		$conds = [ "tl_from=page_id" ];
 		if ( method_exists( LinkTargetLookup::class, 'getLinkTargetId' ) ) {
 			// MW 1.38+

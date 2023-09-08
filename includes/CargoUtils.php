@@ -14,9 +14,6 @@ class CargoUtils {
 
 	private static $CargoDB = null;
 
-	/**
-	 * @return Database or DatabaseBase
-	 */
 	public static function getDB() {
 		if ( self::$CargoDB != null && self::$CargoDB->isOpen() ) {
 			return self::$CargoDB;
