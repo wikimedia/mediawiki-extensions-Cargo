@@ -157,7 +157,7 @@
 	"cargo-viewbibtex": "Vider BibTeX",
 	"cargo-viewfeed": "Monstrar le fluxo $1",
 	"cargo-viewicalendar": "Vider iCalendar",
-	"cargo-dynamictables-togglecolumns": "Alternar columnas:",
+	"cargo-dynamictables-togglecolumns": "Commutar columnas:",
 	"cargo-dynamictables-searchcolumn": "Cercar in $1",
 	"cargo-purgecache": "Purgar cache",
 	"cargo-purgecache-failed": "Le purga del cache ha fallite",

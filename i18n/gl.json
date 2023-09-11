@@ -51,7 +51,7 @@
 	"cargo-cargotables-viewreplacementlink": "Ver a táboa de substitución",
 	"cargo-cargotables-notdeclared": "Non definido por ningún modelo",
 	"cargo-cargotables-tablestructure": "Estrutura da táboa:",
-	"cargo-cargotables-listof": "Lista de $1",
+	"cargo-cargotables-listof": "Lista de $1; delimitador: $2",
 	"cargo-cargotables-totalrows": "Esta táboa ten '''$1''' {{PLURAL:$1|fila|filas}} en total.",
 	"cargo-cargotables-switch": "Pasar a utilizar esta táboa.",
 	"deletecargotable": "Eliminar táboa de Cargo",
