@@ -49,20 +49,25 @@ $(document).ready(function() {
 			calendarSettings.height = height;
 		}
 
-		$(this).fullCalendar( calendarSettings );
-	});
-	// Date Picker
-	$( '.fc-left' ).each( function (index) {
-		var dateInput = new mw.widgets.DateInputWidget();
-		$label = $( '<p>' + mw.message( 'cargo-calendar-datepicker-label' ) + '</p>' );
-		$(this).append($label, dateInput.$element);
+		const $calendar = $( this );
+		$calendar.fullCalendar( calendarSettings );
+
+		// Add go-to-date widget to the left buttons' area.
+		const dateInput = new mw.widgets.DateInputWidget( {
+			$overlay: OO.ui.getDefaultOverlay()
+		} );
+		const goToDateField = new OO.ui.FieldLayout( dateInput, {
+			label: mw.message( 'cargo-calendar-datepicker-label' ).text(),
+			align: 'top'
+		} );
+		$( this ).find( '.fc-left' ).append( goToDateField.$element );
 		dateInput.on( 'change', function () {
-			var date = dateInput.getValue();
+			const date = dateInput.getValue();
 			// Navigates only when a valid date is selected
-			if(date) {
-			var calendar = $('.cargoCalendar').eq(index);
-			calendar.fullCalendar("gotoDate", date);
+			if ( date ) {
+				$calendar.fullCalendar( 'gotoDate', date );
 			}
 		} );
-	} );
+
+	});
 });
