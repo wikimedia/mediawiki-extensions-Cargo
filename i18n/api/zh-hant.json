@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"列维劳德"
 		]
 	},
 	"apihelp-cargoquery-summary": "在 Cargo 資料上運作查詢。",
@@ -39,5 +40,6 @@
 	"apihelp-cargoqueryautocomplete-param-search": "搜尋子字串",
 	"apihelp-cargoqueryautocomplete-param-tables": "依據自動完成的欄位、Group By 與 Order By 的所選 cargo 表格陣列",
 	"apihelp-cargoformatparams-summary": "取得各 Cargo 查詢格式的顯示參數集。",
-	"apihelp-cargoformatparams-param-queryformat": "Cargo 查詢格式"
+	"apihelp-cargoformatparams-param-queryformat": "Cargo 查詢格式",
+	"apierror-cargoquery-invalidfieldalias": "錯誤：欄位別名「$1」以底線 (_) 開頭，Cargo API 查詢中不允許此格式。"
 }
