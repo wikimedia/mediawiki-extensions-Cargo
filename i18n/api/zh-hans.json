@@ -22,7 +22,7 @@
 	"apihelp-cargoquery-param-offset": "查询偏移量",
 	"apihelp-cargorecreatetables-description": "重新创建一个或多个Cargo表格。",
 	"apihelp-cargorecreatetables-summary": "重新创建一个或多个Cargo表格。",
-	"apihelp-cargorecreatetables-param-template": "声明要重新创建的Cargo表格的模板",
+	"apihelp-cargorecreatetables-param-template": "要重新创建其声明的Cargo表格的模板",
 	"apihelp-cargorecreatetables-param-createReplacement": "是否把数据放入替换表格",
 	"apihelp-cargorecreatedata-description": "重新在Cargo表格中填充数据。",
 	"apihelp-cargorecreatedata-summary": "重新填充Cargo表格内的数据。",
@@ -46,7 +46,7 @@
 	"apihelp-cargoqueryautocomplete-summary": "CargoQuery（原ViewData）特殊页面使用的自动完成调用。",
 	"apihelp-cargoqueryautocomplete-param-limit": "返回结果数量的限制",
 	"apihelp-cargoqueryautocomplete-param-search": "搜索子字符串",
-	"apihelp-cargoqueryautocomplete-param-tables": "根据自动完成的字段、组合条件和排序方式所选择的Cargo表格的数组。",
+	"apihelp-cargoqueryautocomplete-param-tables": "根据会自动完成的字段、组合条件和排序依据选出的Cargo表格的数组。",
 	"apihelp-cargoformatparams-description": "获取每个Cargo查询格式的显示参数的集合。",
 	"apihelp-cargoformatparams-summary": "获取每个Cargo查询格式的显示参数集。",
 	"apihelp-cargoformatparams-param-queryformat": "Cargo查询格式"
