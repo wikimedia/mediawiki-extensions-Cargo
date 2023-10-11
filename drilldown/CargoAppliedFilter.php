@@ -41,6 +41,9 @@ class CargoAppliedFilter {
 		if ( !is_array( $values ) ) {
 			$values = [ $values ];
 		}
+		foreach ( $values as &$value ) {
+			$value = htmlspecialchars( $value );
+		}
 		foreach ( $values as $val ) {
 			$filter_val = CargoFilterValue::create( $val, $filter );
 			$af->values[] = $filter_val;
