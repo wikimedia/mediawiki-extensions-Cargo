@@ -18,7 +18,8 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		$lib = [
 			'query' => [ $this, 'cargoQuery' ],
 			'format' => [ $this, 'cargoFormat' ],
-			'store' => [ $this, 'cargoStore' ]
+			'store' => [ $this, 'cargoStore' ],
+			'declare' => [ $this, 'cargoDeclare' ]
 		];
 		return $this->getEngine()->registerInterface( __DIR__ . '/../cargo.lua', $lib, [] );
 	}
@@ -137,5 +138,16 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 		$this->checkType( 'query', 2, $args, 'table' );
 		$parser = $this->getParser();
 		CargoStore::storeTable( $parser, $table, $args );
+	}
+
+	/**
+	 * Implementation of mw.ext.cargo.declare.
+	 *
+	 * @param array $args
+	 */
+	public function cargoDeclare( array $args ) {
+		$this->checkType( 'query', 1, $args, 'table' );
+		$parser = $this->getParser();
+		CargoDeclare::declareTable( $parser, $args );
 	}
 }

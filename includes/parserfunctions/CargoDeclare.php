@@ -126,21 +126,35 @@ class CargoDeclare {
 
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
+		$args = [];
+		foreach ( $params as $key => $value ) {
+			$parts = explode( '=', $value, 2 );
+			if ( count( $parts ) != 2 ) {
+				continue;
+			}
+			$key = trim( $parts[0] );
+			$value = trim( $parts[1] );
+			$args[$key] = $value;
+		}
+		$text = self::declareTable( $parser, $args );
+		return $text;
+	}
 
+	/**
+	 * Implements #cargo_declare functionality which is shared among parser function and lua
+	 *
+	 * @param Parser $parser
+	 * @param array $params
+	 * @return string|null
+	 */
+	public static function declareTable( $parser, $params ) {
 		$tableName = null;
 		$parentTables = [];
 		$drilldownTabsParams = [];
 		$tableSchema = new CargoTableSchema();
 		$hasStartEvent = false;
 		$hasEndEvent = false;
-		foreach ( $params as $param ) {
-			$parts = explode( '=', $param, 2 );
-
-			if ( count( $parts ) != 2 ) {
-				continue;
-			}
-			$key = trim( $parts[0] );
-			$value = trim( $parts[1] );
+		foreach ( $params as $key => $value ) {
 			if ( $key == '_table' ) {
 				$tableName = $value;
 				if ( in_array( strtolower( $tableName ), self::$sqlReservedWords ) ) {
