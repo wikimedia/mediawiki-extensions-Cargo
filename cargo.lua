@@ -29,4 +29,8 @@ function cargo.formatTable(table, args)
 	return result[0], result.noparse, result.isHtml
 end
 
+function cargo.store(table, args)
+    return php.store(table, args)
+end
+
 return cargo
