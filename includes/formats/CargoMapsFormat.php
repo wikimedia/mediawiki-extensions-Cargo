@@ -156,35 +156,12 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				// besides the coordinates field(s).
 				$firstValue = array_shift( $displayedValuesForRow );
 				if ( $latValue != '' && $lonValue != '' ) {
-					$valuesForMapPoint = [
-						// 'name' has no formatting
-						// (like a link), while 'title'
-						// might.
-						'name' => array_shift( $valuesTable[$i] ),
-						'title' => $firstValue,
-						'lat' => $latValue,
-						'lon' => $lonValue,
-						'otherValues' => $displayedValuesForRow
-					];
-					if ( array_key_exists( 'icon', $displayParams ) ) {
-						$iconFileName = null;
-						if ( is_array( $displayParams['icon'] ) ) {
-							// Compound query.
-							if ( array_key_exists( $i, $displayParams['icon'] ) ) {
-								$iconFileName = $displayParams['icon'][$i];
-							}
-						} else {
-							// Regular query.
-							$iconFileName = $displayParams['icon'];
-						}
-						if ( $iconFileName !== null ) {
-							$iconURL = self::getImageURL( $iconFileName );
-							if ( $iconURL !== null ) {
-								$valuesForMapPoint['icon'] = $iconURL;
-							}
-						}
+					$nameValue = array_shift( $valuesTable[$i] );
+					$titleValue = array_shift( $displayedValuesForRow );
+					if ( $urlValue !== null ) {
+						$titleValue = Html::element( 'a', [ 'href' => $urlValue ], $titleValue );
 					}
-					$valuesForMap[] = $valuesForMapPoint;
+					$valuesForMap[] = self::getMapPointValues( $nameValue, $titleValue, $latValue, $lonValue, $displayedValuesForRow, $displayParams, $i );
 				}
 			}
 		}
@@ -290,6 +267,37 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		];
 		$mapCanvas = Html::rawElement( 'div', $mapCanvasAttrs, $mapData );
 		return $mapCanvas;
+	}
+
+	public static function getMapPointValues( $nameValue, $titleValue, $latValue, $lonValue, $displayedValuesForRow, $displayParams, $rowNum ) {
+		$valuesForMapPoint = [
+			// 'name' has no formatting (like a link), while 'title' might.
+			'name' => $nameValue,
+			'title' => $titleValue,
+			'lat' => $latValue,
+			'lon' => $lonValue,
+			'otherValues' => $displayedValuesForRow
+		];
+		if ( array_key_exists( 'icon', $displayParams ) ) {
+			$iconFileName = null;
+			if ( is_array( $displayParams['icon'] ) ) {
+				// Compound query.
+				if ( array_key_exists( $rowNum, $displayParams['icon'] ) ) {
+					$iconFileName = $displayParams['icon'][$rowNum];
+				}
+			} else {
+				// Regular query.
+				$iconFileName = $displayParams['icon'];
+			}
+			if ( $iconFileName !== null ) {
+				$iconURL = self::getImageURL( $iconFileName );
+				if ( $iconURL !== null ) {
+					$valuesForMapPoint['icon'] = $iconURL;
+				}
+			}
+		}
+
+		return $valuesForMapPoint;
 	}
 
 }
