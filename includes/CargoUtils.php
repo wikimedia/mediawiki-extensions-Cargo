@@ -1201,7 +1201,11 @@ class CargoUtils {
 			$quotedFieldName = $db->addIdentifierQuotes( $fieldName );
 			$quotedFieldValues[$quotedFieldName] = $fieldValue;
 		}
-		$db->insert( $tableName, $quotedFieldValues );
+		// Calling tableName() here is necessary, for some reason,
+		// to pass validation (and maybe even to work at all?) for
+		// MW 1.41+.
+		$sqlTableName = $db->tableName( $tableName );
+		$db->insert( $sqlTableName, $quotedFieldValues );
 	}
 
 	/**

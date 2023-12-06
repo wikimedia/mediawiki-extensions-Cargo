@@ -72,7 +72,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 			<title>Lorem ipsum</title>
 			<link>cargofeedtest/Lorem_ipsum</link>
 			<guid>cargofeedtest/Lorem_ipsum</guid>
-			<description>&lt;div class=&quot;mw-parser-output&quot;&gt;&lt;p&gt;Lorem ipsum
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
 &lt;/p&gt;&lt;/div&gt;</description>
 			<pubDate>Thu, 02 Jan 2020 03:04:05 GMT</pubDate>
 			<dc:creator></dc:creator>
@@ -82,7 +82,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 			<title>Sic amet</title>
 			<link>cargofeedtest/Sic_amet</link>
 			<guid>cargofeedtest/Sic_amet</guid>
-			<description>&lt;div class=&quot;mw-parser-output&quot;&gt;&lt;p&gt;Lorem ipsum
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
 &lt;/p&gt;&lt;/div&gt;</description>
 			<pubDate>Sat, 02 Jan 2021 03:04:05 GMT</pubDate>
 			<dc:creator>Bob</dc:creator>
