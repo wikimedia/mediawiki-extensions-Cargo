@@ -11,7 +11,8 @@
 			"Tala Ali",
 			"أَحمد",
 			"ديفيد",
-			"محمد أحمد عبد الفتاح"
+			"محمد أحمد عبد الفتاح",
+			"NEHAOUA"
 		]
 	},
 	"cargo-extensionname": "كارجو",
@@ -92,6 +93,8 @@
 	"cargo-calendar-datepicker-label": "انتقل إلى التاريخ:",
 	"cargo-cargotables-header-table": "جدول",
 	"cargo-cargotables-header-rowcount": "الصفوف",
+	"cargo-cargotables-header-columncount": "أعمدة",
+	"cargo-cargotables-columncountinfo": "لا تُحتسب الحقول المضمنة مثل $1.",
 	"cargo-cargotables-header-templates": "عوارض",
 	"cargo-cargotables-action-deletereplacement": "احذف",
 	"cargo-cargotables-action-switchreplacement": "حول في",
@@ -148,6 +151,7 @@
 	"cargo-drilldown-search": "بحث",
 	"cargo-drilldown-othervalues": "قِيَم أُخرى",
 	"cargo-drilldown-novalues": "لا توجد قيم لهذا المرشح",
+	"cargo-drilldown-nomatches": "لا توجد مطابقات",
 	"cargo-drilldown-fulltext": "النص الكامل",
 	"cargo-drilldown-pagetext": "نص الصفحة",
 	"cargo-drilldown-filename": "اسم الملف",
@@ -156,6 +160,7 @@
 	"cargo-drilldown-timelineformat": "الجدول الزمني",
 	"cargo-drilldown-galleryformat": "المعرض",
 	"cargo-drilldown-calendarformat": "نتيجة",
+	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-downloadzip": "تنزيل ZIP",
