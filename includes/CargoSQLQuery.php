@@ -1066,11 +1066,11 @@ class CargoSQLQuery {
 				$replacement = "$fieldTableAlias._value";
 
 				if ( $foundMatch1 ) {
-					$this->mGroupByStr = preg_replace( $pattern1, $replacement, $this->mGroupByStr );
-					$this->mHavingStr = preg_replace( $pattern1, $replacement, $this->mHavingStr );
+					$this->mGroupByStr = preg_replace( $pattern1, $replacement, $this->mGroupByStr ?? '' );
+					$this->mHavingStr = preg_replace( $pattern1, $replacement, $this->mHavingStr ?? '' );
 				} elseif ( $foundMatch2 ) {
-					$this->mGroupByStr = preg_replace( $pattern2, $replacement, $this->mGroupByStr );
-					$this->mHavingStr = preg_replace( $pattern2, $replacement, $this->mHavingStr );
+					$this->mGroupByStr = preg_replace( $pattern2, $replacement, $this->mGroupByStr ?? '' );
+					$this->mHavingStr = preg_replace( $pattern2, $replacement, $this->mHavingStr ?? '' );
 				}
 			}
 		}
