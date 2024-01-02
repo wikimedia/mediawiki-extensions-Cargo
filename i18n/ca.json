@@ -3,6 +3,7 @@
 		"authors": [
 			"Fitoschido",
 			"Mguix",
+			"SMP",
 			"Toniher",
 			"Vfc"
 		]
@@ -12,8 +13,10 @@
 	"cargo-tablenotcreated": "Encara no s’ha creat aquesta taula.",
 	"cargo-addsrows": "Aquesta plantilla afegeix fileres a la taula «$1» , que es declara amb la plantilla $2.",
 	"recreatedata": "Recrea les dades",
-	"action-recreatecargodata": "recrea les dades del Cargo",
-	"action-deletecargodata": "suprimeix les dades del Cargo",
+	"action-recreatecargodata": "recrear les dades del Cargo",
+	"right-recreatecargodata": "Recrear les dades contingudes en taules Cargo",
+	"action-deletecargodata": "suprimir les dades del Cargo",
+	"right-deletecargodata": "Suprimir una taula Cargo",
 	"cargo-createdatatable": "Crea la taula de dades",
 	"cargo-recreatedata-desc": "Voleu tornar a generar les dades de Cargo d'aquesta plantilla?",
 	"cargo-recreatedata-createdata": "Voleu generar les dades de Cargo d'aquesta plantilla?",
