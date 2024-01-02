@@ -1028,7 +1028,7 @@ class CargoSQLQuery {
 			}
 
 			uksort( $this->mAliasedTableNames, static function ( $key1, $key2 ) use ( $orderedTableAliases ) {
-				return ( array_search( $key1, $orderedTableAliases ) > array_search( $key2, $orderedTableAliases ) );
+				return ( array_search( $key1, $orderedTableAliases ) - array_search( $key2, $orderedTableAliases ) );
 			} );
 		}
 
