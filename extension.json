@@ -1,14 +1,14 @@
 {
 	"name": "Cargo",
 	"namemsg": "cargo-extensionname",
-	"version": "3.4.4",
+	"version": "3.5-alpha",
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.35"
+		"MediaWiki": ">= 1.37"
 	},
 	"callback": "CargoHooks::registerExtension",
 	"ExtensionFunctions": [
@@ -452,6 +452,7 @@
 		"ApprovedRevsRevisionApproved": "CargoHooks::onARRevisionApproved",
 		"ApprovedRevsRevisionUnapproved": "CargoHooks::onARRevisionUnapproved",
 		"PageMoveComplete": "CargoHooks::onPageMoveComplete",
+		"PageDeleteComplete": "CargoHooks::onPageDeleteComplete",
 		"UploadComplete": "CargoHooks::onUploadComplete",
 		"CategoryAfterPageAdded": "CargoHooks::addCategoryToPageData",
 		"CategoryAfterPageRemoved": "CargoHooks::removeCategoryFromPageData",

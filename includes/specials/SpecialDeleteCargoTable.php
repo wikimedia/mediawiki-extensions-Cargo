@@ -45,7 +45,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 			. "Please make sure that your database user account has the DROP permission." );
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ] );
 		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ] );
 	}

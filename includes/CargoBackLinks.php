@@ -2,11 +2,6 @@
 
 use MediaWiki\MediaWikiServices;
 
-if ( !defined( 'DB_PRIMARY' ) ) {
-	// MW < 1.37
-	define( 'DB_PRIMARY', DB_MASTER );
-}
-
 class CargoBackLinks {
 
 	/**
@@ -15,11 +10,7 @@ class CargoBackLinks {
 	public const BACKLINKS_DATA_KEY = 'ext-cargo-backlinks';
 
 	public static function managePageDeletion( $pageId ) {
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromID( $pageId );
-		} else {
-			$page = \WikiPage::newFromID( $pageId );
-		}
+		$page = MediaWikiServices::getInstance()->getWikiPageFactory()->newFromID( $pageId );
 		$pageTitle = $page ? $page->getTitle() : null;
 		if ( $pageTitle ) {
 			$pageId = $pageTitle->getArticleID();
@@ -91,21 +82,11 @@ class CargoBackLinks {
 		$res = $dbr->select( 'cargo_backlinks',
 			[ 'cbl_query_page_id' ],
 			[ 'cbl_result_page_id' => $resultPageId ] );
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MW 1.36+
-			$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
-		} else {
-			$wikiPageFactory = null;
-		}
+		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 		foreach ( $res as $row ) {
 			$queryPageId = $row->cbl_query_page_id;
 			if ( $queryPageId ) {
-				if ( $wikiPageFactory !== null ) {
-					// MW 1.36+
-					$page = $wikiPageFactory->newFromID( $queryPageId );
-				} else {
-					$page = \WikiPage::newFromID( $queryPageId );
-				}
+				$page = $wikiPageFactory->newFromID( $queryPageId );
 				if ( $page ) {
 					$page->doPurge();
 				}

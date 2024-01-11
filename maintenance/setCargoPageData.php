@@ -77,7 +77,7 @@ class SetCargoPageData extends Maintenance {
 		$tableSchemaString = $tableSchema->toDBString();
 
 		$cdb = CargoUtils::getDB();
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $pageDataTable, $tableSchema, $tableSchemaString, 0 );
 
 		$pages = $dbr->select( 'page', [ 'page_id' ] );

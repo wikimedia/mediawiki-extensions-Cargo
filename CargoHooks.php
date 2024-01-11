@@ -16,7 +16,7 @@ use MediaWiki\User\UserIdentity;
 class CargoHooks {
 
 	public static function registerExtension() {
-		define( 'CARGO_VERSION', '3.4.4' );
+		define( 'CARGO_VERSION', '3.5-alpha' );
 	}
 
 	public static function initialize() {
@@ -32,14 +32,6 @@ class CargoHooks {
 			'Wikitext string', 'Searchtext', 'File', 'URL', 'Email',
 			'Rating'
 		];
-
-		$hookContainer = MediaWikiServices::getInstance()->getHookContainer();
-		if ( interface_exists( 'MediaWiki\Page\Hook\PageDeleteCompleteHook' ) ) {
-			// MW 1.37+
-			$hookContainer->register( 'PageDeleteComplete', 'CargoHooks::onPageDeleteComplete' );
-		} else {
-			$hookContainer->register( 'ArticleDeleteComplete', 'CargoHooks::onArticleDeleteComplete' );
-		}
 	}
 
 	public static function registerParserFunctions( $parser ) {
@@ -154,7 +146,7 @@ class CargoHooks {
 		// efficiently delete from the former.)
 
 		// Get all the "main" tables that this page is contained in.
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
@@ -364,7 +356,7 @@ class CargoHooks {
 				getCanonicalName( $newPageNamespace );
 			$newPageName = $nsText . ':' . $newPageTitle;
 		}
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
 
@@ -414,23 +406,13 @@ class CargoHooks {
 	/**
 	 * Deletes all Cargo data about a page, if the page has been deleted.
 	 *
-	 * Called by the MediaWiki PageDeleteComplete hook (MW 1.37+).
+	 * Called by the MediaWiki PageDeleteComplete hook.
 	 */
 	public static function onPageDeleteComplete(
 		MediaWiki\Page\ProperPageIdentity $page, MediaWiki\Permissions\Authority $deleter, string $reason,
 		int $pageID, MediaWiki\Revision\RevisionRecord $deletedRev, ManualLogEntry $logEntry, int $archivedRevisionCount
 	) {
 		self::deletePageFromSystem( $pageID );
-	}
-
-	/**
-	 * Deletes all Cargo data about a page, if the page has been deleted.
-	 *
-	 * Called by the MediaWiki ArticleDeleteComplete hook.
-	 */
-	public static function onArticleDeleteComplete( &$article, User &$user, $reason, $id, $content,
-		$logEntry ) {
-		self::deletePageFromSystem( $id );
 	}
 
 	/**

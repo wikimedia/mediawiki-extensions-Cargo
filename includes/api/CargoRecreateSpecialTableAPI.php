@@ -40,7 +40,7 @@ class CargoRecreateSpecialTableAPI extends ApiBase {
 		}
 		$tableSchemaString = $tableSchema->toDBString();
 		$cdb = CargoUtils::getDB();
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		CargoUtils::createCargoTableOrTables(
 			$cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, -1
 		);

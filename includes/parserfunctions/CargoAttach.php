@@ -41,7 +41,7 @@ class CargoAttach {
 			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$res = $dbw->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ] );
 		$row = $res->fetchRow();
 		if ( !empty( $row ) && $row['total'] == 0 ) {

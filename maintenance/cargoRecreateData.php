@@ -133,12 +133,7 @@ class CargoRecreateData extends Maintenance {
 			$templatesThatAttachToThisTable = [];
 		}
 		$templatesForThisTable = array_merge( $templatesThatDeclareThisTable, $templatesThatAttachToThisTable );
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MW 1.36+
-			$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
-		} else {
-			$wikiPageFactory = null;
-		}
+		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 
 		foreach ( $templatesForThisTable as $templatePageID ) {
 			$templateTitle = Title::newFromID( $templatePageID );
@@ -167,12 +162,7 @@ class CargoRecreateData extends Maintenance {
 					// the #cargo_store function will take care of the rest.
 					CargoStore::$settings['origin'] = 'template';
 					CargoStore::$settings['dbTableName'] = $tableName;
-					if ( $wikiPageFactory !== null ) {
-						// MW 1.36+
-						$wikiPage = $wikiPageFactory->newFromID( $title->getArticleID() );
-					} else {
-						$wikiPage = WikiPage::newFromID( $title->getArticleID() );
-					}
+					$wikiPage = $wikiPageFactory->newFromID( $title->getArticleID() );
 					if ( $wikiPage == null ) {
 						continue;
 					}

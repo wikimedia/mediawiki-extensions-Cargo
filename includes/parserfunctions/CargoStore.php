@@ -124,7 +124,7 @@ class CargoStore {
 		}
 
 		// Get the declaration of the table.
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$res = $dbw->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
 		$row = $res->fetchRow();
 		if ( $row == '' ) {
@@ -170,7 +170,7 @@ class CargoStore {
 
 		// Finally, add a record of this to the cargo_pages table, if
 		// necessary.
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$res = $dbw->select( 'cargo_pages', 'page_id',
 			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		if ( !$res->fetchRow() ) {

@@ -65,7 +65,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		$out->addModules( 'ext.cargo.recreatedata' );
 
 		$templateData = [];
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		if ( $this->mTemplateTitle === null ) {
 			if ( $this->mTableName == '_pageData' ) {
 				$conds = null;

@@ -607,7 +607,7 @@ class CargoUtils {
 			$tableSchemaString = $tableSchema->toDBString();
 		}
 
-		$dbw = wfGetDB( DB_MASTER );
+		$dbw = wfGetDB( DB_PRIMARY );
 		$cdb = self::getDB();
 
 		// Cannot run any recreate if a replacement table exists.
@@ -1406,11 +1406,6 @@ class CargoUtils {
 	}
 
 	public static function makeWikiPage( $title ) {
-		if ( method_exists( MediaWikiServices::class, 'getWikiPageFactory' ) ) {
-			// MW 1.36+
-			return MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
-		} else {
-			return WikiPage::factory( $title );
-		}
+		return MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
 	}
 }

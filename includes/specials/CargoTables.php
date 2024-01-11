@@ -38,7 +38,7 @@ class CargoTables extends IncludableSpecialPage {
 			'ext.cargo.cargotables',
 		] );
 		$out->addModuleStyles( [
-			'mediawiki.pager.tablePager', // MW <= 1.37
+			'mediawiki.pager.tablePager', // MW 1.37
 			'mediawiki.pager.styles'
 		] );
 
@@ -480,12 +480,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Show a note if there are currently Cargo populate-data jobs
 		// that haven't been run, to make troubleshooting easier.
-		if ( method_exists( MediaWikiServices::class, 'getJobQueueGroup' ) ) {
-			// MW 1.37+
-			$group = MediaWikiServices::getInstance()->getJobQueueGroup();
-		} else {
-			$group = JobQueueGroup::singleton();
-		}
+		$group = MediaWikiServices::getInstance()->getJobQueueGroup();
 		// The following line would have made more sense to call, but
 		// it seems to return true if there are *any* jobs in the
 		// queue - a bug in MediaWiki?
