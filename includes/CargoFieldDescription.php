@@ -325,16 +325,12 @@ class CargoFieldDescription {
 				}
 				$individualValues = explode( $delimiter, $fieldValue );
 				foreach ( $individualValues as &$individualValue ) {
-					if ( !is_int( $individualValue ) ) {
-						$individualValue = round( $individualValue );
-					}
+					$individualValue = round( floatval( $individualValue ) );
 				}
 				$newValue = implode( $delimiter, $individualValues );
 			} else {
 				$newValue = str_replace( $wgCargoDigitGroupingCharacter, '', $fieldValue );
-				if ( !is_int( $newValue ) ) {
-					$newValue = round( $newValue );
-				}
+				$newValue = round( floatval( $newValue ) );
 			}
 		} elseif ( $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			// Remove digit-grouping character, and change
