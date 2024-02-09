@@ -57,7 +57,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		}
 
 		$specialTableNames = CargoUtils::specialTableNames();
-		if ( empty( $this->mTemplateTitle ) && !in_array( $this->mTableName, $specialTableNames ) ) {
+		if ( !$this->mTemplateTitle && !in_array( $this->mTableName, $specialTableNames ) ) {
 			// TODO - show an error message.
 			return true;
 		}

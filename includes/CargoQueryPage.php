@@ -121,7 +121,7 @@ class CargoQueryPage extends QueryPage {
 		if ( $this->sqlQuery->mWhereStr != '' ) {
 			$queryInfo['conds'] = $this->sqlQuery->mWhereStr;
 		}
-		if ( !empty( $this->sqlQuery->mJoinConds ) ) {
+		if ( $this->sqlQuery->mJoinConds ) {
 			$queryInfo['join_conds'] = $this->sqlQuery->mJoinConds;
 		}
 		return $queryInfo;

@@ -237,7 +237,7 @@ class CargoSQLQuery {
 					$alias = $realFieldName;
 				}
 			}
-			if ( empty( $alias ) ) {
+			if ( !$alias ) {
 				$blankAliasCount++;
 				$alias = "Blank value $blankAliasCount";
 			}
@@ -260,7 +260,7 @@ class CargoSQLQuery {
 				$tableName = $tableString;
 				$alias = $tableString;
 			}
-			if ( empty( $alias ) ) {
+			if ( !$alias ) {
 				throw new MWException( "Error: blank table aliases cannot be set." );
 			}
 			$this->mAliasedTableNames[$alias] = $tableName;
@@ -823,7 +823,7 @@ class CargoSQLQuery {
 			$patternMatch[$pattern] = $matches;
 		}
 		// If any match is found, replace it with a subquery.
-		if ( !empty( $patternMatch ) ) {
+		if ( $patternMatch ) {
 			foreach ( $patternMatch as $pattern => $matches ) {
 				$pattern = str_replace( '([^\w$,]|^)', '\b', $pattern );
 				$pattern = str_replace( '([^\w$.,]|^)', '\b', $pattern );

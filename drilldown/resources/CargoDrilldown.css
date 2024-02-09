@@ -241,7 +241,7 @@ li.gallerybox div.thumb img {
 		z-index: 1;
 		background: white;
 		padding-top: 0.5em;
-		border: 1px solid #FFFFFF;
+		border: 1px solid #ffffff;
 		border-bottom: 1px solid #a2a9b1;
 		margin-bottom: 0.5em;
 	}
@@ -282,7 +282,7 @@ li.gallerybox div.thumb img {
 
 	#drilldown-tables-tabs-wrapper li {
 		display: list-item;
-		border-top: 1px solid #E0E0E0;
+		border-top: 1px solid #e0e0e0;
 		width: 100%;
 		margin: 0;
 		text-align: left;
@@ -294,7 +294,7 @@ li.gallerybox div.thumb img {
 	}
 
 	#drilldown-tables-tabs-wrapper li:last-child {
-		border-bottom: 1px solid #E0E0E0;
+		border-bottom: 1px solid #e0e0e0;
 	}
 
 	#drilldown-tables-tabs-wrapper li.selected {

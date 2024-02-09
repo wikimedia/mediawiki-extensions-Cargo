@@ -181,7 +181,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 			if ( substr( $var, 0, 26 ) == 'cargo_template_table_name_' ) {
 				$templateNum = substr( $var, 26 );
 				$xml = '<cargo_TemplateDetails>';
-				if ( !empty( $val ) ) {
+				if ( $val ) {
 					$xml .= "<Table>$val</Table>";
 				}
 				$xml .= '</cargo_TemplateDetails>';
@@ -200,11 +200,11 @@ class CargoPageSchemas extends PSExtensionHandler {
 			if ( substr( $var, 0, 17 ) == 'cargo_field_type_' ) {
 				$xml = '<cargo_Field>';
 				$fieldNum = substr( $var, 17 );
-				if ( !empty( $val ) ) {
+				if ( $val ) {
 					$xml .= "<Type>$val</Type>";
 				}
 			} elseif ( substr( $var, 0, 27 ) == 'cargo_field_allowed_values_' ) {
-				if ( !empty( $val ) ) {
+				if ( $val ) {
 					// Replace the comma substitution character that has no chance of
 					// being included in the values list - namely, the ASCII beep.
 					$listSeparator = ',';
