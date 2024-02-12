@@ -95,7 +95,7 @@ class CargoCategoryFormat extends CargoListFormat {
 		// <H3> will generate TOC entries otherwise. Probably need another way
 		// to accomplish this -- user might still want TOC for other page content.
 		// $result .= '__NOTOC__';
-		return $result;
+		return Html::rawElement( 'div', [ 'class' => 'cargo-category-format-results' ], $result );
 	}
 
 }
