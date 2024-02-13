@@ -126,7 +126,27 @@ class CargoStore {
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; not called from a wiki page.\n" );
 			return;
 		}
-		$origTableName = $tableName;
+
+		// This function does actual DB modifications - so only proceed
+		// if this is called via either a page save or a "recreate
+		// data" action for a template that this page calls.
+		if ( count( self::$settings ) == 0 ) {
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no settings defined.\n" );
+			return;
+		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
+			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no origin defined.\n" );
+			return;
+		}
+
+		if ( self::$settings['origin'] == 'template' ) {
+			// It came from a template "recreate data" action -
+			// make sure it passes various criteria.
+			if ( self::$settings['dbTableName'] != $tableName ) {
+				wfDebugLog( 'cargo', "CargoStore::run() - skipping; dbTableName not set.\n" );
+				return;
+			}
+		}
+
 		// Always store data in the replacement table if it exists.
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
@@ -155,26 +175,6 @@ class CargoStore {
 			CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoStorageError', $errors );
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; storage error encountered.\n" );
 			return;
-		}
-
-		// This function does actual DB modifications - so only proceed
-		// if this is called via either a page save or a "recreate
-		// data" action for a template that this page calls.
-		if ( count( self::$settings ) == 0 ) {
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no settings defined.\n" );
-			return;
-		} elseif ( !array_key_exists( 'origin', self::$settings ) ) {
-			wfDebugLog( 'cargo', "CargoStore::run() - skipping; no origin defined.\n" );
-			return;
-		}
-
-		if ( self::$settings['origin'] == 'template' ) {
-			// It came from a template "recreate data" action -
-			// make sure it passes various criteria.
-			if ( self::$settings['dbTableName'] != $origTableName ) {
-				wfDebugLog( 'cargo', "CargoStore::run() - skipping; dbTableName not set.\n" );
-				return;
-			}
 		}
 
 		self::storeAllData( $title, $tableName, $tableFieldValues, $tableSchema );
