@@ -85,13 +85,48 @@ TEXT;
 		);
 	}
 
+	public function testShouldNotAllowSqlInjectionViaEncodedQuotes(): void {
+		$query = <<<TEXT
+{{#cargo_query:
+tables=Books
+|fields='a'=user_name,'b'=user_email,'c'=user_password
+|where=1='1&#039; UNION ALL select user_name, user_email,user_password from user WHERE 1=&#039;1'
+|order by=user_name ASC
+}}
+TEXT;
+		$output = $this->getQueryOutput( $query );
+
+		$this->assertXmlStringEqualsXmlString(
+			'<div class="error">Error: the string "SELECT" cannot be used within #cargo_query.</div>',
+			$output
+		);
+	}
+
+	public function testQueryReferencingPageNameOnPageWithSpecialCharactersInTitleShouldNotFail(): void {
+		$query = <<<TEXT
+{{#cargo_query:
+tables=Books
+|where=Authors HOLDS "{{PAGENAME}}"
+|fields=Genres
+}}
+TEXT;
+		$title = Title::makeTitle( NS_MAIN, "Fool's Errand" );
+		$output = $this->getQueryOutput( $query, $title );
+
+		$this->assertXmlStringEqualsXmlString(
+			'<p><em>No results</em></p>',
+			$output
+		);
+	}
+
 	/**
 	 * Convenience function to get the formatted HTML output of a given Cargo query.
 	 * @param string $query {{#cargo_query:}} call to fetch output for
+	 * @param Title|null $title Title of the page to place the query on
 	 * @return string
 	 */
-	private function getQueryOutput( string $query ): string {
-		$queryPage = $this->getNonexistingTestPage();
+	private function getQueryOutput( string $query, ?Title $title = null ): string {
+		$queryPage = $this->getNonexistingTestPage( $title );
 		$this->editPage( $queryPage, $query );
 
 		$html = $queryPage->getParserOutput()->getText();
@@ -99,8 +134,9 @@ TEXT;
 		$doc->loadHTML( $html );
 
 		// Strip the "mw-parser-output" wrapper from the output to reduce clutter.
-		$paragraph = $doc->getElementsByTagName( 'p' )->item( 0 );
-		return $doc->saveHTML( $paragraph );
+		$body = $doc->getElementsByTagName( 'body' )->item( 0 );
+		$wrapper = $body->firstChild;
+		return $doc->saveHTML( $wrapper->firstChild );
 	}
 
 	/**

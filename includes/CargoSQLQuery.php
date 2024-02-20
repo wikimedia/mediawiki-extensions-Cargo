@@ -121,8 +121,7 @@ class CargoSQLQuery {
 			'/\-\-/' => '--',
 			'/#/' => '#',
 		];
-		// Replace # with corresponding Unicode value to prevent security leaks.
-		$whereStr = str_replace( '#', '\u0023', $whereStr );
+
 		// HTML-decode the string - this is necessary if the query
 		// contains a call to {{PAGENAME}} and the page name has any
 		// special characters, because {{PAGENAME]] unfortunately
@@ -134,7 +133,7 @@ class CargoSQLQuery {
 			}
 		}
 		$noQuotesFieldsStr = CargoUtils::removeQuotedStrings( $fieldsStr );
-		$noQuotesWhereStr = CargoUtils::removeQuotedStrings( $whereStr );
+		$noQuotesWhereStr = CargoUtils::removeQuotedStrings( $decodedWhereStr );
 		$noQuotesJoinOnStr = CargoUtils::removeQuotedStrings( $joinOnStr );
 		$noQuotesGroupByStr = CargoUtils::removeQuotedStrings( $groupByStr );
 		$noQuotesHavingStr = CargoUtils::removeQuotedStrings( $havingStr );
