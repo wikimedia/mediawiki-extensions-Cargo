@@ -1,9 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
-			"Sveinn í Felli"
+			"Sveinn í Felli",
+			"Stefán Örvar Sigmundsson"
 		]
 	},
+	"cargo-createdatatable": "Búðu til gagnatöflu",
 	"cargo-drilldown-mapformat": "Landakort",
 	"cargo-dynamictables-togglecolumns": "Víxla dálkum:"
 }
