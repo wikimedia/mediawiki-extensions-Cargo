@@ -155,8 +155,8 @@ class CargoStore {
 		}
 
 		// Get the declaration of the table.
-		$dbw = wfGetDB( DB_PRIMARY );
-		$res = $dbw->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
+		$dbr = wfGetDB( DB_REPLICA );
+		$res = $dbr->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
 		$row = $res->fetchRow();
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
@@ -181,10 +181,10 @@ class CargoStore {
 
 		// Finally, add a record of this to the cargo_pages table, if
 		// necessary.
-		$dbw = wfGetDB( DB_PRIMARY );
-		$res = $dbw->select( 'cargo_pages', 'page_id',
+		$res = $dbr->select( 'cargo_pages', 'page_id',
 			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		if ( !$res->fetchRow() ) {
+			$dbw = wfGetDB( DB_PRIMARY );
 			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		}
 	}
