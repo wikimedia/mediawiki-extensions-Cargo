@@ -301,10 +301,10 @@ class CargoUtils {
 	}
 
 	/**
-	 * Splits a string by the delimiter, but ensures that parenthesis, separators
-	 * and "the other quote" (single quote in a double quoted string or double
-	 * quote in a single quoted string) inside a quoted string are not considered
-	 * lexically.
+	 * Splits a string by the delimiter, but ensures that parentheses,
+	 * separators and "the other quote" (single quote in a double quoted
+	 * string, double quote in a single quoted string, etc.) inside a quoted
+	 * string are not considered lexically.
 	 * @param string $delimiter The delimiter to split by.
 	 * @param string $string The string to split.
 	 * @param bool $includeBlankValues Whether to include blank values in the returned array.
@@ -334,7 +334,7 @@ class CargoUtils {
 				$numOpenParentheses++;
 			} elseif ( $curChar == ')' ) {
 				$numOpenParentheses--;
-			} elseif ( $curChar == '\'' || $curChar == '"' ) {
+			} elseif ( $curChar == '\'' || $curChar == '"' || $curChar == '`' ) {
 				$pos = self::findQuotedStringEnd( $string, $curChar, $i + 1 );
 				if ( $pos === false ) {
 					throw new MWException( "Error: unmatched quote in SQL string constant." );
