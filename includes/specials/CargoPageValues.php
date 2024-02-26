@@ -37,7 +37,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$text = '';
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = CargoUtils::getMainDBForRead();
 
 		$tableNames = [];
 		// There is an exception check later on when we query for rows, so it's safe not to

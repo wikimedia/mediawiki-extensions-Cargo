@@ -77,7 +77,7 @@ class SetCargoFileData extends Maintenance {
 		$tableSchemaString = $tableSchema->toDBString();
 
 		$cdb = CargoUtils::getDB();
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = CargoUtils::getMainDBForWrite();
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $fileDataTable, $tableSchema, $tableSchemaString, -1 );
 
 		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . NS_FILE );

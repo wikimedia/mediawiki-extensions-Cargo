@@ -77,7 +77,7 @@ class SetCargoBPMNData extends Maintenance {
 		$tableSchemaString = $tableSchema->toDBString();
 
 		$cdb = CargoUtils::getDB();
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = CargoUtils::getMainDBForWrite();
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $bpmnDataTable, $tableSchema, $tableSchemaString, 0 );
 
 		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . FD_NS_BPMN );

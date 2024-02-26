@@ -155,7 +155,7 @@ class CargoStore {
 		}
 
 		// Get the declaration of the table.
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
 		$row = $res->fetchRow();
 		if ( $row == '' ) {
@@ -184,7 +184,7 @@ class CargoStore {
 		$res = $dbr->select( 'cargo_pages', 'page_id',
 			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		if ( !$res->fetchRow() ) {
-			$dbw = wfGetDB( DB_PRIMARY );
+			$dbw = CargoUtils::getMainDBForWrite();
 			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ] );
 		}
 	}

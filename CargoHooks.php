@@ -146,7 +146,7 @@ class CargoHooks {
 		// efficiently delete from the former.)
 
 		// Get all the "main" tables that this page is contained in.
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = CargoUtils::getMainDBForWrite();
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
@@ -215,7 +215,7 @@ class CargoHooks {
 
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
-		$dbr = wfGetDB( DB_REPLICA );
+		$dbr = CargoUtils::getMainDBForRead();
 		$fieldTablesValue = $dbr->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ] );
 		$fieldTableNames = unserialize( $fieldTablesValue );
 		foreach ( $fieldTableNames as $curFieldTable ) {
@@ -356,7 +356,7 @@ class CargoHooks {
 				getCanonicalName( $newPageNamespace );
 			$newPageName = $nsText . ':' . $newPageTitle;
 		}
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = CargoUtils::getMainDBForWrite();
 		$cdb = CargoUtils::getDB();
 		$cdb->begin();
 

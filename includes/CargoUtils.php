@@ -87,6 +87,38 @@ class CargoUtils {
 	}
 
 	/**
+	 * Provides a reference to the main (not the Cargo) database for read
+	 * access.
+	 *
+	 * @return \Wikimedia\Rdbms\IDatabase|false
+	 */
+	public static function getMainDBForRead() {
+		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+		if ( method_exists( $lbFactory, 'getReplicaDatabase' ) ) {
+			// MW 1.40+
+			return $lbFactory->getReplicaDatabase();
+		} else {
+			return $lbFactory->getMainLB()->getConnection( DB_REPLICA );
+		}
+	}
+
+	/**
+	 * Provides a reference to the main (not the Cargo) database for write
+	 * access.
+	 *
+	 * @return \Wikimedia\Rdbms\IDatabase|false
+	 */
+	public static function getMainDBForWrite() {
+		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+		if ( method_exists( $lbFactory, 'getPrimaryDatabase' ) ) {
+			// MW 1.40+
+			return $lbFactory->getPrimaryDatabase();
+		} else {
+			return $lbFactory->getMainLB()->getConnection( DB_PRIMARY );
+		}
+	}
+
+	/**
 	 * Gets a page property for the specified page ID and property name.
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
@@ -607,7 +639,7 @@ class CargoUtils {
 			$tableSchemaString = $tableSchema->toDBString();
 		}
 
-		$dbw = wfGetDB( DB_PRIMARY );
+		$dbw = self::getMainDBForWrite();
 		$cdb = self::getDB();
 
 		// Cannot run any recreate if a replacement table exists.
@@ -1339,13 +1371,13 @@ class CargoUtils {
 			return $templateTitle->getTemplateLinksTo( $options );
 		}
 
-		$db = wfGetDB( DB_REPLICA );
+		$dbr = self::getMainDBForRead();
 
 		$selectFields = LinkCache::getSelectFields();
 		$selectFields[] = 'page_namespace';
 		$selectFields[] = 'page_title';
 
-		$res = $db->select(
+		$res = $dbr->select(
 			[ 'page', 'templatelinks' ],
 			$selectFields,
 			[
