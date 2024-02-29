@@ -35,12 +35,15 @@ results together.
 * #recurring_event - outputs a string holding a list of dates for a
 recurring event, for use by #cargo_store.
 
+It also defines Lua functions equivalent to some of these parser
+functions, for use within the Scribunto extension.
+
 For more information, see the extension homepage at:
 https://www.mediawiki.org/wiki/Extension:Cargo
 
 == Requirements ==
 
-This version of the Cargo extension requires MediaWiki 1.35 or higher.
+This version of the Cargo extension requires MediaWiki 1.37 or higher.
 
 == Installation ==
 
@@ -75,7 +78,8 @@ Ankita Mandal as part of the 2019 Google Summer of Code.
 Important code contributions were also made by Ad Strack van Schijndel,
 Cody3647, Derick Alangi, Duncan Crane, Ed Hoo, IijimaYun, Namit Ohri,
 Paladox, Priyanshu Varshney, Tomás Bolaño, Sahaj Khandelwal, Sam
-Wilson, Vivek Ghaisas, Megan Cutrofello, Yash Varshney and others.
+Wilson, Vivek Ghaisas, Megan Cutrofello, Yash Varshney, Naresh Kumar,
+Thiemo Kreuz and others.
 
 == Contact ==
 
