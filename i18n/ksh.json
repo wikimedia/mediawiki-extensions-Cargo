@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Purodha"
+			"Purodha",
+			"Amire80"
 		]
 	},
 	"cargo-extensionname": "Kargo (Schablohnedathe)",
@@ -45,7 +46,7 @@
 	"cargo-drilldown-resetfilters": "Donn de Feltere widder op Schtandat sätze",
 	"cargo-drilldown-addanothervalue": "Donn op dä Piel kleke, öm noch ene Wäät dobei ze donn",
 	"cargo-drilldown-novalues": "Et sin kein Wääte för dä Felter do",
-	"cargo-viewcsv": "<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Comma Separated Variables\">CSV</i> belohre",
+	"cargo-viewcsv": "CSV belohre",
 	"cargo-viewxls": "Et <i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"Extensible Stylesheet Language\">XSL</i> belohre",
 	"cargo-viewjson": "\n<i lang=\"en\" xml:lang=\"en\" dir=\"ltr\" title=\"JavaScript Object Notation\">JSON</i> belohe",
 	"cargo-purgecache": "Donn der Zwescheshpeisher (der <i lang=\"en\">cache</i>) leddisch maache",
