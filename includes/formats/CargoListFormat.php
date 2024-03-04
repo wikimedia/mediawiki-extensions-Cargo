@@ -33,7 +33,7 @@ class CargoListFormat extends CargoDisplayFormat {
 			if ( !array_key_exists( $fieldName, $row ) ) {
 				continue;
 			}
-			$fieldValue = $row[$fieldName];
+			$fieldValue = $row[$fieldName] ?? '';
 			if ( trim( $fieldValue ) == '' ) {
 				continue;
 			}

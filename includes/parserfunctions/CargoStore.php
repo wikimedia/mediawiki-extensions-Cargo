@@ -393,7 +393,7 @@ class CargoStore {
 			if ( $fieldDescription->mIsList ) {
 				$fieldTableName = $tableName . '__' . $fieldName;
 				$delimiter = $fieldDescription->getDelimiter();
-				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName] );
+				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName] ?? '' );
 				$valueNum = 1;
 				foreach ( $individualValues as $individualValue ) {
 					$individualValue = trim( $individualValue );

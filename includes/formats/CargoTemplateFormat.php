@@ -28,10 +28,9 @@ class CargoTemplateFormat extends CargoDisplayFormat {
 				// because it's the only one that uses the
 				// unformatted values - the formatted values
 				// do this HTML-encoding on their own.
+				$value = $row[$fieldName] ?? '';
 				if ( $fieldDescription->mType == 'Wikitext' || $fieldDescription->mType == 'Wikitext string' ) {
-					$value = htmlspecialchars_decode( $row[$fieldName] );
-				} else {
-					$value = $row[$fieldName];
+					$value = htmlspecialchars_decode( $value );
 				}
 				// Escape pipes within the values so that they
 				// aren't interpreted as template pipes.
