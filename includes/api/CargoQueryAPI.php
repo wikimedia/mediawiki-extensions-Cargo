@@ -28,6 +28,11 @@ class CargoQueryAPI extends ApiBase {
 			$this->dieWithError( 'The tables must be specified', 'param_substr' );
 		}
 
+		// Allow operators to control how many Cargo queries may be run via the API (T331689)
+		if ( $this->getUser()->pingLimiter( 'cargo-query-api' ) ) {
+			$this->dieWithError( 'apierror-ratelimited' );
+		}
+
 		$sqlQuery = CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
 				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr );
 

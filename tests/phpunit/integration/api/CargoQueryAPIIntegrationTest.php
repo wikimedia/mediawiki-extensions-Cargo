@@ -42,4 +42,28 @@ class CargoQueryAPIIntegrationTest extends ApiTestCase {
 			'fields' => '_pageName',
 		] );
 	}
+
+	public function testShouldApplyRateLimits(): void {
+		$this->overrideConfigValue( 'RateLimits', [
+			'cargo-query-api' => [ 'user' => [ 1, 180 ] ],
+		] );
+
+		$user = $this->getMutableTestUser()->getUser();
+		$this->doApiRequest( [
+			'action' => 'cargoquery',
+			'tables' => self::TEST_TABLE_TEMPLATE,
+			'fields' => 'Test',
+		], null, false, $user );
+
+		$this->expectException( ApiUsageException::class );
+		$this->expectExceptionMessage(
+			'You\'ve exceeded your rate limit. Please wait some time and try again.'
+		);
+
+		$this->doApiRequest( [
+			'action' => 'cargoquery',
+			'tables' => self::TEST_TABLE_TEMPLATE,
+			'fields' => 'Test',
+		], null, false, $user );
+	}
 }
