@@ -45,40 +45,23 @@ class CargoHooks {
 	}
 
 	/**
-	 * Add date-related messages to Global JS vars in user language
+	 * Add Cargo-related values to global JS vars.
 	 *
 	 * @param array &$vars Global JS vars
 	 * @param OutputPage $out
 	 */
 	public static function setGlobalJSVariables( array &$vars, OutputPage $out ) {
-		global $wgCargoMapClusteringMinimum;
 		global $wgCargoDefaultQueryLimit;
+		global $wgCargoMapClusteringMinimum;
 
 		$vars['wgCargoDefaultQueryLimit'] = $wgCargoDefaultQueryLimit;
-
 		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
 
-		// Date-related arrays for the 'calendar' and 'timeline'
-		// formats.
 		// Built-in arrays already exist for month names, but those
 		// unfortunately are based on the language of the wiki, not
 		// the language of the user.
-		$vars['wgCargoMonthNames'] = $out->getLanguage()->getMonthNamesArray();
-		/**
-		 * @TODO - should these be switched to objects with keys starting
-		 *         from 1 to match month indexes instead of 0-index?
-		 */
-		array_shift( $vars['wgCargoMonthNames'] ); // start keys from 0
-
 		$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
 		array_shift( $vars['wgCargoMonthNamesShort'] ); // start keys from 0
-
-		$vars['wgCargoWeekDays'] = [];
-		$vars['wgCargoWeekDaysShort'] = [];
-		for ( $i = 1; $i < 8; $i++ ) {
-			$vars['wgCargoWeekDays'][] = $out->getLanguage()->getWeekdayName( $i );
-			$vars['wgCargoWeekDaysShort'][] = $out->getLanguage()->getWeekdayAbbreviation( $i );
-		}
 	}
 
 	/**
