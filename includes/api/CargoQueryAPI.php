@@ -28,8 +28,8 @@ class CargoQueryAPI extends ApiBase {
 			$this->dieWithError( 'The tables must be specified', 'param_substr' );
 		}
 
-		// Allow operators to control how many Cargo queries may be run via the API (T331689)
-		if ( $this->getUser()->pingLimiter( 'cargo-query-api' ) ) {
+		// Allow operators to control how many Cargo queries may be run via the API or Special:CargoQuery (T331689)
+		if ( $this->getUser()->pingLimiter( 'cargo-query' ) ) {
 			$this->dieWithError( 'apierror-ratelimited' );
 		}
 

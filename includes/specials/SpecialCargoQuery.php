@@ -27,6 +27,11 @@ class SpecialCargoQuery extends SpecialPage {
 		$out->addModules( 'ext.cargo.cargoquery' );
 
 		if ( $req->getCheck( 'tables' ) ) {
+			// Allow operators to control how many Cargo queries any one user can run.
+			if ( $this->getUser()->pingLimiter( 'cargo-query' ) ) {
+				throw new ThrottledError();
+			}
+
 			try {
 				$rep = new CargoQueryPage();
 			} catch ( MWException $e ) {

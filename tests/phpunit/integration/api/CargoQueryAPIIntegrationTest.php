@@ -45,7 +45,7 @@ class CargoQueryAPIIntegrationTest extends ApiTestCase {
 
 	public function testShouldApplyRateLimits(): void {
 		$this->overrideConfigValue( 'RateLimits', [
-			'cargo-query-api' => [ 'user' => [ 1, 180 ] ],
+			'cargo-query' => [ 'user' => [ 1, 180 ] ],
 		] );
 
 		$user = $this->getMutableTestUser()->getUser();
