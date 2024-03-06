@@ -518,6 +518,7 @@
 			"DATE",
 			"DATE_ADD",
 			"DATE_FORMAT",
+			"DATE_PART",
 			"DATE_SUB",
 			"DATEDIFF",
 			"DAYOFMONTH",

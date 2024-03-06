@@ -503,9 +503,9 @@ class CargoUtils {
 		// system. If support was ever added for SQLite,
 		// that would require special handling as well.
 		if ( $wgCargoDBtype == 'postgres' ) {
-			$yearValue = "EXTRACT(YEAR FROM $dateDBField)";
-			$monthValue = "EXTRACT(MONTH FROM $dateDBField)";
-			$dayValue = "EXTRACT(DAY FROM $dateDBField)";
+			$yearValue = "DATE_PART('year', $dateDBField)";
+			$monthValue = "DATE_PART('month', $dateDBField)";
+			$dayValue = "DATE_PART('day', $dateDBField)";
 		} else { // MySQL
 			$yearValue = "YEAR($dateDBField)";
 			$monthValue = "MONTH($dateDBField)";
