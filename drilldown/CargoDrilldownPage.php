@@ -1756,10 +1756,10 @@ END;
 					$calendarFieldTableAlias = $this->tableAlias;
 				}
 			}
-			$res =
-				$cdb->select( $tableNames,
-					"MAX( $calendarFieldTableAlias.$calendarFieldName ) as start_date", $conds,
-					__METHOD__, [], $joinConds );
+			$fullCalendarField = CargoUtils::escapedFieldName( $cdb,
+				[ $calendarFieldTableAlias => $calendarFieldTableName ], $calendarFieldName );
+			$res = $cdb->select( $tableNames, "MAX( $fullCalendarField ) AS start_date", $conds,
+				__METHOD__, [], $joinConds );
 			$row = $res->fetchRow();
 			if ( $row['start_date'] ) {
 				if ( $this->drilldownTabsParams ) {
