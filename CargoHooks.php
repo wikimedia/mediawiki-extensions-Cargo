@@ -54,14 +54,31 @@ class CargoHooks {
 		global $wgCargoDefaultQueryLimit;
 		global $wgCargoMapClusteringMinimum;
 
-		$vars['wgCargoDefaultQueryLimit'] = $wgCargoDefaultQueryLimit;
-		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
+		if (!$out->getTitle()->isSpecialPage() && $out->getContext()->getActionName() === 'view')
+		{
 
-		// Built-in arrays already exist for month names, but those
-		// unfortunately are based on the language of the wiki, not
-		// the language of the user.
-		$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
-		array_shift( $vars['wgCargoMonthNamesShort'] ); // start keys from 0
+			$vars['wgCargoDefaultQueryLimit'] = $wgCargoDefaultQueryLimit;
+			$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
+
+
+			// Built-in arrays already exist for month names, but those
+			// unfortunately are based on the language of the wiki, not
+			// the language of the user.
+
+			$vars['wgCargoMonthNamesShort'] = $out->getLanguage()->getMonthAbbreviationsArray();
+			array_shift( $vars['wgCargoMonthNamesShort'] ); // start keys from 0
+
+		}
+
+
+
+//		wgCargoDefaultQueryLimit
+//		wgCargoMapClusteringMinimum
+//		wgCargoMonthNames
+//		wgCargoMonthNamesShort
+//		wgCargoWeekDays
+//		wgCargoWeekDaysShort
+
 	}
 
 	/**
