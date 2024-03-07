@@ -96,6 +96,9 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		/** @var RSSFeed|AtomFeed $feed */
 		$feed = new $feedClasses[$feedType]( $title, $description, $request->getFullRequestURL() );
 
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$pageTitle = $parser->getTitle();
+		$parserOptions = ParserOptions::newFromAnon();
 		$items = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$dateFields = $sqlQuery->getMainStartAndEndDateFields();
@@ -105,6 +108,8 @@ class CargoFeedFormat extends CargoDeferredFormat {
 				$title = Title::newFromText( $queryResult['_pageName'] );
 				if ( isset( $queryResult['description'] ) ) {
 					$description = $queryResult['description'];
+					$parserOutput = $parser->parse( $description, $pageTitle, $parserOptions );
+					$description = $parserOutput->getText();
 				} else {
 					$wikiPage = new WikiPage( $title );
 					if ( method_exists( MediaWikiServices::class, 'getContentRenderer' ) ) {
