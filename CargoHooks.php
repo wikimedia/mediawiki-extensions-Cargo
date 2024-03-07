@@ -54,6 +54,27 @@ class CargoHooks {
 		global $wgCargoDefaultQueryLimit;
 		global $wgCargoMapClusteringMinimum;
 
+		$title = $out->getTitle();
+		$action = $out->getContext()->getActionName();
+
+		// Don't include these variables if user is doing something
+		// other than viewing a page (like editing it), or viewing a
+		// special page that doesn't require these variables.
+		if ( $action !== 'view' ) {
+			return;
+		}
+
+		if ( $title->isSpecialPage() ) {
+			$cargoSpecialPageIDs = [
+				SpecialPage::getTitleFor( 'CargoQuery' )->getDBkey(),
+				SpecialPage::getTitleFor( 'CargoExport' )->getDBkey()
+			];
+			if ( !in_array( $title->getDBkey(), $cargoSpecialPageIDs ) ) {
+				return;
+			}
+		}
+
+		// Set Cargo's global variables
 		$vars['wgCargoDefaultQueryLimit'] = $wgCargoDefaultQueryLimit;
 		$vars['wgCargoMapClusteringMinimum'] = $wgCargoMapClusteringMinimum;
 
