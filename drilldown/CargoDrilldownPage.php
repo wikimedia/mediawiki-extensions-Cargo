@@ -1973,6 +1973,10 @@ END;
 		return false;
 	}
 
+	/**
+	 * This function is not actually called, but still needs to be defined
+	 * in order for this class to inherit from QueryPage.
+	 */
 	public function formatResult( $skin, $result ) {
 		$title = Title::makeTitle( $result->namespace, $result->value );
 		return CargoUtils::makeLink( $this->getLinkRenderer(), $title, htmlspecialchars( $title->getText() ) );
