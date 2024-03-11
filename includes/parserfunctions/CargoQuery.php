@@ -92,21 +92,19 @@ class CargoQuery {
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 			$dbr = $lb->getConnectionRef( DB_REPLICA );
 			if ( $groupByStr == '' && !$wgCargoIgnoreBacklinks && $dbr->tableExists( 'cargo_backlinks' ) ) {
-				$allTables = array_keys( $sqlQuery->mAliasedTableNames );
-				$allTables = array_filter( $allTables );
 				$newFieldsStr = $fieldsStr;
 				// $fieldsToCollectForPageIDs allows us to
 				// collect all those special fields' values in
 				// the results
 				$fieldsToCollectForPageIDs = [];
-				foreach ( $allTables as $table ) {
+				foreach ( $sqlQuery->mAliasedTableNames as $alias => $table ) {
 					// Ignore helper tables.
 					if ( strpos( $table, '__' ) !== false ) {
 						continue;
 					}
-					$fieldFullName = "cargo_backlink_page_id_$table";
+					$fieldFullName = "cargo_backlink_page_id_$alias";
 					$fieldsToCollectForPageIDs[] = $fieldFullName;
-					$newFieldsStr = "$table._pageID=$fieldFullName, " . $newFieldsStr;
+					$newFieldsStr = "$alias._pageID=$fieldFullName, " . $newFieldsStr;
 				}
 				$sqlQueryJustForResultsTitle = CargoSQLQuery::newFromValues(
 					$tablesStr, $newFieldsStr, $whereStr, $joinOnStr,
