@@ -1755,4 +1755,30 @@ class CargoSQLQuery {
 		return [ $startDateField, $endDateField ];
 	}
 
+	/**
+	 * See if a query does aggregation - used to determine whether a
+	 * "backlinks" element should be added to the query. (It doesn't make
+	 * sense for aggregating queries.)
+	 * This is somewhat redundant code, because all of these fields and
+	 * their functions have been parsed already, but it seemed easier to
+	 * just do this specific re-parse.
+	 */
+	public function isAggregating() {
+		if ( $this->mGroupByStr != '' ) {
+			return true;
+		}
+		foreach ( $this->mOrigAliasedFieldNames as $alias => $field ) {
+			$sqlFunctionMatch = [];
+			$sqlFunctionRegex = '/(\b|\W)(\w*?)\s*\(/';
+			preg_match( $sqlFunctionRegex, $field, $sqlFunctionMatch );
+			if ( count( $sqlFunctionMatch ) > 1 ) {
+				$firstFunction = strtoupper( trim( $sqlFunctionMatch[2] ) );
+				if ( in_array( $firstFunction, [ 'COUNT', 'AVG', 'MAX', 'MIN' ] ) ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

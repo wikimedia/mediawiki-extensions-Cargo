@@ -91,7 +91,7 @@ class CargoQuery {
 			// Fetch results title only if "cargo_backlinks" table exists
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
 			$dbr = $lb->getConnectionRef( DB_REPLICA );
-			if ( $groupByStr == '' && !$wgCargoIgnoreBacklinks && $dbr->tableExists( 'cargo_backlinks' ) ) {
+			if ( !$wgCargoIgnoreBacklinks && !$sqlQuery->isAggregating() && $dbr->tableExists( 'cargo_backlinks' ) ) {
 				$newFieldsStr = $fieldsStr;
 				// $fieldsToCollectForPageIDs allows us to
 				// collect all those special fields' values in
