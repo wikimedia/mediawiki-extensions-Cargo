@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 3.5
+        Version 3.5.1
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -63,7 +63,7 @@ following:
 Cargo was created, and mostly written by, Yaron Koren.
 
 Query formats were also added by Cindy Cicalese, Luis Morillas, StasR,
-Kris Field and Anjali Kumari.
+Kris Field, Anjali Kumari and Sam Wilson.
 
 Support for hierarchy fields was added by Feroz Ahmed as a project for
 the 2017 Google Summer of Code.
@@ -77,9 +77,9 @@ Ankita Mandal as part of the 2019 Google Summer of Code.
 
 Important code contributions were also made by Ad Strack van Schijndel,
 Cody3647, Derick Alangi, Duncan Crane, Ed Hoo, IijimaYun, Namit Ohri,
-Paladox, Priyanshu Varshney, Tomás Bolaño, Sahaj Khandelwal, Sam
-Wilson, Vivek Ghaisas, Megan Cutrofello, Yash Varshney, Naresh Kumar,
-Thiemo Kreuz and others.
+Paladox, Priyanshu Varshney, Tomás Bolaño, Sahaj Khandelwal, Vivek
+Ghaisas, Megan Cutrofello, Yash Varshney, Naresh Kumar, Thiemo Kreuz,
+Máté Szabó, Umherirrender and others.
 
 == Contact ==
 
