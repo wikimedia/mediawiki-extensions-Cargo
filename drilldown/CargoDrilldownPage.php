@@ -1753,6 +1753,7 @@ END;
 						);
 				} else {
 					$calendarFieldName = $this->formatBy;
+					$calendarFieldTableName = $this->tableName;
 					$calendarFieldTableAlias = $this->tableAlias;
 				}
 			}
