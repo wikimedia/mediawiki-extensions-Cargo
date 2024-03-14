@@ -33,6 +33,8 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		User $user
 	) {
 		$cdb = CargoUtils::getDB();
+		$origFieldTableNames = [];
+		$origFieldHelperTableNames = [];
 		try {
 			$cdb->begin();
 
@@ -41,6 +43,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			// instead of adding it, when getting table names.
 			foreach ( $fieldTables as $fieldTable ) {
 				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
+				$origFieldTableNames[] = $origFieldTable;
 				$cdb->dropTable( $origFieldTable );
 				$cdb->query( 'ALTER TABLE ' .
 					$cdb->tableName( $fieldTable ) .
@@ -50,6 +53,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			if ( is_array( $fieldHelperTables ) ) {
 				foreach ( $fieldHelperTables as $fieldHelperTable ) {
 					$origFieldHelperTable = str_replace( '__NEXT', '', $fieldHelperTable );
+					$origFieldHelperTableNames[] = $origFieldHelperTable;
 					$cdb->dropTable( $origFieldHelperTable );
 					$cdb->query( 'ALTER TABLE ' .
 						$cdb->tableName( $fieldHelperTable ) .
@@ -73,11 +77,14 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ] );
 		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ] );
 		$dbw->update( 'cargo_tables', [ 'main_table' => $mainTable ], [ 'main_table' => $mainTable . '__NEXT' ] );
-		$origFieldTableNames = [];
-		foreach ( $fieldTables as $fieldTable ) {
-			$origFieldTableNames[] = str_replace( '__NEXT', '', $fieldTable );
-		}
-		$dbw->update( 'cargo_tables', [ 'field_tables' => serialize( $origFieldTableNames ) ], [ 'main_table' => $mainTable ] );
+		$dbw->update(
+			'cargo_tables',
+			[
+				'field_tables' => serialize( $origFieldTableNames ),
+				'field_helper_tables' => serialize( $origFieldHelperTableNames )
+			],
+			[ 'main_table' => $mainTable ]
+		);
 		$dbw->update( 'cargo_pages', [ 'table_name' => $mainTable ], [ 'table_name' => $mainTable . '__NEXT' ] );
 
 		CargoUtils::logTableAction( 'replacetable', $mainTable, $user );
