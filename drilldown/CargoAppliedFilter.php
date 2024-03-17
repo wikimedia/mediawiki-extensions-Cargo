@@ -147,7 +147,7 @@ class CargoAppliedFilter {
 				} else {
 					$date_field = $cdb->addIdentifierQuotes( $this->filter->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->filter->name );
 				}
-				list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $date_field );
+				[ $yearValue, $monthValue, $dayValue ] = CargoUtils::getDateFunctions( $date_field );
 				if ( $fv->time_period == 'day' ) {
 					$sql .= "$yearValue = {$fv->year} AND $monthValue = {$fv->month} AND $dayValue = {$fv->day} ";
 				} elseif ( $fv->time_period == 'month' ) {

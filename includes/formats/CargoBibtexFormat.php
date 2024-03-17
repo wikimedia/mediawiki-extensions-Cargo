@@ -8,7 +8,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {
 		return [
-			'default entry type' => [ 'type' => 'string' ] ,
+			'default entry type' => [ 'type' => 'string' ],
 			'link text' => [ 'type' => 'string' ]
 		];
 	}

@@ -75,7 +75,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		$imagePage = new ImagePage( $fileTitle );
 		$file = $imagePage->getDisplayedFile();
 		$filePath = $wgUploadDirectory . '/' . $file->getUrlRel();
-		list( $imageWidth, $imageHeight, $type, $attr ) = getimagesize( $filePath );
+		[ $imageWidth, $imageHeight, $type, $attr ] = getimagesize( $filePath );
 		return [ $imageWidth, $imageHeight, $file->getUrl() ];
 	}
 
@@ -190,7 +190,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			if ( $imageData == null ) {
 				$fileName = null;
 			} else {
-				list( $imageWidth, $imageHeight, $imageURL ) = $imageData;
+				[ $imageWidth, $imageHeight, $imageURL ] = $imageData;
 			}
 		} else {
 			$fileName = null;

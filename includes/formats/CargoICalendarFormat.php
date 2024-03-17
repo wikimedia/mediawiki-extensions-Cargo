@@ -75,7 +75,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 			$desc ? $this->text( 'DESCRIPTION', $desc ) : []
 		) ) );
 		foreach ( $sqlQueries as $sqlQuery ) {
-			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
+			[ $startDateField, $endDateField ] = $sqlQuery->getMainStartAndEndDateFields();
 			// @todo - get rid of this "if" check; right now it's only needed
 			// to pass validation, for some strange reason.
 			if ( $startDateField == null ) {

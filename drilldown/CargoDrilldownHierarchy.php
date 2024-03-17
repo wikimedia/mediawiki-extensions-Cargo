@@ -13,7 +13,7 @@ class CargoDrilldownHierarchy extends CargoHierarchyTree {
 	public static function computeNodeCountByFilter( $node, $f, $fullTextSearchTerm, $appliedFilters,
 			$mainTableAlias = null, $tableNames = [], $joinConds = [] ) {
 		$cdb = CargoUtils::getDB();
-		list( $tableNames, $conds, $joinConds ) = $f->getQueryParts( $fullTextSearchTerm,
+		[ $tableNames, $conds, $joinConds ] = $f->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
 		if ( $f->fieldDescription->mIsList ) {
 			$fieldTableName = $f->tableName . '__' . $f->name;

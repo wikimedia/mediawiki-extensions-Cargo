@@ -304,7 +304,7 @@ class CargoFieldDescription {
 					if ( $realIndividualVal == '' ) {
 						continue;
 					}
-					list( $dateValue, $curPrecision ) = CargoStore::getDateValueAndPrecision( $realIndividualVal, $fieldType );
+					[ $dateValue, $curPrecision ] = CargoStore::getDateValueAndPrecision( $realIndividualVal, $fieldType );
 					$dateValues[] = $dateValue;
 					if ( $curPrecision < $maxPrecision ) {
 						$maxPrecision = $curPrecision;
@@ -313,7 +313,7 @@ class CargoFieldDescription {
 				$newValue = implode( $delimiter, $dateValues );
 				$precision = $maxPrecision;
 			} else {
-				list( $newValue, $precision ) = CargoStore::getDateValueAndPrecision( $fieldValue, $fieldType );
+				[ $newValue, $precision ] = CargoStore::getDateValueAndPrecision( $fieldValue, $fieldType );
 			}
 		} elseif ( $fieldType == 'Integer' ) {
 			// Remove digit-grouping character.

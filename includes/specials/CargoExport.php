@@ -128,7 +128,7 @@ class CargoExport extends UnlistedSpecialPage {
 
 		$displayedArray = [];
 		foreach ( $sqlQueries as $i => $sqlQuery ) {
-			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
+			[ $startDateField, $endDateField ] = $sqlQuery->getMainStartAndEndDateFields();
 
 			$where = $sqlQuery->mWhereStr;
 			if ( $where != '' ) {
@@ -232,7 +232,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$displayedArray['data'] = [];
 		$displayedArray['links'] = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
-			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
+			[ $startDateField, $endDateField ] = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
 			$n = 1;
@@ -434,7 +434,7 @@ class CargoExport extends UnlistedSpecialPage {
 	private function displayTimelineData( $sqlQueries ) {
 		$displayedArray = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
-			list( $startDateField, $endDateField ) = $sqlQuery->getMainStartAndEndDateFields();
+			[ $startDateField, $endDateField ] = $sqlQuery->getMainStartAndEndDateFields();
 
 			$queryResults = $sqlQuery->run();
 

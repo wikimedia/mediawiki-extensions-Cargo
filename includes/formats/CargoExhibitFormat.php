@@ -124,7 +124,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		// Explode facets and create the div for each of them.
 		$text = $this->createSearch();
 		foreach ( $facets as $f ) {
-			 $attrs = [
+			$attrs = [
 				'data-ex-role' => "facet",
 				'data-ex-collapsible' => "true",
 				'data-ex-expression' => '.' . $f,

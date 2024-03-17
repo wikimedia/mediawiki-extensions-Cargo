@@ -482,7 +482,7 @@ class CargoHooks {
 		$row = $res->fetchRow();
 		$rowID = $row['_ID'];
 		$categoriesForPage = [];
-		$res2 = $cdb->select( $categoriesTable, '_value',  [ '_rowID' => $rowID ] );
+		$res2 = $cdb->select( $categoriesTable, '_value', [ '_rowID' => $rowID ] );
 		foreach ( $res2 as $row2 ) {
 			$categoriesForPage[] = $row2->_value;
 		}
@@ -506,7 +506,7 @@ class CargoHooks {
 		$newCategoriesFull = implode( '|', $categoriesForPage );
 		$cdb->update( $pageDataTable, [ '_categories__full' => $newCategoriesFull ], [ '_pageID' => $pageID ] );
 		if ( $isAdd ) {
-			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition',  [ '_rowID' => $rowID ] );
+			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition', [ '_rowID' => $rowID ] );
 			$row3 = $res3->fetchRow();
 			$maxPosition = $row3['MaxPosition'];
 			$cdb->insert( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ] );

@@ -63,7 +63,7 @@ class CargoStore {
 
 		if ( $tableName == '' ) {
 			$templateTitle = $frame->title;
-			list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $templateTitle );
+			[ $tableName, $isDeclared ] = CargoUtils::getTableNameForTemplate( $templateTitle );
 		}
 
 		if ( $tableName == '' ) {
@@ -409,7 +409,7 @@ class CargoStore {
 						$fieldValues['_position'] = $valueNum++;
 					}
 					if ( $fieldDescription->isDateOrDatetime() ) {
-						list( $dateValue, $precision ) = self::getDateValueAndPrecision( $individualValue, $fieldType );
+						[ $dateValue, $precision ] = self::getDateValueAndPrecision( $individualValue, $fieldType );
 						$fieldValues['_value'] = $dateValue;
 						$fieldValues['_value__precision'] = $precision;
 					}
@@ -417,7 +417,7 @@ class CargoStore {
 					// fields, for latitude and longitude.
 					if ( $fieldType == 'Coordinates' ) {
 						try {
-							list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $individualValue );
+							[ $latitude, $longitude ] = CargoUtils::parseCoordinatesString( $individualValue );
 						} catch ( MWException $e ) {
 							continue;
 						}
@@ -435,7 +435,7 @@ class CargoStore {
 				unset( $tableFieldValues[$fieldName] );
 			} elseif ( $fieldType == 'Coordinates' ) {
 				try {
-					list( $latitude, $longitude ) = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
+					[ $latitude, $longitude ] = CargoUtils::parseCoordinatesString( $tableFieldValues[$fieldName] );
 				} catch ( MWException $e ) {
 					unset( $tableFieldValues[$fieldName] );
 					continue;
@@ -456,7 +456,7 @@ class CargoStore {
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {
-			list( $fieldTableName, $fieldValues ) = $tableNameAndValues;
+			[ $fieldTableName, $fieldValues ] = $tableNameAndValues;
 			CargoUtils::escapedInsert( $cdb, $fieldTableName, $fieldValues );
 		}
 

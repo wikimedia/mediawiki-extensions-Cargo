@@ -226,7 +226,7 @@ class CargoSQLQuery {
 				// not the special ones.
 				// "Real" field = with the table name removed.
 				if ( strpos( $fieldName, '.' ) !== false ) {
-					list( $tableName, $realFieldName ) = explode( '.', $fieldName, 2 );
+					[ $tableName, $realFieldName ] = explode( '.', $fieldName, 2 );
 				} else {
 					$realFieldName = $fieldName;
 				}
@@ -315,13 +315,13 @@ class CargoSQLQuery {
 			if ( count( $tableAndField1 ) != 2 ) {
 				throw new MWException( "Table and field name must both be specified in '$joinPart1'." );
 			}
-			list( $table1, $field1 ) = $tableAndField1;
+			[ $table1, $field1 ] = $tableAndField1;
 			$joinPart2 = trim( $joinParts[1] );
 			$tableAndField2 = explode( '.', $joinPart2 );
 			if ( count( $tableAndField2 ) != 2 ) {
 				throw new MWException( "Table and field name must both be specified in '$joinPart2'." );
 			}
-			list( $table2, $field2 ) = $tableAndField2;
+			[ $table2, $field2 ] = $tableAndField2;
 
 			$joinCond = [
 				'joinType' => 'LEFT OUTER JOIN',
@@ -615,7 +615,7 @@ class CargoSQLQuery {
 				$startParenPos = strpos( $origFieldName, '(' );
 				$lastParenPos = strrpos( $origFieldName, ')' );
 				$innerFieldName = substr( $origFieldName, $startParenPos + 1, ( $lastParenPos - $startParenPos - 1 ) );
-				list( $innerDesc, $innerTableName ) = $this->getDescriptionAndTableNameForField( $innerFieldName );
+				[ $innerDesc, $innerTableName ] = $this->getDescriptionAndTableNameForField( $innerFieldName );
 				if ( $firstFunction == 'AVG' && $innerDesc->mType == 'Integer' ) {
 					// In practice, handling of AVG() is here
 					// so that calling it on a Rating
@@ -635,7 +635,7 @@ class CargoSQLQuery {
 			if ( $useListTable ) {
 				if ( $tableName != null ) {
 					if ( strpos( $tableName, '__' ) !== false ) {
-						list( $tableName, $fieldName ) = explode( '__', $tableName, 2 );
+						[ $tableName, $fieldName ] = explode( '__', $tableName, 2 );
 					} else {
 						// Support directly operating on list table fields
 						$fieldName = null;
@@ -648,7 +648,7 @@ class CargoSQLQuery {
 					// SQL call.
 					foreach ( $this->mAliasedTableNames as $curTable ) {
 						if ( strpos( $curTable, '__' ) !== false ) {
-							list( $tableName, $fieldName ) = explode( '__', $curTable );
+							[ $tableName, $fieldName ] = explode( '__', $curTable );
 							break;
 						}
 					}
@@ -720,7 +720,7 @@ class CargoSQLQuery {
 		$this->mFieldDescriptions = [];
 		$this->mFieldTables = [];
 		foreach ( $this->mAliasedFieldNames as $alias => $origFieldName ) {
-			list( $description, $tableName ) = $this->getDescriptionAndTableNameForField( $origFieldName );
+			[ $description, $tableName ] = $this->getDescriptionAndTableNameForField( $origFieldName );
 
 			// Fix alias.
 			$alias = trim( $alias );
@@ -1081,7 +1081,7 @@ class CargoSQLQuery {
 			if ( strpos( $fieldName, '.' ) !== false ) {
 				// This could probably be done better with
 				// regexps.
-				list( $tableAlias, $fieldName ) = explode( '.', $fieldName, 2 );
+				[ $tableAlias, $fieldName ] = explode( '.', $fieldName, 2 );
 			} else {
 				$tableAlias = $this->mFieldTables[$alias];
 			}
@@ -1187,7 +1187,7 @@ class CargoSQLQuery {
 			if ( strpos( $fieldName, '.' ) !== false ) {
 				// This could probably be done better with
 				// regexps.
-				list( $tableAlias, $fieldName ) = explode( '.', $fieldName, 2 );
+				[ $tableAlias, $fieldName ] = explode( '.', $fieldName, 2 );
 			} else {
 				$tableAlias = $this->mFieldTables[$alias];
 			}
@@ -1244,16 +1244,16 @@ class CargoSQLQuery {
 					throw new MWException( "Error: value for the 'NEAR' operator must be of the form "
 					. "\"(latitude, longitude, distance)\"." );
 				}
-				list( $latitude, $longitude, $distance ) = $coordinatesAndDistance;
+				[ $latitude, $longitude, $distance ] = $coordinatesAndDistance;
 				$distanceComponents = explode( ' ', trim( $distance ) );
 				if ( count( $distanceComponents ) != 2 ) {
 					throw new MWException( "Error: the third argument for the 'NEAR' operator, "
 					. "representing the distance, must be of the form \"number unit\"." );
 				}
-				list( $distanceNumber, $distanceUnit ) = $distanceComponents;
+				[ $distanceNumber, $distanceUnit ] = $distanceComponents;
 				$distanceNumber = trim( $distanceNumber );
 				$distanceUnit = trim( $distanceUnit );
-				list( $latDistance, $longDistance ) = self::distanceToDegrees( $distanceNumber, $distanceUnit,
+				[ $latDistance, $longDistance ] = self::distanceToDegrees( $distanceNumber, $distanceUnit,
 						$latitude );
 				// There are much better ways to do this, but
 				// for now, just make a "bounding box" instead
@@ -1597,7 +1597,7 @@ class CargoSQLQuery {
 						$fieldName = $this->mCargoDB->addIdentifierQuotes( $fieldName );
 					}
 				} else {
-					list( $realTableName, $realFieldName ) = explode( '.', $fieldName, 2 );
+					[ $realTableName, $realFieldName ] = explode( '.', $fieldName, 2 );
 					if ( !$this->mCargoDB->isQuotedIdentifier( $realTableName ) && !CargoUtils::isSQLStringLiteral( $realTableName ) ) {
 						$realTableName = $this->mCargoDB->addIdentifierQuotes( $realTableName );
 					}

@@ -53,7 +53,7 @@ class CargoFilter {
 			return $dateParts;
 		} else {
 			// year, month, day
-		return [ $dateParts[0], 0, 0 ];
+			return [ $dateParts[0], 0, 0 ];
 		}
 	}
 
@@ -86,7 +86,7 @@ class CargoFilter {
 		} else {
 			$date_field = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+		[ $tableNames, $conds, $joinConds ] = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
 		if ( $dbType == "mysql" ) {
 			// Until July 2021, invalid date values were stored in MySQL as 0 instead of null
@@ -99,9 +99,9 @@ class CargoFilter {
 		if ( $minDate === null ) {
 			return null;
 		}
-		list( $minYear, $minMonth, $minDay ) = $this->getDateParts( $minDate );
+		[ $minYear, $minMonth, $minDay ] = $this->getDateParts( $minDate );
 		$maxDate = $row['max_date'];
-		list( $maxYear, $maxMonth, $maxDay ) = $this->getDateParts( $maxDate );
+		[ $maxYear, $maxMonth, $maxDay ] = $this->getDateParts( $maxDate );
 		$yearDifference = $maxYear - $minYear;
 		$monthDifference = ( 12 * $yearDifference ) + ( $maxMonth - $minMonth );
 		if ( $yearDifference > 200 ) {
@@ -134,7 +134,7 @@ class CargoFilter {
 		$conds = [];
 
 		if ( $fullTextSearchTerm != null ) {
-			list( $curTableNames, $curConds, $curJoinConds ) =
+			[ $curTableNames, $curConds, $curJoinConds ] =
 				CargoDrilldownPage::getFullTextSearchQueryParts( $fullTextSearchTerm,
 					$this->tableName, $this->tableAlias, $this->searchablePages,
 					$this->searchableFiles );
@@ -205,7 +205,7 @@ class CargoFilter {
 		} else {
 			$dateField = $cdb->addIdentifierQuotes( $this->tableAlias ) . '.' . $cdb->addIdentifierQuotes( $this->name );
 		}
-		list( $yearValue, $monthValue, $dayValue ) = CargoUtils::getDateFunctions( $dateField );
+		[ $yearValue, $monthValue, $dayValue ] = CargoUtils::getDateFunctions( $dateField );
 		$timePeriod = $this->getTimePeriod( $fullTextSearchTerm, $appliedFilters, $tableNames,
 			$joinConds );
 
@@ -218,7 +218,7 @@ class CargoFilter {
 			$fields['day_of_month_field'] = $dayValue;
 		}
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+		[ $tableNames, $conds, $joinConds ] = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $joinConds );
 		if ( $this->fieldDescription->mIsList ) {
 			$tableNames[$fieldTableAlias] = $fieldTableName;
@@ -312,7 +312,7 @@ class CargoFilter {
 			$mainTableAlias = null, $tableNames = [], $join_conds = [] ) {
 		$cdb = CargoUtils::getDB();
 
-		list( $tableNames, $conds, $joinConds ) = $this->getQueryParts( $fullTextSearchTerm,
+		[ $tableNames, $conds, $joinConds ] = $this->getQueryParts( $fullTextSearchTerm,
 			$appliedFilters, $tableNames, $join_conds );
 		if ( $this->fieldDescription->mIsList ) {
 			$fieldTableName = $this->tableName . '__' . $this->name;

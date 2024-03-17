@@ -76,7 +76,7 @@ class CargoDisplayMap {
 		}
 
 		try {
-			list( $lat, $lon ) = CargoUtils::parseCoordinatesString( $pointStr );
+			[ $lat, $lon ] = CargoUtils::parseCoordinatesString( $pointStr );
 		} catch ( MWException $e ) {
 			return CargoUtils::formatError( "Cannot display map: " . $e->getMessage() );
 		}

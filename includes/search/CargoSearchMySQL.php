@@ -54,7 +54,7 @@ class CargoSearchMySQL extends SearchMySQL {
 				->getLanguageConverter( $contLang );
 			foreach ( $m as $bits ) {
 				Wikimedia\suppressWarnings();
-				list( /* all */, $modifier, $term, $nonQuoted, $wildcard ) = $bits;
+				[ /* all */, $modifier, $term, $nonQuoted, $wildcard ] = $bits;
 				Wikimedia\restoreWarnings();
 
 				if ( $nonQuoted != '' ) {

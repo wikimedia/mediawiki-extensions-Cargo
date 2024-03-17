@@ -370,7 +370,7 @@ END;
 		if ( $af->filter->allowed_values != null ) {
 			$or_values = $af->filter->allowed_values;
 		} else {
-			list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
+			[ $tableNames, $joinConds, $mainTableName, $mainTableAlias ] = $this->getInitialQueryParts();
 			$or_values = $af->filter->getAllValues( $this->fullTextSearchTerm,
 				$this->applied_filters, true, $mainTableAlias, $tableNames, $joinConds );
 			arsort( $or_values );
@@ -515,7 +515,7 @@ END;
 				$stack->push( $node->mChildren[$i] );
 			}
 		}
-		list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
+		[ $tableNames, $joinConds, $mainTableName, $mainTableAlias ] = $this->getInitialQueryParts();
 		if ( $isFilterValueNotWithin === true ) {
 			CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $node,
 				$af->filter, null, $applied_filters, $mainTableAlias, $tableNames, $joinConds );
@@ -559,7 +559,7 @@ END;
 	private function printFilterValuesForHierarchy( $cur_url, $f, $fullTextSearchTerm, $applied_filters, $drilldownHierarchyRoot ) {
 		$results_line = "";
 		// compute counts
-		list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
+		[ $tableNames, $joinConds, $mainTableName, $mainTableAlias ] = $this->getInitialQueryParts();
 		$filter_values = CargoDrilldownHierarchy::computeNodeCountForTreeByFilter( $drilldownHierarchyRoot,
 			$f, $fullTextSearchTerm, $applied_filters, $mainTableAlias, $tableNames, $joinConds );
 		$maxDepth = CargoDrilldownHierarchy::findMaxDrilldownDepth( $drilldownHierarchyRoot );
@@ -746,7 +746,7 @@ END;
 			} else {
 				// We do this now to save time on the next step,
 				// if we're creating individual filter values.
-				$uniqueValues[$curNumber] ++;
+				$uniqueValues[$curNumber]++;
 			}
 		}
 
@@ -811,7 +811,7 @@ END;
 					$curSeparator++;
 				}
 			}
-			$propertyValues[$curSeparator]['numValues'] ++;
+			$propertyValues[$curSeparator]['numValues']++;
 		}
 
 		return $propertyValues;
@@ -1054,7 +1054,7 @@ END;
 			$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
 		}
 
-		list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
+		[ $tableNames, $joinConds, $mainTableName, $mainTableAlias ] = $this->getInitialQueryParts();
 		if ( $isHierarchy ) {
 			$results_line = $this->printUnappliedFilterValuesForHierarchy( $cur_url, $f,
 				$this->fullTextSearchTerm, $this->applied_filters );
@@ -1077,14 +1077,14 @@ END;
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' || $fieldType == 'Rating' ) {
 			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
-			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
+			[ $displayedValues, $undisplayedValues ] = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
 			// Lots of values - switch to remote autocompletion.
 			$results_line .= $this->printTextInput( $filter_name, 0, null,
 				$f->fieldDescription->mIsList, $displayedValues, $f );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
-			list( $displayedValues, $undisplayedValues ) = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
+			[ $displayedValues, $undisplayedValues ] = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
 			$results_line .= $this->printComboBoxInput( $filter_name, 0, $undisplayedValues );
 			$normal_filter = false;
@@ -1121,7 +1121,7 @@ END;
 				$this->msg( 'cargo-cargotables-replacementtable', $viewLink )->parse()
 			);
 		}
-		list( $tableNames, $joinConds, $mainTableName, $mainTableAlias ) = $this->getInitialQueryParts();
+		[ $tableNames, $joinConds, $mainTableName, $mainTableAlias ] = $this->getInitialQueryParts();
 		$displaySearchInput = ( $this->tableName == '_fileData' &&
 			in_array( 'fullText', $wgCargoFileDataColumns ) ) ||
 			( $this->tableName != '_fileData' &&
@@ -1548,7 +1548,7 @@ END;
 	public function getQueryInfo() {
 		$cdb = CargoUtils::getDB();
 
-		list( $tableNames, $joinConds ) = $this->getInitialQueryParts();
+		[ $tableNames, $joinConds ] = $this->getInitialQueryParts();
 
 		$conds = [];
 		$queryOptions = [];
@@ -1562,7 +1562,7 @@ END;
 		$whereStr = [];
 		$groupByStr = [];
 		if ( $this->fullTextSearchTerm != null ) {
-			list( $curTableNames, $curConds, $curJoinConds, $whereConds ) =
+			[ $curTableNames, $curConds, $curJoinConds, $whereConds ] =
 				self::getFullTextSearchQueryParts( $this->fullTextSearchTerm, $this->tableName,
 					$this->tableAlias, $this->searchablePages, $this->searchableFiles );
 			$conds = array_merge( $conds, $curConds );
@@ -1577,7 +1577,7 @@ END;
 		}
 
 		foreach ( $this->applied_filters as $af ) {
-			list( $curTableNames, $curConds, $curJoinConds ) = $af->getQueryParts( $this->tableName );
+			[ $curTableNames, $curConds, $curJoinConds ] = $af->getQueryParts( $this->tableName );
 			$conds = array_merge( $conds, $curConds );
 			$whereStr = array_merge( $whereStr, $curConds );
 			foreach ( $curJoinConds as $tableAlias => $curJoinCond ) {

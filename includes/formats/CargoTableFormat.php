@@ -97,7 +97,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 		$text .= "</tr></thead>\n<tbody>";
 
 		if ( $mergeSimilarCells ) {
-			list( $duplicateValuesInTable, $blankedCells ) = $this->getHelperDataForMerging( $formattedValuesTable );
+			[ $duplicateValuesInTable, $blankedCells ] = $this->getHelperDataForMerging( $formattedValuesTable );
 		}
 
 		$columnIsOdd = [];

@@ -60,7 +60,7 @@ class CargoPageData {
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
-			list( $type, $isList ) = $fieldVals;
+			[ $type, $isList ] = $fieldVals;
 			$fieldDesc = new CargoFieldDescription();
 			$fieldDesc->mType = $type;
 			if ( $isList ) {

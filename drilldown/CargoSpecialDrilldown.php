@@ -196,7 +196,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		} else {
 			$numResultsPerPage = 250;
 		}
-		list( $limit, $offset ) = $request->getLimitOffsetForUser(
+		[ $limit, $offset ] = $request->getLimitOffsetForUser(
 			$this->getUser(),
 			$numResultsPerPage,
 			'limit'

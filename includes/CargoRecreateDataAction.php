@@ -29,7 +29,7 @@ class CargoRecreateDataAction extends Action {
 		// These tabs should only exist for template pages, that
 		// either call (or called) #cargo_declare, or call
 		// #cargo_attach.
-		list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $title );
+		[ $tableName, $isDeclared ] = CargoUtils::getTableNameForTemplate( $title );
 
 		if ( $tableName == '' ) {
 			$out = $this->getOutput();
@@ -67,7 +67,7 @@ class CargoRecreateDataAction extends Action {
 		// Make sure that this is a template page, that it either
 		// has (or had) a #cargo_declare call or has a #cargo_attach
 		// call, and that the user is allowed to recreate its data.
-		list( $tableName, $isDeclared ) = CargoUtils::getTableNameForTemplate( $title );
+		[ $tableName, $isDeclared ] = CargoUtils::getTableNameForTemplate( $title );
 		if ( $tableName == '' ) {
 			return true;
 		}
