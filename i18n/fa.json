@@ -12,7 +12,7 @@
 		]
 	},
 	"cargo-definestable": "این الگو جدول «$1» را تعریف می‌کند.",
-	"cargo-tablenotcreated": "این جدول، هنوز ایجاد نشده‌است.",
+	"cargo-tablenotcreated": "این جدول، هنوز ایجاد نشده است.",
 	"cargo-notable": "خطا: نام جدول باید مشخص شود.",
 	"cargo-unknowntable": "خطا: جدول $1 پیدا نشد.",
 	"recreatedata": "بازسازی داده‌ها",
