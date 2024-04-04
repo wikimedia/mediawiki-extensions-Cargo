@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\Deferred\LinksUpdate\LinksUpdate;
 use MediaWiki\Hook\LinksUpdateHook;
 
 class CargoLinksUpdateHandler implements LinksUpdateHook {
