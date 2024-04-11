@@ -120,7 +120,7 @@
 	"cargo-switchtables-switch": "Commutar",
 	"cargo-switchtables-success": "Le substitution pro le tabella \"$1\" ha essite ponite in uso.",
 	"cargotablediagram": "Diagramma de tabella Cargo",
-	"pagevalues": "Valores de pagina",
+	"pagevalues": "Datos de cargo",
 	"cargo-pagevaluesfor": "Valores de pagina pro \"$1\"",
 	"cargo-pagevalues-tablevalues": "Valores de \"$1\"",
 	"cargo-pagevalues-tableinfo-numrows": "$1 linea{{PLURAL:$1||s}} es immagazinate pro iste pagina",

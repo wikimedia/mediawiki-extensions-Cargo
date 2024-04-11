@@ -131,7 +131,7 @@
 	"cargo-switchtables-switch": "Wechseln",
 	"cargo-switchtables-success": "Der Ersatz für die Tabelle „$1“ wurde eingewechselt.",
 	"cargotablediagram": "Cargo Tabellendiagramm",
-	"pagevalues": "Seitenwerte",
+	"pagevalues": "Cargo-Daten",
 	"cargo-pagevaluesfor": "Seitenwerte für „$1“",
 	"cargo-pagevalues-tablevalues": "Werte von „$1“",
 	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|Zeile ist|Zeilen sind}} für diese Seite gespeichert",
