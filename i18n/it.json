@@ -43,7 +43,7 @@
 	"cargo-cargotables-unique": "unico",
 	"cargo-cargotables-totalrows": "Questa tabella ha complessivamente '''$1''' {{PLURAL:$1|riga|righe}}.",
 	"deletecargotable": "Cancella tabella Cargo",
-	"pagevalues": "Valori pagina",
+	"pagevalues": "Dati del carico",
 	"cargo-pagevaluesfor": "Valori pagina per \"$1\"",
 	"cargo-pagevalues-tablevalues": "valori \"$1\"",
 	"cargo-drilldown-choosetable": "Scegli una tabella",

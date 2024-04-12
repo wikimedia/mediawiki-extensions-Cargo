@@ -128,7 +128,7 @@
 	"cargo-switchtables-switch": "להעביר",
 	"cargo-switchtables-success": "החלופה עבור הטבלה \"$1\" הועברה לפעולה.",
 	"cargotablediagram": "תרשים טבלאות Cargo",
-	"pagevalues": "ערכי דף",
+	"pagevalues": "נתוני Cargo",
 	"cargo-pagevaluesfor": "ערכי דף עבור \"$1\"",
 	"cargo-pagevalues-tablevalues": "ערכי \"$1\"",
 	"cargo-pagevalues-tableinfo-numrows": "{{PLURAL:$1|שורה אחת|$1 שורות}} מאוחסנות בשביל הדף הזה",
