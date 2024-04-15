@@ -131,7 +131,7 @@
 	"cargo-switchtables-switch": "Omschakelen",
 	"cargo-switchtables-success": "De vervanger voor de tabel \"$1\" is ingeschakeld.",
 	"cargotablediagram": "Cargo-tabeldiagram",
-	"pagevalues": "Paginawaarden",
+	"pagevalues": "Cargo-gegevens",
 	"cargo-pagevaluesfor": "Paginawaarden voor \"$1\"",
 	"cargo-pagevalues-tablevalues": "\"$1\" waarden",
 	"cargo-pagevalues-tableinfo-numrows": "Er {{PLURAL:$1|is één rij|zijn $1 rijen}} opgeslagen voor deze pagina",
