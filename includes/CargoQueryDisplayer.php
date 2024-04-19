@@ -237,20 +237,7 @@ class CargoQueryDisplayer {
 			// namespace; they are displayed as thumbnails within
 			// queries.
 			$title = Title::newFromText( $value, NS_FILE );
-			if ( $title == null || !$title->exists() ) {
-				return $value;
-			}
-
-			// If it's a redirect, use the redirect target instead.
-			if ( $title->isRedirect() ) {
-				$page = CargoUtils::makeWikiPage( $title );
-				$title = $page->getRedirectTarget();
-				if ( !$title->exists() ) {
-					return $title->getText();
-				}
-			}
-
-			$file = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
+			$file = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $title );
 			return Linker::makeThumbLinkObj(
 				$title,
 				$file,
