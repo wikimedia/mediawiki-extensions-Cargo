@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ajeje Brazorf",
+			"Alien333",
 			"Boniface",
 			"Brenloch56",
 			"Dinoxel",
@@ -139,7 +140,7 @@
 	"cargo-switchtables-switch": "Basculer",
 	"cargo-switchtables-success": "Le remplacement de la table « $1 » a été mis en service.",
 	"cargotablediagram": "Diagramme des tables de Cargo",
-	"pagevalues": "Valeurs de page",
+	"pagevalues": "Données de transport",
 	"cargo-pagevaluesfor": "Valeurs de page pour « $1 »",
 	"cargo-pagevalues-tablevalues": "Valeur de « $1 »",
 	"cargo-pagevalues-tableinfo-numrows": "$1 {{PLURAL:$1|ligne est stockée|lignes sont stockées}} pour cette page",
