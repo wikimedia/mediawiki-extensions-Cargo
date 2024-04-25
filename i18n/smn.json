@@ -8,6 +8,7 @@
 	"cargo-viewdata-tables": "Tavlustâh/tavlustuvah:",
 	"cargo-viewdata-orderby": "Šlajâttâl:",
 	"cargo-cargotables-header-table": "Tavlustâh",
+	"cargo-cargotables-header-templates": "Myenstereh",
 	"cargo-cargotables-action-deletereplacement": "Siho",
 	"cargo-cargotables-action-delete": "Siho",
 	"cargo-cargotables-viewtable": "Čääiti tavlustuv: $1",
