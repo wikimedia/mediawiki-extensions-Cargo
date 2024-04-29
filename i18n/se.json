@@ -7,6 +7,7 @@
 	},
 	"cargo-viewdata-tables": "Tabealla(t):",
 	"cargo-cargotables-header-table": "Tabealla",
+	"cargo-cargotables-header-templates": "Mállet",
 	"cargo-cargotables-action-deletereplacement": "Sihko",
 	"cargo-cargotables-action-delete": "Sihko",
 	"cargo-cargotables-viewtable": "Čájet tabealla: $1",
