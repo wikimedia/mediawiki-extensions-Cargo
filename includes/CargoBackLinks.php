@@ -39,7 +39,7 @@ class CargoBackLinks {
 		}
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbw = $lb->getConnectionRef( DB_PRIMARY );
+		$dbw = $lb->getConnection( DB_PRIMARY );
 		if ( $dbw->tableExists( 'cargo_backlinks' ) && !$dbw->isReadOnly() ) {
 			$dbw->delete( 'cargo_backlinks', [
 				'cbl_query_page_id' => $pageId
@@ -54,7 +54,7 @@ class CargoBackLinks {
 		}
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbw = $lb->getConnectionRef( DB_PRIMARY );
+		$dbw = $lb->getConnection( DB_PRIMARY );
 		if ( !$dbw->tableExists( 'cargo_backlinks' ) || $dbw->isReadOnly() ) {
 			return;
 		}
@@ -83,7 +83,7 @@ class CargoBackLinks {
 		}
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		if ( !$dbr->tableExists( 'cargo_backlinks' ) ) {
 			return;
 		}

@@ -79,7 +79,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 
 	public function getTables( $substr ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$tables = [];
 		$conds = [
 			'main_table NOT' . $dbr->buildLike( $dbr->anyString(), '__NEXT' ),
@@ -105,7 +105,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		foreach ( $tables as $table ) {
 			$tableSchemas = [];
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnectionRef( DB_REPLICA );
+			$dbr = $lb->getConnection( DB_REPLICA );
 			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 				[ 'main_table' => $table ] );
 			foreach ( $res as $row ) {

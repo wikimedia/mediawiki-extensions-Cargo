@@ -57,7 +57,7 @@ class CargoRecreateDataAPI extends ApiBase {
 				$conds = 'page_namespace = ' . FD_NS_GANTT;
 			}
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnectionRef( DB_REPLICA );
+			$dbr = $lb->getConnection( DB_REPLICA );
 			$pages = $dbr->select(
 				'page', [ 'page_id' ], $conds, __METHOD__,
 				[ 'LIMIT' => 500, 'OFFSET' => $params['offset'] ]
