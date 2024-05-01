@@ -74,7 +74,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
 		// Make sure that this table exists.
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $tableName ] );
 		if ( $res->numRows() == 0 ) {
