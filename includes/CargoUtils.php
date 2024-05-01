@@ -20,7 +20,7 @@ class CargoUtils {
 		}
 
 		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
-		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype;
+		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype, $wgCargoDBfilePath;
 
 		$services = MediaWikiServices::getInstance();
 		$dbr = self::getMainDBForRead();
@@ -69,7 +69,11 @@ class CargoUtils {
 		];
 
 		if ( $type === 'sqlite' ) {
-			$params['dbFilePath'] = $dbr->getDbFilePath();
+			if ( $wgCargoDBfilePath !== null ) {
+				$params['dbFilePath'] = $wgCargoDBfilePath;
+			} else {
+				$params['dbFilePath'] = $dbr->getDbFilePath();
+			}
 		} elseif ( $type === 'postgres' ) {
 			global $wgDBport;
 			// @TODO - a $wgCargoDBport variable is still needed.
