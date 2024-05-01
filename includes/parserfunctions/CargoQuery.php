@@ -88,7 +88,7 @@ class CargoQuery {
 			// can include all results.
 			// Fetch results title only if "cargo_backlinks" table exists
 			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnectionRef( DB_REPLICA );
+			$dbr = $lb->getConnection( DB_REPLICA );
 			if ( $groupByStr == '' && $dbr->tableExists( 'cargo_backlinks' ) ) {
 				$allTables = array_unique( array_values( $sqlQuery->mFieldTables ) );
 				$allTables = array_filter( $allTables );

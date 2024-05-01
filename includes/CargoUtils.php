@@ -26,7 +26,7 @@ class CargoUtils {
 		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype;
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$server = $dbr->getServer();
 		$name = $dbr->getDBname();
 		$type = $dbr->getType();
@@ -88,7 +88,7 @@ class CargoUtils {
 	 */
 	public static function getPageProp( $pageID, $pageProp ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$value = $dbr->selectField( 'page_props', [
 				'pp_value'
 			], [
@@ -109,7 +109,7 @@ class CargoUtils {
 	 */
 	public static function getAllPageProps( $pageProp ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'page_props', [
 			'pp_page',
 			'pp_value'
@@ -138,7 +138,7 @@ class CargoUtils {
 	 */
 	public static function getTemplateIDForDBTable( $tableName ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$page = $dbr->selectField( 'page_props', [
 			'pp_page'
 			], [
@@ -163,7 +163,7 @@ class CargoUtils {
 	public static function getTables() {
 		$tableNames = [];
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', 'main_table' );
 		foreach ( $res as $row ) {
 			$tableName = $row->main_table;
@@ -179,7 +179,7 @@ class CargoUtils {
 	public static function getParentTables( $tableName ) {
 		$parentTables = [];
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
 		foreach ( $res as $row ) {
 			if ( $tableName == $row->main_table ) {
@@ -221,7 +221,7 @@ class CargoUtils {
 	public static function getDrilldownTabsParams( $tableName ) {
 		$drilldownTabs = [];
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
 		foreach ( $res as $row ) {
 			if ( $tableName == $row->main_table ) {
@@ -248,7 +248,7 @@ class CargoUtils {
 		}
 		$tableSchemas = [];
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 			[ 'main_table' => $mainTableNames ] );
 		foreach ( $res as $row ) {
@@ -685,7 +685,7 @@ class CargoUtils {
 
 	public static function tableFullyExists( $tableName ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$numRows = $dbr->selectRowCount( 'cargo_tables', '*', [ 'main_table' => $tableName ], __METHOD__ );
 		if ( $numRows == 0 ) {
 			return false;

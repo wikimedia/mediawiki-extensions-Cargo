@@ -52,7 +52,7 @@ class SetCargoPageData extends Maintenance {
 		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $pageDataTable ] );
 

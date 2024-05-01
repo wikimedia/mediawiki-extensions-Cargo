@@ -52,7 +52,7 @@ class SetCargoGanttData extends Maintenance {
 		$ganttDataTable = $createReplacement ? '_ganttData__NEXT' : '_ganttData';
 
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $ganttDataTable ] );
 

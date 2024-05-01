@@ -28,7 +28,7 @@ class CargoBackLinks {
 
 	public static function removeBackLinks( $pageId ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbw = $lb->getConnectionRef( DB_PRIMARY );
+		$dbw = $lb->getConnection( DB_PRIMARY );
 		if ( $dbw->tableExists( 'cargo_backlinks' ) ) {
 			$dbw->delete( 'cargo_backlinks', [
 				'cbl_query_page_id' => $pageId
@@ -38,7 +38,7 @@ class CargoBackLinks {
 
 	public static function setBackLinks( $title, $resultsPageIds ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbw = $lb->getConnectionRef( DB_PRIMARY );
+		$dbw = $lb->getConnection( DB_PRIMARY );
 		if ( !$dbw->tableExists( 'cargo_backlinks' ) ) {
 			return;
 		}
@@ -62,7 +62,7 @@ class CargoBackLinks {
 
 	public static function purgePagesThatQueryThisPage( $resultPageId ) {
 		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnectionRef( DB_REPLICA );
+		$dbr = $lb->getConnection( DB_REPLICA );
 		if ( !$dbr->tableExists( 'cargo_backlinks' ) ) {
 			return;
 		}
