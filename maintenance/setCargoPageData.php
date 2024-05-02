@@ -32,8 +32,6 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
-use MediaWiki\MediaWikiServices;
-
 $maintClass = SetCargoPageData::class;
 
 class SetCargoPageData extends Maintenance {
@@ -51,8 +49,7 @@ class SetCargoPageData extends Maintenance {
 		$createReplacement = $this->hasOption( 'replacement' );
 		$pageDataTable = $createReplacement ? '_pageData__NEXT' : '_pageData';
 
-		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnection( DB_REPLICA );
+		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
 			[ 'main_table' => $pageDataTable ] );
 

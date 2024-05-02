@@ -5,7 +5,6 @@
  * @author Yaron Koren
  * @ingroup Cargo
  */
-use MediaWiki\MediaWikiServices;
 
 class CargoQuery {
 
@@ -89,8 +88,7 @@ class CargoQuery {
 			// Also remove the limit from this 2nd query so that it
 			// can include all results.
 			// Fetch results title only if "cargo_backlinks" table exists
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnection( DB_REPLICA );
+			$dbr = CargoUtils::getMainDBForRead();
 			if ( !$wgCargoIgnoreBacklinks && !$sqlQuery->isAggregating() && $dbr->tableExists( 'cargo_backlinks' ) ) {
 				$newFieldsStr = $fieldsStr;
 				// $fieldsToCollectForPageIDs allows us to

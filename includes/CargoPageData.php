@@ -128,8 +128,7 @@ class CargoPageData {
 		if ( $storeCategories && in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			$pageCategories = [];
 			if ( !$setToBlank ) {
-				$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-				$dbr = $lb->getConnection( DB_REPLICA );
+				$dbr = CargoUtils::getMainDBForRead();
 				$res = $dbr->select(
 					'categorylinks',
 					'cl_to',
@@ -145,8 +144,7 @@ class CargoPageData {
 			$pageDataValues['_categories'] = $pageCategoriesString;
 		}
 		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnection( DB_REPLICA );
+			$dbr = CargoUtils::getMainDBForRead();
 			$pageDataValues['_numRevisions'] = $dbr->selectRowCount(
 				'revision',
 				'*',

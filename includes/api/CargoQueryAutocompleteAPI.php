@@ -7,8 +7,6 @@
  * @author Ankita Mandal
  */
 
-use MediaWiki\MediaWikiServices;
-
 class CargoQueryAutocompleteAPI extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {
@@ -78,8 +76,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 	}
 
 	public function getTables( $substr ) {
-		$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-		$dbr = $lb->getConnection( DB_REPLICA );
+		$dbr = CargoUtils::getMainDBForRead();
 		$tables = [];
 		$conds = [
 			'main_table NOT' . $dbr->buildLike( $dbr->anyString(), '__NEXT' ),
@@ -100,12 +97,11 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 	}
 
 	public function getFields( $tableNames, $substr ) {
+		$dbr = CargoUtils::getMainDBForRead();
 		$tables = explode( ",", $tableNames );
 		$fields = [];
 		foreach ( $tables as $table ) {
 			$tableSchemas = [];
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			$dbr = $lb->getConnection( DB_REPLICA );
 			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
 				[ 'main_table' => $table ] );
 			foreach ( $res as $row ) {
