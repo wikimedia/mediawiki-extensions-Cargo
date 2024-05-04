@@ -99,6 +99,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$pageTitle = $parser->getTitle();
 		$parserOptions = ParserOptions::newFromAnon();
+		$parserOptions->setSuppressSectionEditLinks();
 		$items = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$dateFields = $sqlQuery->getMainStartAndEndDateFields();
@@ -116,7 +117,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 						// @todo Remove after dropping support for MediaWiki < 1.38.
 						$description = MediaWikiServices::getInstance()
 							->getContentRenderer()
-							->getParserOutput( $wikiPage->getContent(), $title )
+							->getParserOutput( $wikiPage->getContent(), $title, null, $parserOptions )
 							->getText();
 					} else {
 						$description = $wikiPage->getContent()->getParserOutput( $title )->getText();
