@@ -124,7 +124,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 					}
 				}
 				$item = new FeedItem(
-					$queryResult['_pageName'] ?? '',
+					$queryResult['title'] ?? $queryResult['_pageName'] ?? '',
 					$description,
 					$queryResult['url'] ?? $title->getCanonicalURL(),
 					$queryResult[$dateFields[0]] ?? '',
