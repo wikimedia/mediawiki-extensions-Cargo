@@ -39,24 +39,24 @@ class CargoExport extends UnlistedSpecialPage {
 		$limitArray = $req->getArray( 'limit' );
 		$offsetArray = $req->getArray( 'offset' );
 
-		$sqlQueries = [];
-		foreach ( $tableArray as $i => $table ) {
-			$fields = $fieldsArray[$i] ?? null;
-			$where = $whereArray[$i] ?? null;
-			$joinOn = $joinOnArray[$i] ?? null;
-			$groupBy = $groupByArray[$i] ?? null;
-			$having = $havingArray[$i] ?? null;
-			$orderBy = $orderByArray[$i] ?? null;
-			$limit = $limitArray[$i] ?? null;
-			$offset = $offsetArray[$i] ?? null;
-			$sqlQueries[] = CargoSQLQuery::newFromValues( $table,
-				$fields, $where, $joinOn, $groupBy, $having,
-				$orderBy, $limit, $offset );
-		}
-
-		$format = $req->getVal( 'format' );
-
 		try {
+			$sqlQueries = [];
+			foreach ( $tableArray as $i => $table ) {
+				$fields = $fieldsArray[$i] ?? null;
+				$where = $whereArray[$i] ?? null;
+				$joinOn = $joinOnArray[$i] ?? null;
+				$groupBy = $groupByArray[$i] ?? null;
+				$having = $havingArray[$i] ?? null;
+				$orderBy = $orderByArray[$i] ?? null;
+				$limit = $limitArray[$i] ?? null;
+				$offset = $offsetArray[$i] ?? null;
+				$sqlQueries[] = CargoSQLQuery::newFromValues( $table,
+					$fields, $where, $joinOn, $groupBy, $having,
+					$orderBy, $limit, $offset );
+			}
+
+			$format = $req->getVal( 'format' );
+
 			if ( $format == 'fullcalendar' ) {
 				$this->displayCalendarData( $sqlQueries );
 			} elseif ( $format == 'timeline' ) {
