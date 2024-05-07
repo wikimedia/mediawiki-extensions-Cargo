@@ -99,7 +99,10 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$pageTitle = $parser->getTitle();
 		$parserOptions = ParserOptions::newFromAnon();
-		$parserOptions->setSuppressSectionEditLinks();
+		if ( method_exists( $parserOptions, 'setSuppressSectionEditLinks' ) ) {
+			// MW 1.42+
+			$parserOptions->setSuppressSectionEditLinks();
+		}
 		$items = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$dateFields = $sqlQuery->getMainStartAndEndDateFields();
