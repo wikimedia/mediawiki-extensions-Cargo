@@ -121,8 +121,7 @@ class CargoPageData {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
-				$page = CargoUtils::makeWikiPage( $title );
-				$pageDataValues['_fullText'] = ContentHandler::getContentText( $page->getContent() );
+				$pageDataValues['_fullText'] = ContentHandler::getContentText( $wikiPage->getContent() );
 			}
 		}
 		if ( $storeCategories && in_array( 'categories', $wgCargoPageDataColumns ) ) {
@@ -160,8 +159,7 @@ class CargoPageData {
 		if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) || in_array( 'pageIDOrRedirect', $wgCargoPageDataColumns ) ) {
 			// case when redirect
 			if ( $title->isRedirect() ) {
-				$page = CargoUtils::makeWikiPage( $title );
-				$redirTitle = $page->getRedirectTarget();
+				$redirTitle = $wikiPage->getRedirectTarget();
 				if ( $redirTitle !== null ) {
 					if ( in_array( 'pageNameOrRedirect', $wgCargoPageDataColumns ) ) {
 						$pageDataValues['_pageNameOrRedirect'] = $redirTitle->getPrefixedText();
