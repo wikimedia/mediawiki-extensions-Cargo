@@ -1355,10 +1355,6 @@ class CargoUtils {
 		}
 	}
 
-	public static function setParserOutputPageProperty( $parserOutput, $property, $value ) {
-		$parserOutput->setPageProperty( $property, $value );
-	}
-
 	public static function globalFields() {
 		return [
 			'_pageID' => [ 'type' => 'Integer', 'isList' => false ],

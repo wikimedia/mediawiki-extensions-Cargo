@@ -367,10 +367,10 @@ class CargoDeclare {
 
 		$parserOutput = $parser->getOutput();
 
-		CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoTableName', $tableName );
-		CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoParentTables', serialize( $parentTables ) );
-		CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoDrilldownTabsParams', serialize( $drilldownTabsParams ) );
-		CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoFields', $tableSchema->toDBString() );
+		$parserOutput->setPageProperty( 'CargoTableName', $tableName );
+		$parserOutput->setPageProperty( 'CargoParentTables', serialize( $parentTables ) );
+		$parserOutput->setPageProperty( 'CargoDrilldownTabsParams', serialize( $drilldownTabsParams ) );
+		$parserOutput->setPageProperty( 'CargoFields', $tableSchema->toDBString() );
 
 		// Link to the Special:CargoTables page for this table, if it
 		// exists already - otherwise, explain that it needs to be

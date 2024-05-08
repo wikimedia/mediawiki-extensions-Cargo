@@ -172,7 +172,7 @@ class CargoStore {
 
 		if ( $errors ) {
 			$parserOutput = $parser->getOutput();
-			CargoUtils::setParserOutputPageProperty( $parserOutput, 'CargoStorageError', $errors );
+			$parserOutput->setPageProperty( 'CargoStorageError', $errors );
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; storage error encountered.\n" );
 			return;
 		}
