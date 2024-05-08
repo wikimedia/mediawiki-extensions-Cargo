@@ -421,7 +421,7 @@ class CargoDeclare {
 			// existing data from the wiki.
 			// @todo This should cycle through *all* the pages,
 			// 500 at a time, in case there are a lot.
-			$titlesToStore = CargoUtils::getTemplateLinksTo( $title, [ 'LIMIT' => 1000 ] );
+			$titlesToStore = $title->getTemplateLinksTo( [ 'LIMIT' => 1000 ] );
 			$jobs = [];
 			foreach ( $titlesToStore as $titleToStore ) {
 				$jobs[] = new CargoPopulateTableJob( $titleToStore, [ 'dbTableName' => $tableName ] );

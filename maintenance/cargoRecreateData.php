@@ -148,7 +148,7 @@ class CargoRecreateData extends Maintenance {
 
 			$offset = 0;
 			do {
-				$titlesWithThisTemplate = CargoUtils::getTemplateLinksTo( $templateTitle, [
+				$titlesWithThisTemplate = $templateTitle->getTemplateLinksTo( [
 					'LIMIT' => 500, 'OFFSET' => $offset ] );
 				if ( !$quiet ) {
 					print "Saving data for pages " . ( $offset + 1 ) . " to " . ( $offset + count( $titlesWithThisTemplate ) ) . " that call this template...\n";

@@ -44,7 +44,7 @@ class CargoRecreateDataAPI extends ApiBase {
 		$jobs = [];
 		if ( $templateStr != '' ) {
 			$templateTitle = Title::makeTitleSafe( NS_TEMPLATE, $templateStr );
-			$titlesToStore = CargoUtils::getTemplateLinksTo( $templateTitle, [
+			$titlesToStore = $templateTitle->getTemplateLinksTo( [
 				'LIMIT' => 500, 'OFFSET' => $params['offset'] ] );
 		} else {
 			if ( $tableStr == '_pageData' ) {

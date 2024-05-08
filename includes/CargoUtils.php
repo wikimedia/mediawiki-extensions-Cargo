@@ -1355,10 +1355,6 @@ class CargoUtils {
 		}
 	}
 
-	public static function getTemplateLinksTo( $templateTitle, $options = [] ) {
-		return $templateTitle->getTemplateLinksTo( $options );
-	}
-
 	public static function setParserOutputPageProperty( $parserOutput, $property, $value ) {
 		$parserOutput->setPageProperty( $property, $value );
 	}
