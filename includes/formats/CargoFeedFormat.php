@@ -96,13 +96,15 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		/** @var RSSFeed|AtomFeed $feed */
 		$feed = new $feedClasses[$feedType]( $title, $description, $request->getFullRequestURL() );
 
-		$parser = MediaWikiServices::getInstance()->getParser();
+		$services = MediaWikiServices::getInstance();
+		$parser = $services->getParser();
 		$pageTitle = $parser->getTitle();
 		$parserOptions = ParserOptions::newFromAnon();
 		if ( method_exists( $parserOptions, 'setSuppressSectionEditLinks' ) ) {
 			// MW 1.42+
 			$parserOptions->setSuppressSectionEditLinks();
 		}
+		$contentRenderer = $services->getContentRenderer();
 		$items = [];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$dateFields = $sqlQuery->getMainStartAndEndDateFields();
@@ -113,19 +115,11 @@ class CargoFeedFormat extends CargoDeferredFormat {
 				if ( isset( $queryResult['description'] ) ) {
 					$description = $queryResult['description'];
 					$parserOutput = $parser->parse( $description, $pageTitle, $parserOptions );
-					$description = $parserOutput->getText();
 				} else {
 					$wikiPage = new WikiPage( $title );
-					if ( method_exists( MediaWikiServices::class, 'getContentRenderer' ) ) {
-						// @todo Remove after dropping support for MediaWiki < 1.38.
-						$description = MediaWikiServices::getInstance()
-							->getContentRenderer()
-							->getParserOutput( $wikiPage->getContent(), $title, null, $parserOptions )
-							->getText();
-					} else {
-						$description = $wikiPage->getContent()->getParserOutput( $title )->getText();
-					}
+					$parserOutput = $contentRenderer->getParserOutput( $wikiPage->getContent(), $title, null, $parserOptions );
 				}
+				$description = $parserOutput->getText();
 				$item = new FeedItem(
 					$queryResult['title'] ?? $queryResult['_pageName'] ?? '',
 					$description,
