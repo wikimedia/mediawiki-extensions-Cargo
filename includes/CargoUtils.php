@@ -1355,55 +1355,12 @@ class CargoUtils {
 		}
 	}
 
-	/**
-	 * A helper function, because Title::getTemplateLinksTo() is broken in
-	 * MW 1.37.
-	 */
 	public static function getTemplateLinksTo( $templateTitle, $options = [] ) {
-		if ( class_exists( 'MediaWiki\CommentFormatter\CommentBatch' ) ) {
-			// MW 1.38+ - just use the standard function again.
-			return $templateTitle->getTemplateLinksTo( $options );
-		}
-
-		$dbr = self::getMainDBForRead();
-
-		$selectFields = LinkCache::getSelectFields();
-		$selectFields[] = 'page_namespace';
-		$selectFields[] = 'page_title';
-
-		$res = $dbr->select(
-			[ 'page', 'templatelinks' ],
-			$selectFields,
-			[
-				"tl_from=page_id",
-				"tl_namespace" => NS_TEMPLATE,
-				"tl_title" => $templateTitle->getDBkey()
-			],
-			__METHOD__,
-			$options
-		);
-
-		$retVal = [];
-		if ( $res->numRows() ) {
-			$linkCache = MediaWikiServices::getInstance()->getLinkCache();
-			foreach ( $res as $row ) {
-				$titleObj = Title::makeTitle( $row->page_namespace, $row->page_title );
-				if ( $titleObj ) {
-					$linkCache->addGoodLinkObjFromRow( $titleObj, $row );
-					$retVal[] = $titleObj;
-				}
-			}
-		}
-		return $retVal;
+		return $templateTitle->getTemplateLinksTo( $options );
 	}
 
 	public static function setParserOutputPageProperty( $parserOutput, $property, $value ) {
-		if ( method_exists( $parserOutput, 'setPageProperty' ) ) {
-			// MW 1.38
-			$parserOutput->setPageProperty( $property, $value );
-		} else {
-			$parserOutput->setProperty( $property, $value );
-		}
+		$parserOutput->setPageProperty( $property, $value );
 	}
 
 	public static function globalFields() {

@@ -38,7 +38,6 @@ class CargoTables extends IncludableSpecialPage {
 			'ext.cargo.cargotables',
 		] );
 		$out->addModuleStyles( [
-			'mediawiki.pager.tablePager', // MW 1.37
 			'mediawiki.pager.styles'
 		] );
 

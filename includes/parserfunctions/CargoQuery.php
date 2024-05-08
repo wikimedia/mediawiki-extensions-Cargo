@@ -205,21 +205,8 @@ class CargoQuery {
 	private static function setBacklinks( Parser $parser, array $backlinkPageIds ): void {
 		$parserOutput = $parser->getOutput();
 
-		// MW 1.38 compatibility
-		if ( method_exists( $parserOutput, 'appendExtensionData' ) ) {
-			foreach ( $backlinkPageIds as $pageId ) {
-				$parserOutput->appendExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY, $pageId );
-			}
-		} else {
-			$backlinks = (array)$parserOutput->getExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY );
-			foreach ( $backlinkPageIds as $pageId ) {
-				$backlinks[$pageId] = true;
-			}
-
-			$parserOutput->setExtensionData(
-				CargoBackLinks::BACKLINKS_DATA_KEY,
-				$backlinks
-			);
+		foreach ( $backlinkPageIds as $pageId ) {
+			$parserOutput->appendExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY, $pageId );
 		}
 	}
 

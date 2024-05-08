@@ -1,14 +1,14 @@
 {
 	"name": "Cargo",
 	"namemsg": "cargo-extensionname",
-	"version": "3.5.1",
+	"version": "3.6-alpha",
 	"author": "Yaron Koren",
 	"url": "https://www.mediawiki.org/wiki/Extension:Cargo",
 	"descriptionmsg": "cargo-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "parserhook",
 	"requires": {
-		"MediaWiki": ">= 1.37"
+		"MediaWiki": ">= 1.38"
 	},
 	"callback": "CargoHooks::registerExtension",
 	"ExtensionFunctions": [

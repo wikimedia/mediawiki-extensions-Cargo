@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\Linker\LinkTarget;
-use MediaWiki\Linker\LinkTargetLookup;
 use MediaWiki\MediaWikiServices;
 
 /**
@@ -167,14 +166,8 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 
 	public function getNumPagesThatCallTemplate( $dbr, LinkTarget $templateTitle ) {
 		$conds = [ "tl_from=page_id" ];
-		if ( method_exists( LinkTargetLookup::class, 'getLinkTargetId' ) ) {
-			// MW 1.38+
-			$linkTargetLookup = MediaWikiServices::getInstance()->getLinkTargetLookup();
-			$conds['tl_target_id'] = $linkTargetLookup->getLinkTargetId( $templateTitle );
-		} else {
-			$conds['tl_namespace'] = $templateTitle->getNamespace();
-			$conds['tl_title'] = $templateTitle->getDBkey();
-		}
+		$linkTargetLookup = MediaWikiServices::getInstance()->getLinkTargetLookup();
+		$conds['tl_target_id'] = $linkTargetLookup->getLinkTargetId( $templateTitle );
 
 		$res = $dbr->select(
 			[ 'page', 'templatelinks' ],

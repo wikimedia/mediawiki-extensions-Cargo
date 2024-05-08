@@ -10,10 +10,6 @@ class CargoLinksUpdateHandler implements LinksUpdateHook {
 	 * @param LinksUpdate $linksUpdate
 	 */
 	public function onLinksUpdate( $linksUpdate ): void {
-		// MW < 1.38 compatibility
-		// @phan-suppress-next-line PhanAccessPropertyProtected
-		$pageId = method_exists( $linksUpdate, 'getPageId' ) ? $linksUpdate->getPageId() : $linksUpdate->mId;
-
 		$parserOutput = $linksUpdate->getParserOutput();
 		$backlinks = array_keys(
 			$parserOutput->getExtensionData( CargoBackLinks::BACKLINKS_DATA_KEY ) ?? []
@@ -22,6 +18,7 @@ class CargoLinksUpdateHandler implements LinksUpdateHook {
 		if ( count( $backlinks ) > 0 ) {
 			CargoBackLinks::setBackLinks( $linksUpdate->getTitle(), $backlinks );
 		} else {
+			$pageId = $linksUpdate->getPageId();
 			CargoBackLinks::removeBackLinks( $pageId );
 		}
 
