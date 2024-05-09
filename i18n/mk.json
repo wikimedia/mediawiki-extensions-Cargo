@@ -122,7 +122,7 @@
 	"cargo-switchtables-switch": "Префрли",
 	"cargo-switchtables-success": "Замената за табелата „$1“ е ставена во употреба.",
 	"cargotablediagram": "Табеларен дијаграм на „Карго“",
-	"pagevalues": "Вредности на страницата",
+	"pagevalues": "Податоци на „Карго“",
 	"cargo-pagevaluesfor": "Вредности на страницата „$1“",
 	"cargo-pagevalues-tablevalues": "вредности од „$1“",
 	"cargo-pagevalues-tableinfo-numrows": "На страницава {{PLURAL:$1|е складиран $1 ред|се складирани $1 редови}}",
