@@ -120,7 +120,7 @@
 	"cargo-switchtables-switch": "Preklopi",
 	"cargo-switchtables-success": "Opravljen je bil preklop na nadomestilo za tabelo »$1«.",
 	"cargotablediagram": "Diagram tabele Cargo",
-	"pagevalues": "Vrednosti strani",
+	"pagevalues": "Podatki o tovoru",
 	"cargo-pagevaluesfor": "Vrednosti strani za »$1«",
 	"cargo-pagevalues-tablevalues": "Vrednosti »$1«",
 	"cargo-pagevalues-tableinfo-numrows": "Za to stran {{PLURAL:$1|je shranjena|sta shranjeni|so shranjene|je shranjenih}} $1 {{PLURAL:$1|vrstica|vrstici|vrstice|vrstic}}",
