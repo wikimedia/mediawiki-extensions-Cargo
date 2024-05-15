@@ -566,7 +566,8 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	private function displayCSVData( $sqlQueries, $delimiter, $filename, $parseValues ) {
-		header( "Content-Type: text/csv" );
+		header( 'Content-Encoding: UTF-16' );
+		header( "Content-Type: text/csv; charset=UTF-16" );
 		header( "Content-Disposition: attachment; filename=$filename" );
 
 		$queryResultsArray = [];
