@@ -24,6 +24,14 @@ class CargoAutocompleteAPI extends ApiBase {
 		$field = $params['field'];
 		$where = $params['where'];
 
+		if ( $table == '' ) {
+			$this->dieWithError( '"table" value must be specified', 'param_table' );
+		}
+
+		if ( $field == '' ) {
+			$this->dieWithError( '"field" value must be specified', 'param_field' );
+		}
+
 		$data = self::getAllValues( $table, $field, $where, $substr );
 
 		// If we got back an error message, exit with that message.
