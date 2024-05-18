@@ -513,6 +513,7 @@
 		"CargoAllowedSQLFunctions": [
 			"AVG",
 			"CEIL",
+			"COALESCE",
 			"CONCAT",
 			"COUNT",
 			"DATE",
