@@ -141,7 +141,7 @@
 	"pagevalues": "页面值",
 	"cargo-pagevaluesfor": "“$1”的页面值",
 	"cargo-pagevalues-tablevalues": "“$1”值",
-	"cargo-pagevalues-tableinfo-numrows": "$1{{PLURAL:$1|行}}是给该页面储存的",
+	"cargo-pagevalues-tableinfo-numrows": "$1{{PLURAL:$1|行}}存储于此页",
 	"drilldown": "向下钻取",
 	"cargo-drilldown-choosetable": "选择表格",
 	"cargo-drilldown-allpages": "所有页面",
