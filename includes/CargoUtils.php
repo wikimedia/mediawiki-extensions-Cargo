@@ -520,6 +520,11 @@ class CargoUtils {
 	public static function smartParse( $value, $parser ) {
 		global $wgRequest;
 
+		// Escape immediately if it's blank or null.
+		if ( $value == '' ) {
+			return '';
+		}
+
 		// This decode() call is here in case the value was
 		// set using {{PAGENAME}}, which for some reason
 		// HTML-encodes some of its characters - see
