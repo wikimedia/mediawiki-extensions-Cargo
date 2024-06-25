@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Nemo bis",
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -15,6 +16,7 @@
 	"cargo-viewdata-orderby": "Zortéieren no:",
 	"cargo-viewdata-limit": "Limitt:",
 	"cargo-viewdata-offset": "Offset:",
+	"cargo-viewdata-offsettooltip": "Gitt d'Zuel vun den Zeile fir z'iwwersprangen un. De Standardwäert ass $1.",
 	"cargo-viewdata-format": "Format:",
 	"cargo-viewdata-defaultformat": "Standard",
 	"cargo-viewdata-heightparam": "Héicht:",
@@ -28,7 +30,7 @@
 	"cargo-query-unknowndbtable": "Feeler: Et gëtt keng Tabell mam Numm \"$1\" an der Datebank.",
 	"cargo-query-unknownfieldfortable": "Feeler: D'Feld mam Numm \"$1\" gouf an der Tabell \"$2\" vun der Datebank net fonnt.",
 	"cargo-cargotables-header-table": "Tabell",
-	"cargo-cargotables-header-rowcount": "Reien",
+	"cargo-cargotables-header-rowcount": "Zeilen",
 	"cargo-cargotables-header-templates": "Schablounen",
 	"cargo-cargotables-action-deletereplacement": "Läschen",
 	"cargo-cargotables-action-delete": "Läschen",
@@ -44,6 +46,7 @@
 	"cargo-deletetable-success": "D'Tabell \"$1\" gouf geläscht.",
 	"cargo-switchtables-switch": "Ëmschalten",
 	"cargo-pagevalues-tablevalues": "\"$1\"-Wäerter",
+	"cargo-pagevalues-tableinfo-numrows": "{{PLURAL:$1|Eng Zeil ass|$1 Zeile si}} fir dës Säit gespäichert",
 	"cargo-drilldown-choosetable": "Eng Tabell eraussichen",
 	"cargo-drilldown-allpages": "All Säiten",
 	"cargo-drilldown-allfiles": "All Fichieren",
