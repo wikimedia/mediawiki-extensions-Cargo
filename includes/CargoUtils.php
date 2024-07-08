@@ -1072,7 +1072,7 @@ class CargoUtils {
 				break;
 			}
 		}
-		if ( $numDegrees == null ) {
+		if ( $numDegrees === null ) {
 			throw new MWException( "Error: could not parse degrees in \"$coordinateStr\"." );
 		}
 
@@ -1083,7 +1083,7 @@ class CargoUtils {
 				break;
 			}
 		}
-		if ( $numMinutes == null ) {
+		if ( $numMinutes === null ) {
 			// This might not be an error - the number of minutes
 			// might just not have been set.
 			$numMinutes = 0;
@@ -1096,7 +1096,7 @@ class CargoUtils {
 				break;
 			}
 		}
-		if ( $numSeconds == null ) {
+		if ( $numSeconds === null ) {
 			// This might not be an error - the number of seconds
 			// might just not have been set.
 			$numSeconds = 0;
