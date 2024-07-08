@@ -18,7 +18,8 @@
 			"Zhang8569",
 			"佛壁灯",
 			"列维劳德",
-			"LittlePaw365"
+			"LittlePaw365",
+			"XtexChooser"
 		]
 	},
 	"cargo-extensionname": "Cargo",
@@ -102,7 +103,7 @@
 	"cargo-cargotables-header-templates": "模板",
 	"cargo-cargotables-action-deletereplacement": "删除",
 	"cargo-cargotables-action-switchreplacement": "切换为",
-	"cargo-cargotables-action-drilldown": "向下钻取",
+	"cargo-cargotables-action-drilldown": "深入分析",
 	"cargo-cargotables-action-delete": "删除",
 	"cargo-cargotables-action-recreate": "重新创建",
 	"cargo-cargotables-specialtables": "存在以下特殊表格：",
@@ -140,7 +141,7 @@
 	"cargo-pagevaluesfor": "“$1”的页面值",
 	"cargo-pagevalues-tablevalues": "“$1”值",
 	"cargo-pagevalues-tableinfo-numrows": "$1{{PLURAL:$1|行}}存储于此页",
-	"drilldown": "向下钻取",
+	"drilldown": "深入分析",
 	"cargo-drilldown-choosetable": "选择表格",
 	"cargo-drilldown-allpages": "所有页面",
 	"cargo-drilldown-allfiles": "所有文件",
