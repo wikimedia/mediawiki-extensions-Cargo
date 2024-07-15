@@ -114,7 +114,7 @@
 	"switchcargotable": "Переключиться на замену таблицы Cargo",
 	"cargo-switchtables-confirm": "Переключиться на замену таблицы Cargo $1?",
 	"cargo-switchtables-switch": "Переключить",
-	"pagevalues": "Значения страницы",
+	"pagevalues": "Данные cargo",
 	"cargo-pagevaluesfor": "Значения страницы «$1»",
 	"cargo-pagevalues-tablevalues": "Значения «$1»",
 	"drilldown": "Просмотр иерархии",
