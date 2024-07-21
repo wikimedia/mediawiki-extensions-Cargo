@@ -254,7 +254,13 @@ class CargoFieldDescription {
 		// @TODO - it might make sense to create a new class around
 		// this function, like "CargoFieldValue" -
 		// CargoStore::getDateValueAndPrecision() could move there too.
-		$fieldValue = trim( $fieldValue );
+
+		// When a `false` (the boolean, not the string 'false') is passed
+		// by Lua, `trim( false )` is called. This presumably casts `false`
+		// to a string, which in PHP is an empty string. This does not affect
+		// `true` however, as `true` casted to a string is '1'.
+		// We use '0' if $fieldValue is a boolean false.
+		$fieldValue = $fieldValue === false ? '0' : trim( $fieldValue );
 		if ( $fieldValue == '' ) {
 			if ( $this->isDateOrDatetime() ) {
 				// If it's a date field, it has to be null,
