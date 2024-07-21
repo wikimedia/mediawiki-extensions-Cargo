@@ -207,7 +207,7 @@ class CargoStore {
 				continue;
 			}
 			$fieldValue = $tableFieldValues[$fieldName];
-			if ( $fieldDescription->mIsMandatory && $fieldValue == '' ) {
+			if ( $fieldDescription->mIsMandatory && ( $fieldValue === '' || $fieldValue === null ) ) {
 				return "Mandatory field, \"$fieldName\", cannot have a blank value.";
 			}
 			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
