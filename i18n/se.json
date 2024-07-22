@@ -17,5 +17,7 @@
 	"cargo-drilldown-filename": "Fiilanamma",
 	"cargo-drilldown-mapformat": "Kárta",
 	"cargo-viewjson": "Čájet JSON",
+	"cargo-purgecache": "Gurre gaskamuittu",
+	"cargo-purgecache-failed": "Gaskamuittu gurren ii lihkostuvvan",
 	"cargo-pageschemas-tablename": "Tabealla namma:"
 }
