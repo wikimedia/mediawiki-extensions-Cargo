@@ -504,7 +504,7 @@ class CargoSQLQuery {
 		}
 
 		$sqlFunctionMatches = [];
-		$sqlFunctionRegex = '/(\b|\W)(\w*?)\s*\(/';
+		$sqlFunctionRegex = '/(\b|\W|`)(\w*?)(\s*|`)\(/';
 		preg_match_all( $sqlFunctionRegex, $str, $sqlFunctionMatches );
 		$sqlFunctions = array_map( 'strtoupper', $sqlFunctionMatches[2] );
 		$sqlFunctions = array_map( 'trim', $sqlFunctions );
