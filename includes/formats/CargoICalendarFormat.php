@@ -171,15 +171,8 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 		$lang = CargoUtils::getContentLang()->getHtmlCode();
 		// Make sure the language conforms to RFC5646.
 		$langProp = '';
-		if ( method_exists( LanguageCode::class, 'isWellFormedLanguageTag' ) ) {
-			// MediaWiki 1.39+
-			if ( LanguageCode::isWellFormedLanguageTag( $lang ) ) {
-				$langProp = ";LANGUAGE=$lang";
-			}
-		} else {
-			if ( Language::isWellFormedLanguageTag( $lang ) ) {
-				$langProp = ";LANGUAGE=$lang";
-			}
+		if ( LanguageCode::isWellFormedLanguageTag( $lang ) ) {
+			$langProp = ";LANGUAGE=$lang";
 		}
 		return $this->wrap( "$prop$langProp:" . $this->esc( $str ) );
 	}
