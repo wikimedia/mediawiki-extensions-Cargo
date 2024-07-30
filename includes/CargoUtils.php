@@ -76,12 +76,7 @@ class CargoUtils {
 			$params['port'] = $wgDBport;
 		}
 
-		if ( method_exists( $services, 'getDatabaseFactory' ) ) {
-			// MW 1.39+
-			self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );
-		} else {
-			self::$CargoDB = Database::factory( $wgCargoDBtype, $params );
-		}
+		self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );
 		return self::$CargoDB;
 	}
 
