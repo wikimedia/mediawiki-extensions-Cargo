@@ -76,13 +76,13 @@
 		$( this ).html( autocompleteLayout.$element );
 	};
 
-}( jQuery ) );
+}() );
 
-jQuery( document ).ready( function () {
+$( function () {
 	var viewport = '<meta name="viewport" content="width=device-width,initial-scale=1">';
 	$( 'head' ).append( viewport );
 
-	jQuery( '.cargoDrilldownRemoteAutocomplete' ).each( function () {
+	$( '.cargoDrilldownRemoteAutocomplete' ).each( function () {
 		$( this ).CDRemoteAutocomplete();
 	} );
 	jQuery( '.drilldown-values-toggle' ).on( 'click', function () {

@@ -1,4 +1,4 @@
-jQuery( document ).ready( function() {
+$( function() {
 	jQuery( 'table td.cargo-pagevalues-fieldinfo' ).each( function() {
 		var fieldType = jQuery( this ).attr( 'data-field-type' );
 		var allowedValues = jQuery( this ).attr( 'data-allowed-values' );
