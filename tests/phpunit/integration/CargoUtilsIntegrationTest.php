@@ -1,15 +1,14 @@
 <?php
 
+use MediaWiki\MainConfigNames;
 use MediaWiki\MediaWikiServices;
 
 class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	public function setUp(): void {
-		$this->setMwGlobals(
-			[
-				'wgDisableInternalSearch' => true,
-				'wgDummyLanguageCodes' => true
-			]
-		);
+		$this->overrideConfigValues( [
+			MainConfigNames::DisableInternalSearch => true,
+			MainConfigNames::DummyLanguageCodes => true,
+		] );
 	}
 
 	/**

@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MainConfigNames;
 use MediaWiki\Request\FauxRequest;
 
 /**
@@ -15,9 +16,9 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		// Set useless article path, for easier URL testing.
-		$this->setMwGlobals( [
-			'wgServer' => 'https://wiki.example.org',
-			'wgArticlePath' => 'cargofeedtest/$1',
+		$this->overrideConfigValues( [
+			MainConfigNames::Server => 'https://wiki.example.org',
+			MainConfigNames::ArticlePath => 'cargofeedtest/$1',
 		] );
 		MWTimestamp::setFakeTime( 1675991594 );
 	}
