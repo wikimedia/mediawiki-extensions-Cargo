@@ -3,6 +3,8 @@
  * @file
  */
 
+use MediaWiki\MainConfigNames;
+
 /**
  * Tests for the iCalendar format.
  */
@@ -10,7 +12,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 
 	public function setUp(): void {
 		// Set useless article path, for easier URL testing.
-		$this->setMwGlobals( [ 'wgArticlePath' => 'cargotest/$1' ] );
+		$this->overrideConfigValue( MainConfigNames::ArticlePath, 'cargotest/$1' );
 	}
 
 	/**
@@ -88,7 +90,7 @@ class CargoICalendarFormatTest extends MediaWikiIntegrationTestCase {
 	 */
 	public function testGetEvent( $dbRow, $icalLines, $localtimezone = null ) {
 		if ( $localtimezone ) {
-			$this->setMwGlobals( 'wgLocaltimezone', $localtimezone );
+			$this->overrideConfigValue( MainConfigNames::Localtimezone, $localtimezone );
 		}
 		$format = new CargoICalendarFormat( $this->createMock( OutputPage::class ) );
 		static::assertSame( $icalLines, $format->getEvent( $dbRow, 'start', 'end', '_pageName' ) );

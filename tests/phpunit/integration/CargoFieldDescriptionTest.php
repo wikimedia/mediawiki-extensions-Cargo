@@ -192,9 +192,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 	 * @covers CargoFieldDescription::getFieldSize
 	 */
 	public function testGetFieldSizeWithCargoDefaultStringBytes() {
-		$this->setMwGlobals( [
-			"wgCargoDefaultStringBytes" => 500
-		] );
+		$this->overrideConfigValue( 'CargoDefaultStringBytes', 500 );
 
 		$actual = $this->cargoFieldDescription->getFieldSize();
 		$this->assertSame( 500, $actual );

@@ -1,13 +1,13 @@
 <?php
 
+use MediaWiki\MainConfigNames;
+
 class CargoSearchMySQLIntegrationTest extends MediaWikiIntegrationTestCase {
 	/** @var CargoSearchMySQL */
 	private $cargoSearchMysql;
 
 	public function setUp(): void {
-		$this->setMwGlobals(
-			[ 'wgMainStash' => true ]
-		);
+		$this->overrideConfigValue( MainConfigNames::MainStash, true );
 		$this->cargoSearchMysql = new CargoSearchMySQL();
 	}
 
