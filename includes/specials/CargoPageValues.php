@@ -53,7 +53,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			$tableNames[] = $row->table_name;
 		}
 
-		$toc = Linker::tocIndent();
+		$toc = self::tocIndent();
 		$tocLength = 0;
 
 		foreach ( $tableNames as $tableName ) {
@@ -82,8 +82,8 @@ class CargoPageValues extends IncludableSpecialPage {
 
 			// We construct the table of contents at the same time
 			// as the main text.
-			$toc .= Linker::tocLine( $tableSectionAnchor, $tableSectionTocDisplay,
-				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . Linker::tocLineEnd();
+			$toc .= self::tocLine( $tableSectionAnchor, $tableSectionTocDisplay,
+				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . self::tocLineEnd();
 
 			$h2 = Html::rawElement( 'h2', null,
 				Html::rawElement( 'span', [ 'class' => 'mw-headline', 'id' => $tableSectionAnchor ], $tableSectionHeader ) );
@@ -115,7 +115,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		// Show table of contents only if there are enough sections.
 		if ( count( $tableNames ) >= 3 ) {
-			$toc = Linker::tocList( $toc );
+			$toc = self::tocList( $toc );
 			$out->addHTML( $toc );
 		}
 
@@ -240,6 +240,97 @@ class CargoPageValues extends IncludableSpecialPage {
 		$headerRow .= '<th>Value</th></tr>';
 		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
 			$headerRow . $tableContents ) . "\n";
+	}
+
+	/**
+	 * Add another level to the Table of Contents
+	 *
+	 * Copied from HandleTOCMarkers::tocIndent(), which is unfortunately private.
+	 *
+	 * @return string
+	 */
+	private static function tocIndent() {
+		return "\n<ul>\n";
+	}
+
+	/**
+	 * parameter level defines if we are on an indentation level
+	 *
+	 * Copied from HandleTOCMarkers::tocLine(), which is unfortunately private.
+	 *
+	 * @param string $linkAnchor Identifier
+	 * @param string $tocline Properly escaped HTML
+	 * @param string $tocnumber Unescaped text
+	 * @param int $level
+	 * @param string|false $sectionIndex
+	 * @return string
+	 */
+	private static function tocLine( $linkAnchor, $tocline, $tocnumber, $level, $sectionIndex = false ) {
+		$classes = "toclevel-$level";
+		// Parser.php used to suppress tocLine by setting $sectionindex to false.
+		// In those circumstances, we can now encounter '' or a "T-" prefixed index
+		// for when the section comes from templates.
+		if ( $sectionIndex !== false && $sectionIndex !== '' && !str_starts_with( $sectionIndex, "T-" ) ) {
+			$classes .= " tocsection-$sectionIndex";
+		}
+		// <li class="$classes"><a href="#$linkAnchor"><span class="tocnumber">
+		// $tocnumber</span> <span class="toctext">$tocline</span></a>
+		return Html::openElement( 'li', [ 'class' => $classes ] )
+			. Html::rawElement( 'a',
+				[ 'href' => "#$linkAnchor" ],
+				Html::element( 'span', [ 'class' => 'tocnumber' ], $tocnumber )
+					. ' '
+					. Html::rawElement( 'span', [ 'class' => 'toctext' ], $tocline )
+			);
+	}
+
+	/**
+	 * End a Table Of Contents line.
+	 * tocUnindent() will be used instead if we're ending a line below
+	 * the new level.
+	 *
+	 * Copied from HandleTOCMarkers::tocLineEnd(), which is unfortunately private.
+	 *
+	 * @return string
+	 */
+	private static function tocLineEnd() {
+		return "</li>\n";
+	}
+
+	/**
+	 * Wraps the TOC in a div with ARIA navigation role and provides the hide/collapse JavaScript.
+	 *
+	 * Copied from HandleTOCMarkers::tocList(), which is unfortunately private.
+	 *
+	 * @param string $toc Html of the Table Of Contents
+	 * @param Language|null $lang Language for the toc title, defaults to user language
+	 * @return string Full html of the TOC
+	 */
+	private static function tocList( $toc, Language $lang = null ) {
+		$lang ??= RequestContext::getMain()->getLanguage();
+		$title = wfMessage( 'toc' )->inLanguage( $lang )->escaped();
+		return '<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading">'
+			. Html::element( 'input', [
+				'type' => 'checkbox',
+				'role' => 'button',
+				'id' => 'toctogglecheckbox',
+				'class' => 'toctogglecheckbox',
+				'style' => 'display:none',
+			] )
+			. Html::openElement( 'div', [
+				'class' => 'toctitle',
+				'lang' => $lang->getHtmlCode(),
+				'dir' => $lang->getDir(),
+			] )
+			. '<h2 id="mw-toc-heading">' . $title . '</h2>'
+			. '<span class="toctogglespan">'
+			. Html::label( '', 'toctogglecheckbox', [
+				'class' => 'toctogglelabel',
+			] )
+			. '</span>'
+			. '</div>'
+			. $toc
+			. "</ul>\n</div>\n";
 	}
 
 	/**
