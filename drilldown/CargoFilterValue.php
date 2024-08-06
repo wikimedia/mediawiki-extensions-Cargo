@@ -84,11 +84,21 @@ class CargoFilterValue {
 					$fv->is_numeric = true;
 				}
 			} else {
-				$elements = explode( '-', $fvText );
+				// We need special handling for the first
+				// character, if it's a dash, to not mess up
+				// the explode() call.
+				$first_elem_is_negative = substr( $fvText, 0, 1 ) == '-';
+				if ( $first_elem_is_negative ) {
+					$fvText = substr( $fvText, 1 );
+				}
+				$elements = explode( '-', $fvText, 2 );
 				if ( count( $elements ) == 2 ) {
 					$first_elem = str_replace( ',', '', trim( $elements[0] ) );
 					$second_elem = str_replace( ',', '', trim( $elements[1] ) );
 					if ( is_numeric( $first_elem ) && is_numeric( $second_elem ) ) {
+						if ( $first_elem_is_negative ) {
+							$first_elem *= -1;
+						}
 						$fv->lower_limit = $first_elem;
 						$fv->upper_limit = $second_elem;
 						$fv->is_numeric = true;
