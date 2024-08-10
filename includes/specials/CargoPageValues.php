@@ -120,7 +120,8 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$out->addHTML( $text );
-		$out->addModules( 'ext.cargo.pagevalues' );
+		$out->addModules( 'ext.cargo.main' );
+		$out->addModuleStyles( 'ext.cargo.pagevalues' );
 
 		return true;
 	}
