@@ -6,7 +6,7 @@
  * @author Yaron Koren
  */
 
-( function ( $, mw ) {
+mw.loader.using( ["oojs-ui-core"], function() {
 
 var showText = '[' + mw.msg( 'show' ) + ']';
 var hideText = '[' + mw.msg( 'hide' ) + ']';
@@ -40,4 +40,4 @@ $('th.cargotables-columncount').each( function() {
 	$( this ).append( popup.$element );
 });
 
-}( jQuery, mediaWiki ) );
+} );

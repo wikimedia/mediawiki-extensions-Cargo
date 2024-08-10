@@ -195,6 +195,9 @@
 		},
 		"ext.cargo.cargotables": {
 			"styles": "resources/CargoTables.css",
+			"dependencies": [
+				"oojs-ui-core"
+			],
 			"messages": [
 				"cargo-cargotables-columncountinfo"
 			]
