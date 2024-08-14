@@ -53,6 +53,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
 		$out = $this->getOutput();
 		$req = $this->getRequest();
+		$csrfTokenSet = $this->getContext()->getCsrfTokenSet();
 
 		$out->enableOOUI();
 
@@ -84,7 +85,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		$fieldTables = unserialize( $row['field_tables'] );
 		$fieldHelperTables = unserialize( $row['field_helper_tables'] );
 
-		if ( $this->getRequest()->getCheck( 'delete' ) ) {
+		if ( $req->wasPosted() && $req->getCheck( 'delete' ) && $csrfTokenSet->matchToken( $req->getText( 'wpEditToken' ) ) ) {
 			self::deleteTable( $tableName, $fieldTables, $fieldHelperTables );
 			$text = Html::element( 'p', null, $this->msg( 'cargo-deletetable-success', $tableName )->parse() ) . "\n";
 			$tablesLink = CargoUtils::makeLink( $this->getLinkRenderer(),
