@@ -9,11 +9,12 @@
 mw.loader.using( ["oojs-ui-core"], function() {
 
 var showText = '[' + mw.msg( 'show' ) + ']';
+var showPseudoLink = $( '<a>' ).addClass( 'cargoToggle' ).text( showText );
 var hideText = '[' + mw.msg( 'hide' ) + ']';
 
 $('span.cargoMinimizedText')
 	.hide()
-	.parent().prepend('<a class="cargoToggle">' + showText + '</a> ');
+	.parent().prepend( showPseudoLink );
 
 $('a.cargoToggle').click( function() {
 	if ( $(this).text() == showText ) {
@@ -26,13 +27,18 @@ $('a.cargoToggle').click( function() {
 });
 
 $('th.cargotables-columncount').each( function() {
-	var columnsHelpText =  mw.msg( 'cargo-cargotables-columncountinfo', '<code>_pageName</code>' );
+	var columnsHelpText =  mw.msg( 'cargo-cargotables-columncountinfo', '_pageName' )
+		// Instead of escaping the entire text, we do manual escaping here, so
+		// that we can then do custom formatting of "_pageName".
+		.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+		.replace(/_pageName/, "<code>_pageName</code>");
+	var columnsHelpTag = $( '<p>' ).css( 'font-weight', 'normal' ).html( columnsHelpText );
 	var popup = new OO.ui.PopupButtonWidget( {
 		icon: 'info',
 		framed: false,
 		popup: {
 			padded: true,
-			$content: $( '<p style="font-weight: normal">' + columnsHelpText + '</p>' )
+			$content: columnsHelpTag
 		}
 	} );
 	popup.$element.css( 'margin-left', '5px' );

@@ -51,12 +51,12 @@ $(document).ready(function() {
 
 	var fieldName = [ 'tables', 'fields', 'where', 'join_on','group_by', 'having', 'limit', 'offset', 'format' ];
 	fieldName.forEach( function(item) {
-		popupMessage.$content = $( '<p align=left>' + getInfoMessage( item ) + '</p>' );
+		popupMessage.$content = $( '<p>' ).attr( 'align', 'left' ).text( getInfoMessage( item ) );
 		infoBox.popup = popupMessage;
 		var info = new OO.ui.PopupButtonWidget(infoBox);
 		$('tr.ext-cargo-tr-'+item+' td:eq(0)').append(info.$element);
 		if (item == 'where' || item == 'join_on' || item == 'having') {
-			$('tr.ext-cargo-tr-' + item+ ' td:eq(1)').find('textarea').attr('id',item);
+			$('tr.ext-cargo-tr-' + item + ' td:eq(1)').find('textarea').attr('id',item);
 			classes = 'form-control cargo-query-textarea';
 		} else if (item !== 'format') {
 			$('tr.ext-cargo-tr-' + item + ' td:eq(1)').find('input').attr('id',item);
@@ -313,7 +313,7 @@ $(document).ready(function() {
 		$('.oo-ui-horizontalLayout').css( 'margin-bottom', '-8px' );
 		for ( i=orderByFirstRowNum; i<=orderBylastRowNum; i++ ) {
 			if ( i==0 ) {
-				popupMessage.$content = $( '<p align=left>' + getInfoMessage( 'order_by' ) + '</p>' );
+				popupMessage.$content = $( '<p>' ).attr( 'align', 'left' ).text( getInfoMessage( 'order_by' ) );
 				infoBox.popup = popupMessage;
 				var info = new OO.ui.PopupButtonWidget(infoBox);
 				$("tr.orderByRow td:eq(0)").append(info.$element);

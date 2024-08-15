@@ -71,17 +71,22 @@
 					recreateData.createJobs( templateNum + 1, 0, replaceOldRows );
 				} else {
 					// We're done.
+					var successTag = $( '<p>' ).text( mw.msg( 'cargo-recreatedata-success' ) );
+					$("#recreateDataProgress").html( successTag );
 					if ( createReplacement ) {
 						viewTableURL += ( viewTableURL.indexOf('?') === -1 ) ? '?' : '&';
 						viewTableURL += "_replacement";
 					}
 					var linkMsg = createReplacement ? 'cargo-cargotables-viewreplacementlink' : 'cargo-cargotables-viewtablelink';
-					$("#recreateDataProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-success' ) + "</p><p><a href=\"" + viewTableURL + "\">" + mw.msg( linkMsg ) + "</a>.</p>" );
+					var viewTableLink = $( '<a>' ).attr( 'href', viewTableURL ).text( mw.msg( linkMsg ) );
+					var viewTableTag = $( '<p>' ).html( viewTableLink );
+					$("#recreateDataProgress").append( viewTableText );
 				}
 			}
 		}).fail(function (error) {
-			$("#recreateTableProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-job-creation-failed', tableName ) + "</p>" );
 			// handle failure
+			var failureTag = $( '<p>' ).text( mw.msg( 'cargo-recreatedata-job-creation-failed', tableName ) );
+			$("#recreateTableProgress").html( failureTag );
 		});
 	}
 
@@ -112,10 +117,12 @@
 			mwApi.postWithToken( 'csrf', queryStringData )
 			.then(function( msg ) {
 				var displayMsg = createReplacement ? 'cargo-recreatedata-replacementcreated' : 'cargo-recreatedata-tablecreated';
-				$("#recreateTableProgress").html( "<p>" + mw.msg( displayMsg, tableName ) + "</p>" );
+				var tableCreatedTag = $( '<p>' ).text(  mw.msg( displayMsg, tableName ) );
+				$("#recreateTableProgress").html( tableCreatedTag );
 				recreateData.createJobs( 0, 0, false );
 			}).fail(function (error) {
-				$("#recreateTableProgress").html( "<p>" + mw.msg( 'cargo-recreatedata-table-creation-failed', tableName ) + "</p>" );
+				var tableCreationFailedTag = $( '<p>' ).text(  mw.msg( 'cargo-recreatedata-table-creation-failed', tableName ) );
+				$("#recreateTableProgress").html( tableCreationFailedTag );
 			});
 		} else {
 			recreateData.createJobs( 0, 0, true );
