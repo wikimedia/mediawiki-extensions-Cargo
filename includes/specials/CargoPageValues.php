@@ -234,11 +234,13 @@ class CargoPageValues extends IncludableSpecialPage {
 	 * Based on MediaWiki's InfoAction::addTable()
 	 */
 	public function printTable( $tableContents, $anyFieldHasAllowedValues ) {
-		$headerRow = '<tr><th>Field</th><th>' . $this->msg( 'cargo-field-type' )->text() . '</th>';
+		$headerRow = Html::element( 'th', null, $this->msg( 'cargo-field' )->text() ) .
+			Html::element( 'th', null, $this->msg( 'cargo-field-type' )->text() );
 		if ( $anyFieldHasAllowedValues ) {
-			$headerRow .= '<th>' . $this->msg( 'cargo-allowed-values' )->text() . '</th>';
+			$headerRow .= Html::element( 'th', null, $this->msg( 'cargo-allowed-values' )->text() );
 		}
-		$headerRow .= '<th>Value</th></tr>';
+		$headerRow .= Html::element( 'th', null, $this->msg( 'cargo-value' )->text() );
+		$headerRow = Html::rawElement( 'tr', null, $headerRow );
 		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
 			$headerRow . $tableContents ) . "\n";
 	}
