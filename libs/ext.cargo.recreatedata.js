@@ -80,7 +80,7 @@
 					var linkMsg = createReplacement ? 'cargo-cargotables-viewreplacementlink' : 'cargo-cargotables-viewtablelink';
 					var viewTableLink = $( '<a>' ).attr( 'href', viewTableURL ).text( mw.msg( linkMsg ) );
 					var viewTableTag = $( '<p>' ).html( viewTableLink );
-					$("#recreateDataProgress").append( viewTableText );
+					$("#recreateDataProgress").append( viewTableTag );
 				}
 			}
 		}).fail(function (error) {
