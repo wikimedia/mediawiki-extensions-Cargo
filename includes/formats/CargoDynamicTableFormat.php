@@ -159,7 +159,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 				continue;
 			}
 			if ( $searchableColumns ) {
-				$placeholder = wfMessage( 'cargo-dynamictables-searchcolumn', $fieldName )->parse();
+				$placeholder = wfMessage( 'cargo-dynamictables-searchcolumn', $fieldName )->escaped();
 				$attribs = [ 'data-placeholder' => $placeholder ];
 			} else {
 				$attribs = null;

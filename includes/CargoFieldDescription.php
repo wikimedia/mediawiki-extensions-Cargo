@@ -374,7 +374,7 @@ class CargoFieldDescription {
 		if ( $this->mIsList ) {
 			$delimiter = '<tt>' . $this->mDelimiter . '</tt>';
 			$typeDesc = wfMessage( 'cargo-cargotables-listof',
-				$typeDesc, $delimiter )->parse();
+				$typeDesc, $delimiter )->escaped();
 		}
 		return $typeDesc;
 	}
@@ -384,14 +384,14 @@ class CargoFieldDescription {
 
 		$attributesStrings = [];
 		if ( $this->mIsMandatory ) {
-			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-mandatory' )->text() ];
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-mandatory' )->escaped() ];
 		}
 		if ( $this->mIsUnique ) {
-			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-unique' )->text() ];
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-unique' )->escaped() ];
 		}
 		if ( $this->mAllowedValues !== null ) {
 			$allowedValuesStr = implode( ' &middot; ', $this->mAllowedValues );
-			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-allowedvalues' )->text(),
+			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-allowedvalues' )->escaped(),
 				$allowedValuesStr ];
 		}
 		if ( count( $attributesStrings ) == 0 ) {

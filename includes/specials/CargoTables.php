@@ -49,7 +49,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		if ( !CargoUtils::tableFullyExists( $tableName ) ) {
 			$out->addHTML( Html::element( 'div', [ 'class' => 'error' ],
-				$this->msg( "cargo-unknowntable", $tableName )->parse() ) );
+				$this->msg( "cargo-unknowntable", $tableName )->escaped() ) );
 
 			return;
 		}
@@ -59,14 +59,14 @@ class CargoTables extends IncludableSpecialPage {
 
 		if ( $req->getCheck( '_replacement' ) ) {
 			$pageTitle =
-				$this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->parse();
+				$this->msg( 'cargo-cargotables-viewreplacement', '"' . $tableName . '"' )->escaped();
 			$tableLink = Html::element( 'a', [ 'href' => $viewURL ], $tableName );
-			$text = $this->msg( 'cargo-cargotables-replacementtable', $tableLink )->text();
+			$text = $this->msg( 'cargo-cargotables-replacementtable' )->rawParams( $tableLink )->escaped();
 			if ( $user->isAllowed( 'recreatecargodata' ) ) {
 				$switchURL =
 					SpecialPage::getTitleFor( 'SwitchCargoTable' )->getFullURL() . "/$tableName";
 				$text .= ' ' . Html::element( 'a', [ 'href' => $switchURL ],
-						$this->msg( "cargo-cargotables-switch" )->parse() );
+						$this->msg( "cargo-cargotables-switch" )->escaped() );
 
 				if ( $user->isAllowed( 'deletecargodata' ) ) {
 					$deleteURL =
@@ -75,15 +75,15 @@ class CargoTables extends IncludableSpecialPage {
 					$deleteURL .= strpos( $deleteURL, '?' ) ? '&' : '?';
 					$deleteURL .= "_replacement";
 					$text .= ' ' .
-						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
+						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->escaped();
 				}
 			}
 			$out->addHtml( Html::warningBox( $text ) );
 			$tableName .= '__NEXT';
 		} else {
-			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->parse();
+			$pageTitle = $this->msg( 'cargo-cargotables-viewtable', $tableName )->escaped();
 			if ( CargoUtils::tableFullyExists( $tableName . '__NEXT' ) ) {
-				$text = Html::warningBox( $this->msg( 'cargo-cargotables-hasreplacement' )->parse() );
+				$text = Html::warningBox( $this->msg( 'cargo-cargotables-hasreplacement' )->escaped() );
 				$out->addHtml( $text );
 			}
 		}
@@ -102,7 +102,7 @@ class CargoTables extends IncludableSpecialPage {
 		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
 
 		// Display the table structure.
-		$structureDesc = '<p>' . $this->msg( 'cargo-cargotables-tablestructure' )->parse() . '</p>';
+		$structureDesc = '<p>' . $this->msg( 'cargo-cargotables-tablestructure' )->escaped() . '</p>';
 		$structureDesc .= '<ol>';
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldDesc = '<strong>' . $fieldName . '</strong> - ';
@@ -128,7 +128,7 @@ class CargoTables extends IncludableSpecialPage {
 			$templateID = $templatesThatDeclareThisTable[0];
 			$templateTitle = Title::newFromID( $templateID );
 			$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
-			$recreateDataMessage = $this->msg( 'recreatedata' )->parse();
+			$recreateDataMessage = $this->msg( 'recreatedata' )->escaped();
 			$recreateDataLink = Html::element( 'a', [ 'href' => $recreateDataURL ], $recreateDataMessage );
 			$out->addHTML( '<p>' . $recreateDataLink . '.</p>' );
 		}
@@ -516,7 +516,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		$text .= Html::rawElement( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )
 				->numParams( count( $tableNames ) )
-				->parse() ) . "\n";
+				->escaped() ) . "\n";
 
 		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
 		$headerText .= Html::element( 'th', null,
@@ -593,13 +593,13 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Now display the table for the special Cargo tables.
 		$text .= '<br />';
-		$text .= Html::element( 'p', null, $this->msg( 'cargo-cargotables-specialtables' )->parse() );
+		$text .= Html::element( 'p', null, $this->msg( 'cargo-cargotables-specialtables' )->escaped() );
 		$specialTableNames = CargoUtils::specialTableNames();
 		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
 		$headerText .= Html::element( 'th', null,
-			$this->msg( "cargo-cargotables-header-rowcount" ) );
+			$this->msg( "cargo-cargotables-header-rowcount" )->escaped() );
 		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
-			$this->msg( "cargo-cargotables-header-columncount" ) );
+			$this->msg( "cargo-cargotables-header-columncount" )->escaped() );
 
 		$invalidActionsForSpecialTables = [ 'edit' ];
 		foreach ( $listOfColumns as $i => $action ) {

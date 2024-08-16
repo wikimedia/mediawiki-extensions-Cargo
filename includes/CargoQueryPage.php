@@ -63,7 +63,11 @@ class CargoQueryPage extends QueryPage {
 			if ( !in_array( $paramName,
 					[ 'title', 'tables', 'fields', 'join on', 'order by', 'group by', 'having', 'format',
 					'offset' ] ) ) {
-				$this->displayParams[$paramName] = $value;
+				if ( is_array( $value ) ) {
+					$this->displayParams[$paramName] = array_map( 'htmlspecialchars', $value );
+				} else {
+					$this->displayParams[$paramName] = htmlspecialchars( $value );
+				}
 			}
 		}
 
