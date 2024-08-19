@@ -1,8 +1,11 @@
 {
 	"@metadata": {
 		"authors": [
+			"Mahaveer Indra",
 			"Ravi Mundkur"
 		]
 	},
-	"cargo-purgecache-failed": "ನೆನಕೂಟ ವಿರೇಚನೆ ವಿಫಲವಾಂಡ್"
+	"cargo-purgecache-failed": "ನೆನಕೂಟ ವಿರೇಚನೆ ವಿಫಲವಾಂಡ್",
+	"cargo-field": "ಜಾಗೆ",
+	"cargo-value": "ಬಿಲೆ"
 }

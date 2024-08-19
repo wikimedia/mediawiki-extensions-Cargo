@@ -18,5 +18,7 @@
 	"cargo-drilldown-galleryformat": "گیلری",
 	"cargo-drilldown-calendarformat": "کیلنڈر",
 	"cargo-drilldown-gallerycaption": "\n[[$1]]",
-	"cargo-dynamictables-searchcolumn": "$1 ڳولو"
+	"cargo-dynamictables-searchcolumn": "$1 ڳولو",
+	"cargo-field": " فیلڈ",
+	"cargo-value": "قدر"
 }

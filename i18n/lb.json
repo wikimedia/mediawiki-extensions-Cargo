@@ -80,5 +80,6 @@
 	"cargo-gantt-days": "Deeg",
 	"cargo-gantt-months": "Méint",
 	"cargo-gantt-years": "Joer",
-	"cargo-allowed-values": "Erlaabt Wäerter"
+	"cargo-allowed-values": "Erlaabt Wäerter",
+	"cargo-value": "Wäert"
 }
