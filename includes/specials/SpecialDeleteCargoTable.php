@@ -113,7 +113,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		} else {
 			$text = Html::rawElement( 'p',
 				[ 'class' => 'plainlinks' ],
-				$this->msg( 'cargo-deletetable-confirm', $tableLink )->escaped()
+				$this->msg( 'cargo-deletetable-confirm', $tableLink )->parse()
 			);
 		}
 		$out->addHTML( $text );

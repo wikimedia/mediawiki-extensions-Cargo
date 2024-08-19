@@ -374,7 +374,7 @@ class CargoFieldDescription {
 		if ( $this->mIsList ) {
 			$delimiter = '<tt>' . $this->mDelimiter . '</tt>';
 			$typeDesc = wfMessage( 'cargo-cargotables-listof',
-				$typeDesc, $delimiter )->escaped();
+				$typeDesc, $delimiter )->parse();
 		}
 		return $typeDesc;
 	}
