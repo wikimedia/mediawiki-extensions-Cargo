@@ -370,11 +370,11 @@ class CargoFieldDescription {
 	}
 
 	public function prettyPrintType() {
-		$typeDesc = '<tt>' . $this->mType . '</tt>';
+		$typeDesc = Html::element( 'tt', null, $this->mType );
 		if ( $this->mIsList ) {
-			$delimiter = '<tt>' . $this->mDelimiter . '</tt>';
-			$typeDesc = wfMessage( 'cargo-cargotables-listof',
-				$typeDesc, $delimiter )->parse();
+			$delimiter = Html::element( 'tt', null, $this->mDelimiter );
+			$typeDesc = wfMessage( 'cargo-cargotables-listof' )
+				->rawParams( $typeDesc, $delimiter )->escaped();
 		}
 		return $typeDesc;
 	}
@@ -390,7 +390,8 @@ class CargoFieldDescription {
 			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-unique' )->escaped() ];
 		}
 		if ( $this->mAllowedValues !== null ) {
-			$allowedValuesStr = implode( ' &middot; ', $this->mAllowedValues );
+			$escapedAllowedValues = array_map( 'htmlspecialchars', $this->mAllowedValues );
+			$allowedValuesStr = implode( ' &middot; ', $escapedAllowedValues );
 			$attributesStrings[] = [ wfMessage( 'cargo-cargotables-allowedvalues' )->escaped(),
 				$allowedValuesStr ];
 		}
