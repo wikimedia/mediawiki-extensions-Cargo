@@ -75,7 +75,7 @@ class CargoTables extends IncludableSpecialPage {
 					$deleteURL .= strpos( $deleteURL, '?' ) ? '&' : '?';
 					$deleteURL .= "_replacement";
 					$text .= ' ' .
-						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->escaped();
+						$this->msg( 'cargo-cargotables-deletereplacement', $deleteURL )->parse();
 				}
 			}
 			$out->addHtml( Html::warningBox( $text ) );
