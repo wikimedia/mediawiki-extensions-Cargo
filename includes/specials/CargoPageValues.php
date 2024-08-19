@@ -154,7 +154,7 @@ class CargoPageValues extends IncludableSpecialPage {
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldInfo[$fieldName]['field type'] = $fieldDescription->prettyPrintType();
 			if ( is_array( $fieldDescription->mAllowedValues ) ) {
-				$fieldInfo[$fieldName]['allowed values'] = implode( ' &middot; ', $fieldDescription->mAllowedValues );
+				$fieldInfo[$fieldName]['allowed values'] = $fieldDescription->prettyPrintAllowedValues();
 			} else {
 				$fieldInfo[$fieldName]['allowed values'] = '';
 			}
