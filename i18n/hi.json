@@ -19,5 +19,6 @@
 	"cargo-gantt-days": "दिन",
 	"cargo-gantt-months": "महीने",
 	"cargo-gantt-years": "वर्ष",
+	"cargo-value": "मूल्य",
 	"cargo-declare-validate-has-whitespace": "त्रुटि: $1 नाम \"$2\" में वाइटस्पेस है। किसी भी तरह के वाइटस्पेस की अनुमति नहीं है; अंडरस्कोर (\"_\") का इस्तेमाल करें।"
 }
