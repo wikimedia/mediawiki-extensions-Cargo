@@ -34,5 +34,6 @@
 	"cargo-drilldown-galleryformat": "Галерэя",
 	"cargo-drilldown-calendarformat": "Каляндар",
 	"cargo-purgecache": "Ачысьціць запасьнік",
-	"cargo-pageschemas-tablename": "Назва табліцы:"
+	"cargo-pageschemas-tablename": "Назва табліцы:",
+	"cargo-field": "Поле"
 }

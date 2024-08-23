@@ -75,5 +75,6 @@
 	"cargo-gantt-months": "ماه",
 	"cargo-gantt-years": "سال",
 	"cargo-gantt-columns": "ستون‌ها",
-	"cargo-allowed-values": "مقدارهای مجاز"
+	"cargo-allowed-values": "مقدارهای مجاز",
+	"cargo-value": "مقدار"
 }
