@@ -486,7 +486,7 @@ class CargoTables extends IncludableSpecialPage {
 		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
 		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
 			$text .= Html::warningBox(
-				$this->msg( 'cargo-cargotables-beingpopulated' )->text()
+				$this->msg( 'cargo-cargotables-beingpopulated' )->parse()
 			);
 		}
 
