@@ -101,7 +101,7 @@
 	"cargo-cargotables-action-delete": "Verwijderen",
 	"cargo-cargotables-action-recreate": "Opnieuw aanmaken",
 	"cargo-cargotables-specialtables": "De volgende speciale tabellen zijn er:",
-	"cargo-cargotables-beingpopulated": "<strong>Opmerking:</strong> Een of meer van deze tabellen worden momenteel gevuld via de taakwachtrij.",
+	"cargo-cargotables-beingpopulated": "'''Opmerking:''' Een of meer van deze tabellen worden momenteel gevuld via de taakwachtrij.",
 	"cargo-cargotables-tablelist": "De volgende {{PLURAL:$1|tabel is|tabellen zijn}} gedefinieerd:",
 	"cargo-cargotables-viewtable": "Bekijk tabel: $1",
 	"cargo-cargotables-viewtablelink": "Tabel bekijken",
