@@ -7,6 +7,8 @@
  * <gallery> tag.
  */
 
+use MediaWiki\MediaWikiServices;
+
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
@@ -140,7 +142,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 			// User specified something invalid, fallback to default.
 			$gallery = ImageGalleryBase::factory( false );
 		}
-		$gallery->setParser( MediaWikiServices::getInstance()->getParserFactory()->create() );
+		$gallery->setParser( MediaWikiServices::getInstance()->getParser() );
 		if ( array_key_exists( 'show bytes', $displayParams ) ) {
 			$gallery->setShowBytes( $displayParams['show bytes'] );
 		}
