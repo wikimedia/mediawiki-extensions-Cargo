@@ -109,7 +109,7 @@
 	"cargo-cargotables-action-delete": "删除",
 	"cargo-cargotables-action-recreate": "重新创建",
 	"cargo-cargotables-specialtables": "存在以下特殊表格：",
-	"cargo-cargotables-beingpopulated": "<strong>注意：</strong>这些表格中的一个或多个目前正在通过工作队列填充。",
+	"cargo-cargotables-beingpopulated": "'''注意：'''这些表格中的一个或多个目前正在通过工作队列填充。",
 	"cargo-cargotables-tablelist": "以下{{PLURAL:$1|表格}}已定义：",
 	"cargo-cargotables-viewtable": "查看表格：$1",
 	"cargo-cargotables-viewtablelink": "查看表格",
