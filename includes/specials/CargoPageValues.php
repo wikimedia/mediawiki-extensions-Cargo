@@ -37,14 +37,21 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$text = '';
 
-		$dbr = CargoUtils::getMainDBForRead();
-
 		$tableNames = [];
-		// There is an exception check later on when we query for rows, so it's safe not to
-		// check for existence yet
-		$tableNames[] = '_pageData';
-		$tableNames[] = '_fileData';
 
+		$cdb = CargoUtils::getDB();
+		if ( $cdb->tableExists( '_pageData__NEXT' ) ) {
+			$tableNames[] = '_pageData__NEXT';
+		} elseif ( $cdb->tableExists( '_pageData' ) ) {
+			$tableNames[] = '_pageData';
+		}
+		if ( $cdb->tableExists( '_fileData__NEXT' ) ) {
+			$tableNames[] = '_fileData__NEXT';
+		} elseif ( $cdb->tableExists( '_fileData' ) ) {
+			$tableNames[] = '_fileData';
+		}
+
+		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select(
 			'cargo_pages', 'table_name',
 			[ 'page_id' => $this->mTitle->getArticleID() ]
@@ -69,7 +76,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			// Hide _fileData if it's empty - we do this only for _fileData,
 			// as another table having 0 rows can indicate an error, and we'd
 			// like to preserve that information for debugging purposes.
-			if ( $numRowsOnPage === 0 && $tableName === '_fileData' ) {
+			if ( $numRowsOnPage === 0 && ( $tableName === '_fileData' || $tableName === '_fileData__NEXT' ) ) {
 				continue;
 			}
 
@@ -146,7 +153,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	 */
 	private function getInfoForAllFields( $tableName ) {
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
-		if ( $tableName == '_pageData' ) {
+		if ( $tableName == '_pageData' || $tableName == '_pageData__NEXT' ) {
 			CargoUtils::addGlobalFieldsToSchema( $tableSchemas[$tableName] );
 		}
 		$fieldDescriptions = $tableSchemas[$tableName]->mFieldDescriptions;
@@ -170,7 +177,7 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
 
-		if ( $tableName == '_pageData' ) {
+		if ( $tableName == '_pageData' || $tableName == '_pageData__NEXT' ) {
 			CargoUtils::addGlobalFieldsToSchema( $tableSchemas[$tableName] );
 		}
 
