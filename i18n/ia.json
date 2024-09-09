@@ -90,7 +90,7 @@
 	"cargo-cargotables-action-delete": "Deler",
 	"cargo-cargotables-action-recreate": "Recrear",
 	"cargo-cargotables-specialtables": "Le sequente tabellas special existe:",
-	"cargo-cargotables-beingpopulated": "<strong>Nota:</strong> Un o plus de iste tabellas es presentemente in curso de replenamento via le cauda de actiones.",
+	"cargo-cargotables-beingpopulated": "'''Nota:''' Un o plus de iste tabellas es presentemente in curso de replenamento via le cauda de actiones.",
 	"cargo-cargotables-tablelist": "Le sequente tabella{{PLURAL:$1||s}} es definite:",
 	"cargo-cargotables-viewtable": "Vider tabella: $1",
 	"cargo-cargotables-viewtablelink": "Vider tabella",
