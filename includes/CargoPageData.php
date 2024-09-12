@@ -121,7 +121,7 @@ class CargoPageData {
 			if ( $setToBlank ) {
 				$pageDataValues['_fullText'] = '';
 			} else {
-				$pageDataValues['_fullText'] = ContentHandler::getContentText( $wikiPage->getContent() );
+				$pageDataValues['_fullText'] = CargoUtils::getContentText( $wikiPage->getContent() );
 			}
 		}
 		if ( $storeCategories && in_array( 'categories', $wgCargoPageDataColumns ) ) {

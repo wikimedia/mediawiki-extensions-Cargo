@@ -167,7 +167,7 @@ class CargoRecreateData extends Maintenance {
 						continue;
 					}
 					$content = $wikiPage->getContent();
-					$contentText = ContentHandler::getContentText( $content );
+					$contentText = CargoUtils::getContentText( $content );
 					CargoUtils::parsePageForStorage( $title, $contentText );
 				}
 				$offset += 500;

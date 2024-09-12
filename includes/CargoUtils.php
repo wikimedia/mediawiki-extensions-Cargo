@@ -1387,4 +1387,14 @@ class CargoUtils {
 	public static function makeWikiPage( $title ) {
 		return MediaWikiServices::getInstance()->getWikiPageFactory()->newFromTitle( $title );
 	}
+
+	/**
+	 * Replacement for the removed ContentHandler::getContextText().
+	 */
+	public static function getContentText( $content ) {
+		if ( !$content instanceof TextContent ) {
+			return null;
+		}
+		return $content->getText();
+	}
 }

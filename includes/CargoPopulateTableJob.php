@@ -65,7 +65,7 @@ class CargoPopulateTableJob extends Job {
 		// the #cargo_store function will take care of the rest.
 		CargoStore::$settings['origin'] = 'template';
 		CargoStore::$settings['dbTableName'] = $this->params['dbTableName'];
-		CargoUtils::parsePageForStorage( $this->title, ContentHandler::getContentText( $page->getContent() ) );
+		CargoUtils::parsePageForStorage( $this->title, CargoUtils::getContentText( $page->getContent() ) );
 
 		// We need to unset this, if the job was called via runJobs.php,
 		// so that it doesn't affect other (non-Cargo) jobs, like page
