@@ -18,7 +18,8 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		// Set useless article path, for easier URL testing.
 		$this->overrideConfigValues( [
 			MainConfigNames::Server => 'https://wiki.example.org',
-			MainConfigNames::ArticlePath => 'cargofeedtest/$1',
+			MainConfigNames::CanonicalServer => 'https://wiki.example.org',
+			MainConfigNames::ArticlePath => '/cargofeedtest/$1',
 		] );
 		MWTimestamp::setFakeTime( 1675991594 );
 	}
@@ -59,7 +60,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideOutputFeed() {
 		return [
-			'no items' => [
+			'two items' => [
 				'expected' => '<?xml version="1.0"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
@@ -71,8 +72,8 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		<lastBuildDate>Fri, 10 Feb 2023 01:13:14 GMT</lastBuildDate>
 		<item>
 			<title>Lorem ipsum</title>
-			<link>cargofeedtest/Lorem_ipsum</link>
-			<guid>cargofeedtest/Lorem_ipsum</guid>
+			<link>https://wiki.example.org/cargofeedtest/Lorem_ipsum</link>
+			<guid isPermaLink="false">custom-guid-lorem-ipsum-2020</guid>
 			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
 &lt;/p&gt;&lt;/div&gt;</description>
 			<pubDate>Thu, 02 Jan 2020 03:04:05 GMT</pubDate>
@@ -81,8 +82,8 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		</item>
 		<item>
 			<title>Sic amet</title>
-			<link>cargofeedtest/Sic_amet</link>
-			<guid>cargofeedtest/Sic_amet</guid>
+			<link>https://wiki.example.org/cargofeedtest/Sic_amet</link>
+			<guid>https://wiki.example.org/cargofeedtest/Sic_amet</guid>
 			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
 &lt;/p&gt;&lt;/div&gt;</description>
 			<pubDate>Sat, 02 Jan 2021 03:04:05 GMT</pubDate>
@@ -94,6 +95,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 					[
 						'_pageName' => 'Lorem ipsum',
 						'date_published' => '2020-01-02 03:04:05',
+						'id' => 'custom-guid-lorem-ipsum-2020'
 					],
 					[
 						'_pageName' => 'Sic amet',
@@ -101,7 +103,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 						'author' => 'Bob',
 					],
 				],
-				[
+				'requestparams' => [
 					'feed_description' => 'Desc.',
 					'feed_type' => 'rss',
 				]
