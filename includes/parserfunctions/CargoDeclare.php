@@ -95,20 +95,29 @@ class CargoDeclare {
 		// We can just call text() on all of these wfMessage() calls,
 		// since the resulting text is passed to formatFieldError(),
 		// which HTML-encodes the text.
+		if ( $type == 'table' ) {
+			$typeDisplay = wfMessage( 'cargo-cargotables-header-table' )->text();
+		} elseif ( $type == 'parent table' ) {
+			$typeDisplay = wfMessage( 'cargo-parenttable' )->text();
+		} elseif ( $type == 'field' ) {
+			$typeDisplay = wfMessage( 'cargo-field' )->text();
+		} else {
+			$typeDisplay = '';
+		}
 		if ( preg_match( '/\s/', $name ) ) {
-			return wfMessage( "cargo-declare-validate-has-whitespace", $type, $name )->text();
+			return wfMessage( "cargo-declare-validate-has-whitespace", $typeDisplay, $name )->text();
 		} elseif ( strpos( $name, '_' ) === 0 ) {
-			return wfMessage( "cargo-declare-validate-starts-underscore", $type, $name )->text();
+			return wfMessage( "cargo-declare-validate-starts-underscore", $typeDisplay, $name )->text();
 		} elseif ( substr( $name, -1 ) === '_' ) {
-			return wfMessage( "cargo-declare-validate-ends-underscore", $type, $name )->text();
+			return wfMessage( "cargo-declare-validate-ends-underscore", $typeDisplay, $name )->text();
 		} elseif ( strpos( $name, '__' ) !== false ) {
-			return wfMessage( "cargo-declare-validate-gt1-underscore", $type, $name )->text();
+			return wfMessage( "cargo-declare-validate-gt1-underscore", $typeDisplay, $name )->text();
 		} elseif ( preg_match( '/[\.,\-\'"<>(){}\[\]\\\\\/]/', $name ) ) {
-			return wfMessage( "cargo-declare-validate-bad-character", $type, $name, '.,-\'"<>(){}[]\/' )->text();
+			return wfMessage( "cargo-declare-validate-bad-character", $typeDisplay, $name, '.,-\'"<>(){}[]\/' )->text();
 		} elseif ( in_array( strtolower( $name ), self::$sqlReservedWords ) ) {
-			return wfMessage( "cargo-declare-validate-name-sql-kw", $name, $type )->text();
+			return wfMessage( "cargo-declare-validate-name-sql-kw", $name, $typeDisplay )->text();
 		} elseif ( in_array( strtolower( $name ), self::$cargoReservedWords ) ) {
-			return wfMessage( "cargo-declare-validate-name-cargo-kw", $name, $type )->text();
+			return wfMessage( "cargo-declare-validate-name-cargo-kw", $name, $typeDisplay )->text();
 		}
 		return null;
 	}

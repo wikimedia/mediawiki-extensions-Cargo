@@ -183,6 +183,7 @@
 	"cargo-field-type": "Label for the field type of a cargo field",
 	"cargo-allowed-values": "Label for the list of allowed values for cargo field",
 	"cargo-value": "Label for the value of a Cargo field",
+	"cargo-parenttable": "Label for a \"parent table\", i.e. a database table that the current table has a field that points to",
 	"cargo-declare-must-from-template": "An error message",
 	"cargo-declare-tablenm-is-sql-kw": "An error message",
 	"cargo-declare-tablenm-is-cargo-kw": "An error message",
