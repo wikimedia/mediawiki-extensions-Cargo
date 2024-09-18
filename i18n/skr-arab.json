@@ -20,5 +20,6 @@
 	"cargo-drilldown-gallerycaption": "\n[[$1]]",
 	"cargo-dynamictables-searchcolumn": "$1 ڳولو",
 	"cargo-field": " فیلڈ",
-	"cargo-value": "قدر"
+	"cargo-value": "قدر",
+	"cargo-parenttable": "بݨیادی ٹیبل"
 }

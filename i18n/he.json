@@ -182,6 +182,7 @@
 	"cargo-field-type": "סוג השדה",
 	"cargo-allowed-values": "ערכים מורשים",
 	"cargo-value": "ערך",
+	"cargo-parenttable": "טבלת הורה",
 	"cargo-declare-must-from-template": "שגיאה: יש לקרוא ל־#cargo_declare מדף תבנית.",
 	"cargo-declare-tablenm-is-sql-kw": "שגיאה: לא ניתן להשתמש בשם \"$1\" לטבלת Cargo, כי הוא זהה למילת מפתח של SQL.",
 	"cargo-declare-tablenm-is-cargo-kw": "שגיאה: לא ניתן להשתמש בשם \"$1\" לטבלת Cargo, כי הוא כבר זהה למילת מפתח של Cargo.",
