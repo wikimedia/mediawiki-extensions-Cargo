@@ -226,7 +226,7 @@ class CargoTables extends IncludableSpecialPage {
 		global $wgCargoDecimalMark;
 		global $wgCargoDigitGroupingCharacter;
 
-		$res = $cdb->select( $tableName, 'COUNT(*) AS total' );
+		$res = $cdb->select( $tableName, 'COUNT(*) AS total', '', __METHOD__ );
 		$row = $res->fetchRow();
 
 		return number_format( intval( $row['total'] ), 0, $wgCargoDecimalMark,
@@ -507,7 +507,7 @@ class CargoTables extends IncludableSpecialPage {
 		if ( $wgCargoTablesPrioritizeReplacements ) {
 			foreach ( $tableNames as $tableIndex => $tableName ) {
 				$possibleReplacementTable = $tableName . '__NEXT';
-				if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+				if ( $cdb->tableExists( $possibleReplacementTable, __METHOD__ ) ) {
 					unset( $tableNames[$tableIndex] );
 					array_unshift( $tableNames, $tableName );
 				}

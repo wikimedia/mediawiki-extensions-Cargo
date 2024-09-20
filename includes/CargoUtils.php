@@ -129,7 +129,8 @@ class CargoUtils {
 			], [
 				'pp_page' => $pageID,
 					'pp_propname' => $pageProp,
-			]
+			],
+			__METHOD__
 		);
 
 		if ( !$value ) {
@@ -149,7 +150,8 @@ class CargoUtils {
 			'pp_value'
 			], [
 			'pp_propname' => $pageProp
-			]
+			],
+			__METHOD__
 		);
 
 		$pagesPerValue = [];
@@ -177,7 +179,8 @@ class CargoUtils {
 			], [
 			'pp_value' => $tableName,
 			'pp_propname' => 'CargoTableName'
-			]
+			],
+			__METHOD__
 		);
 		if ( !$page ) {
 			return null;
@@ -196,7 +199,7 @@ class CargoUtils {
 	public static function getTables() {
 		$tableNames = [];
 		$dbr = self::getMainDBForRead();
-		$res = $dbr->select( 'cargo_tables', 'main_table' );
+		$res = $dbr->select( 'cargo_tables', 'main_table', '', __METHOD__ );
 		foreach ( $res as $row ) {
 			$tableName = $row->main_table;
 			// Skip "replacement" tables.
@@ -211,7 +214,7 @@ class CargoUtils {
 	public static function getParentTables( $tableName ) {
 		$parentTables = [];
 		$dbr = self::getMainDBForRead();
-		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
+		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ], '', __METHOD__ );
 		foreach ( $res as $row ) {
 			if ( $tableName == $row->main_table ) {
 				$parentTables = self::getPageProp( $row->template_id, 'CargoParentTables' );
@@ -252,7 +255,7 @@ class CargoUtils {
 	public static function getDrilldownTabsParams( $tableName ) {
 		$drilldownTabs = [];
 		$dbr = self::getMainDBForRead();
-		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ] );
+		$res = $dbr->select( 'cargo_tables', [ 'template_id', 'main_table' ], '', __METHOD__ );
 		foreach ( $res as $row ) {
 			if ( $tableName == $row->main_table ) {
 				$drilldownTabs = self::getPageProp( $row->template_id, 'CargoDrilldownTabsParams' );
@@ -279,7 +282,7 @@ class CargoUtils {
 		$tableSchemas = [];
 		$dbr = self::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
-			[ 'main_table' => $mainTableNames ] );
+			[ 'main_table' => $mainTableNames ], __METHOD__ );
 		foreach ( $res as $row ) {
 			$tableName = $row->main_table;
 			$tableSchemaString = $row->table_schema;
@@ -649,14 +652,14 @@ class CargoUtils {
 
 		if ( $createReplacement ) {
 			$tableName .= '__NEXT';
-			if ( $cdb->tableExists( $possibleReplacementTable ) ) {
+			if ( $cdb->tableExists( $possibleReplacementTable, __METHOD__ ) ) {
 				// The replacement table exists, but it does
 				// not have a row in cargo_tables - this is
 				// hopefully a rare occurrence.
 				try {
-					$cdb->begin();
-					$cdb->dropTable( $tableName );
-					$cdb->commit();
+					$cdb->begin( __METHOD__ );
+					$cdb->dropTable( $tableName, __METHOD__ );
+					$cdb->commit( __METHOD__ );
 				} catch ( Exception $e ) {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
@@ -668,7 +671,7 @@ class CargoUtils {
 			// if a table name was already specified, do we need
 			// to do a lookup here?
 			$tableNames = [];
-			$res = $dbw->select( 'cargo_tables', 'main_table', [ 'template_id' => $templatePageID ] );
+			$res = $dbw->select( 'cargo_tables', 'main_table', [ 'template_id' => $templatePageID ], __METHOD__ );
 			foreach ( $res as $row ) {
 				$tableNames[] = $row->main_table;
 			}
@@ -682,17 +685,17 @@ class CargoUtils {
 			$mainTableAlreadyExists = self::tableFullyExists( $tableNames[0] );
 			foreach ( $tableNames as $curTable ) {
 				try {
-					$cdb->begin();
-					$cdb->dropTable( $curTable );
-					$cdb->commit();
+					$cdb->begin( __METHOD__ );
+					$cdb->dropTable( $curTable, __METHOD__ );
+					$cdb->commit( __METHOD__ );
 				} catch ( Exception $e ) {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
 				}
-				$dbw->delete( 'cargo_pages', [ 'table_name' => $curTable ] );
+				$dbw->delete( 'cargo_pages', [ 'table_name' => $curTable ], __METHOD__ );
 			}
 
-			$dbw->delete( 'cargo_tables', [ 'template_id' => $templatePageID ] );
+			$dbw->delete( 'cargo_tables', [ 'template_id' => $templatePageID ], __METHOD__ );
 		}
 
 		self::createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID );
@@ -717,7 +720,7 @@ class CargoUtils {
 		}
 
 		$cdb = self::getDB();
-		return $cdb->tableExists( $tableName );
+		return $cdb->tableExists( $tableName, __METHOD__ );
 	}
 
 	public static function fieldTypeToSQLType( $fieldType, $dbType, $size = null ) {
@@ -812,7 +815,7 @@ class CargoUtils {
 	}
 
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
-		$cdb->begin();
+		$cdb->begin( __METHOD__ );
 		$fieldsInMainTable = [
 			'_ID' => 'Integer',
 			'_pageName' => 'String',
@@ -862,7 +865,7 @@ class CargoUtils {
 				// should prevent anyone from giving this name
 				// to a "real" table.
 				$fieldTableName = $tableName . '__' . $fieldName;
-				$cdb->dropTable( $fieldTableName );
+				$cdb->dropTable( $fieldTableName, __METHOD__ );
 
 				$fieldsInTable = [ '_rowID' => 'Integer' ];
 				$fieldType = $fieldDescription->mType;
@@ -905,7 +908,7 @@ class CargoUtils {
 		// this table, if there are any.
 		if ( $containsFileType ) {
 			$fileTableName = $tableName . '___files';
-			$cdb->dropTable( $fileTableName );
+			$cdb->dropTable( $fileTableName, __METHOD__ );
 			$fieldsInTable = [
 				'_pageName' => 'String',
 				'_pageID' => 'Integer',
@@ -916,7 +919,7 @@ class CargoUtils {
 		}
 
 		// End transaction and apply DB changes.
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 
 		// Finally, store all the info in the cargo_tables table.
 		$dbw->insert( 'cargo_tables', [
@@ -925,7 +928,7 @@ class CargoUtils {
 			'field_tables' => serialize( $fieldTableNames ),
 			'field_helper_tables' => serialize( $fieldHelperTableNames ),
 			'table_schema' => $tableSchemaString
-		] );
+		], __METHOD__ );
 	}
 
 	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
@@ -976,7 +979,7 @@ class CargoUtils {
 		if ( $wgCargoDBRowFormat != null ) {
 			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
 		}
-		$cdb->query( $createSQL );
+		$cdb->query( $createSQL, __METHOD__ );
 
 		// Add an index for any field that's not of type Text,
 		// Searchtext or Wikitext.
@@ -1017,7 +1020,7 @@ class CargoUtils {
 			$sqlFieldNamesStr = implode( ', ', $sqlFieldNames );
 			$createIndexSQL = "CREATE INDEX $indexName ON " .
 				"$sqlTableName ($sqlFieldNamesStr)";
-			$cdb->query( $createIndexSQL );
+			$cdb->query( $createIndexSQL, __METHOD__ );
 		} else {
 			foreach ( $indexedFields as $fieldName ) {
 				$indexName = $fieldName . '_' . $tableName;
@@ -1027,7 +1030,7 @@ class CargoUtils {
 				$sqlIndexName = $cdb->addIdentifierQuotes( $indexName );
 				$createIndexSQL = "CREATE INDEX $sqlIndexName ON " .
 					"$sqlTableName ($sqlFieldName)";
-				$cdb->query( $createIndexSQL );
+				$cdb->query( $createIndexSQL, __METHOD__ );
 			}
 		}
 	}
@@ -1235,7 +1238,7 @@ class CargoUtils {
 		// to pass validation (and maybe even to work at all?) for
 		// MW 1.41+.
 		$sqlTableName = $db->tableName( $tableName );
-		$db->insert( $sqlTableName, $quotedFieldValues );
+		$db->insert( $sqlTableName, $quotedFieldValues, __METHOD__ );
 	}
 
 	/**

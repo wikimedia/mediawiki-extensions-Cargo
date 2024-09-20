@@ -75,7 +75,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 			} else { // if ( $this->mTableName == '_ganttData' ) {
 				$conds = 'page_namespace = ' . FD_NS_GANTT;
 			}
-			$numTotalPages = $dbr->selectField( 'page', 'COUNT(*)', $conds );
+			$numTotalPages = $dbr->selectField( 'page', 'COUNT(*)', $conds, __METHOD__ );
 		} else {
 			$numTotalPages = null;
 			$templateData[] = [
@@ -93,7 +93,8 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 				[
 					'pp_value' => $this->mTableName,
 					'pp_propname' => 'CargoAttachedTable'
-				]
+				],
+				__METHOD__
 			);
 			foreach ( $res as $row ) {
 				$templateID = $row->pp_page;

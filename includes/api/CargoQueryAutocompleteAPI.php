@@ -87,7 +87,8 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		$res = $dbr->select(
 			'cargo_tables',
 			[ 'main_table' ],
-			$conds
+			$conds,
+			__METHOD__
 		);
 		foreach ( $res as $row ) {
 			array_push( $tables, $row );
@@ -103,7 +104,7 @@ class CargoQueryAutocompleteAPI extends ApiBase {
 		foreach ( $tables as $table ) {
 			$tableSchemas = [];
 			$res = $dbr->select( 'cargo_tables', [ 'main_table', 'table_schema' ],
-				[ 'main_table' => $table ] );
+				[ 'main_table' => $table ], __METHOD__ );
 			foreach ( $res as $row ) {
 				$tableName = $row->main_table;
 				$tableSchemaString = $row->table_schema;

@@ -51,7 +51,7 @@ class SetCargoPageData extends Maintenance {
 
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $pageDataTable ] );
+			[ 'main_table' => $pageDataTable ], __METHOD__ );
 
 		$numRows = $res->numRows();
 		if ( $numRows > 0 ) {
@@ -77,7 +77,7 @@ class SetCargoPageData extends Maintenance {
 		$dbw = CargoUtils::getMainDBForWrite();
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $pageDataTable, $tableSchema, $tableSchemaString, 0 );
 
-		$pages = $dbr->select( 'page', [ 'page_id' ] );
+		$pages = $dbr->select( 'page', [ 'page_id' ], '', __METHOD__ );
 
 		foreach ( $pages as $page ) {
 			$title = Title::newFromID( $page->page_id );

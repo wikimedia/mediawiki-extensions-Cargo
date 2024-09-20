@@ -34,7 +34,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$origFieldTableNames = [];
 		$origFieldHelperTableNames = [];
 		try {
-			$cdb->begin();
+			$cdb->begin( __METHOD__ );
 
 			// The helper tables' names come from the database,
 			// so they already contain '__NEXT' - remove that,
@@ -42,48 +42,49 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			foreach ( $fieldTables as $fieldTable ) {
 				$origFieldTable = str_replace( '__NEXT', '', $fieldTable );
 				$origFieldTableNames[] = $origFieldTable;
-				$cdb->dropTable( $origFieldTable );
+				$cdb->dropTable( $origFieldTable, __METHOD__ );
 				$cdb->query( 'ALTER TABLE ' .
 					$cdb->tableName( $fieldTable ) .
 					' RENAME TO ' .
-					$cdb->tableName( $origFieldTable ) );
+					$cdb->tableName( $origFieldTable ), __METHOD__ );
 			}
 			if ( is_array( $fieldHelperTables ) ) {
 				foreach ( $fieldHelperTables as $fieldHelperTable ) {
 					$origFieldHelperTable = str_replace( '__NEXT', '', $fieldHelperTable );
 					$origFieldHelperTableNames[] = $origFieldHelperTable;
-					$cdb->dropTable( $origFieldHelperTable );
+					$cdb->dropTable( $origFieldHelperTable, __METHOD__ );
 					$cdb->query( 'ALTER TABLE ' .
 						$cdb->tableName( $fieldHelperTable ) .
 						' RENAME TO ' .
-						$cdb->tableName( $origFieldHelperTable ) );
+						$cdb->tableName( $origFieldHelperTable ), __METHOD__ );
 				}
 			}
 
-			$cdb->dropTable( $mainTable );
+			$cdb->dropTable( $mainTable, __METHOD__ );
 			$cdb->query( 'ALTER TABLE ' .
 				$cdb->tableName( $mainTable . '__NEXT' ) .
-				' RENAME TO ' . $cdb->tableName( $mainTable ) );
+				' RENAME TO ' . $cdb->tableName( $mainTable ), __METHOD__ );
 
-			$cdb->commit();
+			$cdb->commit( __METHOD__ );
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to switch in replacement for Cargo table. "
 			. "Please make sure that your database user account has the DROP permission." );
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ] );
-		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ] );
-		$dbw->update( 'cargo_tables', [ 'main_table' => $mainTable ], [ 'main_table' => $mainTable . '__NEXT' ] );
+		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ], __METHOD__ );
+		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ], __METHOD__ );
+		$dbw->update( 'cargo_tables', [ 'main_table' => $mainTable ], [ 'main_table' => $mainTable . '__NEXT' ], __METHOD__ );
 		$dbw->update(
 			'cargo_tables',
 			[
 				'field_tables' => serialize( $origFieldTableNames ),
 				'field_helper_tables' => serialize( $origFieldHelperTableNames )
 			],
-			[ 'main_table' => $mainTable ]
+			[ 'main_table' => $mainTable ],
+			__METHOD__
 		);
-		$dbw->update( 'cargo_pages', [ 'table_name' => $mainTable ], [ 'table_name' => $mainTable . '__NEXT' ] );
+		$dbw->update( 'cargo_pages', [ 'table_name' => $mainTable ], [ 'table_name' => $mainTable . '__NEXT' ], __METHOD__ );
 
 		CargoUtils::logTableAction( 'replacetable', $mainTable, $user );
 	}
@@ -107,13 +108,13 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		// Make sure that this table, and its replacement, both exist.
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $tableName ] );
+			[ 'main_table' => $tableName ], __METHOD__ );
 		if ( $res->numRows() == 0 ) {
 			CargoUtils::displayErrorMessage( $out, $this->msg( "cargo-unknowntable", $tableName ) );
 			return true;
 		}
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $tableName . '__NEXT' ] );
+			[ 'main_table' => $tableName . '__NEXT' ], __METHOD__ );
 		if ( $res->numRows() == 0 ) {
 			CargoUtils::displayErrorMessage( $out, $this->msg( "cargo-unknowntable", $tableName . "__NEXT" ) );
 			return true;

@@ -30,7 +30,7 @@ class CargoBackLinks {
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		if ( $dbw->tableExists( 'cargo_backlinks' ) && !$dbw->isReadOnly() ) {
+		if ( $dbw->tableExists( 'cargo_backlinks', __METHOD__ ) && !$dbw->isReadOnly() ) {
 			$dbw->delete( 'cargo_backlinks', [
 				'cbl_query_page_id' => $pageId
 			], __METHOD__ );
@@ -44,7 +44,7 @@ class CargoBackLinks {
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		if ( !$dbw->tableExists( 'cargo_backlinks' ) || $dbw->isReadOnly() ) {
+		if ( !$dbw->tableExists( 'cargo_backlinks', __METHOD__ ) || $dbw->isReadOnly() ) {
 			return;
 		}
 		// Sanity check
@@ -60,7 +60,7 @@ class CargoBackLinks {
 				$dbw->insert( 'cargo_backlinks', [
 					'cbl_query_page_id' => $pageId,
 					'cbl_result_page_id' => $resultPageId,
-				 ] );
+				], __METHOD__ );
 			}
 		}
 	}
@@ -78,7 +78,9 @@ class CargoBackLinks {
 
 		$res = $dbr->select( 'cargo_backlinks',
 			[ 'cbl_query_page_id' ],
-			[ 'cbl_result_page_id' => $resultPageId ] );
+			[ 'cbl_result_page_id' => $resultPageId ],
+			__METHOD___
+		);
 		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 		foreach ( $res as $row ) {
 			$queryPageId = $row->cbl_query_page_id;

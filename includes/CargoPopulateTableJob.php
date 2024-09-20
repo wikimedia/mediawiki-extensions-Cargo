@@ -32,7 +32,7 @@ class CargoPopulateTableJob extends Job {
 		if ( substr( $tableName, 0, 1 ) == '_' ) {
 			$cdb = CargoUtils::getDB();
 			$possibleReplacementTable = $tableName . '__NEXT';
-			$createReplacement = $cdb->tableExists( $possibleReplacementTable );
+			$createReplacement = $cdb->tableExists( $possibleReplacementTable, __METHOD__ );
 			if ( $tableName == '_pageData' ) {
 				CargoPageData::storeValuesForPage( $this->title, $createReplacement );
 			} elseif ( $tableName == '_fileData' ) {
@@ -55,9 +55,9 @@ class CargoPopulateTableJob extends Job {
 		// if the table wasn't just dropped and recreated.
 		if ( $this->params['replaceOldRows'] == true ) {
 			$cdb = CargoUtils::getDB();
-			$cdb->begin();
-			$cdb->delete( $this->params['dbTableName'], [ '_pageID' => $page->getID() ] );
-			$cdb->commit();
+			$cdb->begin( __METHOD__ );
+			$cdb->delete( $this->params['dbTableName'], [ '_pageID' => $page->getID() ], __METHOD__ );
+			$cdb->commit( __METHOD__ );
 		}
 
 		// All we need to do here is set some global variables based

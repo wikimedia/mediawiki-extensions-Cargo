@@ -51,7 +51,7 @@ class SetCargoFileData extends Maintenance {
 
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $fileDataTable ] );
+			[ 'main_table' => $fileDataTable ], __METHOD__ );
 
 		$numRows = $res->numRows();
 		if ( $numRows >= 0 ) {
@@ -77,7 +77,7 @@ class SetCargoFileData extends Maintenance {
 		$dbw = CargoUtils::getMainDBForWrite();
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $fileDataTable, $tableSchema, $tableSchemaString, -1 );
 
-		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . NS_FILE );
+		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . NS_FILE, __METHOD__ );
 
 		foreach ( $pages as $page ) {
 			$title = Title::newFromID( $page->page_id );

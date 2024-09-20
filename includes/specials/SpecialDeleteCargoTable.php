@@ -27,25 +27,25 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 	public static function deleteTable( $mainTable, $fieldTables, $fieldHelperTables ) {
 		$cdb = CargoUtils::getDB();
 		try {
-			$cdb->begin();
+			$cdb->begin( __METHOD__ );
 			foreach ( $fieldTables as $fieldTable ) {
-				$cdb->dropTable( $fieldTable );
+				$cdb->dropTable( $fieldTable, __METHOD__ );
 			}
 			if ( is_array( $fieldHelperTables ) ) {
 				foreach ( $fieldHelperTables as $fieldHelperTable ) {
-					$cdb->dropTable( $fieldHelperTable );
+					$cdb->dropTable( $fieldHelperTable, __METHOD__ );
 				}
 			}
-			$cdb->dropTable( $mainTable );
-			$cdb->commit();
+			$cdb->dropTable( $mainTable, __METHOD__ );
+			$cdb->commit( __METHOD__ );
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 			. "Please make sure that your database user account has the DROP permission." );
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ] );
-		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ] );
+		$dbw->delete( 'cargo_tables', [ 'main_table' => $mainTable ], __METHOD__ );
+		$dbw->delete( 'cargo_pages', [ 'table_name' => $mainTable ], __METHOD__ );
 	}
 
 	public function execute( $subpage = false ) {
@@ -74,7 +74,7 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 		// Make sure that this table exists.
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'main_table', 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $tableName ] );
+			[ 'main_table' => $tableName ], __METHOD__ );
 		if ( $res->numRows() == 0 ) {
 			CargoUtils::displayErrorMessage( $out, $this->msg( "cargo-unknowntable", $tableName ) );
 			return true;

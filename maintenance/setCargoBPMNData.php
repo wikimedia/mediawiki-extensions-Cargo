@@ -51,7 +51,7 @@ class SetCargoBPMNData extends Maintenance {
 
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select( 'cargo_tables', [ 'field_tables', 'field_helper_tables' ],
-			[ 'main_table' => $bpmnDataTable ] );
+			[ 'main_table' => $bpmnDataTable ], __METHOD__ );
 
 		$numRows = $res->numRows();
 		if ( $numRows > 0 ) {
@@ -77,7 +77,7 @@ class SetCargoBPMNData extends Maintenance {
 		$dbw = CargoUtils::getMainDBForWrite();
 		CargoUtils::createCargoTableOrTables( $cdb, $dbw, $bpmnDataTable, $tableSchema, $tableSchemaString, 0 );
 
-		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . FD_NS_BPMN );
+		$pages = $dbr->select( 'page', [ 'page_id' ], 'page_namespace = ' . FD_NS_BPMN, __METHOD__ );
 
 		foreach ( $pages as $page ) {
 			$title = Title::newFromID( $page->page_id );

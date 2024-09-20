@@ -149,26 +149,26 @@ class CargoStore {
 
 		// Always store data in the replacement table if it exists.
 		$cdb = CargoUtils::getDB();
-		$cdb->begin();
-		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
+		$cdb->begin( __METHOD__ );
+		if ( $cdb->tableExists( $tableName . '__NEXT', __METHOD__ ) ) {
 			$tableName .= '__NEXT';
 		}
 
 		// Get the declaration of the table.
 		$dbr = CargoUtils::getMainDBForRead();
-		$res = $dbr->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ] );
+		$res = $dbr->select( 'cargo_tables', 'table_schema', [ 'main_table' => $tableName ], __METHOD__ );
 		$row = $res->fetchRow();
 		if ( $row == '' ) {
 			// This table probably has not been created yet -
 			// just exit silently.
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; Cargo table ($tableName) does not exist.\n" );
-			$cdb->rollback();
+			$cdb->rollback( __METHOD__ );
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
 		$errors = self::blankOrRejectBadData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 
 		if ( $errors ) {
 			$parserOutput = $parser->getOutput();
@@ -182,10 +182,10 @@ class CargoStore {
 		// Finally, add a record of this to the cargo_pages table, if
 		// necessary.
 		$res = $dbr->select( 'cargo_pages', 'page_id',
-			[ 'table_name' => $tableName, 'page_id' => $pageID ] );
+			[ 'table_name' => $tableName, 'page_id' => $pageID ], __METHOD__ );
 		if ( !$res->fetchRow() ) {
 			$dbw = CargoUtils::getMainDBForWrite();
-			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ] );
+			$dbw->insert( 'cargo_pages', [ 'table_name' => $tableName, 'page_id' => $pageID ], __METHOD__ );
 		}
 	}
 
@@ -211,7 +211,7 @@ class CargoStore {
 				return "Mandatory field, \"$fieldName\", cannot have a blank value.";
 			}
 			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
-				$res = $cdb->select( $tableName, 'COUNT(*)', [ $fieldName => $fieldValue ] );
+				$res = $cdb->select( $tableName, 'COUNT(*)', [ $fieldName => $fieldValue ], __METHOD__ );
 				$row = $res->fetchRow();
 				$numExistingValues = $row['COUNT(*)'];
 				if ( $numExistingValues == 1 ) {
@@ -365,7 +365,7 @@ class CargoStore {
 				$listFieldTableName = $tableName . '__' . $fieldName;
 				try {
 					$cdb->select( $listFieldTableName, 'COUNT(' .
-						$cdb->addIdentifierQuotes( '_position' ) . ')' );
+						$cdb->addIdentifierQuotes( '_position' ) . ')', '', __METHOD__ );
 				} catch ( Exception $e ) {
 					$hasPositionField = false;
 				}
@@ -375,10 +375,10 @@ class CargoStore {
 
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
-		$cdb->begin();
+		$cdb->begin( __METHOD__ );
 
 		$maxID = $cdb->selectField( $tableName,
-			'MAX(' . $cdb->addIdentifierQuotes( '_ID' ) . ')' );
+			'MAX(' . $cdb->addIdentifierQuotes( '_ID' ) . ')', '', __METHOD__ );
 		$curRowID = $maxID + 1;
 		$tableFieldValues['_ID'] = $curRowID;
 		$fieldTableFieldValues = [];
@@ -452,7 +452,7 @@ class CargoStore {
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
 		// End transaction and apply DB changes.
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {

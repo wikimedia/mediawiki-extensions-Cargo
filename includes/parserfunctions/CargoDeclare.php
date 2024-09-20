@@ -343,13 +343,13 @@ class CargoDeclare {
 			$remoteField = $extraParams['_remoteField'];
 
 			// Validate that parent table exists.
-			if ( !$cdb->tableExists( $parentTableName ) ) {
+			if ( !$cdb->tableExists( $parentTableName, __METHOD__ ) ) {
 				// orig, gives wrong tablename
 				return CargoUtils::formatError( wfMessage( "cargo-declare-parenttable-not-exist", $parentTableName )->parse() );
 			}
 
 			// Validate that remote field exists.
-			if ( !$cdb->fieldExists( $parentTableName, $remoteField ) ) {
+			if ( !$cdb->fieldExists( $parentTableName, $remoteField, __METHOD__ ) ) {
 				return CargoUtils::formatError( wfMessage( "cargo-declare-parenttable-no-field", $parentTableName, $remoteField )->parse() );
 			}
 
@@ -386,7 +386,7 @@ class CargoDeclare {
 		// created.
 		$text = wfMessage( 'cargo-definestable', $tableName )->text();
 		$cdb = CargoUtils::getDB();
-		if ( $cdb->tableExists( $tableName ) ) {
+		if ( $cdb->tableExists( $tableName, __METHOD__ ) ) {
 			$ct = SpecialPage::getTitleFor( 'CargoTables' );
 			$pageName = $ct->getPrefixedText() . "/$tableName";
 			$viewTableMsg = wfMessage( 'cargo-cargotables-viewtablelink' )->parse();
@@ -396,7 +396,7 @@ class CargoDeclare {
 		}
 
 		// Also link to the replacement table, if it exists.
-		if ( $cdb->tableExists( $tableName . '__NEXT' ) ) {
+		if ( $cdb->tableExists( $tableName . '__NEXT', __METHOD__ ) ) {
 			$text .= ' ' . wfMessage( "cargo-cargotables-replacementgenerated" )->parse();
 			$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullURL();

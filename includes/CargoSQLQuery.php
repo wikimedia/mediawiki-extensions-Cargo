@@ -1567,7 +1567,7 @@ class CargoSQLQuery {
 	 */
 	public function run() {
 		foreach ( $this->mAliasedTableNames as $tableName ) {
-			if ( !$this->mCargoDB->tableExists( $tableName ) ) {
+			if ( !$this->mCargoDB->tableExists( $tableName, __METHOD__ ) ) {
 				throw new MWException( "Error: No database table exists named \"$tableName\"." );
 			}
 		}

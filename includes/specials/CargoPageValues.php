@@ -40,21 +40,22 @@ class CargoPageValues extends IncludableSpecialPage {
 		$tableNames = [];
 
 		$cdb = CargoUtils::getDB();
-		if ( $cdb->tableExists( '_pageData__NEXT' ) ) {
+		if ( $cdb->tableExists( '_pageData__NEXT', __METHOD__ ) ) {
 			$tableNames[] = '_pageData__NEXT';
-		} elseif ( $cdb->tableExists( '_pageData' ) ) {
+		} elseif ( $cdb->tableExists( '_pageData', __METHOD__ ) ) {
 			$tableNames[] = '_pageData';
 		}
-		if ( $cdb->tableExists( '_fileData__NEXT' ) ) {
+		if ( $cdb->tableExists( '_fileData__NEXT', __METHOD__ ) ) {
 			$tableNames[] = '_fileData__NEXT';
-		} elseif ( $cdb->tableExists( '_fileData' ) ) {
+		} elseif ( $cdb->tableExists( '_fileData', __METHOD__ ) ) {
 			$tableNames[] = '_fileData';
 		}
 
 		$dbr = CargoUtils::getMainDBForRead();
 		$res = $dbr->select(
 			'cargo_pages', 'table_name',
-			[ 'page_id' => $this->mTitle->getArticleID() ]
+			[ 'page_id' => $this->mTitle->getArticleID() ],
+			__METHOD__
 		);
 		foreach ( $res as $row ) {
 			$tableNames[] = $row->table_name;
