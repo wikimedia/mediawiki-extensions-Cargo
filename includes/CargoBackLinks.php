@@ -79,7 +79,7 @@ class CargoBackLinks {
 		$res = $dbr->select( 'cargo_backlinks',
 			[ 'cbl_query_page_id' ],
 			[ 'cbl_result_page_id' => $resultPageId ],
-			__METHOD___
+			__METHOD__
 		);
 		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 		foreach ( $res as $row ) {
