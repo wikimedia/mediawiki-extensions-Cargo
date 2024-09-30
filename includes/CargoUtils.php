@@ -12,8 +12,12 @@ use MediaWiki\MediaWikiServices;
 
 class CargoUtils {
 
+	/** @var \Wikimedia\Rdbms\IMaintainableDatabase|null */
 	private static $CargoDB = null;
 
+	/**
+	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
+	 */
 	public static function getDB() {
 		if ( self::$CargoDB != null && self::$CargoDB->isOpen() ) {
 			return self::$CargoDB;
@@ -88,7 +92,7 @@ class CargoUtils {
 	 * Provides a reference to the main (not the Cargo) database for read
 	 * access.
 	 *
-	 * @return \Wikimedia\Rdbms\IDatabase|false
+	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
 	 */
 	public static function getMainDBForRead() {
 		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
@@ -99,6 +103,7 @@ class CargoUtils {
 			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 			return $lbFactory->getReplicaDatabase();
 		} else {
+			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 			return $lbFactory->getMainLB()->getConnection( DB_REPLICA );
 		}
 	}
@@ -107,14 +112,16 @@ class CargoUtils {
 	 * Provides a reference to the main (not the Cargo) database for write
 	 * access.
 	 *
-	 * @return \Wikimedia\Rdbms\IDatabase|false
+	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
 	 */
 	public static function getMainDBForWrite() {
 		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
 		if ( method_exists( $lbFactory, 'getPrimaryDatabase' ) ) {
 			// MW 1.40+
+			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 			return $lbFactory->getPrimaryDatabase();
 		} else {
+			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
 			return $lbFactory->getMainLB()->getConnection( DB_PRIMARY );
 		}
 	}
@@ -885,7 +892,7 @@ class CargoUtils {
 			}
 			if ( $fieldDescription->mIsHierarchy ) {
 				$fieldHelperTableName = $tableName . '__' . $fieldName . '__hierarchy';
-				$cdb->dropTable( $fieldHelperTableName );
+				$cdb->dropTable( $fieldHelperTableName, __METHOD__ );
 				$fieldType = $fieldDescription->mType;
 				$fieldsInTable = [
 					'_value' => $fieldType,
@@ -899,7 +906,7 @@ class CargoUtils {
 				$hierarchyTree = CargoHierarchyTree::newFromWikiText( $fieldDescription->mHierarchyStructure );
 				$hierarchyStructureTableData = $hierarchyTree->generateHierarchyStructureTableData();
 				foreach ( $hierarchyStructureTableData as $entry ) {
-					$cdb->insert( $fieldHelperTableName, $entry );
+					$cdb->insert( $fieldHelperTableName, $entry, __METHOD__ );
 				}
 			}
 		}

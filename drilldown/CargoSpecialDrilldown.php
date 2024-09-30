@@ -67,7 +67,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		// This check is necessary because getTableSchemas(), below,
 		// for some reason returns a false positive when an alternate
 		// capitalization of the table name is used.
-		if ( !$cdb->tableExists( $mainTable ) ) {
+		if ( !$cdb->tableExists( $mainTable, __METHOD__ ) ) {
 			$out->addHTML( CargoUtils::formatError( $this->msg( "cargo-unknowntable", $mainTable )->parse() ) );
 			return;
 		}
@@ -162,7 +162,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 					$dateFields[] = $fieldName;
 					// If no. of events is more than 4 per month (i.e average days per event < 8),
 					// then calendar format is displayed for that field's result.
-					if ( $cdb->tableExists( $tableName ) ) {
+					if ( $cdb->tableExists( $tableName, __METHOD__ ) ) {
 						if ( $fieldDescription->mIsList ) {
 							$queriedTableName = $tableName . '__' . $fieldName;
 							$queriedFieldName = $cdb->addIdentifierQuotes( '_value' );

@@ -89,7 +89,7 @@ class CargoQuery {
 			// can include all results.
 			// Fetch results title only if "cargo_backlinks" table exists
 			$dbr = CargoUtils::getMainDBForRead();
-			if ( !$wgCargoIgnoreBacklinks && !$sqlQuery->isAggregating() && $dbr->tableExists( 'cargo_backlinks' ) ) {
+			if ( !$wgCargoIgnoreBacklinks && !$sqlQuery->isAggregating() && $dbr->tableExists( 'cargo_backlinks', __METHOD__ ) ) {
 				$newFieldsStr = $fieldsStr;
 				// $fieldsToCollectForPageIDs allows us to
 				// collect all those special fields' values in

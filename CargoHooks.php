@@ -152,20 +152,20 @@ class CargoHooks {
 		// Get all the "main" tables that this page is contained in.
 		$dbw = CargoUtils::getMainDBForWrite();
 		$cdb = CargoUtils::getDB();
-		$cdb->begin();
+		$cdb->begin( __METHOD__ );
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
-		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageID ] );
+		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageID ], __METHOD__ );
 		foreach ( $res as $row ) {
 			$curMainTable = $row->table_name;
 
-			if ( $cdb->tableExists( $curMainTable . '__NEXT' ) ) {
+			if ( $cdb->tableExists( $curMainTable . '__NEXT', __METHOD__ ) ) {
 				// It's a "read-only" table - ignore.
 				continue;
 			}
 
 			// First, delete from the "field" tables.
-			$fieldTablesValue = $dbw->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ] );
+			$fieldTablesValue = $dbw->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ], __METHOD__ );
 			$fieldTableNames = unserialize( $fieldTablesValue );
 			foreach ( $fieldTableNames as $curFieldTable ) {
 				// Thankfully, the MW DB API already provides a
@@ -181,12 +181,12 @@ class CargoHooks {
 
 			// Delete from the "files" helper table, if it exists.
 			$curFilesTable = $curMainTable . '___files';
-			if ( $cdb->tableExists( $curFilesTable ) ) {
-				$cdb->delete( $curFilesTable, $cdbPageIDCheck );
+			if ( $cdb->tableExists( $curFilesTable, __METHOD__ ) ) {
+				$cdb->delete( $curFilesTable, $cdbPageIDCheck, __METHOD__ );
 			}
 
 			// Now, delete from the "main" table.
-			$cdb->delete( $curMainTable, $cdbPageIDCheck );
+			$cdb->delete( $curMainTable, $cdbPageIDCheck, __METHOD__ );
 		}
 
 		self::deletePageFromSpecialTable( $pageID, '_pageData' );
@@ -198,11 +198,11 @@ class CargoHooks {
 		self::deletePageFromSpecialTable( $pageID, '_ganttData' );
 
 		// Finally, delete from cargo_pages.
-		$dbw->delete( 'cargo_pages', [ 'page_id' => $pageID ] );
+		$dbw->delete( 'cargo_pages', [ 'page_id' => $pageID ], __METHOD__ );
 		CargoBackLinks::managePageDeletion( $pageID );
 
 		// End transaction and apply DB changes.
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 	}
 
 	public static function deletePageFromSpecialTable( $pageID, $specialTableName ) {
@@ -213,14 +213,14 @@ class CargoHooks {
 			return;
 		}
 		$replacementTableName = $specialTableName . '__NEXT';
-		if ( $cdb->tableExists( $replacementTableName ) ) {
+		if ( $cdb->tableExists( $replacementTableName, __METHOD__ ) ) {
 			$specialTableName = $replacementTableName;
 		}
 
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
 		$dbr = CargoUtils::getMainDBForRead();
-		$fieldTablesValue = $dbr->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ] );
+		$fieldTablesValue = $dbr->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $specialTableName ], __METHOD__ );
 		$fieldTableNames = unserialize( $fieldTablesValue );
 		foreach ( $fieldTableNames as $curFieldTable ) {
 			$cdb->deleteJoin(
@@ -231,7 +231,7 @@ class CargoHooks {
 				$cdbPageIDCheck
 			);
 		}
-		$cdb->delete( $specialTableName, $cdbPageIDCheck );
+		$cdb->delete( $specialTableName, $cdbPageIDCheck, __METHOD__ );
 	}
 
 	/**
@@ -277,16 +277,16 @@ class CargoHooks {
 
 	public static function saveToSpecialTables( $title ) {
 		$cdb = CargoUtils::getDB();
-		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT', __METHOD__ );
 		CargoPageData::storeValuesForPage( $title, $useReplacementTable, false );
 		if ( $title->getNamespace() == NS_FILE ) {
-			$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+			$useReplacementTable = $cdb->tableExists( '_fileData__NEXT', __METHOD__ );
 			CargoFileData::storeValuesForFile( $title, $useReplacementTable );
 		} elseif ( defined( 'FD_NS_BPMN' ) && $title->getNamespace() == FD_NS_BPMN ) {
-			$useReplacementTable = $cdb->tableExists( '_bpmnData__NEXT' );
+			$useReplacementTable = $cdb->tableExists( '_bpmnData__NEXT', __METHOD__ );
 			CargoBPMNData::storeBPMNValues( $title, $useReplacementTable );
 		} elseif ( defined( 'FD_NS_GANTT' ) && $title->getNamespace() == FD_NS_GANTT ) {
-			$useReplacementTable = $cdb->tableExists( '_ganttData__NEXT' );
+			$useReplacementTable = $cdb->tableExists( '_ganttData__NEXT', __METHOD__ );
 			CargoGanttData::storeGanttValues( $title, $useReplacementTable );
 		}
 	}
@@ -362,9 +362,9 @@ class CargoHooks {
 		}
 		$dbw = CargoUtils::getMainDBForWrite();
 		$cdb = CargoUtils::getDB();
-		$cdb->begin();
+		$cdb->begin( __METHOD__ );
 
-		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageid ] );
+		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageid ], __METHOD__ );
 		foreach ( $res as $row ) {
 			$curMainTable = $row->table_name;
 			$cdb->update( $curMainTable,
@@ -373,16 +373,17 @@ class CargoHooks {
 					$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 					$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 				],
-				[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ]
+				[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ],
+				__METHOD__
 			);
 		}
 
 		// Update the page title in the "general data" tables.
 		$generalTables = [ '_pageData', '_fileData' ];
 		foreach ( $generalTables as $generalTable ) {
-			if ( $cdb->tableExists( $generalTable ) ) {
+			if ( $cdb->tableExists( $generalTable, __METHOD__ ) ) {
 				// Update in the replacement table, if one exists.
-				if ( $cdb->tableExists( $generalTable . '__NEXT' ) ) {
+				if ( $cdb->tableExists( $generalTable . '__NEXT', __METHOD__ ) ) {
 					$generalTable = $generalTable . '__NEXT';
 				}
 				$cdb->update( $generalTable,
@@ -391,17 +392,18 @@ class CargoHooks {
 						$cdb->addIdentifierQuotes( '_pageTitle' ) => $newPageTitle,
 						$cdb->addIdentifierQuotes( '_pageNamespace' ) => $newPageNamespace
 					],
-					[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ]
+					[ $cdb->addIdentifierQuotes( '_pageID' ) => $pageid ],
+					__METHOD__
 				);
 			}
 		}
 
 		// End transaction and apply DB changes.
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 
 		// Save data for the original page (now a redirect).
 		if ( $redirid != 0 ) {
-			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT' );
+			$useReplacementTable = $cdb->tableExists( '_pageData__NEXT', __METHOD__ );
 			$oldTitle = Title::newFromLinkTarget( $old );
 			CargoPageData::storeValuesForPage( $oldTitle, $useReplacementTable );
 		}
@@ -429,15 +431,15 @@ class CargoHooks {
 	 */
 	public static function onUploadComplete( $image ) {
 		$cdb = CargoUtils::getDB();
-		if ( !$cdb->tableExists( '_fileData' ) ) {
+		if ( !$cdb->tableExists( '_fileData', __METHOD__ ) ) {
 			return;
 		}
 		$title = $image->getLocalFile()->getTitle();
-		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT' );
+		$useReplacementTable = $cdb->tableExists( '_fileData__NEXT', __METHOD__ );
 		$pageID = $title->getArticleID();
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 		$fileDataTable = $useReplacementTable ? '_fileData__NEXT' : '_fileData';
-		$cdb->delete( $fileDataTable, $cdbPageIDCheck );
+		$cdb->delete( $fileDataTable, $cdbPageIDCheck, __METHOD__ );
 		CargoFileData::storeValuesForFile( $title, $useReplacementTable );
 	}
 
@@ -482,9 +484,9 @@ class CargoHooks {
 		// We need to make sure that the "categories" field table
 		// already exists, because we're only modifying it here, not
 		// creating it.
-		if ( $cdb->tableExists( '_pageData__NEXT___categories' ) ) {
+		if ( $cdb->tableExists( '_pageData__NEXT___categories', __METHOD__ ) ) {
 			$pageDataTable = '_pageData__NEXT';
-		} elseif ( $cdb->tableExists( '_pageData___categories' ) ) {
+		} elseif ( $cdb->tableExists( '_pageData___categories', __METHOD__ ) ) {
 			$pageDataTable = '_pageData';
 		} else {
 			return;
@@ -494,23 +496,23 @@ class CargoHooks {
 		$pageID = $wikiPage->getId();
 
 		$cdb = CargoUtils::getDB();
-		$cdb->begin();
-		$res = $cdb->select( $pageDataTable, '_ID', [ '_pageID' => $pageID ] );
+		$cdb->begin( __METHOD__ );
+		$res = $cdb->select( $pageDataTable, '_ID', [ '_pageID' => $pageID ], __METHOD__ );
 		if ( $res->numRows() == 0 ) {
-			$cdb->commit();
+			$cdb->commit( __METHOD__ );
 			return;
 		}
 		$row = $res->fetchRow();
 		$rowID = $row['_ID'];
 		$categoriesForPage = [];
-		$res2 = $cdb->select( $categoriesTable, '_value', [ '_rowID' => $rowID ] );
+		$res2 = $cdb->select( $categoriesTable, '_value', [ '_rowID' => $rowID ], __METHOD__ );
 		foreach ( $res2 as $row2 ) {
 			$categoriesForPage[] = $row2->_value;
 		}
 		$categoryAlreadyListed = in_array( $categoryName, $categoriesForPage );
 		// This can be done with a NOT XOR (i.e. XNOR), but let's not make it more confusing.
 		if ( ( $isAdd && $categoryAlreadyListed ) || ( !$isAdd && !$categoryAlreadyListed ) ) {
-			$cdb->commit();
+			$cdb->commit( __METHOD__ );
 			return;
 		}
 
@@ -525,18 +527,18 @@ class CargoHooks {
 			}
 		}
 		$newCategoriesFull = implode( '|', $categoriesForPage );
-		$cdb->update( $pageDataTable, [ '_categories__full' => $newCategoriesFull ], [ '_pageID' => $pageID ] );
+		$cdb->update( $pageDataTable, [ '_categories__full' => $newCategoriesFull ], [ '_pageID' => $pageID ], __METHOD__ );
 		if ( $isAdd ) {
-			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition', [ '_rowID' => $rowID ] );
+			$res3 = $cdb->select( $categoriesTable, 'MAX(_position) as MaxPosition', [ '_rowID' => $rowID ], __METHOD__ );
 			$row3 = $res3->fetchRow();
 			$maxPosition = $row3['MaxPosition'];
-			$cdb->insert( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ] );
+			$cdb->insert( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName, '_position' => $maxPosition + 1 ], __METHOD__ );
 		} else {
-			$cdb->delete( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName ] );
+			$cdb->delete( $categoriesTable, [ '_rowID' => $rowID, '_value' => $categoryName ], __METHOD__ );
 		}
 
 		// End transaction and apply DB changes.
-		$cdb->commit();
+		$cdb->commit( __METHOD__ );
 	}
 
 	public static function describeDBSchema( DatabaseUpdater $updater ) {

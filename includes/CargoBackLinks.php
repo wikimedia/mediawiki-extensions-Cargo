@@ -72,7 +72,7 @@ class CargoBackLinks {
 		}
 
 		$dbr = CargoUtils::getMainDBForRead();
-		if ( !$dbr->tableExists( 'cargo_backlinks' ) ) {
+		if ( !$dbr->tableExists( 'cargo_backlinks', __METHOD__ ) ) {
 			return;
 		}
 
