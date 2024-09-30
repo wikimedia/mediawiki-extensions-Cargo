@@ -2,10 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Mahaveer Indra",
+			"Pragathi. BH",
 			"Ravi Mundkur"
 		]
 	},
 	"cargo-purgecache-failed": "ನೆನಕೂಟ ವಿರೇಚನೆ ವಿಫಲವಾಂಡ್",
 	"cargo-field": "ಜಾಗೆ",
-	"cargo-value": "ಬಿಲೆ"
+	"cargo-value": "ಬಿಲೆ",
+	"cargo-parenttable": "ಪೇರೆಂಟ್ ಟೇಬಲ್"
 }
