@@ -5,8 +5,8 @@ const assert = require( 'assert' ),
 	CargoTablesPage = require( '../pageobjects/cargotables.page' ),
 	CargoTestUtils = require( '../cargo-utils' );
 
-describe( 'Special:CargoTables', function () {
-	before( async function () {
+describe( 'Special:CargoTables', () => {
+	before( async () => {
 		const bot = await Api.bot();
 
 		const tableName = 'CargoTablesTest';
@@ -22,7 +22,7 @@ describe( 'Special:CargoTables', function () {
 		} );
 	} );
 
-	it( 'displays table information', async function () {
+	it( 'displays table information', async () => {
 		await CargoTablesPage.open();
 
 		assert.deepEqual( await CargoTablesPage.getRowCount( 'CargoTablesTest' ), '2' );

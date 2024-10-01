@@ -5,8 +5,8 @@ const assert = require( 'assert' ),
 	DrilldownPage = require( '../pageobjects/drilldown.page' ),
 	CargoTestUtils = require( '../cargo-utils' );
 
-describe( 'Special:Drilldown', function () {
-	before( async function () {
+describe( 'Special:Drilldown', () => {
+	before( async () => {
 		const bot = await Api.bot();
 
 		const tableName = 'CargoDrilldownTest';
@@ -29,7 +29,7 @@ describe( 'Special:Drilldown', function () {
 		} );
 	} );
 
-	it( 'displays table name with proper page count', async function () {
+	it( 'displays table name with proper page count', async () => {
 		await DrilldownPage.open();
 
 		const tableNames = await DrilldownPage.getTableNames();
@@ -37,7 +37,7 @@ describe( 'Special:Drilldown', function () {
 		assert.ok( tableNames.includes( 'CargoDrilldownTest (3)' ) );
 	} );
 
-	it( 'displays proper data when drilling down', async function () {
+	it( 'displays proper data when drilling down', async () => {
 		await DrilldownPage.open();
 		await DrilldownPage.selectTable( 'CargoDrilldownTest' );
 
