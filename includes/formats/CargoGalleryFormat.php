@@ -142,7 +142,14 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 			// User specified something invalid, fallback to default.
 			$gallery = ImageGalleryBase::factory( false );
 		}
-		$gallery->setParser( MediaWikiServices::getInstance()->getParser() );
+
+		$parseWidthParamChecker = new ReflectionMethod( Parser::class, 'parseWidthParam' );
+		if ( !$parseWidthParamChecker->isStatic() ) {
+			// MW >= 1.43
+			// This is all due to the change at
+			// https://phabricator.wikimedia.org/rMW0450b5e4d58387a0d57dc699c2c58f8e780ca44e
+			$gallery->setParser( MediaWikiServices::getInstance()->getParser() );
+		}
 		if ( array_key_exists( 'show bytes', $displayParams ) ) {
 			$gallery->setShowBytes( $displayParams['show bytes'] );
 		}
