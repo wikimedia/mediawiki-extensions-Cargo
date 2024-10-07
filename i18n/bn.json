@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Aftabuzzaman",
+			"Borhan",
 			"Elias Ahmmad",
 			"Rasal Lia",
 			"Sohom Datta",
@@ -40,5 +41,6 @@
 	"cargo-drilldown-calendarformat": "পঞ্জিকা",
 	"cargo-viewfeed": "$1 ফিড দেখুন",
 	"cargo-dynamictables-searchcolumn": "$1 অনুসন্ধান করুন",
-	"cargo-value": "মান"
+	"cargo-value": "মান",
+	"cargo-parenttable": "মাতৃ ছক"
 }
