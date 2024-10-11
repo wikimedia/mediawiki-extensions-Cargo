@@ -145,7 +145,7 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$endDateFieldName = $startDateFieldName;
 				}
-				$where .= "($endDateFieldName > '$datesLowerLimit' AND $startDateFieldName < '$datesUpperLimit')";
+				$where .= "($endDateFieldName >= '$datesLowerLimit' AND $startDateFieldName < '$datesUpperLimit')";
 			}
 			$where .= ")";
 			$sqlQuery->mWhereStr = $where;
