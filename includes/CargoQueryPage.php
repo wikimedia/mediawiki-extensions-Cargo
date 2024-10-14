@@ -60,9 +60,15 @@ class CargoQueryPage extends QueryPage {
 			// For some reason, getValues() turns all spaces
 			// into underlines.
 			$paramName = str_replace( '_', ' ', $key );
-			if ( !in_array( $paramName,
-					[ 'title', 'tables', 'fields', 'join on', 'order by', 'group by', 'having', 'format',
-					'offset' ] ) ) {
+			if ( in_array( $paramName,
+				[ 'title', 'tables', 'fields', 'join on', 'order by', 'group by', 'having', 'format',
+				'offset' ] ) ) {
+				// Not display params.
+			} elseif ( in_array( $paramName, [ 'intro', 'outro', 'default' ] ) ) {
+				// These already get parsed/escaped during regular display, so no need to
+				// further escape them here (and they can't be arrays).
+				$this->displayParams[$paramName] = $value;
+			} else {
 				if ( is_array( $value ) ) {
 					$this->displayParams[$paramName] = array_map( 'htmlspecialchars', $value );
 				} else {

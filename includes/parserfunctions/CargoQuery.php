@@ -68,6 +68,8 @@ class CargoQuery {
 				$offsetStr = $value;
 			} elseif ( $key == 'format' ) {
 				$format = $value;
+			} elseif ( $key == 'intro' || $key == 'outro' || $key == 'default' ) {
+				$displayParams[$key] = $value;
 			} else {
 				// We'll assume it's going to the formatter.
 				$displayParams[$key] = htmlspecialchars( $value );
