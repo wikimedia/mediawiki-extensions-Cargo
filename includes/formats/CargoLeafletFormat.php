@@ -19,14 +19,14 @@ class CargoLeafletFormat extends CargoMapsFormat {
 
 	public static function getScripts() {
 		return [
-			"https://unpkg.com/leaflet@1.7.1/dist/leaflet.js",
+			"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
 			"https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"
 		];
 	}
 
 	public static function getStyles() {
 		return [
-			"https://unpkg.com/leaflet@1.7.1/dist/leaflet.css",
+			"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
 			"https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css",
 			"https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"
 		];
