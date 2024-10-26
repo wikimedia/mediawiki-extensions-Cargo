@@ -8,7 +8,10 @@
  * @author Alexander Mashin.
  */
 
-class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LibraryBase;
+use MediaWiki\Extension\Scribunto\Engines\LuaCommon\LuaError;
+
+class CargoLuaLibrary extends LibraryBase {
 
 	/**
 	 * Register two Lua bindings: mw.ext.cargo.query and mw.ext.cargo.format
@@ -32,7 +35,7 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 	 * @param array|null $args
 	 * @return array[]
 	 * @throws MWException
-	 * @throws Scribunto_LuaError
+	 * @throws LuaError
 	 */
 	public function cargoQuery( $tables, $fields, $args ): array {
 		$this->checkType( 'query', 1, $tables, 'string' );
@@ -53,7 +56,7 @@ class CargoLuaLibrary extends Scribunto_LuaLibraryBase {
 			$rows = $query->run();
 		} catch ( Exception $e ) {
 			// Allow for error handling within Lua.
-			throw new Scribunto_LuaError( $e->getMessage() );
+			throw new LuaError( $e->getMessage() );
 		}
 
 		$result = [];
