@@ -196,6 +196,7 @@
 	"cargo-field-type": "Type de champ",
 	"cargo-allowed-values": "Valeurs autorisées",
 	"cargo-value": "Valeur",
+	"cargo-parenttable": "Page parente",
 	"cargo-declare-must-from-template": "Erreur : #cargo_declare doit être appelé depuis une page de modèle.",
 	"cargo-declare-tablenm-is-sql-kw": "Erreur : « $1 » ne peut pas être utilisé comme nom de table Cargo, parce que c’est un mot-clé SQL.",
 	"cargo-declare-tablenm-is-cargo-kw": "Erreur : « $1 » ne peut pas être utilisé comme nom de table Cargo, parce que c’est déjà un mot-clé de Cargo.",
