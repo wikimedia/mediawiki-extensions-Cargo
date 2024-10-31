@@ -1,7 +1,9 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ravi Mundkur"
+			"Ravi Mundkur",
+			"Mahaveer Indra",
+			"Pragathi. BH"
 		]
 	},
 	"cargo-purgecache-failed": "ನೆನಕೂಟ ವಿರೇಚನೆ ವಿಫಲವಾಂಡ್"
