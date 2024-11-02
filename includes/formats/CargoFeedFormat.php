@@ -65,7 +65,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 	 * @param string|null $in The user-provided value.
 	 * @return string Either 'atom' or 'rss'.
 	 */
-	private function getFeedType( string $in = null ): string {
+	private function getFeedType( ?string $in = null ): string {
 		$config = MediaWikiServices::getInstance()->getMainConfig();
 		$types = array_keys( $config->get( 'FeedClasses' ) );
 
