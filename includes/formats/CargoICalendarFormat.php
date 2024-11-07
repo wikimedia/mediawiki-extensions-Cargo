@@ -82,7 +82,11 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 				$startDateField = 'start';
 			}
 			$queryResults = $sqlQuery->run();
+			if ( count( $queryResults ) === 0 ) {
+				continue;
+			}
 			$nameField = '_pageName';
+			// If there is no _pageName field, take the first non-date field as the event name.
 			if ( !array_key_exists( '_pageName', $queryResults[0] ) ) {
 				foreach ( array_keys( $queryResults[0] ) as $resField ) {
 					if ( ( $resField !== $startDateField ) && ( $resField !== $endDateField ) ) {
