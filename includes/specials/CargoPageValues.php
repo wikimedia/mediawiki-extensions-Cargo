@@ -317,7 +317,7 @@ class CargoPageValues extends IncludableSpecialPage {
 	 * @param Language|null $lang Language for the toc title, defaults to user language
 	 * @return string Full html of the TOC
 	 */
-	private static function tocList( $toc, Language $lang = null ) {
+	private static function tocList( $toc, ?Language $lang = null ) {
 		$lang ??= RequestContext::getMain()->getLanguage();
 		$title = wfMessage( 'toc' )->inLanguage( $lang )->escaped();
 		return '<div id="toc" class="toc" role="navigation" aria-labelledby="mw-toc-heading">'
