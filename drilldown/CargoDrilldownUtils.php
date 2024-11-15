@@ -47,7 +47,7 @@ class CargoDrilldownUtils {
 	 * @param Language|null $language
 	 * @return int|bool
 	 */
-	public static function stringToMonth( $str, Language $language = null ) {
+	public static function stringToMonth( $str, ?Language $language = null ) {
 		if ( $language === null ) {
 			global $wgLang;
 			$language = $wgLang;
