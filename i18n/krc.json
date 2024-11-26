@@ -71,7 +71,7 @@
 	"cargo-viewdata-modifyquery": "Излемни тюрлендир",
 	"cargo-viewdata-viewwikitext": "Викитекстни кёргюз",
 	"cargo-query-missingformat": "Халат: Формат къурулургъа керекди.",
-	"cargo-query-badsqlfunction": "Халат: \"1\" SQL функциягъа эркинлик берилмейди.",
+	"cargo-query-badsqlfunction": "Халат: $1 SQL функциягъа эркинлик берилмейди.",
 	"cargo-query-badalias": "Халат: \"$1\" таблицаны терс псевдоними барды.",
 	"cargo-query-unknowndbtable": "Халат: билги базада \"$1\" атлы таблица джокъду.",
 	"cargo-query-unknownfieldfortable": "Халат: \"$2\" билги базада \"$1\" атлы таблица джокъду.",
