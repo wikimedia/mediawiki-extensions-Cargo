@@ -43,7 +43,7 @@
 	"cargo-cargotables-mandatory": "obligatoresch",
 	"cargo-cargotables-totalrows": "Dës Tabell huet am Ganzen {{PLURAL:$1|'''eng''' Zeil|'''$1''' Zeilen}}.",
 	"cargo-cargotables-replacementgenerated": "Fir dës Tabell gouf eng Ersatztabell generéiert",
-	"cargo-deletetable-success": "D'Tabell \"$1\" gouf geläscht.",
+	"cargo-deletetable-success": "D'Tabell „$1“ gouf geläscht.",
 	"cargo-switchtables-switch": "Ëmschalten",
 	"cargo-pagevalues-tablevalues": "\"$1\"-Wäerter",
 	"cargo-pagevalues-tableinfo-numrows": "{{PLURAL:$1|Eng Zeil ass|$1 Zeile si}} fir dës Säit gespäichert",
