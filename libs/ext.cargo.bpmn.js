@@ -19,21 +19,17 @@ $(document).ready(function() {
     (async () => {
       var layoutedDiagramXML = await autoLayout.layoutProcess(xmlCode);
       var bpmnJS = new BpmnJS({
-        container: '#canvas',
-        keyboard: {
-          bindTo: window
-        }
+        container: '#canvas'
       });  
-      bpmnJS.importXML(layoutedDiagramXML, function(err) {
-        if (err) {
-            return console.error('could not import BPMN 2.0 diagram', err);
-        }
-        // access modeler components
-        var canvas = bpmnJS.get('canvas');
-        // zoom to fit full viewport
-        canvas.zoom('fit-viewport');
-        applyLinks();
-      });
+      const { err } = await bpmnJS.importXML(layoutedDiagramXML);
+      if (err) {
+          return console.error('could not import BPMN 2.0 diagram', err);
+      }
+      // access modeler components
+      var canvas = bpmnJS.get('canvas');
+      // zoom to fit full viewport
+      canvas.zoom('fit-viewport');
+      applyLinks();
     })();
     
     /**
