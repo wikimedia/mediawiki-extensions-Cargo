@@ -302,44 +302,18 @@ class CargoExport extends UnlistedSpecialPage {
 		foreach ( $sqlQueries as $sqlQuery ) {
 			$queryResults = $sqlQuery->run();
 			foreach ( $queryResults as $queryResult ) {
-				if ( array_key_exists( 'name', $queryResult ) ) {
-					$name = $queryResult['name'];
-				} else {
-					$name = reset( $queryResult );
-				}
-				if ( array_key_exists( 'label', $queryResult ) ) {
-					$label = $queryResult['label'];
-				} else {
-					$label = "";
-				}
-				if ( array_key_exists( 'type', $queryResult ) ) {
-					$eventType = $queryResult['type'];
-				} else {
+				// Type is mandatory.
+				if ( !array_key_exists( 'type', $queryResult ) ) {
 					continue;
-				}
-				if ( array_key_exists( 'sources', $queryResult ) ) {
-					$source = $queryResult['sources'];
-				} else {
-					$source = "";
-				}
-				if ( array_key_exists( 'flowLabels', $queryResult ) ) {
-					$flowLabels = $queryResult['flowLabels'];
-				} else {
-					$flowLabels = "";
-				}
-				if ( array_key_exists( 'linked', $queryResult ) ) {
-					$linkedpage = $queryResult['linked'];
-				} else {
-					$linkedpage = "";
 				}
 
 				$curEvent = [
-					'name' => $name,
-					'label' => $label,
-					'type' => $eventType,
-					'source' => $source,
-					'linkedpage' => $linkedpage,
-					'flowLabels' => $flowLabels
+					'name' => $queryResult['name'] ?? reset( $queryResult ),
+					'label' => $queryResult['label'] ?? "",
+					'type' => $queryResult['type'],
+					'source' => $queryResult['sources'] ?? "",
+					'linkedpage' => $queryResult['linked'] ?? "",
+					'flowLabels' => $queryResult['flowLabels'] ?? ""
 				];
 
 				if ( str_contains( $curEvent['type'], 'Event' ) ) {
