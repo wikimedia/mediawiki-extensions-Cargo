@@ -246,7 +246,8 @@ class CargoQueryDisplayer {
 			);
 		} elseif ( $type == 'URL' ) {
 			// Validate URL - regexp code copied from Sanitizer::validateAttributes().
-			$hrefExp = '/^(' . wfUrlProtocols() . ')[^\s]+$/';
+			$urlUtils = MediaWikiServices::getInstance()->getUrlUtils();
+			$hrefExp = '/^(' . $urlUtils->validProtocols() . ')[^\s]+$/';
 			if ( !preg_match( $hrefExp, $value ) ) {
 				if ( $escapeValue ) {
 					return htmlspecialchars( $value );
