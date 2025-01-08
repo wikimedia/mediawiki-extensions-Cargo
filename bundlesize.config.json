@@ -1,0 +1,6 @@
+[
+	{
+		"resourceModule": "ext.cargo.purge",
+		"maxSize": "5 kB"
+	}
+]

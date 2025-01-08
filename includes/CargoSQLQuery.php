@@ -385,6 +385,31 @@ class CargoSQLQuery {
 	}
 
 	/**
+	 * The handling of DB table aliases in SQL queries was changed in
+	 * MW 1.44, for reasons I don't really understand; because of it,
+	 * some of the Cargo tables need to be called in the SQL query without
+	 * their "cargo__" prefix. This method tries to determine wwhether
+	 * the currently-used version of MediaWiki uses the old appraoch or
+	 * not.
+	 *
+	 * The change to the handling was made in this revision, which, though
+	 * long, unfortunately does not seem to contain any checkable changes,
+	 * like the addition of a new class or method:
+	 *
+	 * https://phabricator.wikimedia.org/rMW1aa1b7d0384c298afed672400ccb01f700887ccf
+	 *
+	 * So instead we check for the existence of a method that was removed
+	 * in a revision made just a day later:
+	 *
+	 * https://phabricator.wikimedia.org/rMWa14b0e646443c94bd21747682612279b39bd213f
+	 *
+	 * Hopefully this is close enough.
+	 */
+	public static function mwUsesOldDBAliasing() {
+		return method_exists( 'MediaWiki\DB\AbstractSchemaValidator', 'checkDependencies' );
+	}
+
+	/**
 	 * Turn the very structured format that Cargo uses for join
 	 * conditions into the one that MediaWiki uses - this includes
 	 * adding the database prefix to each table name.
@@ -398,14 +423,15 @@ class CargoSQLQuery {
 		foreach ( $this->mCargoJoinConds as $cargoJoinCond ) {
 			// Only add the DB prefix to the table names if
 			// they're true table names and not aliases.
+			$oldAliasing = self::mwUsesOldDBAliasing();
 			$table1 = $cargoJoinCond['table1'];
-			if ( !array_key_exists( $table1, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table1] == $table1 ) {
+			if ( $oldAliasing && ( !array_key_exists( $table1, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table1] == $table1 ) ) {
 				$cargoTable1 = $this->mCargoDB->tableName( $table1 );
 			} else {
 				$cargoTable1 = $this->mCargoDB->addIdentifierQuotes( $table1 );
 			}
 			$table2 = $cargoJoinCond['table2'];
-			if ( !array_key_exists( $table2, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table2] == $table2 ) {
+			if ( $oldAliasing && ( !array_key_exists( $table2, $this->mAliasedTableNames ) || $this->mAliasedTableNames[$table2] == $table2 ) ) {
 				$cargoTable2 = $this->mCargoDB->tableName( $table2 );
 			} else {
 				$cargoTable2 = $this->mCargoDB->addIdentifierQuotes( $table2 );
@@ -1662,11 +1688,16 @@ class CargoSQLQuery {
 		$beforeText = $matches[1];
 		$tableName = $matches[2];
 		$fieldName = $matches[3];
-		$isTableAlias = false;
-		if ( array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
-			if ( !in_array( $tableName, $this->mAliasedTableNames ) ) {
-				$isTableAlias = true;
+		$oldAliasing = self::mwUsesOldDBAliasing();
+		if ( $oldAliasing ) {
+			$isTableAlias = false;
+			if ( array_key_exists( $tableName, $this->mAliasedTableNames ) ) {
+				if ( !in_array( $tableName, $this->mAliasedTableNames ) ) {
+					$isTableAlias = true;
+				}
 			}
+		} else {
+			$isTableAlias = true;
 		}
 		if ( $isTableAlias ) {
 			return $beforeText . $this->mCargoDB->addIdentifierQuotes( $tableName ) . "." .
