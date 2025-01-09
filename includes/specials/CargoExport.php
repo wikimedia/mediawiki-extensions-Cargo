@@ -361,14 +361,15 @@ class CargoExport extends UnlistedSpecialPage {
 				$XML .= '"></bpmn:' . $task['type'] . '>';
 			}
 		}
+
 		foreach ( $elements as $element ) {
 			if ( !array_key_exists( 'source', $element ) ) {
 				continue;
 			}
 			$sources = explode( ", ", $element['source'] );
 			$labels = explode( ", ", $element['flowLabels'] );
-			if ( count( $sources ) == 1 ) {
-				$sourceElementName = $element['source'];
+
+			foreach ( $sources as $sourceNum => $sourceElementName ) {
 				$key = array_search( $sourceElementName, array_column( $elements, 'name' ) );
 				if ( $key === false ) {
 					continue;
@@ -380,22 +381,9 @@ class CargoExport extends UnlistedSpecialPage {
 					'name' => $element['flowLabels'],
 					'id' => 'sequenceFlow' . ( count( $sequenceFlows ) + 1 )
 				];
-			} else {
-				foreach ( $sources as $sourceNum => $sourceElementName ) {
-					$key = array_search( $sourceElementName, array_column( $elements, 'name' ) );
-					if ( $key === false ) {
-						continue;
-					}
-					$sequenceFlows[] = [
-						'type' => 'sequenceFlow',
-						'source' => $elements[$key]['id'],
-						'target' => $element['id'],
-						'name' => $labels[$sourceNum],
-						'id' => 'sequenceFlow' . ( count( $sequenceFlows ) + 1 )
-					];
-				}
 			}
 		}
+
 		foreach ( $sequenceFlows as $task ) {
 			if ( is_array( $task ) && $task['type'] == "sequenceFlow" ) {
 				$XML .= '<bpmn:sequenceFlow id="' . $task['id'] . '" sourceRef="' . $task['source'] .
