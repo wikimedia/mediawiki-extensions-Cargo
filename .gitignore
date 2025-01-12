@@ -6,3 +6,4 @@ node_modules
 
 # E2E tests
 tests/selenium/log
+/.stylelintcache
