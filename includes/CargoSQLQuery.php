@@ -219,6 +219,10 @@ class CargoSQLQuery {
 			if ( count( $fieldStringParts ) == 2 ) {
 				$fieldName = trim( $fieldStringParts[0] );
 				$alias = trim( $fieldStringParts[1] );
+				// Validate alias.
+				if ( strpos( $alias, '.' ) !== false || strpos( $alias, '"' ) !== false || strpos( $alias, '\'' ) !== false ) {
+					throw new MWException( "Error: invalid field alias \"$alias\"; aliases cannot contain dots or quotes." );
+				}
 			} else {
 				$fieldName = $fieldString;
 				// Might as well change underscores to spaces
@@ -235,6 +239,11 @@ class CargoSQLQuery {
 				} else {
 					$alias = $realFieldName;
 				}
+				// If this is just the field name being used as
+				// the alias, and it contains forbidden
+				// characters, don't throw an error - just
+				// replace those characters with spaces.
+				$alias = str_replace( [ '.', '"', '\'' ], ' ', $alias );
 			}
 			if ( !$alias ) {
 				$blankAliasCount++;
