@@ -167,6 +167,7 @@
 	"cargo-downloadzip-invalidformat": "لا يحتوي الحقل الذي تم الاستعلام عنه على قيم نوع الملف",
 	"cargo-viewjson": "عرض جسون",
 	"cargo-viewbibtex": "عرض بب تخ",
+	"cargo-viewfeed": "عرض موجز بقيمة $1",
 	"cargo-viewicalendar": "مشاهدة ملف iCalendar",
 	"cargo-dynamictables-togglecolumns": "تبديل الأعمدة:",
 	"cargo-dynamictables-searchcolumn": "ابحث عن $1",
