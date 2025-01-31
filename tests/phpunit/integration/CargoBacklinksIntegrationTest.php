@@ -88,7 +88,7 @@ class CargoBacklinksIntegrationTest extends MediaWikiIntegrationTestCase {
 			// SET
 			[ 'page_touched' => wfTimestamp( TS_MW, $timestamp ) ],
 			// WHERE
-			[ 'page_id' => array_map( fn ( Title $title ) => $title->getArticleID(), $titles ) ],
+			[ 'page_id' => array_map( static fn ( Title $title ) => $title->getArticleID(), $titles ) ],
 			__METHOD__
 		);
 	}
