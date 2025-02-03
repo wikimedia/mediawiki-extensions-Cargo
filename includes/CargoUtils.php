@@ -9,6 +9,8 @@
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\MediaWikiServices;
+use Wikimedia\Rdbms\DatabaseMySQL;
+use Wikimedia\Rdbms\IDatabase;
 
 class CargoUtils {
 
@@ -90,7 +92,36 @@ class CargoUtils {
 		}
 
 		self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );
+
+		// Fandom change: Ensure Cargo DB connections use 4-byte UTF-8 client character set (UGC-4625).
+		self::setClientCharacterSet( self::$CargoDB );
+
 		return self::$CargoDB;
+	}
+
+	/**
+	 * Set the client character set of a database connection handle to 4-byte UTF-8.
+	 * This is necessary because Cargo utilizes functions such as REGEXP_LIKE(),
+	 * which fail if the client character set is "binary".
+	 *
+	 * @param IDatabase $dbw Database connection handle.
+	 */
+	private static function setClientCharacterSet( IDatabase $dbw ): void {
+		if ( $dbw instanceof DatabaseMysql ) {
+			// Force open the database connection so that we can obtain the underlying native connection handle.
+			$dbw->ping();
+
+			try {
+				$ref = new ReflectionMethod( $dbw, 'getBindingHandle' );
+				$ref->setAccessible( true );
+
+				/** @var mysqli $mysqli */
+				$mysqli = $ref->invoke( $dbw );
+				$mysqli->set_charset( 'utf8mb4' );
+			} catch (ReflectionException) {
+				return;
+			}
+		}
 	}
 
 	/**
@@ -993,10 +1024,13 @@ class CargoUtils {
 			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
 		}
 
-		// Fandom edit: set utf-8 character set for Cargo tables.
-		// Note: this is to bring tables on any dbs created post-UCP in line with those imported
-		// from Gamepedia, since the database default charset is different between those.
-		$createSQL .= " CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+		// Fandom edit: set utf8mb4 character set for Cargo tables (UGC-4625).
+		// These tables cannot use the binary charset that other MediaWiki tables use
+		// due to the need to support natural ordering of varchar fields as well as
+		// SQL functions such as REGEXP_LIKE() that do not support binary fields.
+		// Historically, these tables were created with the 3-byte utf8 character set,
+		// which is not sufficient for some characters, such as emoji.
+		$createSQL .= " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
 
 		$cdb->query( $createSQL, __METHOD__ );
 
