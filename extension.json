@@ -20,12 +20,13 @@
 		"runcargoqueries"
 	],
 	"GroupPermissions": {
-		"*": {
-			"runcargoqueries": true
-		},
 		"sysop": {
 			"recreatecargodata": true,
-			"deletecargodata": true
+			"deletecargodata": true,
+			"runcargoqueries": true
+		},
+		"user": {
+			"runcargoqueries": true
 		}
 	},
 	"GrantPermissions": {

@@ -34,7 +34,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$origFieldTableNames = [];
 		$origFieldHelperTableNames = [];
 		try {
-			$cdb->begin( __METHOD__ );
+			$cdb->startAtomic( __METHOD__ );
 
 			// The helper tables' names come from the database,
 			// so they already contain '__NEXT' - remove that,
@@ -65,7 +65,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 				$cdb->tableName( $mainTable . '__NEXT' ) .
 				' RENAME TO ' . $cdb->tableName( $mainTable ), __METHOD__ );
 
-			$cdb->commit( __METHOD__ );
+			$cdb->endAtomic( __METHOD__ );
 		} catch ( Exception $e ) {
 			throw new MWException( "Caught exception ($e) while trying to switch in replacement for Cargo table. "
 			. "Please make sure that your database user account has the DROP permission." );

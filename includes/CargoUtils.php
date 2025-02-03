@@ -72,6 +72,9 @@ class CargoUtils {
 			'password' => $dbPassword,
 			'dbname' => $dbName,
 			'tablePrefix' => $dbTablePrefix,
+			// MySQL >= 8.0.22 rejects using binary strings in regular expression functions
+			// such as REGEXP_LIKE(), heavily used across Cargo, so force UTF-8 client charset here.
+			'utf8Mode' => true,
 		];
 
 		if ( $type === 'sqlite' ) {
@@ -694,9 +697,9 @@ class CargoUtils {
 			$mainTableAlreadyExists = self::tableFullyExists( $tableNames[0] );
 			foreach ( $tableNames as $curTable ) {
 				try {
-					$cdb->begin( __METHOD__ );
+					$cdb->startAtomic( __METHOD__ );
 					$cdb->dropTable( $curTable, __METHOD__ );
-					$cdb->commit( __METHOD__ );
+					$cdb->endAtomic( __METHOD__ );
 				} catch ( Exception $e ) {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
@@ -967,6 +970,7 @@ class CargoUtils {
 				$sqlType = self::fieldTypeToSQLType( $fieldType, $dbType );
 				if ( $fieldName == '_ID' ) {
 					$fieldOptionsText .= ' PRIMARY KEY';
+					$fieldOptionsText .= ' AUTO_INCREMENT';
 				} elseif ( $fieldName == '_rowID' ) {
 					$fieldOptionsText .= ' NOT NULL';
 				}
@@ -988,6 +992,12 @@ class CargoUtils {
 		if ( $wgCargoDBRowFormat != null ) {
 			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
 		}
+
+		// Fandom edit: set utf-8 character set for Cargo tables.
+		// Note: this is to bring tables on any dbs created post-UCP in line with those imported
+		// from Gamepedia, since the database default charset is different between those.
+		$createSQL .= " CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+
 		$cdb->query( $createSQL, __METHOD__ );
 
 		// Add an index for any field that's not of type Text,

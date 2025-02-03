@@ -148,8 +148,8 @@ class CargoStore {
 		}
 
 		// Always store data in the replacement table if it exists.
-		$cdb = CargoUtils::getDB();
-		$cdb->begin( __METHOD__ );
+		$cdb = CargoUtils::getMainDBForWrite();
+		$cdb->startAtomic( __METHOD__ );
 		if ( $cdb->tableExists( $tableName . '__NEXT', __METHOD__ ) ) {
 			$tableName .= '__NEXT';
 		}
@@ -162,13 +162,13 @@ class CargoStore {
 			// This table probably has not been created yet -
 			// just exit silently.
 			wfDebugLog( 'cargo', "CargoStore::run() - skipping; Cargo table ($tableName) does not exist.\n" );
-			$cdb->rollback( __METHOD__ );
+			$cdb->endAtomic( __METHOD__ );
 			return;
 		}
 		$tableSchema = CargoTableSchema::newFromDBString( $row['table_schema'] );
 
 		$errors = self::blankOrRejectBadData( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
-		$cdb->commit( __METHOD__ );
+		$cdb->endAtomic( __METHOD__ );
 
 		if ( $errors ) {
 			$parserOutput = $parser->getOutput();
@@ -375,7 +375,7 @@ class CargoStore {
 
 		// We put the retrieval of the row ID, and the saving of the new row, into a
 		// single DB transaction, to avoid "collisions".
-		$cdb->begin( __METHOD__ );
+		$cdb->startAtomic( __METHOD__ );
 
 		$maxID = $cdb->selectField( $tableName,
 			'MAX(' . $cdb->addIdentifierQuotes( '_ID' ) . ')', '', __METHOD__ );
@@ -452,7 +452,7 @@ class CargoStore {
 		CargoUtils::escapedInsert( $cdb, $tableName, $tableFieldValues );
 
 		// End transaction and apply DB changes.
-		$cdb->commit( __METHOD__ );
+		$cdb->endAtomic( __METHOD__ );
 
 		// Now, store the data for all the "field tables".
 		foreach ( $fieldTableFieldValues as $tableNameAndValues ) {

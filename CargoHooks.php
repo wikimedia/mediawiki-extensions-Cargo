@@ -152,7 +152,7 @@ class CargoHooks {
 		// Get all the "main" tables that this page is contained in.
 		$dbw = CargoUtils::getMainDBForWrite();
 		$cdb = CargoUtils::getDB();
-		$cdb->begin( __METHOD__ );
+		$cdb->startAtomic( __METHOD__ );
 		$cdbPageIDCheck = [ $cdb->addIdentifierQuotes( '_pageID' ) => $pageID ];
 
 		$res = $dbw->select( 'cargo_pages', 'table_name', [ 'page_id' => $pageID ], __METHOD__ );
@@ -167,16 +167,18 @@ class CargoHooks {
 			// First, delete from the "field" tables.
 			$fieldTablesValue = $dbw->selectField( 'cargo_tables', 'field_tables', [ 'main_table' => $curMainTable ], __METHOD__ );
 			$fieldTableNames = unserialize( $fieldTablesValue );
-			foreach ( $fieldTableNames as $curFieldTable ) {
-				// Thankfully, the MW DB API already provides a
-				// nice method for deleting based on a join.
-				$cdb->deleteJoin(
-					$curFieldTable,
-					$curMainTable,
-					$cdb->addIdentifierQuotes( '_rowID' ),
-					$cdb->addIdentifierQuotes( '_ID' ),
-					$cdbPageIDCheck
-				);
+			if ( is_array( $fieldTableNames ) ) {
+				foreach ( $fieldTableNames as $curFieldTable ) {
+					// Thankfully, the MW DB API already provides a
+					// nice method for deleting based on a join.
+					$cdb->deleteJoin(
+						$curFieldTable,
+						$curMainTable,
+						$cdb->addIdentifierQuotes( '_rowID' ),
+						$cdb->addIdentifierQuotes( '_ID' ),
+						$cdbPageIDCheck
+					);
+				}
 			}
 
 			// Delete from the "files" helper table, if it exists.
@@ -202,7 +204,7 @@ class CargoHooks {
 		CargoBackLinks::managePageDeletion( $pageID );
 
 		// End transaction and apply DB changes.
-		$cdb->commit( __METHOD__ );
+		$cdb->endAtomic( __METHOD__ );
 	}
 
 	public static function deletePageFromSpecialTable( $pageID, $specialTableName ) {

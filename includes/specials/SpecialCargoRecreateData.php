@@ -111,24 +111,16 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		$ct = SpecialPage::getTitleFor( 'CargoTables' );
 		$viewTableURL = $ct->getLocalURL() . '/' . $this->mTableName;
 
-		// Store all the necesssary data on the page.
-		$text = Html::element( 'div', [
-				'hidden' => 'true',
-				'id' => 'recreateDataData',
-				// 'cargoscriptpath' is not data-
-				// specific, but this seemed like the
-				// easiest way to pass it over without
-				// interfering with any other pages.
-				'cargoscriptpath' => $cgScriptPath,
-				'tablename' => $this->mTableName,
-				'isspecialtable' => ( $this->mTemplateTitle == null ),
-				'isdeclared' => $this->mIsDeclared,
-				'totalpages' => $numTotalPages,
-				'viewtableurl' => $viewTableURL
-			], json_encode( $templateData ) );
+		$out->addJsConfigVars( 'cargoScriptPath', $cgScriptPath );
+		$out->addJsConfigVars( 'cargoTableName', $this->mTableName );
+		$out->addJsConfigVars( 'cargoIsDeclared', $this->mIsDeclared );
+		$out->addJsConfigVars( 'cargoViewTableUrl', $viewTableURL );
+		$out->addJsConfigVars( 'cargoTemplateData', $templateData );
+		$out->addJsConfigVars( 'cargoTotalPages', $numTotalPages );
+		$out->addJsConfigVars( 'cargoIsSpecialTable', $this->mTemplateTitle == null );
 
 		// Simple form.
-		$text .= '<div id="recreateDataCanvas">' . "\n";
+		$text = '<div id="recreateDataCanvas">' . "\n";
 		if ( $tableExists ) {
 			$checkBox = new OOUI\FieldLayout(
 				new OOUI\CheckboxInputWidget( [

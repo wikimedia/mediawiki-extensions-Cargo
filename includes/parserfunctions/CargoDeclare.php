@@ -392,7 +392,12 @@ class CargoDeclare {
 			$viewTableMsg = wfMessage( 'cargo-cargotables-viewtablelink' )->parse();
 			$text .= " [[$pageName|$viewTableMsg]].";
 		} else {
-			$text .= ' ' . wfMessage( 'cargo-tablenotcreated' )->text();
+			$page = $parser->getPage();
+			if ( $page !== null ) {
+				$text .= "\n\n[".$page->getFullURL( [ 'action' => 'recreatedata' ] )." ".wfMessage( 'cargo-createdatatable' )->parse()."]";
+			} else {
+				$text .= ' ' . wfMessage( 'cargo-tablenotcreated' )->text();
+			}
 		}
 
 		// Also link to the replacement table, if it exists.

@@ -477,18 +477,33 @@ class CargoTables extends IncludableSpecialPage {
 
 		$listOfColumns = $this->deriveListOfColumnsFromUserAllowedActions();
 
-		// Show a note if there are currently Cargo populate-data jobs
-		// that haven't been run, to make troubleshooting easier.
-		$group = MediaWikiServices::getInstance()->getJobQueueGroup();
-		// The following line would have made more sense to call, but
-		// it seems to return true if there are *any* jobs in the
-		// queue - a bug in MediaWiki?
-		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
-		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
-			$text .= Html::warningBox(
-				$this->msg( 'cargo-cargotables-beingpopulated' )->parse()
-			);
-		}
+		// if there's an error message, it needs to span all of the action columns
+		// plus the number of rows column
+		$colspanOfErrorMessage = 1 + count( $listOfColumns );
+
+		/**
+		 * Fandom change - start
+		 * It seems like we always return all the classes, so this info would always be
+		 * displayed. We are also using the same queue for all wikis, so they would overlap with
+		 * each other on that information.
+		 * @author ttomalak
+		 * @issue GPUCP-244
+		 */
+//		// Show a note if there are currently Cargo populate-data jobs
+//		// that haven't been run, to make troubleshooting easier.
+//		$group = MediaWikiServices::getInstance()->getJobQueueGroup();
+//		// The following line would have made more sense to call, but
+//		// it seems to return true if there are *any* jobs in the
+//		// queue - a bug in MediaWiki?
+//		// if ( $group->queuesHaveJobs( 'cargoPopulateTable' ) ) {
+//		if ( in_array( 'cargoPopulateTable', $group->getQueuesWithJobs() ) ) {
+//			$text .= Html::warningBox(
+//				$this->msg( 'cargo-cargotables-beingpopulated' )->parse()
+//			);
+//		}
+		/**
+		 * Fandom change - end
+		 */
 
 		$cdb = CargoUtils::getDB();
 		$tableNames = CargoUtils::getTables();

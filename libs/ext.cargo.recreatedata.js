@@ -12,15 +12,14 @@
 
 	var recreateData = new cargo.recreateData();
 
-	var dataDiv = $("div#recreateDataData");
-	var cargoScriptPath = dataDiv.attr("cargoscriptpath");
-	var tableName = dataDiv.attr("tablename");
-	var isSpecialTable = dataDiv.attr("isspecialtable");
-	var isDeclared = dataDiv.attr("isdeclared");
-	var numTotalPages = dataDiv.attr("totalpages");
-	var viewTableURL = dataDiv.attr("viewtableurl");
+	var cargoScriptPath = mw.config.get( 'cargoScriptPath' );
+	var tableName = mw.config.get( 'cargoTableName' );
+	var isDeclared = mw.config.get( 'cargoIsDeclared' );
+	var viewTableURL = mw.config.get( 'cargoViewTableUrl' );
+	var isSpecialTable = mw.config.get( 'cargoIsSpecialTable' );
+	var numTotalPages = mw.config.get( 'cargoTotalPages' );
 	var createReplacement = false;
-	var templateData = jQuery.parseJSON( dataDiv.html() );
+	var templateData = mw.config.get( 'cargoTemplateData' );
 	var numTotalPagesHandled = 0;
 
 	if ( numTotalPages == null ) {

@@ -8,6 +8,7 @@
 	"cargo-tablenotcreated": "This table has not been created yet.",
 	"cargo-addsrows": "This template adds rows to the table \"$1\", which is declared by the template $2.",
 	"cargo-addsrows-missingdeclare": "This template adds rows to the table \"$1\", which is not declared by any template.",
+	"cargo-addsrows-unknowntemplate": "This template adds rows to the table \"$1\", which is declared by an unknown template.",
 	"cargo-notable": "Error: Table name must be specified.",
 	"cargo-unknowntable": "Error: Table $1 not found.",
 	"recreatedata": "Recreate data",
