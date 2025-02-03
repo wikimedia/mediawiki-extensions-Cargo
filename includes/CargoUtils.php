@@ -10,6 +10,7 @@ use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\MediaWikiServices;
 use Wikimedia\Rdbms\DatabaseMySQL;
+use Wikimedia\Rdbms\DBConnRef;
 use Wikimedia\Rdbms\IDatabase;
 
 class CargoUtils {
@@ -33,6 +34,21 @@ class CargoUtils {
 	 * @param IDatabase $dbw Database connection handle.
 	 */
 	private static function setClientCharacterSet( IDatabase $dbw ): void {
+		// For DBConnRefs wrapping a lazy-initialized connection handle,
+		// we need to unwrap that connection handle to set the character set.
+		if ( $dbw instanceof DBConnRef ) {
+			// Force open the database connection so that we can obtain the underlying native connection handle.
+			$dbw->ping();
+
+			try {
+				$ref = new ReflectionProperty( $dbw, 'conn' );
+				$ref->setAccessible( true );
+				$dbw = $ref->getValue( $dbw );
+			} catch ( ReflectionException ) {
+				return;
+			}
+		}
+
 		if ( $dbw instanceof DatabaseMysql ) {
 			// Force open the database connection so that we can obtain the underlying native connection handle.
 			$dbw->ping();
