@@ -335,7 +335,7 @@ class CargoDeclare {
 
 		// Validate table name.
 
-		$cdb = CargoUtils::getDB();
+		$cdb = CargoUtils::getMainDBForRead();
 
 		foreach ( $parentTables as $extraParams ) {
 			$parentTableName = $extraParams['Name'];
@@ -385,7 +385,6 @@ class CargoDeclare {
 		// exists already - otherwise, explain that it needs to be
 		// created.
 		$text = wfMessage( 'cargo-definestable', $tableName )->text();
-		$cdb = CargoUtils::getDB();
 		if ( $cdb->tableExists( $tableName, __METHOD__ ) ) {
 			$ct = SpecialPage::getTitleFor( 'CargoTables' );
 			$pageName = $ct->getPrefixedText() . "/$tableName";

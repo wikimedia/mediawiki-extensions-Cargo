@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Permissions\PermissionManager;
 
 /**
  * Handles the 'recreatedata' action.
@@ -58,7 +59,7 @@ class CargoRecreateDataAction extends Action {
 
 		$user = $obj->getUser();
 		$permissionManager = MediaWikiServices::getInstance()->getPermissionManager();
-		if ( !$permissionManager->userCan( 'recreatecargodata', $user, $title ) ) {
+		if ( !$permissionManager->userCan( 'recreatecargodata', $user, $title, PermissionManager::RIGOR_QUICK ) ) {
 			return true;
 		}
 

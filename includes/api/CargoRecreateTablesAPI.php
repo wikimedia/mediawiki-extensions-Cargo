@@ -64,7 +64,7 @@ class CargoRecreateTablesAPI extends ApiBase {
 
 	protected function getExamples() {
 		return [
-			'api.php?action=cargorecreatetables&template=City'
+			'api.php?action=cargorecreatetables&template=City',
 		];
 	}
 
@@ -76,4 +76,7 @@ class CargoRecreateTablesAPI extends ApiBase {
 		return 'csrf';
 	}
 
+	public function isWriteMode() {
+		return true;
+	}
 }

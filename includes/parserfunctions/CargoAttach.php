@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * Class for the #cargo_attach parser function.
  *
@@ -42,7 +45,8 @@ class CargoAttach {
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		$res = $dbw->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ], __METHOD__ );
+		$res = CargoUtils::getMainDBForRead()
+			->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ], __METHOD__ );
 		$row = $res->fetchRow();
 		if ( $row && $row['total'] == 0 ) {
 			return CargoUtils::formatError( "Error: The specified table, \"$tableName\", does not exist." );

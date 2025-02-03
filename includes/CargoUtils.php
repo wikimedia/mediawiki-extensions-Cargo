@@ -14,89 +14,15 @@ use Wikimedia\Rdbms\IDatabase;
 
 class CargoUtils {
 
-	/** @var \Wikimedia\Rdbms\IMaintainableDatabase|null */
-	private static $CargoDB = null;
-
 	/**
 	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
 	 */
-	public static function getDB() {
-		if ( self::$CargoDB != null && self::$CargoDB->isOpen() ) {
-			return self::$CargoDB;
-		}
-
-		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
-		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype,
-		       $wgCargoDBfilePath, $wgCargoDBIndex;
-
-		$services = MediaWikiServices::getInstance();
-		$dbIndex = $wgCargoDBIndex !== null ?: DB_PRIMARY;
-		$dbr = $dbIndex == DB_REPLICA ? self::getMainDBForRead() : self::getMainDBForWrite();
-		$server = $dbr->getServer();
-		$name = $dbr->getDBname();
-		$type = $dbr->getType();
-
-		// We need $wgCargoDBtype for other functions.
-		if ( $wgCargoDBtype === null ) {
-			$wgCargoDBtype = $type;
-		}
-		$dbServer = $wgCargoDBserver === null ? $server : $wgCargoDBserver;
-		$dbName = $wgCargoDBname === null ? $name : $wgCargoDBname;
-
-		// Server (host), db name, and db type can be retrieved from $dbr via
-		// public methods, but username and password cannot. If these values are
-		// not set for Cargo, get them from either $wgDBservers or wgDBuser and
-		// $wgDBpassword, depending on whether or not there are multiple DB servers.
-		if ( $wgCargoDBuser !== null ) {
-			$dbUsername = $wgCargoDBuser;
-		} elseif ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
-			$dbUsername = $wgDBservers[0]['user'];
+	public static function getDB( int $dbType = DB_PRIMARY ) {
+		if ( $dbType === DB_PRIMARY ) {
+			return self::getMainDBForWrite();
 		} else {
-			$dbUsername = $wgDBuser;
+			return self::getMainDBForRead();
 		}
-		if ( $wgCargoDBpassword !== null ) {
-			$dbPassword = $wgCargoDBpassword;
-		} elseif ( is_array( $wgDBservers ) && isset( $wgDBservers[0] ) ) {
-			$dbPassword = $wgDBservers[0]['password'];
-		} else {
-			$dbPassword = $wgDBpassword;
-		}
-
-		if ( $wgCargoDBprefix !== null ) {
-			$dbTablePrefix = $wgCargoDBprefix;
-		} else {
-			$dbTablePrefix = $wgDBprefix . 'cargo__';
-		}
-
-		$params = [
-			'host' => $dbServer,
-			'user' => $dbUsername,
-			'password' => $dbPassword,
-			'dbname' => $dbName,
-			'tablePrefix' => $dbTablePrefix,
-			// MySQL >= 8.0.22 rejects using binary strings in regular expression functions
-			// such as REGEXP_LIKE(), heavily used across Cargo, so force UTF-8 client charset here.
-			'utf8Mode' => true,
-		];
-
-		if ( $type === 'sqlite' ) {
-			if ( $wgCargoDBfilePath !== null ) {
-				$params['dbFilePath'] = $wgCargoDBfilePath;
-			} else {
-				$params['dbFilePath'] = $dbr->getDbFilePath();
-			}
-		} elseif ( $type === 'postgres' ) {
-			global $wgDBport;
-			// @TODO - a $wgCargoDBport variable is still needed.
-			$params['port'] = $wgDBport;
-		}
-
-		self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );
-
-		// Fandom change: Ensure Cargo DB connections use 4-byte UTF-8 client character set (UGC-4625).
-		self::setClientCharacterSet( self::$CargoDB );
-
-		return self::$CargoDB;
 	}
 
 	/**
@@ -117,7 +43,9 @@ class CargoUtils {
 
 				/** @var mysqli $mysqli */
 				$mysqli = $ref->invoke( $dbw );
-				$mysqli->set_charset( 'utf8mb4' );
+				if ( $mysqli->character_set_name() !== 'utf8mb4' ) {
+					$mysqli->set_charset( 'utf8mb4' );
+				}
 			} catch (ReflectionException) {
 				return;
 			}
@@ -133,14 +61,18 @@ class CargoUtils {
 	public static function getMainDBForRead() {
 		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
 		if ( method_exists( $lbFactory, 'getReplicaDatabase' ) ) {
+			$conn = $lbFactory->getReplicaDatabase();
+			self::setClientCharacterSet( $conn );
 			// MW 1.40+
 			// The correct type \Wikimedia\Rdbms\IReadableDatabase cannot be used
 			// as return type, as that class only exists since 1.40.
 			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getReplicaDatabase();
+			return $conn;
 		} else {
+			$conn = $lbFactory->getMainLB()->getConnection( DB_REPLICA );
+			self::setClientCharacterSet( $conn );
 			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getMainLB()->getConnection( DB_REPLICA );
+			return $conn;
 		}
 	}
 
@@ -153,12 +85,16 @@ class CargoUtils {
 	public static function getMainDBForWrite() {
 		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
 		if ( method_exists( $lbFactory, 'getPrimaryDatabase' ) ) {
+			$conn = $lbFactory->getPrimaryDatabase();
+			self::setClientCharacterSet( $conn );
 			// MW 1.40+
 			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getPrimaryDatabase();
+			return $conn;
 		} else {
+			$conn = $lbFactory->getMainLB()->getConnection( DB_PRIMARY );
+			self::setClientCharacterSet( $conn );
 			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getMainLB()->getConnection( DB_PRIMARY );
+			return $conn;
 		}
 	}
 
@@ -537,12 +473,13 @@ class CargoUtils {
 
 	public static function getDateFunctions( $dateDBField ) {
 		global $wgCargoDBtype;
+		$dbType = $wgCargoDBtype ?? self::getMainDBForRead()->getType();
 
 		// Unfortunately, date handling in general - and date extraction
 		// specifically - is done differently in almost every DB
 		// system. If support was ever added for SQLite,
 		// that would require special handling as well.
-		if ( $wgCargoDBtype == 'postgres' ) {
+		if ( $dbType == 'postgres' ) {
 			$yearValue = "DATE_PART('year', $dateDBField)";
 			$monthValue = "DATE_PART('month', $dateDBField)";
 			$dayValue = "DATE_PART('day', $dateDBField)";
