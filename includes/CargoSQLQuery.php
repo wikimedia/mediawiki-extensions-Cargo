@@ -1631,7 +1631,7 @@ class CargoSQLQuery {
 					// It's a string.
 					// Escape any HTML, to avoid JavaScript
 					// injections and the like.
-					$resultsRow[$alias] = htmlspecialchars( $curValue );
+					$resultsRow[$alias] = htmlspecialchars( $curValue, ENT_COMPAT );
 				}
 			}
 			$resultArray[] = $resultsRow;
