@@ -1,4 +1,7 @@
 <?php
+
+use Wikimedia\Rdbms\DBError;
+
 /**
  * CargoQuery - class for the #cargo_query parser function.
  *
@@ -112,6 +115,8 @@ class CargoQuery {
 				);
 				$queryResultsJustForResultsTitle = $sqlQueryJustForResultsTitle->run();
 			}
+		} catch ( DBError $e ) {
+			throw $e;
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
 		}

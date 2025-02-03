@@ -44,7 +44,6 @@ class CargoAttach {
 			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
 		}
 
-		$dbw = CargoUtils::getMainDBForWrite();
 		$res = CargoUtils::getMainDBForRead()
 			->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ], __METHOD__ );
 		$row = $res->fetchRow();
