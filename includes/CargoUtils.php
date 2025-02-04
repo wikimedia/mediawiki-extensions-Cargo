@@ -653,9 +653,9 @@ class CargoUtils {
 				// not have a row in cargo_tables - this is
 				// hopefully a rare occurrence.
 				try {
-					$cdb->begin( __METHOD__ );
+					$cdb->startAtomic( __METHOD__ );
 					$cdb->dropTable( $tableName, __METHOD__ );
-					$cdb->commit( __METHOD__ );
+					$cdb->endAtomic( __METHOD__ );
 				} catch ( Exception $e ) {
 					throw new MWException( "Caught exception ($e) while trying to drop Cargo table. "
 					. "Please make sure that your database user account has the DROP permission." );
@@ -811,7 +811,7 @@ class CargoUtils {
 	}
 
 	public static function createCargoTableOrTables( $cdb, $dbw, $tableName, $tableSchema, $tableSchemaString, $templatePageID ) {
-		$cdb->begin( __METHOD__ );
+		$cdb->startAtomic( __METHOD__ );
 		$fieldsInMainTable = [
 			'_ID' => 'Integer',
 			'_pageName' => 'String',
@@ -915,7 +915,7 @@ class CargoUtils {
 		}
 
 		// End transaction and apply DB changes.
-		$cdb->commit( __METHOD__ );
+		$cdb->endAtomic( __METHOD__ );
 
 		// Finally, store all the info in the cargo_tables table.
 		$dbw->insert( 'cargo_tables', [
