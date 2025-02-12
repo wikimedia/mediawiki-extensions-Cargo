@@ -57,7 +57,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 
 		// Output full anchor element. The array_filter is to avoid empty params.
 		$export = SpecialPage::getTitleFor( 'CargoExport' );
-		return Html::rawElement( 'a', [ 'href' => $export->getFullURL( array_filter( $queryParams ) ) ], $linkText );
+		return Html::element( 'a', [ 'href' => $export->getFullURL( array_filter( $queryParams ) ) ], $linkText );
 	}
 
 	/**

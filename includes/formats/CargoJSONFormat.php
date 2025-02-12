@@ -27,9 +27,7 @@ class CargoJSONFormat extends CargoDeferredFormat {
 		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
 		];
-		$text = Html::rawElement( 'a', $linkAttrs, wfMessage( 'cargo-viewjson' )->text() );
-
-		return $text;
+		return Html::element( 'a', $linkAttrs, wfMessage( 'cargo-viewjson' )->text() );
 	}
 
 }

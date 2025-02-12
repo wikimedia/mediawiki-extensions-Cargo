@@ -42,9 +42,7 @@ class CargoCSVFormat extends CargoDeferredFormat {
 		$linkAttrs = [
 			'href' => $ce->getFullURL( $queryParams ),
 		];
-		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
-
-		return $text;
+		return Html::element( 'a', $linkAttrs, $linkText );
 	}
 
 }

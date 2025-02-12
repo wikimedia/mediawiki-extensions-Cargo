@@ -267,9 +267,7 @@ class CargoBibtexFormat extends CargoDeferredFormat {
 			'href' => $ce->getFullURL( $queryParams ),
 			'target' => '_blank' // link will open in a new tab
 		];
-		$text = Html::rawElement( 'a', $linkAttrs, $linkText );
-
-		return $text;
+		return Html::element( 'a', $linkAttrs, $linkText );
 	}
 
 }

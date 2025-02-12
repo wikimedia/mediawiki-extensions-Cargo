@@ -51,7 +51,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 			$linkText = wfMessage( 'cargo-viewicalendar' )->parse();
 		}
 		$export = SpecialPage::getTitleFor( 'CargoExport' );
-		return Html::rawElement( 'a', [ 'href' => $export->getFullURL( $queryParams ) ], $linkText );
+		return Html::element( 'a', [ 'href' => $export->getFullURL( $queryParams ) ], $linkText );
 	}
 
 	/**
