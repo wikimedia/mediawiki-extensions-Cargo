@@ -7,8 +7,6 @@
  * <gallery> tag.
  */
 
-use MediaWiki\MediaWikiServices;
-
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {
@@ -148,7 +146,7 @@ class CargoGalleryFormat extends CargoDisplayFormat {
 			// MW >= 1.43
 			// This is all due to the change at
 			// https://phabricator.wikimedia.org/rMW0450b5e4d58387a0d57dc699c2c58f8e780ca44e
-			$gallery->setParser( MediaWikiServices::getInstance()->getParser() );
+			$gallery->setParser( $this->getParser() );
 		}
 		if ( array_key_exists( 'show bytes', $displayParams ) ) {
 			$gallery->setShowBytes( $displayParams['show bytes'] );

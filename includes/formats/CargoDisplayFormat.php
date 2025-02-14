@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * @author Yaron Koren
  * @ingroup Cargo
@@ -75,5 +78,9 @@ class CargoDisplayFormat {
 		return !$no_html && $format !== 'template'
 			? [ $html, 'noparse' => true, 'isHTML' => true ]
 			: [ $html, 'noparse' => false ];
+	}
+
+	public function getParser() {
+		return $this->mParser ?? MediaWikiServices::getInstance()->getParser();
 	}
 }
