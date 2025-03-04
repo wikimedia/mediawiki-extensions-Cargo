@@ -312,8 +312,8 @@ CargoMap.prototype.displayWithOpenLayers = function() {
 	}
 }
 
-jQuery(document).ready( function() {
-	jQuery(".mapCanvas").each( function() {
+mw.hook( 'wikipage.content' ).add( function( $content ) {
+	$content.find( '.mapCanvas' ).each( function() {
 		var mapDataText = $(this).find(".cargoMapData").text();
 		var valuesForMap = jQuery.parseJSON(mapDataText);
 		var mappingService = $(this).find(".cargoMapData").attr('data-mapping-service');
