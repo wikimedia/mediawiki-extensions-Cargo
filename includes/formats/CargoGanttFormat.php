@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\Html\Html;
+
 class CargoGanttFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {

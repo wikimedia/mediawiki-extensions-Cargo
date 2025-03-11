@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoCSVFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {

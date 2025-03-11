@@ -4,6 +4,7 @@
  */
 
 use MediaWiki\MainConfigNames;
+use MediaWiki\Request\FauxRequest;
 
 /**
  * Tests for the iCalendar format.

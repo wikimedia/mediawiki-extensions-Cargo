@@ -7,6 +7,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
 	public function __construct() {

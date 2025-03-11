@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoPieChartFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {

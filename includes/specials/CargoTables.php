@@ -1,7 +1,4 @@
 <?php
-
-use MediaWiki\MediaWikiServices;
-
 /**
  * Defines a special page that shows the contents of a single table in
  * the Cargo database.
@@ -10,6 +7,10 @@ use MediaWiki\MediaWikiServices;
  * @author Megan Cutrofello
  * @ingroup Cargo
  */
+
+use MediaWiki\Html\Html;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 class CargoTables extends IncludableSpecialPage {
 

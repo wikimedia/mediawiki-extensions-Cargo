@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoTagCloudFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {

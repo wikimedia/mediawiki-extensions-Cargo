@@ -7,6 +7,8 @@
  * <gallery> tag.
  */
 
+use MediaWiki\Title\Title;
+
 class CargoGalleryFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {

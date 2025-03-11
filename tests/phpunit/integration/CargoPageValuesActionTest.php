@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\Title\Title;
+
 class CargoPageValuesActionTest extends MediaWikiIntegrationTestCase {
 
 	/**

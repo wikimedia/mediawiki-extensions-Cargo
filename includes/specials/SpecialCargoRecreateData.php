@@ -1,7 +1,9 @@
 <?php
 
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * Displays an interface to let users recreate data via the Cargo

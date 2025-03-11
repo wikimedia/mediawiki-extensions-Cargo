@@ -5,6 +5,8 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\Html\Html;
+
 class CargoPageSchemas extends PSExtensionHandler {
 	public static function registerClass() {
 		global $wgPageSchemasHandlerClasses;

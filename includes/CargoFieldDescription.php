@@ -1,5 +1,4 @@
 <?php
-
 /**
  * CargoFieldDescription - holds the attributes of a single field as defined
  * in the #cargo_declare parser function.
@@ -7,6 +6,9 @@
  * @author Yaron Koren
  * @ingroup Cargo
  */
+
+use MediaWiki\Html\Html;
+
 class CargoFieldDescription {
 	public $mType;
 	public $mSize;

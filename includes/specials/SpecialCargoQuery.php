@@ -6,6 +6,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class SpecialCargoQuery extends SpecialPage {
 
 	/**

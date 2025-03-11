@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\Title\Title;
+
 /**
  * Integration test cases for the full Cargo parser function stack.
  *

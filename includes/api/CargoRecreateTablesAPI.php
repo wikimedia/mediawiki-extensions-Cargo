@@ -6,6 +6,8 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\Title\Title;
+
 class CargoRecreateTablesAPI extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {

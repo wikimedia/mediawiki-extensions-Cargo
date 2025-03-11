@@ -10,6 +10,8 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\Html\Html;
+
 class CargoOutlineFormat extends CargoListFormat {
 
 	/** @var string[] */

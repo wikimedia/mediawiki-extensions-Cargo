@@ -10,6 +10,9 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+use MediaWiki\Title\Title;
+
 class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
 	public $tableAlias = "";

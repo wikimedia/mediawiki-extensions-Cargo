@@ -4,6 +4,9 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+use MediaWiki\Title\Title;
+
 class CargoMapsFormat extends CargoDisplayFormat {
 
 	public static $mappingService = "OpenLayers";

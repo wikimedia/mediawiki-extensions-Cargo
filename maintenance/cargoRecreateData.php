@@ -33,6 +33,7 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 }
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 $maintClass = CargoRecreateData::class;
 

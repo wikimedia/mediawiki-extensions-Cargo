@@ -7,6 +7,8 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\Title\Title;
+
 class CargoPopulateTableJob extends Job {
 
 	/**

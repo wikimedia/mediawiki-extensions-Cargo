@@ -8,6 +8,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Title\Title;
+
 class CargoExport extends UnlistedSpecialPage {
 
 	/**

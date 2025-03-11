@@ -5,6 +5,8 @@
  * @author @lmorillas
  */
 
+use MediaWiki\Html\Html;
+
 class CargoExhibitFormat extends CargoDeferredFormat {
 	/** @var array */
 	private $displayParams;

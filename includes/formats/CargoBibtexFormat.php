@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoBibtexFormat extends CargoDeferredFormat {
 
 	public static function allowedParameters() {

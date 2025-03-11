@@ -32,6 +32,8 @@ if ( getenv( 'MW_INSTALL_PATH' ) ) {
 	require_once __DIR__ . '/../../../maintenance/Maintenance.php';
 }
 
+use MediaWiki\Title\Title;
+
 $maintClass = SetCargoBPMNData::class;
 
 class SetCargoBPMNData extends Maintenance {

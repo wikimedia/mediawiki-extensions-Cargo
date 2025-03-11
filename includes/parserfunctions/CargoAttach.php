@@ -6,6 +6,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Title\Title;
+
 class CargoAttach {
 
 	/**

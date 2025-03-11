@@ -6,9 +6,11 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
 use MediaWiki\Linker\LinkRenderer;
 use MediaWiki\Linker\LinkTarget;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 class CargoUtils {
 

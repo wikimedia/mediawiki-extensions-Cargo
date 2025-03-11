@@ -1,6 +1,6 @@
 Cargo extension
 
-        Version 3.7.1
+        Version 3.8-alpha
         Yaron Koren
 
 This is free software licensed under the GNU General Public License. Please
@@ -43,7 +43,7 @@ https://www.mediawiki.org/wiki/Extension:Cargo
 
 == Requirements ==
 
-This version of the Cargo extension requires MediaWiki 1.39 or higher.
+This version of the Cargo extension requires MediaWiki 1.40 or higher.
 
 == Installation ==
 

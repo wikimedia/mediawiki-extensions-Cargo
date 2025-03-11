@@ -1,5 +1,7 @@
 <?php
 
+use MediaWiki\Title\Title;
+
 /**
  * Static functions for dealing with the "_fileData" table.
  *

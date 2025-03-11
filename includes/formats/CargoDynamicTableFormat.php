@@ -8,6 +8,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoDynamicTableFormat extends CargoDisplayFormat {
 
 	public static function allowedParameters() {

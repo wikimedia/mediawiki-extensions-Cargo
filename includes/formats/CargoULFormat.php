@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+
 class CargoULFormat extends CargoListFormat {
 
 	public static function allowedParameters() {

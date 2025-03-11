@@ -7,6 +7,9 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Html\Html;
+use MediaWiki\Title\Title;
+
 class CargoPageValues extends IncludableSpecialPage {
 	public $mTitle;
 

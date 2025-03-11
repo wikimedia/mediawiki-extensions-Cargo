@@ -4,7 +4,10 @@
  * @file
  */
 
+use MediaWiki\Feed\FeedItem;
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * Handle the feed export format.
