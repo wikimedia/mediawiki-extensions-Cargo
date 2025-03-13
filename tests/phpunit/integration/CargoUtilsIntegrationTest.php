@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 
 class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	public function setUp(): void {
@@ -63,13 +62,13 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	 * @dataProvider provideMakeLinkData
 	 */
 	public function testMakeLink(
-		$linkRenderer,
 		$title,
 		$msg,
 		$attr,
 		$params,
 		$expected
 	) {
+		$linkRenderer = $this->getServiceContainer()->getLinkRenderer();
 		$actual = CargoUtils::makeLink( $linkRenderer, $title, $msg, $attr, $params );
 
 		$this->assertSame( $expected, $actual );
@@ -79,10 +78,9 @@ class CargoUtilsIntegrationTest extends MediaWikiIntegrationTestCase {
 	 * @return array
 	 */
 	public static function provideMakeLinkData() {
-		$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 		return [
-			[ $linkRenderer, null, null, [], [], null ],
-			[ $linkRenderer, null, '', [], [], null ],
+			[ null, null, [], [], null ],
+			[ null, '', [], [], null ],
 		];
 	}
 
