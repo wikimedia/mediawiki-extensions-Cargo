@@ -94,38 +94,24 @@ class CargoUtils {
 	 * Provides a reference to the main (not the Cargo) database for read
 	 * access.
 	 *
-	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
+	 * @return \Wikimedia\Rdbms\IReadableDatabase
 	 */
 	public static function getMainDBForRead() {
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-		if ( method_exists( $lbFactory, 'getReplicaDatabase' ) ) {
-			// MW 1.40+
-			// The correct type \Wikimedia\Rdbms\IReadableDatabase cannot be used
-			// as return type, as that class only exists since 1.40.
-			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getReplicaDatabase();
-		} else {
-			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getMainLB()->getConnection( DB_REPLICA );
-		}
+		return MediaWikiServices::getInstance()
+			->getDBLoadBalancerFactory()
+			->getReplicaDatabase();
 	}
 
 	/**
 	 * Provides a reference to the main (not the Cargo) database for write
 	 * access.
 	 *
-	 * @return \Wikimedia\Rdbms\IMaintainableDatabase
+	 * @return \Wikimedia\Rdbms\IDatabase
 	 */
 	public static function getMainDBForWrite() {
-		$lbFactory = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-		if ( method_exists( $lbFactory, 'getPrimaryDatabase' ) ) {
-			// MW 1.40+
-			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getPrimaryDatabase();
-		} else {
-			// @phan-suppress-next-line PhanTypeMismatchReturnSuperType
-			return $lbFactory->getMainLB()->getConnection( DB_PRIMARY );
-		}
+		return MediaWikiServices::getInstance()
+			->getDBLoadBalancerFactory()
+			->getPrimaryDatabase();
 	}
 
 	/**
