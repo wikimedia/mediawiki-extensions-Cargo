@@ -237,6 +237,10 @@ class CargoQueryDisplayer {
 			// namespace; they are displayed as thumbnails within
 			// queries.
 			$title = Title::newFromText( $value, NS_FILE );
+			if ( !$title ) {
+				return null;
+			}
+
 			$file = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $title );
 			return Linker::makeThumbLinkObj(
 				$title,
