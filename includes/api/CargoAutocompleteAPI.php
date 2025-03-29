@@ -4,6 +4,8 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Language\RawMessage;
+
 /**
  * Adds the 'cargoautocomplete' action to the MediaWiki API.
  *

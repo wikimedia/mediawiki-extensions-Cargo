@@ -4,7 +4,9 @@
  * @file
  */
 
+use MediaWiki\Feed\AtomFeed;
 use MediaWiki\Feed\FeedItem;
+use MediaWiki\Feed\RSSFeed;
 use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;

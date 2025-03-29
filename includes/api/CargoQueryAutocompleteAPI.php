@@ -7,6 +7,8 @@
  * @author Ankita Mandal
  */
 
+use MediaWiki\Language\RawMessage;
+
 class CargoQueryAutocompleteAPI extends ApiBase {
 
 	public function __construct( $query, $moduleName ) {

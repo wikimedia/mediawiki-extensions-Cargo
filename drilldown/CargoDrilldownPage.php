@@ -12,6 +12,7 @@
 
 use MediaWiki\Html\Html;
 use MediaWiki\Title\Title;
+use Wikimedia\Rdbms\IDatabase;
 
 class CargoDrilldownPage extends QueryPage {
 	public $tableName = "";
