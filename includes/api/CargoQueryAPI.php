@@ -13,6 +13,8 @@ class CargoQueryAPI extends ApiBase {
 	}
 
 	public function execute() {
+		$this->checkUserRightsAny( 'runcargoqueries' );
+
 		$params = $this->extractRequestParams();
 		$tablesStr = $params['tables'];
 		$fieldsStr = $params['fields'];
