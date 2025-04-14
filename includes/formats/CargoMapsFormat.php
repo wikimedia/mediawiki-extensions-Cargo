@@ -66,8 +66,6 @@ class CargoMapsFormat extends CargoDisplayFormat {
 	}
 
 	public function getImageData( $fileName ) {
-		global $wgUploadDirectory;
-
 		if ( $fileName == '' ) {
 			return null;
 		}
@@ -77,7 +75,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		}
 		$imagePage = new ImagePage( $fileTitle );
 		$file = $imagePage->getDisplayedFile();
-		$filePath = $wgUploadDirectory . '/' . $file->getUrlRel();
+		$filePath = $file->getLocalRefPath();
 		[ $imageWidth, $imageHeight, $type, $attr ] = getimagesize( $filePath );
 		return [ $imageWidth, $imageHeight, $file->getUrl() ];
 	}
