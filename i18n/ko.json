@@ -8,6 +8,7 @@
 			"Revi",
 			"SeoJeongHo",
 			"Tensama0415",
+			"YeBoy371",
 			"Ykhwong",
 			"Yunbj"
 		]
@@ -154,5 +155,5 @@
 	"cargo-gantt-years": "년",
 	"cargo-allowed-values": "허용된 값",
 	"cargo-value": "값",
-	"cargo-parenttable": "부모 테이블"
+	"cargo-parenttable": "상위 테이블"
 }
