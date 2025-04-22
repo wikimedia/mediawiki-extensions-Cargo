@@ -9,7 +9,8 @@
 			"SeoJeongHo",
 			"Ykhwong",
 			"Yunbj",
-			"Tensama0415"
+			"Tensama0415",
+			"YeBoy371"
 		]
 	},
 	"cargo-desc": "틀데이터의 저장 및 쿼리",
@@ -154,5 +155,5 @@
 	"cargo-gantt-years": "년",
 	"cargo-allowed-values": "허용된 값",
 	"cargo-value": "값",
-	"cargo-parenttable": "부모 테이블"
+	"cargo-parenttable": "상위 테이블"
 }
