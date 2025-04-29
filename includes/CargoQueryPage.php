@@ -61,8 +61,8 @@ class CargoQueryPage extends QueryPage {
 			// into underlines.
 			$paramName = str_replace( '_', ' ', $key );
 			if ( in_array( $paramName,
-				[ 'title', 'tables', 'fields', 'join on', 'order by', 'group by', 'having', 'format',
-				'offset' ] ) ) {
+				[ 'title', 'tables', 'fields', 'where', 'join on',
+				'order by', 'group by', 'having', 'format', 'offset' ] ) ) {
 				// Not display params.
 			} elseif ( in_array( $paramName, [ 'intro', 'outro', 'default' ] ) ) {
 				// These already get parsed/escaped during regular display, so no need to
