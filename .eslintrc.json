@@ -1,7 +1,7 @@
 {
 	"root": true,
 	"extends": [
-		"wikimedia/client-es5",
+		"wikimedia/client",
 		"wikimedia/jquery",
 		"wikimedia/mediawiki"
 	],
@@ -22,6 +22,7 @@
 		"array-callback-return": "warn",
 		"no-shadow": "warn",
 		"block-scoped-var": "warn",
-		"unicorn/prefer-string-slice": "warn"
+		"unicorn/prefer-string-slice": "warn",
+		"prefer-const": "warn"
 	}
 }

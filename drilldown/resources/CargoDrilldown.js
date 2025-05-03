@@ -16,11 +16,11 @@
 			.find( '.drilldown-filter-values' );
 		if ( $valuesDiv.css( 'display' ) === 'none' ) {
 			$valuesDiv.css( 'display', 'block' );
-			var downArrowImage = mw.config.get( 'cgDownArrowImage' );
+			const downArrowImage = mw.config.get( 'cgDownArrowImage' );
 			this.find( 'img' ).attr( 'src', downArrowImage );
 		} else {
 			$valuesDiv.css( 'display', 'none' );
-			var rightArrowImage = mw.config.get( 'cgRightArrowImage' );
+			const rightArrowImage = mw.config.get( 'cgRightArrowImage' );
 			this.find( 'img' ).attr( 'src', rightArrowImage );
 		}
 	};
@@ -36,17 +36,17 @@
 	};
 
 	jQuery.fn.CDFullTextSearch = function () {
-		var searchInput = new OO.ui.SearchInputWidget( {
+		const searchInput = new OO.ui.SearchInputWidget( {
 			type: 'search',
 			name: '_search',
 			value: $( this ).attr( 'data-search-term' )
 		} );
-		var searchButton = new OO.ui.ButtonInputWidget( {
+		const searchButton = new OO.ui.ButtonInputWidget( {
 			type: 'submit',
 			label: mw.msg( 'cargo-drilldown-search' ),
 			flags: 'progressive'
 		} );
-		var searchLayout = new OO.ui.ActionFieldLayout(
+		const searchLayout = new OO.ui.ActionFieldLayout(
 			searchInput, searchButton, {
 				align: 'top'
 			}
@@ -55,19 +55,19 @@
 	};
 
 	jQuery.fn.CDRemoteAutocomplete = function () {
-		var config = {
+		const config = {
 			name: $( this ).attr( 'data-input-name' ),
 			table: $( this ).attr( 'data-cargo-table' ),
 			field: $( this ).attr( 'data-cargo-field' ),
 			where: $( this ).attr( 'data-cargo-where' )
 		};
-		var autocompleteInput = new CargoSearchAutocompleteWidget( config );
-		var searchButton = new OO.ui.ButtonInputWidget( {
+		const autocompleteInput = new CargoSearchAutocompleteWidget( config );
+		const searchButton = new OO.ui.ButtonInputWidget( {
 			type: 'submit',
 			label: mw.msg( 'cargo-drilldown-search' ),
 			flags: 'progressive'
 		} );
-		var autocompleteLayout = new OO.ui.ActionFieldLayout(
+		const autocompleteLayout = new OO.ui.ActionFieldLayout(
 			autocompleteInput, searchButton, {
 				label: mw.msg( 'cargo-drilldown-othervalues' ),
 				align: 'top'
@@ -78,8 +78,8 @@
 
 }() );
 
-$( function () {
-	var viewport = '<meta name="viewport" content="width=device-width,initial-scale=1">';
+$( () => {
+	const viewport = '<meta name="viewport" content="width=device-width,initial-scale=1">';
 	$( 'head' ).append( viewport );
 
 	$( '.cargoDrilldownRemoteAutocomplete' ).each( function () {
@@ -93,11 +93,11 @@ $( function () {
 		$( this ).CDFullTextSearch();
 	} );
 
-	var maxWidth = window.matchMedia( '(max-width: 549px)' );
+	const maxWidth = window.matchMedia( '(max-width: 549px)' );
 
 	function mobileView( maxWidth ) {
 		if ( maxWidth.matches ) {
-			var menu_icon = "<a class='menu_header' id='menu'><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">\n" +
+			const menu_icon = "<a class='menu_header' id='menu'><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\">\n" +
 				'            <path d="M2 6h20v3H2zm0 5h20v3H2zm0 5h20v3H2z"/>\n' +
 				'          </svg>' +
 				'       </a>',
@@ -106,7 +106,7 @@ $( function () {
 			$( '#header' ).append( menu_icon );
 			$( '#header' ).append( $( '#firstHeading' ) );
 
-			var menu = $( '#menu' ),
+			let menu = $( '#menu' ),
 				main = $( '#content, #mw-navigation' ),
 				drawer = $( '#drilldown-tables-tabs-wrapper' ),
 				formatTabsWrapper = $( '#drilldown-format-tabs-wrapper' );
@@ -117,27 +117,27 @@ $( function () {
 				drawer = $( '#drilldown-tables-tabs-wrapper' );
 			}
 			if ( formatTabsWrapper ) {
-				var formatLabel = '<p id="formatTabsHeader">Format:</p>';
+				const formatLabel = '<p id="formatTabsHeader">Format:</p>';
 				drawer.append( formatTabsWrapper );
 				formatTabsWrapper.prepend( formatLabel );
 			}
 
-			menu.click( function ( e ) {
+			menu.click( ( e ) => {
 				drawer.toggleClass( 'open' );
 				e.stopPropagation();
 			} );
-			main.click( function () {
+			main.click( () => {
 				drawer.removeClass( 'open' );
 			} );
 
-			var mapCanvas = $( '.mapCanvas' );
+			const mapCanvas = $( '.mapCanvas' );
 			if ( mapCanvas.length ) {
-				var mapWidth = mapCanvas.width(),
+				const mapWidth = mapCanvas.width(),
 					zoom = 1 - ( mapWidth / 700 );
 				mapCanvas.css( 'zoom', zoom );
 			}
 
-			var tableTabsHeader = $( '#tableTabsHeader' ),
+			const tableTabsHeader = $( '#tableTabsHeader' ),
 				formatTabsHeader = $( '#formatTabsHeader' ),
 
 				rightArrowImage = mw.config.get( 'cgRightArrowImage' ),
@@ -146,7 +146,7 @@ $( function () {
 			tableTabsHeader.prepend( arrow );
 			formatTabsHeader.prepend( arrow );
 
-			var tableTabs = $( '#drilldown-tables-tabs' );
+			const tableTabs = $( '#drilldown-tables-tabs' );
 			if ( formatTabsWrapper.length != 0 ) {
 				formatTabsHeader.find( 'img' ).attr( 'src', downArrowImage );
 				tableTabsHeader.find( 'img' ).attr( 'src', rightArrowImage );
@@ -156,7 +156,7 @@ $( function () {
 				formatTabsHeader.find( 'img' ).attr( 'src', rightArrowImage );
 			}
 
-			tableTabsHeader.click( function ( e ) {
+			tableTabsHeader.click( ( e ) => {
 				if ( tableTabs.hasClass( 'hide' ) ) {
 					tableTabsHeader.find( 'img' ).attr( 'src', downArrowImage );
 					tableTabs.removeClass( 'hide' );
@@ -167,8 +167,8 @@ $( function () {
 				e.stopPropagation();
 			} );
 
-			var formatTabs = $( '#drilldown-format-tabs' );
-			formatTabsHeader.click( function ( e ) {
+			const formatTabs = $( '#drilldown-format-tabs' );
+			formatTabsHeader.click( ( e ) => {
 				if ( formatTabs.hasClass( 'hide' ) ) {
 					formatTabsHeader.find( 'img' ).attr( 'src', downArrowImage );
 					formatTabs.removeClass( 'hide' );

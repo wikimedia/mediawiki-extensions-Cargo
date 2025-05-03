@@ -15,7 +15,7 @@
 
 CargoSearchAutocompleteWidget = function ( config ) {
 	// Parent constructor
-	var textInputConfig = {
+	const textInputConfig = {
 		name: config.name,
 		// This turns off the local, browser-based autocompletion,
 		// which would normally suggest values that the user has
@@ -46,7 +46,7 @@ OO.mixinClass( CargoSearchAutocompleteWidget, OO.ui.mixin.LookupElement );
  * @inheritdoc
  */
 CargoSearchAutocompleteWidget.prototype.getLookupRequest = function () {
-	var
+	let
 		value = this.getValue(),
 		deferred = $.Deferred(),
 		api,
@@ -75,7 +75,7 @@ CargoSearchAutocompleteWidget.prototype.getLookupCacheDataFromResponse = functio
  * @inheritdoc
  */
 CargoSearchAutocompleteWidget.prototype.getLookupMenuOptionsFromData = function ( data ) {
-	var i,
+	let i,
 		item,
 		items = [];
 
@@ -106,13 +106,13 @@ CargoSearchAutocompleteWidget.prototype.getLookupMenuOptionsFromData = function 
 };
 
 CargoSearchAutocompleteWidget.prototype.highlightText = function ( suggestion ) {
-	var searchTerm = this.getValue();
-	var searchRegexp = new RegExp( '(?![^&;]+;)(?!<[^<>]*)(' +
+	const searchTerm = this.getValue();
+	const searchRegexp = new RegExp( '(?![^&;]+;)(?!<[^<>]*)(' +
 		searchTerm.replace( /([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, '\\$1' ) +
 		')(?![^<>]*>)(?![^&;]+;)', 'gi' );
-	var itemLabel = suggestion;
-	var loc = itemLabel.search( searchRegexp );
-	var t;
+	const itemLabel = suggestion;
+	const loc = itemLabel.search( searchRegexp );
+	let t;
 
 	if ( loc >= 0 ) {
 		t = itemLabel.slice( 0, Math.max( 0, loc ) ) +
