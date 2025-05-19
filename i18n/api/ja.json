@@ -1,9 +1,13 @@
 {
 	"@metadata": {
 		"authors": [
+			"Shulmj",
 			"Yusuke1109"
 		]
 	},
+	"apihelp-cargoquery-summary": "Cargoデータに対してクエリを実行します。",
+	"apihelp-cargotables-summary": "システム内のすべてのテーブルを取得します",
+	"apihelp-cargofields-summary": "指定されたテーブル内のすべてのフィールドを取得します",
 	"apihelp-cargoquery-param-fields": "取得するテーブルフィールド",
 	"apihelp-cargorecreatedata-param-template": "データを使用するテンプレート",
 	"apihelp-cargorecreatedata-param-offset": "このテンプレートを呼び出すページのうち、クエリを開始するときの番号",
