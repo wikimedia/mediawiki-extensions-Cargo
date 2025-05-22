@@ -119,7 +119,7 @@
 	"cargo-cargotables-replacementgenerated": "このテーブルの置換テーブルが作成されました",
 	"cargo-cargotables-switch": "使用するテーブルを切り替えます。",
 	"cargo-recreatedata-createreplacement": "クエリ用に古いテーブルを残したまま、置換テーブルにデータを再作成する",
-	"cargo-recreatedata-replacementexists": "すでに置換テーブル「$2」が存在しているため、テーブル「$1」を再作成することができません。",
+	"cargo-recreatedata-replacementexists": "既に置換テーブル「$2」が存在しているため、テーブル「$1」を再作成できません。",
 	"cargo-cargotables-replacementtable": "このテーブルは $1 を置換するためのものです。クエリには使用されません。",
 	"cargo-cargotables-deletereplacement": "この置換テーブルを使用しない場合は、[$1 削除]することもできます。",
 	"cargo-cargotables-hasreplacement": "このテーブルには置換テーブルが存在するため、現在読み取り専用となっています。",
