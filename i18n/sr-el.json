@@ -11,6 +11,7 @@
 	"cargo-deletetableaction": "je izbrisao/la Cargo tabelu $2",
 	"cargo-drilldown-allpages": "Sve stranice",
 	"cargo-drilldown-allfiles": "Sve datoteke",
+	"cargo-drilldown-nomatches": "Nema pogodaka",
 	"cargo-downloadzip": "Preuzmi ZIP",
 	"cargo-dynamictables-searchcolumn": "Pretražite $1",
 	"cargo-purgecache-failed": "Čišćenje keša nije uspelo"
