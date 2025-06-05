@@ -291,9 +291,9 @@ class CargoQueryDisplayer {
 		}
 
 		// If it's not any of these specially-handled types, just
-		// return the value.
+		// return the value, with some minimal escaping.
 		if ( $escapeValue ) {
-			$value = htmlspecialchars( $value );
+			$value = str_replace( [ '<', '>' ], [ '&lt;', '&gt;' ], $value );
 		}
 		return $value;
 	}
