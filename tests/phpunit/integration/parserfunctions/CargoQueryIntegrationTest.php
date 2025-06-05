@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 
 /**
@@ -131,7 +132,8 @@ TEXT;
 		$queryPage = $this->getNonexistingTestPage( $title );
 		$this->editPage( $queryPage, $query );
 
-		$html = $queryPage->getParserOutput()->getText();
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$html = $queryPage->getParserOutput()->runOutputPipeline( $parser->getOptions() )->getContentHolderText();
 		$doc = new DOMDocument();
 		$doc->loadHTML( $html );
 
