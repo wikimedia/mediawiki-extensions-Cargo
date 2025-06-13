@@ -189,7 +189,7 @@ class CargoUtils {
 	}
 
 	public static function displayErrorMessage( OutputPage $out, Message $message ) {
-		$out->wrapWikiTextAsInterface( 'error', $message->plain() );
+		$out->addWikiTextAsInterface( '<div class="error">' . $message->plain() . '</div>' );
 	}
 
 	public static function getTables() {
