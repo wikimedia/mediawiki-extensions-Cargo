@@ -233,6 +233,14 @@ class CargoStore {
 				}
 				$tableFieldValues[$fieldName] = null;
 			}
+			// Set blank value if the provided value is longer than expected
+			if ( $fieldDescription->mType == 'String' ) {
+				global $wgCargoDefaultStringBytes;
+				$fieldSize = $fieldDescription->mSize ?? $wgCargoDefaultStringBytes;
+				if ( strlen( $tableFieldValues[$fieldName] ) > $fieldSize ) {
+					$tableFieldValues[$fieldName] = null;
+				}
+			}
 		}
 	}
 
