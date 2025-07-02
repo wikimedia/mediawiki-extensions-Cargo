@@ -398,10 +398,10 @@ class CargoSQLQuery {
 	 * MW 1.44, for reasons I don't really understand; because of it,
 	 * some of the Cargo tables need to be called in the SQL query without
 	 * their "cargo__" prefix. This change was then backported to MW 1.43,
-	 * starting with 1.43.3.
+	 * starting with 1.43.2.
 	 */
 	public static function mwUsesOldDBAliasing() {
-		return version_compare( MW_VERSION, '1.43.3', '<' );
+		return version_compare( MW_VERSION, '1.43.2', '<' );
 	}
 
 	/**
