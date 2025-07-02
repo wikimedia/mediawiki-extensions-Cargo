@@ -397,25 +397,11 @@ class CargoSQLQuery {
 	 * The handling of DB table aliases in SQL queries was changed in
 	 * MW 1.44, for reasons I don't really understand; because of it,
 	 * some of the Cargo tables need to be called in the SQL query without
-	 * their "cargo__" prefix. This method tries to determine wwhether
-	 * the currently-used version of MediaWiki uses the old appraoch or
-	 * not.
-	 *
-	 * The change to the handling was made in this revision, which, though
-	 * long, unfortunately does not seem to contain any checkable changes,
-	 * like the addition of a new class or method:
-	 *
-	 * https://phabricator.wikimedia.org/rMW1aa1b7d0384c298afed672400ccb01f700887ccf
-	 *
-	 * So instead we check for the existence of a method that was removed
-	 * in a revision made just a day later:
-	 *
-	 * https://phabricator.wikimedia.org/rMWa14b0e646443c94bd21747682612279b39bd213f
-	 *
-	 * Hopefully this is close enough.
+	 * their "cargo__" prefix. This change was then backported to MW 1.43,
+	 * starting with 1.43.3.
 	 */
 	public static function mwUsesOldDBAliasing() {
-		return method_exists( 'MediaWiki\DB\AbstractSchemaValidator', 'checkDependencies' );
+		return version_compare( MW_VERSION, '1.43.3', '<' );
 	}
 
 	/**
