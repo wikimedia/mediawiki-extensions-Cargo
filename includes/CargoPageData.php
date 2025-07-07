@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Parser\ParserOutputLinkTypes;
 use MediaWiki\Title\Title;
 
 /**
@@ -57,6 +58,9 @@ class CargoPageData {
 		}
 		if ( in_array( 'lastEditor', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_lastEditor'] = [ 'String', false ];
+		}
+		if ( in_array( 'outgoingLinks', $wgCargoPageDataColumns ) ) {
+			$fieldTypes['_outgoingLinks'] = [ 'String', true ];
 		}
 
 		$tableSchema = new CargoTableSchema();
@@ -185,6 +189,28 @@ class CargoPageData {
 				$pageDataValues['_lastEditor'] = null;
 			} else {
 				$pageDataValues['_lastEditor'] = $latestRevision->getUser()->getName();
+			}
+		}
+		if ( in_array( 'outgoingLinks', $wgCargoPageDataColumns ) ) {
+			$outLinkPageIDs = [];
+			// ParserOutputLinkTypes exists only for MW versions >= 1.43
+			if ( class_exists( 'MediaWiki\\Parser\\ParserOutputLinkTypes' ) ) {
+				$parserOutput = $wikiPage->getParserOutput();
+				$outLinks = $parserOutput->getLinkList( ParserOutputLinkTypes::LOCAL );
+				foreach ( $outLinks as $outLink ) {
+					$outLinkPageIDs[] = $outLink['pageid'];
+				}
+			} else {
+				$outTitles = $wikiPage->getTitle()->getLinksFrom();
+				foreach ( $outTitles as $outTitle ) {
+					$outLinkPageIDs[] = $outTitle->getArticleID();
+				}
+			}
+			if ( count( $outLinkPageIDs ) > 0 ) {
+				$outLinkString = implode( '|', $outLinkPageIDs );
+				$pageDataValues['_outgoingLinks'] = $outLinkString;
+			} else {
+				$pageDataValues['_outgoingLinks'] = null;
 			}
 		}
 
