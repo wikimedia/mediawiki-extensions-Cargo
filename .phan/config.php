@@ -45,6 +45,8 @@ $config['suppress_issue_types'] = array_merge(
 		'SecurityCheck-DoubleEscaped',
 		'SecurityCheck-SQLInjection',
 		'SecurityCheck-XSS',
+		// Required php8+
+		'PhanUnusedVariableCaughtException',
 	]
 );
 
