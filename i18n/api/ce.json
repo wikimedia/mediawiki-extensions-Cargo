@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Умар"
+		]
+	},
+	"apihelp-cargoquery-param-offset": "Хаттаран меттахӀоттам",
+	"apihelp-cargoautocomplete-param-substr": "Бухара могӀа лаха",
+	"apihelp-cargoqueryautocomplete-param-search": "Бухара могӀа лаха"
+}
