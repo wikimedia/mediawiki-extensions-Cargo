@@ -13,7 +13,7 @@
 	"cargo-viewdata-tables": "Tabell(en):",
 	"cargo-viewdata-fields": "Feld(er):",
 	"cargo-viewdata-where": "Wou:",
-	"cargo-viewdata-orderby": "Zortéieren no:",
+	"cargo-viewdata-orderby": "Sortéieren no:",
 	"cargo-viewdata-limit": "Limitt:",
 	"cargo-viewdata-offset": "Offset:",
 	"cargo-viewdata-offsettooltip": "Gitt d'Zuel vun den Zeile fir z'iwwersprangen un. De Standardwäert ass $1.",
