@@ -405,6 +405,26 @@ class CargoExport extends UnlistedSpecialPage {
 
 			foreach ( $queryResults as $queryResult ) {
 				$eventDescription = '';
+				$firstField = true;
+				foreach ( $sqlQuery->mFieldDescriptions as $fieldName => $fieldDescription ) {
+					// Don't display the first field (it'll
+					// be the title), or the main date fields.
+					if ( $firstField ) {
+						$firstField = false;
+						continue;
+					}
+					if ( $fieldName == $startDateField || $fieldName == $endDateField ) {
+						continue;
+					}
+					if ( !array_key_exists( $fieldName, $queryResult ) ) {
+						continue;
+					}
+					$fieldValue = $queryResult[$fieldName];
+					if ( trim( $fieldValue ) == '' ) {
+						continue;
+					}
+					$eventDescription .= "<strong>$fieldName:</strong> $fieldValue<br />\n";
+				}
 
 				if ( array_key_exists( 'name', $queryResult ) ) {
 					$eventTitle = $queryResult['name'];
