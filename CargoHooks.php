@@ -109,7 +109,13 @@ class CargoHooks {
 			return;
 		}
 
-		if ( $skinTemplate->getUser()->isAllowed( 'purge' ) ) {
+		// This code previously checked for the 'purge' permission,
+		// but in MW 1.43 'purge' was made an "implicit right", given
+		// to all users. So instead we display the "purge" tab for only
+		// logged-in users.
+		// @todo There should probably a new permission like
+		// 'cargo-purge', allowing for fine-grained control.
+		if ( $skinTemplate->getUser()->isRegistered() ) {
 			$skinTemplate->getOutput()->addModules( 'ext.cargo.purge' );
 			$links['actions']['cargo-purge'] = [
 				'class' => false,
