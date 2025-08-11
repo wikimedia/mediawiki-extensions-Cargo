@@ -50,6 +50,9 @@ abstract class CargoDeferredFormat extends CargoDisplayFormat {
 			if ( $sqlQuery->mQueryLimit != '' ) {
 				$queryParams['limit'] = $sqlQuery->mQueryLimit;
 			}
+			if ( $sqlQuery->mOffset != '' ) {
+				$queryParams['offset'] = $sqlQuery->mOffset;
+			}
 		} else {
 			foreach ( $sqlQueries as $sqlQuery ) {
 				$queryParams['tables'][] = $sqlQuery->mTablesStr;
