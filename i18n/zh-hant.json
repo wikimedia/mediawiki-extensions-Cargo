@@ -10,7 +10,8 @@
 			"Tranve",
 			"Weather Top Wizard",
 			"Winston Sung",
-			"捍粵者"
+			"捍粵者",
+			"Lakejason0"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
@@ -43,7 +44,7 @@
 	"cargo-recreatedata-createtable": "建立 Cargo 表格「$1」？",
 	"cargo-recreatedata-tablecreated": "重新建立 Cargo 表格「$1」。",
 	"cargo-recreatedata-table-creation-failed": "建立 Cargo 表格「$1」失敗。",
-	"cargo-recreatedata-job-creation-failed": "建立填充 Cargo 表格「$1」的任務失敗。",
+	"cargo-recreatedata-job-creation-failed": "建立填充 Cargo 表格「$1」的作業失敗。",
 	"cargo-recreatedata-replacementcreated": "已為 Cargo 表格「$1」重新建立替換表格。",
 	"cargo-recreatedata-success": "資料正被重新建立。",
 	"cargoquery": "Cargo 查詢",
@@ -99,7 +100,7 @@
 	"cargo-cargotables-action-delete": "刪除",
 	"cargo-cargotables-action-recreate": "重新建立",
 	"cargo-cargotables-specialtables": "存在以下特殊表格：",
-	"cargo-cargotables-beingpopulated": "'''注意：'''這些表格中一個或多個正透過任務佇列填充。",
+	"cargo-cargotables-beingpopulated": "'''注意：'''這些表格中一個或多個正透過作業佇列填充。",
 	"cargo-cargotables-tablelist": "以下 {{PLURAL:$1| 個表格| 個表格}}已定義：",
 	"cargo-cargotables-viewtable": "檢視表格：$1",
 	"cargo-cargotables-viewtablelink": "檢視表格",
