@@ -928,8 +928,9 @@ class CargoUtils {
 	}
 
 	public static function createTable( $cdb, $tableName, $fieldsInTable, $multipleColumnIndex = false ) {
-		global $wgCargoDBRowFormat;
-
+		$conf = MediaWikiServices::getInstance()->getMainConfig();
+		$cargoDBTableOptions = $conf->get( 'CargoDBTableOptions' );
+		$cargoDBRowFormat = $conf->get( 'CargoDBRowFormat' );
 		// Unfortunately, there is not yet a 'CREATE TABLE' wrapper
 		// in the MediaWiki DB API, so we have to call SQL directly.
 		$dbType = $cdb->getType();
@@ -971,10 +972,19 @@ class CargoUtils {
 		}
 
 		$createSQL .= ' )';
-		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
-		if ( $wgCargoDBRowFormat != null ) {
-			$createSQL .= " ROW_FORMAT=$wgCargoDBRowFormat";
+
+		// Add table charset options.
+		$createSQLSuffixes = [];
+
+		if ( $cargoDBTableOptions != null ) {
+			$createSQLSuffixes[] = $cargoDBTableOptions;
 		}
+		// Allow for setting a format like COMPRESSED, DYNAMIC etc.
+		if ( $cargoDBRowFormat != null ) {
+			$createSQLSuffixes[] = "ROW_FORMAT=$cargoDBRowFormat";
+		}
+		$createSQL .= " " . implode( ', ', $createSQLSuffixes );
+
 		$cdb->query( $createSQL, __METHOD__ );
 
 		// Add an index for any field that's not of type Text,

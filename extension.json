@@ -502,6 +502,7 @@
 		"CargoIgnoreBacklinks": false,
 		"CargoPageDataColumns": [],
 		"CargoFileDataColumns": [],
+		"CargoDBTableOptions": "",
 		"CargoHideNamespaceName": [
 			6
 		],
