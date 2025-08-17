@@ -347,7 +347,7 @@ END;
 			preg_match( "/^~within_(.+)/", $value, $matches );
 			return $this->msg( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
 		} else {
-			return $value;
+			return htmlspecialchars( $value, ENT_QUOTES );
 		}
 	}
 
