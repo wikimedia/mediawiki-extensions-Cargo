@@ -53,7 +53,7 @@
 	"cargo-recreatedata-createtable": "创建Cargo表格“$1”？",
 	"cargo-recreatedata-tablecreated": "已重新创建Cargo表格“$1”。",
 	"cargo-recreatedata-table-creation-failed": "创建Cargo表格“$1”失败。",
-	"cargo-recreatedata-job-creation-failed": "创建填充Cargo表格“$1”的工作失败。",
+	"cargo-recreatedata-job-creation-failed": "创建填充Cargo表格“$1”的作业失败。",
 	"cargo-recreatedata-replacementcreated": "已重新创建Cargo表格“$1”的替换表格。",
 	"cargo-recreatedata-success": "数据正在重新创建。",
 	"cargoquery": "Cargo查询",

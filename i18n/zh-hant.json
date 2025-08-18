@@ -10,7 +10,8 @@
 			"Tranve",
 			"Weather Top Wizard",
 			"Winston Sung",
-			"捍粵者"
+			"捍粵者",
+			"Lakejason0"
 		]
 	},
 	"cargo-desc": "模板資料的儲存與查詢",
@@ -43,7 +44,7 @@
 	"cargo-recreatedata-createtable": "建立 Cargo 表格「$1」？",
 	"cargo-recreatedata-tablecreated": "重新建立 Cargo 表格「$1」。",
 	"cargo-recreatedata-table-creation-failed": "建立 Cargo 表格「$1」失敗。",
-	"cargo-recreatedata-job-creation-failed": "建立填充 Cargo 表格「$1」的任務失敗。",
+	"cargo-recreatedata-job-creation-failed": "建立填充 Cargo 表格「$1」的作業失敗。",
 	"cargo-recreatedata-replacementcreated": "已為 Cargo 表格「$1」重新建立替換表格。",
 	"cargo-recreatedata-success": "資料正被重新建立。",
 	"cargoquery": "Cargo 查詢",
