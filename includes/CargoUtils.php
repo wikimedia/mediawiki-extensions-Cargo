@@ -575,7 +575,7 @@ class CargoUtils {
 			$parserOptions = ParserOptions::newFromAnon();
 			$parserForInnerParse = MediaWikiServices::getInstance()->getParserFactory()->create();
 			$parserOutput = $parserForInnerParse->parse( $value, $title, $parserOptions );
-			$value = $parserOutput->getText( [ 'unwrap' => true ] );
+			$value = $parserOutput->runOutputPipeline( $parserOptions, [ 'unwrap' => true ] )->getContentHolderText();
 		} else {
 			$value = $parser->internalParse( $value );
 		}
