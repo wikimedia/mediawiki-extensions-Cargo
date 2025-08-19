@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"JeffreyKim"
+			"JeffreyKim",
+			"Ktchankt"
 		]
 	},
 	"cargo-desc": "儲存同查詢範本資料",
@@ -9,7 +10,7 @@
 	"cargo-tablenotcreated": "呢個表仲未建立。",
 	"cargo-addsrows": "呢個範本會將行加入表格「$1」，而呢個表格係由範本$2宣布。",
 	"cargo-addsrows-missingdeclare": "呢個範本會將行加入表格「$1」，而呢個表格係冇任何範本宣布嘅。",
-	"cargo-notable": "錯誤：必須指定表名稱。",
+	"cargo-notable": "錯誤：必須指定表名。",
 	"cargo-unknowntable": "錯誤：搵唔到表 $1 。",
 	"recreatedata": "重新建立數據",
 	"recreatecargodata": "重新建立數據",
