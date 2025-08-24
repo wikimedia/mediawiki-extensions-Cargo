@@ -260,6 +260,11 @@ class CargoHooks {
 		RevisionRecord $revisionRecord,
 		EditResult $editResult
 	) {
+		// Only operate on wikitext pages.
+		if ( $revisionRecord->getContent( SlotRecord::MAIN )->getModel() !== CONTENT_MODEL_WIKITEXT ) {
+			return;
+		}
+
 		// First, delete the existing data.
 		$pageID = $wikiPage->getID();
 		self::deletePageFromSystem( $pageID );
