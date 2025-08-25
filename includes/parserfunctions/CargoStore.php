@@ -81,6 +81,18 @@ class CargoStore {
 		$fieldNames = array_keys( $fieldDescriptions );
 
 		if ( $GLOBALS["wgCargoStoreUseTemplateArgsFallback"] ) {
+			$templateFieldsForCargoFields = [];
+			// If the Page Forms extension is loaded, get the
+			// template fields it defines, in case any connections
+			// between template and Cargo fields were specified in
+			// #template_params.
+			if ( class_exists( 'PFTemplate' ) ) {
+				$pfTemplate = PFTemplate::newFromName( $frame->title->getText() );
+				foreach ( $pfTemplate->getTemplateFields() as $pfTemplateField ) {
+					$templateFieldsForCargoFields[$pfTemplateField->getExpectedCargoField()] = $pfTemplateField->getFieldName();
+				}
+			}
+
 			// Go through all the fields for this table, setting any that
 			// were not explicitly set in the #cargo_store call.
 			foreach ( $fieldNames as $fieldName ) {
@@ -93,8 +105,12 @@ class CargoStore {
 				$curFieldValue = $frame->getArgument( $fieldName );
 
 				if ( $curFieldValue === false ) {
-					$unescapedFieldName = str_replace( '_', ' ', $fieldName );
-					$curFieldValue = $frame->getArgument( $unescapedFieldName );
+					if ( array_key_exists( $fieldName, $templateFieldsForCargoFields ) ) {
+						$templateFieldName = $templateFieldsForCargoFields[$fieldName];
+					} else {
+						$templateFieldName = str_replace( '_', ' ', $fieldName );
+					}
+					$curFieldValue = $frame->getArgument( $templateFieldName );
 				}
 
 				// We don't want to unintentionally add false values in wrongly typed-fields
