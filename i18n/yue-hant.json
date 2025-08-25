@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"JeffreyKim",
-			"Ktchankt"
+			"Ktchankt",
+			"H78c67c"
 		]
 	},
-	"cargo-desc": "儲存同查詢範本資料",
+	"cargo-desc": "模入面嘅資料嘅儲存同查詢",
 	"cargo-definestable": "呢個範本定義咗表格「$1」。",
 	"cargo-tablenotcreated": "呢個表仲未建立。",
 	"cargo-addsrows": "呢個範本會將行加入表格「$1」，而呢個表格係由範本$2宣布。",
