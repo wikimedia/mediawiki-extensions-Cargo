@@ -57,6 +57,12 @@ class CargoCompoundQuery {
 			$displayParamsForThisQuery = [];
 			foreach ( $queryClauses as $clause ) {
 				$parts = explode( '=', $clause, 2 );
+				if ( count( $parts ) == 1 ) {
+					if ( $param == 'no html' ) {
+						$noHTML = true;
+					}
+					continue;
+				}
 				if ( count( $parts ) != 2 ) {
 					continue;
 				}
@@ -188,7 +194,7 @@ class CargoCompoundQuery {
 		// which means that everything needs to be parsed together
 		// instead of one instance at a time. Also, the template will
 		// contain wikitext, not HTML.
-		$displayHTML = ( $format != 'template' );
+		$displayHTML = ( !$noHTML && $format != 'template' );
 
 		// Don't show a "view more" link.
 		// @TODO - is such a thing possible for a compound query,
