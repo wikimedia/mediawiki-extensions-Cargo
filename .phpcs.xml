@@ -20,7 +20,7 @@
 	</rule>
 	<rule ref="MediaWiki.NamingConventions.ValidGlobalName">
 		<properties>
-			<property name="ignoreList" type="array" value="$cgScriptPath,$egApprovedRevsBlankIfUnapproved" />
+			<property name="ignoreList[]" value="$cgScriptPath,$egApprovedRevsBlankIfUnapproved" />
 		</properties>
 	</rule>
 	<file>.</file>
