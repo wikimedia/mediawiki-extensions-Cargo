@@ -17,7 +17,7 @@ class CargoDeclare {
 	 * "Reserved words" - terms that should not be used as table or field
 	 * names, because they are reserved for SQL.
 	 * (Some words here are much more likely to be used than others.)
-	 * @TODO - currently this list only includes reserved words from
+	 * @todo - currently this list only includes reserved words from
 	 * MySQL; other DB systems' additional words (if any) should be added
 	 * as well.
 	 *

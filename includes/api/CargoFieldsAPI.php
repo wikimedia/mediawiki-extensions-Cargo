@@ -4,7 +4,6 @@
  *
  * @ingroup Cargo
  * @author Sanjay Thiyagarajan
- *
  */
 class CargoFieldsAPI extends ApiBase {
 

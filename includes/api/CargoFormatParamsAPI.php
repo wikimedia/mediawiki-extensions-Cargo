@@ -3,7 +3,6 @@
  * Adds the 'cargoformatparams' action to the MediaWiki API.
  *
  * @ingroup Cargo
- *
  */
 class CargoFormatParamsAPI extends ApiBase {
 
