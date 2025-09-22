@@ -167,7 +167,8 @@ class CargoAppliedFilter {
 				}
 			} else {
 				$value = $fv->text;
-				$sql .= "$value_field = '{$cdb->strencode( $value )}'";
+				$value = addslashes( html_entity_decode( $value ) );
+				$sql .= "$value_field = '$value'";
 			}
 		}
 		$sql .= ")";
