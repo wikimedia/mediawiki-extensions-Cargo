@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Utility functions for interacting with Cargo tables in E2E tests.
  */
@@ -50,4 +48,4 @@ class CargoTestUtils {
 	}
 }
 
-module.exports = new CargoTestUtils();
+export default new CargoTestUtils();

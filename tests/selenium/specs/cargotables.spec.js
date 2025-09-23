@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require( 'assert' ),
-	Api = require( 'wdio-mediawiki/Api' ),
-	CargoTablesPage = require( '../pageobjects/cargotables.page' ),
-	CargoTestUtils = require( '../cargo-utils' );
+import assert from 'assert';
+import Api from 'wdio-mediawiki/Api';
+import CargoTablesPage from '../pageobjects/cargotables.page.js';
+import CargoTestUtils from '../cargo-utils.js';
 
 describe( 'Special:CargoTables', () => {
 	before( async () => {

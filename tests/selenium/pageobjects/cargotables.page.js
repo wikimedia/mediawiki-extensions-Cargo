@@ -1,6 +1,4 @@
-'use strict';
-
-const Page = require( 'wdio-mediawiki/Page' );
+import Page from 'wdio-mediawiki/Page';
 
 /**
  * WDIO page object for Special:CargoTables.
@@ -58,4 +56,4 @@ class CargoTablesPage extends Page {
 	}
 }
 
-module.exports = new CargoTablesPage();
+export default new CargoTablesPage();

@@ -1,5 +1,3 @@
-'use strict';
+import { config as defaultConfig } from 'wdio-mediawiki/wdio-defaults.conf.js';
 
-const { config } = require( 'wdio-mediawiki/wdio-defaults.conf.js' );
-
-exports.config = { ...config };
+export const config = { ...defaultConfig };

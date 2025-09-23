@@ -1,6 +1,4 @@
-'use strict';
-
-const Page = require( 'wdio-mediawiki/Page' );
+import Page from 'wdio-mediawiki/Page';
 
 /**
  * WDIO page object for Special:Drilldown.
@@ -61,4 +59,4 @@ class DrilldownPage extends Page {
 	}
 }
 
-module.exports = new DrilldownPage();
+export default new DrilldownPage();

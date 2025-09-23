@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require( 'assert' ),
-	Api = require( 'wdio-mediawiki/Api' ),
-	DrilldownPage = require( '../pageobjects/drilldown.page' ),
-	CargoTestUtils = require( '../cargo-utils' );
+import assert from 'assert';
+import Api from 'wdio-mediawiki/Api';
+import DrilldownPage from '../pageobjects/drilldown.page.js';
+import CargoTestUtils from '../cargo-utils.js';
 
 describe( 'Special:Drilldown', () => {
 	before( async () => {
