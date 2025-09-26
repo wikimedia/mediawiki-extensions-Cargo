@@ -109,6 +109,13 @@ class CargoQueryDisplayer {
 	public function getFormattedQueryResults( $queryResults, $escapeValues = false ) {
 		global $wgScriptPath, $wgServer;
 
+		if ( $this->mParser == null ) {
+			$this->mParser = MediaWikiServices::getInstance()->getParser();
+			// Good enough to just use anon, or would it help to get the actual user?
+			$this->mParser->setOptions( ParserOptions::newFromAnon() );
+			$this->mParser->resetOutput();
+		}
+
 		// The assignment will do a copy.
 		$formattedQueryResults = $queryResults;
 		foreach ( $queryResults as $rowNum => $row ) {
