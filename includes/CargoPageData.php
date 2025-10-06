@@ -133,14 +133,23 @@ class CargoPageData {
 			$pageCategories = [];
 			if ( !$setToBlank ) {
 				$dbr = CargoUtils::getMainDBForRead();
-				$res = $dbr->select(
-					'categorylinks',
-					'cl_to',
-					[ 'cl_from' => $title->getArticleID() ],
-					__METHOD__
-				);
-				foreach ( $res as $row ) {
-					$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
+				if ( $dbr->fieldExists( 'categorylinks', 'cl_to' ) ) {
+					$res = $dbr->select(
+						'categorylinks',
+						'cl_to',
+						[ 'cl_from' => $title->getArticleID() ],
+						__METHOD__
+					);
+					foreach ( $res as $row ) {
+						$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
+					}
+				} else {
+					// MW 1.45+
+					// We only call this if cl_to is not there because, for
+					// some MW versions, getParentCategories() seems to do
+					// the "wrong" thing (use cl_target_id even though it's
+					// underpopulated).
+					$pageCategories = $title->getParentCategories();
 				}
 			}
 
