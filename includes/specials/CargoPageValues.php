@@ -8,6 +8,8 @@
  */
 
 use MediaWiki\Html\Html;
+use MediaWiki\MediaWikiServices;
+use MediaWiki\Page\PageReferenceValue;
 use MediaWiki\Title\Title;
 
 class CargoPageValues extends IncludableSpecialPage {
@@ -37,6 +39,9 @@ class CargoPageValues extends IncludableSpecialPage {
 
 		$pageName = $this->mTitle->getPrefixedText();
 		$out->setPageTitle( $this->msg( 'cargo-pagevaluesfor', $pageName )->text() );
+
+		$pageRef = PageReferenceValue::localReference( NS_SPECIAL, "PageValues/$pageName" );
+		MediaWikiServices::getInstance()->getParser()->setPage( $pageRef );
 
 		$text = '';
 
