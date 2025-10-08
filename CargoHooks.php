@@ -69,9 +69,17 @@ class CargoHooks {
 		if ( $title->isSpecialPage() ) {
 			$cargoSpecialPageIDs = [
 				SpecialPage::getTitleFor( 'CargoQuery' )->getDBkey(),
-				SpecialPage::getTitleFor( 'CargoExport' )->getDBkey()
+				SpecialPage::getTitleFor( 'CargoExport' )->getDBkey(),
+				SpecialPage::getTitleFor( 'Drilldown' )->getDBkey()
 			];
-			if ( !in_array( $title->getDBkey(), $cargoSpecialPageIDs ) ) {
+			$titleDBKey = $title->getDBkey();
+			// Handle pages of the form Special:Drilldown/TableName
+			$lastSlashPos = strrpos( $titleDBKey, '/' );
+			if ( $lastSlashPos !== false ) {
+				$titleDBKey = substr( $titleDBKey, 0, $lastSlashPos );
+			}
+
+			if ( !in_array( $titleDBKey, $cargoSpecialPageIDs ) ) {
 				return;
 			}
 		}
