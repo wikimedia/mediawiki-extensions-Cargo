@@ -354,6 +354,7 @@ class CargoFieldDescription {
 			if ( $fieldValue === 0
 				|| $fieldValue === '0'
 				|| strtolower( $fieldValue ) === 'no'
+				|| strtolower( $fieldValue ) === 'false'
 				|| strtolower( $fieldValue ) == strtolower( $msgForNo ) ) {
 				$newValue = '0';
 			} else {
