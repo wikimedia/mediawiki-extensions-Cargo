@@ -116,6 +116,7 @@ class CargoExport extends UnlistedSpecialPage {
 	 * Used for calendar format
 	 */
 	private function displayCalendarData( $sqlQueries ) {
+		$cdb = CargoUtils::getDB();
 		$req = $this->getRequest();
 
 		$colorArray = $req->getArray( 'color' );
@@ -143,7 +144,9 @@ class CargoExport extends UnlistedSpecialPage {
 				} else {
 					$endDateFieldName = $startDateFieldName;
 				}
-				$where .= "($endDateFieldName > '$datesLowerLimit' AND $startDateFieldName < '$datesUpperLimit')";
+				$escapedLowerLimit = $cdb->addQuotes( $datesLowerLimit );
+				$escapedUpperLimit = $cdb->addQuotes( $datesUpperLimit );
+				$where .= "($endDateFieldName > $escapedLowerLimit AND $startDateFieldName < $escapedUpperLimit)";
 			}
 			$where .= ")";
 			$sqlQuery->mWhereStr = $where;

@@ -247,8 +247,8 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 
 	public function provideFieldValueData() {
 		return [
-			[ '', null, [ 'value' => '' ] ],
-			[ 'Date', null, [ 'value' => null ] ],
+			[ '', '', [ 'value' => '' ] ],
+			[ 'Date', '', [ 'value' => null ] ],
 
 			[
 				"list (;) of String (allowed values=monday,tuesday,wednesday,thursday,friday)",
@@ -296,7 +296,7 @@ class CargoFieldDescriptionTest extends MediaWikiIntegrationTestCase {
 				"10;100;1,000;109.95",
 				[ 'value' => "10;100;1000;110" ]
 			],
-			[ 'Integer', '20 000', [ 'value' => 20.0 ] ],
+			[ 'Integer', intval( '20 000' ), [ 'value' => 20.0 ] ],
 			[ 'Integer', '2,000', [ 'value' => 2000.0 ] ],
 			[ 'Integer', '200', [ 'value' => 200.0 ] ],
 			[ 'Integer', '20.4', [ 'value' => 20.0 ] ],
