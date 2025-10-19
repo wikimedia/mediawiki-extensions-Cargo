@@ -62,6 +62,9 @@ class CargoPageData {
 		if ( in_array( 'outgoingLinks', $wgCargoPageDataColumns ) ) {
 			$fieldTypes['_outgoingLinks'] = [ 'String', true ];
 		}
+		if ( in_array( 'displayTitle', $wgCargoPageDataColumns ) ) {
+			$fieldTypes['_displayTitle'] = [ 'String', true ];
+		}
 
 		$tableSchema = new CargoTableSchema();
 		foreach ( $fieldTypes as $field => $fieldVals ) {
@@ -221,6 +224,12 @@ class CargoPageData {
 			} else {
 				$pageDataValues['_outgoingLinks'] = null;
 			}
+		}
+
+		if ( in_array( 'displayTitle', $wgCargoPageDataColumns ) ) {
+			$parserOutput = $wikiPage->getParserOutput();
+			$displayTitle = $parserOutput->getDisplayTitle();
+			$pageDataValues['_displayTitle'] = $displayTitle;
 		}
 
 		$pageDataSchema = $tableSchemas[$pageDataTable];
