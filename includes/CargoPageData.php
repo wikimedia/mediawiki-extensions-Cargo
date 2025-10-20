@@ -63,7 +63,7 @@ class CargoPageData {
 			$fieldTypes['_outgoingLinks'] = [ 'String', true ];
 		}
 		if ( in_array( 'displayTitle', $wgCargoPageDataColumns ) ) {
-			$fieldTypes['_displayTitle'] = [ 'String', true ];
+			$fieldTypes['_displayTitle'] = [ 'String', false ];
 		}
 
 		$tableSchema = new CargoTableSchema();
