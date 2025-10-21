@@ -137,7 +137,8 @@ class CargoAppliedFilter {
 			} elseif ( $fv->is_none ) {
 				// For some reason, 0 values are treated as
 				// blank, so we need the "!= 0" check.
-				$checkNullOrEmptySql = ( $cdb->getType() == 'postgres' ? '' : "($value_field = '' AND $value_field != 0) OR " ) .
+				// @todo - is the "blank" check even needed for SQLite?
+				$checkNullOrEmptySql = ( $cdb->getType() == 'sqlite' ? "($value_field = '' AND $value_field != 0) OR " : '' ) .
 					"$value_field IS NULL";
 				$sql .= "($checkNullOrEmptySql) ";
 			} elseif ( $this->filter->fieldDescription->isDateOrDatetime() ) {
