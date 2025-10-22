@@ -227,8 +227,8 @@ class CargoPageData {
 		}
 
 		if ( in_array( 'displayTitle', $wgCargoPageDataColumns ) ) {
-			$parserOutput = $wikiPage->getParserOutput();
-			$displayTitle = $parserOutput->getDisplayTitle();
+			$displayTitleValues = MediaWikiServices::getInstance()->getPageProps()->getProperties( $title, 'displaytitle' );
+			$displayTitle = count( $displayTitleValues ) > 0 ? reset( $displayTitleValues ) : $title->getFullText();
 			$pageDataValues['_displayTitle'] = $displayTitle;
 		}
 
