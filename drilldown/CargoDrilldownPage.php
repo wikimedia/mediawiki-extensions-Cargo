@@ -1869,7 +1869,7 @@ END;
 			$joinOnStr[] = $joinCondStr;
 		}
 		$joinOnStr = implode( ',', $joinOnStr );
-		$orderByStr = $groupByStr = '';
+		$orderByStr = $groupByStr = '_pageName';
 		if ( $queryOptions['GROUP BY'] !== null ) {
 			$orderByStr = $groupByStr = implode( ',', $queryOptions['GROUP BY'] );
 		}
