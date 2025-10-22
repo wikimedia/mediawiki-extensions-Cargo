@@ -9,7 +9,8 @@
 			"FarsiNevis",
 			"Jeeputer",
 			"Nemo bis",
-			"Reza1615"
+			"Reza1615",
+			"LordProfo"
 		]
 	},
 	"cargo-definestable": "این الگو جدول «$1» را تعریف می‌کند.",
@@ -55,7 +56,7 @@
 	"cargo-drilldown-removefilter": "حذف این فیلتر",
 	"cargo-drilldown-resetfilters": "تنظیم فیلترها از نو",
 	"cargo-drilldown-hierarchy-only": "فقط «$1»",
-	"cargo-drilldown-addanothervalue": "برای اضافه کردن مقداری دیگر بر روی پیکان کلیک کنید.",
+	"cargo-drilldown-addanothervalue": "برای افزودن مقداری دیگر بر روی پیکان کلیک کنید",
 	"cargo-drilldown-search": "جستجو",
 	"cargo-drilldown-othervalues": "مقادیر دیگر:",
 	"cargo-drilldown-novalues": "هیچ مقداری برای این فیلتر وجود ندارد",
