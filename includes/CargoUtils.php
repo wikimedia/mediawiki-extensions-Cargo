@@ -1121,7 +1121,7 @@ class CargoUtils {
 	 * - though that one is in Javascript.
 	 */
 	public static function parseCoordinatesString( $coordinatesString ) {
-		$coordinatesString = trim( $coordinatesString );
+		$coordinatesString = trim( $coordinatesString ?? '' );
 		if ( $coordinatesString === '' ) {
 			// FIXME: No caller expects this!
 			return;
