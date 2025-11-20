@@ -32,7 +32,7 @@
 	"cargo-gantt-months": "Misoedd",
 	"cargo-gantt-years": "Blynyddoedd",
 	"cargo-gantt-columns": "Colofnau",
-	"cargo-declare-must-from-template": "Gwall: Dylai galw #cargo_declare o dudalen nodyn.",
+	"cargo-declare-must-from-template": "Gwall: Rhaid galw #cargo_declare o dudalen dempled.",
 	"cargo-declare-tablenm-is-sql-kw": "Gwall: Ni ellir defnyddio \"$1\" fel enw tabl Cargo, oherwydd ei fod yn allweddair SQL.",
 	"cargo-declare-tablenm-is-cargo-kw": "Gwall: Ni ellir defnyddio \"$1\" fel enw tabl Cargo, oherwydd ei fod yn allweddair Cargo yn barod.",
 	"cargo-declare-parenttable-bad-parameter": "Gwall: Ni chaniateir \"$1 \" fel paramedr ar gyfer _parentTables."
