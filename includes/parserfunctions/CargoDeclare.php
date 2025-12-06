@@ -129,10 +129,6 @@ class CargoDeclare {
 	 * @return string
 	 */
 	public static function run( Parser $parser ) {
-		if ( !$parser->getTitle() || $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
-			return CargoUtils::formatError( wfMessage( "cargo-declare-must-from-template" )->parse() );
-		}
-
 		$params = func_get_args();
 		array_shift( $params ); // we already know the $parser...
 		$args = [];
@@ -145,8 +141,7 @@ class CargoDeclare {
 			$value = trim( $parts[1] );
 			$args[$key] = $value;
 		}
-		$text = self::declareTable( $parser, $args );
-		return $text;
+		return self::declareTable( $parser, $args );
 	}
 
 	/**
@@ -157,6 +152,10 @@ class CargoDeclare {
 	 * @return string|null
 	 */
 	public static function declareTable( $parser, $params ) {
+		if ( !$parser->getTitle() || $parser->getTitle()->getNamespace() !== NS_TEMPLATE ) {
+			return CargoUtils::formatError( wfMessage( "cargo-declare-must-from-template" )->parse() );
+		}
+
 		$tableName = null;
 		$parentTables = [];
 		$drilldownTabsParams = [];
