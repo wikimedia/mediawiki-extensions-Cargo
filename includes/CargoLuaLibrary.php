@@ -146,11 +146,22 @@ class CargoLuaLibrary extends LibraryBase {
 	/**
 	 * Implementation of mw.ext.cargo.declare.
 	 *
-	 * @param array $args
+	 * @param array $rawArgs
 	 */
-	public function cargoDeclare( array $args ) {
-		$this->checkType( 'query', 1, $args, 'table' );
+	public function cargoDeclare( $rawArgs ): array {
+		$this->checkType( 'declare', 1, $rawArgs, 'table' );
+
+		// Type-check and trim the argument table's keys and values. This is expected by CargoDeclare::declareTable.
+		// In the equivalent wikitext parser function, trimming is done by the function entrypoint (CargoDeclare::run)
+		// as part of argument parsing - but we can't go through that exact path here.
+		$args = [];
+		foreach ( $rawArgs as $argKey => $argValue ) {
+			$this->checkType( 'declare argument table key', 1, $argKey, 'string' );
+			$this->checkType( 'declare argument table value', 1, $argValue, 'string' );
+			$args[trim( $argKey )] = trim( $argValue );
+		}
+
 		$parser = $this->getParser();
-		CargoDeclare::declareTable( $parser, $args );
+		return [ CargoDeclare::declareTable( $parser, $args ) ];
 	}
 }
