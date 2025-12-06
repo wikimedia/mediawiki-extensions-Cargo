@@ -282,11 +282,18 @@ class CargoHooks {
 		// Even though the page will get parsed again after the save,
 		// we need to parse it here anyway, for the settings we
 		// added to remain set.
-		CargoStore::$settings['origin'] = 'page save';
-		CargoUtils::parsePageForStorage(
-			$wikiPage->getTitle(),
-			$revisionRecord->getContent( SlotRecord::MAIN )->getText()
-		);
+		try {
+			CargoStore::$settings['origin'] = 'page save';
+			CargoUtils::parsePageForStorage(
+				$wikiPage->getTitle(),
+				$revisionRecord->getContent( SlotRecord::MAIN )->getText()
+			);
+		} finally {
+			// Clear the global flag. Leaving it isn't a huge deal in a web request, but if it persists inside a job
+			// runner process, #cargo_store will start writing data inside every parse that happens for the remainder
+			// of the process' life-time.
+			unset( CargoStore::$settings['origin'] );
+		}
 
 		// Also, save data to any relevant "special tables", if they
 		// exist.
