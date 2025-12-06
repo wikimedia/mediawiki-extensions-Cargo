@@ -8,6 +8,7 @@
  */
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 class CargoDeclare {
 
@@ -152,7 +153,7 @@ class CargoDeclare {
 	 * @return string|null
 	 */
 	public static function declareTable( $parser, $params ) {
-		if ( !$parser->getTitle() || $parser->getTitle()->getNamespace() !== NS_TEMPLATE ) {
+		if ( !$parser->getPage() || $parser->getPage()->getNamespace() !== NS_TEMPLATE ) {
 			return CargoUtils::formatError( wfMessage( "cargo-declare-must-from-template" )->parse() );
 		}
 
@@ -414,7 +415,7 @@ class CargoDeclare {
 			$user = MediaWikiServices::getInstance()
 				->getUserFactory()
 				->newFromId( (int)$userID );
-			$title = $parser->getTitle();
+			$title = Title::castFromPageReference( $parser->getPage() );
 			$templatePageID = $title->getArticleID();
 			CargoUtils::recreateDBTablesForTemplate(
 				$templatePageID,
