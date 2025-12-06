@@ -96,6 +96,7 @@ class CargoDeclare {
 		// We can just call text() on all of these wfMessage() calls,
 		// since the resulting text is passed to formatFieldError(),
 		// which HTML-encodes the text.
+		// TODO: use of raw wfMessage here may cause user-at-time-of-parse's language to be leaked into the parser cache
 		if ( $type == 'table' ) {
 			$typeDisplay = wfMessage( 'cargo-cargotables-header-table' )->text();
 		} elseif ( $type == 'parent table' ) {
@@ -154,7 +155,7 @@ class CargoDeclare {
 	 */
 	public static function declareTable( $parser, $params ) {
 		if ( !$parser->getPage() || $parser->getPage()->getNamespace() !== NS_TEMPLATE ) {
-			return CargoUtils::formatError( wfMessage( "cargo-declare-must-from-template" )->parse() );
+			return CargoUtils::formatError( $parser->msg( "cargo-declare-must-from-template" )->parse() );
 		}
 
 		$tableName = null;
@@ -167,9 +168,9 @@ class CargoDeclare {
 			if ( $key == '_table' ) {
 				$tableName = $value;
 				if ( in_array( strtolower( $tableName ), self::$sqlReservedWords ) ) {
-					return CargoUtils::formatError( wfMessage( "cargo-declare-tablenm-is-sql-kw", $tableName )->parse() );
+					return CargoUtils::formatError( $parser->msg( "cargo-declare-tablenm-is-sql-kw", $tableName )->parse() );
 				} elseif ( in_array( strtolower( $tableName ), self::$cargoReservedWords ) ) {
-					return CargoUtils::formatError( wfMessage( "cargo-declare-tablenm-is-cargo-kw", $tableName )->parse() );
+					return CargoUtils::formatError( $parser->msg( "cargo-declare-tablenm-is-cargo-kw", $tableName )->parse() );
 				}
 			} elseif ( $key == '_parentTables' ) {
 				$tables = explode( ';', $value );
@@ -194,7 +195,7 @@ class CargoDeclare {
 										$parentTableAlias = $extraParamValue;
 									} else {
 										// It shouldn't be anything else.
-										return CargoUtils::formatError( wfMessage( "cargo-declare-parenttable-bad-parameter", $extraParamKey )->parse() );
+										return CargoUtils::formatError( $parser->msg( "cargo-declare-parenttable-bad-parameter", $extraParamKey )->parse() );
 									}
 								}
 							}
@@ -298,16 +299,16 @@ class CargoDeclare {
 					return CargoUtils::formatError( $e->getMessage() );
 				}
 				if ( $fieldDescription == null ) {
-					return CargoUtils::formatError( wfMessage( "cargo-declare-field-parse-fail", $fieldName )->parse() );
+					return CargoUtils::formatError( $parser->msg( "cargo-declare-field-parse-fail", $fieldName )->parse() );
 				}
 				if ( $fieldDescription->mIsHierarchy == true && $fieldDescription->mType == 'Coordinates' ) {
-					return CargoUtils::formatError( wfMessage( "cargo-declare-bad-hierarchy-type", $fieldDescription->mType )->parse() );
+					return CargoUtils::formatError( $parser->msg( "cargo-declare-bad-hierarchy-type", $fieldDescription->mType )->parse() );
 				}
 				if ( $fieldDescription->mType == "Start date" || $fieldDescription->mType == "Start datetime" ) {
 					if ( !$hasStartEvent ) {
 						$hasStartEvent = true;
 					} else {
-						return CargoUtils::formatError( wfMessage( "cargo-declare-ne1-startdttm" )->parse() );
+						return CargoUtils::formatError( $parser->msg( "cargo-declare-ne1-startdttm" )->parse() );
 					}
 				}
 				if ( $fieldDescription->mType == "End date" || $fieldDescription->mType == "End datetime" ) {
@@ -315,9 +316,9 @@ class CargoDeclare {
 						$hasEndEvent = true;
 					} elseif ( !$hasStartEvent ) {
 						// if End date/datetime is declared before Start date/datetime type field
-						return CargoUtils::formatError( wfMessage( "cargo-declare-def-start-before-end" )->parse() );
+						return CargoUtils::formatError( $parser->msg( "cargo-declare-def-start-before-end" )->parse() );
 					} else {
-						return CargoUtils::formatError( wfMessage( "cargo-declare-ne1-enddttm" )->parse() );
+						return CargoUtils::formatError( $parser->msg( "cargo-declare-ne1-enddttm" )->parse() );
 					}
 				}
 				$tableSchema->mFieldDescriptions[$fieldName] = $fieldDescription;
@@ -326,7 +327,7 @@ class CargoDeclare {
 
 		// Validate table name.
 		if ( $tableName == '' ) {
-			return CargoUtils::formatError( wfMessage( "cargo-notable" )->parse() );
+			return CargoUtils::formatError( $parser->msg( "cargo-notable" )->parse() );
 		}
 		$validationError = self::validateFieldOrTableName( $tableName, 'table' );
 		if ( $validationError !== null ) {
@@ -345,12 +346,12 @@ class CargoDeclare {
 			// Validate that parent table exists.
 			if ( !$cdb->tableExists( $parentTableName, __METHOD__ ) ) {
 				// orig, gives wrong tablename
-				return CargoUtils::formatError( wfMessage( "cargo-declare-parenttable-not-exist", $parentTableName )->parse() );
+				return CargoUtils::formatError( $parser->msg( "cargo-declare-parenttable-not-exist", $parentTableName )->parse() );
 			}
 
 			// Validate that remote field exists.
 			if ( !$cdb->fieldExists( $parentTableName, $remoteField, __METHOD__ ) ) {
-				return CargoUtils::formatError( wfMessage( "cargo-declare-parenttable-no-field", $parentTableName, $remoteField )->parse() );
+				return CargoUtils::formatError( $parser->msg( "cargo-declare-parenttable-no-field", $parentTableName, $remoteField )->parse() );
 			}
 
 			// Validate that local field exists;
@@ -370,7 +371,7 @@ class CargoDeclare {
 				$parentLocalFieldOK = true;
 			}
 			if ( !$parentLocalFieldOK ) {
-				return CargoUtils::formatError( wfMessage( "cargo-declare-invalid-localfield", $localField )->parse() );
+				return CargoUtils::formatError( $parser->msg( "cargo-declare-invalid-localfield", $localField )->parse() );
 			}
 		}
 
@@ -384,26 +385,26 @@ class CargoDeclare {
 		// Link to the Special:CargoTables page for this table, if it
 		// exists already - otherwise, explain that it needs to be
 		// created.
-		$text = wfMessage( 'cargo-definestable', $tableName )->text();
+		$text = $parser->msg( 'cargo-definestable', $tableName )->text();
 		$cdb = CargoUtils::getDB();
 		if ( $cdb->tableExists( $tableName, __METHOD__ ) ) {
 			$ct = SpecialPage::getTitleFor( 'CargoTables' );
 			$pageName = $ct->getPrefixedText() . "/$tableName";
-			$viewTableMsg = wfMessage( 'cargo-cargotables-viewtablelink' )->parse();
+			$viewTableMsg = $parser->msg( 'cargo-cargotables-viewtablelink' )->parse();
 			$text .= " [[$pageName|$viewTableMsg]].";
 		} else {
-			$text .= ' ' . wfMessage( 'cargo-tablenotcreated' )->text();
+			$text .= ' ' . $parser->msg( 'cargo-tablenotcreated' )->text();
 		}
 
 		// Also link to the replacement table, if it exists.
 		if ( $cdb->tableExists( $tableName . '__NEXT', __METHOD__ ) ) {
-			$text .= ' ' . wfMessage( "cargo-cargotables-replacementgenerated" )->parse();
+			$text .= ' ' . $parser->msg( "cargo-cargotables-replacementgenerated" )->parse();
 			$ctPage = CargoUtils::getSpecialPage( 'CargoTables' );
 			$ctURL = $ctPage->getPageTitle()->getFullURL();
 			$viewURL = $ctURL . '/' . $tableName;
 			$viewURL .= strpos( $viewURL, '?' ) ? '&' : '?';
 			$viewURL .= "_replacement";
-			$viewReplacementTableMsg = wfMessage( 'cargo-cargotables-viewreplacementlink' )->parse();
+			$viewReplacementTableMsg = $parser->msg( 'cargo-cargotables-viewreplacementlink' )->parse();
 			$text .= "; [$viewURL $viewReplacementTableMsg].";
 		}
 
