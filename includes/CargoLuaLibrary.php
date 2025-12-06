@@ -136,9 +136,9 @@ class CargoLuaLibrary extends LibraryBase {
 	 * @param string $table
 	 * @param array $args
 	 */
-	public function cargoStore( string $table, array $args ) {
-		$this->checkType( 'query', 1, $table, 'string' );
-		$this->checkType( 'query', 2, $args, 'table' );
+	public function cargoStore( $table, $args ): void {
+		$this->checkType( 'store', 1, $table, 'string' );
+		$this->checkType( 'store', 2, $args, 'table' );
 		$parser = $this->getParser();
 		CargoStore::storeTable( $parser, $table, $args );
 	}
