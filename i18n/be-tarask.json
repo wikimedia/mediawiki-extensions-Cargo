@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Kareyac",
+			"Red Winged Duck",
 			"Renessaince",
 			"W"
 		]
@@ -10,7 +11,7 @@
 	"cargo-createdatatable": "Стварыць табліцу зьвестак",
 	"cargo-viewdata-tables": "Табліца(-ы):",
 	"cargo-viewdata-format": "Выгляд:",
-	"cargo-viewdata-defaultformat": "Дапомна",
+	"cargo-viewdata-defaultformat": "Перадвызначана",
 	"cargo-viewdata-heightparam": "Вышыня:",
 	"cargo-viewdata-widthparam": "Шырыня:",
 	"cargo-viewdata-columnsparam": "Лік слупкоў:",
