@@ -52,7 +52,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 			$viewURL .= "_replacement";
 			$viewReplacementText = $this->msg( 'cargo-cargotables-viewreplacementlink' )->parse();
 
-			$text .= ' (' . Xml::element( 'a', [ 'href' => $viewURL ], $viewReplacementText ) . ')';
+			$text .= ' (' . Html::element( 'a', [ 'href' => $viewURL ], $viewReplacementText ) . ')';
 			$out->addHTML( $text );
 			return true;
 		}
@@ -144,15 +144,15 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 					'infusable' => true,
 				]
 			);
-			$text .= Html::rawElement( 'p', null, $checkBox );
+			$text .= Html::rawElement( 'p', [], $checkBox );
 		}
 
 		if ( $this->mTemplateTitle == null ) {
 			$msg = $tableExists ? 'cargo-recreatedata-recreatetable' : 'cargo-recreatedata-createtable';
-			$text .= Html::element( 'p', null, $this->msg( $msg, $this->mTableName )->parse() );
+			$text .= Html::element( 'p', [], $this->msg( $msg, $this->mTableName )->parse() );
 		} else {
 			$msg = $tableExists ? 'cargo-recreatedata-desc' : 'cargo-recreatedata-createdata';
-			$text .= Html::element( 'p', null, $this->msg( $msg )->parse() );
+			$text .= Html::element( 'p', [], $this->msg( $msg )->parse() );
 		}
 
 		$text .= new OOUI\ButtonInputWidget( [

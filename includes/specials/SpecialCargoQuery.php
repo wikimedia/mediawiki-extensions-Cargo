@@ -76,7 +76,7 @@ class SpecialCargoQuery extends SpecialPage {
 			'classes' => [ 'ext-cargo-' . $fieldName ],
 			'value' => $req->getVal( $fieldName )
 		] );
-		$row .= "\n\t" . Html::rawElement( 'td', null, $input );
+		$row .= "\n\t" . Html::rawElement( 'td', [], $input );
 		return Html::rawElement( 'tr', [ 'class' => 'ext-cargo-tr-' . $fieldName ], $row ) . "\n";
 	}
 
@@ -89,7 +89,7 @@ class SpecialCargoQuery extends SpecialPage {
 			'classes' => [ 'ext-cargo-' . $fieldName ],
 			'value' => $req->getVal( $fieldName )
 		] );
-		$row .= "\n\t" . Html::rawElement( 'td', null, $input ) . "\n";
+		$row .= "\n\t" . Html::rawElement( 'td', [], $input ) . "\n";
 		return Html::rawElement( 'tr', [ 'class' => 'ext-cargo-tr-' . $fieldName ], $row ) . "\n";
 	}
 

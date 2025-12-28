@@ -101,7 +101,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			$toc .= self::tocLine( $tableSectionAnchor, $tableSectionTocDisplay,
 				$this->getLanguage()->formatNum( ++$tocLength ), 1 ) . self::tocLineEnd();
 
-			$h2 = Html::rawElement( 'h2', null,
+			$h2 = Html::rawElement( 'h2', [],
 				Html::rawElement( 'span', [ 'class' => 'mw-headline', 'id' => $tableSectionAnchor ], $tableSectionHeader ) );
 
 			$text .= Html::rawElement( 'div', [ 'class' => 'cargo-pagevalues-tableinfo' ],
@@ -250,13 +250,13 @@ class CargoPageValues extends IncludableSpecialPage {
 	 * Based on MediaWiki's InfoAction::addTable()
 	 */
 	public function printTable( $tableContents, $anyFieldHasAllowedValues ) {
-		$headerRow = Html::element( 'th', null, $this->msg( 'cargo-field' )->text() ) .
-			Html::element( 'th', null, $this->msg( 'cargo-field-type' )->text() );
+		$headerRow = Html::element( 'th', [], $this->msg( 'cargo-field' )->text() ) .
+			Html::element( 'th', [], $this->msg( 'cargo-field-type' )->text() );
 		if ( $anyFieldHasAllowedValues ) {
-			$headerRow .= Html::element( 'th', null, $this->msg( 'cargo-allowed-values' )->text() );
+			$headerRow .= Html::element( 'th', [], $this->msg( 'cargo-allowed-values' )->text() );
 		}
-		$headerRow .= Html::element( 'th', null, $this->msg( 'cargo-value' )->text() );
-		$headerRow = Html::rawElement( 'tr', null, $headerRow );
+		$headerRow .= Html::element( 'th', [], $this->msg( 'cargo-value' )->text() );
+		$headerRow = Html::rawElement( 'tr', [], $headerRow );
 		return Html::rawElement( 'table', [ 'class' => 'wikitable mw-page-info' ],
 			$headerRow . $tableContents ) . "\n";
 	}

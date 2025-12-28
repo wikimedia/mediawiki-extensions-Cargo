@@ -467,7 +467,7 @@ class CargoQueryDisplayer {
 		if ( $displayHTML ) {
 			$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 			$link = CargoUtils::makeLink( $linkRenderer, $vd, $moreResultsText, [], $queryStringParams );
-			return Html::rawElement( 'p', null, $link );
+			return Html::rawElement( 'p', [], $link );
 		} else {
 			// Display link as wikitext.
 			global $wgServer;

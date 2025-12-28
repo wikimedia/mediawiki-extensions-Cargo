@@ -34,7 +34,7 @@ class CargoOLFormat extends CargoListFormat {
 		}
 		$text = '';
 		foreach ( $formattedValuesTable as $row ) {
-			$text .= Html::rawElement( 'li', null, $this->displayRow( $row, $fieldDescriptions ) ) . "\n";
+			$text .= Html::rawElement( 'li', [], $this->displayRow( $row, $fieldDescriptions ) ) . "\n";
 		}
 		$olAttribs = [ 'start' => $offset + 1 ];
 		if ( $numColumns > 1 ) {

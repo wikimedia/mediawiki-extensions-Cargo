@@ -28,7 +28,7 @@ class CargoOutlineFormat extends CargoListFormat {
 		if ( $outlineTree->mUnsortedRows !== null ) {
 			$text .= "<ul>\n";
 			foreach ( $outlineTree->mUnsortedRows as $row ) {
-				$text .= Html::rawElement( 'li', null,
+				$text .= Html::rawElement( 'li', [],
 					$this->displayRow( $row->mDisplayFields, $this->mFieldDescriptions ) ) . "\n";
 			}
 			$text .= "</ul>\n";

@@ -378,9 +378,9 @@ class CargoFieldDescription {
 	}
 
 	public function prettyPrintType() {
-		$typeDesc = Html::element( 'tt', null, $this->mType );
+		$typeDesc = Html::element( 'tt', [], $this->mType );
 		if ( $this->mIsList ) {
-			$delimiter = Html::element( 'tt', null, $this->mDelimiter );
+			$delimiter = Html::element( 'tt', [], $this->mDelimiter );
 			$typeDesc = wfMessage( 'cargo-cargotables-listof' )
 				->rawParams( $typeDesc, $delimiter )->escaped();
 		}

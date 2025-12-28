@@ -129,10 +129,10 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 
 		if ( $req->wasPosted() && $req->getCheck( 'switch' ) && $csrfTokenSet->matchToken( $req->getText( 'wpEditToken' ) ) ) {
 			self::switchInTableReplacement( $tableName, $fieldTables, $fieldHelperTables, $this->getUser() );
-			$text = Html::element( 'p', null, $this->msg( 'cargo-switchtables-success', $tableName )->parse() ) . "\n";
+			$text = Html::element( 'p', [], $this->msg( 'cargo-switchtables-success', $tableName )->parse() ) . "\n";
 			$tablesLink = CargoUtils::makeLink( $this->getLinkRenderer(),
 				$ctPage->getPageTitle(), $ctPage->getDescription() );
-			$text .= Html::rawElement( 'p', null, $this->msg( 'returnto' )->rawParams( $tablesLink )->escaped() );
+			$text .= Html::rawElement( 'p', [], $this->msg( 'returnto' )->rawParams( $tablesLink )->escaped() );
 			$out->addHTML( $text );
 			return true;
 		}
@@ -140,7 +140,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 		$ctURL = $ctPage->getPageTitle()->getLocalURL();
 		$tableLink = Html::element( 'a', [ 'href' => "$ctURL/$tableName", ], $tableName );
 
-		$text = Html::rawElement( 'p', null, $this->msg( 'cargo-switchtables-confirm' )->rawParams( $tableLink )->escaped() );
+		$text = Html::rawElement( 'p', [], $this->msg( 'cargo-switchtables-confirm' )->rawParams( $tableLink )->escaped() );
 		$out->addHTML( $text );
 
 		$htmlForm = HTMLForm::factory( 'ooui', [], $this->getContext() );

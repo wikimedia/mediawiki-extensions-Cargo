@@ -138,23 +138,23 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 		}
 		$tableContents = '<thead><tr>';
 		if ( $detailsFields ) {
-			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
+			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ] );
 		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( in_array( $fieldName, $detailsFields ) ) {
 				continue;
 			}
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
-				$tableContents .= "\t\t\t\t" . Html::element( 'th', null, $fieldName );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', [], $fieldName );
 			} else {
-				$tableContents .= "\t\t\t\t" . Html::element( 'th', null, null );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th' );
 			}
 		}
 
 		$tableContents .= '</tr></thead><tfoot><tr>';
 
 		if ( $detailsFields ) {
-			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ], null );
+			$tableContents .= Html::rawElement( 'th', [ 'class' => 'details-control' ] );
 		}
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			if ( in_array( $fieldName, $detailsFields ) ) {
@@ -203,7 +203,7 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 			}
 			$detailsTable =
 				Html::rawElement( 'table', [ 'border' => '0', 'cellspacing' => '0' ],
-					Html::rawElement( 'tbody', null, $details ) );
+					Html::rawElement( 'tbody', [], $details ) );
 
 			$tableContents .= Html::rawElement( 'tr', [ 'data-details' => $detailsTable ],
 				$tableData );

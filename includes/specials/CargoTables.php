@@ -108,7 +108,7 @@ class CargoTables extends IncludableSpecialPage {
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			$fieldDesc = '<strong>' . $fieldName . '</strong> - ';
 			$fieldDesc .= $fieldDescription->prettyPrintTypeAndAttributes();
-			$structureDesc .= Html::rawElement( 'li', null, $fieldDesc ) . "\n";
+			$structureDesc .= Html::rawElement( 'li', [], $fieldDesc ) . "\n";
 		}
 		$structureDesc .= '</ol>';
 		$out->addHTML( $structureDesc );
@@ -515,24 +515,24 @@ class CargoTables extends IncludableSpecialPage {
 			}
 		}
 
-		$text .= Html::rawElement( 'p', null, $this->msg( 'cargo-cargotables-tablelist' )
+		$text .= Html::rawElement( 'p', [], $this->msg( 'cargo-cargotables-tablelist' )
 				->numParams( count( $tableNames ) )
 				->escaped() ) . "\n";
 
-		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
-		$headerText .= Html::element( 'th', null,
+		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText .= Html::element( 'th', [],
 			$this->msg( "cargo-cargotables-header-rowcount" ) );
 		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
 			$this->msg( "cargo-cargotables-header-columncount" ) );
 
 		foreach ( $listOfColumns as $action ) {
-			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action ) );
+			$headerText .= Html::rawElement( 'th', [], $this->getActionIcon( $action ) );
 		}
 
-		$headerText .= Html::element( 'th', null,
+		$headerText .= Html::element( 'th', [],
 			$this->msg( "cargo-cargotables-header-templates" ) );
 
-		$wikitableText = Html::rawElement( 'tr', null, $headerText );
+		$wikitableText = Html::rawElement( 'tr', [], $headerText );
 
 		foreach ( $tableNames as $tableName ) {
 
@@ -561,14 +561,14 @@ class CargoTables extends IncludableSpecialPage {
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
 
 			if ( !$hasReplacementTable ) {
-				$rowText .= Html::rawElement( 'td', null, $templatesText );
-				$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+				$rowText .= Html::rawElement( 'td', [], $templatesText );
+				$wikitableText .= Html::rawElement( 'tr', [], $rowText );
 				continue;
 			}
 
 			// if there's a replacement table, the template links need to span 2 rows
 			$rowText .= Html::rawElement( 'td', [ 'rowspan' => 2 ], $templatesText );
-			$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+			$wikitableText .= Html::rawElement( 'tr', [], $rowText );
 
 			$replacementRowText = '';
 			$tableLink = $this->getTableLinkedToView( $tableName, true );
@@ -594,10 +594,10 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Now display the table for the special Cargo tables.
 		$text .= '<br />';
-		$text .= Html::element( 'p', null, $this->msg( 'cargo-cargotables-specialtables' )->escaped() );
+		$text .= Html::element( 'p', [], $this->msg( 'cargo-cargotables-specialtables' )->escaped() );
 		$specialTableNames = CargoUtils::specialTableNames();
-		$headerText = Html::element( 'th', null, $this->msg( "cargo-cargotables-header-table" ) );
-		$headerText .= Html::element( 'th', null,
+		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText .= Html::element( 'th', [],
 			$this->msg( "cargo-cargotables-header-rowcount" )->escaped() );
 		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
 			$this->msg( "cargo-cargotables-header-columncount" )->escaped() );
@@ -608,9 +608,9 @@ class CargoTables extends IncludableSpecialPage {
 				unset( $listOfColumns[$i] );
 				continue;
 			}
-			$headerText .= Html::rawElement( 'th', null, $this->getActionIcon( $action ) );
+			$headerText .= Html::rawElement( 'th', [], $this->getActionIcon( $action ) );
 		}
-		$wikitableText = Html::rawElement( 'tr', null, $headerText );
+		$wikitableText = Html::rawElement( 'tr', [], $headerText );
 
 		foreach ( $specialTableNames as $specialTableName ) {
 			$rowText = '';
@@ -654,7 +654,7 @@ class CargoTables extends IncludableSpecialPage {
 				$numColumnsText );
 
 			$this->displayActionLinks( $listOfColumns, $actionLinks, $rowText );
-			$wikitableText .= Html::rawElement( 'tr', null, $rowText );
+			$wikitableText .= Html::rawElement( 'tr', [], $rowText );
 
 			if ( !$hasReplacementTable ) {
 				continue;
@@ -696,7 +696,7 @@ class CargoTables extends IncludableSpecialPage {
 				$rowText .= Html::rawElement( 'td', [ "class" => "cargo-tablelist-actionbutton" ],
 					$actionLinks[$action] );
 			} else {
-				$rowText .= Html::rawElement( 'td', null, '' );
+				$rowText .= Html::rawElement( 'td', [], '' );
 			}
 		}
 	}
