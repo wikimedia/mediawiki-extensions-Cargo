@@ -4,5 +4,6 @@
 			"Cabal"
 		]
 	},
-	"cargo-cargotables-header-templates": "ਫਰਮੇ"
+	"cargo-cargotables-header-templates": "ਫਰਮੇ",
+	"cargo-drilldown-pagetext": "ਵਰਕੇ ਦੀ ਲਿਖਤ"
 }
