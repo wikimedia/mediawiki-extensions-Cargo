@@ -22,6 +22,7 @@ class CargoFieldDescription {
 	public $mIsHidden = false;
 	public $mIsHierarchy = false;
 	public $mHierarchyStructure = null;
+	public $mForm = null;
 	public $mOtherParams = [];
 
 	/**
@@ -74,6 +75,8 @@ class CargoFieldDescription {
 						$fieldDescription->mSize = $paramValue;
 					} elseif ( $paramKey == 'dependent on' ) {
 						$fieldDescription->mDependentOn = array_map( 'trim', explode( ',', $paramValue ) );
+					} elseif ( $paramKey == 'form' ) {
+						$fieldDescription->mForm = $paramValue;
 					} else {
 						$fieldDescription->mOtherParams[$paramKey] = $paramValue;
 					}
@@ -172,6 +175,8 @@ class CargoFieldDescription {
 				$fieldDescription->mIsHierarchy = true;
 			} elseif ( $param == 'hierarchyStructure' ) {
 				$fieldDescription->mHierarchyStructure = $value;
+			} elseif ( $param == 'form' ) {
+				$fieldDescription->mForm = $value;
 			} else {
 				$fieldDescription->mOtherParams[$param] = $value;
 			}
@@ -242,6 +247,9 @@ class CargoFieldDescription {
 		if ( $this->mIsHierarchy ) {
 			$descriptionData['hierarchy'] = true;
 			$descriptionData['hierarchyStructure'] = $this->mHierarchyStructure;
+		}
+		if ( $this->mForm != null ) {
+			$descriptionData['form'] = $this->mForm;
 		}
 		foreach ( $this->mOtherParams as $otherParam => $value ) {
 			$descriptionData[$otherParam] = $value;
