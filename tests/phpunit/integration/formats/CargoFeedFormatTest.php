@@ -42,7 +42,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 	 * @covers CargoFeedFormat::outputFeed
 	 * @dataProvider provideOutputFeed
 	 */
-	public function testOutputFeed( $expected, $queryResults, $requestParams ): void {
+	public function testOutputFeed( $expected, $queryResults, $requestParams, $pageText = 'Lorem ipsum' ): void {
 		$format = new CargoFeedFormat( $this->createMock( OutputPage::class ) );
 		$sqlQuery = $this->createMock( CargoSQLQuery::class );
 		$sqlQuery->expects( $this->once() )->method( 'run' )->willReturn( $queryResults );
@@ -51,7 +51,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		$sqlQuery->mOrderBy = [];
 		$this->expectOutputString( $expected );
 		foreach ( $queryResults as $res ) {
-			$this->insertPage( $res['_pageName'], 'Lorem ipsum' );
+			$this->insertPage( $res['_pageName'], $pageText );
 		}
 		$request = new FauxRequest( $requestParams );
 		$request->setRequestURL( '/test-request-url' );
@@ -107,7 +107,43 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 					'feed_description' => 'Desc.',
 					'feed_type' => 'rss',
 				]
+			],
+			'section edit links suppressed' => [
+				'expected' => '<?xml version="1.0"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>News feed</title>
+		<link>https://wiki.example.org/test-request-url</link>
+		<description></description>
+		<language>en</language>
+		<generator>MediaWiki ' . MW_VERSION . '</generator>
+		<lastBuildDate>Fri, 10 Feb 2023 01:13:14 GMT</lastBuildDate>
+		<item>
+			<title>Test page</title>
+			<link>https://wiki.example.org/cargofeedtest/Test_page</link>
+			<guid>https://wiki.example.org/cargofeedtest/Test_page</guid>
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; ' .
+				'lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;div ' .
+				'class=&quot;mw-heading mw-heading2&quot;&gt;&lt;h2 id=&quot;Heading&quot;&gt;Heading&lt;/h2&gt;&lt;/div&gt;
+&lt;p&gt;Content here.
+&lt;/p&gt;&lt;/div&gt;</description>
+			<pubDate>Thu, 02 Jan 2020 03:04:05 GMT</pubDate>
+			<dc:creator></dc:creator>
+			' . '
+		</item>
+</channel></rss>',
+				'results' => [
+					[
+						'_pageName' => 'Test page',
+						'date_published' => '2020-01-02 03:04:05',
+					],
+				],
+				'requestparams' => [
+					'feed_type' => 'rss',
+				],
+				'pageText' => "== Heading ==\nContent here.",
 			]
 		];
 	}
+
 }
