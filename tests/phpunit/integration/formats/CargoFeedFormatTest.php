@@ -71,8 +71,8 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		<generator>MediaWiki ' . MW_VERSION . '</generator>
 		<lastBuildDate>Fri, 10 Feb 2023 01:13:14 GMT</lastBuildDate>
 		<item>
-			<title>Lorem ipsum</title>
-			<link>https://wiki.example.org/cargofeedtest/Lorem_ipsum</link>
+			<title>Lorem &amp; ipsum</title>
+			<link>https://wiki.example.org/cargofeedtest/Lorem_%26_ipsum</link>
 			<guid isPermaLink="false">custom-guid-lorem-ipsum-2020</guid>
 			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
 &lt;/p&gt;&lt;/div&gt;</description>
@@ -93,7 +93,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 </channel></rss>',
 				'results' => [
 					[
-						'_pageName' => 'Lorem ipsum',
+						'_pageName' => 'Lorem & ipsum',
 						'date_published' => '2020-01-02 03:04:05',
 						'id' => 'custom-guid-lorem-ipsum-2020'
 					],

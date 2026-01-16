@@ -126,7 +126,7 @@ class CargoFeedFormat extends CargoDeferredFormat {
 				}
 				$description = $parserOutput->runOutputPipeline( $parser->getOptions() )->getContentHolderText();
 				$item = new FeedItem(
-					$queryResult['title'] ?? $queryResult['_pageName'] ?? '',
+					htmlspecialchars_decode( $queryResult['title'] ?? $queryResult['_pageName'] ?? '' ),
 					$description,
 					$queryResult['url'] ?? $title->getCanonicalURL(),
 					$queryResult[$dateFields[0]] ?? '',
