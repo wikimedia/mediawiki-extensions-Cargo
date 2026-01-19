@@ -12,6 +12,7 @@
 
 use MediaWiki\Html\Html;
 use MediaWiki\Title\Title;
+use Wikimedia\Rdbms\FakeResultWrapper;
 use Wikimedia\Rdbms\IDatabase;
 
 class CargoDrilldownPage extends QueryPage {
@@ -38,6 +39,8 @@ class CargoDrilldownPage extends QueryPage {
 	public $curTabName;
 	private $showSingleTable = false;
 	private $isReplacementTable = false;
+	private ?array $queryInfo = null;
+	private ?string $queryErrorText = null;
 
 	/**
 	 * Initialize the variables of this page
@@ -1545,7 +1548,15 @@ END;
 		return [ $tableNames, $joinConds, $mainTableName, $mainTableAlias ];
 	}
 
-	public function getQueryInfo() {
+	/**
+	 * This is overridden to perform getQueryInfo's job in a safely manner, since constructing a CargoSQLQuery can fail
+	 * in validation (T412642). In such a (bad) state, an empty result-set is returned and the error is presented to the
+	 * user.
+	 * If the query construction succeeds, proceed as normal.
+	 *
+	 * @inheritDoc
+	 */
+	public function reallyDoQuery( $limit, $offset = false ) {
 		$cdb = CargoUtils::getDB();
 
 		[ $tableNames, $joinConds ] = $this->getInitialQueryParts();
@@ -1875,9 +1886,16 @@ END;
 		$havingStr = null;
 		$limitStr = $this->limit;
 		$offsetStr = $this->offset;
-		$this->sqlQuery =
-			CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
-				$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr, true );
+
+		// CargoSQLQuery construction may fail here if we have a bad filter - catch any errors
+		try {
+			$this->sqlQuery =
+				CargoSQLQuery::newFromValues( $tablesStr, $fieldsStr, $whereStr, $joinOnStr,
+					$groupByStr, $havingStr, $orderByStr, $limitStr, $offsetStr, true );
+		} catch ( MWException $e ) {
+			$this->queryErrorText = $e->getMessage();
+			return new FakeResultWrapper( [] );
+		}
 
 		// @HACK - the result set may contain both pages and files that
 		// match the search term. So how do we know, for each result
@@ -1894,7 +1912,7 @@ END;
 			$aliasedFieldNames['foundFileMatch'] = CargoUtils::fullTextMatchSQL( $cdb, [ $fileDataTableAlias => $fileDataTableName ], '_fullText', $this->fullTextSearchTerm );
 		}
 
-		$queryInfo = [
+		$this->queryInfo = [
 			'tables' => $tableNames,
 			'fields' => array_merge( $aliasedFieldNames, $extraAliasedFields ),
 			'conds' => $conds,
@@ -1902,7 +1920,16 @@ END;
 			'options' => $queryOptions
 		];
 
-		return $queryInfo;
+		return parent::reallyDoQuery( $limit, $offset );
+	}
+
+	/**
+	 * It is not safe to call this method on its own. See reallyDoQuery for the query construction.
+	 *
+	 * @inheritDoc
+	 */
+	public function getQueryInfo() {
+		return $this->queryInfo;
 	}
 
 	public static function getFullTextSearchQueryParts( $searchTerm, $mainTableName, $mainTableAlias,
@@ -1975,6 +2002,18 @@ END;
 
 	public function sortDescending() {
 		return false;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function showEmptyText() {
+		// Display any errors that CargoSQLQuery construction (see reallyDoQuery) may have produced.
+		if ( $this->queryErrorText !== null ) {
+			$this->getOutput()->addHTML( CargoUtils::formatError( $this->queryErrorText ) );
+		}
+
+		parent::showEmptyText();
 	}
 
 	/**
