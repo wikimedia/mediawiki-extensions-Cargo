@@ -191,10 +191,6 @@ class CargoDrilldownPage extends QueryPage {
 		return $url;
 	}
 
-	public function getName() {
-		return "Drilldown";
-	}
-
 	public function isExpensive() {
 		return false;
 	}
