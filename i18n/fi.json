@@ -6,10 +6,12 @@
 			"Silvonen",
 			"Valtlai",
 			"Valtlait",
-			"Veikk0.ma"
+			"Veikk0.ma",
+			"Yupik"
 		]
 	},
 	"cargo-logname": "Cargo-loki",
+	"cargo-viewdata-widthparam": "Leveys:",
 	"cargo-calendar-datepicker-label": "Mene ajankohtaan:",
 	"cargo-drilldown-allpages": "Kaikki sivut",
 	"cargo-drilldown-allfiles": "Kaikki tiedostot",
