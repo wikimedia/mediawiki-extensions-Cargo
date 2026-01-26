@@ -164,7 +164,7 @@ class CargoQueryPage extends QueryPage {
 	}
 
 	public function getOrderFields() {
-		return $this->sqlQuery->mOrderBy;
+		return $this->sqlQuery->getOrderBy();
 	}
 
 	public function sortDescending() {

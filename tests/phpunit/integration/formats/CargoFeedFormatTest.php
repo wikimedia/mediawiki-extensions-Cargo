@@ -47,8 +47,6 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 		$sqlQuery = $this->createMock( CargoSQLQuery::class );
 		$sqlQuery->expects( $this->once() )->method( 'run' )->willReturn( $queryResults );
 		$sqlQuery->expects( $this->once() )->method( 'getMainStartAndEndDateFields' )->willReturn( [ 'date_published', null ] );
-		// Workaround for T268295.
-		$sqlQuery->mOrderBy = [];
 		$this->expectOutputString( $expected );
 		foreach ( $queryResults as $res ) {
 			$this->insertPage( $res['_pageName'], $pageText );

@@ -29,7 +29,8 @@ class CargoSQLQuery {
 	public $mOrigHavingStr;
 	public $mHavingStr;
 	public $mOrigOrderBy;
-	public $mOrderBy;
+	/** @var string[] */
+	private $mOrderBy = [];
 	public $mQueryLimit;
 	public $mOffset;
 	public $mSearchTerms = [];
@@ -460,8 +461,19 @@ class CargoSQLQuery {
 		}
 	}
 
-	public function setOrderBy( $orderByStr = null ) {
-		$this->mOrderBy = [];
+	/**
+	 * Get array of ORDER BY clauses (quoted column names with ASC or DESC).
+	 *
+	 * @return string[]
+	 */
+	public function getOrderBy(): array {
+		return $this->mOrderBy;
+	}
+
+	/**
+	 * @param ?string $orderByStr
+	 */
+	public function setOrderBy( ?string $orderByStr = null ) {
 		if ( $orderByStr != '' ) {
 			$orderByElements = CargoUtils::smartSplit( ',', $orderByStr );
 			foreach ( $orderByElements as $elem ) {
