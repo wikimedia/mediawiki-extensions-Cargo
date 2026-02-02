@@ -1614,7 +1614,10 @@ class CargoSQLQuery {
 			$selectOptions['HAVING'] = $this->mHavingStr;
 		}
 
-		$selectOptions['ORDER BY'] = $this->mOrderBy;
+		if ( $this->mOrderBy ) {
+			$selectOptions['ORDER BY'] = $this->mOrderBy;
+		}
+
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 		$selectOptions['OFFSET'] = $this->mOffset;
 
