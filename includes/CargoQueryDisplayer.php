@@ -139,7 +139,8 @@ class CargoQueryDisplayer {
 					// There's probably an easier way to do
 					// this, using array_map().
 					$delimiter = $fieldDescription->getDelimiter();
-					// We need to decode it in case the delimiter is ;
+					// The combined field value has been escaped by CargoSQLQuery - let's decode it in case the
+					// delimiter has been affected.
 					$valueDecoded = html_entity_decode( $value );
 					$fieldValues = explode( $delimiter, $valueDecoded );
 					foreach ( $fieldValues as $i => $fieldValue ) {
@@ -158,7 +159,8 @@ class CargoQueryDisplayer {
 							// list parsing worked.
 							$text .= ' <span class="CargoDelimiter">&bull;</span> ';
 						}
-						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser, $escapeValues );
+						// This value is unescaped, so we need to escape it again.
+						$text .= self::formatFieldValue( $fieldValue, $fieldType, $fieldDescription, $this->mParser, true );
 					}
 				} elseif ( $fieldDescription->isDateOrDatetime() ) {
 					$datePrecisionField = $fieldName . '__precision';
