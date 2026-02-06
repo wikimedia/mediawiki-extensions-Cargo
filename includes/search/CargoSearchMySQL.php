@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
-use Wikimedia\AtEase\AtEase;
 
 /**
  * We need to create subclasses, instead of just calling the functionality,
@@ -54,9 +53,7 @@ class CargoSearchMySQL extends SearchMySQL {
 			$langConverter = MediaWikiServices::getInstance()->getLanguageConverterFactory()
 				->getLanguageConverter( $contLang );
 			foreach ( $m as $bits ) {
-				AtEase::suppressWarnings();
 				[ /* all */, $modifier, $term, $nonQuoted, $wildcard ] = $bits;
-				AtEase::restoreWarnings();
 
 				if ( $nonQuoted != '' ) {
 					$term = $nonQuoted;
