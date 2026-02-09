@@ -173,7 +173,9 @@ class CargoMapsFormat extends CargoDisplayFormat {
 				if ( $latValue != '' && $lonValue != '' ) {
 					$nameValue = array_shift( $valuesTable[$i] );
 					$titleValue = array_shift( $displayedValuesForRow );
-					if ( $urlValue !== null ) {
+					$urlUtils = MediaWikiServices::getInstance()->getUrlUtils();
+					$hrefRegExp = '/^(' . $urlUtils->validProtocols() . ')[^\s]+$/';
+					if ( $urlValue !== null && preg_match( $hrefRegExp, $urlValue ) ) {
 						$titleValue = Html::element( 'a', [ 'href' => $urlValue ], $titleValue );
 					}
 					$valuesForMap[] = self::getMapPointValues( $nameValue, $titleValue, $latValue, $lonValue, $displayedValuesForRow, $displayParams, $i );
