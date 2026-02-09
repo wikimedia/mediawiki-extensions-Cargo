@@ -52,15 +52,7 @@ class CargoCalendarFormat extends CargoDeferredFormat {
 			}
 		}
 
-		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
-			$width = $displayParams['width'];
-			// Add on "px", if no unit is defined.
-			if ( is_numeric( $width ) ) {
-				$width .= "px";
-			}
-		} else {
-			$width = "100%";
-		}
+		$width = CargoUtils::getCSSSize( $displayParams, 'width', '100%' );
 
 		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
 			$height = $displayParams['height'];

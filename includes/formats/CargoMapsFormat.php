@@ -199,25 +199,8 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			$fileName = null;
 		}
 
-		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
-			$height = $displayParams['height'];
-			// Add on "px", if no unit is defined.
-			if ( is_numeric( $height ) ) {
-				$height .= "px";
-			}
-		} else {
-			$height = null;
-		}
-
-		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
-			$width = $displayParams['width'];
-			// Add on "px", if no unit is defined.
-			if ( is_numeric( $width ) ) {
-				$width .= "px";
-			}
-		} else {
-			$width = null;
-		}
+		$height = CargoUtils::getCSSSize( $displayParams, 'height', null );
+		$width = CargoUtils::getCSSSize( $displayParams, 'width', null );
 
 		if ( $fileName !== null ) {
 			// Do some scaling of the image, if necessary.

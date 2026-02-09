@@ -33,24 +33,8 @@ class CargoTimelineFormat extends CargoDeferredFormat {
 		  }
 		  } */
 
-		if ( array_key_exists( 'height', $displayParams ) && $displayParams['height'] != '' ) {
-			$height = $displayParams['height'];
-			// Add on "px", if no unit is defined.
-			if ( is_numeric( $height ) ) {
-				$height .= "px";
-			}
-		} else {
-			$height = "350px";
-		}
-		if ( array_key_exists( 'width', $displayParams ) && $displayParams['width'] != '' ) {
-			$width = $displayParams['width'];
-			// Add on "px", if no unit is defined.
-			if ( is_numeric( $width ) ) {
-				$width .= "px";
-			}
-		} else {
-			$width = "100%";
-		}
+		$height = CargoUtils::getCSSSize( $displayParams, 'height', '350px' );
+		$width = CargoUtils::getCSSSize( $displayParams, 'width', '100%' );
 
 		$attrs = [
 			'class' => 'cargoTimeline',
