@@ -1,7 +1,12 @@
 $(document).ready(function() {
 	$('.cargoDynamicTable').each( function( index ) {
+		if ( !$(this).attr( 'data-mw-cargo-dynamic-table' ) ) {
+			mw.log.warn('Cargo: Skipping dynamic table without data-mw-cargo-dynamic-table attribute.');
+			return;
+		}
+
 		var params = {};
-		var pageLength = $(this).attr( 'data-page-length' );
+		var pageLength = $(this).attr( 'data-mw-page-length' );
 		if ( pageLength != '' && pageLength > 0 && parseInt( pageLength ) == pageLength ) {
 			pageLength = parseInt( pageLength );
 			params['pageLength'] = pageLength;
@@ -15,13 +20,13 @@ $(document).ready(function() {
 			}
 		}
 		params[ 'aoColumns' ] = [];
-		var detailsFields = $(this).attr( 'data-details-fields' );
+		var detailsFields = $(this).attr( 'data-mw-details-fields' );
 		if ( detailsFields ) {
 			params['columnDefs'] = [{ "orderable":false, "targets": 0 }];
 			params[ 'aoColumns' ].push( { 'sWidth': '5px' } );
 		}
 		// Specify column widths if provided in display parameters
-		var columnWidths = $( this ).attr( 'data-widths' );
+		var columnWidths = $( this ).attr( 'data-mw-widths' );
 		var columns  = [];
 		$( this ).find( 'th' ).each( function () {
 			if ( $( this ).text() !== "" )
@@ -50,7 +55,7 @@ $(document).ready(function() {
 		// searchable columns
 		var tfoot = $(this).find('tfoot');
 		$(this).find('tfoot th').each( function () {
-			var placeholder = $(this).data('placeholder');
+			var placeholder = $(this).data('mw-placeholder');
 			if ( placeholder ) {
 				$(this).html( '<input type="text" placeholder="'+placeholder+'"/>' );
 				tfoot.find('th').css('border-top', 'none');
@@ -87,13 +92,13 @@ $(document).ready(function() {
 				tr.removeClass('shown');
 			} else {
 				// Open this row
-				row.child( tr.data('details') ).show();
+				row.child( tr.data('mw-details') ).show();
 				tr.addClass('shown');
 			}
 		} );
 
 		// Add popup tooltip for all column headers
-		var headerTooltips = $( this ).attr( 'data-tooltips' );
+		var headerTooltips = $( this ).attr( 'data-mw-tooltips' );
 		if ( headerTooltips !== undefined ) {
 			headerTooltips = headerTooltips.split( ',' );
 			$( 'th[aria-controls=DataTables_Table_' + index + ']' ).each( function ( idx ) {
