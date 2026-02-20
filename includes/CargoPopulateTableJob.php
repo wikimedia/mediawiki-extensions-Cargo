@@ -55,7 +55,7 @@ class CargoPopulateTableJob extends Job {
 		// If it was requested, delete all the existing rows for
 		// this page in this Cargo table. This is only necessary
 		// if the table wasn't just dropped and recreated.
-		if ( $this->params['replaceOldRows'] == true ) {
+		if ( $this->params['replaceOldRows'] ?? false ) {
 			$cdb = CargoUtils::getDB();
 			$cdb->begin( __METHOD__ );
 			$cdb->delete( $this->params['dbTableName'], [ '_pageID' => $page->getID() ], __METHOD__ );
