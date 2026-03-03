@@ -266,15 +266,39 @@ class CargoStore {
 			}
 
 			// Also set to blank if the value does not match the type.
-			if ( $fieldDescription->mType === 'Float' && !is_numeric( $fieldValue ) && !$fieldDescription->mIsList ) {
-				$tableFieldValues[$fieldName] = null;
-			}
-			if ( $fieldDescription->mType === 'Integer' && !$fieldDescription->mIsList ) {
-				if ( $fieldValue === null || !preg_match( '/^-?\d+$/', $fieldValue ) ) {
-					$tableFieldValues[$fieldName] = null;
+			if ( $fieldDescription->mType === 'Float' || $fieldDescription->mType === 'Integer' ) {
+				if ( $fieldDescription->mIsList ) {
+					$delimiter = $fieldDescription->getDelimiter();
+					$individualValues = explode( $delimiter, $fieldValue ?? '' );
+					$validValues = [];
+					foreach ( $individualValues as $individualValue ) {
+						$individualValue = trim( $individualValue );
+						if ( $individualValue === '' ) {
+							continue;
+						}
+						if ( $fieldDescription->mType === 'Float' && is_numeric( $individualValue ) ) {
+							$validValues[] = $individualValue;
+						} elseif ( $fieldDescription->mType === 'Integer' &&
+							preg_match( '/^-?\d+$/', $individualValue ) ) {
+							$validValues[] = $individualValue;
+						}
+					}
+					if ( $validValues === [] ) {
+						$tableFieldValues[$fieldName] = null;
+					} else {
+						$tableFieldValues[$fieldName] = implode( $delimiter, $validValues );
+					}
+				} else {
+					if ( $fieldDescription->mType === 'Float' && !is_numeric( $fieldValue ) ) {
+						$tableFieldValues[$fieldName] = null;
+					}
+					if ( $fieldDescription->mType === 'Integer' ) {
+						if ( $fieldValue === null || !preg_match( '/^-?\d+$/', $fieldValue ) ) {
+							$tableFieldValues[$fieldName] = null;
+						}
+					}
 				}
 			}
-
 		}
 	}
 
