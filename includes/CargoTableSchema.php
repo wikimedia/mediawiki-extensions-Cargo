@@ -14,7 +14,7 @@ class CargoTableSchema {
 
 	public static function newFromDBString( $dbString ) {
 		$tableSchema = new CargoTableSchema();
-		$tableSchemaDBArray = unserialize( $dbString );
+		$tableSchemaDBArray = unserialize( $dbString ?? '' );
 		if ( !is_array( $tableSchemaDBArray ) ) {
 			throw new MWException( "Invalid field information found for table." );
 		}
