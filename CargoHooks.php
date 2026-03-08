@@ -306,7 +306,7 @@ class CargoHooks {
 	public static function saveToSpecialTables( $title ) {
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT', __METHOD__ );
-		CargoPageData::storeValuesForPage( $title, $useReplacementTable, false );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
 		if ( $title->getNamespace() == NS_FILE ) {
 			$useReplacementTable = $cdb->tableExists( '_fileData__NEXT', __METHOD__ );
 			CargoFileData::storeValuesForFile( $title, $useReplacementTable );
@@ -492,10 +492,11 @@ class CargoHooks {
 	}
 
 	/**
-	 * We use hooks to modify the _categories field in _pageData, instead of
-	 * saving it on page save as is done with all other fields (in _pageData
-	 * and elsewhere), because the categories information is often not set
-	 * until after the page has already been saved, due to the use of jobs.
+	 * We use hooks to update the _categories field in _pageData after a
+	 * category addition or removal. Categories are also stored at page-save
+	 * time, but the categorylinks table may not be updated by then in all
+	 * cases (e.g. when jobs are involved), so these hooks serve as a
+	 * self-correcting mechanism.
 	 * We can use the same function for both adding and removing categories
 	 * because it's almost the same code either way.
 	 * If anything gets messed up in this process, the data can be recreated
