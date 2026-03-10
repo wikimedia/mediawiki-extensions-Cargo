@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Batumski brodyaga",
+			"Daisy40",
 			"Iniquity",
 			"Irus",
 			"Kaganer",
@@ -25,7 +26,7 @@
 	},
 	"cargo-desc": "Хранение и запрос данных шаблона",
 	"cargo-definestable": "Этот шаблон определяет таблицу «$1».",
-	"cargo-tablenotcreated": "Эту таблицу ещё не было создано.",
+	"cargo-tablenotcreated": "Эта таблица ещё не была создана.",
 	"cargo-addsrows": "Этот шаблон добавляет строки в таблицу «$1», которая объявлена в шаблоне $2.",
 	"cargo-notable": "Ошибка: должно быть указано имя таблицы.",
 	"cargo-unknowntable": "Ошибка: таблица «$1» не найдена.",
