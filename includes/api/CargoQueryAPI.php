@@ -54,7 +54,6 @@ class CargoQueryAPI extends ApiBase {
 		$formattedData = [];
 		foreach ( $queryResults as $row ) {
 			// We HTML-unescape the values, because the API display will escape them again.
-			// @phan-suppress-next-line PhanCompatibleArrowFunction
 			$formattedData[] = [ 'title' => array_map( static fn ( $value ) => html_entity_decode( $value ?? '' ), $row ) ];
 		}
 

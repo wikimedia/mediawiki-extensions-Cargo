@@ -46,7 +46,7 @@ class CargoCategoryFormat extends CargoListFormat {
 		$num = count( $valuesTable );
 
 		$prev_first_char = "";
-		$rows_per_column = ceil( $num / $numColumns );
+		$rows_per_column = (int)ceil( $num / $numColumns );
 		// Column width is a percentage.
 		$column_width = floor( 100 / $numColumns );
 

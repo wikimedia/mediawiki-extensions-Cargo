@@ -157,6 +157,7 @@ class CargoRecurringEvent {
 				$prevMonth = $curDate['month'];
 				$prevYear = $curDate['year'];
 
+				// @phan-suppress-next-line PhanTypeInvalidModuloOperand
 				$newMonth = ( $prevMonth + $period ) % 12;
 				if ( $newMonth == 0 ) {
 					$newMonth = 12;
