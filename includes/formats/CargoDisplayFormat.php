@@ -81,6 +81,12 @@ class CargoDisplayFormat {
 	}
 
 	public function getParser() {
-		return $this->mParser ?? MediaWikiServices::getInstance()->getParser();
+		if ( $this->mParser ) {
+			return $this->mParser;
+		}
+
+		$parser = MediaWikiServices::getInstance()->getParser();
+		$parser->setPage( $this->mOutput->getTitle() );
+		return $parser;
 	}
 }
