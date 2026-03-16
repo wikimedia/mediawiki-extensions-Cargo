@@ -230,7 +230,8 @@ class CargoSQLQuery {
 				// by default - but for regular field names,
 				// not the special ones.
 				// "Real" field = with the table name removed.
-				if ( strpos( $fieldName, '.' ) !== false ) {
+				if ( strpos( $fieldName, '.' ) !== false &&
+					strpos( $fieldName, '(' ) === false ) {
 					[ $tableName, $realFieldName ] = explode( '.', $fieldName, 2 );
 				} else {
 					$realFieldName = $fieldName;
