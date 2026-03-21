@@ -106,7 +106,9 @@ class CargoDeclare {
 		} else {
 			$typeDisplay = '';
 		}
-		if ( preg_match( '/\s/', $name ) ) {
+		if ( $name === '' ) {
+			return wfMessage( "cargo-declare-validate-empty-name", $typeDisplay )->text();
+		} elseif ( preg_match( '/\s/', $name ) ) {
 			return wfMessage( "cargo-declare-validate-has-whitespace", $typeDisplay, $name )->text();
 		} elseif ( strpos( $name, '_' ) === 0 ) {
 			return wfMessage( "cargo-declare-validate-starts-underscore", $typeDisplay, $name )->text();

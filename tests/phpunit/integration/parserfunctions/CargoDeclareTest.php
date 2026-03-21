@@ -17,6 +17,7 @@ class CargoDeclareTest extends MediaWikiIntegrationTestCase {
 	/** @return array */
 	public static function provideInvalidFieldOrTableName(): array {
 		return [
+			[ '', 'field' ],
 			[ 'table name', 'String' ],
 			[ '_table_name', 'String' ],
 			[ 'table_name_', 'String' ],
