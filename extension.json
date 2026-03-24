@@ -540,7 +540,8 @@
 			"UCASE",
 			"UPPER",
 			"YEAR"
-		]
+		],
+		"CargoQueryMaxExecutionTime": null
 	},
 	"manifest_version": 1
 }

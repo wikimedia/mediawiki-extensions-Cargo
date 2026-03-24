@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * CargoSQLQuery - a wrapper class around SQL queries, that also handles
  * the special Cargo keywords like "HOLDS" and "NEAR".
@@ -1621,6 +1624,13 @@ class CargoSQLQuery {
 
 		$selectOptions['LIMIT'] = $this->mQueryLimit;
 		$selectOptions['OFFSET'] = $this->mOffset;
+
+		// Set max allowed execution time (in milliseconds) if configured (falsey value indicates unlimited). This only
+		// takes effect with MySQL and MariaDB; with other engines this does not do anything.
+		$maxExecutionTime = MediaWikiServices::getInstance()->getMainConfig()->get( 'CargoQueryMaxExecutionTime' );
+		if ( $maxExecutionTime ) {
+			$selectOptions['MAX_EXECUTION_TIME'] = $maxExecutionTime;
+		}
 
 		// Aliases need to be surrounded by quotes when we actually
 		// call the DB query.
