@@ -582,7 +582,7 @@ class CargoUtils {
 		return $value;
 	}
 
-	public static function parsePageForStorage( $title, $pageContents ) {
+	public static function parsePageForStorage( $title, $pageContents ): ParserOutput {
 		// Special handling for the Approved Revs extension.
 		$approvedContent = null;
 		if ( class_exists( 'ApprovedRevs' ) ) {
@@ -600,7 +600,8 @@ class CargoUtils {
 		}
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$parserOptions = ParserOptions::newFromAnon();
-		$parser->parse( $pageText, $title, $parserOptions );
+		$po = $parser->parse( $pageText, $title, $parserOptions );
+		return $po;
 	}
 
 	/**

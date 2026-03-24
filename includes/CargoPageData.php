@@ -91,9 +91,11 @@ class CargoPageData {
 	 * @param bool $createReplacement
 	 * @param bool $storeCategories
 	 * @param bool $setToBlank
+	 * @param ?ParserOutput $po If provided, will be used for sourcing some fields instead of running database queries
 	 */
 	public static function storeValuesForPage(
-		Title $title, $createReplacement, $storeCategories = true, $setToBlank = false
+		Title $title, $createReplacement, $storeCategories = true, $setToBlank = false,
+		?ParserOutput $po = null
 	) {
 		global $wgCargoPageDataColumns;
 
@@ -135,24 +137,29 @@ class CargoPageData {
 		if ( $storeCategories && in_array( 'categories', $wgCargoPageDataColumns ) ) {
 			$pageCategories = [];
 			if ( !$setToBlank ) {
-				$dbr = CargoUtils::getMainDBForRead();
-				if ( $dbr->fieldExists( 'categorylinks', 'cl_to' ) ) {
-					$res = $dbr->select(
-						'categorylinks',
-						'cl_to',
-						[ 'cl_from' => $title->getArticleID() ],
-						__METHOD__
-					);
-					foreach ( $res as $row ) {
-						$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
-					}
+				if ( $po ) {
+					$pageCategories = array_map( static fn ( $item ) => str_replace( '_', ' ', $item ),
+						$po->getCategoryNames() );
 				} else {
-					// MW 1.45+
-					// We only call this if cl_to is not there because, for
-					// some MW versions, getParentCategories() seems to do
-					// the "wrong" thing (use cl_target_id even though it's
-					// underpopulated).
-					$pageCategories = $title->getParentCategories();
+					$dbr = CargoUtils::getMainDBForRead();
+					if ( $dbr->fieldExists( 'categorylinks', 'cl_to' ) ) {
+						$res = $dbr->select(
+							'categorylinks',
+							'cl_to',
+							[ 'cl_from' => $title->getArticleID() ],
+							__METHOD__
+						);
+						foreach ( $res as $row ) {
+							$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
+						}
+					} else {
+						// MW 1.45+
+						// We only call this if cl_to is not there because, for
+						// some MW versions, getParentCategories() seems to do
+						// the "wrong" thing (use cl_target_id even though it's
+						// underpopulated).
+						$pageCategories = $title->getParentCategories();
+					}
 				}
 			}
 
@@ -207,7 +214,7 @@ class CargoPageData {
 			$outLinkPageIDs = [];
 			// ParserOutputLinkTypes exists only for MW versions >= 1.43
 			if ( class_exists( 'MediaWiki\\Parser\\ParserOutputLinkTypes' ) ) {
-				$parserOutput = $wikiPage->getParserOutput();
+				$parserOutput = $po ?? $wikiPage->getParserOutput();
 				$outLinks = $parserOutput->getLinkList( ParserOutputLinkTypes::LOCAL );
 				foreach ( $outLinks as $outLink ) {
 					$outLinkPageIDs[] = $outLink['pageid'];
@@ -227,9 +234,13 @@ class CargoPageData {
 		}
 
 		if ( in_array( 'displayTitle', $wgCargoPageDataColumns ) ) {
-			$displayTitleValues = MediaWikiServices::getInstance()->getPageProps()->getProperties( $title, 'displaytitle' );
-			$displayTitle = count( $displayTitleValues ) > 0 ? reset( $displayTitleValues ) : $title->getFullText();
-			$pageDataValues['_displayTitle'] = $displayTitle;
+			if ( $po ) {
+				$pageDataValues['_displayTitle'] = $po->getPageProperty( 'displaytitle' ) ?? $title->getFullText();
+			} else {
+				$displayTitleValues = MediaWikiServices::getInstance()->getPageProps()->getProperties( $title, 'displaytitle' );
+				$displayTitle = count( $displayTitleValues ) > 0 ? reset( $displayTitleValues ) : $title->getFullText();
+				$pageDataValues['_displayTitle'] = $displayTitle;
+			}
 		}
 
 		$pageDataSchema = $tableSchemas[$pageDataTable];

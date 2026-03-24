@@ -284,7 +284,7 @@ class CargoHooks {
 		// added to remain set.
 		try {
 			CargoStore::$settings['origin'] = 'page save';
-			CargoUtils::parsePageForStorage(
+			$po = CargoUtils::parsePageForStorage(
 				$wikiPage->getTitle(),
 				$revisionRecord->getContent( SlotRecord::MAIN )->getText()
 			);
@@ -297,16 +297,16 @@ class CargoHooks {
 
 		// Also, save data to any relevant "special tables", if they
 		// exist.
-		self::saveToSpecialTables( $wikiPage->getTitle() );
+		self::saveToSpecialTables( $wikiPage->getTitle(), $po );
 
 		// Invalidate pages that reference this page in their Cargo query results.
 		CargoBackLinks::purgePagesThatQueryThisPage( $pageID );
 	}
 
-	public static function saveToSpecialTables( $title ) {
+	private static function saveToSpecialTables( $title, ParserOutput $po ) {
 		$cdb = CargoUtils::getDB();
 		$useReplacementTable = $cdb->tableExists( '_pageData__NEXT', __METHOD__ );
-		CargoPageData::storeValuesForPage( $title, $useReplacementTable );
+		CargoPageData::storeValuesForPage( $title, $useReplacementTable, po: $po );
 		if ( $title->getNamespace() == NS_FILE ) {
 			$useReplacementTable = $cdb->tableExists( '_fileData__NEXT', __METHOD__ );
 			CargoFileData::storeValuesForFile( $title, $useReplacementTable );
