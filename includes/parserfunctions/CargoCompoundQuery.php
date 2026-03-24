@@ -129,7 +129,7 @@ class CargoCompoundQuery {
 		$queryDisplayer = new CargoQueryDisplayer();
 		$queryDisplayer->mParser = $parser;
 		$queryDisplayer->mFormat = $format;
-		$formatter = $queryDisplayer->getFormatter( $parser->getOutput() );
+		$formatter = $queryDisplayer->getFormatter( $parser->getOutput(), $parser );
 		if ( $formatter->isDeferred() ) {
 			$text = $formatter->queryAndDisplay( $sqlQueries, $displayParams, $querySpecificParams );
 			return [ $text, 'noparse' => true, 'isHTML' => true ];
