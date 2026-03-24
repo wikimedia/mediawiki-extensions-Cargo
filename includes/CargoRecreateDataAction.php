@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 
 /**
  * Handles the 'recreatedata' action.
@@ -79,13 +80,18 @@ class CargoRecreateDataAction extends Action {
 			$recreateDataTabMsg = 'cargo-createdatatable';
 		}
 
-		$recreateDataTab = [
-			'class' => ( $request->getVal( 'action' ) == 'recreatedata' ) ? 'selected' : '',
-			'text' => $skinTemplate->msg( $recreateDataTabMsg )->parse(),
-			'href' => $title->getLocalURL( 'action=recreatedata' )
-		];
+		// Link to the template that declares the table.
+		$declaringTemplateID = CargoUtils::getTemplateIDForDBTable( $tableName );
+		$declaringTemplateTitle = Title::newFromID( $declaringTemplateID );
+		if ( $declaringTemplateTitle !== null ) {
+			$recreateDataTab = [
+				'class' => ( $request->getVal( 'action' ) == 'recreatedata' ) ? 'selected' : '',
+				'text' => $skinTemplate->msg( $recreateDataTabMsg )->parse(),
+				'href' => $declaringTemplateTitle->getLocalURL( 'action=recreatedata' )
+			];
 
-		$links['views']['recreatedata'] = $recreateDataTab;
+			$links['views']['recreatedata'] = $recreateDataTab;
+		}
 
 		return true;
 	}
