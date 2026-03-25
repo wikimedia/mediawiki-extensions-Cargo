@@ -210,11 +210,12 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 		$remaining_filters = [];
 		foreach ( $all_filters as $i => $filter ) {
 			if ( $parentTables && $filter->tableAlias != $mainTableAlias ) {
-				$filter_name = str_replace( [ '_alias', ' ', "'" ], [ '', '_', "\'" ],
+				$filter_name = str_replace( [ '_alias', "'" ], [ '', "\'" ],
 					ucfirst( $filter->tableAlias ) . '.' . $filter->name );
 			} else {
-				$filter_name = str_replace( [ ' ', "'" ], [ '_', "\'" ], $filter->name );
+				$filter_name = str_replace( "'", "\'", $filter->name );
 			}
+			$filter_name = CargoDrilldownPage::fieldNameToURLParam( $filter_name );
 			$search_terms = $request->getArray( '_search_' . $filter_name );
 			$lower_date = $request->getArray( '_lower_' . $filter_name );
 			$upper_date = $request->getArray( '_upper_' . $filter_name );

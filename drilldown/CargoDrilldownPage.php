@@ -43,6 +43,22 @@ class CargoDrilldownPage extends QueryPage {
 	private ?string $queryErrorText = null;
 
 	/**
+	 * Converts a field name to the URL parameter key used in drilldown links.
+	 * Spaces are replaced with underscores; a field named "title" is prefixed
+	 * with "_" to avoid colliding with the MediaWiki reserved URL parameter.
+	 *
+	 * @param string $fieldName
+	 * @return string
+	 */
+	public static function fieldNameToURLParam( string $fieldName ): string {
+		$fieldName = str_replace( ' ', '_', $fieldName );
+		if ( $fieldName === 'title' ) {
+			return '_' . $fieldName;
+		}
+		return $fieldName;
+	}
+
+	/**
 	 * Initialize the variables of this page
 	 *
 	 * @param string $tableName
@@ -138,7 +154,7 @@ class CargoDrilldownPage extends QueryPage {
 						ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) ) . "=" .
 						urlencode( $af->values[0]->text );
 				} else {
-					$url .= urlencode( $af->filter->name ) . "=" . urlencode( $af->values[0]->text );
+					$url .= urlencode( self::fieldNameToURLParam( $af->filter->name ) ) . "=" . urlencode( $af->values[0]->text );
 				}
 			} else {
 				usort( $af->values, [ "CargoFilterValue", "compare" ] );
@@ -149,7 +165,7 @@ class CargoDrilldownPage extends QueryPage {
 							ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) ) .
 							"[$j]=" . urlencode( $fv->text );
 					} else {
-						$url .= urlencode( str_replace( ' ', '_', $af->filter->name ) ) . "[$j]=" .
+						$url .= urlencode( self::fieldNameToURLParam( $af->filter->name ) ) . "[$j]=" .
 							urlencode( $fv->text );
 					}
 				}
@@ -162,7 +178,7 @@ class CargoDrilldownPage extends QueryPage {
 							ucfirst( $af->filter->tableAlias ) . '.' . $af->filter->name ) .
 							'[' . $j . ']' ) . "=" . urlencode( $search_term );
 					} else {
-						$url .= '_search_' . urlencode( str_replace( ' ', '_', $af->filter->name ) .
+						$url .= '_search_' . urlencode( self::fieldNameToURLParam( $af->filter->name ) .
 							'[' . $j . ']' ) . "=" . urlencode( $search_term );
 					}
 				}
@@ -545,7 +561,7 @@ END;
 					urlencode( $value_str );
 			} else {
 				$filter_url =
-					$cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+					$cur_url . urlencode( self::fieldNameToURLParam( $f->name ) ) . '=' .
 					urlencode( $value_str );
 			}
 			$results_line .= $this->printFilterValueLink( $f, $value_str, $num_results, $filter_url, $filter_values );
@@ -589,7 +605,7 @@ END;
 							urlencode( "~within_" . $node->mRootValue );
 					} else {
 						$filter_url =
-							$cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) . '=' .
+							$cur_url . urlencode( self::fieldNameToURLParam( $f->name ) ) . '=' .
 							urlencode( "~within_" . $node->mRootValue );
 					}
 					// generate respective <a> tag with value and its count
@@ -609,7 +625,7 @@ END;
 									urlencode( $node->mRootValue );
 							} else {
 								$filter_url =
-									$cur_url . urlencode( str_replace( ' ', '_', $f->name ) ) .
+									$cur_url . urlencode( self::fieldNameToURLParam( $f->name ) ) .
 									'=' . urlencode( $node->mRootValue );
 							}
 							$results_line .= $this->printFilterValueLink( $f,
@@ -845,6 +861,7 @@ END;
 			( $this->drilldownTabsParams ) ? [ 'tab' => $this->curTabName ] :
 			[ 'format' => $this->format, 'formatBy' => $this->formatBy ] );
 		$cur_url .= ( strpos( $cur_url, '?' ) ) ? '&' : '?';
+		$filterKeyForURL = urlencode( self::fieldNameToURLParam( $filter_name ) );
 
 		$numberArray = [];
 		$numNoneValues = 0;
@@ -887,7 +904,7 @@ END;
 				}
 			}
 			$curText .= ' (' . $curBucket['numValues'] . ') ';
-			$filterURL = $cur_url . "$filter_name=" . $curBucket['lowerNumber'];
+			$filterURL = $cur_url . "$filterKeyForURL=" . $curBucket['lowerNumber'];
 			if ( $curBucket['higherNumber'] != null ) {
 				$filterURL .= '-' . $curBucket['higherNumber'];
 			}
@@ -916,7 +933,7 @@ END;
 
 	public function printTextInput( $filter_name, $instance_num,
 			$cur_value, $filter_is_list, $filter_values, $f ) {
-		$filterStr = str_replace( ' ', '_', $filter_name );
+		$filterStr = self::fieldNameToURLParam( $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
 		$filterStr = urldecode( $filterStr );
@@ -976,7 +993,7 @@ END;
 	}
 
 	public function printComboBoxInput( $filter_name, $instance_num, $filter_values, $cur_value = null ) {
-		$filter_name = str_replace( ' ', '_', $filter_name );
+		$filter_name = self::fieldNameToURLParam( $filter_name );
 		// URL-decode the filter name - necessary if it contains
 		// any non-Latin characters.
 		$filter_name = urldecode( $filter_name );
@@ -1073,23 +1090,22 @@ END;
 			return $this->printFilterLine( $f->name, false, false, $filter_values, $f->tableAlias );
 		}
 
-		$filter_name = urlencode( str_replace( ' ', '_', $f->name ) );
 		$normal_filter = true;
 		if ( count( $filter_values ) == 0 ) {
 			$results_line = '(' . $this->msg( 'cargo-drilldown-novalues' )->escaped() . ')';
 		} elseif ( $fieldType == 'Integer' || $fieldType == 'Float' || $fieldType == 'Rating' ) {
-			$results_line = $this->printNumberRanges( $filter_name, $filter_values );
+			$results_line = $this->printNumberRanges( $f->name, $filter_values );
 		} elseif ( count( $filter_values ) >= 250 ) {
 			[ $displayedValues, $undisplayedValues ] = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
 			// Lots of values - switch to remote autocompletion.
-			$results_line .= $this->printTextInput( $filter_name, 0, null,
+			$results_line .= $this->printTextInput( $f->name, 0, null,
 				$f->fieldDescription->mIsList, $displayedValues, $f );
 			$normal_filter = false;
 		} elseif ( count( $filter_values ) >= $wgCargoDrilldownMinValuesForComboBox ) {
 			[ $displayedValues, $undisplayedValues ] = $this->splitIntoDisplayedAndUndisplayedFilterValues( $filter_values );
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $displayedValues );
-			$results_line .= $this->printComboBoxInput( $filter_name, 0, $undisplayedValues );
+			$results_line .= $this->printComboBoxInput( $f->name, 0, $undisplayedValues );
 			$normal_filter = false;
 		} else {
 			$results_line = $this->printUnappliedFilterValues( $cur_url, $f, $filter_values );
@@ -1382,7 +1398,7 @@ END;
 		foreach ( $this->applied_filters as $af ) {
 			if ( count( $af->values ) == 1 ) {
 				if ( $af->filter->tableAlias == $this->tableAlias ) {
-					$key_string = str_replace( ' ', '_', $af->filter->name );
+					$key_string = self::fieldNameToURLParam( $af->filter->name );
 				} else {
 					$key_string =
 						str_replace( ' ', '_', $af->filter->tableAlias . '.' . $af->filter->name );
@@ -1396,7 +1412,7 @@ END;
 				// to the key string
 				foreach ( $af->values as $i => $value ) {
 					if ( $af->filter->tableAlias == $this->tableAlias ) {
-						$key_string = str_replace( ' ', '_', $af->filter->name . "[$i]" );
+						$key_string = self::fieldNameToURLParam( $af->filter->name ) . "[$i]";
 					} else {
 						$key_string = str_replace( ' ', '_',
 							$af->filter->tableAlias . '.' . $af->filter->name . "[$i]" );
