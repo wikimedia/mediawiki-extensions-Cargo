@@ -205,5 +205,6 @@
 	"cargo-declare-validate-gt1-underscore": "Fehler: Der $1-Name „$2“ enthält mehr als einen Unterstrich hintereinander. Dies ist nicht zulässig.",
 	"cargo-declare-validate-bad-character": "Fehler: Der $1-Name „$2“ darf keines der folgenden Zeichen enthalten: $3",
 	"cargo-declare-validate-name-sql-kw": "Fehler: „$1“ kann nicht als Cargo-$2-Name benutzt werden, da dies ein reserviertes SQL-Schlüsselwort ist.",
-	"cargo-declare-validate-name-cargo-kw": "Fehler: „$1“ kann nicht als Cargo-$2-Name benutzt werden, da dies ein reserviertes Cargo-Schlüsselwort ist."
+	"cargo-declare-validate-name-cargo-kw": "Fehler: „$1“ kann nicht als Cargo-$2-Name benutzt werden, da dies ein reserviertes Cargo-Schlüsselwort ist.",
+	"cargo-declare-validate-empty-name": "Fehler: $1 Name darf nicht leer sein."
 }
