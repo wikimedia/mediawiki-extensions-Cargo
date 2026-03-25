@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 
 /**
@@ -60,7 +61,7 @@ class CargoFileData {
 	 * @param bool $createReplacement
 	 */
 	public static function storeValuesForFile( $title, $createReplacement ) {
-		global $wgCargoFileDataColumns, $wgLocalFileRepo;
+		global $wgCargoFileDataColumns;
 
 		if ( $title == null ) {
 			return;
@@ -81,8 +82,10 @@ class CargoFileData {
 			return;
 		}
 
-		$repo = new LocalRepo( $wgLocalFileRepo );
-		$file = LocalFile::newFromTitle( $title, $repo );
+		$file = MediaWikiServices::getInstance()->getRepoGroup()->getLocalRepo()->newFile( $title );
+		if ( !$file ) {
+			return;
+		}
 
 		$fileDataValues = [];
 
