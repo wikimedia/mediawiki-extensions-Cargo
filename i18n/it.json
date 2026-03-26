@@ -85,5 +85,6 @@
 	"cargo-gantt-years": "Anni",
 	"cargo-gantt-columns": "Colonne",
 	"cargo-field-type": "Tipo di campo",
-	"cargo-allowed-values": "Valori consentiti"
+	"cargo-allowed-values": "Valori consentiti",
+	"cargo-declare-validate-empty-name": "Errore: il nome $1 non può essere vuoto."
 }

@@ -199,5 +199,6 @@
 	"cargo-declare-validate-gt1-underscore": "Erro: o nome «$2», de tipo «$1», contén máis dun guión baixo nunha fila; isto non está permitido.",
 	"cargo-declare-validate-bad-character": "Erro: o nome «$2», de tipo «$1», non pode conter ningún dos seguintes caracteres: $3",
 	"cargo-declare-validate-name-sql-kw": "Erro: «$1» non se pode utilizar como nome de táboa de Cargo de tipo «$2», porque é unha palabra clave de SQL.",
-	"cargo-declare-validate-name-cargo-kw": "Erro: «$1» non se pode utilizar como nome de táboa de Cargo de tipo «$2» porque xa é unha palabra clave de Cargo."
+	"cargo-declare-validate-name-cargo-kw": "Erro: «$1» non se pode utilizar como nome de táboa de Cargo de tipo «$2» porque xa é unha palabra clave de Cargo.",
+	"cargo-declare-validate-empty-name": "Erro: o nome «$1» non pode estar baleiro."
 }

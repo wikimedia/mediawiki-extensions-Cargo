@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"Bisang",
 			"Codenstory",
 			"In2acous",
 			"Jerrykim306",
@@ -163,5 +164,6 @@
 	"cargo-gantt-years": "년",
 	"cargo-allowed-values": "허용된 값",
 	"cargo-value": "값",
-	"cargo-parenttable": "상위 테이블"
+	"cargo-parenttable": "상위 테이블",
+	"cargo-declare-validate-empty-name": "오류: $1 이름은 비워둘 수 없습니다."
 }
