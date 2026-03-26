@@ -7,6 +7,7 @@
  * @author Yaron Koren
  */
 
+use MediaWiki\Logger\LoggerFactory;
 use MediaWiki\Title\Title;
 
 class CargoPopulateTableJob extends Job {
@@ -51,6 +52,19 @@ class CargoPopulateTableJob extends Job {
 		}
 
 		$page = CargoUtils::makeWikiPage( $this->title );
+
+		if ( !$page->exists() ) {
+			$logger = LoggerFactory::getInstance( 'CargoPopulateTableJob' );
+			$logger->warning(
+				'Ignoring a non-existent page',
+				[
+					'page_title' => $this->title->getPrefixedDBkey(),
+					'job_params' => $this->getParams(),
+					'job_metadata' => $this->getMetadata()
+				]
+			);
+			return true;
+		}
 
 		// If it was requested, delete all the existing rows for
 		// this page in this Cargo table. This is only necessary
