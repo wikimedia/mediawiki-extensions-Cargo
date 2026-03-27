@@ -141,7 +141,15 @@ class CargoTables extends IncludableSpecialPage {
 
 		$sqlQuery->mTableSchemas = $tableSchemas;
 
-		$aliasedFieldNames = [ $this->msg( 'nstab-main' )->parse() => '_pageName' ];
+		$pageNameFieldAlias = $this->msg( 'nstab-main' )->parse();
+		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
+			$fieldAlias = str_replace( '_', ' ', $fieldName );
+			if ( strcasecmp( $fieldAlias, $pageNameFieldAlias ) === 0 ) {
+				$pageNameFieldAlias = '_pageName';
+				break;
+			}
+		}
+		$aliasedFieldNames = [ $pageNameFieldAlias => '_pageName' ];
 		foreach ( $fieldDescriptions as $fieldName => $fieldDescription ) {
 			// Skip "hidden" fields.
 			if ( property_exists( $fieldDescription, 'hidden' ) ) {
