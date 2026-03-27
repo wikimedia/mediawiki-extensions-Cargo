@@ -58,7 +58,7 @@ class CargoDisplayFormat {
 			throw new MWException( "formatArray() cannot be called for the $format format because it is a \"deferred format\"." );
 		}
 
-		$query_displayer = new CargoQueryDisplayer();
+		$query_displayer = new CargoQueryDisplayer( $parser->getTargetLanguage() );
 		$field_descriptions = [];
 		foreach ( $mappings as $local => $external ) {
 			$description = new CargoFieldDescription();

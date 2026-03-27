@@ -493,7 +493,7 @@ class CargoExport extends UnlistedSpecialPage {
 				$origDateValue = $curRow[$dateField];
 				// Years by themselves lead to a display
 				// problem, for some reason, so add a space.
-				$queryResults[$i][$dateField] = CargoQueryDisplayer::formatDateFieldValue( $origDateValue, $value, 'Date' ) . ' ';
+				$queryResults[$i][$dateField] = CargoQueryDisplayer::formatDateFieldValue( $origDateValue, $value, 'Date', $this->getLanguage() ) . ' ';
 				unset( $queryResults[$i][$fieldName] );
 			}
 		}

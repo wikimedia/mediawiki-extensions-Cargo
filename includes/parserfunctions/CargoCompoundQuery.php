@@ -126,7 +126,7 @@ class CargoCompoundQuery {
 	 */
 	public static function getOrDisplayQueryResultsFromStrings( $sqlQueries, $querySpecificParams,
 		$format, $displayParams, Parser $parser ) {
-		$queryDisplayer = new CargoQueryDisplayer();
+		$queryDisplayer = new CargoQueryDisplayer( $parser->getTargetLanguage() );
 		$queryDisplayer->mParser = $parser;
 		$queryDisplayer->mFormat = $format;
 		$formatter = $queryDisplayer->getFormatter( $parser->getOutput(), $parser );

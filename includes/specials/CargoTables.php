@@ -32,6 +32,7 @@ class CargoTables extends IncludableSpecialPage {
 		$out = $this->getOutput();
 		$req = $this->getRequest();
 		$user = $this->getUser();
+		$lang = $this->getLanguage();
 		$this->setHeaders();
 
 		$out->addModules( [
@@ -213,7 +214,7 @@ class CargoTables extends IncludableSpecialPage {
 		$displayParams['max display chars'] = 300;
 		$displayParams['edit link'] = 'yes';
 
-		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery, $lang );
 		$queryDisplayer->mDisplayParams = $displayParams;
 		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
 

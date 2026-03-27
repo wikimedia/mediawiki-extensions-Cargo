@@ -443,7 +443,8 @@ END;
 			foreach ( $applied_filters as $af2 ) {
 				if ( $af->filter->tableAlias == $af2->filter->tableAlias &&
 						$af->filter->name == $af2->filter->name ) {
-					$or_fv = CargoFilterValue::create( $value, $af->filter );
+					$lang = $this->getLanguage();
+					$or_fv = CargoFilterValue::create( $value, $lang, $af->filter );
 					$af2->values = array_merge( $current_filter_values, [ $or_fv ] );
 				}
 			}
@@ -982,7 +983,7 @@ END;
 			foreach ( $filter_values as $value => $num_instances ) {
 				$cur_filter_value = array_merge( $cur_filter_value, [ $value ] );
 			}
-			$af = CargoAppliedFilter::create( $f, $cur_filter_value );
+			$af = CargoAppliedFilter::create( $f, $cur_filter_value, $this->getLanguage() );
 			$whereSQL .= $af->checkSQL();
 		}
 		$spanAttrs['data-cargo-where'] = $whereSQL;
@@ -2159,7 +2160,7 @@ END;
 		/** @var CargoDisplayFormat $formatClass */
 		$formatClass = $formatClasses[$this->format] ?? $formatClasses['category'];
 		$isDeferred = $formatClass::isDeferred();
-		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery );
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery, $this->getLanguage() );
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		if ( $this->format ) {
 			$queryDisplayer->mFormat = $this->format;

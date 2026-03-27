@@ -18,7 +18,7 @@ class CargoAppliedFilter {
 	public $lower_date_string;
 	public $upper_date_string;
 
-	public static function create( $filter, $values, $search_terms = null, $lower_date = null,
+	public static function create( $filter, $values, $lang, $search_terms = null, $lower_date = null,
 		$upper_date = null ) {
 		$af = new CargoAppliedFilter();
 		$af->filter = $filter;
@@ -30,12 +30,12 @@ class CargoAppliedFilter {
 		}
 		if ( $lower_date != null ) {
 			$af->lower_date = $lower_date;
-			$af->lower_date_string = CargoDrilldownUtils::monthToString( $lower_date['month'] ) .
+			$af->lower_date_string = CargoDrilldownUtils::monthToString( $lower_date['month'], $lang ) .
 				" " . (int)$lower_date['day'] . ", " . (int)$lower_date['year'];
 		}
 		if ( $upper_date != null ) {
 			$af->upper_date = $upper_date;
-			$af->upper_date_string = CargoDrilldownUtils::monthToString( $upper_date['month'] ) .
+			$af->upper_date_string = CargoDrilldownUtils::monthToString( $upper_date['month'], $lang ) .
 				" " . (int)$upper_date['day'] . ", " . (int)$upper_date['year'];
 		}
 		if ( !is_array( $values ) ) {
@@ -45,7 +45,7 @@ class CargoAppliedFilter {
 			$value = htmlspecialchars( $value );
 		}
 		foreach ( $values as $val ) {
-			$filter_val = CargoFilterValue::create( $val, $filter );
+			$filter_val = CargoFilterValue::create( $val, $lang, $filter );
 			$af->values[] = $filter_val;
 		}
 		return $af;

@@ -28,6 +28,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 
 		$request = $this->getRequest();
 		$out = $this->getOutput();
+		$lang = $this->getLanguage();
 
 		if ( $this->including() ) {
 			$parser = MediaWikiServices::getInstance()->getParser();
@@ -188,7 +189,7 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 				}
 				$all_filters[] =
 					new CargoFilter( $fieldName, $tableAlias, $tableName, $fieldDescription,
-						$searchablePages, $searchableFiles );
+						$searchablePages, $searchableFiles, $lang );
 			}
 		}
 		if ( $searchableFiles ) {
@@ -224,17 +225,17 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 				// If it has both search_terms and normal filter values
 				if ( $search_terms != null ) {
 					$applied_filters[] =
-						CargoAppliedFilter::create( $filter, $vals_array, $search_terms );
+						CargoAppliedFilter::create( $filter, $vals_array, $lang, $search_terms );
 					$filter_used[$i] = true;
 				} else {
-					$applied_filters[] = CargoAppliedFilter::create( $filter, $vals_array );
+					$applied_filters[] = CargoAppliedFilter::create( $filter, $vals_array, $lang );
 					$filter_used[$i] = true;
 				}
 			} elseif ( $search_terms != null ) {
-				$applied_filters[] = CargoAppliedFilter::create( $filter, [], $search_terms );
+				$applied_filters[] = CargoAppliedFilter::create( $filter, [], $lang, $search_terms );
 				$filter_used[$i] = true;
 			} elseif ( $lower_date != null || $upper_date != null ) {
-				$applied_filters[] = CargoAppliedFilter::create( $filter, [], null, $lower_date,
+				$applied_filters[] = CargoAppliedFilter::create( $filter, [], $lang, null, $lower_date,
 					$upper_date );
 				$filter_used[$i] = true;
 			}

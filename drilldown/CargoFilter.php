@@ -16,18 +16,20 @@ class CargoFilter {
 	public $fieldDescription;
 	public $searchableFiles;
 	public $searchablePages;
+	private $lang;
 	public $allowed_values;
 	public $required_filters = [];
 	public $possible_applied_filters = [];
 
 	public function __construct( $name, $tableAlias, $tableName, $fieldDescription, $searchablePages,
-			$searchableFiles ) {
+			$searchableFiles, $lang ) {
 		$this->name = $name;
 		$this->tableAlias = $tableAlias;
 		$this->tableName = $tableName;
 		$this->fieldDescription = $fieldDescription;
 		$this->searchablePages = $searchablePages;
 		$this->searchableFiles = $searchableFiles;
+		$this->lang = $lang;
 	}
 
 	public function addRequiredFilter( $filterName ) {
@@ -257,10 +259,12 @@ class CargoFilter {
 			if ( empty( current( (array)$row ) ) ) {
 				$possible_dates['_none'] = $row->total;
 			} elseif ( $timePeriod == 'day' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row->month_field ) . ' ' . $row->day_of_month_field . ', ' . $row->year_field;
+				$month_string = CargoDrilldownUtils::monthToString( $row->month_field, $this->lang );
+				$date_string = $month_string . ' ' . $row->day_of_month_field . ', ' . $row->year_field;
 				$possible_dates[$date_string] = $row->total;
 			} elseif ( $timePeriod == 'month' ) {
-				$date_string = CargoDrilldownUtils::monthToString( $row->month_field ) . ' ' . $row->year_field;
+				$month_string = CargoDrilldownUtils::monthToString( $row->month_field, $this->lang );
+				$date_string = $month_string . ' ' . $row->year_field;
 				$possible_dates[$date_string] = $row->total;
 			} elseif ( $timePeriod == 'year' ) {
 				$date_string = $row->year_field;

@@ -125,7 +125,7 @@ class CargoQuery {
 			$pageIDsForBacklinks = array_unique( $pageIDsForBacklinks );
 		}
 
-		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery, $parser->getTargetLanguage() );
 		$queryDisplayer->mFormat = $format;
 		$queryDisplayer->mDisplayParams = $displayParams;
 		$queryDisplayer->mParser = $parser;

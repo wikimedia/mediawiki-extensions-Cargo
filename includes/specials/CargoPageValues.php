@@ -218,7 +218,7 @@ class CargoPageValues extends IncludableSpecialPage {
 			$this->mTitle->getArticleID();
 
 		$queryResults = $sqlQuery->run();
-		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery );
+		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $sqlQuery, $this->getLanguage() );
 		$formattedQueryResults = $queryDisplayer->getFormattedQueryResults( $queryResults );
 		return $formattedQueryResults;
 	}

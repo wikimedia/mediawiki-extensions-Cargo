@@ -55,8 +55,11 @@ class CargoQueryDisplayer {
 	public $mFieldDescriptions = [];
 	public $mFieldTables;
 
-	public static function newFromSQLQuery( $sqlQuery ) {
-		$cqd = new CargoQueryDisplayer();
+	public function __construct( private readonly \Language $mLanguage ) {
+	}
+
+	public static function newFromSQLQuery( $sqlQuery, $lang ) {
+		$cqd = new CargoQueryDisplayer( $lang );
 		$cqd->mSQLQuery = $sqlQuery;
 		$cqd->mFieldDescriptions = $sqlQuery->mFieldDescriptions;
 		$cqd->mFieldTables = $sqlQuery->mFieldTables;
@@ -181,7 +184,7 @@ class CargoQueryDisplayer {
 							$datePrecision = CargoStore::DATE_ONLY;
 						}
 					}
-					$text = self::formatDateFieldValue( $value, $datePrecision, $fieldType );
+					$text = self::formatDateFieldValue( $value, $datePrecision, $fieldType, $this->mLanguage );
 				} elseif ( $fieldType == 'Boolean' ) {
 					// Displaying a check mark for "yes"
 					// and an x mark for "no" would be
@@ -320,7 +323,7 @@ class CargoQueryDisplayer {
 		return $value;
 	}
 
-	public static function formatDateFieldValue( $dateValue, $datePrecision, $type ) {
+	public static function formatDateFieldValue( $dateValue, $datePrecision, $type, $lang ) {
 		// Quick escape.
 		if ( $dateValue == '' ) {
 			return '';
@@ -333,7 +336,7 @@ class CargoQueryDisplayer {
 		if ( $datePrecision == CargoStore::YEAR_ONLY ) {
 			return $yearString;
 		} elseif ( $datePrecision == CargoStore::MONTH_ONLY ) {
-			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ) ) .
+			return CargoDrilldownUtils::monthToString( date( 'm', $seconds ), $lang ) .
 				" $yearString";
 		} else {
 			// CargoStore::DATE_AND_TIME or
@@ -343,7 +346,7 @@ class CargoQueryDisplayer {
 				// We use MediaWiki's representation of month
 				// names, instead of PHP's, because its i18n
 				// support is of course far superior.
-				$dateText = CargoDrilldownUtils::monthToString( date( 'm', $seconds ) );
+				$dateText = CargoDrilldownUtils::monthToString( date( 'm', $seconds ), $lang );
 				$dateText .= ' ' . date( 'j', $seconds ) . ", $yearString";
 			} else {
 				$dateText = "$yearString-" . date( 'm-d', $seconds );

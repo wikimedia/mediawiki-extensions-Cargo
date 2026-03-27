@@ -27,32 +27,27 @@ class CargoDrilldownUtils {
 	 * Return the month represented by the given number.
 	 *
 	 * @param int $month
+	 * @param Language $language
 	 * @return string Month name in user language
 	 * @todo This function should be replaced with direct calls to Language::getMonthName()
 	 */
-	public static function monthToString( $month ) {
+	public static function monthToString( $month, Language $language ) {
 		$monthInt = intval( $month );
 		if ( $monthInt < 1 || $monthInt > 12 ) {
 			return false;
 		}
 
-		global $wgLang;
-		return $wgLang->getMonthName( $monthInt );
+		return $language->getMonthName( $monthInt );
 	}
 
 	/**
 	 * Return the month number (1-12) which precisely matches the string sent in the user's language
 	 *
 	 * @param string $str
-	 * @param Language|null $language
+	 * @param Language $language
 	 * @return int|bool
 	 */
-	public static function stringToMonth( $str, ?Language $language = null ) {
-		if ( $language === null ) {
-			global $wgLang;
-			$language = $wgLang;
-		}
-
+	public static function stringToMonth( $str, Language $language ) {
 		return array_search( $str, $language->getMonthNamesArray() );
 	}
 }
