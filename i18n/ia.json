@@ -193,5 +193,6 @@
 	"cargo-declare-validate-gt1-underscore": "Error: le nomine $1 \"$2\" contine plus de un tracto de sublineamento consecutive; isto non es permittite.",
 	"cargo-declare-validate-bad-character": "Error: le nomine $1 \"$2\" non pote continer alcun del characteres sequente: $3",
 	"cargo-declare-validate-name-sql-kw": "Error: \"$1\" non pote esser usate como nomine de $2 Cargo perque es un parola-clave SQL.",
-	"cargo-declare-validate-name-cargo-kw": "Error: \"$1\" non pote esser usate como nomine de $2 Cargo perque es ja un parola-clave Cargo."
+	"cargo-declare-validate-name-cargo-kw": "Error: \"$1\" non pote esser usate como nomine de $2 Cargo perque es ja un parola-clave Cargo.",
+	"cargo-declare-validate-empty-name": "Error: le nomine $1 non pote esser vacue."
 }
