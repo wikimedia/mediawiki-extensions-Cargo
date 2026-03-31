@@ -67,6 +67,7 @@ class CargoDisplayFormat {
 		}
 		$query_displayer->mFieldDescriptions = $field_descriptions;
 		$query_displayer->mFieldTables = [];
+		$query_displayer->mParser = $parser;
 
 		$html = $formatter->display(
 			$values,
