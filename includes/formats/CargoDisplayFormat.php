@@ -87,6 +87,7 @@ class CargoDisplayFormat {
 		}
 
 		$parser = MediaWikiServices::getInstance()->getParser();
+		$parser->resetOutput();
 		$parser->setPage( $this->mOutput->getTitle() );
 		return $parser;
 	}
