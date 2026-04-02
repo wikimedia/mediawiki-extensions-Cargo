@@ -412,8 +412,18 @@ class CargoStore {
 		// single DB transaction, to avoid "collisions".
 		$cdb->begin( __METHOD__ );
 
-		$maxID = $cdb->selectField( $tableName,
-			'MAX(' . $cdb->addIdentifierQuotes( '_ID' ) . ')', '', __METHOD__ );
+		// We get the max current ID via this somewhat convoluted
+		// method, rather than just calling MAX(_ID), so that we can
+		// add "FOR UPDATE" to the SELECT call, in order to lock the
+		// table, preventing a different process from getting the same
+		// max ID. (Some DB systems, like Postgres, don't support
+		// calling "FOR UPDATE" with aggregating functions like MAX().)
+		$idColumn = $cdb->addIdentifierQuotes( '_ID' );
+		$maxRow = $cdb->selectRow( $tableName,
+			$idColumn, '', __METHOD__,
+			[ 'ORDER BY' => $idColumn . ' DESC', 'LIMIT' => 1, 'FOR UPDATE' ] );
+		$maxID = $maxRow ? (int)$maxRow->_ID : 0;
+
 		$curRowID = $maxID + 1;
 		$tableFieldValues['_ID'] = $curRowID;
 		$fieldTableFieldValues = [];
