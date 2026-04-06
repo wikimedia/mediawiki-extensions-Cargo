@@ -12,6 +12,7 @@
 			"Robin0van0der0vliet",
 			"Romaine",
 			"SPQRobin",
+			"Siebrand",
 			"Sjoerddebruin"
 		]
 	},
@@ -204,5 +205,6 @@
 	"cargo-declare-validate-gt1-underscore": "Fout: de $1 naam \"$2\" bevat meer dan één onderstrepingsteken op een rij; dit is niet toegestaan.",
 	"cargo-declare-validate-bad-character": "Fout: de $1 naam \"$2\" mag geen van de volgende tekens bevatten: $3",
 	"cargo-declare-validate-name-sql-kw": "Fout: \"$1\" kan niet worden gebruikt als Cargo-$2-naam, want het is een SQL-sleutelwoord.",
-	"cargo-declare-validate-name-cargo-kw": "Fout: \"$1\" kan niet worden gebruikt als Cargo-$2-naam, want het is al een Cargo-trefwoord."
+	"cargo-declare-validate-name-cargo-kw": "Fout: \"$1\" kan niet worden gebruikt als Cargo-$2-naam, want het is al een Cargo-trefwoord.",
+	"cargo-declare-validate-empty-name": "Fout: De naam $1 mag niet leeg zijn."
 }
