@@ -31,12 +31,12 @@ class CargoAppliedFilter {
 		if ( $lower_date != null ) {
 			$af->lower_date = $lower_date;
 			$af->lower_date_string = CargoDrilldownUtils::monthToString( $lower_date['month'] ) .
-				" " . $lower_date['day'] . ", " . $lower_date['year'];
+				" " . (int)$lower_date['day'] . ", " . (int)$lower_date['year'];
 		}
 		if ( $upper_date != null ) {
 			$af->upper_date = $upper_date;
 			$af->upper_date_string = CargoDrilldownUtils::monthToString( $upper_date['month'] ) .
-				" " . $upper_date['day'] . ", " . $upper_date['year'];
+				" " . (int)$upper_date['day'] . ", " . (int)$upper_date['year'];
 		}
 		if ( !is_array( $values ) ) {
 			$values = [ $values ];
@@ -80,16 +80,16 @@ class CargoAppliedFilter {
 			}
 		}
 		if ( $this->lower_date != null ) {
-			$date_string = $this->lower_date['year'] . "-" . $this->lower_date['month'] . "-" .
-				$this->lower_date['day'];
+			$date_string = (int)$this->lower_date['year'] . "-" . (int)$this->lower_date['month'] . "-" .
+				(int)$this->lower_date['day'];
 			$sql .= "date($value_field) >= date('$date_string') ";
 		}
 		if ( $this->upper_date != null ) {
 			if ( $this->lower_date != null ) {
 				$sql .= " AND ";
 			}
-			$date_string = $this->upper_date['year'] . "-" . $this->upper_date['month'] . "-" .
-				$this->upper_date['day'];
+			$date_string = (int)$this->upper_date['year'] . "-" . (int)$this->upper_date['month'] . "-" .
+				(int)$this->upper_date['day'];
 			$sql .= "date($value_field) <= date('$date_string') ";
 		}
 		foreach ( $this->values as $i => $fv ) {
