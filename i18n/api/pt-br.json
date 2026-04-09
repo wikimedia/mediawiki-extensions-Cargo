@@ -42,5 +42,6 @@
 	"apihelp-cargoqueryautocomplete-param-search": "Pesquisar o subtexto",
 	"apihelp-cargoqueryautocomplete-param-tables": "Matriz de tabela(s) de carga selecionada(s) com base em quais campos, agrupar por e ordenar por são preenchidos automaticamente.",
 	"apihelp-cargoformatparams-summary": "Obtém o conjunto de parâmetros de exibição para cada formato de consulta de Cargo.",
-	"apihelp-cargoformatparams-param-queryformat": "Um formato de consulta de Cargo"
+	"apihelp-cargoformatparams-param-queryformat": "Um formato de consulta de Cargo",
+	"apierror-cargoquery-invalidfieldalias": "Erro: o nome de campo alternativo \"$1\" começa com um sublinhado (_). Isto não é permitido em consultas da API Cargo."
 }
