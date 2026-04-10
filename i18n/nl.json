@@ -80,7 +80,7 @@
 	"cargo-viewdata-hidelegendparam": "Legenda verbergen:",
 	"cargo-viewdata-delimiterparam": "Scheidingsteken:",
 	"cargo-viewdata-modifyquery": "Query aanpassen",
-	"cargo-viewdata-viewwikitext": "Toon wikitekst",
+	"cargo-viewdata-viewwikitext": "Wikitekst bekijken",
 	"cargo-query-missingformat": "Fout: Indeling moet worden ingesteld.",
 	"cargo-query-badsqlfunction": "Fout: De SQL-functie \"$1\" is niet toegestaan.",
 	"cargo-query-badalias": "Fout: Ongeldige tabelalias \"$1\".",
