@@ -205,5 +205,6 @@
 	"cargo-declare-validate-gt1-underscore": "خطأ: يحتوي اسم $1 \" $2 \" على أكثر من شرطة سفلية واحدة على التوالي ؛ هذا غير مسموح به.",
 	"cargo-declare-validate-bad-character": "خطأ: اسم $1 \" $2 \" لا يمكن أن يحتوي على أي من الأحرف التالية: $3",
 	"cargo-declare-validate-name-sql-kw": "خطأ: لا يمكن استخدام \" $1 \" كاسم Cargo $2 ، لأنها كلمة أساسية في SQL.",
-	"cargo-declare-validate-name-cargo-kw": "خطأ: لا يمكن استخدام \" $1 \" كاسم Cargo $2 ، لأنها كلمة أساسية Cargo بالفعل."
+	"cargo-declare-validate-name-cargo-kw": "خطأ: لا يمكن استخدام \" $1 \" كاسم Cargo $2 ، لأنها كلمة أساسية Cargo بالفعل.",
+	"cargo-declare-validate-empty-name": "خطأ: لا يمكن أن يكون اسم $1 فارغًا."
 }
