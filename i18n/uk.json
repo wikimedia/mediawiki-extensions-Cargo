@@ -30,6 +30,8 @@
 	"right-deletecargodata": "Вилучення таблиці Cargo",
 	"action-runcargoqueries": "запуск допоміжних запитів Cargo",
 	"right-runcargoqueries": "Запуск допоміжних запитів Cargo",
+	"grant-group-cargo": "Створення, запитування та вилучення даних через розширення Cargo",
+	"grant-cargo": "Створення, запитування та вилучення даних через розширення Cargo",
 	"cargo-logname": "Журнал Cargo",
 	"cargo-logdesc": "Це журнал дій, пов'язаних з розширенням Cargo.",
 	"cargo-createtableaction": "створена таблиця $2 у Cargo",
