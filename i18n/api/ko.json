@@ -2,12 +2,35 @@
 	"@metadata": {
 		"authors": [
 			"In2acous",
+			"Tensama0415",
 			"Ykhwong",
 			"Yunbj"
 		]
 	},
+	"apihelp-cargoquery-summary": "카고 데이터에 대한 쿼리를 실행합니다.",
+	"apihelp-cargotables-summary": "시스템의 모든 테이블을 가져옵니다",
+	"apihelp-cargofields-summary": "지정된 테이블의 모든 필드를 가져옵니다",
+	"apihelp-cargofields-param-table": "필드를 가져와야 하는 카고 데이터베이스 테이블",
+	"apihelp-cargoquery-param-tables": "검색해야 할 카고 데이터베이스 테이블 혹은 테이블들",
+	"apihelp-cargoquery-param-limit": "반환되는 결과 갯수 제한",
 	"apihelp-cargoquery-param-offset": "쿼리 오프셋",
+	"apihelp-cargorecreatetables-summary": "하나 이상의 카고 테이블을 재생성합니다.",
+	"apihelp-cargorecreatetables-param-template": "재생성되어야 하는, 카고 테이블(들)을 선언하는 틀",
 	"apihelp-cargorecreatetables-param-createReplacement": "데이터를 대체 테이블로 넣을지의 여부",
+	"apihelp-cargorecreatedata-summary": "카고 테이블의 데이터를 다시 채웁니다.",
+	"apihelp-cargorecreatedata-param-template": "사용할 데이터가 있는 틀",
+	"apihelp-cargorecreatedata-param-table": "다시 채울 카고 데이터베이스 테이블",
+	"apihelp-cargorecreatespecialtable-summary": "특수 카고 테이블을 생성합니다.",
+	"apihelp-cargorecreatespecialtable-param-table": "재생성될 특수 테이블",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "데이터를 대체 테이블로 넣을지의 여부",
+	"apihelp-cargoautocomplete-summary": "카고 확장 기능에서 사용하는 자동 완성 호출입니다.",
+	"apihelp-cargoautocomplete-param-limit": "반환되는 결과 갯수 제한",
 	"apihelp-cargoautocomplete-param-substr": "하위문자열 찾기",
-	"apihelp-cargoautocomplete-param-where": "지정된 다른 필터에 기반한 쿼리의 \"where\" 절"
+	"apihelp-cargoautocomplete-param-table": "값을 검색할 카고 테이블",
+	"apihelp-cargoautocomplete-param-field": "값을 검색할 카고 필드",
+	"apihelp-cargoautocomplete-param-where": "지정된 다른 필터에 기반한 쿼리의 \"where\" 절",
+	"apihelp-cargoqueryautocomplete-summary": "CargoQuery(이전에는 ViewData) 특수 문서에서 사용되는 자동 완성 호출입니다.",
+	"apihelp-cargoqueryautocomplete-param-limit": "반환되는 결과 갯수 제한.",
+	"apihelp-cargoqueryautocomplete-param-search": "하위문자열 찾기",
+	"apihelp-cargoformatparams-param-queryformat": "카고 쿼리 형식"
 }
