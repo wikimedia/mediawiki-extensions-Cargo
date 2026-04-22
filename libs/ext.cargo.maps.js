@@ -167,7 +167,7 @@ CargoMap.prototype.displayWithLeaflet = function( doMarkerClustering ) {
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 	};
 
-	var mapDataDiv = $(mapCanvas).find(".cargoMapData");
+	var mapDataDiv = $(mapCanvas).find(".cargoMapData[data-mw-cargo-map-data]");
 	var imageUrl = mapDataDiv.attr('data-image-path');
 	var center = mapDataDiv.attr('data-center');
 
@@ -314,13 +314,18 @@ CargoMap.prototype.displayWithOpenLayers = function() {
 
 mw.hook( 'wikipage.content' ).add( function( $content ) {
 	$content.find( '.mapCanvas' ).each( function() {
-		var mapDataText = $(this).find(".cargoMapData").text();
+		const $mapData = $(this).find(".cargoMapData[data-mw-cargo-map-data]");
+		if ( !$mapData.length ) {
+			mw.log.warn('Cargo: Skipping .mapCanvas element without data-mw-cargo-map-data attribute!')
+			return;
+		}
+		var mapDataText = $mapData.attr('data-mw-cargo-map-data');
 		var valuesForMap = jQuery.parseJSON(mapDataText);
-		var mappingService = $(this).find(".cargoMapData").attr('data-mapping-service');
-		var zoomLevel = $(this).find(".cargoMapData").attr('data-zoom');
-		var center = $(this).find(".cargoMapData").attr('data-center');
+		var mappingService = $mapData.attr('data-mapping-service');
+		var zoomLevel = $mapData.attr('data-zoom');
+		var center = $mapData.attr('data-center');
 		var doMarkerClustering = valuesForMap.length >= mw.config.get( 'wgCargoMapClusteringMinimum' );
-		var clustering = $(this).find(".cargoMapData").attr('data-cluster');
+		var clustering = $mapData.attr('data-cluster');
 		if ( clustering == "yes" ) {
 			doMarkerClustering = true;
 		} else if ( clustering == "no" ) {

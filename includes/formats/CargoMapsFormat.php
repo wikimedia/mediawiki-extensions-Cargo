@@ -242,7 +242,8 @@ class CargoMapsFormat extends CargoDisplayFormat {
 		$mapDataAttrs = [
 			'class' => 'cargoMapData',
 			'style' => 'display: none',
-			'data-mapping-service' => $service
+			'data-mapping-service' => $service,
+			'data-mw-cargo-map-data' => $jsonData,
 		];
 		if ( array_key_exists( 'zoom', $displayParams ) && $displayParams['zoom'] != '' ) {
 			$mapDataAttrs['data-zoom'] = $displayParams['zoom'];
@@ -259,7 +260,7 @@ class CargoMapsFormat extends CargoDisplayFormat {
 			$mapDataAttrs['data-width'] = $imageWidth;
 		}
 
-		$mapData = Html::element( 'span', $mapDataAttrs, $jsonData );
+		$mapData = Html::element( 'span', $mapDataAttrs );
 
 		$mapCanvasAttrs = [
 			'class' => 'mapCanvas',
