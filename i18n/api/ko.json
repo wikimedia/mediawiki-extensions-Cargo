@@ -12,6 +12,12 @@
 	"apihelp-cargofields-summary": "지정된 테이블의 모든 필드를 가져옵니다",
 	"apihelp-cargofields-param-table": "필드를 가져와야 하는 카고 데이터베이스 테이블",
 	"apihelp-cargoquery-param-tables": "검색해야 할 카고 데이터베이스 테이블 혹은 테이블들",
+	"apihelp-cargoquery-param-fields": "검색할 테이블 필드(들)",
+	"apihelp-cargoquery-param-where": "SQL WHERE 절에 해당하는, 쿼리에 대한 조건",
+	"apihelp-cargoquery-param-join_on": "SQL JOIN ON 절에 해당하는, 여러 테이블을 join 하기 위한 조건",
+	"apihelp-cargoquery-param-order_by": "SQL ORDER BY 절에 해당하는, 결과의 순서",
+	"apihelp-cargoquery-param-group_by": "SQL GROUP BY 절에 해당하는, 결과를 묶으려는 필드(들)",
+	"apihelp-cargoquery-param-having": "SQL HAVING 절에 해당하는, 묶인 값에 대한 조건",
 	"apihelp-cargoquery-param-limit": "반환되는 결과 갯수 제한",
 	"apihelp-cargoquery-param-offset": "쿼리 오프셋",
 	"apihelp-cargorecreatetables-summary": "하나 이상의 카고 테이블을 재생성합니다.",
@@ -20,6 +26,8 @@
 	"apihelp-cargorecreatedata-summary": "카고 테이블의 데이터를 다시 채웁니다.",
 	"apihelp-cargorecreatedata-param-template": "사용할 데이터가 있는 틀",
 	"apihelp-cargorecreatedata-param-table": "다시 채울 카고 데이터베이스 테이블",
+	"apihelp-cargorecreatedata-param-offset": "이 틀을 호출하는 문서 중, 쿼리를 시작할 번호",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "테이블을 다시 채울 때 각 문서마다 기존 행을 교체할지 여부",
 	"apihelp-cargorecreatespecialtable-summary": "특수 카고 테이블을 생성합니다.",
 	"apihelp-cargorecreatespecialtable-param-table": "재생성될 특수 테이블",
 	"apihelp-cargorecreatespecialtable-param-createReplacement": "데이터를 대체 테이블로 넣을지의 여부",
@@ -32,5 +40,8 @@
 	"apihelp-cargoqueryautocomplete-summary": "CargoQuery(이전에는 ViewData) 특수 문서에서 사용되는 자동 완성 호출입니다.",
 	"apihelp-cargoqueryautocomplete-param-limit": "반환되는 결과 갯수 제한.",
 	"apihelp-cargoqueryautocomplete-param-search": "하위문자열 찾기",
-	"apihelp-cargoformatparams-param-queryformat": "카고 쿼리 형식"
+	"apihelp-cargoqueryautocomplete-param-tables": "어떤 필드(들), Group By와 Order By가 자동 완성되는지에 기반해 선택된 카고 테이블(들)의 배열.",
+	"apihelp-cargoformatparams-summary": "각 카고 쿼리 형식에 대한 표시 매개변수 묶음을 가져옵니다.",
+	"apihelp-cargoformatparams-param-queryformat": "카고 쿼리 형식",
+	"apierror-cargoquery-invalidfieldalias": "오류: 필드 별칭 \"$1\"이 밑줄(_)로 시작합니다. 이는 카고 API 쿼리에서 허용되지 않습니다."
 }
