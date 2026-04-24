@@ -41,7 +41,7 @@
 	"apihelp-cargoqueryautocomplete-param-limit": "반환되는 결과 갯수 제한.",
 	"apihelp-cargoqueryautocomplete-param-search": "하위 문자열 찾기",
 	"apihelp-cargoqueryautocomplete-param-tables": "어떤 필드(들), Group By와 Order By가 자동 완성되는지에 기반해 선택된 카고 테이블(들)의 배열.",
-	"apihelp-cargoformatparams-summary": "각 카고 쿼리 형식에 대한 표시 매개변수 묶음을 가져옵니다.",
+	"apihelp-cargoformatparams-summary": "각 카고 쿼리 형식에 대한 매개표시 변수 묶음을 가져옵니다.",
 	"apihelp-cargoformatparams-param-queryformat": "카고 쿼리 형식",
 	"apierror-cargoquery-invalidfieldalias": "오류: 필드 별칭 \"$1\"이 밑줄(_)로 시작합니다. 이는 카고 API 쿼리에서 허용되지 않습니다."
 }
