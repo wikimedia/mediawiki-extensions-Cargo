@@ -91,6 +91,8 @@ class CargoFeedFormat extends CargoDeferredFormat {
 	 * @return string
 	 */
 	public function outputFeed( WebRequest $request, $sqlQueries ) {
+		global $wgOut;
+
 		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
 		$queryParams['format'] = 'feed';
 		$feedType = $this->getFeedType( $request->getText( 'feed_type' ) );
@@ -143,10 +145,25 @@ class CargoFeedFormat extends CargoDeferredFormat {
 		}
 
 		// Output feed content.
-		$feed->outHeader();
-		foreach ( $items as $item ) {
-			$feed->outItem( $item );
+		if ( method_exists( $feed, 'outputHeader' ) ) {
+			// MW 1.46+
+			$feed->outputHeader( $wgOut );
+		} else {
+			$feed->outHeader();
 		}
-		$feed->outFooter();
+		foreach ( $items as $item ) {
+			if ( method_exists( $feed, 'outputItem' ) ) {
+				// MW 1.46+
+				$feed->outputItem( $item, $wgOut );
+			} else {
+				$feed->outItem( $item );
+			}
+		}
+		if ( method_exists( $feed, 'outputFooter' ) ) {
+			// MW 1.46+
+			$feed->outputFooter( $wgOut );
+		} else {
+			$feed->outFooter();
+		}
 	}
 }

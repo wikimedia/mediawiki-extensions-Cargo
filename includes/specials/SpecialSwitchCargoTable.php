@@ -12,7 +12,7 @@ use MediaWiki\Html\Html;
 class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 
 	public function __construct() {
-		parent::__construct( 'SwitchCargoTable', 'recreatecargodata' );
+		parent::__construct( 'SwitchCargoTable' );
 	}
 
 	public function doesWrites() {
@@ -92,7 +92,10 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 	}
 
 	public function execute( $subpage = false ) {
-		$this->checkPermissions();
+		// Check permissions.
+		if ( !$this->getUser()->isAllowed( 'recreatecargodata' ) ) {
+			$this->displayRestrictionError();
+		}
 
 		$out = $this->getOutput();
 		$req = $this->getRequest();

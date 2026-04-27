@@ -19,7 +19,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	public $mIsDeclared;
 
 	public function __construct( $templateTitle = null, $tableName = null, $isDeclared = false ) {
-		parent::__construct( 'RecreateCargoData', 'recreatecargodata' );
+		parent::__construct( 'RecreateCargoData' );
 		$this->mTemplateTitle = $templateTitle;
 		$this->mTableName = $tableName;
 		$this->mIsDeclared = $isDeclared;
@@ -28,7 +28,10 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 	public function execute( $query = null ) {
 		global $cgScriptPath;
 
-		$this->checkPermissions();
+		// Check permissions.
+		if ( !$this->getUser()->isAllowed( 'recreatecargodata' ) ) {
+			$this->displayRestrictionError();
+		}
 
 		$out = $this->getOutput();
 		$out->enableOOUI();

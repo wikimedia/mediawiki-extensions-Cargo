@@ -18,13 +18,16 @@ class CargoSpecialDrilldown extends IncludableSpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'Drilldown', 'runcargoqueries' );
+		parent::__construct( 'Drilldown' );
 	}
 
 	public function execute( $query ) {
 		global $wgCargoPageDataColumns, $wgCargoFileDataColumns;
 
-		$this->checkPermissions();
+		// Check permissions.
+		if ( !$this->getUser()->isAllowed( 'runcargoqueries' ) ) {
+			$this->displayRestrictionError();
+		}
 
 		$request = $this->getRequest();
 		$out = $this->getOutput();

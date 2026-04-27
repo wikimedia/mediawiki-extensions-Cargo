@@ -15,11 +15,14 @@ class SpecialCargoQuery extends SpecialPage {
 	 * Constructor
 	 */
 	public function __construct() {
-		parent::__construct( 'CargoQuery', 'runcargoqueries' );
+		parent::__construct( 'CargoQuery' );
 	}
 
 	public function execute( $query ) {
-		$this->checkPermissions();
+		// Check permissions.
+		if ( !$this->getUser()->isAllowed( 'runcargoqueries' ) ) {
+			$this->displayRestrictionError();
+		}
 
 		$this->setHeaders();
 		$out = $this->getOutput();

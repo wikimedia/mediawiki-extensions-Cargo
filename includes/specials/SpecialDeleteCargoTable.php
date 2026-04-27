@@ -12,7 +12,7 @@ use MediaWiki\Html\Html;
 class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 
 	public function __construct() {
-		parent::__construct( 'DeleteCargoTable', 'deletecargodata' );
+		parent::__construct( 'DeleteCargoTable' );
 	}
 
 	public function doesWrites() {
@@ -51,7 +51,10 @@ class SpecialDeleteCargoTable extends UnlistedSpecialPage {
 	}
 
 	public function execute( $subpage = false ) {
-		$this->checkPermissions();
+		// Check permissions.
+		if ( !$this->getUser()->isAllowed( 'deletecargodata' ) ) {
+			$this->displayRestrictionError();
+		}
 
 		$out = $this->getOutput();
 		$req = $this->getRequest();
