@@ -54,17 +54,17 @@ class CargoFilterValue {
 				if ( count( $date_parts ) == 3 ) {
 					[ $month_str, $day_str, $year ] = explode( ' ', $fv->text );
 					$fv->month = CargoDrilldownUtils::stringToMonth( $month_str, $lang );
-					$fv->day = str_replace( ',', '', $day_str );
-					$fv->year = $year;
+					$fv->day = (int)str_replace( ',', '', $day_str );
+					$fv->year = (int)$year;
 					$fv->time_period = 'day';
 				} elseif ( count( $date_parts ) == 2 ) {
 					[ $month_str, $year ] = explode( ' ', $fv->text );
 					$fv->month = CargoDrilldownUtils::stringToMonth( $month_str, $lang );
-					$fv->year = $year;
+					$fv->year = (int)$year;
 					$fv->time_period = 'month';
 				} else {
 					$fv->month = null;
-					$fv->year = $fv->text;
+					$fv->year = (int)$fv->text;
 					$fv->time_period = 'year';
 				}
 			}
