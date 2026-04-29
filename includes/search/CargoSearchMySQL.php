@@ -14,15 +14,8 @@ use MediaWiki\MediaWikiServices;
 class CargoSearchMySQL extends SearchMySQL {
 
 	public function __construct() {
-		if ( property_exists( $this, 'dbProvider' ) ) {
-			// MW 1.41+
-			$dbProvider = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
-			parent::__construct( $dbProvider );
-		} else {
-			// MW < 1.41
-			$lb = MediaWikiServices::getInstance()->getDBLoadBalancer();
-			parent::__construct( $lb );
-		}
+		$dbProvider = MediaWikiServices::getInstance()->getDBLoadBalancerFactory();
+		parent::__construct( $dbProvider );
 	}
 
 	public function getSearchTerms( $searchString ) {
@@ -120,14 +113,8 @@ class CargoSearchMySQL extends SearchMySQL {
 			wfDebug( __METHOD__ . ": Can't understand search query '{$filteredText}'\n" );
 		}
 
-		if ( property_exists( $this, 'db' ) ) {
-			// MW < 1.41
-			// @phan-suppress-next-line PhanUndeclaredProperty
-			$searchon = $this->db->addQuotes( $searchon );
-		} else {
-			$cdb = CargoUtils::getDB();
-			$searchon = $cdb->addQuotes( $searchon );
-		}
+		$cdb = CargoUtils::getDB();
+		$searchon = $cdb->addQuotes( $searchon );
 
 		$field = $this->getIndexField( $fulltext );
 		return [
