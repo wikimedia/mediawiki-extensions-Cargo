@@ -12,7 +12,7 @@
 		"@wdio/mocha-framework": "9.15.0",
 		"@wdio/spec-reporter": "9.20.0",
 		"eslint-config-wikimedia": "0.32.3",
-		"grunt": "1.6.1",
+		"grunt": "1.6.2",
 		"grunt-banana-checker": "0.13.0",
 		"grunt-eslint": "24.3.0",
 		"grunt-stylelint": "0.20.1",
