@@ -26,7 +26,7 @@
 	"recreatedata": "데이터 재생성",
 	"recreatecargodata": "데이터 재생성",
 	"action-recreatecargodata": "카고 데이터 재생성",
-	"right-recreatecargodata": "카고 테이블에 포함된 데이터를 다시 만듬",
+	"right-recreatecargodata": "카고 테이블에 포함된 데이터를 다시 만듦",
 	"action-deletecargodata": "카고 데이터 삭제",
 	"right-deletecargodata": "카고 테이블을 삭제",
 	"action-runcargoqueries": "임의의 카고 쿼리 실행",
