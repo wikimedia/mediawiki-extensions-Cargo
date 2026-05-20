@@ -34,7 +34,7 @@
 	"grant-group-cargo": "카고 확장 기능을 통한 데이터의 생성, 쿼리 및 삭제",
 	"grant-cargo": "카고 확장 기능을 통한 데이터의 생성, 쿼리 및 삭제",
 	"cargo-logname": "카고 로그",
-	"cargo-logdesc": "카고 확장 기능과 관련된 행위 기록입니다.",
+	"cargo-logdesc": "카고 확장 기능과 관련된 작업 기록입니다.",
 	"cargo-createtableaction": "카고 테이블 $2를 생성했습니다.",
 	"cargo-recreatetableaction": "카고 테이블 $2를 재생성했습니다.",
 	"cargo-replacetableaction": "카고 테이블 $2을 새 버전으로 교체했습니다.",
