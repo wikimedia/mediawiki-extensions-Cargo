@@ -1,0 +1,43 @@
+{
+	"@metadata": {
+		"authors": [
+			"AhmedG612"
+		]
+	},
+	"apihelp-cargotables-summary": "Waxay soo qaadataa dhammaan jadwalka ku jira nidaamka",
+	"apihelp-cargofields-summary": "Waxay soo qaadataa dhammaan beeraha ku jira jadwalka la cayimay",
+	"apihelp-cargofields-param-table": "Shaxda xogta xamuulka ee meelaha la geyn karo",
+	"apihelp-cargoquery-param-tables": "Shaxda xogta Cargo ama jadwalada lagu baarayo",
+	"apihelp-cargoquery-param-fields": "Meesha(yada) jadwalka si loo soo ceshado",
+	"apihelp-cargoquery-param-where": "Shuruudaha su'aasha, oo u dhiganta qodobka SQL WHERE",
+	"apihelp-cargoquery-param-join_on": "Shuruudaha lagu biirin karo jadwalo badan, oo u dhigma qodobka SQL JOIN ON",
+	"apihelp-cargoquery-param-order_by": "Kala horraynta natiijooyinka, oo u dhiganta qodobka SQL ORDER BY",
+	"apihelp-cargoquery-param-group_by": "Goobta(yada) natiijooyinka kooxaynta, oo u dhiganta qodobka SQL GROUP BY",
+	"apihelp-cargoquery-param-having": "Shuruudaha qiimayaasha kooxaysan, oo u dhigma qodobka SQL HAVING",
+	"apihelp-cargoquery-param-limit": "Xad ku saabsan tirada natiijooyinka la soo celiyay",
+	"apihelp-cargoquery-param-offset": "Dib u dhigista su'aasha",
+	"apihelp-cargorecreatetables-summary": "Waxay dib u abuurtaa hal ama in ka badan miisaska Xamuulka.",
+	"apihelp-cargorecreatetables-param-template": "Qaab-dhismeedka miiska(yada) xamuulka la sheegay waa in dib loo sameeyaa",
+	"apihelp-cargorecreatetables-param-createReplacement": "Hadday tahay in xogta la geliyo jadwalka beddelka ah",
+	"apihelp-cargorecreatedata-summary": "Waxay dib u buuxisaa xogta jadwalka xamuulka.",
+	"apihelp-cargorecreatedata-param-template": "Qaab-dhismeedka xogta la isticmaalayo",
+	"apihelp-cargorecreatedata-param-table": "Shaxda xogta xamuulka si dib loogu buuxiyo",
+	"apihelp-cargorecreatedata-param-offset": "Bogagga loogu yeero qaab-dhismeedkan, lambarka laga bilaabo raadinta",
+	"apihelp-cargorecreatedata-param-replaceOldRows": "Hadday tahay in la beddelo safkii hore ee bog kasta inta lagu jiro dib-u-buuxinta jadwalka",
+	"apihelp-cargorecreatespecialtable-summary": "Waxay abuurtaa miis gaar ah oo xamuul ah.",
+	"apihelp-cargorecreatespecialtable-param-table": "Miiska gaarka ah ee la abuuri doono",
+	"apihelp-cargorecreatespecialtable-param-createReplacement": "Hadday tahay in xogta la geliyo jadwalka beddelka ah",
+	"apihelp-cargoautocomplete-summary": "Wicitaan otomaatig ah oo ay isticmaasho kordhinta xamuulka.",
+	"apihelp-cargoautocomplete-param-limit": "Xad ku saabsan tirada natiijooyinka la soo celiyay",
+	"apihelp-cargoautocomplete-param-substr": "Raadi xarfo hoosaad",
+	"apihelp-cargoautocomplete-param-table": "Shaxda xamuulka ee lagu raadinayo qiimayaasha",
+	"apihelp-cargoautocomplete-param-field": "Goobta xamuulka ee lagu raadinayo qiimayaasha",
+	"apihelp-cargoautocomplete-param-where": "Qodobka \"halka\" ee weydiinta, iyadoo lagu saleynayo shaandheeyayaasha kale ee la cayimay",
+	"apihelp-cargoqueryautocomplete-summary": "Wicitaanka dhammaystirka otomaatiga ah ee uu isticmaalo bogga gaarka ah ee CargoQuery (hore loo isticmaali jiray ViewData).",
+	"apihelp-cargoqueryautocomplete-param-limit": "Xad ku saabsan tirada natiijooyinka la soo celiyay",
+	"apihelp-cargoqueryautocomplete-param-search": "Raadi xarfo hoosaad",
+	"apihelp-cargoqueryautocomplete-param-tables": "Liiska miiska xamuulka ee la xushay iyadoo lagu saleynayo Goobta(yada), Kooxda(yada) iyo Dalbashada si otomaatig ah loo dhammaystiro.",
+	"apihelp-cargoformatparams-summary": "Waxay heshaa qaybaha bandhigga ee qaab kasta oo weydiimo ah oo Cargo ah.",
+	"apihelp-cargoformatparams-param-queryformat": "Qaabka su'aalaha xamuulka",
+	"apierror-cargoquery-invalidfieldalias": "Khalad: Magaca loo yaqaan \" $1 \" ee goobta ayaa ku bilaabma hoosta hoose (_). Tan looma oggola su'aalaha Cargo API."
+}
