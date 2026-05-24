@@ -359,8 +359,8 @@ class CargoFieldDescription {
 			// True = 1, "yes"
 			// False = 0, "no"
 			$msgForNo = wfMessage( 'htmlform-no' )->text();
-			if ( $fieldValue === 0
-				|| $fieldValue === '0'
+			// @phan-suppress-next-line PhanSuspiciousWeakTypeComparison
+			if ( $fieldValue == '0'
 				|| strtolower( $fieldValue ) === 'no'
 				|| strtolower( $fieldValue ) === 'false'
 				|| strtolower( $fieldValue ) == strtolower( $msgForNo ) ) {

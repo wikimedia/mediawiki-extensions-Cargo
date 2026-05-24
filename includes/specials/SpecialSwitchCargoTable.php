@@ -134,7 +134,7 @@ class SpecialSwitchCargoTable extends UnlistedSpecialPage {
 			self::switchInTableReplacement( $tableName, $fieldTables, $fieldHelperTables, $this->getUser() );
 			$text = Html::element( 'p', [], $this->msg( 'cargo-switchtables-success', $tableName )->parse() ) . "\n";
 			$tablesLink = CargoUtils::makeLink( $this->getLinkRenderer(),
-				$ctPage->getPageTitle(), $ctPage->getDescription() );
+				$ctPage->getPageTitle(), $ctPage->getDescription()->escaped() );
 			$text .= Html::rawElement( 'p', [], $this->msg( 'returnto' )->rawParams( $tablesLink )->escaped() );
 			$out->addHTML( $text );
 			return true;

@@ -1,6 +1,6 @@
 <?php
 
-use Wikimedia\Rdbms\IDatabase;
+use Wikimedia\Rdbms\IReadableDatabase;
 use Wikimedia\Rdbms\IResultWrapper;
 
 class CargoQueryPage extends QueryPage {
@@ -173,15 +173,16 @@ class CargoQueryPage extends QueryPage {
 
 	public function formatResult( $skin, $result ) {
 		// This function needs to be declared, but it is not called.
+		return true;
 	}
 
 	/**
 	 * Format and output report results using the given information plus
 	 * OutputPage
 	 *
-	 * @param OutputPage $out OutputPage to print to
-	 * @param Skin $skin User skin to use
-	 * @param IDatabase $dbr Database (read) connection to use
+	 * @param \MediaWiki\Output\OutputPage $out OutputPage to print to
+	 * @param \MediaWiki\Skin\Skin $skin User skin to use
+	 * @param IReadableDatabase $dbr Database (read) connection to use
 	 * @param IResultWrapper $res Result pointer
 	 * @param int $num Number of available result rows
 	 * @param int $offset Paging offset
@@ -194,6 +195,7 @@ class CargoQueryPage extends QueryPage {
 		$queryDisplayer = CargoQueryDisplayer::newFromSQLQuery( $this->sqlQuery, $this->getLanguage() );
 		$queryDisplayer->mFieldDescriptions = $this->sqlQuery->mFieldDescriptions;
 		$queryDisplayer->mFormat = $this->format;
+		// @phan-suppress-next-line PhanTypeMismatchArgument
 		$formatter = $queryDisplayer->getFormatter( $out );
 
 		if ( $formatter->isDeferred() ) {

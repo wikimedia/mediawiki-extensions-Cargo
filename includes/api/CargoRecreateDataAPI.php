@@ -49,7 +49,7 @@ class CargoRecreateDataAPI extends ApiBase {
 				'LIMIT' => 500, 'OFFSET' => $params['offset'] ] );
 		} else {
 			if ( $tableStr == '_pageData' ) {
-				$conds = null;
+				$conds = '';
 			} elseif ( $tableStr == '_fileData' ) {
 				$conds = 'page_namespace = ' . NS_FILE;
 			} elseif ( $tableStr == '_bpmnData' ) {
@@ -62,6 +62,7 @@ class CargoRecreateDataAPI extends ApiBase {
 				'page', [ 'page_id' ], $conds, __METHOD__,
 				[ 'LIMIT' => 500, 'OFFSET' => $params['offset'] ]
 			);
+			$titlesToStore = [];
 			foreach ( $pages as $page ) {
 				$title = Title::newFromID( $page->page_id );
 				if ( $title == null ) {

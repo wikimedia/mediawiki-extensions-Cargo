@@ -116,7 +116,7 @@ class CargoTables extends IncludableSpecialPage {
 
 		// Then, display a count.
 		$cdb = CargoUtils::getDB();
-		$numRows = $cdb->selectRowCount( $tableName, '*', null, __METHOD__ );
+		$numRows = $cdb->selectRowCount( $tableName, '*', [], __METHOD__ );
 		$numRowsMessage =
 			$this->msg( 'cargo-cargotables-totalrows' )->numParams( $numRows )->parse();
 		$out->addWikiTextAsInterface( $numRowsMessage . "\n" );
@@ -245,7 +245,7 @@ class CargoTables extends IncludableSpecialPage {
 
 	public function displayNumColumnsForTable( $tableName ) {
 		$tableSchemas = CargoUtils::getTableSchemas( [ $tableName ] );
-		return count( $tableSchemas[$tableName]->mFieldDescriptions );
+		return (string)count( $tableSchemas[$tableName]->mFieldDescriptions );
 	}
 
 	private function getTableLinkedToView( $tableName, $isReplacementTable ) {
@@ -528,18 +528,18 @@ class CargoTables extends IncludableSpecialPage {
 				->numParams( count( $tableNames ) )
 				->escaped() ) . "\n";
 
-		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" )->text() );
 		$headerText .= Html::element( 'th', [],
-			$this->msg( "cargo-cargotables-header-rowcount" ) );
+			$this->msg( "cargo-cargotables-header-rowcount" )->text() );
 		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],
-			$this->msg( "cargo-cargotables-header-columncount" ) );
+			$this->msg( "cargo-cargotables-header-columncount" )->text() );
 
 		foreach ( $listOfColumns as $action ) {
 			$headerText .= Html::rawElement( 'th', [], $this->getActionIcon( $action ) );
 		}
 
 		$headerText .= Html::element( 'th', [],
-			$this->msg( "cargo-cargotables-header-templates" ) );
+			$this->msg( "cargo-cargotables-header-templates" )->text() );
 
 		$wikitableText = Html::rawElement( 'tr', [], $headerText );
 
@@ -605,7 +605,7 @@ class CargoTables extends IncludableSpecialPage {
 		$text .= '<br />';
 		$text .= Html::element( 'p', [], $this->msg( 'cargo-cargotables-specialtables' )->escaped() );
 		$specialTableNames = CargoUtils::specialTableNames();
-		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" ) );
+		$headerText = Html::element( 'th', [], $this->msg( "cargo-cargotables-header-table" )->escaped() );
 		$headerText .= Html::element( 'th', [],
 			$this->msg( "cargo-cargotables-header-rowcount" )->escaped() );
 		$headerText .= Html::element( 'th', [ 'class' => 'cargotables-columncount' ],

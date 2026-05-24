@@ -221,7 +221,7 @@ class CargoQueryDisplayer {
 	public static function formatFieldValue( $value, $type, $fieldDescription, $parser, $escapeValue ) {
 		if ( $type == 'Integer' ) {
 			global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
-			return number_format( $value, 0, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
+			return number_format( intval( $value ), 0, $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Float' ) {
 			global $wgCargoDecimalMark, $wgCargoDigitGroupingCharacter;
 			// Can we assume that the decimal mark will be a '.' in the database?
@@ -232,7 +232,7 @@ class CargoQueryDisplayer {
 			} else {
 				$numDecimalPlaces = strlen( $value ) - $locOfDecimalPoint - 1;
 			}
-			return number_format( $value, $numDecimalPlaces, $wgCargoDecimalMark,
+			return number_format( floatval( $value ), $numDecimalPlaces, $wgCargoDecimalMark,
 				$wgCargoDigitGroupingCharacter );
 		} elseif ( $type == 'Page' ) {
 			$title = Title::newFromText( $value );

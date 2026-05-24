@@ -72,7 +72,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 		$dbr = CargoUtils::getMainDBForRead();
 		if ( $this->mTemplateTitle === null ) {
 			if ( $this->mTableName == '_pageData' ) {
-				$conds = null;
+				$conds = '';
 			} elseif ( $this->mTableName == '_fileData' ) {
 				$conds = 'page_namespace = ' . NS_FILE;
 			} elseif ( $this->mTableName == '_bpmnData' ) {
@@ -147,7 +147,7 @@ class SpecialCargoRecreateData extends UnlistedSpecialPage {
 					'infusable' => true,
 				]
 			);
-			$text .= Html::rawElement( 'p', [], $checkBox );
+			$text .= Html::rawElement( 'p', [], $checkBox->toString() );
 		}
 
 		if ( $this->mTemplateTitle == null ) {

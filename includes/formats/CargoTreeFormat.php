@@ -47,7 +47,7 @@ class CargoTreeFormat extends CargoListFormat {
 		$tree = new CargoTreeFormatTree();
 		foreach ( $valuesTable as $queryResultsRow ) {
 			$name = null;
-			$parentName = null;
+			$parentName = '';
 			$values = [];
 			foreach ( $queryResultsRow as $fieldName => $value ) {
 				$value = "[[$value]]";

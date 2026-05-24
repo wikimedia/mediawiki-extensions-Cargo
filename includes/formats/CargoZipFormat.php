@@ -19,7 +19,7 @@ class CargoZipFormat extends CargoDisplayFormat {
 	}
 
 	protected function getFiles( $valuesTable, $fieldDescriptions ) {
-		$fileField = null;
+		$fileField = '';
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' || $fieldDesc->mType == 'Page' ) {
 				$fileField = $field;

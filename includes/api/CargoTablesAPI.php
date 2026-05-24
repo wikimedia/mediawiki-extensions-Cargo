@@ -15,7 +15,7 @@ class CargoTablesAPI extends ApiBase {
 		try {
 			$queryResults = CargoUtils::getTables();
 		} catch ( Exception $e ) {
-			$this->dieWithError( $e, 'db_error' );
+			$this->dieWithError( $e->getMessage(), 'db_error' );
 		}
 
 		// Set top-level elements.

@@ -29,7 +29,7 @@ class CargoSearchMySQL extends SearchMySQL {
 	 * a WHERE condition and an ORDER BY expression
 	 *
 	 * @param string $filteredText
-	 * @param string $fulltext
+	 * @param bool $fulltext
 	 *
 	 * @return array
 	 */

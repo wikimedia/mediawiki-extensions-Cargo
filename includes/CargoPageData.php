@@ -217,7 +217,9 @@ class CargoPageData {
 				$parserOutput = $po ?? $wikiPage->getParserOutput();
 				$outLinks = $parserOutput->getLinkList( ParserOutputLinkTypes::LOCAL );
 				foreach ( $outLinks as $outLink ) {
-					$outLinkPageIDs[] = $outLink['pageid'];
+					if ( array_key_exists( 'pageid', $outLink ) ) {
+						$outLinkPageIDs[] = $outLink['pageid'];
+					}
 				}
 			} else {
 				$outTitles = $wikiPage->getTitle()->getLinksFrom();

@@ -23,8 +23,8 @@ class CargoPageSchemas extends PSExtensionHandler {
 		if ( $tagName == "cargo_TemplateDetails" ) {
 			foreach ( $xml->children() as $tag => $child ) {
 				if ( $tag == $tagName ) {
-					foreach ( $child->children() as $tag => $elem ) {
-						$cargoArray[$tag] = (string)$elem;
+					foreach ( $child->children() as $innerTag => $elem ) {
+						$cargoArray[$innerTag] = (string)$elem;
 					}
 					return $cargoArray;
 				}
@@ -104,7 +104,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 
 	public static function getTemplateEditingHTML( $psTemplate ) {
 		$hasExistingValues = false;
-		$tableName = null;
+		$tableName = '';
 		if ( $psTemplate !== null ) {
 			$cargoArray = $psTemplate->getObject( 'cargo_TemplateDetails' );
 			if ( $cargoArray !== null ) {
@@ -199,6 +199,7 @@ class CargoPageSchemas extends PSExtensionHandler {
 		$fieldNum = -1;
 		$xmlPerField = [];
 		foreach ( $wgRequest->getValues() as $var => $val ) {
+			$xml = '';
 			if ( substr( $var, 0, 17 ) == 'cargo_field_type_' ) {
 				$xml = '<cargo_Field>';
 				$fieldNum = substr( $var, 17 );

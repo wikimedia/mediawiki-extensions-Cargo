@@ -17,7 +17,7 @@ class CargoAttach {
 	 * @return string Wikitext
 	 */
 	public static function run( Parser $parser ) {
-		if ( !$parser->getTitle() || $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
+		if ( $parser->getTitle()->getNamespace() != NS_TEMPLATE ) {
 			return CargoUtils::formatError( "Error: #cargo_attach must be called from a template page." );
 		}
 

@@ -156,7 +156,7 @@ class CargoDeclare {
 	 * @return string|null
 	 */
 	public static function declareTable( $parser, $params ) {
-		if ( !$parser->getPage() || $parser->getPage()->getNamespace() !== NS_TEMPLATE ) {
+		if ( $parser->getPage()->getNamespace() !== NS_TEMPLATE ) {
 			return CargoUtils::formatError( $parser->msg( "cargo-declare-must-from-template" )->parse() );
 		}
 
@@ -342,7 +342,7 @@ class CargoDeclare {
 
 		foreach ( $parentTables as $extraParams ) {
 			$parentTableName = $extraParams['Name'];
-			$localField = $extraParams['_localField'];
+			$localField = $extraParams['_localField'] ?? '';
 			$remoteField = $extraParams['_remoteField'];
 
 			// Validate that parent table exists.

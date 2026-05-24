@@ -234,8 +234,10 @@ class CargoExport extends UnlistedSpecialPage {
 	}
 
 	public static function getGanttJSONData( $sqlQueries ) {
-		$displayedArray['data'] = [];
-		$displayedArray['links'] = [];
+		$displayedArray = [
+			'data' => [],
+			'links' => []
+		];
 		foreach ( $sqlQueries as $sqlQuery ) {
 			[ $startDateField, $endDateField ] = $sqlQuery->getMainStartAndEndDateFields();
 
@@ -519,6 +521,7 @@ class CargoExport extends UnlistedSpecialPage {
 
 		foreach ( $queryResults as $queryResult ) {
 			$fieldNum = 0;
+			$labelName = null;
 			foreach ( $queryResult as $value ) {
 				if ( $fieldNum == 0 ) {
 					$labelName = $value;
@@ -615,7 +618,7 @@ class CargoExport extends UnlistedSpecialPage {
 		$file->setActiveSheetIndex( 0 );
 
 		// Create array with header row and query results.
-		$header[] = array_keys( reset( $queryResults ) );
+		$header = [ array_keys( reset( $queryResults ) ) ];
 		$rows = array_merge( $header, $queryResults );
 
 		$file->getActiveSheet()->fromArray( $rows, null, 'A1' );
@@ -625,7 +628,7 @@ class CargoExport extends UnlistedSpecialPage {
 
 		if ( class_exists( 'PhpOffice\PhpSpreadsheet\Spreadsheet' ) ) {
 			$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter( $file, 'Xlsx' );
-		} elseif ( class_exists( 'PHPExcel' ) ) {
+		} else { // if ( class_exists( 'PHPExcel' ) ) {
 			$writer = PHPExcel_IOFactory::createWriter( $file, 'Excel2007' );
 		}
 
@@ -645,7 +648,7 @@ class CargoExport extends UnlistedSpecialPage {
 				if ( $fieldDescription->mIsList ) {
 					$delimiter = $fieldDescription->getDelimiter();
 					for ( $i = 0; $i < count( $queryResults ); $i++ ) {
-						$curValue = $queryResults[$i][$alias];
+						$curValue = $queryResults[$i][$alias] ?? '';
 						if ( !is_array( $curValue ) ) {
 							$queryResults[$i][$alias] = explode( $delimiter, $curValue );
 						}

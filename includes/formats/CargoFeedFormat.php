@@ -88,7 +88,6 @@ class CargoFeedFormat extends CargoDeferredFormat {
 	 * Get the iCalendar format output.
 	 * @param WebRequest $request
 	 * @param CargoSQLQuery[] $sqlQueries
-	 * @return string
 	 */
 	public function outputFeed( WebRequest $request, $sqlQueries ) {
 		global $wgOut;

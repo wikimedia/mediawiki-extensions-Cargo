@@ -30,7 +30,7 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 	 * @param string $p
 	 * @return string
 	 */
-	private function prependDot( $p ) {
+	private static function prependDot( $p ) {
 		return '.' . trim( $p );
 	}
 
@@ -48,12 +48,12 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		$attrs = [
 			'data-ex-role' => 'view',
 			'data-ex-view-class' => "Map",
-			'data-ex-latlng' => $this->prependDot( $this->displayParams['latlng'] ),
+			'data-ex-latlng' => self::prependDot( $this->displayParams['latlng'] ),
 			'data-ex-autoposition' => "true",
 		];
 
 		if ( array_key_exists( "color", $this->displayParams ) ) {
-			$attrs["data-ex-color-key"] = $this->prependDot( $this->displayParams['color'] );
+			$attrs["data-ex-color-key"] = self::prependDot( $this->displayParams['color'] );
 		}
 
 		return Html::element( 'div', $attrs );
@@ -75,13 +75,13 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 			}
 		}
 
-		$attrs["data-ex-start"] = $this->prependDot( $this->displayParams['start'] );
+		$attrs["data-ex-start"] = self::prependDot( $this->displayParams['start'] );
 
 		if ( array_key_exists( "end", $this->displayParams ) ) {
-			$attrs["data-ex-end"] = $this->prependDot( $this->displayParams['end'] );
+			$attrs["data-ex-end"] = self::prependDot( $this->displayParams['end'] );
 		}
 		if ( array_key_exists( "color", $this->displayParams ) ) {
-			$attrs["data-ex-color-key"] = $this->prependDot( $this->displayParams['color'] );
+			$attrs["data-ex-color-key"] = self::prependDot( $this->displayParams['color'] );
 		}
 		if ( array_key_exists( "topunit", $this->displayParams ) ) {
 			$attrs["data-ex-top-band-unit"] = $this->displayParams['topunit'];
@@ -194,22 +194,22 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 			}
 		}
 
-		$csv_properties = '';
+		$ce = SpecialPage::getTitleFor( 'CargoExport' );
+		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
+		$queryParams['format'] = 'csv';
+		$dataLinkAttrs = [
+			'href' => $ce->getFullURL( $queryParams ),
+			'type' => 'text/csv', // Data imported as CSV
+			'rel' => 'exhibit/data',
+			'data-ex-has-column-titles' => true
+		];
 		if ( !in_array( "label", $field_list ) ) {
 			// first field will be label!
 			$field_list[0] = 'label';
-			$csv_properties = 'data-ex-properties="' . implode( ',', $field_list ) . '"';
 		}
+		$dataLinkAttrs['data-ex-properties'] = implode( ',', $field_list );
 
-		$queryParams = $this->sqlQueriesToQueryParams( $sqlQueries );
-		$queryParams['format'] = 'csv';
-
-		$ce = SpecialPage::getTitleFor( 'CargoExport' );
-		$dataurl = htmlentities( $ce->getFullURL( $queryParams ) );
-
-		// Data imported as csv
-		$datalink = "<link href=\"$dataurl\" type=\"text/csv\" rel=\"exhibit/data\" data-ex-has-column-titles=\"true\" $csv_properties />";
-
+		$datalink = Html::element( 'link', $dataLinkAttrs, '' );
 		$this->mOutput->addHeadItem( $datalink, $datalink );
 
 		$this->displayParams = $displayParams;

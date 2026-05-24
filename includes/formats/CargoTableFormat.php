@@ -100,6 +100,9 @@ class CargoTableFormat extends CargoDisplayFormat {
 
 		if ( $mergeSimilarCells ) {
 			[ $duplicateValuesInTable, $blankedCells ] = $this->getHelperDataForMerging( $formattedValuesTable );
+		} else {
+			$duplicateValuesInTable = [];
+			$blankedCells = [];
 		}
 
 		$columnIsOdd = [];
@@ -167,7 +170,7 @@ class CargoTableFormat extends CargoDisplayFormat {
 						continue;
 					}
 					$link = CargoUtils::makeLink(
-						$linkRenderer, $title, wfMessage( 'editold' ), [], [ 'action' => 'edit', ]
+						$linkRenderer, $title, wfMessage( 'editold' )->escaped(), [], [ 'action' => 'edit', ]
 					);
 					$valueText .= ' (' . $link . ')';
 				}

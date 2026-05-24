@@ -64,7 +64,7 @@ class CargoICalendarFormat extends CargoDeferredFormat {
 	 */
 	public function getCalendar( WebRequest $request, $sqlQueries ) {
 		$name = $request->getText( 'icalendar_name', 'Calendar' );
-		$desc = $request->getText( 'icalendar_description', false );
+		$desc = $request->getText( 'icalendar_description' );
 		// Merge, remove empty lines, and re-index the lines of the calendar.
 		$calLines = array_values( array_filter( array_merge(
 			[

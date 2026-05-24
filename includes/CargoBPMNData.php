@@ -108,8 +108,10 @@ class CargoBPMNData {
 		foreach ( $associations as $association ) {
 			// Find actual text.
 			foreach ( $annotations as $annotation ) {
-				if ( $association['targetRef'] == $annotation['id'] ) {
-					$annotationText = $annotation['text'];
+				$targetRef = $association['targetRef'] ?? '';
+				$annotationID = $annotation['id'] ?? '';
+				if ( $targetRef == $annotationID ) {
+					$annotationText = $annotation['text'] ?? '';
 					break;
 				}
 			}
@@ -117,7 +119,9 @@ class CargoBPMNData {
 				continue;
 			}
 			foreach ( $allBPMNValues as $i => $bpmnValues ) {
-				if ( $association['sourceRef'] == $bpmnValues['_BPMNID'] ) {
+				$sourceRef = $association['sourceRef'] ?? '';
+				$bmpnID = $bpmnValues['_BPMNID'] ?? '';
+				if ( $sourceRef == $bmpnID ) {
 					$allBPMNValues[$i]['_annotation'] = $annotationText;
 				}
 			}

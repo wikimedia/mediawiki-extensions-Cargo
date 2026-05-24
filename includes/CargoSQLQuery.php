@@ -306,9 +306,12 @@ class CargoSQLQuery {
 		$joinStrings = explode( ',', $joinOnStr );
 		// 'HOLDS' must be all-caps for now.
 		$allowedJoinOperators = [ '=', ' HOLDS ', '<=', '>=', '<', '>' ];
-		$joinOperator = null;
+		$joinOperator = '';
 
 		foreach ( $joinStrings as $joinString ) {
+			if ( $joinString == null ) {
+				continue;
+			}
 			$foundValidOperator = false;
 			foreach ( $allowedJoinOperators as $allowedOperator ) {
 				if ( strpos( $joinString, $allowedOperator ) === false ) {
@@ -575,7 +578,7 @@ class CargoSQLQuery {
 	 */
 	private function getDescriptionAndTableNameForField( $origFieldName ) {
 		$tableName = null;
-		$fieldName = null;
+		$fieldName = '';
 		$description = new CargoFieldDescription();
 
 		// We use "\p{L}0-9" instead of \w here in order to
@@ -675,7 +678,7 @@ class CargoSQLQuery {
 						[ $tableName, $fieldName ] = explode( '__', $tableName, 2 );
 					} else {
 						// Support directly operating on list table fields
-						$fieldName = null;
+						$fieldName = '';
 					}
 				} else {
 					// We'll assume that there's exactly one
@@ -1073,7 +1076,6 @@ class CargoSQLQuery {
 		// unlike those two, a virtual field here can affect the
 		// set of tables and fields being included - which will
 		// affect the other two.
-		$matches = [];
 		foreach ( $virtualFields as $virtualField ) {
 			$fieldName = $virtualField['fieldName'];
 			$tableAlias = $virtualField['tableAlias'];
@@ -1281,24 +1283,26 @@ class CargoSQLQuery {
 					throw new MWException( "Error: value for the 'NEAR' operator must be of the form "
 					. "\"(latitude, longitude, distance)\"." );
 				}
-				[ $latitude, $longitude, $distance ] = $coordinatesAndDistance;
+				[ $latString, $lonString, $distance ] = $coordinatesAndDistance;
+				$latitude = floatval( $latString );
+				$longitude = floatval( $lonString );
 				$distanceComponents = explode( ' ', trim( $distance ) );
 				if ( count( $distanceComponents ) != 2 ) {
 					throw new MWException( "Error: the third argument for the 'NEAR' operator, "
 					. "representing the distance, must be of the form \"number unit\"." );
 				}
 				[ $distanceNumber, $distanceUnit ] = $distanceComponents;
-				$distanceNumber = trim( $distanceNumber );
+				$distanceNumber = floatval( $distanceNumber );
 				$distanceUnit = trim( $distanceUnit );
 				[ $latDistance, $longDistance ] = self::distanceToDegrees( $distanceNumber, $distanceUnit,
-						$latitude );
+						$latString );
 				// There are much better ways to do this, but
 				// for now, just make a "bounding box" instead
 				// of a bounding circle.
-				$newWhere = " $tableAlias.{$fieldName}__lat >= " . max( $latitude - $latDistance, -90 ) .
-					" AND $tableAlias.{$fieldName}__lat <= " . min( $latitude + $latDistance, 90 ) .
-					" AND $tableAlias.{$fieldName}__lon >= " . max( $longitude - $longDistance, -180 ) .
-					" AND $tableAlias.{$fieldName}__lon <= " . min( $longitude + $longDistance, 180 ) . ' ';
+				$newWhere = " $tableAlias.{$fieldName}__lat >= " . (string)max( $latitude - $latDistance, -90 ) .
+					" AND $tableAlias.{$fieldName}__lat <= " . (string)min( $latitude + $latDistance, 90 ) .
+					" AND $tableAlias.{$fieldName}__lon >= " . (string)max( $longitude - $longDistance, -180 ) .
+					" AND $tableAlias.{$fieldName}__lon <= " . (string)min( $longitude + $longDistance, 180 ) . ' ';
 
 				if ( $foundMatch1 ) {
 					$this->mWhereStr = preg_replace( $pattern1, $newWhere, $this->mWhereStr );
@@ -1434,6 +1438,7 @@ class CargoSQLQuery {
 			}
 
 			if ( $completeMatch ) {
+				// @phan-suppress-next-line PhanPluginInvalidPregRegex
 				$this->mWhereStr = preg_replace( $completeSearchPattern, $newWhere, $this->mWhereStr );
 			}
 
@@ -1557,11 +1562,11 @@ class CargoSQLQuery {
 				CargoUtils::getSQLTableAndFieldPattern( $tableAlias, $fieldName, false ) . $patternSuffix2,
 				CargoUtils::getSQLFieldPattern( $fieldName, false ) . $patternSuffix2
 			];
-			$matchingPattern = null;
-			foreach ( $patterns as $i => $pattern ) {
+			$matchingPattern = '';
+			foreach ( $patterns as $pattern ) {
 				$foundMatch = preg_match( $pattern, $this->mWhereStr, $matches );
 				if ( $foundMatch ) {
-					$matchingPattern = $i;
+					$matchingPattern = $pattern;
 					break;
 				}
 			}
@@ -1570,8 +1575,8 @@ class CargoSQLQuery {
 				$searchString = $matches[3];
 				$newWhere = " MATCH($tableAlias.$fieldName) AGAINST ($searchString IN BOOLEAN MODE) ";
 
-				$pattern = $patterns[$matchingPattern];
-				$this->mWhereStr = preg_replace( $pattern, $newWhere, $this->mWhereStr );
+				// @phan-suppress-next-line PhanPluginInvalidPregRegex
+				$this->mWhereStr = preg_replace( $matchingPattern, $newWhere, $this->mWhereStr );
 				$searchEngine = new CargoSearchMySQL();
 				$searchTerms = $searchEngine->getSearchTerms( $searchString );
 				// @TODO - does $tableName need to be in there?

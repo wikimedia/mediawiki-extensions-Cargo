@@ -483,6 +483,9 @@ class CargoUtils {
 	/**
 	 * Determines whether a string is a literal.
 	 * This may need different handling for different (non-MySQL) DB types.
+	 *
+	 * @param string $string
+	 * @return bool
 	 */
 	public static function isSQLStringLiteral( $string ) {
 		return $string[0] == "'" && substr( $string, -1, 1 ) == "'";

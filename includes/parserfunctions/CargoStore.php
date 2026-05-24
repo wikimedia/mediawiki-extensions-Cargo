@@ -516,7 +516,7 @@ class CargoStore {
 			}
 			if ( $fieldDescription->mIsList ) {
 				$delimiter = $fieldDescription->getDelimiter();
-				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName . '__full'] );
+				$individualValues = explode( $delimiter, $tableFieldValues[$fieldName . '__full'] ?? '' );
 				foreach ( $individualValues as $individualValue ) {
 					$individualValue = trim( $individualValue );
 					// Ignore blank values.

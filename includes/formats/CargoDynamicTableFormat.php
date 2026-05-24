@@ -169,12 +169,12 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 				$placeholder = wfMessage( 'cargo-dynamictables-searchcolumn', $fieldName )->escaped();
 				$attribs = [ 'data-mw-placeholder' => $placeholder ];
 			} else {
-				$attribs = null;
+				$attribs = [];
 			}
 			if ( strpos( $fieldName, 'Blank value ' ) === false ) {
 				$tableContents .= "\t\t\t\t" . Html::element( 'th', $attribs, $fieldName );
 			} else {
-				$tableContents .= "\t\t\t\t" . Html::element( 'th', $attribs, null );
+				$tableContents .= "\t\t\t\t" . Html::element( 'th', $attribs, '' );
 			}
 		}
 
@@ -182,19 +182,19 @@ class CargoDynamicTableFormat extends CargoDisplayFormat {
 
 		foreach ( $formattedValuesTable as $rowNum => $row ) {
 			if ( $detailsFields ) {
-				$tableData = Html::rawElement( 'td', [ 'class' => 'details-control' ], null );
+				$tableData = Html::rawElement( 'td', [ 'class' => 'details-control' ], '' );
 			} else {
 				$tableData = '';
 			}
 			$details = '';
 			foreach ( $fieldDescriptions as $field => $fieldDescription ) {
-				$attribs = null;
-				$value = null;
+				$attribs = [];
+				$value = '';
 
 				if ( array_key_exists( $field, $row ) ) {
 					$value = $row[$field];
 					if ( $fieldDescription->isDateOrDatetime() ) {
-						$attribs = [ 'data-order' => $valuesTable[$rowNum][$field] ];
+						$attribs['data-order'] = $valuesTable[$rowNum][$field];
 					}
 				}
 
