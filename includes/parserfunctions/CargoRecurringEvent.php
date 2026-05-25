@@ -178,23 +178,20 @@ class CargoRecurringEvent {
 
 						do {
 							$nextWeekJD += 7;
-							// FIXME: This method doesn't exist!
-							$nextWeekDate = self::getJulianDayTimeValue( $nextWeekJD );
+							$nextWeekDate = date_parse( JDToGregorian( $nextWeekJD ) );
 							$rightWeek = ( $nextWeekDate['month'] != $newMonth ) ||
 								( $nextWeekDate['year'] != $newYear );
 						} while ( !$rightWeek );
 
 						$curDateJD = $nextWeekJD + ( 7 * $weekNum );
-						// FIXME: This method doesn't exist!
-						$curDate = self::getJulianDayTimeValue( $curDateJD );
+						$curDate = date_parse( JDToGregorian( $curDateJD ) );
 					} else {
 						$curWeekNum = ceil( $curDate['day'] / 7 );
 						$rightWeek = ( $curWeekNum == $weekNum );
 
 						if ( $weekNum == 5 && ( $curDate['month'] % 12 == ( $newMonth + 1 ) % 12 ) ) {
 							$curDateJD -= 7;
-							// FIXME: This method doesn't exist!
-							$curDate = self::getJulianDayTimeValue( $curDateJD );
+							$curDate = date_parse( JDToGregorian( $curDateJD ) );
 							$rightMonth = $rightWeek = true;
 						}
 					}
