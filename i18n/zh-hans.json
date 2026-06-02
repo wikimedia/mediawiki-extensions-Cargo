@@ -212,5 +212,6 @@
 	"cargo-declare-validate-gt1-underscore": "错误：$1名称“$2”含有连续的多个下划线，这是不允许的。",
 	"cargo-declare-validate-bad-character": "错误：$1名称“$2”不能含有任何以下字符：$3",
 	"cargo-declare-validate-name-sql-kw": "错误：“$1”不能用作Cargo$2名称，因为它是SQL关键词。",
-	"cargo-declare-validate-name-cargo-kw": "错误：“$1”不能用作Cargo$2名称，因为它已经是Cargo关键词。"
+	"cargo-declare-validate-name-cargo-kw": "错误：“$1”不能用作Cargo$2名称，因为它已经是Cargo关键词。",
+	"cargo-declare-validate-empty-name": "错误：$1名称不能为空。"
 }
