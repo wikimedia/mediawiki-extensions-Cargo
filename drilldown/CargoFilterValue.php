@@ -46,8 +46,8 @@ class CargoFilterValue {
 			if ( strpos( $fv->text, ' - ' ) > 0 ) {
 				// If there's a dash, assume it's a year range
 				$years = explode( ' - ', $fv->text );
-				$fv->year = $years[0];
-				$fv->end_year = $years[1];
+				$fv->year = (int)$years[0];
+				$fv->end_year = (int)$years[1];
 				$fv->time_period = 'year range';
 			} else {
 				$date_parts = explode( ' ', $fv->text );
