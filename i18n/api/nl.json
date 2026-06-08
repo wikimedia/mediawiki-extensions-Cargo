@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"HanV",
-			"McDutchie"
+			"McDutchie",
+			"Siebrand"
 		]
 	},
 	"apihelp-cargoquery-summary": "Voert een query uit op de Cargo-gegevens.",
@@ -29,7 +30,7 @@
 	"apihelp-cargorecreatespecialtable-summary": "Maakt een speciale Cargo-tabel aan.",
 	"apihelp-cargorecreatespecialtable-param-table": "De speciale tabel die opnieuw moet worden aangemaakt",
 	"apihelp-cargorecreatespecialtable-param-createReplacement": "Of gegevens in een vervangende tabel moeten worden geplaatst",
-	"apihelp-cargoautocomplete-summary": "Aanroep voor automatisch aanvullen gebruikt door de Cargo-extensie.",
+	"apihelp-cargoautocomplete-summary": "Aanroep voor automatisch aanvullen gebruikt door de uitbreiding Cargo.",
 	"apihelp-cargoautocomplete-param-limit": "Een limiet op het aantal geretourneerde resultaten",
 	"apihelp-cargoautocomplete-param-substr": "Subtekenreeks om te zoeken",
 	"apihelp-cargoautocomplete-param-table": "Cargo-tabel waarvoor u waarden zoekt",
