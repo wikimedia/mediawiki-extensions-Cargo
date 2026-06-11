@@ -226,7 +226,12 @@ class CargoStore {
 			if ( $fieldDescription->mIsMandatory && ( $fieldValue === '' || $fieldValue === null ) ) {
 				return "Mandatory field, \"$fieldName\", cannot have a blank value.";
 			}
-			if ( $fieldDescription->mIsUnique && $fieldValue != '' ) {
+			// If it's not mandatory, and already blank, we can just move on.
+			if ( $fieldValue === '' || $fieldValue === null ) {
+				continue;
+			}
+
+			if ( $fieldDescription->mIsUnique ) {
 				$res = $cdb->select( $tableName, 'COUNT(*)', [ $fieldName => $fieldValue ], __METHOD__ );
 				$row = $res->fetchRow();
 				$numExistingValues = $row['COUNT(*)'];
