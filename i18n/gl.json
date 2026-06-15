@@ -154,7 +154,6 @@
 	"cargo-drilldown-timelineformat": "Liña do tempo",
 	"cargo-drilldown-galleryformat": "Galería",
 	"cargo-drilldown-calendarformat": "Calendario",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Ver o CSV",
 	"cargo-viewxls": "Ver o XLS",
 	"cargo-downloadzip": "Descargar o ZIP",

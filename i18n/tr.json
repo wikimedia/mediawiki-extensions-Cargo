@@ -154,7 +154,6 @@
 	"cargo-drilldown-timelineformat": "Zaman çizelgesi",
 	"cargo-drilldown-galleryformat": "Galeri",
 	"cargo-drilldown-calendarformat": "Takvim",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV'yi görüntüle",
 	"cargo-viewxls": "XLS'yi görüntüle",
 	"cargo-downloadzip": "ZIP'i indir",

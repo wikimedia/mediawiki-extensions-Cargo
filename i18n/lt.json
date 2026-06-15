@@ -91,7 +91,6 @@
 	"cargo-drilldown-timelineformat": "Laiko juosta",
 	"cargo-drilldown-galleryformat": "Galerija",
 	"cargo-drilldown-calendarformat": "Kalendorius",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Žiūrėti CSV",
 	"cargo-viewxls": "Žiūrėti XLS",
 	"cargo-downloadzip": "Atsisiųsti ZIP",

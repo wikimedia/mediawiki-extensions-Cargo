@@ -151,7 +151,6 @@
 	"cargo-drilldown-timelineformat": "Thời biểu",
 	"cargo-drilldown-galleryformat": "Tập ảnh",
 	"cargo-drilldown-calendarformat": "Lịch",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Xem CSV",
 	"cargo-viewxls": "Xem XLS",
 	"cargo-downloadzip": "Tải xuống ZIP",

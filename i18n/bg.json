@@ -112,7 +112,6 @@
 	"cargo-drilldown-timelineformat": "Хронология",
 	"cargo-drilldown-galleryformat": "Галерия",
 	"cargo-drilldown-calendarformat": "Календар",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Преглед на CSV",
 	"cargo-viewxls": "Преглед на XLS",
 	"cargo-downloadzip": "Изтегляне на ZIP",

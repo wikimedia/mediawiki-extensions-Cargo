@@ -167,7 +167,6 @@
 	"cargo-drilldown-timelineformat": "时间线",
 	"cargo-drilldown-galleryformat": "图库",
 	"cargo-drilldown-calendarformat": "日历",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "查看CSV",
 	"cargo-viewxls": "查看XLS",
 	"cargo-downloadzip": "下载ZIP",

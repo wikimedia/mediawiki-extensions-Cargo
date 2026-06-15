@@ -149,7 +149,6 @@
 	"cargo-drilldown-timelineformat": "Заман шкала",
 	"cargo-drilldown-galleryformat": "Галерея",
 	"cargo-drilldown-calendarformat": "Орузлама",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV кёргюз",
 	"cargo-viewxls": "XLS кёргюз",
 	"cargo-downloadzip": "ZIP эндир",

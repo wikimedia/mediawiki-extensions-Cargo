@@ -170,7 +170,6 @@
 	"cargo-drilldown-timelineformat": "Chronologie",
 	"cargo-drilldown-galleryformat": "Galerie",
 	"cargo-drilldown-calendarformat": "Calendrier",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Afficher le CSV",
 	"cargo-viewxls": "Afficher le XLS",
 	"cargo-downloadzip": "Télécharger le ZIP",
