@@ -79,7 +79,6 @@
 	"cargo-drilldown-timelineformat": "Хронологи",
 	"cargo-drilldown-galleryformat": "Галерей",
 	"cargo-drilldown-calendarformat": "Календарь",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV хьажар",
 	"cargo-viewxls": "XLS хьажар",
 	"cargo-downloadzip": "Схьаэца ZIP",

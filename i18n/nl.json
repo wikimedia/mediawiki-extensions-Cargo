@@ -161,7 +161,6 @@
 	"cargo-drilldown-timelineformat": "Tijdlijn",
 	"cargo-drilldown-galleryformat": "Galerij",
 	"cargo-drilldown-calendarformat": "Kalender",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSV bekijken",
 	"cargo-viewxls": "XLS bekijken",
 	"cargo-downloadzip": "Downloaden als ZIP-bestand",

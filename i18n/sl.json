@@ -148,7 +148,6 @@
 	"cargo-drilldown-timelineformat": "Časovnica",
 	"cargo-drilldown-galleryformat": "Galerija",
 	"cargo-drilldown-calendarformat": "Koledar",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "Ogled CSV",
 	"cargo-viewxls": "Ogled XLS",
 	"cargo-downloadzip": "Prenesi ZIP",

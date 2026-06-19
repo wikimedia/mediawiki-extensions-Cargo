@@ -160,7 +160,6 @@
 	"cargo-drilldown-timelineformat": "タイムライン",
 	"cargo-drilldown-galleryformat": "ギャラリー",
 	"cargo-drilldown-calendarformat": "カレンダー",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "CSVを表示",
 	"cargo-viewxls": "XLSを表示",
 	"cargo-downloadzip": "ZIPをダウンロード",

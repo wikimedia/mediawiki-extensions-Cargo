@@ -160,7 +160,6 @@
 	"cargo-drilldown-timelineformat": "الجدول الزمني",
 	"cargo-drilldown-galleryformat": "المعرض",
 	"cargo-drilldown-calendarformat": "نتيجة",
-	"cargo-drilldown-gallerycaption": "[[$1]]",
 	"cargo-viewcsv": "عرض CSV",
 	"cargo-viewxls": "عرض XLS",
 	"cargo-downloadzip": "تنزيل ZIP",
