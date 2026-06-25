@@ -113,6 +113,7 @@
 	"cargo-cargotables-mandatory": "A description of a database field",
 	"cargo-cargotables-unique": "A description of a database field (each of the field's values must be unique)",
 	"cargo-cargotables-totalrows": "Parameters:\n* $1 - number of rows in a database table.",
+	"cargo-cargotables-definingtemplate": "Parameters:\n* $1 - the name of the template that defines this Cargo table",
 	"cargo-cargotables-replacementgenerated": "An informational message",
 	"cargo-cargotables-switch": "The text of a link to a subpage of [[Special:SwitchCargoTable]].",
 	"cargo-recreatedata-createreplacement": "A label for a checkbox in [[Special:CargoRecreateData]].",

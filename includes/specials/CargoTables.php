@@ -129,6 +129,10 @@ class CargoTables extends IncludableSpecialPage {
 			// Most likely, there's only one.
 			$templateID = $templatesThatDeclareThisTable[0];
 			$templateTitle = Title::newFromID( $templateID );
+			$templateLinkWikitext = '[[' . $templateTitle->getPrefixedText() . '|' . $templateTitle->getText() . ']]';
+			$definingTemplateText =
+				$this->msg( 'cargo-cargotables-definingtemplate' )->params( $templateLinkWikitext )->escaped();
+			$out->addWikiTextAsInterface( $definingTemplateText . "\n" );
 			$recreateDataURL = $templateTitle->getLocalURL( [ 'action' => 'recreatedata' ] );
 			$recreateDataMessage = $this->msg( 'recreatedata' )->escaped();
 			$recreateDataLink = Html::element( 'a', [ 'href' => $recreateDataURL ], $recreateDataMessage );
