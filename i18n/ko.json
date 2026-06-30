@@ -75,7 +75,7 @@
 	"cargo-viewdata-defaultformat": "기본값",
 	"cargo-viewdata-heightparam": "높이:",
 	"cargo-viewdata-widthparam": "너비:",
-	"cargo-viewdata-columnsparam": "컬럼 수:",
+	"cargo-viewdata-columnsparam": "열 개수:",
 	"cargo-viewdata-colorsparam": "색:",
 	"cargo-viewdata-hidelegendparam": "범례 숨기기:",
 	"cargo-viewdata-delimiterparam": "구분자:",
