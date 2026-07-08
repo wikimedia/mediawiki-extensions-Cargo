@@ -55,13 +55,14 @@ class CargoSlideshowFormat extends CargoDisplayFormat {
 
 		$files = [];
 		foreach ( $fileNames as $f ) {
+			$pageOrFileName = htmlspecialchars_decode( $f['title'], ENT_QUOTES );
 			if ( $usingPageName ) {
-				$title = Title::newFromText( $f['title'] );
+				$title = Title::newFromText( $pageOrFileName );
 				if ( $title == null || $title->getNamespace() != NS_FILE ) {
 					continue;
 				}
 			} else {
-				$title = Title::makeTitleSafe( NS_FILE, $f['title'] );
+				$title = Title::makeTitleSafe( NS_FILE, $pageOrFileName );
 				if ( $title == null ) {
 					continue;
 				}

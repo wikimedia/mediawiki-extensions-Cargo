@@ -36,7 +36,8 @@ class CargoZipFormat extends CargoDisplayFormat {
 		}
 		$files = [];
 		foreach ( $fileNames as $f ) {
-			$title = Title::makeTitleSafe( NS_FILE, $f['title'] );
+			$fileName = htmlspecialchars_decode( $f['title'], ENT_QUOTES );
+			$title = Title::makeTitleSafe( NS_FILE, $fileName );
 			if ( $title == null ) {
 				continue;
 			}
