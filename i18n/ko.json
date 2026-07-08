@@ -116,6 +116,7 @@
 	"cargo-cargotables-mandatory": "필수",
 	"cargo-cargotables-unique": "유일",
 	"cargo-cargotables-totalrows": "이 테이블에는 총 '''$1'''개의 {{PLURAL:$1|행}}이 있습니다.",
+	"cargo-cargotables-definingtemplate": "이 테이블은 틀 $1에 의해 정의됩니다.",
 	"cargo-cargotables-replacementgenerated": "이 테이블에 대한 대체 테이블이 생성되었습니다.",
 	"cargo-cargotables-switch": "이 테이블을 사용하는 것으로 전환합니다.",
 	"cargo-recreatedata-createreplacement": "데이터를 대체 테이블로 이관하여 다시 만들되, 조회를 위해 기존의 테이블은 유지합니다",

@@ -106,6 +106,7 @@
 	"cargo-cargotables-mandatory": "задолжително",
 	"cargo-cargotables-unique": "уникатно",
 	"cargo-cargotables-totalrows": "Оваа табела има вкупно '''$1''' {{PLURAL:$1|ред|реда}}.",
+	"cargo-cargotables-definingtemplate": "Оваа табела е определена од предлошката $1.",
 	"cargo-cargotables-replacementgenerated": "Создадена е замена за оваа табела",
 	"cargo-cargotables-switch": "Префрли на употреба на табелава.",
 	"cargo-recreatedata-createreplacement": "Пресоздај ги податоците во заменска табела, задржувајќи ја старата за побарувања",

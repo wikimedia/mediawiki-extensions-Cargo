@@ -117,6 +117,7 @@
 	"cargo-cargotables-mandatory": "verplicht",
 	"cargo-cargotables-unique": "uniek",
 	"cargo-cargotables-totalrows": "Deze tabel heeft in totaal $1 {{PLURAL:$1|rij|rijen}}.",
+	"cargo-cargotables-definingtemplate": "Deze tabel wordt gedefinieerd door het sjabloon $1.",
 	"cargo-cargotables-replacementgenerated": "Er is een vervangende tabel gegenereerd voor deze tabel",
 	"cargo-cargotables-switch": "Overschakelen naar het gebruik van deze tabel.",
 	"cargo-recreatedata-createreplacement": "Gegevens opnieuw opbouwen in een vervangende tabel, waarbij u de oude bewaart voor query's",

@@ -123,6 +123,7 @@
 	"cargo-cargotables-mandatory": "必填",
 	"cargo-cargotables-unique": "唯一",
 	"cargo-cargotables-totalrows": "此表格总共有'''$1'''{{PLURAL:$1|行}}。",
+	"cargo-cargotables-definingtemplate": "此表格由模板$1定义。",
 	"cargo-cargotables-replacementgenerated": "已给此表格生成替换表格",
 	"cargo-cargotables-switch": "切换使用此表格。",
 	"cargo-recreatedata-createreplacement": "重新创建数据到替换表格内，保留旧表格以供查询",

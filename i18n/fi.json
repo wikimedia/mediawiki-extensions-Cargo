@@ -7,12 +7,14 @@
 			"Valtlai",
 			"Valtlait",
 			"Veikk0.ma",
+			"Wikipeedikko",
 			"Yupik"
 		]
 	},
 	"cargo-logname": "Cargo-loki",
 	"cargo-viewdata-widthparam": "Leveys:",
 	"cargo-calendar-datepicker-label": "Mene ajankohtaan:",
+	"cargo-cargotables-definingtemplate": "Tämä taulukko noudattelee mallinetta $1.",
 	"cargo-drilldown-allpages": "Kaikki sivut",
 	"cargo-drilldown-allfiles": "Kaikki tiedostot",
 	"cargo-drilldown-or": "tai",

@@ -116,6 +116,7 @@
 	"cargo-cargotables-mandatory": "إلزامي",
 	"cargo-cargotables-unique": "فريدة من نوعها",
 	"cargo-cargotables-totalrows": "يحتوي هذا الجدول على '''$1''' {{PLURAL:$1|صف}} تماما.",
+	"cargo-cargotables-definingtemplate": "يتم تعريف هذا الجدول بواسطة القالب $1 .",
 	"cargo-cargotables-replacementgenerated": "تم إنشاء جدول بديل لهذا الجدول",
 	"cargo-cargotables-switch": "التبديل إلى استخدام هذا الجدول.",
 	"cargo-recreatedata-createreplacement": "أعد إنشاء البيانات في جدول استبدال، مع الاحتفاظ بالقديم للاستعلام",

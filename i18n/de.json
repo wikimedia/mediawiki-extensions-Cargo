@@ -116,6 +116,7 @@
 	"cargo-cargotables-mandatory": "obligatorisch",
 	"cargo-cargotables-unique": "eindeutig",
 	"cargo-cargotables-totalrows": "Diese Tabelle hat insgesamt {{PLURAL:$1|'''eine''' Zeile|'''$1''' Zeilen}}.",
+	"cargo-cargotables-definingtemplate": "Diese Tabelle wird durch die Vorlage $1 definiert.",
 	"cargo-cargotables-replacementgenerated": "Für diese Tabelle wurde eine Ersetzungstabelle erstellt",
 	"cargo-cargotables-switch": "Auf die Verwendung dieser Tabelle wechseln.",
 	"cargo-recreatedata-createreplacement": "Erstellt Daten in eine Ersetzungstabelle neu und behält die alte für Abfragen",
