@@ -192,6 +192,6 @@
 	"cargo-declare-validate-gt1-underscore": "Khalad: $1 magaca \" $2 \" wuxuu ka kooban yahay in ka badan hal xariiq oo isku xigta; tan lama oggola.",
 	"cargo-declare-validate-bad-character": "Khalad: $1 name \" $2 \" kuma jiri karo mid ka mid ah jilayaasha soo socda: $3",
 	"cargo-declare-validate-name-sql-kw": "Khalad: \"$1\" loo adeegsan kari maayo magaca $2 ee Cargo, sababtoo ah waa kalmad fure u ah SQL.",
-	"cargo-declare-validate-name-cargo-kw": "Khalad: \"$1\" loo adeegsan kari maayo magaca jadwalka Cargo, sababtoo ah horay ayuu u ahaa kalmad fure u ah Cargo.",
+	"cargo-declare-validate-name-cargo-kw": "Khalad: \"$1\" looma isticmaali karo magac Cargo $2, sababtoo ah hore ayuu u yahay eray fure oo Cargo ah.",
 	"cargo-declare-validate-empty-name": "Khalad: Magaca $1 ma noqon karo mid madhan."
 }
