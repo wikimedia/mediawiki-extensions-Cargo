@@ -18,7 +18,7 @@ use MediaWiki\User\UserIdentity;
 class CargoHooks {
 
 	public static function registerExtension() {
-		define( 'CARGO_VERSION', '3.9.2' );
+		define( 'CARGO_VERSION', '3.9.3' );
 	}
 
 	public static function initialize() {
