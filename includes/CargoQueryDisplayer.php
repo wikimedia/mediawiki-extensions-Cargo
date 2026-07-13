@@ -211,7 +211,8 @@ class CargoQueryDisplayer {
 				}
 
 				if ( $text != '' ) {
-					$formattedQueryResults[$rowNum][$fieldName] = $text;
+					$escapedFieldName = htmlspecialchars( $fieldName );
+					$formattedQueryResults[$rowNum][$escapedFieldName] = $text;
 				}
 			}
 		}
@@ -415,6 +416,11 @@ class CargoQueryDisplayer {
 		}
 
 		$formattedQueryResults = $this->getFormattedQueryResults( $queryResults, true );
+		$fieldDescriptionsForDisplay = [];
+		foreach ( $this->mFieldDescriptions as $fieldName => $fieldDescription ) {
+			$escapedFieldName = htmlspecialchars( $fieldName );
+			$fieldDescriptionsForDisplay[$escapedFieldName] = $fieldDescription;
+		}
 		$text = '';
 
 		// If this is the 'template' format, let the formatter print
@@ -428,7 +434,7 @@ class CargoQueryDisplayer {
 			$text .= CargoUtils::smartParse( $this->mDisplayParams['intro'], null );
 		}
 		try {
-			$text .= $formatter->display( $queryResults, $formattedQueryResults, $this->mFieldDescriptions,
+			$text .= $formatter->display( $queryResults, $formattedQueryResults, $fieldDescriptionsForDisplay,
 				$this->mDisplayParams );
 		} catch ( Exception $e ) {
 			return CargoUtils::formatError( $e->getMessage() );
