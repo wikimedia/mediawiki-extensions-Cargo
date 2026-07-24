@@ -52,7 +52,7 @@ class CargoTablesPage extends Page {
 	}
 
 	async open() {
-		super.openTitle( 'Special:CargoTables' );
+		await super.openTitle( 'Special:CargoTables' );
 	}
 }
 

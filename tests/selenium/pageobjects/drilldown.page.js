@@ -55,7 +55,7 @@ class DrilldownPage extends Page {
 	}
 
 	async open() {
-		super.openTitle( 'Special:Drilldown' );
+		await super.openTitle( 'Special:Drilldown' );
 	}
 }
 

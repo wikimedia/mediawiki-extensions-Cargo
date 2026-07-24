@@ -5,11 +5,11 @@ class CargoTestUtils {
 	/**
 	 * Create a Cargo table with the given schema.
 	 *
-	 * @param {MWBot} bot Authenticated API client
+	 * @param {Object} apiClient Authenticated API client
 	 * @param {string} tableName Cargo table name
 	 * @param {Object} schema Field name => field type mapping
 	 */
-	async createTable( bot, tableName, schema ) {
+	async createTable( apiClient, tableName, schema ) {
 		let tableDefinition = `{{#cargo_declare:_table=${ tableName }\n`;
 		for ( const [ fieldName, fieldType ] of Object.entries( schema ) ) {
 			tableDefinition += `|${ fieldName }=${ fieldType }\n`;
@@ -19,10 +19,10 @@ class CargoTestUtils {
 		const store = `{{#cargo_store:_table=${ tableName }}}`;
 		const wikitext = `<noinclude>${ tableDefinition }</noinclude><includeonly>${ store }</includeonly>`;
 
-		const { csrftoken } = await bot.getEditToken();
+		const csrftoken = await apiClient.getEditToken();
 
-		await bot.edit( `Template:${ tableName }`, wikitext );
-		await bot.request( {
+		await apiClient.edit( `Template:${ tableName }`, wikitext );
+		await apiClient.request( {
 			action: 'cargorecreatetables',
 			template: tableName,
 			token: csrftoken
@@ -32,19 +32,19 @@ class CargoTestUtils {
 	/**
 	 * Create a page that stores the given data in a Cargo table.
 	 *
-	 * @param {MWBot} bot Authenticated API client
+	 * @param {Object} apiClient Authenticated API client
 	 * @param {string} title Page title
 	 * @param {string} tableName Cargo table name
 	 * @param {Object} pageData Data to store in the table (field name => value)
 	 */
-	async createPageWithData( bot, title, tableName, pageData ) {
+	async createPageWithData( apiClient, title, tableName, pageData ) {
 		let templateInvocation = `{{${ tableName }\n`;
 		for ( const [ fieldName, value ] of Object.entries( pageData ) ) {
 			templateInvocation += `|${ fieldName }=${ value }\n`;
 		}
 		templateInvocation += '}}';
 
-		await bot.edit( title, templateInvocation );
+		await apiClient.edit( title, templateInvocation );
 	}
 }
 

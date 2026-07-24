@@ -1,21 +1,20 @@
-import assert from 'assert';
-import Api from 'wdio-mediawiki/Api';
+import { createApiClient } from 'wdio-mediawiki/Api';
 import CargoTablesPage from '../pageobjects/cargotables.page.js';
 import CargoTestUtils from '../cargo-utils.js';
 
 describe( 'Special:CargoTables', () => {
 	before( async () => {
-		const bot = await Api.bot();
+		const apiClient = await createApiClient();
 
 		const tableName = 'CargoTablesTest';
-		await CargoTestUtils.createTable( bot, tableName, {
+		await CargoTestUtils.createTable( apiClient, tableName, {
 			example: 'String'
 		} );
 
-		await CargoTestUtils.createPageWithData( bot, 'CargoTablesTest1', tableName, {
+		await CargoTestUtils.createPageWithData( apiClient, 'CargoTablesTest1', tableName, {
 			example: 'foo'
 		} );
-		await CargoTestUtils.createPageWithData( bot, 'CargoTablesTest2', tableName, {
+		await CargoTestUtils.createPageWithData( apiClient, 'CargoTablesTest2', tableName, {
 			example: 'bar'
 		} );
 	} );
@@ -23,8 +22,8 @@ describe( 'Special:CargoTables', () => {
 	it( 'displays table information', async () => {
 		await CargoTablesPage.open();
 
-		assert.deepEqual( await CargoTablesPage.getRowCount( 'CargoTablesTest' ), '2' );
-		assert.deepEqual( await CargoTablesPage.getColumnCount( 'CargoTablesTest' ), '1' );
-		assert.deepEqual( await CargoTablesPage.getTemplateName( 'CargoTablesTest' ), 'Template:CargoTablesTest' );
+		expect( await CargoTablesPage.getRowCount( 'CargoTablesTest' ) ).toBe( '2' );
+		expect( await CargoTablesPage.getColumnCount( 'CargoTablesTest' ) ).toBe( '1' );
+		expect( await CargoTablesPage.getTemplateName( 'CargoTablesTest' ) ).toBe( 'Template:CargoTablesTest' );
 	} );
 } );

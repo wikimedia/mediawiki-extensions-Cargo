@@ -1,27 +1,26 @@
-import assert from 'assert';
-import Api from 'wdio-mediawiki/Api';
+import { createApiClient } from 'wdio-mediawiki/Api';
 import DrilldownPage from '../pageobjects/drilldown.page.js';
 import CargoTestUtils from '../cargo-utils.js';
 
 describe( 'Special:Drilldown', () => {
 	before( async () => {
-		const bot = await Api.bot();
+		const apiClient = await createApiClient();
 
 		const tableName = 'CargoDrilldownTest';
-		await CargoTestUtils.createTable( bot, tableName, {
+		await CargoTestUtils.createTable( apiClient, tableName, {
 			example: 'String',
 			other: 'String'
 		} );
 
-		await CargoTestUtils.createPageWithData( bot, 'Test1', tableName, {
+		await CargoTestUtils.createPageWithData( apiClient, 'Test1', tableName, {
 			example: 'Test1 Example Value',
 			other: 'Test1 Other value'
 		} );
-		await CargoTestUtils.createPageWithData( bot, 'Test2', tableName, {
+		await CargoTestUtils.createPageWithData( apiClient, 'Test2', tableName, {
 			example: 'Shared Example Value',
 			other: 'Test2 Other value'
 		} );
-		await CargoTestUtils.createPageWithData( bot, 'Test3', tableName, {
+		await CargoTestUtils.createPageWithData( apiClient, 'Test3', tableName, {
 			example: 'Shared Example Value',
 			other: 'Test3 Other value'
 		} );
@@ -32,7 +31,7 @@ describe( 'Special:Drilldown', () => {
 
 		const tableNames = await DrilldownPage.getTableNames();
 
-		assert.ok( tableNames.includes( 'CargoDrilldownTest (3)' ) );
+		expect( tableNames ).toContain( 'CargoDrilldownTest (3)' );
 	} );
 
 	it( 'displays proper data when drilling down', async () => {
@@ -40,11 +39,11 @@ describe( 'Special:Drilldown', () => {
 		await DrilldownPage.selectTable( 'CargoDrilldownTest' );
 
 		const pageNames = await DrilldownPage.getPageNames();
-		assert.deepEqual( pageNames, [ 'Test1', 'Test2', 'Test3' ] );
+		expect( pageNames ).toEqual( [ 'Test1', 'Test2', 'Test3' ] );
 
 		await DrilldownPage.applyValueFilter( 'Shared Example Value' );
 
 		const pageNamesFiltered = await DrilldownPage.getPageNames();
-		assert.deepEqual( pageNamesFiltered, [ 'Test2', 'Test3' ] );
+		expect( pageNamesFiltered ).toEqual( [ 'Test2', 'Test3' ] );
 	} );
 } );
