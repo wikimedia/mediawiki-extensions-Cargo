@@ -104,6 +104,7 @@
 	"cargo-cargotables-mandatory": "qasab ah",
 	"cargo-cargotables-unique": "gaar ah",
 	"cargo-cargotables-totalrows": "Shaxdani waxay leedahay ''' $1 ''' {{PLURAL:$1| saf|safaf}} gebi ahaanba.",
+	"cargo-cargotables-definingtemplate": "Jadwalkan waxaa qeexay tusmada $1.",
 	"cargo-cargotables-replacementgenerated": "Jadwal beddel ah ayaa loo sameeyay jadwalkan",
 	"cargo-cargotables-switch": "U beddel isticmaalka jadwalkan.",
 	"cargo-recreatedata-createreplacement": "Dib u abuur xogta jadwalka beddelka ah, adigoo kan hore u haynaya su'aal weydiinta.",
