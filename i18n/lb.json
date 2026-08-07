@@ -13,6 +13,7 @@
 	"cargo-viewdata-tables": "Tabell(en):",
 	"cargo-viewdata-fields": "Feld(er):",
 	"cargo-viewdata-where": "Wou:",
+	"cargo-viewdata-groupby": "Gruppéieren no:",
 	"cargo-viewdata-orderby": "Sortéieren no:",
 	"cargo-viewdata-limit": "Limitt:",
 	"cargo-viewdata-offset": "Offset:",
