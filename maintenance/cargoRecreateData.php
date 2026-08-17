@@ -42,6 +42,8 @@ class CargoRecreateData extends Maintenance {
 	private $templatesThatDeclareTables;
 	/** @var array */
 	private $templatesThatAttachToTables;
+	/** @var array */
+	private $handledPageIds = [];
 
 	public function __construct() {
 		parent::__construct();
@@ -156,6 +158,15 @@ class CargoRecreateData extends Maintenance {
 				}
 
 				foreach ( $titlesWithThisTemplate as $title ) {
+					// If we've already handled this page, we don't need to do it
+					// again, even if this is a different template.
+					$pageId = $title->getArticleId();
+					if ( in_array( $pageId, $this->handledPageIds ) ) {
+						continue;
+					} else {
+						$this->handledPageIds[] = $pageId;
+					}
+
 					// This may be helpful.
 					$wgTitle = $title;
 					// All we need to do here is set some global variables based
