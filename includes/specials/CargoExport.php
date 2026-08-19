@@ -112,7 +112,7 @@ class CargoExport extends UnlistedSpecialPage {
 				}
 			}
 		} catch ( Exception $e ) {
-			print $e->getMessage();
+			print htmlspecialchars( $e->getMessage() );
 		}
 	}
 
