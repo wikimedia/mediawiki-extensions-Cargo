@@ -1176,7 +1176,7 @@ END;
 					( $this->drilldownTabsParams ) ? [ 'tab' => $this->curTabName ] :
 					[ 'format' => $this->format, 'formatBy' => $this->formatBy ] );
 			$appliedFiltersHTML .= "\n\t" . '<span class="drilldown-header-value">~ \'' .
-				$this->fullTextSearchTerm .
+				htmlspecialchars( $this->fullTextSearchTerm ) .
 				'\'</span> <a href="' . $remove_filter_url . '" title="' .
 				$this->msg( 'cargo-drilldown-removefilter' )->escaped() . '"><img src="' .
 				$cgScriptPath . '/drilldown/resources/filter-x.png" /></a> ';
