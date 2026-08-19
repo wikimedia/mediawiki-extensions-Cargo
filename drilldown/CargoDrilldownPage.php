@@ -2074,7 +2074,7 @@ END;
 					'role' => 'presentation',
 					'class' => ( $this->curTabName == $drilldownTabName )
 						? 'selected' : null,
-				], Html::rawElement( 'a', [
+				], Html::element( 'a', [
 					'role' => 'tab',
 					'href' => $tabUrl,
 				], ucfirst( str_replace( '_', ' ', $drilldownTabName ) ) ) );
