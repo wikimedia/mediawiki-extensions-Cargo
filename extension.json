@@ -179,7 +179,8 @@
 		"CargoDrilldownPage": "drilldown/CargoDrilldownPage.php"
 	},
 	"TestAutoloadClasses": {
-		"CargoIntegrationTestUtils": "tests/phpunit/integration/CargoIntegrationTestUtils.php"
+		"CargoIntegrationTestUtils": "tests/phpunit/integration/CargoIntegrationTestUtils.php",
+		"CargoRecreateData": "maintenance/cargoRecreateData.php"
 	},
 	"ResourceModules": {
 		"ext.cargo.main": {

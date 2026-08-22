@@ -52,6 +52,7 @@ class CargoRecreateData extends Maintenance {
 		$this->addDescription( "Recreate the data for one or more Cargo database tables." );
 		$this->addOption( 'table', 'The Cargo table to recreate', false, true );
 		$this->addOption( 'replacement', 'Put all new data into a replacement table, to be switched in later' );
+		$this->addOption( 'create-missing-tables-only', 'Only create the tables, and their metadata, that do not already exist, without storing any data in them' );
 	}
 
 	public function execute() {
@@ -61,9 +62,19 @@ class CargoRecreateData extends Maintenance {
 
 		$tableName = $this->getOption( 'table' );
 		$createReplacement = $this->hasOption( 'replacement' );
+		$createMissingTablesOnly = $this->hasOption( 'create-missing-tables-only' );
+
+		if ( $createMissingTablesOnly && $createReplacement ) {
+			$this->fatalError( 'The --create-missing-tables-only and --replacement options cannot be used together.' );
+		}
 
 		if ( $tableName == null ) {
-			$tableNames = CargoUtils::getTables();
+			if ( $createMissingTablesOnly ) {
+				// The cargo_tables table holds only tables that already exist.
+				$tableNames = array_keys( $this->templatesThatDeclareTables );
+			} else {
+				$tableNames = CargoUtils::getTables();
+			}
 			foreach ( $tableNames as $i => $tableName ) {
 				if ( $tableName == '_pageData' || $tableName == '_fileData' ) {
 					// This is handled in a separate script.
@@ -72,14 +83,14 @@ class CargoRecreateData extends Maintenance {
 				if ( $i > 0 && !$quiet ) {
 					print "\n";
 				}
-				$this->recreateAllDataForTable( $tableName, $createReplacement );
+				$this->recreateAllDataForTable( $tableName, $createReplacement, $createMissingTablesOnly );
 			}
 		} else {
-			$this->recreateAllDataForTable( $tableName, $createReplacement );
+			$this->recreateAllDataForTable( $tableName, $createReplacement, $createMissingTablesOnly );
 		}
 	}
 
-	private function recreateAllDataForTable( $tableName, $createReplacement ) {
+	private function recreateAllDataForTable( $tableName, $createReplacement, $createMissingTablesOnly ) {
 		global $wgTitle;
 
 		$quiet = $this->getOption( 'quiet' );
@@ -93,18 +104,26 @@ class CargoRecreateData extends Maintenance {
 			return;
 		}
 
-		if ( !$quiet ) {
-			print "Recreating data for Cargo table $tableName in 5 seconds... hit [Ctrl]-C to escape.\n";
-			if ( $createReplacement ) {
-				print "(Data will be placed in a separate, replacement table.)\n";
+		if ( $createMissingTablesOnly && CargoUtils::tableFullyExists( $tableName ) ) {
+			if ( !$quiet ) {
+				print "Table \"$tableName\" already exists; skipping.\n";
 			}
-			// No point waiting if the user doesn't know about it
-			// anyway, right?
-			sleep( 5 );
+			return;
 		}
 
 		if ( !$quiet ) {
-			print "Deleting and recreating table...\n";
+			if ( $createMissingTablesOnly ) {
+				print "Creating Cargo table $tableName...\n";
+			} else {
+				print "Recreating data for Cargo table $tableName in 5 seconds... hit [Ctrl]-C to escape.\n";
+				if ( $createReplacement ) {
+					print "(Data will be placed in a separate, replacement table.)\n";
+				}
+				// No point waiting if the user doesn't know about it
+				// anyway, right?
+				sleep( 5 );
+				print "Deleting and recreating table...\n";
+			}
 		}
 
 		try {
@@ -117,6 +136,10 @@ class CargoRecreateData extends Maintenance {
 			);
 		} catch ( MWException $e ) {
 			print "Error: " . $e->getMessage() . "\n";
+			return;
+		}
+
+		if ( $createMissingTablesOnly ) {
 			return;
 		}
 
