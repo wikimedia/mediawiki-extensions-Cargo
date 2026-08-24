@@ -157,8 +157,20 @@ class CargoExhibitFormat extends CargoDeferredFormat {
 		foreach ( $fieldList as $field ) {
 			if ( $field != "label" && strpos( $field, '__' ) === false &&
 			strpos( $field, '  ' ) === false ) {
-				$th = "<strong>" . ucfirst( $field ) . "</strong>";
-				$lensBody .= "<tr data-ex-if-exists=\".$field\"><td>$th</td><td data-ex-content=\".$field\"></td></tr>";
+				$th = Html::element( 'strong', [], ucfirst( $field ) );
+				$lensBody = Html::rawElement(
+					'tr',
+					[
+						'data-ex-if-exists' => ".$field",
+					],
+					Html::rawElement( 'td', [], $th ) . Html::element(
+						'td',
+						[
+							'data-ex-content' => ".$field",
+						],
+						$field
+					)
+				);
 			}
 		}
 		$tableAttrs = [
