@@ -26,8 +26,8 @@ class CargoUtils {
 			return self::$CargoDB;
 		}
 
-		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers;
-		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBtype, $wgCargoDBfilePath;
+		global $wgDBuser, $wgDBpassword, $wgDBprefix, $wgDBservers, $wgDBport;
+		global $wgCargoDBserver, $wgCargoDBname, $wgCargoDBuser, $wgCargoDBpassword, $wgCargoDBprefix, $wgCargoDBschema, $wgCargoDBport, $wgCargoDBtype, $wgCargoDBfilePath;
 
 		$services = MediaWikiServices::getInstance();
 		$dbr = self::getMainDBForRead();
@@ -75,16 +75,20 @@ class CargoUtils {
 			'tablePrefix' => $dbTablePrefix,
 		];
 
-		if ( $type === 'sqlite' ) {
+		if ( $wgCargoDBtype === 'sqlite' ) {
 			if ( $wgCargoDBfilePath !== null ) {
 				$params['dbFilePath'] = $wgCargoDBfilePath;
 			} else {
 				$params['dbFilePath'] = $dbr->getDbFilePath();
 			}
-		} elseif ( $type === 'postgres' ) {
-			global $wgDBport;
-			// @TODO - a $wgCargoDBport variable is still needed.
-			$params['port'] = $wgDBport;
+		} elseif ( $wgCargoDBtype === 'postgres' ) {
+			$params['port'] = $wgCargoDBport === null ? $wgDBport : $wgCargoDBport;
+			if ( $wgCargoDBschema !== null ) {
+				$params['schema'] = $wgCargoDBschema;
+			} elseif ( $dbName === $name && $dbServer === $server ) {
+				// Same database as the main wiki: inherit its schema.
+				$params['schema'] = $dbr->dbSchema();
+			}
 		}
 
 		self::$CargoDB = $services->getDatabaseFactory()->create( $wgCargoDBtype, $params );

@@ -482,6 +482,8 @@
 		"CargoDBuser": null,
 		"CargoDBpassword": null,
 		"CargoDBprefix": null,
+		"CargoDBschema": null,
+		"CargoDBport": null,
 		"CargoDBfilePath": null,
 		"CargoDBRowFormat": null,
 		"CargoDefaultStringBytes": 300,
