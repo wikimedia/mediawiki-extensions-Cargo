@@ -143,12 +143,12 @@ class CargoPageData {
 				} else {
 					$dbr = CargoUtils::getMainDBForRead();
 					if ( $dbr->fieldExists( 'categorylinks', 'cl_to' ) ) {
-						$res = $dbr->select(
-							'categorylinks',
-							'cl_to',
-							[ 'cl_from' => $title->getArticleID() ],
-							__METHOD__
-						);
+						$res = $dbr->newSelectQueryBuilder()
+							->select( 'cl_to' )
+							->from( 'categorylinks' )
+							->where( [ 'cl_from' => $title->getArticleID() ] )
+							->caller( __METHOD__ )
+							->fetchResultSet();
 						foreach ( $res as $row ) {
 							$pageCategories[] = str_replace( '_', ' ', $row->cl_to );
 						}
@@ -168,12 +168,11 @@ class CargoPageData {
 		}
 		if ( in_array( 'numRevisions', $wgCargoPageDataColumns ) ) {
 			$dbr = CargoUtils::getMainDBForRead();
-			$pageDataValues['_numRevisions'] = $dbr->selectRowCount(
-				'revision',
-				'*',
-				[ 'rev_page' => $title->getArticleID() ],
-				__METHOD__
-			);
+			$pageDataValues['_numRevisions'] = $dbr->newSelectQueryBuilder()
+				->from( 'revision' )
+				->where( [ 'rev_page' => $title->getArticleID() ] )
+				->caller( __METHOD__ )
+				->fetchRowCount();
 		}
 		if ( in_array( 'isRedirect', $wgCargoPageDataColumns ) ) {
 			$pageDataValues['_isRedirect'] = ( $title->isRedirect() ? 1 : 0 );

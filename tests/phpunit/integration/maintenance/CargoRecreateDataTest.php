@@ -46,7 +46,10 @@ class CargoRecreateDataTest extends MaintenanceBaseTestCase {
 	 * @return int
 	 */
 	private function getRowCount( string $tableName ): int {
-		return CargoUtils::getDB()->selectRowCount( $tableName, '*', '', __METHOD__ );
+		return CargoUtils::getDB()->newSelectQueryBuilder()
+			->from( $tableName )
+			->caller( __METHOD__ )
+			->fetchRowCount();
 	}
 
 	public function testCreateMissingTablesOnlyCreatesDeclaredTable() {

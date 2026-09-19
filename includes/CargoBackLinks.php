@@ -31,9 +31,11 @@ class CargoBackLinks {
 
 		$dbw = CargoUtils::getMainDBForWrite();
 		if ( $dbw->tableExists( 'cargo_backlinks', __METHOD__ ) && !$dbw->isReadOnly() ) {
-			$dbw->delete( 'cargo_backlinks', [
-				'cbl_query_page_id' => $pageId
-			], __METHOD__ );
+			$dbw->newDeleteQueryBuilder()
+				->deleteFrom( 'cargo_backlinks' )
+				->where( [ 'cbl_query_page_id' => $pageId ] )
+				->caller( __METHOD__ )
+				->execute();
 		}
 	}
 
@@ -51,17 +53,27 @@ class CargoBackLinks {
 		$resultsPageIds = array_unique( $resultsPageIds );
 
 		$pageId = $title->getArticleID();
-		$dbw->delete( 'cargo_backlinks', [
-			'cbl_query_page_id' => $pageId
-		], __METHOD__ );
+		$dbw->newDeleteQueryBuilder()
+			->deleteFrom( 'cargo_backlinks' )
+			->where( [ 'cbl_query_page_id' => $pageId ] )
+			->caller( __METHOD__ )
+			->execute();
 
+		$rows = [];
 		foreach ( $resultsPageIds as $resultPageId ) {
 			if ( $resultPageId ) {
-				$dbw->insert( 'cargo_backlinks', [
+				$rows[] = [
 					'cbl_query_page_id' => $pageId,
 					'cbl_result_page_id' => $resultPageId,
-				], __METHOD__ );
+				];
 			}
+		}
+		if ( $rows ) {
+			$dbw->newInsertQueryBuilder()
+				->insertInto( 'cargo_backlinks' )
+				->rows( $rows )
+				->caller( __METHOD__ )
+				->execute();
 		}
 	}
 
@@ -76,11 +88,12 @@ class CargoBackLinks {
 			return;
 		}
 
-		$res = $dbr->select( 'cargo_backlinks',
-			[ 'cbl_query_page_id' ],
-			[ 'cbl_result_page_id' => $resultPageId ],
-			__METHOD__
-		);
+		$res = $dbr->newSelectQueryBuilder()
+			->select( [ 'cbl_query_page_id' ] )
+			->from( 'cargo_backlinks' )
+			->where( [ 'cbl_result_page_id' => $resultPageId ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 		$wikiPageFactory = MediaWikiServices::getInstance()->getWikiPageFactory();
 		foreach ( $res as $row ) {
 			$queryPageId = $row->cbl_query_page_id;

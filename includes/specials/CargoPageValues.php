@@ -60,11 +60,12 @@ class CargoPageValues extends IncludableSpecialPage {
 		}
 
 		$dbr = CargoUtils::getMainDBForRead();
-		$res = $dbr->select(
-			'cargo_pages', 'table_name',
-			[ 'page_id' => $this->mTitle->getArticleID() ],
-			__METHOD__
-		);
+		$res = $dbr->newSelectQueryBuilder()
+			->select( 'table_name' )
+			->from( 'cargo_pages' )
+			->where( [ 'page_id' => $this->mTitle->getArticleID() ] )
+			->caller( __METHOD__ )
+			->fetchResultSet();
 		foreach ( $res as $row ) {
 			$tableNames[] = $row->table_name;
 		}

@@ -44,9 +44,12 @@ class CargoAttach {
 		}
 
 		$dbw = CargoUtils::getMainDBForWrite();
-		$res = $dbw->select( 'cargo_tables', 'COUNT(*) AS total', [ 'main_table' => $tableName ], __METHOD__ );
-		$row = $res->fetchRow();
-		if ( $row && $row['total'] == 0 ) {
+		$numRows = $dbw->newSelectQueryBuilder()
+			->from( 'cargo_tables' )
+			->where( [ 'main_table' => $tableName ] )
+			->caller( __METHOD__ )
+			->fetchRowCount();
+		if ( $numRows == 0 ) {
 			return CargoUtils::formatError( "Error: The specified table, \"$tableName\", does not exist." );
 		}
 
