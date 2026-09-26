@@ -1145,7 +1145,7 @@ class CargoSQLQuery {
 			if ( $this->fieldTableIsIncluded( $fieldTableAlias ) ) {
 				$fieldName = $fieldTableAlias . '._value';
 			} else {
-				$fieldName .= '__full';
+				$fieldName = $tableAlias . '.' . $fieldName . '__full';
 			}
 			$this->mAliasedFieldNames[$alias] = $fieldName;
 		}
