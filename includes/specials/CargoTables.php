@@ -240,10 +240,12 @@ class CargoTables extends IncludableSpecialPage {
 		global $wgCargoDecimalMark;
 		global $wgCargoDigitGroupingCharacter;
 
-		$res = $cdb->select( $tableName, 'COUNT(*) AS total', '', __METHOD__ );
-		$row = $res->fetchRow();
+		$numRows = $cdb->newSelectQueryBuilder()
+			->from( $tableName )
+			->caller( __METHOD__ )
+			->fetchRowCount();
 
-		return number_format( intval( $row['total'] ), 0, $wgCargoDecimalMark,
+		return number_format( $numRows, 0, $wgCargoDecimalMark,
 			$wgCargoDigitGroupingCharacter );
 	}
 

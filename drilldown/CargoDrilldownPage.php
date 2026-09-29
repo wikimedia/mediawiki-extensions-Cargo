@@ -254,9 +254,10 @@ END;
 				$text .= '<li class="tableName error">' . $table . "</li>";
 				continue;
 			}
-			$res = $cdb->select( $table, 'COUNT(*) AS total', '', __METHOD__ );
-			$row = $res->fetchRow();
-			$tableRows = $row['total'];
+			$tableRows = $cdb->newSelectQueryBuilder()
+				->from( $table )
+				->caller( __METHOD__ )
+				->fetchRowCount();
 			// FIXME: hardcoded ()
 			$tableStr = $this->displayTableName( $table ) . " ($tableRows)";
 			if ( $this->tableName == $table ) {

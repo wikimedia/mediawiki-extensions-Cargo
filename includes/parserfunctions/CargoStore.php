@@ -232,9 +232,11 @@ class CargoStore {
 			}
 
 			if ( $fieldDescription->mIsUnique ) {
-				$res = $cdb->select( $tableName, 'COUNT(*)', [ $fieldName => $fieldValue ], __METHOD__ );
-				$row = $res->fetchRow();
-				$numExistingValues = $row['COUNT(*)'];
+				$numExistingValues = $cdb->newSelectQueryBuilder()
+					->from( $tableName )
+					->where( [ $fieldName => $fieldValue ] )
+					->caller( __METHOD__ )
+					->fetchRowCount();
 				if ( $numExistingValues == 1 ) {
 					$rowAlreadyExists = self::doesRowAlreadyExist( $cdb, $title, $tableName, $tableFieldValues, $tableSchema );
 					if ( $rowAlreadyExists ) {
