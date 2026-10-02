@@ -5,13 +5,14 @@
 			"Nirjal stha",
 			"पर्वत सुबेदी",
 			"हिमाल सुबेदी",
-			"Pratik11"
+			"Pratik11",
+			"बडा काजी"
 		]
 	},
 	"cargo-viewdata-groupby": "का अनुसार समूह:",
 	"cargo-viewdata-having": "भएकोः",
-	"cargo-cargotables-action-deletereplacement": "मेट्ने",
-	"cargo-cargotables-action-delete": "मेट्ने",
+	"cargo-cargotables-action-deletereplacement": "मेटाउनुहोस्",
+	"cargo-cargotables-action-delete": "मेटाउनुहोस्",
 	"cargo-drilldown-othervalues": "अन्य मानहरू:",
 	"cargo-drilldown-calendarformat": "पात्रो"
 }
