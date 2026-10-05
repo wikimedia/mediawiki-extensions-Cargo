@@ -425,7 +425,7 @@ class CargoExport extends UnlistedSpecialPage {
 						continue;
 					}
 					$fieldValue = $queryResult[$fieldName];
-					if ( trim( $fieldValue ) == '' ) {
+					if ( trim( $fieldValue ?? '' ) == '' ) {
 						continue;
 					}
 					$eventDescription .= "<strong>$fieldName:</strong> $fieldValue<br />\n";
@@ -525,7 +525,7 @@ class CargoExport extends UnlistedSpecialPage {
 			foreach ( $queryResult as $value ) {
 				if ( $fieldNum == 0 ) {
 					$labelName = $value;
-					if ( trim( $value ) == '' ) {
+					if ( trim( $value ?? '' ) == '' ) {
 						// Display blank labels as "None".
 						$labelName = $this->msg( 'powersearch-togglenone' )->text();
 					}
