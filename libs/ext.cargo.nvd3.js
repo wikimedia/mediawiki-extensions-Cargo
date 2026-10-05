@@ -19,7 +19,7 @@ $(document).ready(function() {
 			var numbersIncludeDecimalPoints = false;
 			for ( var i in data ) {
 				for ( var j in data[i]['values'] ) {
-					var curLabel = data[i]['values'][j]['label'];
+					var curLabel = data[i]['values'][j]['label'].toString();
 					maxLabelSize = Math.max( maxLabelSize, curLabel.length );
 					if ( !numbersIncludeDecimalPoints ) {
 						var curValue = data[i]['values'][j]['value'];
