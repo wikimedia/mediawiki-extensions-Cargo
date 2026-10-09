@@ -68,4 +68,27 @@ class CargoQueryAPIIntegrationTest extends ApiTestCase {
 			'fields' => 'Test',
 		], null, false, $user );
 	}
+
+	public function testShouldRejectQueryWithNonExistentTable(): void {
+		$this->expectException( ApiUsageException::class );
+		$this->expectExceptionMessage( 'NonExistentTable' );
+
+		$this->doApiRequest( [
+			'action' => 'cargoquery',
+			'tables' => 'NonExistentTable',
+			'fields' => 'Test',
+		] );
+	}
+
+	public function testShouldRejectQueryWithForbiddenSQLKeyword(): void {
+		$this->expectException( ApiUsageException::class );
+		$this->expectExceptionMessage( 'SELECT' );
+
+		$this->doApiRequest( [
+			'action' => 'cargoquery',
+			'tables' => self::TEST_TABLE_TEMPLATE,
+			'fields' => 'Test',
+			'where' => 'Test = "a" SELECT * FROM page',
+		] );
+	}
 }
