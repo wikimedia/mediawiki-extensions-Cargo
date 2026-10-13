@@ -50,8 +50,16 @@ TEXT;
 		$output = $this->getQueryOutput( $query );
 
 		$this->assertXmlStringEqualsXmlString(
-			'<p><a href="/wiki/A_Test" title="A Test">A Test</a>,  '
-			. '<a href="/wiki/Lorem_Ipsum" title="Lorem Ipsum">Lorem Ipsum</a></p>',
+			'<section data-mw-section-id="0" id="mwAQ">
+  <p id="mwAg">
+    <a about="#mwt1" data-mw="{&quot;parts&quot;:[{&quot;template&quot;:{&quot;target&quot;:{&quot;wt&quot;:' .
+'&quot;#cargo_query:\ntables=Books\n&quot;,&quot;function&quot;:&quot;cargo_query&quot;},&quot;params&quot;:' .
+'{&quot;1&quot;:{&quot;wt&quot;:&quot;fields=_pageName=Book\n&quot;},&quot;2&quot;:{&quot;wt&quot;:&quot;where=Authors ' .
+'HOLDS \'Jane Miller\'\n&quot;}},&quot;i&quot;:0}}]}" href="/wiki/A_Test" id="mwAw" title="A Test" typeof="mw:Transclusion">A Test</a>
+    <span about="#mwt1">,  </span>
+    <a about="#mwt1" href="/wiki/Lorem_Ipsum" title="Lorem Ipsum">Lorem Ipsum</a>
+  </p>
+</section>',
 			$output
 		);
 	}
@@ -68,7 +76,14 @@ TEXT;
 		$output = $this->getQueryOutput( $query );
 
 		$this->assertXmlStringEqualsXmlString(
-			'<p><em>No results</em></p>',
+			'<section data-mw-section-id="0" id="mwAQ">
+  <p id="mwAg">
+    <em about="#mwt1" data-mw="{&quot;parts&quot;:[{&quot;template&quot;:{&quot;target&quot;:{&quot;wt&quot;:' .
+'&quot;#cargo_query:\ntables=Books\n&quot;,&quot;function&quot;:&quot;cargo_query&quot;},&quot;params&quot;:' .
+'{&quot;1&quot;:{&quot;wt&quot;:&quot;fields=_pageName=Book\n&quot;},&quot;2&quot;:{&quot;wt&quot;:&quot;where=' .
+'Authors HOLDS \'Not An Author\'\n&quot;}},&quot;i&quot;:0}}]}" id="mwAw" typeof="mw:Transclusion">No results</em>
+  </p>
+</section>',
 			$output
 		);
 	}
@@ -83,7 +98,13 @@ TEXT;
 		$output = $this->getQueryOutput( $query );
 
 		$this->assertXmlStringEqualsXmlString(
-			"<p>Fantasy\n</p>",
+			'<section data-mw-section-id="0" id="mwAQ">
+  <p id="mwAg">
+    <span about="#mwt1" data-mw="{&quot;parts&quot;:[{&quot;template&quot;:{&quot;target&quot;:{&quot;wt&quot;:' .
+'&quot;#cargo_compound_query:\ntables=Books;where=Authors HOLDS \'John Doe\';fields=Genres\n&quot;,&quot;function&quot;:' .
+'&quot;cargo_compound_query&quot;},&quot;params&quot;:{},&quot;i&quot;:0}}]}" id="mwAw" typeof="mw:Transclusion">Fantasy</span>
+  </p>
+</section>',
 			$output
 		);
 	}
@@ -100,7 +121,14 @@ TEXT;
 		$output = $this->getQueryOutput( $query );
 
 		$this->assertXmlStringEqualsXmlString(
-			'<div class="error">Error: the string "SELECT" cannot be used within #cargo_query.</div>',
+			'<section data-mw-section-id="0" id="mwAQ">
+  <div about="#mwt1" class="error" data-mw="{&quot;parts&quot;:[{&quot;template&quot;:{&quot;target&quot;:' .
+'{&quot;wt&quot;:&quot;#cargo_query:\ntables=Books\n&quot;,&quot;function&quot;:&quot;cargo_query&quot;},&quot;' .
+"params&quot;:{&quot;1&quot;:{&quot;wt&quot;:&quot;fields='a'=user_name,'b'=user_email,'c'=user_password" .
+'\n&quot;},&quot;2&quot;:{&quot;wt&quot;:&quot;where=1=\'1&amp;#039; UNION ALL select user_name, user_email,' .
+'user_password from user WHERE 1=&amp;#039;1\'\n&quot;},&quot;3&quot;:{&quot;wt&quot;:&quot;order by=user_name ' .
+'ASC\n&quot;}},&quot;i&quot;:0}}]}" id="mwAg" typeof="mw:Transclusion">Error: the string "SELECT" cannot be used within #cargo_query.</div>
+</section>',
 			$output
 		);
 	}
@@ -117,7 +145,14 @@ TEXT;
 		$output = $this->getQueryOutput( $query, $title );
 
 		$this->assertXmlStringEqualsXmlString(
-			'<p><em>No results</em></p>',
+			'<section data-mw-section-id="0" id="mwAQ">
+  <p id="mwAg">
+    <em about="#mwt1" data-mw="{&quot;parts&quot;:[{&quot;template&quot;:{&quot;target&quot;:{&quot;wt&quot;:' .
+'&quot;#cargo_query:\ntables=Books\n&quot;,&quot;function&quot;:&quot;cargo_query&quot;},&quot;params&quot;:' .
+'{&quot;1&quot;:{&quot;wt&quot;:&quot;where=Authors HOLDS \&quot;{{PAGENAME}}\&quot;\n&quot;},&quot;2&quot;:' .
+'{&quot;wt&quot;:&quot;fields=Genres\n&quot;}},&quot;i&quot;:0}}]}" id="mwAw" typeof="mw:Transclusion">No results</em>
+  </p>
+</section>',
 			$output
 		);
 	}
@@ -134,8 +169,11 @@ TEXT;
 
 		$parser = MediaWikiServices::getInstance()->getParser();
 		$html = $queryPage->getParserOutput()->runOutputPipeline( $parser->getOptions() )->getContentHolderText();
+
+		libxml_use_internal_errors( true );
 		$doc = new DOMDocument();
 		$doc->loadHTML( $html );
+		libxml_clear_errors();
 
 		// Strip the "mw-parser-output" wrapper from the output to reduce clutter.
 		$body = $doc->getElementsByTagName( 'body' )->item( 0 );

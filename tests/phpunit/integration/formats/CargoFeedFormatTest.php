@@ -72,8 +72,10 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 			<title>Lorem &amp; ipsum</title>
 			<link>https://wiki.example.org/cargofeedtest/Lorem_%26_ipsum</link>
 			<guid isPermaLink="false">custom-guid-lorem-ipsum-2020</guid>
-			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
-&lt;/p&gt;&lt;/div&gt;</description>
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; ' .
+	'dir=&quot;ltr&quot; data-mw-parsoid-version=&quot;0.24.0.0-alpha27&quot; ' .
+	'data-mw-html-version=&quot;2.8.0&quot;&gt;&lt;section data-mw-section-id=&quot;0&quot; id=&quot;mwAQ&quot;&gt;&lt;p ' .
+	'id=&quot;mwAg&quot;&gt;Lorem ipsum&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;</description>
 			<pubDate>Thu, 02 Jan 2020 03:04:05 GMT</pubDate>
 			<dc:creator></dc:creator>
 			' . '
@@ -82,8 +84,10 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 			<title>Sic amet</title>
 			<link>https://wiki.example.org/cargofeedtest/Sic_amet</link>
 			<guid>https://wiki.example.org/cargofeedtest/Sic_amet</guid>
-			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;p&gt;Lorem ipsum
-&lt;/p&gt;&lt;/div&gt;</description>
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; ' .
+	'dir=&quot;ltr&quot; data-mw-parsoid-version=&quot;0.24.0.0-alpha27&quot; ' .
+	'data-mw-html-version=&quot;2.8.0&quot;&gt;&lt;section data-mw-section-id=&quot;0&quot; id=&quot;mwAQ&quot;&gt;&lt;p ' .
+	'id=&quot;mwAg&quot;&gt;Lorem ipsum&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;</description>
 			<pubDate>Sat, 02 Jan 2021 03:04:05 GMT</pubDate>
 			<dc:creator>Bob</dc:creator>
 			' . '
@@ -120,11 +124,12 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 			<title>Test page</title>
 			<link>https://wiki.example.org/cargofeedtest/Test_page</link>
 			<guid>https://wiki.example.org/cargofeedtest/Test_page</guid>
-			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; ' .
-				'lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;&lt;div ' .
-				'class=&quot;mw-heading mw-heading2&quot;&gt;&lt;h2 id=&quot;Heading&quot;&gt;Heading&lt;/h2&gt;&lt;/div&gt;
-&lt;p&gt;Content here.
-&lt;/p&gt;&lt;/div&gt;</description>
+			<description>&lt;div class=&quot;mw-content-ltr mw-parser-output&quot; lang=&quot;en&quot; dir=&quot;ltr&quot; ' .
+	'data-mw-parsoid-version=&quot;0.24.0.0-alpha27&quot; data-mw-html-version=&quot;2.8.0&quot;&gt;&lt;section ' .
+	'data-mw-section-id=&quot;0&quot; id=&quot;mwAQ&quot;&gt;&lt;/section&gt;&lt;section data-mw-section-id=&quot;1&quot; ' .
+	'id=&quot;mwAg&quot; aria-labelledby=&quot;Heading&quot;&gt;&lt;div class=&quot;mw-heading mw-heading2&quot;&gt;&lt;h2 ' .
+	'id=&quot;Heading&quot;&gt;Heading&lt;/h2&gt;&lt;/div&gt;
+&lt;p id=&quot;mwAw&quot;&gt;Content here.&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;</description>
 			<pubDate>Thu, 02 Jan 2020 03:04:05 GMT</pubDate>
 			<dc:creator></dc:creator>
 			' . '
