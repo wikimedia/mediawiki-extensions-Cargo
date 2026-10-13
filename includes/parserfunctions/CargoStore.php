@@ -597,8 +597,8 @@ class CargoStore {
 				// greater than this size. But that's not
 				// always true - there's the hack mentioned
 				// above, plus some other cases.
-				$quotedFieldName = "SUBSTR($quotedFieldName, 1, $fieldSize)";
-				$fieldValue = mb_substr( $fieldValue, 0, $fieldSize );
+				$quotedFieldName = "SUBSTR(CAST($quotedFieldName AS BINARY), 1, $fieldSize)";
+				$fieldValue = substr( $fieldValue, 0, $fieldSize );
 			}
 
 			$tableFieldValuesForCheck[$quotedFieldName] = $fieldValue;
