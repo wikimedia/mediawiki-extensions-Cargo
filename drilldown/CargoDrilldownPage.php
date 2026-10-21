@@ -346,7 +346,9 @@ END;
 			preg_match( "/^~within_(.+)/", $value, $matches );
 			return $this->msg( 'cargo-drilldown-hierarchy-within', $matches[1] )->parse();
 		} else {
-			return htmlspecialchars( $value, ENT_QUOTES );
+			// Applied filter values are already escaped by CargoAppliedFilter::create(),
+			// so don't encode existing entities a second time.
+			return htmlspecialchars( $value, ENT_QUOTES, 'UTF-8', false );
 		}
 	}
 
