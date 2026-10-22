@@ -2151,7 +2151,7 @@ END;
 			}
 		}
 
-		if ( array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
+		if ( $this->curTabName !== null && array_key_exists( $this->curTabName, $this->drilldownTabsParams ) ) {
 			$currentTabParams = $this->drilldownTabsParams[$this->curTabName];
 			$this->format = strtolower( $currentTabParams['format'] );
 		} else {
