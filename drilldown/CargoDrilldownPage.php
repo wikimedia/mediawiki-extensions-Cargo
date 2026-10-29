@@ -1231,7 +1231,7 @@ END;
 					$appliedFiltersHTML .= " <span class=\"drilldown-or\">" .
 						$this->msg( 'cargo-drilldown-or' )->escaped() . '</span> ';
 				}
-				$filter_text = $this->printFilterValue( $af->filter, $fv->text );
+				$filter_text = $this->printFilterValue( $af->filter, html_entity_decode( $fv->text ) );
 				$temp_filters_array = $this->applied_filters;
 				$removed_values = array_splice( $temp_filters_array[$i]->values, $j, 1 );
 				if ( $num_applied_values == 1 ) {
