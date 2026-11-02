@@ -2,6 +2,7 @@
 	"@metadata": {
 		"authors": [
 			"Ahmed-Najib-Biabani-Ibrahimkhel",
+			"باران",
 			"شاه زمان پټان"
 		]
 	},
@@ -113,7 +114,7 @@
 	"cargo-viewfeed": "$1 کتنمخ کتل",
 	"cargo-dynamictables-searchcolumn": "$1 پلټل",
 	"cargo-purgecache": "نيونگه سپينول",
-	"cargo-purgecache-failed": "د نيونگې سپينول نابرياله شول",
+	"cargo-purgecache-failed": "د نيوک سپينول نابرياله شول",
 	"cargo-pageschemas-tablename": "لښتيال نوم:",
 	"cargo-gantt-hours": "گړۍ",
 	"cargo-gantt-days": "ورځې",
