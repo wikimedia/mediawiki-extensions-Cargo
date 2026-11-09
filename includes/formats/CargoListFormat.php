@@ -74,6 +74,7 @@ class CargoListFormat extends CargoDisplayFormat {
 		$delimiter = ( array_key_exists( 'delimiter', $displayParams ) ) ?
 			$displayParams['delimiter'] : wfMessage( 'comma-separator' )->text();
 		$delimiter = str_replace( '\n', "\n", $delimiter );
+		$delimiter = str_replace( '\s', ' ', $delimiter );
 		foreach ( $formattedValuesTable as $i => $row ) {
 			if ( $i > 0 ) {
 				$text .= $delimiter . ' ';
