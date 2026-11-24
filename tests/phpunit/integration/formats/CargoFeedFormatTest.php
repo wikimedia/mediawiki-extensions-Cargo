@@ -58,7 +58,7 @@ class CargoFeedFormatTest extends MediaWikiIntegrationTestCase {
 
 	public static function provideOutputFeed() {
 		// @todo - switch to using regexes, so this can be ".*" instead.
-		$parsoidVersion = '0.25.0.0-alpha1';
+		$parsoidVersion = '0.25.0.0-alpha4';
 		return [
 			'two items' => [
 				'expected' => '<?xml version="1.0"?>
