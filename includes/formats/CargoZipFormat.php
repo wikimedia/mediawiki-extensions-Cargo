@@ -20,18 +20,31 @@ class CargoZipFormat extends CargoDisplayFormat {
 
 	protected function getFiles( $valuesTable, $fieldDescriptions ) {
 		$fileField = '';
+		$fileFieldDelimiter = null;
 		foreach ( $fieldDescriptions as $field => $fieldDesc ) {
 			if ( $fieldDesc->mType == 'File' || $fieldDesc->mType == 'Page' ) {
 				$fileField = $field;
+				if ( $fieldDesc->mIsList ) {
+					$fileFieldDelimiter = $fieldDesc->getDelimiter();
+				}
 				break;
 			}
 		}
 		$fileNames = [];
 		foreach ( $valuesTable as $row ) {
 			if ( array_key_exists( $fileField, $row ) && $row[$fileField] !== null ) {
-				$fileNames[] = [
-					'title' => $row[$fileField]
-				];
+				if ( $fileFieldDelimiter !== null ) {
+					$curFiles = explode( $fileFieldDelimiter, $row[$fileField] );
+					foreach ( $curFiles as $curFile ) {
+						$fileNames[] = [
+							'title' => trim( $curFile )
+						];
+					}
+				} else {
+					$fileNames[] = [
+						'title' => $row[$fileField]
+					];
+				}
 			}
 		}
 		$files = [];
