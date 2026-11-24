@@ -28,7 +28,7 @@ class CargoZipFormat extends CargoDisplayFormat {
 		}
 		$fileNames = [];
 		foreach ( $valuesTable as $row ) {
-			if ( array_key_exists( $fileField, $row ) ) {
+			if ( array_key_exists( $fileField, $row ) && $row[$fileField] !== null ) {
 				$fileNames[] = [
 					'title' => $row[$fileField]
 				];
