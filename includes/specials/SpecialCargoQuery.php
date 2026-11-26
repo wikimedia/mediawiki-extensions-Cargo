@@ -6,6 +6,7 @@
  * @ingroup Cargo
  */
 
+use MediaWiki\Exception\ThrottledError;
 use MediaWiki\Html\Html;
 use Wikimedia\Rdbms\DBQueryError;
 
